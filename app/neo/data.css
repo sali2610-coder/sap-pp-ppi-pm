@@ -69,12 +69,13 @@
 
 .nx-app .nxd-head { display: grid; gap: var(--sp-2); }
 .nx-app .nxd-head .nx-h1 {
-  /* A WORK SCREEN's title: 28–36px (design audit §4), never the gate's 86px.
-     Measured 44px at 1363 before this line; 36px after. */
-  font-size: clamp(1.75rem, 1.1rem + 1.6vw, 2.25rem);
-  line-height: 1.14; letter-spacing: 0; text-wrap: balance;
+  /* A WORK SCREEN's title is --t-h1, 28px (DESIGN-SPEC §1: 24 to 32px). The
+     clamp this replaces reached 36px from 1363px up (gate 3, major 15; Astra
+     S4-1a). */
+  font-size: var(--t-h1);
+  line-height: var(--t-h1-lh); letter-spacing: 0; text-wrap: balance;
 }
-.nx-app .nxd-head .nx-lede { max-inline-size: 68ch; }
+.nx-app .nxd-head .nx-lede { max-inline-size: var(--measure); }
 .nx-app .nxd .nx-sap { unicode-bidi: isolate; direction: ltr; }
 
 /* ---------------------------------------------------------------- 2. STATS
@@ -145,11 +146,16 @@
 }
 .nx-app .nxd-field > svg { color: var(--m); flex: none; }
 .nx-app .nxd-field:focus-within {
-  border-color: var(--m);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--m) 14%, transparent);
+  /* The one focus language, the 2px blue ring: a 1px border darkening was the
+     field's only focus mark (gate 3, minor 18). */
+  border-color: var(--line-strong);
+  box-shadow: var(--focus-ring);
 }
 .nx-app .nxd-field input {
   flex: 1 1 auto; min-inline-size: 0;
+  /* Stretched to the field's 44px, so the whole field is the target and not a
+     28px input inside it (gate 4, major 8). */
+  align-self: stretch;
   background: transparent; border: 0; outline: none;
   font: inherit; font-size: var(--t-sm); color: var(--ink-1);
 }
@@ -196,7 +202,7 @@
   direction: ltr; unicode-bidi: isolate;
   color: var(--ink-3); padding-inline-start: 5px;
 }
-.nx-app .nxd-facet .nu-filter[aria-pressed="true"] b { color: var(--ink-2); }
+/* The pressed state's count inverts with the fill in ui.css (gate 3, blocker 1). */
 .nx-app .nxd-more { min-block-size: 2.25rem; padding-inline: var(--sp-3); font-size: var(--t-micro); }
 
 /* --------------------------------------------------------- 5. COUNT + FOOT */
@@ -425,8 +431,11 @@
 /* ----------------------------------------------------- 9. RESPONSIVE 390→ */
 
 /* Tablet: the S/4 column stops being a column and joins the body, so the row
-   never has to scroll sideways. */
-@media (max-width: 1380px) {
+   never has to scroll sideways. The same row serves the multi-column list from
+   2200px (§9, ultrawide): there a row is one column of two or three, about as
+   wide as a tablet's, and the six-track desktop row squeezed the Hebrew name to
+   23-50px (gate 4, blocker 5). */
+@media (max-width: 1380px), (min-width: 2200px) {
   .nx-app .nxd-row {
     grid-template-columns: 3px minmax(7rem, auto) minmax(0, 1fr) auto;
     grid-template-areas:
@@ -435,10 +444,12 @@
     row-gap: var(--sp-2);
   }
   .nx-app .nxd-s4 { inline-size: auto; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--sp-2); }
-  .nx-app .nxd-s4-t { -webkit-line-clamp: 1; }
+  /* The S/4HANA note keeps the two lines it has on a wide screen. Clamped to
+     one here, it cut 35 rows at 390 and 75 at 320 (gate 4, minor 19). */
 }
 
-@media (max-width: 1024px) {
+/* …and the stacked row, where the name has the full width of its column. */
+@media (max-width: 1024px), (min-width: 2200px) {
   .nx-app .nxd-row,
   .nx-app .nxd-row--tx {
     grid-template-columns: 3px minmax(0, 1fr) auto;
@@ -448,8 +459,11 @@
       "mark nums nums"
       "mark s4   s4";
     padding-inline-end: var(--sp-3);
-    padding-block-end: 3.25rem;   /* the second action drops under the row */
   }
+  /* The second action drops under the row. Its room is reserved on the ITEM,
+     only where there is a second action, so the action (and the codes line a
+     search adds) sits inside the row's own card (gate 5, finding 20). */
+  .nx-app .nxd-item:has(> .nxd-ctx) { padding-block-end: 3.25rem; }
   /* flex-wrap, not an auto | 1fr grid: a long BAPI name took the auto track and
      pushed the nowrap module chips out of the card at 320px */
   .nx-app .nxd-id { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); min-inline-size: 0; }
@@ -493,7 +507,7 @@
   .nx-app .nxd-facet .nu-filter,
   .nx-app .nxd-more { min-block-size: var(--c-tap); }
   .nx-app .nxd-he { -webkit-line-clamp: 3; }
-  .nx-app .nxd-row, .nx-app .nxd-row--tx { padding: var(--sp-3); padding-block-end: 3.5rem; }
+  .nx-app .nxd-row, .nx-app .nxd-row--tx { padding: var(--sp-3); }
 
   /* The row kept its six-track desktop grid at phone width, and a grid item's
      automatic minimum is its content — so `minmax(7rem, auto)` plus the 6.5rem
@@ -502,25 +516,46 @@
      reported clean while .nx-canvas scrolled sideways by 162px. Recomposed into
      stacked areas, and the padding that reserved room for the desktop-only
      second action is released. */
+  /* THE COMPACT PHONE ROW (gate 5, finding 20): the code, the name and the
+     S/4HANA status first, the counters under them. The row's second action
+     shares the code's line (top, inline end) instead of a 56px line of its
+     own, and the leaving arrow ends the name's line. */
   .nx-app .nxd-row,
   .nx-app .nxd-row--tx {
-    grid-template-columns: 3px minmax(0, 1fr);
+    grid-template-columns: 3px minmax(0, 1fr) auto;
     grid-template-areas:
-      "mark id"
-      "mark body"
-      "mark nums"
-      "mark s4"
-      "mark go";
+      "mark id   id"
+      "mark body go"
+      "mark s4   s4"
+      "mark nums nums";
     padding-inline-end: var(--sp-3);
     row-gap: var(--sp-2);
   }
   .nx-app .nxd-row--tx {
     grid-template-areas:
-      "mark id"
-      "mark body"
-      "mark nums"
-      "mark go";
+      "mark id   id"
+      "mark body go"
+      "mark nums nums";
   }
+  .nx-app .nxd-item:has(> .nxd-ctx) { padding-block-end: 0; }
+  .nx-app .nxd-item:has(> .nxd-ctx) .nxd-id { padding-inline-end: 6.5rem; min-block-size: var(--c-tap); }
+  .nx-app .nxd-ctx {
+    inset-block-start: var(--sp-2);
+    inset-block-end: auto;
+    inset-inline-start: auto;
+    inset-inline-end: var(--sp-2);
+  }
+  .nx-app .nxd-go { align-self: start; }
+  /* Counters with their words, number first: the icon alone left "12" of what
+     (gate 5, finding 20). The word the screen reader already had is shown and
+     the icon steps aside. An identifier chip (the CDS view) keeps its icon: its
+     value is LTR and a Hebrew word would land on the wrong side of it. */
+  .nx-app .nxd[data-surface="tables"] .nxd-nums .nu-chip:not(.is-sap) > .nx-sr {
+    position: static; inline-size: auto; block-size: auto; margin: 0;
+    overflow: visible; clip-path: none; white-space: nowrap;
+    order: 1;
+  }
+  .nx-app .nxd[data-surface="tables"] .nxd-nums .nu-chip:not(.is-sap) > svg { display: none; }
   /* Releasing the automatic minimum. Without this the tracks above are still
      floored by the widest SAP identifier in the row. */
   .nx-app .nxd,
@@ -529,9 +564,10 @@
   .nx-app .nxd-row--tx > * { min-inline-size: 0; }
 }
 
-/* Ultrawide: the list gets a second column rather than 3000px-long rows. */
+/* Ultrawide: the list gets a second column rather than 3000px-long rows. Each
+   row takes the tablet's stacked composition (§9 above). */
 @media (min-width: 2200px) {
-  .nx-app .nxd-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nx-app .nxd-list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--sp-6); }
   .nx-app .nxd-stats { grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); }
 }
 @media (min-width: 3200px) {
@@ -685,15 +721,9 @@ html[data-theme="dark"] .nx-app .nxd-mark { opacity: 1; }
   block-size: 3px;
   background: linear-gradient(to inline-end, var(--m), color-mix(in srgb, var(--m) 10%, transparent));
 }
-/* ACCENT — reserved for "this changes in S/4HANA", and for nothing else. */
-.nx-app .nxt-s4[data-impacted="1"] {
-  border-color: color-mix(in srgb, var(--brand) 34%, var(--c-hair));
-  background:
-    linear-gradient(to inline-start, color-mix(in srgb, var(--brand) 5%, transparent), transparent 42%),
-    var(--surface);
-  box-shadow: var(--elev-2), inset 4px 0 0 0 var(--brand);
-}
-[dir="ltr"] .nx-app .nxt-s4[data-impacted="1"] { box-shadow: var(--elev-2), inset -4px 0 0 0 var(--brand); }
+/* An impacted plate carries no brand: red is the one action and selection
+   (TOKENS.md) and washes are out (gate 3, minor 20). Its status mark and words
+   say "impacted"; its ground and edge are the plate's own (lead, SIDE-2). */
 
 .nx-app .nxt-s4-top { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--sp-2); }
 .nx-app .nxt-s4-h {
@@ -915,11 +945,6 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
 /* --------------------------------------------------------------- 12.10 DARK */
 
 html[data-theme="dark"] .nx-app .nxt-s4 { background: var(--surface-2); }
-html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] {
-  background:
-    linear-gradient(to inline-start, color-mix(in srgb, var(--brand) 12%, transparent), transparent 42%),
-    var(--surface-2);
-}
 html[data-theme="dark"] .nx-app .nxt-s4-succ { background: color-mix(in srgb, var(--ink-1) 6%, var(--surface)); }
 html[data-theme="dark"] .nx-app .nxt-iss-i { background: color-mix(in srgb, var(--ink-1) 5%, var(--surface)); }
 html[data-theme="dark"] .nx-app .nxt-mod { background: color-mix(in srgb, var(--m) 14%, transparent); }
@@ -1084,7 +1109,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
 .nx-app .nxb-shared {
   display: flex; align-items: flex-start; gap: var(--sp-2);
   font-size: var(--t-xs); color: var(--ink-2); line-height: var(--lh-he);
-  max-inline-size: 74ch;
+  max-inline-size: var(--measure);
 }
 .nx-app .nxb-shared > svg { flex: none; margin-block-start: 2px; color: var(--ink-3); }
 
@@ -1123,13 +1148,15 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
 }
 .nx-app .nxb-keyline dd > em { font-style: normal; font-size: var(--t-xs); color: var(--ink-3); }
 
-/* --- the S/4 badge: the page's one accent -------------------------------- */
+/* --- the S/4 badge ---------------------------------------------------------
+   Neutral ground and hairline: its words and status mark carry the change, and
+   brand red is the action colour, not a status wash (lead, SIDE-2). */
 .nx-app .nxb-s4flag {
   display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3);
   padding: var(--sp-3) var(--sp-4);
   border-radius: var(--r-lg);
-  border: 1px solid color-mix(in srgb, var(--brand) 34%, var(--hairline));
-  background: linear-gradient(to inline-start, color-mix(in srgb, var(--brand) 8%, transparent), transparent 55%), var(--surface);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
   font-size: var(--t-sm);
   line-height: var(--lh-he);
 }
@@ -1207,7 +1234,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
   font-size: clamp(1.35rem, 1.15rem + .75vw, 1.75rem); font-weight: 700; color: var(--ink-1);
   line-height: 1.25; letter-spacing: 0; margin: 0;
 }
-.nx-app .nxb-sec-s { font-size: var(--t-sm); color: var(--ink-2); line-height: var(--lh-he); max-inline-size: 78ch; }
+.nx-app .nxb-sec-s { font-size: var(--t-sm); color: var(--ink-2); line-height: var(--lh-he); max-inline-size: var(--measure); }
 .nx-app .nxb-sec-s b { color: var(--ink-1); }
 .nx-app .nxb-sec-b { display: grid; gap: var(--sp-4); }
 
@@ -1276,19 +1303,15 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
   border: 1px solid var(--hairline);
   background: var(--surface-2);
 }
-.nx-app .nxb-stand[data-impact="1"] {
-  border-color: color-mix(in srgb, var(--brand) 32%, var(--hairline));
-  background:
-    linear-gradient(to inline-start, color-mix(in srgb, var(--brand) 7%, transparent), transparent 48%),
-    var(--surface-2);
-}
+/* An impacted plate keeps the plate's own ground and hairline; its status mark
+   and words state the impact (lead, SIDE-2: the brand tint and wash went). */
 .nx-app .nxb-stand-h { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); }
 .nx-app .nxb-stand-w {
   font-size: var(--t-h2); font-weight: 600; color: var(--ink-1);
-  line-height: var(--lh-he); max-inline-size: 70ch;
+  line-height: var(--lh-he); max-inline-size: var(--measure);
 }
 .nx-app .nxb-stand-none { font-weight: 600; color: var(--ink-2); }
-.nx-app .nxb-stand-y { font-size: var(--t-xs); color: var(--ink-2); line-height: var(--lh-he); max-inline-size: 74ch; }
+.nx-app .nxb-stand-y { font-size: var(--t-xs); color: var(--ink-2); line-height: var(--lh-he); max-inline-size: var(--measure); }
 .nx-app .nxb-stand-t {
   display: inline-flex; align-items: center; gap: var(--sp-2);
   font-size: var(--t-micro); color: var(--ink-3);
@@ -1601,14 +1624,7 @@ html[data-theme="dark"] .nx-app .nxb-sibflat,
 html[data-theme="dark"] .nx-app .nxb-bookflat { background: color-mix(in srgb, var(--ink-1) 5%, var(--surface)); }
 html[data-theme="dark"] .nx-app .nxb-tbl thead th { background: color-mix(in srgb, var(--ink-1) 7%, var(--surface)); }
 html[data-theme="dark"] .nx-app .nxb-join { background: color-mix(in srgb, var(--ink-1) 6%, var(--surface)); }
-html[data-theme="dark"] .nx-app .nxb-stand[data-impact="1"] {
-  background:
-    linear-gradient(to inline-start, color-mix(in srgb, var(--brand) 12%, transparent), transparent 45%),
-    color-mix(in srgb, var(--ink-1) 5%, var(--surface));
-}
-html[data-theme="dark"] .nx-app .nxb-s4flag {
-  background: linear-gradient(to inline-start, color-mix(in srgb, var(--brand) 12%, transparent), transparent 55%), var(--surface-2);
-}
+html[data-theme="dark"] .nx-app .nxb-s4flag { background: var(--surface-2); }
 html[data-theme="dark"] .nx-app .nxb-mods > li { background: color-mix(in srgb, var(--m) 12%, transparent); }
 
 /* ---------------------------------------------------- 13.11 REDUCED MOTION */
@@ -1720,7 +1736,7 @@ html[data-theme="dark"] .nx-app .nxb-mods > li { background: color-mix(in srgb, 
 
 /* One line under the table page's actions saying what each destination gives
    (design audit §7: "table page" vs "object page" were two unexplained targets). */
-.nx-app .nxb-cta-note { margin: var(--sp-2) 0 0; font-size: var(--t-micro); color: var(--ink-3); line-height: 1.55; max-inline-size: 72ch; }
+.nx-app .nxb-cta-note { margin: var(--sp-2) 0 0; font-size: var(--t-micro); color: var(--ink-3); line-height: 1.55; max-inline-size: var(--measure); }
 /* The technical name line: the id in mono, the copy control beside it. */
 .nx-app .nxt-codeline { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; }
 .nx-app .nx-copy { display: inline-flex; align-items: center; gap: 4px; font-size: var(--t-micro); }
@@ -1741,14 +1757,18 @@ html[data-theme="dark"] .nx-app .nxb-mods > li { background: color-mix(in srgb, 
    above name it); the mark is simply no longer painted. */
 .nx-app .nxd-row {
   border: 0;
-  border-block-end: 1px solid var(--hairline);
   border-radius: 0;
   background: transparent;
 }
+/* The separator belongs to the ITEM, so a row's second action and the codes
+   line a search adds sit inside the row's own card instead of between two
+   cards (gate 5, finding 20). */
+.nx-app .nxd-item { border-block-end: 1px solid var(--hairline); }
+.nx-app .nxd-item:has(> .nxd-row.is-flat) { border-block-end: 1px dashed var(--line-strong); }
 .nx-app .nxd-mark,
 .nx-app .nxd[data-surface="tables"] .nxd-mark { background: transparent; }
 .nx-app .nxd-row:hover { background: var(--surface-2); border-color: var(--hairline); }
-.nx-app .nxd-row.is-flat { background: transparent; border: 0; border-block-end: 1px dashed var(--line-strong); }
+.nx-app .nxd-row.is-flat { background: transparent; border: 0; }
 .nx-app .nxd-row.is-flat:hover { background: transparent; }
 .nx-app .nxd-id > b { font-weight: 600; letter-spacing: 0; }
 .nx-app .nxd-mod { color: var(--m); background: none; border-color: var(--hairline); }
@@ -1773,6 +1793,13 @@ html[data-theme="dark"] .nx-app .nxb-mods > li { background: color-mix(in srgb, 
 .nx-app .nxd-stats--after .nxd-stat b { font-size: var(--t-h2); font-weight: 500; letter-spacing: 0; }
 .nx-app .nxd-stat > span:last-child { font-size: var(--t-xs); color: var(--ink-2); }
 .nx-app .nxd-head .nx-h1 { letter-spacing: 0; }
+/* A number sits with ITS label (gate 3, blocker 5). The number is LTR (the
+   numeric face, or .nx-sap), so text-align: start pinned it to the cell's LEFT
+   edge while the Hebrew label sat on the right: every number read as the next
+   cell's. As a grid item it shrinks to its digits and takes the grid's start
+   edge, which is the label's edge in either direction. */
+.nx-app .nxd-stat b,
+.nx-app .nxb-stat b { justify-self: start; }
 
 /* ============================================================================
    2026 SYSTEM · THE RECORD HEADER AND ITS SCALE (tables, transactions, BAPI,
@@ -1822,3 +1849,108 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
 /* The S/4HANA pill and its verification tier, one line of their own on every
    record type (evidence/record-status), apart from the record's own states. */
 .nx-app .nxt-s4line { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); margin: var(--sp-2) 0 0; }
+
+/* ============================================================================
+   2026 SYSTEM · THE FILTER SHEET (components/neo-shell/data/facet-sheet.tsx)
+   ----------------------------------------------------------------------------
+   Wide screens: the facets inline, as they always were; the sheet's own chrome
+   (button, scrim, head, foot) and the active-filter row are absent. Under 720px
+   the facets are a bottom sheet behind "מסננים (n)", and above the list only
+   the filters that are on show (DESIGN-SPEC §1; gate 3, major 16).
+   ========================================================================== */
+.nx-app .nxd-sheet-btn,
+.nx-app .nxd-active,
+.nx-app .nxd-sheet-scrim,
+.nx-app .nxd-sheet-h,
+.nx-app .nxd-sheet-f { display: none; }
+
+@media (max-width: 720px) {
+  /* The toolbar: the search on its own line, the view tabs on theirs, then the
+     filters button beside the sort. */
+  .nx-app .nxd-tools { flex-direction: row; flex-wrap: wrap; align-items: stretch; }
+  .nx-app .nxd-tools > .nxd-field,
+  .nx-app .nxd-tools > .nxd-tabs { flex: 1 1 100%; }
+  .nx-app .nxd-tools > .nxd-sort { flex: 1 1 0; min-inline-size: 0; }
+  .nx-app .nxd-sheet-btn { display: inline-flex; flex: none; min-block-size: var(--c-tap); }
+  .nx-app .nxd-sheet-btn b { font-family: var(--font-mono); font-weight: 600; }
+
+  .nx-app .nxd-active { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+
+  /* The facts strip reads as a line of counts ("105 טבלאות · 1,234 שדות")
+     rather than a four-row plate of 220px, so the first result reaches the
+     first screen, above the bottom tabs. */
+  .nx-app .nxd-stats,
+  .nx-app .nxd-stats--after { display: flex; flex-wrap: wrap; gap: var(--sp-1) var(--sp-4); padding-block: var(--sp-3); }
+  .nx-app .nxd-stats .nxd-stat,
+  .nx-app .nxd-stats--after .nxd-stat { display: inline-flex; align-items: baseline; gap: var(--sp-1); }
+  .nx-app .nxd-stats .nxd-stat b,
+  .nx-app .nxd-stats--after .nxd-stat b { font-size: var(--t-body); font-weight: 600; }
+
+  .nx-app .nxd-sheet:not([data-open]) { display: none; }
+  .nx-app .nxd-sheet[data-open] {
+    position: fixed; inset: 0; z-index: 70;
+    display: grid; align-items: end;
+  }
+  .nx-app .nxd-sheet-scrim {
+    display: block;
+    position: absolute; inset: 0;
+    background: rgb(0 0 0 / .32);
+  }
+  .nx-app .nxd-sheet-p {
+    position: relative;
+    max-block-size: 85dvh;
+    overflow-y: auto; overscroll-behavior: contain;
+    padding: 0 var(--sp-4) env(safe-area-inset-bottom);
+    background: var(--surface-raised);
+    border-start-start-radius: var(--r-xl);
+    border-start-end-radius: var(--r-xl);
+    box-shadow: var(--elev-4);
+    gap: var(--sp-3);
+    animation: nxd-sheet-in var(--dur-panel) var(--ease-out) both;
+  }
+  .nx-app .nxd-sheet-p:focus { outline: none; }
+  .nx-app .nxd-sheet-h {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2);
+    position: sticky; inset-block-start: 0; z-index: 1;
+    padding-block: var(--sp-2);
+    background: var(--surface-raised);
+    border-block-end: 1px solid var(--hairline);
+  }
+  .nx-app .nxd-sheet-h h2 { margin: 0; font-size: var(--t-h2); font-weight: 600; line-height: var(--t-h2-lh); }
+  .nx-app .nxd-sheet-f {
+    display: flex; flex-wrap: wrap; gap: var(--sp-2);
+    position: sticky; inset-block-end: 0; z-index: 1;
+    padding-block: var(--sp-3);
+    background: var(--surface-raised);
+    border-block-start: 1px solid var(--hairline);
+  }
+  .nx-app .nxd-sheet-f > .nu-btn { flex: 1 1 auto; }
+}
+@keyframes nxd-sheet-in { from { transform: translateY(100%); } to { transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .nx-app .nxd-sheet-p { animation: none; }
+}
+
+/* A field reached by its anchor (#field-AUFNR) lands under the running section
+   bar and is marked in the selection language, since it is where the reader
+   was sent (gate 6, minor 27). */
+.nx-app .nxb-tbl tbody tr[id] { scroll-margin-block-start: calc(var(--nxs-h, 0px) + var(--sp-6)); }
+.nx-app .nxb-tbl tbody tr[id]:target {
+  background: var(--select-bg);
+  outline: 2px solid var(--select-line);
+  outline-offset: -2px;
+}
+
+/* A code with a page, inside a list of codes on a record: the link language,
+   next to the codes that are values (.nu-chip) (gate 5, finding 15). */
+.nx-app .nxt-codes .nxt-codelink { font-size: var(--t-xs); gap: 0.3rem; padding-block: 0.2rem; min-block-size: 1.5rem; }
+.nx-app .nxt-codes .nxt-codelink .nx-sap { font-weight: 600; }
+
+/* Coarse pointers: the sort control is a target too, 44px like every control
+   (gate 4, major 8; the .nu-* controls take it from ui.css). */
+@media (pointer: coarse) {
+  .nx-app .nxd-sort select { min-block-size: var(--c-tap); }
+  /* The input itself, not only its 44px field: inside the field's 1px border it
+     measured 42px. */
+  .nx-app .nxd-tools input[type="search"] { min-block-size: var(--c-tap); }
+}

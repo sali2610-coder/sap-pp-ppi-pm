@@ -128,6 +128,15 @@
   color: var(--surface);
   font-weight: 600;
 }
+/* What a pressed filter carries besides its label (the count in <b>, a note in
+   <em> or <span>) inverts with it. The families' resting ink stayed on the ink
+   fill: 1.82:1 by day and 1.49:1 at night (gate 3, blocker 1). The surface ink
+   mixed a fifth of the way toward the fill stays quieter than the label and
+   measures 10.5:1 and 7.3:1. `html` lifts it over the families' count rules
+   (.nx-app .nxd-facet .nu-filter b and the like, 0,3,1), which load later. */
+html .nx-app .nu-filter:is([aria-pressed="true"], [data-on="1"]) :is(b, em, span) {
+  color: color-mix(in srgb, var(--surface) 78%, var(--ink-1));
+}
 
 /* --- chip: a VALUE. deliberately not interactive -------------------------- */
 .nu-chip {
@@ -230,3 +239,15 @@ a.nu-card:hover, button.nu-card:hover { border-color: var(--line-strong); }
 /* Interactive chips are targets: 24px minimum (WCAG 2.5.8). Static chips keep
    their height. */
 .nx-app a.nu-chip, .nx-app button.nu-chip { min-block-size: 1.5rem; }
+
+/* Coarse pointers: 44px for every control, whatever a family sheet sets for a
+   fine pointer. The rule at the top of this file lost to `.nu-filter` below it
+   and to the families' own density rules (gate 4, major 8: filter chips and row
+   actions 32px, search inputs 28px on touch). Written last and lifted above
+   the family rules (html + [class]: 0,3,2), so desktop density never shrinks a
+   touch target. */
+@media (pointer: coarse) {
+  html .nx-app :is(.nu-btn, .nu-btn2, .nu-ghost, .nu-tab, .nu-link, .nu-filter)[class] {
+    min-block-size: var(--c-tap, 2.75rem);
+  }
+}

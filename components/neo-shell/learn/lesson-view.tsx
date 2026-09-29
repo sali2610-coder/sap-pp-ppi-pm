@@ -358,7 +358,7 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
           פרק {nf.format(place.chapterIndex)} · {place.chapterTitle}
         </span>
         <div className="nxv-title">
-          <h1 className="nxv-h1">{lesson.title}</h1>
+          <h1 className="nxv-h1 nx-display">{lesson.title}</h1>
           {lesson.titleEn ? <p className="nxv-en">{lesson.titleEn}</p> : null}
         </div>
         <div className="nxv-meta">

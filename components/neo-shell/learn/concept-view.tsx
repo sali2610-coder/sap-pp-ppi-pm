@@ -22,7 +22,7 @@
    ========================================================================== */
 
 import Link from "next/link";
-import { ArrowLeft, BookOpen, Info, Lightbulb, Link2, Sparkles, Terminal, Table as TableIcon, Wrench } from "lucide-react";
+import { ArrowLeft, BookOpen, Briefcase, Info, Lightbulb, Link2, Terminal, Table as TableIcon, Wrench } from "lucide-react";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
 import type { ConceptRef, ConceptRow } from "./knowledge-data";
 
@@ -84,7 +84,7 @@ export function ConceptView({ c }: { c: ConceptRow }) {
       <header className="nxv-head">
         <span className="nx-eyebrow">מרכז הידע · {c.groupHe}</span>
         <div className="nxv-title">
-          <h1 className="nxv-h1">{c.he}</h1>
+          <h1 className="nxv-h1 nx-display">{c.he}</h1>
           {c.title.toLowerCase() !== c.he.toLowerCase() ? <p className="nxv-en">{c.title}</p> : null}
         </div>
         <div className="nxv-meta">
@@ -122,7 +122,7 @@ export function ConceptView({ c }: { c: ConceptRow }) {
       {/* -------------------------------------------------------- EXPLANATION */}
       <section className="nxv-sec" aria-labelledby="c-biz">
         <div className="nxv-sec-h">
-          <span className="nxv-sec-i" aria-hidden="true"><Sparkles size={16} strokeWidth={1.75} /></span>
+          <span className="nxv-sec-i" aria-hidden="true"><Briefcase size={16} strokeWidth={1.75} /></span>
           <h2 className="nx-h2" id="c-biz">הסבר עסקי</h2>
           <em className="nxv-sec-n">01</em>
         </div>

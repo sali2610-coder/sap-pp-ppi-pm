@@ -19,6 +19,7 @@
 import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 import Link from "next/link";
 import { EDITION_HE, type EvidenceBlockData, type SourceType } from "@/lib/evidence/types";
+import { repoSource, splitAction } from "./repo-text";
 import "@/app/neo/evidence.css";
 
 /** UI names for the source kinds. Vocabulary, not SAP data. */
@@ -39,6 +40,9 @@ const MAX_VISIBLE_SOURCES = 6;
 export function EvidenceBlock({ e }: { e: EvidenceBlockData }) {
   const visible = e.sources.slice(0, MAX_VISIBLE_SOURCES);
   const hidden = e.sources.length - visible.length;
+  // A maintenance sentence for this repository is not advice for the reader:
+  // it is shown on its own labelled line (gate 5, finding 18; repo-text.ts).
+  const act = splitAction(e.status.action);
 
   return (
     <section
@@ -64,8 +68,13 @@ export function EvidenceBlock({ e }: { e: EvidenceBlockData }) {
       {/* the claim's own explanation, then the recommended action */}
       {e.status.he ? <p className="nev-exp">{e.status.he}</p> : null}
       <p className="nev-act">
-        <b>פעולה מומלצת:</b> {e.status.action}
+        <b>פעולה מומלצת:</b> {act.advice || "הרשומה אינה כוללת המלצה ליועץ מעבר להערת התחזוקה שלהלן."}
       </p>
+      {act.note ? (
+        <p className="nev-int">
+          <b>הערת תחזוקה פנימית של המאגר, לא המלצה ליועץ:</b> {act.note}
+        </p>
+      ) : null}
 
       {/* the successor, when the record carries one */}
       {e.status.successor ? (
@@ -86,23 +95,29 @@ export function EvidenceBlock({ e }: { e: EvidenceBlockData }) {
         <div className="nev-srcwrap">
           <p className="nev-l">מקורות הרשומה</p>
           <ul className="nev-src">
-            {visible.map((s, i) => (
+            {visible.map((s, i) => {
+              // A repository file leaves the label for the metadata: the record
+              // key stays readable, the file stays on the page (repo-text.ts).
+              const src = repoSource(s.title);
+              return (
               <li key={`${s.title}-${i}`}>
                 {s.url ? (
                   <a href={s.url} rel="noopener noreferrer" target="_blank" className="nev-a">
-                    {s.title}
+                    {src.label}
                   </a>
                 ) : (
-                  <span className="nev-t">{s.title}</span>
+                  <span className="nev-t">{src.label}</span>
                 )}
                 <span className="nev-meta">{SOURCE_HE[s.kind]}</span>
+                {src.files.length ? <span className="nev-meta nev-num">{src.files.join(", ")}</span> : null}
                 {s.context ? <span className="nev-meta">הקשר בלבד, לא מכריע במעמד</span> : null}
                 {s.release ? <span className="nev-meta nev-num">{s.release}</span> : null}
                 <span className="nev-meta">
                   נגיש בתאריך <span className="nev-num">{s.accessedAt}</span>
                 </span>
               </li>
-            ))}
+              );
+            })}
           </ul>
           {hidden > 0 ? <p className="nev-more">ועוד {hidden} מקורות ברשומה</p> : null}
         </div>

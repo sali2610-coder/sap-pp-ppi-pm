@@ -151,7 +151,7 @@ export function AcademySurface({ data }: { data: AcademyData }) {
 
       <header className="nxl-head">
         <span className="nx-eyebrow">ידע ולמידה</span>
-        <h1 className="nx-h1">SAP Academy</h1>
+        <h1 className="nx-h1 nx-display">SAP Academy</h1>
         <p className="nx-lede">
           מסלולי הלמידה של הפרויקט: {nf.format(totals.courses)} קורסים, {nf.format(totals.chapters)} פרקים ו-{nf.format(totals.lessons)} שיעורים.
           {" "}ההתקדמות המוצגת היא זו שנרשמה במכשיר הזה.

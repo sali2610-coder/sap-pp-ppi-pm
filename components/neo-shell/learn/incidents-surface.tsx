@@ -28,7 +28,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import {
-  ArrowLeft, Bug, ListChecks, Search, ShieldCheck, Sparkles, Table as TableIcon, Terminal, X,
+  ArrowLeft, Bug, GitCompareArrows, ListChecks, Search, ShieldCheck, Table as TableIcon, Terminal, X,
 } from "lucide-react";
 import { SmartReturn, consumeReturn, rememberOrigin, useReturnPacket } from "@/components/neo-shell/nav-context";
 import { learnModVar } from "./mod";
@@ -336,7 +336,7 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
           { v: totals.tables, l: "טבלאות לבדיקה", i: <TableIcon size={14} strokeWidth={1.75} /> },
           { v: totals.withFix, l: "עם צעדי תיקון", i: <ListChecks size={14} strokeWidth={1.75} /> },
           { v: totals.withPrevention, l: "עם צעדי מניעה", i: <ShieldCheck size={14} strokeWidth={1.75} /> },
-          { v: totals.withS4, l: "עם הבחנה בין ECC ל-S/4HANA", i: <Sparkles size={14} strokeWidth={1.75} /> },
+          { v: totals.withS4, l: "עם הבחנה בין ECC ל-S/4HANA", i: <GitCompareArrows size={14} strokeWidth={1.75} /> },
         ].map((s) => (
           <div key={s.l} className="nxl-stat">
             <span className="nxl-stat-i" aria-hidden="true">{s.i}</span>

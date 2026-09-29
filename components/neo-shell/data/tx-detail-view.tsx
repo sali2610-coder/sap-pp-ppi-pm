@@ -28,10 +28,11 @@
 
 import { ViewTransition } from "react";
 import {
-  AlertTriangle, AppWindow, Boxes, GitBranch, KeyRound,
+  AlertTriangle, AppWindow, ArrowLeft, Boxes, GitBranch, KeyRound,
   Plug, ShieldCheck, Terminal, Workflow,
 } from "lucide-react";
-import { OriginLink, SmartReturn } from "@/components/neo-shell/nav-context";
+import { OriginLink, SmartReturn, type OriginArg } from "@/components/neo-shell/nav-context";
+import { bapiHref, cdsHref, idocHref, txHref } from "../reference/ref-links";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { EvidenceBlock } from "../evidence/evidence-block";
 import { RecordStatus } from "../evidence/record-status";
@@ -91,13 +92,34 @@ function Bullets({ items }: { items: string[] }) {
   return <ul className="nxt-ul">{items.map((x, i) => <li key={`${i}-${x.slice(0, 24)}`}>{x}</li>)}</ul>;
 }
 
-function Codes({ items, label }: { items: string[]; label: string }) {
+/** SAP identifiers in a list. A code with a page in NEO is a link to it (the
+ *  link language: link colour and an arrow), as the related transactions on
+ *  the same page are; a code without one is a value, a .nu-chip. MIGO could
+ *  not reach MB01 although MB01 has a page and links back (gate 5, finding
+ *  15). `href` answers only with a page the build generates (ref-links.ts). */
+function Codes({ items, label, href, origin }: {
+  items: string[]; label: string; href?: (code: string) => string | null; origin?: OriginArg;
+}) {
   return (
     <ul className="nxt-codes" aria-label={label}>
-      {items.map((x) => <li key={x} className="nu-chip is-sap">{x}</li>)}
+      {items.map((x) => {
+        const to = href?.(x);
+        return to && origin ? (
+          <li key={x}>
+            <OriginLink href={to} origin={origin} className="nu-link nxt-codelink">
+              <span className="nx-sap">{x}</span>
+              <ArrowLeft className="nu-arw" size={12} strokeWidth={2} aria-hidden="true" />
+            </OriginLink>
+          </li>
+        ) : <li key={x} className="nu-chip is-sap">{x}</li>;
+      })}
     </ul>
   );
 }
+
+/** A function object is a BAPI or FM, or an IDoc message type, and has one
+ *  home either way. */
+const funcHref = (code: string) => bapiHref(code) ?? idocHref(code);
 
 /* ------------------------------------------------------------- the screen */
 
@@ -135,7 +157,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
   return (
     <article className="nxt" data-surface="transaction" style={{ "--m": m } as React.CSSProperties}>
       <SmartReturn
-        fallback={{ href: "/neo/transactions/", label: "טרנזקציות SAP" }}
+        fallback={{ href: "/neo/transactions/", label: "טרנזקציות" }}
         hint="אין עמוד קודם בביקור הזה"
       />
 
@@ -244,14 +266,12 @@ export function TxDetailView({ t }: { t: TxDetail }) {
           </Fact>
           {t.s4.replaces.length ? (
             <Fact label="טרנזקציות שהוחלפו על ידה">
-              <ul className="nxt-codes">
-                {t.s4.replaces.map((c) => <li key={c} className="nu-chip is-sap">{c}</li>)}
-              </ul>
+              <Codes items={t.s4.replaces} label="טרנזקציות שהוחלפו על ידה" href={txHref} origin={origin} />
             </Fact>
           ) : null}
           {t.cds.length ? (
             <Fact label="תצוגות CDS">
-              <ul className="nxt-codes">{t.cds.map((c) => <li key={c} className="nu-chip is-sap">{c}</li>)}</ul>
+              <Codes items={t.cds} label="תצוגות CDS" href={cdsHref} origin={origin} />
             </Fact>
           ) : null}
         </dl>
@@ -341,7 +361,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
       {has.int ? (
         <Section id="sec-int" icon={<Plug size={15} strokeWidth={1.75} />} title="ממשקים והרחבות">
           <dl className="nxt-grid">
-            {t.bapis.length ? <Fact label="BAPI ו-FM"><Codes items={t.bapis} label="BAPI ו-FM" /></Fact> : null}
+            {t.bapis.length ? <Fact label="BAPI ו-FM"><Codes items={t.bapis} label="BAPI ו-FM" href={funcHref} origin={origin} /></Fact> : null}
             {t.exits.length ? <Fact label="User Exits"><Codes items={t.exits} label="User Exits" /></Fact> : null}
             {t.badis.length ? <Fact label="BAdIs"><Codes items={t.badis} label="BAdIs" /></Fact> : null}
             {t.enhancements.length ? <Fact label="הרחבות (Enhancements)"><Codes items={t.enhancements} label="הרחבות" /></Fact> : null}

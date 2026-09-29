@@ -20,7 +20,7 @@
 
 import Link from "next/link";
 import {
-  ArrowLeft, Bug, Info, ListChecks, Puzzle, Quote, Search, ShieldCheck, Sparkles,
+  ArrowLeft, Bug, GitCompareArrows, Info, ListChecks, Puzzle, Quote, Search, ShieldCheck,
   Stethoscope, Table as TableIcon, Terminal,
 } from "lucide-react";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
@@ -106,7 +106,7 @@ export function IncidentView({ r }: { r: IncidentRow }) {
         <span className="nx-modbar" aria-hidden="true" />
         <span className="nx-eyebrow">תקלות ופתרון בעיות · {r.moduleHe || r.module}</span>
         <div className="nxv-title">
-          <h1 className="nxv-h1">{r.he}</h1>
+          <h1 className="nxv-h1 nxv-h1--rec">{r.he}</h1>
         </div>
         <div className="nxv-meta">
           <span className="nu-chip nxv-mod">
@@ -284,7 +284,7 @@ export function IncidentView({ r }: { r: IncidentRow }) {
       ) : (
         <section className="nxv-sec" aria-labelledby="i-s4">
           <div className="nxv-sec-h">
-            <span className="nxv-sec-i" aria-hidden="true"><Sparkles size={16} strokeWidth={1.75} /></span>
+            <span className="nxv-sec-i" aria-hidden="true"><GitCompareArrows size={16} strokeWidth={1.75} /></span>
             <h2 className="nx-h2" id="i-s4">ECC ו-S/4HANA</h2>
             <em className="nxv-sec-n">{n("s4")}</em>
           </div>

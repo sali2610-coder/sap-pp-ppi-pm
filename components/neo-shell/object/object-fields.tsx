@@ -32,6 +32,7 @@ import { useMemo, useState } from "react";
 import { KeyRound, Link2 } from "lucide-react";
 import { isFkKey, isPkKey } from "../erd/key-role";
 import type { FieldRow } from "./object-data";
+import { fieldId } from "../data/field-id";
 
 const nf = new Intl.NumberFormat("he-IL");
 
@@ -169,7 +170,9 @@ export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: strin
           </thead>
           <tbody>
             {rows.map((f) => (
-              <tr key={f.tech} data-key={isPk(f) || isFk(f) ? f.key : ""}>
+              // An anchor per field (#field-AUFNR), as on the table page, so a
+              // search result for a field can land on it (gate 6, minor 27).
+              <tr key={f.tech} id={fieldId(f.tech)} data-key={isPk(f) || isFk(f) ? f.key : ""}>
                 <td className="no-c-k" data-l="מפתח">
                   {isPk(f) || isFk(f) ? (
                     <span className="no-key" data-k={f.key}>{f.key}</span>

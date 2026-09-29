@@ -43,6 +43,7 @@ import {
 } from "@/components/neo-shell/nav-context";
 import { MOD_HE, modVar } from "../mod-var";
 import { Glyph } from "./icons";
+import { catalogScore } from "../data/catalog-match";
 import type { RefDir, RefRow } from "./types";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -65,28 +66,10 @@ type RefListState = {
 };
 
 /* --------------------------------------------------------------- matching
-   The same three tiers the transaction centre uses: a prefix beats an inner
-   substring beats an in-order subsequence. Every token has to land, so a
-   two-word query narrows instead of widening. It searches the record's own
-   words only — it never completes free text and never guesses a name. */
-
-function tokenScore(hay: string, q: string): number {
-  const i = hay.indexOf(q);
-  if (i === 0) return 100;
-  if (i > 0) return 70 - Math.min(i, 30);
-  let qi = 0;
-  for (let h = 0; h < hay.length && qi < q.length; h++) if (hay[h] === q[qi]) qi++;
-  return qi === q.length ? 28 : 0;
-}
-function fuzzyScore(hay: string, query: string): number {
-  let total = 0;
-  for (const t of query.split(/\s+/).filter(Boolean)) {
-    const s = tokenScore(hay, t);
-    if (s === 0) return 0;
-    total += s;
-  }
-  return total;
-}
+   The catalogue matcher the tables and the transactions use
+   (../data/catalog-match.ts). It searches the record's own words only, and
+   the in-order subsequence only in the technical name: on the whole record it
+   matched MATMAS in 69 of 144 BAPIs, none of them MATMAS (gate 6, minor 22). */
 
 const TONE_ORDER: Record<string, number> = { changed: 0, replacement: 1, compare: 2, unknown: 3, stable: 4 };
 
@@ -204,7 +187,7 @@ export function RefSurface({ dir, children }: { dir: RefDir; children?: React.Re
     });
     if (needle) {
       return base
-        .map((r) => ({ r, sc: fuzzyScore(r.hay, needle) }))
+        .map((r) => ({ r, sc: catalogScore(r.hay, r.name.toLowerCase(), needle) }))
         .filter((x) => x.sc > 0)
         .sort((a, b) => b.sc - a.sc || a.r.name.localeCompare(b.r.name))
         .map((x) => x.r);
