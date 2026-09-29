@@ -168,7 +168,9 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
       id: "reference",
       label: "עיון",
       items: [
-        { id: "tables", label: "טבלאות SAP", icon: "Table", count: ALL_TABLES.length, countLabel: "טבלאות" },
+        // Unique names, as the catalogue lists them (a table both blueprints
+        // document is one row there): 105, not the 126 per-module rows.
+        { id: "tables", label: "טבלאות SAP", icon: "Table", count: new Set(ALL_TABLES.map((t) => t.tableName)).size, countLabel: "טבלאות" },
         { id: "erd", href: "/neo/erd/", label: "מודל הנתונים · ERD", icon: "GitBranch", count: modelStats().edges, countLabel: "קשרים" },
         { id: "transactions", label: "טרנזקציות", icon: "Terminal", count: registryStats().total, countLabel: "טרנזקציות" },
         { id: "bapi", label: "BAPI ו-FM", icon: "Plug", count: bapiFnCount(), countLabel: "BAPI ו-FM" },
