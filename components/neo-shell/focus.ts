@@ -22,3 +22,23 @@ export function useShellFocus(on: boolean, onExit?: () => void) {
     };
   }, [on, onExit]);
 }
+
+/** Arrow keys for a tablist or a radiogroup (WAI-ARIA APG; gate 8, m3). Put it
+ *  on the container's onKeyDown and give only the selected item tabIndex 0:
+ *  the group is one Tab stop, and the arrows, Home and End move and select.
+ *  In a right-to-left group the left arrow goes forward. */
+export function rovingKeys(e: React.KeyboardEvent<HTMLElement>) {
+  const items = [...e.currentTarget.querySelectorAll<HTMLElement>('[role="tab"], [role="radio"]')]
+    .filter((el) => !(el as HTMLButtonElement).disabled && el.offsetParent !== null);
+  const i = items.indexOf(document.activeElement as HTMLElement);
+  if (i < 0) return;
+  const rtl = getComputedStyle(e.currentTarget).direction === "rtl";
+  const n = items.length;
+  const j = e.key === (rtl ? "ArrowLeft" : "ArrowRight") || e.key === "ArrowDown" ? (i + 1) % n
+    : e.key === (rtl ? "ArrowRight" : "ArrowLeft") || e.key === "ArrowUp" ? (i - 1 + n) % n
+    : e.key === "Home" ? 0 : e.key === "End" ? n - 1 : -1;
+  if (j < 0) return;
+  e.preventDefault();
+  items[j].focus();
+  items[j].click();
+}

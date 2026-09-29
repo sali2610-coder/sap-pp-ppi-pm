@@ -1787,3 +1787,9 @@ html[data-theme="dark"] .nxq[data-surface="library"] {
 .nxm[data-mark="neo"]:not([data-state="thinking"]):not([data-state="writing"]) .nxm-hex,
 .nql[data-state="idle"] .nql-body,
 .nxq-caret-live { animation: none; }
+
+/* Focus in the thread keeps clear of the sticky context bar and composer
+   (WCAG 2.4.11; gate 8, M1). */
+.nx-app .nx-canvas:has(.nxq-composer) :is(a[href], button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])):not(.nxq-composer *, .nxq-ctx *) {
+  scroll-margin-block: 5rem 11rem;
+}

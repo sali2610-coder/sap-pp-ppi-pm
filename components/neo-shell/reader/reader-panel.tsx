@@ -18,6 +18,7 @@
    would be a lie to offer full-text search here.
    ========================================================================== */
 
+import { rovingKeys } from "../focus";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { Bookmark, BookmarkX, Check, ListTree, Map as MapIcon, Search, X } from "lucide-react";
 import { bookmarkedChapters, type NeoBookmark } from "@/components/neo-shell/books/reading-state";
@@ -62,13 +63,19 @@ export function ReaderPanel({
   const ref = useRef<HTMLDivElement>(null);
   const titleId = useId();
 
+  // The parent passes an inline arrow; keyed on it, the effect below re-ran on
+  // every reader render and pulled focus back to the panel box.
+  const close = useRef(onClose);
+  useEffect(() => { close.current = onClose; });
+
   useEffect(() => {
+    const opener = document.activeElement as HTMLElement | null;
     ref.current?.focus();
     /* Same dialog contract as the shelf's quick-view: Escape closes and Tab is
        wrapped inside the panel — a modal that lets Tab walk out into the reader
        behind the scrim is a modal in name only. */
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") { e.stopPropagation(); onClose(); return; }
+      if (e.key === "Escape") { e.stopPropagation(); close.current(); return; }
       if (e.key !== "Tab") return;
       const root = ref.current;
       if (!root) return;
@@ -82,8 +89,15 @@ export function ReaderPanel({
       else if (e.shiftKey && (at === first || !root.contains(at))) { e.preventDefault(); last.focus(); }
     };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      // Focus goes back to the button that opened the panel. Its own controls
+      // are gone by now, and focus left on <body> restarted Tab from the top of
+      // the page (gate 8, M3).
+      const lost = !document.activeElement || document.activeElement === document.body;
+      if (lost && opener?.isConnected) opener.focus({ preventScroll: true });
+    };
+  }, []);
 
   const needle = q.trim().toLowerCase();
   const hits = useMemo(() => {
@@ -121,7 +135,9 @@ export function ReaderPanel({
 
   return (
     <div className="nr-panel-wrap">
-      <button type="button" className="nr-scrim" aria-label="סגירת החלונית" onClick={onClose} />
+      {/* Pointer dismissal only, out of the tab order (gate 8, B5), as the
+          books' quick view does: the panel has its close button and Escape. */}
+      <button type="button" className="nr-scrim" tabIndex={-1} aria-hidden="true" onClick={onClose} />
       <div
         className="nr-panel"
         ref={ref}
@@ -138,12 +154,13 @@ export function ReaderPanel({
           </button>
         </div>
 
-        <div className="nr-panel-tabs" role="tablist" aria-label="תצוגות החלונית">
+        <div className="nr-panel-tabs" role="tablist" aria-label="תצוגות החלונית" onKeyDown={rovingKeys}>
           <button
             type="button"
             role="tab"
             className="nu-tab"
             aria-selected={tab === "toc"}
+            tabIndex={tab === "toc" ? 0 : -1}
             onClick={() => onTab("toc")}
           >
             <ListTree size={14} strokeWidth={1.9} aria-hidden="true" />
@@ -154,6 +171,7 @@ export function ReaderPanel({
             role="tab"
             className="nu-tab"
             aria-selected={tab === "map"}
+            tabIndex={tab === "map" ? 0 : -1}
             onClick={() => onTab("map")}
           >
             <MapIcon size={14} strokeWidth={1.9} aria-hidden="true" />

@@ -20,6 +20,11 @@ import { useEffect, useRef } from "react";
 export function useDialog<T extends HTMLElement>(open: boolean, onClose: () => void) {
   const ref = useRef<T>(null);
   const restoreTo = useRef<HTMLElement | null>(null);
+  // Callers pass inline arrows. Keyed on them, the effect re-ran on every
+  // parent render: focus was yanked back to the dialog box and the "opener"
+  // became whatever sat inside it.
+  const close = useRef(onClose);
+  useEffect(() => { close.current = onClose; });
 
   useEffect(() => {
     if (!open) return;
@@ -29,7 +34,7 @@ export function useDialog<T extends HTMLElement>(open: boolean, onClose: () => v
     const raf = requestAnimationFrame(() => ref.current?.focus());
 
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") { e.stopPropagation(); onClose(); return; }
+      if (e.key === "Escape") { e.stopPropagation(); close.current(); return; }
       if (e.key !== "Tab") return;
       const nodes = ref.current?.querySelectorAll<HTMLElement>(
         'button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
@@ -37,8 +42,11 @@ export function useDialog<T extends HTMLElement>(open: boolean, onClose: () => v
       if (!nodes || !nodes.length) return;
       const first = nodes[0];
       const last = nodes[nodes.length - 1];
-      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      // The box itself holds focus right after opening; Shift+Tab from there
+      // left the modal (gate 8, m9).
+      const at = document.activeElement;
+      if (e.shiftKey && (at === first || at === ref.current)) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && at === last) { e.preventDefault(); first.focus(); }
     };
     document.addEventListener("keydown", onKey, true);
 
@@ -54,7 +62,7 @@ export function useDialog<T extends HTMLElement>(open: boolean, onClose: () => v
       // the top of the document, which reads as the page having reset.
       restoreTo.current?.focus?.();
     };
-  }, [open, onClose]);
+  }, [open]);
 
   return ref;
 }

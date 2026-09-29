@@ -27,6 +27,7 @@
 // incompleteness the client rejected. A disclosure is the only answer that is
 // both.
 
+import { enLang } from "../lang";
 import { useState } from "react";
 import type { WsSheet } from "./workspace-data";
 
@@ -55,7 +56,7 @@ export function WorkspaceSheet({ sheet, lede }: { sheet: WsSheet; lede: string }
                 <span className="nw-sheet-i nw-sap" aria-hidden="true">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <span className={isCode(head) ? "nw-sap" : undefined}>{head || "–"}</span>
+                <span className={isCode(head) ? "nw-sap" : undefined} lang={enLang(head)}>{head || "–"}</span>
               </p>
               <dl className="nw-sheet-kv">
                 {sheet.headers.map((h, c) => {
@@ -65,8 +66,8 @@ export function WorkspaceSheet({ sheet, lede }: { sheet: WsSheet; lede: string }
                   if (!v || c === sheet.keyCol || /^מס'/.test(h)) return null;
                   return (
                     <div key={h + c}>
-                      <dt>{h}</dt>
-                      <dd className={isCode(v) ? "nw-sap" : undefined}>{v}</dd>
+                      <dt lang={enLang(h)}>{h}</dt>
+                      <dd className={isCode(v) ? "nw-sap" : undefined} lang={enLang(v)}>{v}</dd>
                     </div>
                   );
                 })}

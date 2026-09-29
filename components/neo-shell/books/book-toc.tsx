@@ -22,6 +22,7 @@
 // Search is over THIS list only, and is labelled as such. The reader has its own
 // prose; this list cannot see prose and does not pretend to.
 
+import { enLang } from "../lang";
 import { useEffect, useMemo, useRef, useState, useId } from "react";
 import { Bookmark, BookOpen, ChevronLeft, Search, X } from "lucide-react";
 import { OriginLink, type OriginArg } from "@/components/neo-shell/nav-context";
@@ -115,16 +116,19 @@ export function BookToc({
   const found = useMemo(() => matches.reduce((n, m) => n + m.rows.length, 0), [matches]);
 
   const toggle = (n: number) => setOpen((p) => (p.includes(n) ? p.filter((x) => x !== n) : [...p, n]));
+  // On the hub the list sits under the page's h1; in the quick view, under the
+  // dialog's h2 (gate 8, m2: no skipped level).
+  const H = variant === "hub" ? "h2" : "h3";
 
   return (
     <section className="nb-toc" aria-label="תוכן העניינים של הספר">
       <header className="nb-toc-h">
-        <h3 className="nb-h3">
+        <H className="nb-h3">
           תוכן העניינים
           <span>
             {b.chapters} פרקים · {nf.format(b.sections)} תת-פרקים
           </span>
-        </h3>
+        </H>
 
         <div className="nb-find">
           <Search size={14} strokeWidth={1.75} aria-hidden="true" />
@@ -176,7 +180,7 @@ export function BookToc({
                   <span className="nb-ch-num nb-sap">{String(m.n).padStart(2, "0")}</span>
                   {/* The full title stays on the element, so a two-line clamp
                       never hides a chapter name from hover or a screen reader. */}
-                  <span className="nb-ch-name" title={m.title}>{m.title}</span>
+                  <span className="nb-ch-name" title={m.title} lang={enLang(m.title)}>{m.title}</span>
                   <span className="nb-ch-count nb-sap">{nf.format(m.total)}</span>
                 </button>
 

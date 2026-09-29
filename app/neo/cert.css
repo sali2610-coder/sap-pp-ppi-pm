@@ -11,14 +11,17 @@
    ========================================================================== */
 
 .nce {
-  --ok: #1a7f4f;
-  --no: #c2410c;
+  /* The verdict colours are the status tokens, day and night (gate 8, B1: the
+     fixed #1a7f4f / #c2410c read 3.77:1 and 3.86:1 on the score chips by day
+     and did not follow the night theme). */
+  --ok: var(--success);
+  --no: var(--danger);
   --gold: #a97e17;
   max-inline-size: 56rem;
   margin-inline: auto;
   padding: clamp(1.25rem, 3vw, 2.5rem) clamp(1rem, 3vw, 2rem) 6rem;
 }
-html[data-theme="dark"] .nce { --ok: #4ec98a; --no: #ff8a5c; --gold: #e0bd5c; }
+html[data-theme="dark"] .nce { --gold: #e0bd5c; }
 
 .nce-eye {
   display: flex; align-items: center; gap: .45rem;
@@ -63,7 +66,10 @@ html[data-theme="dark"] .nce { --ok: #4ec98a; --no: #ff8a5c; --gold: #e0bd5c; }
 
 /* ----------------------------------------------------------------- run */
 
-.nce-bar {
+/* The run's header. Its own class: it shared .nce-bar with the result bars
+   below, whose 7px height and overflow:hidden clipped the counter and the
+   score (gate 8, M4). */
+.nce-head {
   position: sticky; inset-block-start: 0; z-index: 4;
   display: flex; align-items: center; gap: .8rem;
   padding-block: .7rem; margin-bottom: 1.1rem;
@@ -87,7 +93,7 @@ html[data-theme="dark"] .nce { --ok: #4ec98a; --no: #ff8a5c; --gold: #e0bd5c; }
   color: var(--ink-2); background: var(--surface-2); border: 1px solid var(--hairline);
   unicode-bidi: isolate;
 }
-.nce-chip--lvl { color: var(--brand); border-color: color-mix(in srgb, var(--brand) 32%, transparent); }
+.nce-chip--lvl { color: var(--brand-ink); border-color: color-mix(in srgb, var(--brand) 32%, transparent); }
 
 .nce-stem { margin: 0 0 .7rem; font-size: clamp(1.1rem, 2.4vw, 1.5rem); font-weight: 700; line-height: 1.4; letter-spacing: 0; }
 .nce-ctx { margin: 0 0 .8rem; font-size: .89rem; line-height: 1.62; color: var(--ink-2); }
@@ -123,7 +129,7 @@ html[data-theme="dark"] .nce { --ok: #4ec98a; --no: #ff8a5c; --gold: #e0bd5c; }
   color: var(--ok); border-color: color-mix(in srgb, var(--ok) 46%, transparent);
   background: color-mix(in srgb, var(--ok) 10%, var(--surface));
 }
-.nce-choice[data-state="right"] .nce-key { color: var(--ok); background: color-mix(in srgb, var(--ok) 18%, transparent); }
+.nce-choice[data-state="right"] .nce-key { color: var(--ink-1); background: color-mix(in srgb, var(--ok) 18%, transparent); }
 .nce-choice[data-state="wrong"] {
   color: var(--no); border-color: color-mix(in srgb, var(--no) 46%, transparent);
   background: color-mix(in srgb, var(--no) 9%, var(--surface));
@@ -211,3 +217,7 @@ html[data-theme="dark"] .nce { --ok: #4ec98a; --no: #ff8a5c; --gold: #e0bd5c; }
   .nce-ring { inline-size: 124px; block-size: 124px; }
   .nce-ring b { font-size: 2.1rem; }
 }
+
+/* The run's sticky header never covers a focused answer (WCAG 2.4.11; gate 8,
+   M1): about its height plus its bottom margin. */
+.nce[data-phase="run"] :is(a[href], button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])) { scroll-margin-block-start: 5.5rem; }

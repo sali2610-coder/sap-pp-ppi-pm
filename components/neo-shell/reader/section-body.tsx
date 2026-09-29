@@ -38,6 +38,7 @@
    in words rather than hidden or filled in.
    ========================================================================== */
 
+import { enLang } from "../lang";
 import { useMemo } from "react";
 import Image from "next/image";
 import { ImageIcon } from "lucide-react";
@@ -176,7 +177,7 @@ function Academy({ body }: { body: AcademyBody }) {
         const v = facets[f.key];
         return (
           <section className="nr-facet" key={f.key}>
-            <h4 className="nr-facet-h">{f.he}</h4>
+            <h3 className="nr-facet-h">{f.he}</h3>
             {Array.isArray(v) ? (
               // Nine of book8's facets are arrays — steps, common mistakes,
               // interview questions. Flattening them to a paragraph would lose
@@ -338,7 +339,7 @@ export function SectionBlock({
     >
       <header className="nr-sec-h">
         <span className="nr-sec-n nu-chip is-sap">{section.id}</span>
-        <h3 className="nr-sec-t">{section.title}</h3>
+        <h2 className="nr-sec-t" lang={enLang(section.title)}>{section.title}</h2>
         <span className="nr-sec-meta">
           {section.page !== null && <span className="nu-chip">עמ׳ {section.page}</span>}
           {both && <span className="nu-chip" title="לתת-פרק זה קיימים תרגום לעברית ומקור באנגלית">HE · EN</span>}

@@ -25,6 +25,7 @@
 // surface. Status form (dot + word) is used once, for the S/4 disposition of a
 // table, which is a real state of the record.
 
+import { rovingKeys } from "../focus";
 import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 import { S4_STATUS_HE } from "@/lib/evidence/types";
 import { useCallback, useEffect, useId, useMemo, useState, ViewTransition } from "react";
@@ -412,7 +413,7 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
           ) : null}
         </div>
 
-        <div className="nxd-tabs" role="tablist" aria-label="תצוגה">
+        <div className="nxd-tabs" role="tablist" aria-label="תצוגה" onKeyDown={rovingKeys}>
           {VIEWS.map((x) => (
             <button
               key={x.v}
@@ -420,6 +421,7 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
               role="tab"
               className="nu-tab"
               aria-selected={view === x.v}
+              tabIndex={view === x.v ? 0 : -1}
               onClick={() => setView(x.v)}
             >
               {x.v === "list" ? <ListTree size={13} strokeWidth={1.75} /> : x.v === "topic" ? <LayoutGrid size={13} strokeWidth={1.75} /> : <Boxes size={13} strokeWidth={1.75} />}
@@ -528,8 +530,11 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
         ))}
       </section>
 
-      <p className="nxd-count nm-fade nm-once" aria-live="polite">
-        <b>{nf.format(rows.length)}</b> מתוך {nf.format(t.tables)} טבלאות
+      <p className="nxd-count nm-fade nm-once">
+        {/* The count is live, the button is not: inside the region it was read out again on every change (gate 8, m4). */}
+        <span aria-live="polite">
+          <b>{nf.format(rows.length)}</b> מתוך {nf.format(t.tables)} טבלאות
+        </span>
         {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
       </p>
 

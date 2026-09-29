@@ -25,6 +25,8 @@
      product exists to surface.
    ========================================================================== */
 
+import { rovingKeys } from "../focus";
+import { enLang } from "../lang";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -123,17 +125,17 @@ function Row({ r, impactHe, onOpen }: { r: IncidentRow; impactHe: string; onOpen
           {r.hasS4 ? (
             <>
               <span className="nxl-side-l">S/4HANA</span>
-              <span className="nxl-side-v">{r.s4 || r.ecc}</span>
+              <span className="nxl-side-v" lang={enLang(r.s4 || r.ecc)}>{r.s4 || r.ecc}</span>
             </>
           ) : r.error ? (
             <>
               <span className="nxl-side-l">הודעת השגיאה</span>
-              <span className="nxl-side-v">{r.error}</span>
+              <span className="nxl-side-v" lang={enLang(r.error)}>{r.error}</span>
             </>
           ) : r.rootCauses.length ? (
             <>
               <span className="nxl-side-l">סיבת שורש ראשונה</span>
-              <span className="nxl-side-v">{r.rootCauses[0]}</span>
+              <span className="nxl-side-v" lang={enLang(r.rootCauses[0])}>{r.rootCauses[0]}</span>
             </>
           ) : (
             <>
@@ -268,7 +270,7 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
           ) : null}
         </div>
 
-        <div className="nxl-tabs" role="tablist" aria-label="תצוגה">
+        <div className="nxl-tabs" role="tablist" aria-label="תצוגה" onKeyDown={rovingKeys}>
           {VIEWS.map((x) => (
             <button
               key={x.v}
@@ -276,6 +278,7 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
               role="tab"
               className="nu-tab"
               aria-selected={view === x.v}
+              tabIndex={view === x.v ? 0 : -1}
               onClick={() => onView(x.v)}
             >
               {x.he}
@@ -346,8 +349,11 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
         ))}
       </section>
 
-      <p className="nxl-count" aria-live="polite">
-        <b>{nf.format(list.length)}</b> מתוך {nf.format(totals.incidents)} תקלות
+      <p className="nxl-count">
+        {/* The count is live, the button is not: inside the region it was read out again on every change (gate 8, m4). */}
+        <span aria-live="polite">
+          <b>{nf.format(list.length)}</b> מתוך {nf.format(totals.incidents)} תקלות
+        </span>
         {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
       </p>
 

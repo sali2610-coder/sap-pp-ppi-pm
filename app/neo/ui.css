@@ -250,4 +250,14 @@ a.nu-card:hover, button.nu-card:hover { border-color: var(--line-strong); }
   html .nx-app :is(.nu-btn, .nu-btn2, .nu-ghost, .nu-tab, .nu-link, .nu-filter)[class] {
     min-block-size: var(--c-tap, 2.75rem);
   }
+  /* The same 44px for the controls outside the nu-* kit (gate 8, M2): the
+     footer's legal links, the legal documents' contents, the search filters
+     and the appearance switch. Each selector outranks its family rule by one
+     element; the drawing stays as it is. */
+  html .nx-app .nx-foot-legal a, html .nlg-toc a, html .nx-app .nxc-chip,
+  html .nx-app .nxc--r .nxc-modchip, html .nxk-theme-b {
+    min-block-size: var(--c-tap, 2.75rem);
+  }
+  html .nx-app .nx-foot-legal a { display: inline-flex; align-items: center; }
+  html .nlg-toc a { align-items: center; }
 }

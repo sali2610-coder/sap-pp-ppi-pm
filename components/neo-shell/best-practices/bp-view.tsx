@@ -14,6 +14,7 @@
    gets «אין תיעוד מאומת במאגר» in that list's own place.
    ========================================================================== */
 
+import { enLang } from "../lang";
 import Link from "next/link";
 import {
   AlertTriangle, ArrowLeft, BookOpen, ClipboardCheck, Info, LayoutList, Link2, ListChecks, ShieldCheck,
@@ -86,7 +87,7 @@ function Row({ r }: { r: BpRow }) {
         <span className="nbp-body">
           <span className="nbp-t">
             <b>{r.he}</b>
-            <em className="nbp-en" dir="ltr">{r.en}</em>
+            <em className="nbp-en" dir="ltr" lang={enLang(r.en)}>{r.en}</em>
           </span>
           <span className="nbp-sum">{r.summary}</span>
           <span className="nbp-meta">
@@ -312,7 +313,7 @@ export function BpDetailView({ d }: { d: BpDetail }) {
         <span className="nx-modbar" aria-hidden="true" />
         <p className="nx-eyebrow nxt-eyebrow">שיטות עבודה מומלצות · {d.moduleHe}</p>
         <h1 className="nbp-h1">{d.he}</h1>
-        <p className="nxt-en" dir="ltr">{d.en}</p>
+        <p className="nxt-en" dir="ltr" lang={enLang(d.en)}>{d.en}</p>
         <div className="nxt-meta">
           <span className="nu-status" style={{ "--s": d.evidence.level.dot } as React.CSSProperties}>
             {d.evidence.level.he}
@@ -436,7 +437,7 @@ export function BpDetailView({ d }: { d: BpDetail }) {
             <ul className="nbp-claims">
               {d.claims.map((c, i) => (
                 <li key={`${c.title}-${i}`}>
-                  <span className="nbp-claim-t">{c.title}</span>
+                  <span className="nbp-claim-t" lang={enLang(c.title)}>{c.title}</span>
                   <span className="nbp-claim-m">
                     <span className="nu-status" style={{ "--s": c.levelDot } as React.CSSProperties}>
                       {c.levelHe}
@@ -460,7 +461,7 @@ export function BpDetailView({ d }: { d: BpDetail }) {
         {d.notes ? (
           <p className="nxt-src">
             <Info size={13} strokeWidth={1.75} aria-hidden="true" />
-            {d.notes}
+            <span lang={enLang(d.notes)}>{d.notes}</span>
           </p>
         ) : null}
         <p>

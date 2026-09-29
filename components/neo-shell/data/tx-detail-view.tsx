@@ -26,6 +26,7 @@
                changes in S/4HANA. It is not a module colour and not a status.
    ========================================================================== */
 
+import { enLang } from "../lang";
 import { ViewTransition } from "react";
 import {
   AlertTriangle, AppWindow, ArrowLeft, Boxes, GitBranch, KeyRound,
@@ -182,7 +183,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
             {heIsArea
               ? <p className="nxt-he"><span className="nxt-he-k">תחום:</span> {t.he}</p>
               : <p className="nxt-he">{t.he || NONE}</p>}
-            {t.en ? <p className="nxt-en" dir="ltr">{t.en}</p> : <p className="nxt-en nxt-absent">אין שם אנגלי במקור</p>}
+            {t.en ? <p className="nxt-en" dir="ltr" lang={enLang(t.en)}>{t.en}</p> : <p className="nxt-en nxt-absent">אין שם אנגלי במקור</p>}
           </div>
           <TxActions code={t.code} />
         </div>
@@ -439,7 +440,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
         {t.sources.length ? (
           <p className="nxt-src">
             <ShieldCheck size={13} strokeWidth={1.75} aria-hidden="true" />
-            מקורות הרשומה: {t.sources.join(" · ")}
+            מקורות הרשומה: <span lang={enLang(t.sources.join(" "))}>{t.sources.join(" · ")}</span>
           </p>
         ) : null}
         <p>

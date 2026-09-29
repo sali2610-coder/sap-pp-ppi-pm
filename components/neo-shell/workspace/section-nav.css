@@ -334,3 +334,8 @@ html .nx-app .nx-canvas:has(> .nw) .nxs { --nxs-pad: 0px; }
   .nx-app .nxs-i[data-on="1"] { border-color: Highlight; border-inline-start-width: 3px; }
   .nx-app .nxs-track { display: none; }
 }
+
+/* A control reached with Tab or Shift+Tab scrolls clear of the running bar,
+   never under it (WCAG 2.4.11; gate 8, M1). Controls only: sections carry
+   their own scroll-margin (data.css, object.css, workspace.css). */
+.nx-app .nxs ~ * :is(a[href], button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])) { scroll-margin-block-start: calc(var(--nxs-h, 0px) + var(--sp-2)); }

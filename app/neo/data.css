@@ -217,6 +217,8 @@
   direction: ltr; unicode-bidi: isolate; font-variant-numeric: tabular-nums;
 }
 .nx-app .nxd-count .nu-ghost { min-block-size: 1.9rem; font-size: var(--t-micro); }
+/* The live part of the count (gate 8, m4) keeps the row's spacing. */
+.nx-app .nxd-count > [aria-live] { display: inline-flex; align-items: center; gap: var(--sp-2); }
 
 .nx-app .nxd-foot {
   font-size: var(--t-xs); color: var(--ink-3); line-height: var(--lh-he);

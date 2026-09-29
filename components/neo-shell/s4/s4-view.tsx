@@ -19,6 +19,7 @@
    never do.
    ========================================================================== */
 
+import { enLang } from "../lang";
 import Link from "next/link";
 import {
   AlertTriangle, ArrowLeft, BadgeCheck, Boxes, Cable, CheckCircle2, ClipboardList,
@@ -448,18 +449,18 @@ export function S4ReadinessCenter() {
             <li key={t.slug} style={{ "--s": t.statusColor } as React.CSSProperties}>
               <header>
                 <b>{t.he}</b>
-                <span className="ns4-topic-en nx-sap" dir="ltr">{t.title}</span>
+                <span className="ns4-topic-en nx-sap" dir="ltr" lang={enLang(t.title)}>{t.title}</span>
                 <span className="ns4-topic-st">{t.statusHe}</span>
                 <span className="ns4-topic-area">{AREA_HE[t.area] || t.area}</span>
               </header>
               <dl className="ns4-ba">
-                <div><dt>ECC</dt><dd>{t.ecc}</dd></div>
-                <div><dt>S/4HANA</dt><dd>{t.s4}</dd></div>
+                <div><dt>ECC</dt><dd lang={enLang(t.ecc)}>{t.ecc}</dd></div>
+                <div><dt>S/4HANA</dt><dd lang={enLang(t.s4)}>{t.s4}</dd></div>
               </dl>
-              {t.fioriCds ? <p className="ns4-note"><span className="ns4-lbl">Fiori · CDS</span>{t.fioriCds}</p> : null}
-              {t.simplification ? <p className="ns4-note"><span className="ns4-lbl">Simplification</span>{t.simplification}</p> : null}
-              <p className="ns4-impact"><b>השפעת המעבר: </b>{t.impact}</p>
-              {t.note ? <p className="ns4-note-x">{t.note}</p> : null}
+              {t.fioriCds ? <p className="ns4-note" lang={enLang(t.fioriCds)}><span className="ns4-lbl">Fiori · CDS</span>{t.fioriCds}</p> : null}
+              {t.simplification ? <p className="ns4-note" lang={enLang(t.simplification)}><span className="ns4-lbl">Simplification</span>{t.simplification}</p> : null}
+              <p className="ns4-impact"><b>השפעת המעבר: </b><span lang={enLang(t.impact)}>{t.impact}</span></p>
+              {t.note ? <p className="ns4-note-x" lang={enLang(t.note)}>{t.note}</p> : null}
             </li>
           ))}
         </ul>
@@ -583,7 +584,7 @@ export function MigrationCockpit() {
             <article key={o.id} id={`mo-${o.id}`} className="ns4-obj" style={{ "--s": catColor[o.cat] } as React.CSSProperties}>
               <header className="ns4-obj-h">
                 <b className="ns4-obj-n">{o.he}</b>
-                <span className="ns4-obj-en nx-sap" dir="ltr">{o.name}</span>
+                <span className="ns4-obj-en nx-sap" dir="ltr" lang={enLang(o.name)}>{o.name}</span>
                 <span className="ns4-kind">{catHe[o.cat]}</span>
                 <span className="ns4-kind nx-sap" dir="ltr">{o.module}</span>
                 <Risk r={o.risk} />
@@ -595,14 +596,14 @@ export function MigrationCockpit() {
                 <div><dt>מפתח</dt><dd className="nx-sap" dir="ltr">{o.keys}</dd></div>
               </dl>
 
-              <h4 className="ns4-h4">טבלאות המקור ב-ECC</h4>
+              <h3 className="ns4-h4">טבלאות המקור ב-ECC</h3>
               {o.eccLinks.length
                 ? <Chips items={o.eccLinks} />
                 : <p className="ns4-silent">לאובייקט זה לא מתועדת טבלת מקור ב-ECC.</p>}
 
               {o.dependsHe.length ? (
                 <>
-                  <h4 className="ns4-h4">נטען לאחר</h4>
+                  <h3 className="ns4-h4">נטען לאחר</h3>
                   <ul className="ns4-dep">{o.dependsHe.map((d) => <li key={d.id}><a href={`#mo-${d.id}`}>{d.he}</a></li>)}</ul>
                 </>
               ) : (
@@ -611,7 +612,7 @@ export function MigrationCockpit() {
 
               {o.unlocks.length ? (
                 <>
-                  <h4 className="ns4-h4">תנאי מקדים ל</h4>
+                  <h3 className="ns4-h4">תנאי מקדים ל</h3>
                   <ul className="ns4-dep" data-tone="fwd">{o.unlocks.map((d) => <li key={d.id}><a href={`#mo-${d.id}`}>{d.he}</a></li>)}</ul>
                 </>
               ) : null}
@@ -637,12 +638,12 @@ export function MigrationCockpit() {
             <li key={a.id}>
               <header>
                 <b>{a.he}</b>
-                <span className="ns4-topic-en nx-sap" dir="ltr">{a.en}</span>
+                <span className="ns4-topic-en nx-sap" dir="ltr" lang={enLang(a.en)}>{a.en}</span>
                 <Trust t={a.trust} />
               </header>
               <p>{a.desc}</p>
               <p><span className="ns4-lbl">מתי</span>{a.when}</p>
-              {a.note ? <p className="ns4-note-x">{a.note}</p> : null}
+              {a.note ? <p className="ns4-note-x" lang={enLang(a.note)}>{a.note}</p> : null}
             </li>
           ))}
         </ul>

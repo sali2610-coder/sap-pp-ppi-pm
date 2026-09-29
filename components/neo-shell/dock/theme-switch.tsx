@@ -34,6 +34,7 @@
      construction rather than by being restored.
    ========================================================================== */
 
+import { rovingKeys } from "../focus";
 import { useCallback, useEffect, useState } from "react";
 import { Moon, Sun, SunMoon } from "lucide-react";
 import { THEME_KEY } from "@/lib/theme-boot";
@@ -99,6 +100,7 @@ export function ThemeSwitch() {
       role="radiogroup"
       aria-label="מראה: יום, אוטומטי או לילה"
       data-ready={ready ? "1" : "0"}
+      onKeyDown={rovingKeys}
     >
       {MODES.map(({ id, he, Icon, hint }) => {
         const on = mode === id;
@@ -108,6 +110,7 @@ export function ThemeSwitch() {
             type="button"
             role="radio"
             aria-checked={on}
+            tabIndex={on ? 0 : -1}
             className="nxk-theme-b"
             data-on={on ? "1" : "0"}
             title={id === "system" && resolved ? `${hint} · כרגע ${resolved}` : hint}

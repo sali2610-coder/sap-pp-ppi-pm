@@ -26,7 +26,9 @@ const FONTS = [plexHe, plexLat, plexMono].map((f) => f.variable).join(" ");
 export default function NotFound() {
   return (
     <div dir="rtl" className={`nx-app nx-nf ${FONTS}`}>
-      <main className="nx-nf-main">
+      {/* The same first stop as every NEO page (gate 8, m8). */}
+      <a href="#main" className="nx-skip">מעבר לתוכן הראשי</a>
+      <main id="main" className="nx-nf-main">
         <div className="nx-nf-box">
           <p className="nx-nf-eye"><bdi>SAP by Sali</bdi> · <bdi>Project NEO</bdi></p>
           <p className="nx-nf-code" dir="ltr">404</p>

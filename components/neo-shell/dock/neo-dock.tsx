@@ -71,10 +71,19 @@ export function NeoDock() {
   useEffect(() => {
     if (panel === "none") return;
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setPanel("none"); };
+    // Focus that leaves the panel closes it. It is not modal, and left open (a
+    // sheet of up to 86dvh on a phone) it covered the control Tab had moved to
+    // (WCAG 2.4.11; gate 8, M1).
+    const onFocus = (e: FocusEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (t && t !== document.body && !t.closest(".nxk-p, [data-dock]")) setPanel("none");
+    };
     window.addEventListener("keydown", onKey);
+    document.addEventListener("focusin", onFocus);
     closer.current?.focus();
     return () => {
       window.removeEventListener("keydown", onKey);
+      document.removeEventListener("focusin", onFocus);
       // Closing hands focus back to the bar button that opened the panel (the
       // one the device's bar shows) when it was left on nothing: the panel's
       // own close button is gone by the time this runs.
@@ -101,7 +110,10 @@ export function NeoDock() {
 
   return (
     <>
-      {open && <button type="button" className="nxk-scrim" aria-label="סגירת החלונית" onClick={() => setPanel("none")} />}
+      {/* Pointer dismissal only, out of the tab order (gate 8, B5): the panel has
+          its own close button and Escape, and this full-screen button was an
+          invisible Tab stop whose outline fell outside the viewport. */}
+      {open && <button type="button" className="nxk-scrim" tabIndex={-1} aria-hidden="true" onClick={() => setPanel("none")} />}
 
       {panel === "type" && (
         <section className="nxk-p nxk-p--type" role="dialog" aria-modal="false" aria-label="הגדרות תצוגה: מראה, גופן וגודל טקסט">

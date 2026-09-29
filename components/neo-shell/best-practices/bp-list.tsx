@@ -92,8 +92,11 @@ export function BpList({ rows, items }: { rows: BpRow[]; items: Record<string, R
         </div>
       ) : null}
 
-      <p className="nxd-count" aria-live="polite">
-        <b>{nf.format(list.length)}</b> מתוך {nf.format(rows.length)} שיטות עבודה
+      <p className="nxd-count">
+        {/* The count is live, the button is not: inside the region it was read out again on every change (gate 8, m4). */}
+        <span aria-live="polite">
+          <b>{nf.format(list.length)}</b> מתוך {nf.format(rows.length)} שיטות עבודה
+        </span>
         {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
       </p>
 

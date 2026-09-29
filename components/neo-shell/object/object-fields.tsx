@@ -86,11 +86,11 @@ export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: strin
       {/* ==================================================== 1 · the keys */}
       <div className="no-keys">
         <section className="no-keyg" data-k="PK">
-          <h4>
+          <h3>
             <KeyRound size={14} strokeWidth={2} aria-hidden="true" />
             מפתח ראשי
             <em className="nx-sap">{nf.format(pk.length)}</em>
-          </h4>
+          </h3>
           {pk.length ? (
             <ol className="no-keyl">
               {pk.map((f, i) => (
@@ -110,11 +110,11 @@ export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: strin
         </section>
 
         <section className="no-keyg" data-k="FK">
-          <h4>
+          <h3>
             <Link2 size={14} strokeWidth={2} aria-hidden="true" />
             מפתחות זרים
             <em className="nx-sap">{nf.format(fk.length)}</em>
-          </h4>
+          </h3>
           {fk.length ? (
             <ol className="no-keyl">
               {fk.map((f, i) => (

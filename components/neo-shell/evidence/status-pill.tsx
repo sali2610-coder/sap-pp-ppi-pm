@@ -17,6 +17,7 @@
    runtime is automatic, exactly like the other shell components.
    ========================================================================== */
 
+import { enLang } from "../lang";
 import { ArrowRightLeft, Ban, Check, CircleHelp, Diff, History, Hourglass, Sparkles } from "lucide-react";
 import {
   S4_STATUS_DOT, S4_STATUS_HE, S4_STATUS_READING, S4_STATUS_WORD, type S4Reading, type S4Status,
@@ -58,6 +59,7 @@ export function StatusPill({
       style={{ "--s": color } as React.CSSProperties}
       title={title ?? (key ? S4_STATUS_WORD[key] : undefined)}
       data-status={key ?? undefined}
+      lang={enLang(text)}
     >
       {G ? <G size={11} strokeWidth={2.4} aria-hidden="true" /> : null}
       {text}

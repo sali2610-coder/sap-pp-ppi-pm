@@ -630,7 +630,7 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
    badges, at panel scale. */
 .no-keyg[data-k="PK"] { border-inline-start: 2px solid var(--o); }
 .no-keyg[data-k="FK"] { border-inline-start: 2px dashed color-mix(in srgb, var(--o) 55%, var(--ink-3)); }
-.no-keyg h4 {
+.no-keyg h3 {
   display: flex;
   align-items: center;
   gap: var(--sp-2);
@@ -639,8 +639,8 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
   letter-spacing: 0;
   color: var(--ink-1);
 }
-.no-keyg h4 svg { color: var(--o); flex: none; }
-.no-keyg h4 em {
+.no-keyg h3 svg { color: var(--o); flex: none; }
+.no-keyg h3 em {
   margin-inline-start: auto;
   font-style: normal;
   font-size: var(--t-sm);
@@ -901,7 +901,7 @@ html[data-theme="dark"] .no-key[data-k="PK"] { color: #0f0b08; }
 }
 .no-inc > li > p { font-size: var(--t-xs); line-height: 1.7; color: var(--ink-2); }
 .no-inc-g { display: grid; gap: var(--sp-3); grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
-.no-inc-g h4 { font-size: var(--t-micro); color: var(--ink-3); margin-block-end: 5px; }
+.no-inc-g h3 { font-size: var(--t-micro); color: var(--ink-3); margin-block-end: 5px; letter-spacing: normal; }
 .no-inc-g ul { display: grid; gap: 3px; font-size: var(--t-xs); color: var(--ink-2); }
 .no-inc-g ul li { padding-inline-start: var(--sp-3); position: relative; line-height: 1.6; }
 .no-inc-g ul li::before {

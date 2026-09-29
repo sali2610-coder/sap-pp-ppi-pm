@@ -16,6 +16,7 @@
 //   RELATION (--rel-*) cardinality only.
 //   Brand red stays the single global accent and is never a data category.
 
+import { enLang } from "../lang";
 import Link from "next/link";
 import {
   AlertTriangle, ArrowLeft, ArrowUpLeft, BadgeCheck, BookOpen, Boxes, Cable,
@@ -160,7 +161,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
           </div>
 
           <p className="no-lede">{v.he || "לא קיים תיאור בעברית בתיעוד לטבלה זו."}</p>
-          {v.en ? <p className="no-en nx-sap">{v.en}</p> : null}
+          {v.en ? <p className="no-en nx-sap" lang={enLang(v.en)}>{v.en}</p> : null}
 
           {/* The header pair every record type states (evidence/record-status). */}
           <p className="no-status"><RecordStatus e={v.evidence} /></p>
@@ -811,15 +812,15 @@ export function ObjectPage({ v }: { v: ObjectView }) {
                   {i.error ? <code className="no-join">{i.error}</code> : null}
                   <div className="no-inc-g">
                     <div>
-                      <h4>סיבות שורש</h4>
+                      <h3>סיבות שורש</h3>
                       <ul>{i.rootCauses.map((c) => <li key={c}>{c}</li>)}</ul>
                     </div>
                     <div>
-                      <h4>טרנזקציות לניתוח</h4>
+                      <h3>טרנזקציות לניתוח</h3>
                       <ul className="no-inc-tx">{i.analyzeTcodes.map((c) => <li key={c} className="nx-sap">{c}</li>)}</ul>
                     </div>
                     <div>
-                      <h4>תיקון</h4>
+                      <h3>תיקון</h3>
                       <ul>{i.fix.map((c) => <li key={c}>{c}</li>)}</ul>
                     </div>
                   </div>

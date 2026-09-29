@@ -10,6 +10,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useDialog } from "@/lib/use-dialog";
 import { Ico } from "./icon";
 import { modVar } from "./mod-var";
 import type { NavGroup } from "./types";
@@ -57,10 +58,13 @@ export function MobileSheet({
   activeId: string | null;
   onClose: () => void;
 }) {
+  // A modal in behaviour, not only in name (gate 8, B3): focus moves in on
+  // open, Tab stays inside, Escape closes, focus returns to "ניווט".
+  const ref = useDialog<HTMLDivElement>(true, onClose);
   return (
     <>
       <div className="nx-scrim" onClick={onClose} aria-hidden="true" />
-      <div className="nx-msheet" role="dialog" aria-modal="true" aria-label="ניווט">
+      <div ref={ref} tabIndex={-1} className="nx-msheet" role="dialog" aria-modal="true" aria-label="ניווט">
         <div className="nx-msheet-h">
           <Ico name="LayoutGrid" size={16} />
           <span>ניווט</span>

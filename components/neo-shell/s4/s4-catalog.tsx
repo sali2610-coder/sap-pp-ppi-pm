@@ -144,14 +144,14 @@ export function S4Catalog({ objs }: { objs: S4ObjView[] }) {
 
                   {o.replacesLinks.length ? (
                     <>
-                      <h4 className="ns4-h4">מחליף את</h4>
+                      <h3 className="ns4-h4">מחליף את</h3>
                       <Chips items={o.replacesLinks} />
                     </>
                   ) : null}
 
                   {(o.abap || []).length ? (
                     <>
-                      <h4 className="ns4-h4"><Code2 size={12} strokeWidth={2} aria-hidden="true" /> השפעה על קוד ABAP</h4>
+                      <h3 className="ns4-h4"><Code2 size={12} strokeWidth={2} aria-hidden="true" /> השפעה על קוד ABAP</h3>
                       <ul className="ns4-abap">
                         {(o.abap || []).map((a, i) => (
                           <li key={i}>
@@ -168,7 +168,7 @@ export function S4Catalog({ objs }: { objs: S4ObjView[] }) {
 
                   {(o.checklist || []).length ? (
                     <>
-                      <h4 className="ns4-h4"><ClipboardList size={12} strokeWidth={2} aria-hidden="true" /> נקודות לבדיקה בפרויקט</h4>
+                      <h3 className="ns4-h4"><ClipboardList size={12} strokeWidth={2} aria-hidden="true" /> נקודות לבדיקה בפרויקט</h3>
                       <ul className="ns4-check">
                         {(o.checklist || []).map((c, i) => <li key={i}>{c}</li>)}
                       </ul>

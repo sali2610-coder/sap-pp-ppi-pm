@@ -81,6 +81,9 @@ const loadTx = () => (txLoad ??= fetch("/neo/search-tx.json")
 
 const nf = new Intl.NumberFormat("he-IL");
 const PREVIEW_DELAY = 260;
+// Leaving the rail item waits this long before the preview goes, so the
+// pointer can cross onto it (WCAG 1.4.13, hoverable; gate 8, B4).
+const PREVIEW_GRACE = 180;
 
 /* A desktop window narrower than 40rem (a phone-width window, or a desktop
    browser at 400% zoom, which is the WCAG reflow case) defaults to the peek
@@ -240,7 +243,7 @@ export function NeoShellClient({
   const edgeRef = useRef<HTMLSpanElement>(null);
   const headRef = useRef<HTMLDivElement>(null);
   const cmdRef = useRef<HTMLDivElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLElement>(null);
   const shelfRef = useRef<HTMLDivElement>(null);
   const footRef = useRef<HTMLDivElement>(null);
   const indRef = useRef<HTMLSpanElement>(null);
@@ -458,6 +461,10 @@ export function NeoShellClient({
   const hidePreview = useCallback(() => {
     if (pvTimer.current) window.clearTimeout(pvTimer.current);
     setPvId(null);
+  }, []);
+  const hidePreviewSoon = useCallback(() => {
+    if (pvTimer.current) window.clearTimeout(pvTimer.current);
+    pvTimer.current = window.setTimeout(() => setPvId(null), PREVIEW_GRACE);
   }, []);
 
   /* ------------------------------------------------------- the FLIP */
@@ -802,13 +809,16 @@ export function NeoShellClient({
       }
       // The field already handled its own Escape.
       if (e.key === "Escape" && !e.defaultPrevented) {
+        // An open hover preview is the top layer: Escape dismisses it first,
+        // wherever focus is (WCAG 1.4.13; gate 8, B4).
+        if (pvRef.current?.dataset.on === "1") { hidePreview(); return; }
         if (mode === "search") closeSearch();
         else if (mode === "context") changeMode("expanded");
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [changeMode, closeSearch, mode]);
+  }, [changeMode, closeSearch, hidePreview, mode]);
 
   const onRailKeyDown = (e: React.KeyboardEvent) => {
     const scroll = scrollRef.current;
@@ -909,7 +919,7 @@ export function NeoShellClient({
         className="nx-rail"
         data-shell="desktop-only"
         data-knowledge-sidebar=""
-        aria-label="ניווט ראשי"
+        aria-label="סרגל הצד"
         inert={railHidden || undefined}
       >
         <span className="nx-rail-bg" ref={bgRef} aria-hidden="true" />
@@ -986,9 +996,13 @@ export function NeoShellClient({
             goes from the field into it (gate 6, blocker 4). */}
         {sheet ? null : surface}
 
-        <div
+        {/* The navigation landmark is the list itself; the rail around it also
+            holds the search and the shelf (gate 8, m1). Named, it is also a
+            labelled scroll stop (m5). */}
+        <nav
           ref={scrollRef}
           className="nx-rail-scroll"
+          aria-label="ניווט ראשי"
           tabIndex={0}
           onScroll={onScroll}
           onKeyDown={onRailKeyDown}
@@ -999,7 +1013,7 @@ export function NeoShellClient({
           onPointerOut={(e) => {
             const from = (e.target as HTMLElement).closest(".nx-navitem");
             const to = (e.relatedTarget as HTMLElement | null)?.closest?.(".nx-navitem");
-            if (from && !to) hidePreview();
+            if (from && !to) hidePreviewSoon();
           }}
         >
           <span className="nx-ind" ref={indRef} data-off="1" aria-hidden="true" />
@@ -1022,7 +1036,9 @@ export function NeoShellClient({
                 style={gMod ? ({ "--gm": modVar(gMod) } as React.CSSProperties) : undefined}
                 hidden={shown.length === 0}
               >
-                <h3 className="nx-group-h">
+                {/* Not a heading: these seven came before every page's h1
+                    (gate 8, m1). The button names the group. */}
+                <div className="nx-group-h">
                   <button
                     type="button"
                     className="nx-group-btn"
@@ -1036,7 +1052,7 @@ export function NeoShellClient({
                     <span className="nx-t">{g.label}</span>
                     <span className="nx-n">{shown.length}</span>
                   </button>
-                </h3>
+                </div>
                 <div className="nx-group-body" id={`nx-grp-${g.id}`}>
                   <ul>
                     {g.items.map((it) => {
@@ -1075,7 +1091,7 @@ export function NeoShellClient({
               </section>
             );
           })}
-        </div>
+        </nav>
 
         <div className="nx-shelf" ref={shelfRef} data-shelf={shelf} data-empty={shelfEmpty ? "1" : undefined}>
           {shelfEmpty ? (
@@ -1224,7 +1240,13 @@ export function NeoShellClient({
       {sheet ? surface : null}
 
       {/* preview host — a single node that stays mounted and only toggles on */}
-      <div className="nx-pvhost" ref={pvRef} data-on={pvId ? "1" : "0"} aria-hidden="true">
+      <div
+        className="nx-pvhost" ref={pvRef} data-on={pvId ? "1" : "0"} aria-hidden="true"
+        onPointerEnter={() => { if (pvTimer.current) window.clearTimeout(pvTimer.current); }}
+        onPointerLeave={(e) => {
+          if (!(e.relatedTarget as HTMLElement | null)?.closest?.(".nx-navitem")) hidePreviewSoon();
+        }}
+      >
         {preview ? <PreviewPanel preview={preview} last={lastForPreview} /> : null}
       </div>
 

@@ -26,6 +26,7 @@
      .nu-link    the contextual return at the top of the surface.
    ========================================================================== */
 
+import { enLang } from "../lang";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowLeft, BookOpen, Blocks, Clock, GraduationCap, Layers, Play, Search, X } from "lucide-react";
@@ -68,7 +69,7 @@ function CourseCard({ c, onOpen }: { c: AcademyCourseRow; onOpen: (id: string) =
             ) : null}
           </span>
           <h2 className="nxl-course-t">{c.title}</h2>
-          {c.titleEn ? <span className="nxl-course-en">{c.titleEn}</span> : null}
+          {c.titleEn ? <span className="nxl-course-en" lang={enLang(c.titleEn)}>{c.titleEn}</span> : null}
         </span>
 
         <span className="nxl-course-n">
@@ -182,7 +183,7 @@ export function AcademySurface({ data }: { data: AcademyData }) {
             <span className="nx-eyebrow">המשך מהנקודה האחרונה</span>
             <h2 className="nxl-course-t">{cont.lessonTitle}</h2>
             <span className="nxl-course-en">
-              {cont.chapterTitle} · שיעור {nf.format(cont.lessonNum)} מתוך {nf.format(cont.chapterSize)} בפרק
+              <span lang={enLang(cont.chapterTitle)}>{cont.chapterTitle}</span> · שיעור {nf.format(cont.lessonNum)} מתוך {nf.format(cont.chapterSize)} בפרק
             </span>
           </div>
           <div className="nxl-bar">
@@ -268,9 +269,12 @@ export function AcademySurface({ data }: { data: AcademyData }) {
         </div>
       </div>
 
-      <p className="nxl-count" aria-live="polite">
-        <b>{nf.format(list.length)}</b> קורסים
-        {!dirty ? <> מתוך {nf.format(totals.courses)}</> : null}
+      <p className="nxl-count">
+        {/* The count is live, the button is not: inside the region it was read out again on every change (gate 8, m4). */}
+        <span aria-live="polite">
+          <b>{nf.format(list.length)}</b> קורסים
+          {!dirty ? <> מתוך {nf.format(totals.courses)}</> : null}
+        </span>
         {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
       </p>
 

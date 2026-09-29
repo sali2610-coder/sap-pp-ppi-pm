@@ -435,7 +435,10 @@ export function CommandSurface({
               (the options follow aria-activedescendant), so the box itself is
               a tab stop, and a keyboard can scroll it (axe
               scrollable-region-focusable). */}
-          <div className="nxc-results" ref={listRef} tabIndex={expanded ? 0 : undefined}>
+          <div
+            className="nxc-results" ref={listRef} tabIndex={expanded ? 0 : undefined}
+            role={expanded ? "group" : undefined} aria-label={expanded ? "גלילת התוצאות" : undefined}
+          >
             {!live ? (
               <div className="nxc-idle">
                 <p className="nxc-idle-h">מה יש באינדקס: בחירת סוג מציגה את כל הרשומות שלו</p>

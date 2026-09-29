@@ -20,6 +20,7 @@
    blueprint page does not: an alias cloud and a cross-module domain card.
    ========================================================================== */
 
+import { enLang } from "../lang";
 import Link from "next/link";
 import {
   BadgeCheck, Boxes, Columns3, GitBranch, Info, KeyRound, Layers,
@@ -151,7 +152,7 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
           </div>
 
           <p className="no-lede">{v.he || "לא קיים תיאור בעברית בקטלוג לאובייקט זה."}</p>
-          {v.en ? <p className="no-en nx-sap">{v.en}</p> : null}
+          {v.en ? <p className="no-en nx-sap" lang={enLang(v.en)}>{v.en}</p> : null}
 
           <ul className="no-mods" aria-label="שיוך">
             <li style={{ "--m": obj } as React.CSSProperties}>

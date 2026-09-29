@@ -30,6 +30,7 @@
         lens. All of it is presentation; none of it touches the corpus.
    ========================================================================== */
 
+import { enLang } from "../lang";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import {
@@ -423,6 +424,9 @@ export function NeoReader({ book }: { book: NRBook }) {
       setFlow(bars.flow);
       headCover.current = bars.cover;
       root.style.setProperty("--nr-headh", `${bars.cover}px`);
+      // What the dock covers at the bottom, 0 when it scrolls with the text
+      // (gate 8, M1: focused controls keep clear of it, reader.css).
+      root.style.setProperty("--nr-dockh", `${dock && !bars.flow.includes("dock") ? Math.round(dock.getBoundingClientRect().height) : 0}px`);
     };
     const ro = new ResizeObserver(fit);
     ro.observe(head);
@@ -679,15 +683,15 @@ export function NeoReader({ book }: { book: NRBook }) {
           <nav className="nr-crumb" aria-label="מיקום בקריאה">
             <Link className="nr-crumb-l" href={book.shelfHref} prefetch={false}>ספריית SAP</Link>
             <ChevronLeft size={12} strokeWidth={2} aria-hidden="true" />
-            <Link className="nr-crumb-l" href={book.hubHref} prefetch={false}>{title}</Link>
+            <Link className="nr-crumb-l" href={book.hubHref} prefetch={false} lang={enLang(title)}>{title}</Link>
             <ChevronLeft size={12} strokeWidth={2} aria-hidden="true" />
             <button type="button" className="nr-crumb-b" onClick={() => setPanel("toc")}>
-              פרק {chapter.n} · {chapter.title}
+              פרק {chapter.n} · <span lang={enLang(chapter.title)}>{chapter.title}</span>
             </button>
             {secTitle && (
               <>
                 <ChevronLeft size={12} strokeWidth={2} aria-hidden="true" />
-                <span className="nr-crumb-now" aria-current="true">{secTitle}</span>
+                <span className="nr-crumb-now" aria-current="true" lang={enLang(secTitle)}>{secTitle}</span>
               </>
             )}
           </nav>
@@ -932,7 +936,7 @@ export function NeoReader({ book }: { book: NRBook }) {
               </p>
               <h1 className="nr-ch-t">
                 <span className="nr-ch-n">פרק {n(chapter.n)}</span>
-                {chapter.title}
+                <span lang={enLang(chapter.title)}>{chapter.title}</span>
               </h1>
               <p className="nr-ch-m">
                 {chapter.sections.length
@@ -1022,13 +1026,13 @@ export function NeoReader({ book }: { book: NRBook }) {
               {prevCh ? (
                 <button type="button" className="nu-card nr-end" onClick={() => goTo(prevCh.n, null)}>
                   <span className="nr-end-k"><ChevronRight size={14} strokeWidth={2} aria-hidden="true" />הפרק הקודם</span>
-                  <span className="nr-end-t">{prevCh.n} · {prevCh.title}</span>
+                  <span className="nr-end-t" lang={enLang(prevCh.title)}>{prevCh.n} · {prevCh.title}</span>
                 </button>
               ) : <span className="nr-end nr-end--none">זהו הפרק הראשון בספר.</span>}
               {nextCh ? (
                 <button type="button" className="nu-card nr-end nr-end--next" onClick={() => goTo(nextCh.n, null)}>
                   <span className="nr-end-k">הפרק הבא<ChevronLeft size={14} strokeWidth={2} aria-hidden="true" /></span>
-                  <span className="nr-end-t">{nextCh.n} · {nextCh.title}</span>
+                  <span className="nr-end-t" lang={enLang(nextCh.title)}>{nextCh.n} · {nextCh.title}</span>
                 </button>
               ) : <span className="nr-end nr-end--none">זהו הפרק האחרון בספר.</span>}
             </nav>
@@ -1079,7 +1083,7 @@ export function NeoReader({ book }: { book: NRBook }) {
           <ChevronRight size={15} strokeWidth={2} aria-hidden="true" />
           <span className="nr-dock-s">
             <span className="nr-dock-k">{prevAt?.crosses ? "הפרק הקודם" : "הקודם"}</span>
-            <span className="nr-dock-t">{prevAt ? prevAt.title : "תחילת הספר"}</span>
+            <span className="nr-dock-t" lang={enLang(prevAt?.title)}>{prevAt ? prevAt.title : "תחילת הספר"}</span>
           </span>
         </button>
         <button type="button" className="nu-ghost nr-dock-c" onClick={() => setPanel("map")}>
@@ -1100,7 +1104,7 @@ export function NeoReader({ book }: { book: NRBook }) {
         >
           <span className="nr-dock-s">
             <span className="nr-dock-k">{nextAt?.crosses ? "הפרק הבא" : "הבא"}</span>
-            <span className="nr-dock-t">{nextAt ? nextAt.title : "סוף הספר"}</span>
+            <span className="nr-dock-t" lang={enLang(nextAt?.title)}>{nextAt ? nextAt.title : "סוף הספר"}</span>
           </span>
           <ChevronLeft size={15} strokeWidth={2} aria-hidden="true" />
         </button>

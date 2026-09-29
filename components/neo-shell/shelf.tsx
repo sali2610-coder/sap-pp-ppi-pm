@@ -9,6 +9,7 @@
 // as such. The prototype shipped a hand-written RECENT array with invented
 // relative times; none of that survived the port.
 
+import { rovingKeys } from "./focus";
 import { useFavorites } from "@/lib/prefs";
 import { Ico } from "./icon";
 import { relTime } from "./store";
@@ -30,7 +31,7 @@ export function ShelfTabs({
   indRef: React.RefObject<HTMLSpanElement | null>;
 }) {
   return (
-    <div className="nx-shelf-tabs" role="tablist" aria-label="מדף הקשר" ref={tabsRef}>
+    <div className="nx-shelf-tabs" role="tablist" aria-label="מדף הקשר" ref={tabsRef} onKeyDown={rovingKeys}>
       {TABS.map((t) => (
         <button
           key={t.id}
@@ -38,6 +39,7 @@ export function ShelfTabs({
           role="tab"
           data-shelftab={t.id}
           aria-selected={tab === t.id}
+          tabIndex={tab === t.id ? 0 : -1}
           aria-controls={`nx-shelfpane-${t.id}`}
           onClick={() => onTab(t.id)}
         >

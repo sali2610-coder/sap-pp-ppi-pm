@@ -35,6 +35,7 @@
              S/4HANA.
    ========================================================================== */
 
+import { enLang } from "../lang";
 import { ViewTransition } from "react";
 import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 import Link from "next/link";
@@ -187,7 +188,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
           </div>
           <div className="nxb-names">
             <p className="nxb-he">{t.he || "אין תיעוד מאומת במאגר: אין תיאור עברי לטבלה זו."}</p>
-            {t.en ? <p className="nxb-en nx-sap">{t.en}</p> : null}
+            {t.en ? <p className="nxb-en nx-sap" lang={enLang(t.en)}>{t.en}</p> : null}
           </div>
         </div>
 
@@ -380,8 +381,8 @@ export function TableDetailView({ t }: { t: TableDetail }) {
                         </td>
                         <th scope="row" className="nx-sap nxb-ftech">{f.tech}</th>
                         <td data-l="תיאור">
-                          {f.he || f.en || <span className="nxb-none">אין תיעוד מאומת במאגר</span>}
-                          {f.he && f.en ? <em className="nxb-fen nx-sap">{f.en}</em> : null}
+                          {f.he || (f.en ? <span lang={enLang(f.en)}>{f.en}</span> : null) || <span className="nxb-none">אין תיעוד מאומת במאגר</span>}
+                          {f.he && f.en ? <em className="nxb-fen nx-sap" lang={enLang(f.en)}>{f.en}</em> : null}
                         </td>
                         <td data-l="סוג נתונים" className="nx-sap">{f.dt || "–"}</td>
                         <td data-l="אורך" className="nx-sap">{f.len || "–"}</td>

@@ -16,6 +16,7 @@
      · Nothing here invents a fact: every string arrives from the block data.
    ========================================================================== */
 
+import { enLang } from "../lang";
 import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 import Link from "next/link";
 import { EDITION_HE, type EvidenceBlockData, type SourceType } from "@/lib/evidence/types";
@@ -102,13 +103,13 @@ export function EvidenceBlock({ e }: { e: EvidenceBlockData }) {
               return (
               <li key={`${s.title}-${i}`}>
                 {s.url ? (
-                  <a href={s.url} rel="noopener noreferrer" target="_blank" className="nev-a">
+                  <a href={s.url} rel="noopener noreferrer" target="_blank" className="nev-a" lang={enLang(src.label)}>
                     {src.label}
                   </a>
                 ) : (
-                  <span className="nev-t">{src.label}</span>
+                  <span className="nev-t" lang={enLang(src.label)}>{src.label}</span>
                 )}
-                <span className="nev-meta">{SOURCE_HE[s.kind]}</span>
+                <span className="nev-meta" lang={enLang(SOURCE_HE[s.kind])}>{SOURCE_HE[s.kind]}</span>
                 {src.files.length ? <span className="nev-meta nev-num">{src.files.join(", ")}</span> : null}
                 {s.context ? <span className="nev-meta">הקשר בלבד, לא מכריע במעמד</span> : null}
                 {s.release ? <span className="nev-meta nev-num">{s.release}</span> : null}

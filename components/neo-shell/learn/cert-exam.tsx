@@ -264,7 +264,7 @@ export function CertExam() {
   const pct = Math.round((answered / qs.length) * 100);
   return (
     <div className="nce" data-phase="run">
-      <header className="nce-bar">
+      <header className="nce-head">
         <span className="nce-count">
           <b>{at + 1}</b><i>/{qs.length}</i>
         </span>

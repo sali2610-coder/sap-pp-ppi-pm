@@ -618,7 +618,10 @@ html[data-theme="dark"] .ne {
   86%  { opacity: 1; }
   100% { transform: translate(var(--dx), var(--dy)); opacity: 0; }
 }
-.ne-pulse { animation: ne-flow 2100ms var(--ease-out-expo) infinite; }
+/* Twice, then still: the travel reads the direction and stops, no loop on the
+   canvas (brief: no perpetual motion; gate 8, m6). A new selection draws new
+   pulses, so it plays again. */
+.ne-pulse { animation: ne-flow 2100ms var(--ease-out-expo) 2 both; }
 /* A lens that reads a CHAIN wants the travel to feel like travel: the same
    pulse, slower and steadier, so a long dependency run scans as one movement
    rather than a row of blinking dots. */

@@ -16,6 +16,7 @@
    status families (S4_STATUS_DOT), the same colour as everywhere else.
    ========================================================================== */
 
+import { enLang } from "../lang";
 import Link from "next/link";
 import {
   AlertTriangle, BadgeCheck, Boxes, Cable, FlaskConical, GitBranch,
@@ -177,7 +178,7 @@ export function DomainDetailView({ v }: { v: DomainView }) {
           <span className="ndm-sap" dir="ltr">{v.module}</span>
         </p>
         <h1 className="ndm-h1">{v.he}</h1>
-        <p className="ndm-h1-en" dir="ltr">{v.title}</p>
+        <p className="ndm-h1-en" dir="ltr" lang={enLang(v.title)}>{v.title}</p>
         <p className="ndm-lede">{v.summary}</p>
         <div className="ndm-hero-tags">
           <span className="ndm-tag ndm-tag--mod">{v.moduleHe}</span>

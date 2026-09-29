@@ -21,6 +21,7 @@
    page forgot to show it".
    ========================================================================== */
 
+import { enLang } from "../lang";
 import Link from "next/link";
 import { ArrowLeft, BookOpen, Briefcase, Info, Lightbulb, Link2, Terminal, Table as TableIcon, Wrench } from "lucide-react";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
@@ -85,7 +86,7 @@ export function ConceptView({ c }: { c: ConceptRow }) {
         <span className="nx-eyebrow">מרכז הידע · {c.groupHe}</span>
         <div className="nxv-title">
           <h1 className="nxv-h1 nx-display">{c.he}</h1>
-          {c.title.toLowerCase() !== c.he.toLowerCase() ? <p className="nxv-en">{c.title}</p> : null}
+          {c.title.toLowerCase() !== c.he.toLowerCase() ? <p className="nxv-en" lang={enLang(c.title)}>{c.title}</p> : null}
         </div>
         <div className="nxv-meta">
           <span className="nu-chip">{c.groupHe}</span>

@@ -32,6 +32,7 @@
    parent from the route.
    ========================================================================== */
 
+import { enLang } from "../lang";
 import { useEffect } from "react";
 import { ArrowLeft, BookOpen, Blocks, Clock, Info, Layers, Play } from "lucide-react";
 import {
@@ -98,7 +99,7 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
         <span className="nx-eyebrow">SAP Academy · {LEARN_MOD_HE[c.module] || c.module}</span>
         <div className="nxv-title">
           <h1 className="nxv-h1 nx-display">{c.title}</h1>
-          {c.titleEn ? <p className="nxv-en">{c.titleEn}</p> : null}
+          {c.titleEn ? <p className="nxv-en" lang={enLang(c.titleEn)}>{c.titleEn}</p> : null}
         </div>
         <div className="nxv-meta">
           <span className="nu-chip nxv-mod">

@@ -5,6 +5,7 @@
 // same records the server hub built; nothing is re-authored here, the list is
 // only narrowed, and the empty state says so in the product's own words.
 
+import { enLang } from "../lang";
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, FlaskConical, Search, Wrench, X } from "lucide-react";
@@ -32,7 +33,7 @@ export function Card({ c, i }: { c: DomainCard; i: number }) {
         </span>
       </span>
       <b className="ndm-card-he">{c.he}</b>
-      <span className="ndm-card-en" dir="ltr">{c.title}</span>
+      <span className="ndm-card-en" dir="ltr" lang={enLang(c.title)}>{c.title}</span>
       <span className="ndm-card-sum">{c.summary}</span>
       <span className="ndm-card-nums">
         <em><b>{nf.format(c.steps)}</b> שלבים</em>
@@ -110,10 +111,13 @@ export function DomainHubList({ cards }: { cards: DomainCard[] }) {
         </div>
       </div>
 
-      <p className="ndm-count" aria-live="polite">
-        {active
-          ? <>{nf.format(shown.length)} מתוך {nf.format(cards.length)} תחומים{mod ? ` · ${MOD_HE[mod]}` : ""}{deepOnly ? " · רשומה מלאה" : ""}{q.trim() ? ` · «${q.trim()}»` : ""}</>
-          : <>{nf.format(cards.length)} תחומים · ללא סינון</>}
+      <p className="ndm-count">
+        {/* The count is live, the button is not (gate 8, m4). */}
+        <span aria-live="polite">
+          {active
+            ? <>{nf.format(shown.length)} מתוך {nf.format(cards.length)} תחומים{mod ? ` · ${MOD_HE[mod]}` : ""}{deepOnly ? " · רשומה מלאה" : ""}{q.trim() ? ` · «${q.trim()}»` : ""}</>
+            : <>{nf.format(cards.length)} תחומים · ללא סינון</>}
+        </span>
         {active ? (
           <button type="button" className="nu-ghost" onClick={clear}>
             <X size={13} strokeWidth={2} aria-hidden="true" /> ניקוי הסינון

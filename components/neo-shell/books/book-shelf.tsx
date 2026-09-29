@@ -28,6 +28,7 @@
 // (components/neo-shell/nav-context), and the shelf takes the filter back on
 // the render after a return.
 
+import { enLang } from "../lang";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ArrowLeft, BookOpen, Bookmark, PlayCircle } from "lucide-react";
 import { OriginLink, useReturnState, type OriginArg } from "@/components/neo-shell/nav-context";
@@ -425,7 +426,7 @@ export function BookShelf({ data }: { data: BooksData }) {
                       </div>
 
                       <div className="nb-card-meta">
-                        <h3 className="nb-card-t">{b.titleHe || b.titleEn}</h3>
+                        <h3 className="nb-card-t" lang={enLang(b.titleHe || b.titleEn)}>{b.titleHe || b.titleEn}</h3>
                         {b.titleHe && <p className="nb-card-t2 nb-sap">{b.titleEn}</p>}
                         <p className="nb-card-n">
                           <span>{b.chapters} פרקים</span>

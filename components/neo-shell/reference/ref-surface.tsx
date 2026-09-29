@@ -34,6 +34,8 @@
              states this record materially changes in S/4HANA.
    ========================================================================== */
 
+import { rovingKeys } from "../focus";
+import { enLang } from "../lang";
 import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -119,7 +121,7 @@ function Row({ r, onOpen }: { r: RefRow; onOpen: (id: string) => void }) {
               : (r.he || "אין תיעוד מאומת במאגר")}
           </span>
           <span className="nxd-sub">
-            {r.en ? <span className="nxd-en" dir="ltr">{r.en}</span> : null}
+            {r.en ? <span className="nxd-en" dir="ltr" lang={enLang(r.en)}>{r.en}</span> : null}
             {r.en && r.group ? <span className="nxd-dot" aria-hidden="true">·</span> : null}
             {r.group ? <span>{r.group}</span> : null}
           </span>
@@ -326,7 +328,7 @@ export function RefSurface({ dir, children }: { dir: RefDir; children?: React.Re
         </div>
 
         {views.length > 1 ? (
-          <div className="nxd-tabs" role="tablist" aria-label="תצוגה">
+          <div className="nxd-tabs" role="tablist" aria-label="תצוגה" onKeyDown={rovingKeys}>
             {views.map((x) => (
               <button
                 key={x.v}
@@ -334,6 +336,7 @@ export function RefSurface({ dir, children }: { dir: RefDir; children?: React.Re
                 role="tab"
                 className="nu-tab"
                 aria-selected={view === x.v}
+                tabIndex={view === x.v ? 0 : -1}
                 onClick={() => { setView(x.v); setLimit(PAGE); }}
               >
                 {x.v === "list" ? <ListTree size={13} strokeWidth={1.75} /> : x.v === "group" ? <LayoutGrid size={13} strokeWidth={1.75} /> : <Boxes size={13} strokeWidth={1.75} />}
@@ -427,8 +430,11 @@ export function RefSurface({ dir, children }: { dir: RefDir; children?: React.Re
         ))}
       </section>
 
-      <p className="nxd-count" aria-live="polite">
-        <b>{nf.format(rows.length)}</b> מתוך {nf.format(dir.rows.length)} רשומות
+      <p className="nxd-count">
+        {/* The count is live, the button is not: inside the region it was read out again on every change (gate 8, m4). */}
+        <span aria-live="polite">
+          <b>{nf.format(rows.length)}</b> מתוך {nf.format(dir.rows.length)} רשומות
+        </span>
         {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
       </p>
 

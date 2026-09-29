@@ -77,8 +77,11 @@ export function CenterTopics({ rows, families }: { rows: CenterRow[]; families: 
         </div>
       </div>
 
-      <p className="nxl-count" aria-live="polite">
-        <b>{nf.format(list.length)}</b> מתוך {nf.format(rows.length)} נושאי עבודה
+      <p className="nxl-count">
+        {/* The count is live, the button is not: inside the region it was read out again on every change (gate 8, m4). */}
+        <span aria-live="polite">
+          <b>{nf.format(list.length)}</b> מתוך {nf.format(rows.length)} נושאי עבודה
+        </span>
         {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
       </p>
 

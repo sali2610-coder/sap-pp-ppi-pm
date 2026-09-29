@@ -46,6 +46,7 @@
 //   OBJECT  --obj-*  the class marker on a node.
 //   BRAND   --brand  focus ring and the minimap viewport. Never a data category.
 
+import { enLang } from "../lang";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import {
@@ -2538,9 +2539,11 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               ))}
             </div>
           ) : null}
+          {/* A labelled group, not an image (gate 8, B6): the nodes inside are
+              focusable buttons, and role="img" hid them from screen readers. */}
           <svg
             className="ne-canvas"
-            role="img"
+            role="group"
             aria-label={
               M
                 ? `תרשים ER של מודול ${M.code}: ${scopeCount} טבלאות`
@@ -2673,7 +2676,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                             </text>
                           ) : null}
                           {m.en && m.en !== m.code && m.en !== m.he ? (
-                            <text className="ne-mod-en" x={W / 2 - 22} y={-H / 2 + 78} textAnchor="end">
+                            <text className="ne-mod-en" x={W / 2 - 22} y={-H / 2 + 78} textAnchor="end" lang={enLang(m.en)}>
                               {cut(m.en, 26)}
                             </text>
                           ) : null}

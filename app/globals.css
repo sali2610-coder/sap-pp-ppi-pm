@@ -1545,7 +1545,8 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
 .nx-app[data-nav="compact"] .nx-ind { inset-inline: 6px; }
 
 .nx-group { margin-block-end: 2px; }
-.nx-group-h { position: sticky; inset-block-start: 0; z-index: 3; margin: 0; }
+/* Was an h3; keeps the heading tracking it inherited from globals (m1). */
+.nx-group-h { position: sticky; inset-block-start: 0; z-index: 3; margin: 0; letter-spacing: -0.02em; }
 .nx-group-btn {
   inline-size: 100%; display: flex; align-items: center; gap: 6px;
   padding: 6px var(--sp-3); min-block-size: 1.9rem;
@@ -1818,7 +1819,8 @@ html[data-device="tablet"] .nx-railedge { display: none !important; }
   opacity: 0; pointer-events: none;
   transition: opacity 180ms var(--ease-out-expo);
 }
-.nx-pvhost[data-on="1"] { opacity: 1; }
+/* Hoverable once shown (WCAG 1.4.13): the pointer can rest on it. */
+.nx-pvhost[data-on="1"] { opacity: 1; pointer-events: auto; }
 .nx-pvhost[data-on="1"] .nx-pv { animation: nx-pv-in 340ms var(--c-spring) both; }
 @keyframes nx-pv-in {
   from { transform: translateX(10px) scale(.97); opacity: 0; }
@@ -1961,6 +1963,7 @@ html[data-device="tablet"] .nx-railedge { display: none !important; }
   padding: var(--sp-2) var(--sp-3); border-block-end: 1px solid var(--c-hair);
   font-size: var(--t-sm); font-weight: 600;
 }
+.nx-msheet:focus { outline: none; }
 .nx-msheet-b { overflow: auto; padding: var(--sp-2) var(--sp-2) var(--sp-4); overscroll-behavior: contain; }
 .nx-msheet-g { margin-block-end: var(--sp-2); }
 .nx-msheet-g h4 { font-size: var(--t-micro); font-weight: 700; letter-spacing: .05em;

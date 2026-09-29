@@ -35,6 +35,8 @@
 //   .nu-btn2    show more results — a real action, replacing the dead
 //               "showing the first 300" note.
 
+import { rovingKeys } from "../focus";
+import { enLang } from "../lang";
 import Link from "next/link";
 import { useCallback, useEffect, useId, useMemo, useState, ViewTransition } from "react";
 import {
@@ -156,7 +158,7 @@ function Row({ t, fav, onOpen, landed, st }: { t: RegistryTx; fav: boolean; onOp
         <span className="nxd-body">
           <span className="nxd-he">{t.he || t.en || "אין כותרת במאגר"}</span>
           <span className="nxd-sub">
-            {t.en ? <span dir="ltr" className="nxd-en">{t.en}</span> : null}
+            {t.en ? <span dir="ltr" className="nxd-en" lang={enLang(t.en)}>{t.en}</span> : null}
             {t.en && t.area ? <span className="nxd-dot" aria-hidden="true">·</span> : null}
             {t.area ? <span>{t.area}</span> : null}
           </span>
@@ -410,7 +412,7 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
           ) : null}
         </div>
 
-        <div className="nxd-tabs" role="tablist" aria-label="תצוגה">
+        <div className="nxd-tabs" role="tablist" aria-label="תצוגה" onKeyDown={rovingKeys}>
           {VIEWS.map((x) => (
             <button
               key={x.v}
@@ -418,6 +420,7 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
               role="tab"
               className="nu-tab"
               aria-selected={view === x.v}
+              tabIndex={view === x.v ? 0 : -1}
               onClick={() => onView(x.v)}
             >
               {x.v === "popular" ? <Flame size={13} strokeWidth={1.75} />
@@ -540,8 +543,11 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
         ))}
       </section>
 
-      <p className="nxd-count nm-fade nm-once" aria-live="polite">
-        <b>{nf.format(list.length)}</b> מתוך {nf.format(stats.total)} טרנזקציות
+      <p className="nxd-count nm-fade nm-once">
+        {/* The count is live, the button is not: inside the region it was read out again on every change (gate 8, m4). */}
+        <span aria-live="polite">
+          <b>{nf.format(list.length)}</b> מתוך {nf.format(stats.total)} טרנזקציות
+        </span>
         {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
       </p>
 

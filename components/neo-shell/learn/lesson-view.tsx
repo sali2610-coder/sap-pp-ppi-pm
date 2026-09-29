@@ -33,6 +33,7 @@
    declares its verification level. Nothing else gets a dot.
    ========================================================================== */
 
+import { enLang } from "../lang";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import {
@@ -358,7 +359,7 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
         </span>
         <div className="nxv-title">
           <h1 className="nxv-h1 nx-display">{lesson.title}</h1>
-          {lesson.titleEn ? <p className="nxv-en">{lesson.titleEn}</p> : null}
+          {lesson.titleEn ? <p className="nxv-en" lang={enLang(lesson.titleEn)}>{lesson.titleEn}</p> : null}
         </div>
         <div className="nxv-meta">
           <span className="nu-chip nxv-mod"><i aria-hidden="true" />{course.module}</span>

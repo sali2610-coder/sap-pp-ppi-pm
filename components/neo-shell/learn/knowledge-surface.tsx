@@ -42,6 +42,8 @@
      that packet back and rebuilds the same list.
    ========================================================================== */
 
+import { rovingKeys } from "../focus";
+import { enLang } from "../lang";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { ArrowLeft, BookA, GitCompareArrows, Layers, Link2, Lightbulb, ListTree, Search, X } from "lucide-react";
@@ -104,7 +106,7 @@ export function CenterCard({ c, onOpen }: { c: CenterRow; onOpen: (slug: string)
         </span>
         <span className="nxl-side" data-s4={c.s4 ? "1" : "0"}>
           <span className="nxl-side-l">S/4HANA</span>
-          <span className="nxl-side-v">
+          <span className="nxl-side-v" lang={enLang(c.s4Text)}>
             {c.s4Text || "אין תיעוד מאומת במאגר"}
           </span>
           <span className="nu-status" data-tone={c.s4 ? "done" : "idle"}>
@@ -152,7 +154,7 @@ function Row({ c, onOpen }: { c: ConceptRow; onOpen: (slug: string) => void }) {
 
         <span className="nxl-side" data-s4={c.s4Changed ? "1" : "0"}>
           <span className="nxl-side-l">S/4HANA</span>
-          <span className="nxl-side-v">{c.s4 || "אין תיעוד מאומת במאגר"}</span>
+          <span className="nxl-side-v" lang={enLang(c.s4)}>{c.s4 || "אין תיעוד מאומת במאגר"}</span>
           <span
             className="nu-status"
             style={{ "--s": c.s4Changed ? "var(--status-in-conversion)" : "var(--status-done)" } as React.CSSProperties}
@@ -293,7 +295,7 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
           A .nu-tab row in the underline language: it switches what is shown,
           it does not narrow it, so it must not wear a pressed filter's ink fill
           (gate 5, finding 6). */}
-      <div className="nxl-tabs nxl-bodies" role="tablist" aria-label="גוף הידע">
+      <div className="nxl-tabs nxl-bodies" role="tablist" aria-label="גוף הידע" onKeyDown={rovingKeys}>
         {([
           { b: "terms" as Body, he: "מושגים", n: totals.concepts, i: <BookA size={14} strokeWidth={1.75} /> },
           { b: "work" as Body, he: "מדריכי עבודה", n: totals.centers, i: <ListTree size={14} strokeWidth={1.75} /> },
@@ -304,6 +306,7 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
             role="tab"
             className="nu-tab nxl-bodytab"
             aria-selected={body === x.b}
+            tabIndex={body === x.b ? 0 : -1}
             onClick={() => switchBody(x.b)}
           >
             <span className="nxl-bodytab-i" aria-hidden="true">{x.i}</span>
@@ -401,8 +404,11 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
         ))}
       </section>
 
-      <p className="nxl-count" aria-live="polite">
-        <b>{nf.format(shown)}</b> מתוך {nf.format(bodyTotal)} {isWork ? "נושאי עבודה" : "מושגים"}
+      <p className="nxl-count">
+        {/* The count is live, the button is not: inside the region it was read out again on every change (gate 8, m4). */}
+        <span aria-live="polite">
+          <b>{nf.format(shown)}</b> מתוך {nf.format(bodyTotal)} {isWork ? "נושאי עבודה" : "מושגים"}
+        </span>
         {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
       </p>
 

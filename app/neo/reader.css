@@ -628,6 +628,7 @@ html[data-theme="dark"] .nr-infig-b img { opacity: .86; }
 .nr-facet { margin-block-end: var(--sp-5); }
 .nr-facet-h {
   display: flex; align-items: center; gap: var(--sp-2);
+  letter-spacing: normal; /* an h3 now (gate 8, m2); it drew as an h4 */
   font-size: calc(var(--nr-fs) * 0.9);
   font-weight: 700; color: var(--nr-ink);
   margin-block-end: var(--sp-2);
@@ -1591,3 +1592,10 @@ html[data-theme="dark"] .nr-tip { box-shadow: 0 10px 30px -12px rgba(0, 0, 0, .7
    with the bar when open; the toggle shows its state. */
 .nr-adv { display: contents; }
 .nr-adv-b[aria-expanded="true"] { color: var(--ink-1); }
+
+/* Focus never lands under the sticky head or dock (WCAG 2.4.11; gate 8, M1).
+   Both heights are measured (neo-reader.tsx) and are 0 when a bar scrolls with
+   the text. Controls only: sections keep their own scroll-margin above. */
+.nr :is(a[href], button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])) {
+  scroll-margin-block: calc(var(--nr-headh) + var(--sp-2)) calc(var(--nr-dockh, 0px) + var(--sp-2));
+}

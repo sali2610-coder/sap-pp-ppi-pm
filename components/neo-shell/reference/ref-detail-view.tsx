@@ -32,6 +32,7 @@
      ACCENT  brand red marks ONE condition: tone === "changed".
    ========================================================================== */
 
+import { enLang } from "../lang";
 import Link from "next/link";
 import { ArrowLeft, ShieldCheck } from "lucide-react";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
@@ -214,7 +215,7 @@ export function RefDetailView({ d }: { d: RefDetail }) {
             </div>
             <div className="nxt-names">
               {d.en
-                ? <p className="nxt-en" dir="ltr">{d.en}</p>
+                ? <p className="nxt-en" dir="ltr" lang={enLang(d.en)}>{d.en}</p>
                 : d.enAbsent ? <p className="nxt-en nxt-absent">{d.enAbsent}</p> : null}
             </div>
           </div>
@@ -227,7 +228,7 @@ export function RefDetailView({ d }: { d: RefDetail }) {
             <div className="nxt-names">
               <p className="nxt-he">{d.he || NONE}</p>
               {d.en
-                ? <p className="nxt-en" dir="ltr">{d.en}</p>
+                ? <p className="nxt-en" dir="ltr" lang={enLang(d.en)}>{d.en}</p>
                 : d.enAbsent ? <p className="nxt-en nxt-absent">{d.enAbsent}</p> : null}
             </div>
           </div>
@@ -343,7 +344,7 @@ export function RefDetailView({ d }: { d: RefDetail }) {
         {d.sources.length ? (
           <p className="nxt-src">
             <ShieldCheck size={13} strokeWidth={1.75} aria-hidden="true" />
-            מקורות הרשומה: {d.sources.join(" · ")}
+            מקורות הרשומה: <span lang={enLang(d.sources.join(" "))}>{d.sources.join(" · ")}</span>
           </p>
         ) : null}
         <p>{d.foot}</p>

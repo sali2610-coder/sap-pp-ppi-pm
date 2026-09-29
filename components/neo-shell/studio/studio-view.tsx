@@ -354,19 +354,19 @@ export function StudioView() {
             buttons — the specific complaint about the old screens. */}
         <div className="nst-tools">
           <span className="nst-grp" role="group" aria-label="תצוגה">
-            <button type="button" onClick={fit} title="התאמה למסך"><Expand size={15} /></button>
-            <button type="button" onClick={() => { setCam({ x: 0, y: 0, k: 1 }); setSel(null); setZones(new Set()); }} title="איפוס"><RotateCcw size={15} /></button>
+            <button type="button" onClick={fit} aria-label="התאמה למסך" title="התאמה למסך"><Expand size={15} /></button>
+            <button type="button" onClick={() => { setCam({ x: 0, y: 0, k: 1 }); setSel(null); setZones(new Set()); }} aria-label="איפוס התצוגה" title="איפוס"><RotateCcw size={15} /></button>
             <button type="button" onClick={present ? exitPresent : enterPresent} aria-pressed={present} aria-label={present ? "יציאה ממצב הצגה" : "מצב הצגה: מסך מלא וטקסט גדול, לחדר ישיבות"} title={present ? "יציאה ממצב הצגה · Esc" : "מצב הצגה"}><Presentation size={15} /></button>
-            <button type="button" onClick={toggleFull} title={full ? "יציאה ממסך מלא" : "מסך מלא"}><Maximize2 size={15} /></button>
-            <button type="button" onClick={() => setShellFocus((v) => !v)} aria-pressed={shellFocus} title={shellFocus ? "יציאה ממצב מיקוד · Esc" : "מצב מיקוד"}><Focus size={15} /></button>
+            <button type="button" onClick={toggleFull} aria-label={full ? "יציאה ממסך מלא" : "מסך מלא"} title={full ? "יציאה ממסך מלא" : "מסך מלא"}><Maximize2 size={15} /></button>
+            <button type="button" onClick={() => setShellFocus((v) => !v)} aria-pressed={shellFocus} aria-label="מצב מיקוד" title={shellFocus ? "יציאה ממצב מיקוד · Esc" : "מצב מיקוד"}><Focus size={15} /></button>
           </span>
           <span className="nst-grp" role="group" aria-label="זום">
-            <button type="button" onClick={() => zoom(1 / 1.25)} title="הקטנה"><Minus size={15} /></button>
+            <button type="button" onClick={() => zoom(1 / 1.25)} aria-label="הקטנה" title="הקטנה"><Minus size={15} /></button>
             <b className="nst-k">{Math.round(cam.k * 100)}%</b>
-            <button type="button" onClick={() => zoom(1.25)} title="הגדלה"><Plus size={15} /></button>
+            <button type="button" onClick={() => zoom(1.25)} aria-label="הגדלה" title="הגדלה"><Plus size={15} /></button>
           </span>
           <span className="nst-grp" role="group" aria-label="ניווט">
-            <button type="button" onClick={() => sel && centerOn(sel)} disabled={!sel} title="מיקוד באובייקט הנבחר"><Crosshair size={15} /></button>
+            <button type="button" onClick={() => sel && centerOn(sel)} disabled={!sel} aria-label="מיקוד באובייקט הנבחר" title="מיקוד באובייקט הנבחר"><Crosshair size={15} /></button>
           </span>
         </div>
       </header>

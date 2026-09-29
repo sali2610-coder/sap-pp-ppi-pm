@@ -27,6 +27,7 @@
 // no notes, no highlights, no export, no per-subchapter progress, no rating, no
 // "time left", no author (the metadata has a publisher and no author field).
 
+import { enLang } from "../lang";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowUpLeft, BookOpen, Bookmark, ChevronRight, Layers, PlayCircle, Table2 } from "lucide-react";
@@ -168,7 +169,7 @@ export function BookHub({ d }: { d: BookHubData }) {
             {b.moduleHe}
             {b.kindLabel && <><i aria-hidden="true" />{b.kindLabel}</>}
           </p>
-          <h1 className="nb-hub-t">{b.titleHe || b.titleEn}</h1>
+          <h1 className="nb-hub-t" lang={enLang(b.titleHe || b.titleEn)}>{b.titleHe || b.titleEn}</h1>
           {b.titleHe && <p className="nb-sheet-t2 nb-sap">{b.titleEn}</p>}
           <p className="nb-sheet-k">{b.structureHe}</p>
 

@@ -21,6 +21,7 @@
    empty block that looks like a missing value.
    ========================================================================== */
 
+import { enLang } from "../lang";
 import Link from "next/link";
 import { ArrowLeft, Cable, Layers, ListTree } from "lucide-react";
 import type { CenterItem } from "@/components/topic-center";
@@ -88,7 +89,7 @@ export function CentersHub() {
               <b className="nct-fam-he">{f.he}</b>
               <span className="nct-fam-n">{f.items.length}</span>
             </span>
-            <span className="nct-fam-en" dir="ltr">{f.en}</span>
+            <span className="nct-fam-en" dir="ltr" lang={enLang(f.en)}>{f.en}</span>
             <span className="nct-fam-lede">{f.lede}</span>
             <span className="nct-fam-go">
               <ArrowLeft size={14} strokeWidth={2} aria-hidden="true" />
@@ -131,7 +132,7 @@ export function CenterFamilyView({ fam }: { fam: CenterFamily }) {
               <span className="nct-item-bar" aria-hidden="true" />
               <span className="nct-item-body">
                 <b className="nct-item-he">{it.he}</b>
-                <span className="nct-item-en" dir="ltr">{it.title}</span>
+                <span className="nct-item-en" dir="ltr" lang={enLang(it.title)}>{it.title}</span>
                 <span className="nct-item-sub">{it.sub}</span>
               </span>
               <span className="nct-item-meta">
