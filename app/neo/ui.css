@@ -132,7 +132,7 @@
    <em> or <span>) inverts with it. The families' resting ink stayed on the ink
    fill: 1.82:1 by day and 1.49:1 at night (gate 3, blocker 1). The surface ink
    mixed a fifth of the way toward the fill stays quieter than the label and
-   measures 10.4:1 and 7.5:1. `html` lifts it over the families' count rules
+   measures 10.5:1 and 7.3:1. `html` lifts it over the families' count rules
    (.nx-app .nxd-facet .nu-filter b and the like, 0,3,1), which load later. */
 html .nx-app .nu-filter:is([aria-pressed="true"], [data-on="1"]) :is(b, em, span) {
   color: color-mix(in srgb, var(--surface) 78%, var(--ink-1));
