@@ -647,10 +647,11 @@ html[data-theme="dark"] .nx-app .nxc-chip[aria-pressed="true"] b { color: var(--
 .nx-app .nx-shelf[data-empty="1"] { min-block-size: 0; grid-template-rows: auto; }
 .nx-app .nx-shelf[data-empty="1"] .nx-shelf-tabs,
 .nx-app .nx-shelf[data-empty="1"] .nx-shelf-panes { display: none; }
-/* It wraps rather than truncates: at 17.5rem the two phrases are 295px
-   (gate 4, minor 13). */
+/* Two lines, always: at 17.5rem the two phrases are 295px and were cut
+   (gate 4, minor 13), and a line that wraps only in the fallback font moved
+   the rail when the web font arrived. */
 .nx-app .nx-shelf-empty {
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 2px var(--sp-2);
+  display: grid; justify-items: start; gap: 2px;
   inline-size: 100%; margin: 0; padding: var(--sp-2) var(--sp-3);
   font-size: var(--t-micro); color: var(--ink-2); line-height: 1.5; text-align: start;
   background: transparent; border: 0; cursor: pointer;
