@@ -23,7 +23,7 @@
   margin: 0;
   font-size: var(--t-micro);
   font-weight: 600;
-  letter-spacing: 0.07em;
+  letter-spacing: 0;
   color: var(--ink-3);
 }
 
@@ -62,7 +62,7 @@
 .nev-l {
   font-size: var(--t-micro);
   font-weight: 600;
-  letter-spacing: 0.03em;
+  letter-spacing: 0;
   color: var(--ink-3);
 }
 

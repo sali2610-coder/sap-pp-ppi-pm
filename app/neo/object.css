@@ -102,7 +102,7 @@
   align-items: center;
   gap: var(--sp-2);
   font-size: var(--t-micro);
-  letter-spacing: .06em;
+  letter-spacing: 0;
   color: var(--ink-3);
 }
 .no-eye i {
@@ -121,7 +121,7 @@
   gap: var(--sp-3);
   font-size: clamp(1.9rem, 5cqi, 2.5rem);
   line-height: 1.05;
-  letter-spacing: -0.03em;
+  letter-spacing: 0;
   font-weight: 700;
   color: var(--ink-1);
 }
@@ -250,7 +250,7 @@
   direction: ltr;
   font-size: var(--t-micro);
   font-weight: 700;
-  letter-spacing: .04em;
+  letter-spacing: 0;
   padding: 3px 7px;
   border-radius: var(--r-xs);
   flex: none;
@@ -346,7 +346,7 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
   font-size: clamp(2.25rem, 5cqi, 3.25rem);
   font-weight: 700;
   line-height: .8;
-  letter-spacing: -.05em;
+  letter-spacing: 0;
   font-variant-numeric: tabular-nums;
   direction: ltr;
   /* OBJECT hue as a tint on a numeral. A numeral is a surface, not a dot. */
@@ -359,8 +359,8 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
   gap: var(--sp-2);
   font-size: var(--t-micro);
   font-weight: 600;
-  letter-spacing: .14em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--ink-3);
 }
 .no-sec-ico {
@@ -385,7 +385,7 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
 .no-h2 {
   font-size: clamp(1.35rem, 2.8cqi, 1.9rem);
   line-height: 1.18;
-  letter-spacing: -.022em;
+  letter-spacing: 0;
   font-weight: 700;
   color: var(--ink-1);
   text-wrap: balance;
@@ -406,7 +406,7 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
   gap: var(--sp-2);
   font-size: 1.0625rem;
   font-weight: 700;
-  letter-spacing: -.012em;
+  letter-spacing: 0;
   color: var(--ink-1);
   padding-block-start: var(--sp-4);
   border-block-start: 1px solid var(--hairline);
@@ -636,7 +636,7 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
   gap: var(--sp-2);
   font-size: 1.0625rem;
   font-weight: 700;
-  letter-spacing: -.012em;
+  letter-spacing: 0;
   color: var(--ink-1);
 }
 .no-keyg h4 svg { color: var(--o); flex: none; }
@@ -719,7 +719,7 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
   font-family: var(--font-mono);
   font-size: var(--t-micro);
   font-weight: 700;
-  letter-spacing: .04em;
+  letter-spacing: 0;
   padding: 3px 7px;
   border-radius: var(--r-xs);
   direction: ltr;
@@ -841,7 +841,7 @@ html[data-theme="dark"] .no-key[data-k="PK"] { color: #0f0b08; }
   border-inline-start: 2px solid var(--line-strong);
 }
 .no-sum { display: grid; gap: 4px; font-size: var(--t-xs); color: var(--ink-2); line-height: 1.7; }
-.no-sum b { font-size: var(--t-micro); color: var(--ink-3); letter-spacing: .05em; }
+.no-sum b { font-size: var(--t-micro); color: var(--ink-3); letter-spacing: 0; }
 
 .no-cds, .no-funcs, .no-books { display: grid; gap: var(--sp-2); }
 .no-cds li, .no-funcs li {
@@ -893,7 +893,7 @@ html[data-theme="dark"] .no-key[data-k="PK"] { color: #0f0b08; }
 .no-inc > li > header em { font-size: var(--t-micro); color: var(--ink-3); font-style: normal; direction: ltr; }
 .no-imp {
   font-size: var(--t-micro);
-  letter-spacing: .04em;
+  letter-spacing: 0;
   padding: 2px 7px;
   border-radius: var(--r-pill);
   border: 1px solid var(--hairline);
@@ -1033,7 +1033,7 @@ html[data-theme="dark"] .no-core-r {
   padding-inline: 12px;
 }
 .no-core-cls { grid-row: 1 / span 2; inline-size: 10px; block-size: 10px; border-radius: 50%; background: var(--o); }
-.no-core-in b { font-family: var(--font-mono); direction: ltr; font-size: 18px; font-weight: 700; color: var(--ink-1); letter-spacing: -0.01em; }
+.no-core-in b { font-family: var(--font-mono); direction: ltr; font-size: 18px; font-weight: 700; color: var(--ink-1); letter-spacing: 0; }
 .no-core-in em {
   grid-column: 2;
   font-size: var(--t-micro);
@@ -1145,8 +1145,8 @@ html[data-theme="dark"] .no-core-r {
   .no-fields .no-table tbody tr > td:not(.no-c-k)::before {
     content: attr(data-l) " · ";
     font-size: var(--t-micro);
-    letter-spacing: .06em;
-    text-transform: uppercase;
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--ink-3);
   }
   .no-fields .no-table tr[data-key="PK"] > :first-child { box-shadow: none; }
@@ -1198,7 +1198,7 @@ html[data-theme="dark"] .no-core-r {
   /* Hebrew captions since the correction pass: 11px floor, and the wide Latin
      tracking came down — 1.5px between Hebrew glyphs reads as broken words. */
   font: 700 var(--t-micro) sans-serif;
-  letter-spacing: 0.4px;
+  letter-spacing: 0;
   fill: var(--ink-3);
 }
 
@@ -1313,8 +1313,8 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
   padding: 0 var(--sp-3) var(--sp-2);
   font-size: var(--t-micro);
   font-weight: 700;
-  letter-spacing: .06em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--ink-3);
   border-block-end: 1px solid var(--hairline);
 }
@@ -1423,8 +1423,8 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
 .nod-h {
   display: flex; align-items: center; gap: var(--sp-2);
   margin: 0;
-  font-size: var(--t-micro); font-weight: 700; letter-spacing: .06em;
-  text-transform: uppercase; color: var(--ink-3);
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0;
+  text-transform: none; color: var(--ink-3);
 }
 .nod-h-i {
   display: grid; place-items: center;
@@ -1545,3 +1545,12 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
 .no-stat b { font-size: var(--t-h2); font-weight: 500; letter-spacing: 0; }
 .no-stat em { color: var(--ink-2); }
 @container no (max-width: 760px) { .no-sec-n { font-size: var(--t-sm); } }
+/* Washes out (2026 system): the hero, the shared-table band and the rows sit
+   on their surface; the module is carried by its chip. The graph stage keeps
+   its dot grid, a canvas aid. The English name aligns under the Hebrew. */
+.no-hero { background: var(--surface); }
+.no-shared { background: none; }
+.no-row { background: var(--surface); }
+.no-orbit-scroll { background: none; }
+.no-en { text-align: end; }
+[dir="ltr"] .no-en { text-align: start; }

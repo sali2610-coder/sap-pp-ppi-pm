@@ -451,7 +451,7 @@ html[dir="ltr"] .nr { --nr-origin: left; }
   font-size: clamp(1.35rem, 1.05rem + 1.1vw, 2rem);
   font-weight: 700;
   line-height: 1.25;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
   color: var(--nr-ink);
   text-wrap: pretty;
   overflow-wrap: break-word;
@@ -460,7 +460,7 @@ html[dir="ltr"] .nr { --nr-origin: left; }
   justify-self: start;
   font-size: var(--t-micro);
   font-weight: 700;
-  letter-spacing: .04em;
+  letter-spacing: 0;
   color: var(--m);
   padding-inline-start: var(--sp-2);
   border-inline-start: 1px solid var(--hairline);
@@ -680,7 +680,7 @@ html[dir="ltr"] .nr { --nr-origin: left; }
   margin-block-end: var(--sp-1);
   font-size: var(--t-micro);
   font-weight: 700;
-  letter-spacing: .04em;
+  letter-spacing: 0;
   color: var(--ink-3);
 }
 .nr-bi-cell[data-l="he"] .nr-bi-tag { color: color-mix(in srgb, var(--m) 76%, var(--ink-3)); }
@@ -1521,7 +1521,7 @@ html[data-theme="dark"] .nr-tip { box-shadow: 0 10px 30px -12px rgba(0, 0, 0, .7
 .nr-intro-l {
   font-size: var(--t-micro);
   font-weight: 700;
-  letter-spacing: .04em;
+  letter-spacing: 0;
   color: color-mix(in oklab, var(--m, var(--brand)) 70%, var(--nr-ink-2));
   margin-block-end: var(--sp-2);
 }

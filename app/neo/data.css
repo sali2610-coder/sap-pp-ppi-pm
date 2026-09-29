@@ -72,7 +72,7 @@
   /* A WORK SCREEN's title: 28–36px (design audit §4), never the gate's 86px.
      Measured 44px at 1363 before this line; 36px after. */
   font-size: clamp(1.75rem, 1.1rem + 1.6vw, 2.25rem);
-  line-height: 1.14; letter-spacing: -.022em; text-wrap: balance;
+  line-height: 1.14; letter-spacing: 0; text-wrap: balance;
 }
 .nx-app .nxd-head .nx-lede { max-inline-size: 68ch; }
 .nx-app .nxd .nx-sap { unicode-bidi: isolate; direction: ltr; }
@@ -116,7 +116,7 @@
 .nx-app .nxd-stat b {
   grid-area: v;
   font-family: var(--font-mono); font-size: var(--t-h1);
-  line-height: 1.15; letter-spacing: -.02em;
+  line-height: 1.15; letter-spacing: 0;
   direction: ltr; unicode-bidi: isolate;
   font-variant-numeric: tabular-nums; color: var(--ink-1);
 }
@@ -185,7 +185,7 @@
   display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2);
 }
 .nx-app .nxd-facet-l {
-  font-size: var(--t-micro); font-weight: 700; letter-spacing: .05em;
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0;
   color: var(--ink-3); min-inline-size: 4.25rem;
 }
 /* The count a filter carries is a value, so it is set in the numeric face and
@@ -309,7 +309,7 @@
 }
 .nx-app .nxd-id > b {
   font-family: var(--font-mono); font-size: var(--t-sm); font-weight: 700;
-  letter-spacing: -.01em; color: var(--ink-1);
+  letter-spacing: 0; color: var(--ink-1);
 }
 .nx-app .nxd-mods { display: flex; flex-wrap: wrap; gap: 4px; }
 
@@ -621,7 +621,7 @@ html[data-theme="dark"] .nx-app .nxd-mark { opacity: 1; }
      information was too wide at 48px). */
   font-size: clamp(var(--t-display), 1.3rem + 1.4vw, 2.5rem);
   line-height: var(--t-display-lh);
-  letter-spacing: var(--t-display-tr);
+  letter-spacing: 0;
   font-weight: 700;
   color: var(--ink-1);
   /* One token with no break opportunity (BAPI_ALM_CONF_CREATE is 350px at display
@@ -697,7 +697,7 @@ html[data-theme="dark"] .nx-app .nxd-mark { opacity: 1; }
 
 .nx-app .nxt-s4-top { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--sp-2); }
 .nx-app .nxt-s4-h {
-  font-size: clamp(1.6rem, 1.25rem + 1.15vw, 2.2rem); line-height: var(--t-h1-lh); letter-spacing: var(--t-h1-tr);
+  font-size: clamp(1.6rem, 1.25rem + 1.15vw, 2.2rem); line-height: var(--t-h1-lh); letter-spacing: 0;
   font-weight: 700; color: var(--ink-1); margin: 0;
   /* the verdict can carry a service name (API_MAINTENANCENOTIFICATION) at h1
      scale; it breaks rather than overrunning the plate at 320px */
@@ -739,7 +739,7 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
 .nx-app .nxt-sec-h {
   display: flex; align-items: center; gap: var(--sp-2);
   font-size: clamp(1.25rem, 1.08rem + .65vw, 1.6rem);
-  font-weight: 700; line-height: 1.25; letter-spacing: -.012em;
+  font-weight: 700; line-height: 1.25; letter-spacing: 0;
   color: var(--ink-1);
   padding-block-end: var(--sp-2);
   border-block-end: 1px solid var(--c-hair);
@@ -760,7 +760,7 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
 }
 .nx-app .nxt-sub {
   font-size: var(--t-xs); font-weight: 700; color: var(--ink-2);
-  letter-spacing: .02em;
+  letter-spacing: 0;
   padding-block-start: var(--sp-2);
 }
 .nx-app .nxt-block { display: grid; gap: var(--sp-2); }
@@ -770,7 +770,7 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
 .nx-app .nxt-grid { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
 .nx-app .nxt-fact { display: grid; gap: 4px; align-content: start; min-inline-size: 0; }
 .nx-app .nxt-l {
-  font-size: var(--t-micro); font-weight: 700; letter-spacing: .05em;
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0;
   color: var(--ink-3); line-height: 1.4;
 }
 .nx-app .nxt-v {
@@ -1027,7 +1027,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
      information was too wide at 48px). */
   font-size: clamp(var(--t-display), 1.3rem + 1.4vw, 2.5rem);
   line-height: var(--t-display-lh);
-  letter-spacing: var(--t-display-tr);
+  letter-spacing: 0;
   font-weight: 700;
   color: var(--ink-1);
   direction: ltr;
@@ -1107,7 +1107,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
 .nx-app .nxb-keyline > div[data-k="PK"] { --k: var(--obj-master); }
 .nx-app .nxb-keyline > div[data-k="FK"] { --k: var(--rel-n-1); }
 .nx-app .nxb-keyline dt {
-  font-size: var(--t-micro); letter-spacing: .06em; font-weight: 700;
+  font-size: var(--t-micro); letter-spacing: 0; font-weight: 700;
   color: var(--ink-3);
 }
 .nx-app .nxb-keyline dd {
@@ -1192,7 +1192,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
 }
 .nx-app .nxb-sec-k {
   display: inline-flex; align-items: center; gap: var(--sp-2);
-  font-size: var(--t-micro); letter-spacing: .06em; font-weight: 700;
+  font-size: var(--t-micro); letter-spacing: 0; font-weight: 700;
   color: var(--ink-3);
 }
 .nx-app .nxb-sec-i {
@@ -1205,7 +1205,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
 }
 .nx-app .nxb-h2 {
   font-size: clamp(1.35rem, 1.15rem + .75vw, 1.75rem); font-weight: 700; color: var(--ink-1);
-  line-height: 1.25; letter-spacing: -.012em; margin: 0;
+  line-height: 1.25; letter-spacing: 0; margin: 0;
 }
 .nx-app .nxb-sec-s { font-size: var(--t-sm); color: var(--ink-2); line-height: var(--lh-he); max-inline-size: 78ch; }
 .nx-app .nxb-sec-s b { color: var(--ink-1); }
@@ -1249,7 +1249,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
   margin: 0;
 }
 .nx-app .nxb-kv > div { display: grid; gap: 2px; min-inline-size: 0; }
-.nx-app .nxb-kv dt { font-size: var(--t-micro); letter-spacing: .05em; color: var(--ink-3); font-weight: 700; }
+.nx-app .nxb-kv dt { font-size: var(--t-micro); letter-spacing: 0; color: var(--ink-3); font-weight: 700; }
 .nx-app .nxb-kv dd {
   margin: 0; font-size: var(--t-sm); color: var(--ink-1); line-height: var(--lh-he);
   display: flex; flex-wrap: wrap; gap: var(--sp-1); align-items: center;
@@ -1364,7 +1364,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
 .nx-app .nxb-tbl { inline-size: 100%; border-collapse: collapse; font-size: var(--t-xs); }
 .nx-app .nxb-tbl thead th {
   position: sticky; inset-block-start: 0; z-index: 1;
-  text-align: start; font-size: var(--t-micro); letter-spacing: .05em;
+  text-align: start; font-size: var(--t-micro); letter-spacing: 0;
   color: var(--ink-3); font-weight: 700;
   padding: var(--sp-3);
   background: var(--surface-2);

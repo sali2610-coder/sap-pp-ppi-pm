@@ -23,9 +23,9 @@ html[data-theme="dark"] .nce { --ok: #4ec98a; --no: #ff8a5c; --gold: #e0bd5c; }
 .nce-eye {
   display: flex; align-items: center; gap: .45rem;
   margin: 0 0 .5rem; font-size: var(--t-micro); font-weight: 700;
-  letter-spacing: .09em; text-transform: uppercase; color: var(--ink-3);
+  letter-spacing: 0; text-transform: none; color: var(--ink-3);
 }
-.nce-h1 { margin: 0; font-size: clamp(1.7rem, 4vw, 2.6rem); font-weight: 700; letter-spacing: -.025em; line-height: 1.1; }
+.nce-h1 { margin: 0; font-size: clamp(1.7rem, 4vw, 2.6rem); font-weight: 700; letter-spacing: 0; line-height: 1.1; }
 .nce-h2 { margin: 0 0 .7rem; font-size: 1rem; font-weight: 700; }
 .nce-lede { margin: .7rem 0 0; max-inline-size: 58ch; font-size: .95rem; line-height: 1.68; color: var(--ink-2); }
 .nce-hero { margin-bottom: 1.8rem; }
@@ -33,7 +33,7 @@ html[data-theme="dark"] .nce { --ok: #4ec98a; --no: #ff8a5c; --gold: #e0bd5c; }
 /* --------------------------------------------------------------- setup */
 
 .nce-pick { margin-bottom: 1.15rem; }
-.nce-pick-h { margin: 0 0 .5rem; font-size: .78rem; font-weight: 700; color: var(--ink-3); letter-spacing: .04em; }
+.nce-pick-h { margin: 0 0 .5rem; font-size: .78rem; font-weight: 700; color: var(--ink-3); letter-spacing: 0; }
 .nce-pick-row { display: flex; flex-wrap: wrap; gap: .5rem; }
 
 .nce-opt {
@@ -88,7 +88,7 @@ html[data-theme="dark"] .nce { --ok: #4ec98a; --no: #ff8a5c; --gold: #e0bd5c; }
 }
 .nce-chip--lvl { color: var(--brand); border-color: color-mix(in srgb, var(--brand) 32%, transparent); }
 
-.nce-stem { margin: 0 0 .7rem; font-size: clamp(1.1rem, 2.4vw, 1.5rem); font-weight: 700; line-height: 1.4; letter-spacing: -.01em; }
+.nce-stem { margin: 0 0 .7rem; font-size: clamp(1.1rem, 2.4vw, 1.5rem); font-weight: 700; line-height: 1.4; letter-spacing: 0; }
 .nce-ctx { margin: 0 0 .8rem; font-size: .89rem; line-height: 1.62; color: var(--ink-2); }
 .nce-code {
   margin: 0 0 1rem; padding: .8rem .9rem; border-radius: var(--r-xl); overflow-x: auto;
@@ -178,7 +178,7 @@ html[data-theme="dark"] .nce { --ok: #4ec98a; --no: #ff8a5c; --gold: #e0bd5c; }
 .nce-ring::after {
   content: ""; position: absolute; inset: 11px; border-radius: 50%; background: var(--surface);
 }
-.nce-ring b { position: relative; z-index: 1; font-size: 2.5rem; font-weight: 700; letter-spacing: -.03em; }
+.nce-ring b { position: relative; z-index: 1; font-size: 2.5rem; font-weight: 700; letter-spacing: 0; }
 .nce-ring i { font-style: normal; font-size: 1.1rem; color: var(--ink-3); }
 @media (prefers-reduced-motion: no-preference) {
   .nce-ring { animation: nce-ring .9s cubic-bezier(.16,1,.3,1); }

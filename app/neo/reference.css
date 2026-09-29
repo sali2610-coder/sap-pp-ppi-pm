@@ -287,7 +287,7 @@ html[data-theme="dark"] .nx-app .nxr-st-i {
 .nx-app .nxt-lead {
   margin: 0;
   font-size: clamp(1.6rem, 1.15rem + 1.4vw, 2.25rem);
-  font-weight: 700; line-height: 1.15; letter-spacing: -.015em; color: var(--ink-1);
+  font-weight: 700; line-height: 1.15; letter-spacing: 0; color: var(--ink-1);
   text-wrap: balance;
 }
 .nx-app .nxt-code--sub {
@@ -308,7 +308,7 @@ html[data-theme="dark"] .nx-app .nxr-st-i {
 .nx-app .nxr-chain-via { text-align: center; justify-items: center; }
 .nx-app .nxr-chain-via > b { font-size: var(--t-h2); }
 .nx-app .nxr-chain-via > span { font-size: var(--t-xs); color: var(--ink-2); }
-.nx-app .nxr-chain-l { font-size: var(--t-micro); font-weight: 700; color: var(--ink-3); letter-spacing: .03em; }
+.nx-app .nxr-chain-l { font-size: var(--t-micro); font-weight: 700; color: var(--ink-3); letter-spacing: 0; }
 .nx-app .nxr-chain-arrow { align-self: center; font-size: 1.2rem; color: var(--ink-3); padding-block-start: 1.2rem; }
 .nx-app .nxr-chain-c {
   display: grid; gap: 1px; padding: 6px 10px;

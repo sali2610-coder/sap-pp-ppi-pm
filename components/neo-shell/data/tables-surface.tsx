@@ -26,7 +26,7 @@
 // table, which is a real state of the record.
 
 import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, ViewTransition } from "react";
 import {
   ArrowLeft, Boxes, Database, GitBranch, KeyRound, Layers, LayoutGrid,
   ListTree, Search, Sigma, Table as TableIcon, Terminal, X,
@@ -111,7 +111,11 @@ function Row({ r, q, makeOrigin, landed }: { r: NeoTableRow; q: string; makeOrig
       <span className="nxd-mark" aria-hidden="true" />
 
         <span className="nxd-id">
-          <b className="nx-sap">{r.name}</b>
+          {/* The list-to-record signature: the name travels into the record's
+              title (tables-detail-view.tsx, the same view-transition name). */}
+          <ViewTransition name={`rec-tbl-${r.name}`} share="rec-morph" default="none">
+            <b className="nx-sap">{r.name}</b>
+          </ViewTransition>
           <span className="nxd-mods">
             {r.mods.map((m) => (
               <span key={m} className="nu-chip nxd-mod" style={{ "--m": modVar(m) } as React.CSSProperties}>

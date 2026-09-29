@@ -26,6 +26,7 @@
                changes in S/4HANA. It is not a module colour and not a status.
    ========================================================================== */
 
+import { ViewTransition } from "react";
 import {
   AlertTriangle, AppWindow, Boxes, GitBranch, KeyRound,
   Plug, ShieldCheck, Terminal, Workflow,
@@ -143,7 +144,9 @@ export function TxDetailView({ t }: { t: TxDetail }) {
         </p>
 
         <div className="nxt-title">
-          <h1 className="nxt-code nx-sap">{t.code}</h1>
+          <ViewTransition name={`rec-tx-${t.code}`} share="rec-morph" default="none">
+            <h1 className="nxt-code nx-sap">{t.code}</h1>
+          </ViewTransition>
           <div className="nxt-names">
             <p className="nxt-he">{t.he || NONE}</p>
             {t.en ? <p className="nxt-en" dir="ltr">{t.en}</p> : <p className="nxt-en nxt-absent">אין שם אנגלי במקור</p>}

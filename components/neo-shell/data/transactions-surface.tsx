@@ -36,7 +36,7 @@
 //               "showing the first 300" note.
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, ViewTransition } from "react";
 import {
   AppWindow, ArrowLeft, Clock, Flame, Layers, Search, SlidersHorizontal,
   Star, Terminal, X,
@@ -158,7 +158,10 @@ function Row({ t, fav, onOpen, landed, st }: { t: RegistryTx; fav: boolean; onOp
         <span className="nxd-mark" aria-hidden="true" />
 
         <span className="nxd-id">
-          <b className="nx-sap">{t.code}</b>
+          {/* The list-to-record signature (tx-detail-view.tsx, same name). */}
+          <ViewTransition name={`rec-tx-${t.code}`} share="rec-morph" default="none">
+            <b className="nx-sap">{t.code}</b>
+          </ViewTransition>
           <span className="nu-chip nxd-mod" style={{ "--m": modVar(t.module) } as React.CSSProperties}>
             <i aria-hidden="true" />
             {t.module}

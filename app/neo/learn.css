@@ -124,7 +124,7 @@
 .nx-app .nxl-stat b {
   grid-area: v;
   font-family: var(--font-mono); font-size: var(--t-h1);
-  line-height: 1.15; letter-spacing: -.02em;
+  line-height: 1.15; letter-spacing: 0;
   direction: ltr; unicode-bidi: isolate;
   font-variant-numeric: tabular-nums; color: var(--ink-1);
 }
@@ -141,7 +141,7 @@
   font-family: inherit;
   font-size: var(--t-h2);
   font-weight: 700;
-  letter-spacing: var(--t-h2-tr);
+  letter-spacing: 0;
 }
 
 /* -------------------------------------------------------------- 3. TOOLBAR */
@@ -195,7 +195,7 @@
 .nx-app .nxl-facets { display: grid; gap: var(--sp-2); }
 .nx-app .nxl-facet { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
 .nx-app .nxl-facet-l {
-  font-size: var(--t-micro); font-weight: 700; letter-spacing: .05em;
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0;
   color: var(--ink-3); min-inline-size: 4.75rem;
 }
 /* The count a filter carries is a value: numeric face, never competing with
@@ -287,7 +287,7 @@
 .nx-app .nxl-t1 { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-2); }
 .nx-app .nxl-t1 > b {
   font-size: var(--t-h2); line-height: 1.35; font-weight: 700; color: var(--ink-1);
-  letter-spacing: var(--t-h2-tr);
+  letter-spacing: 0;
 }
 .nx-app .nxl-t1 > em {
   font-style: normal; font-size: var(--t-xs); color: var(--ink-3);
@@ -309,7 +309,7 @@
   border-inline-start: 1px solid var(--c-hair);
 }
 .nx-app .nxl-side-l {
-  font-size: var(--t-micro); font-weight: 700; letter-spacing: .05em; color: var(--ink-3);
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0; color: var(--ink-3);
 }
 .nx-app .nxl-side-v {
   font-size: var(--t-xs); color: var(--ink-2); line-height: var(--lh-he);
@@ -383,7 +383,7 @@ html[data-theme="dark"] .nx-app .nxl-side[data-s4="1"] .nxl-side-l { color: var(
   display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2);
 }
 .nx-app .nxl-course-t {
-  font-size: var(--t-h2); line-height: var(--t-h2-lh); letter-spacing: var(--t-h2-tr);
+  font-size: var(--t-h2); line-height: var(--t-h2-lh); letter-spacing: 0;
   font-weight: 700; color: var(--ink-1); margin: 0;
 }
 .nx-app .nxl-course-en {
@@ -541,7 +541,7 @@ html[data-theme="dark"] .nx-app .nxl-side[data-s4="1"] .nxl-side-l { color: var(
 }
 .nx-app .nxv-h1 {
   font-size: var(--t-display); line-height: var(--t-display-lh);
-  letter-spacing: var(--t-display-tr); font-weight: 700; color: var(--ink-1);
+  letter-spacing: 0; font-weight: 700; color: var(--ink-1);
   margin: 0;
 }
 .nx-app .nxv-en {
@@ -588,7 +588,7 @@ html[data-theme="dark"] .nx-app .nxl-side[data-s4="1"] .nxl-side-l { color: var(
 
 .nx-app .nxv-s4-top { display: grid; gap: var(--sp-2); }
 .nx-app .nxv-s4-h {
-  font-size: var(--t-h1); line-height: var(--t-h1-lh); letter-spacing: var(--t-h1-tr);
+  font-size: var(--t-h1); line-height: var(--t-h1-lh); letter-spacing: 0;
   font-weight: 700; color: var(--ink-1); margin: 0;
 }
 .nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--brand-dark); }
@@ -627,7 +627,7 @@ html[data-theme="dark"] .nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--in
 }
 .nx-app .nxv-sub {
   font-size: var(--t-xs); font-weight: 700; color: var(--ink-2);
-  letter-spacing: .02em;
+  letter-spacing: 0;
   padding-block-start: var(--sp-2);
 }
 
@@ -636,7 +636,7 @@ html[data-theme="dark"] .nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--in
 .nx-app .nxv-grid { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
 .nx-app .nxv-fact { display: grid; gap: var(--sp-2); align-content: start; min-inline-size: 0; }
 .nx-app .nxv-l {
-  font-size: var(--t-micro); font-weight: 700; letter-spacing: .05em;
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0;
   color: var(--ink-3); line-height: 1.4;
 }
 .nx-app .nxv-v {
@@ -720,7 +720,7 @@ html[data-theme="dark"] .nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--in
   background: linear-gradient(to inline-end, var(--m), color-mix(in srgb, var(--m) 10%, transparent));
 }
 .nx-app .nxb-claim h2 {
-  font-size: var(--t-h1); line-height: var(--t-h1-lh); letter-spacing: var(--t-h1-tr);
+  font-size: var(--t-h1); line-height: var(--t-h1-lh); letter-spacing: 0;
   font-weight: 700; color: var(--ink-1); margin: 0;
 }
 .nx-app .nxb-claim p { margin: 0; font-size: var(--t-body); color: var(--ink-2); line-height: var(--lh-he); max-inline-size: 74ch; }
@@ -733,7 +733,7 @@ html[data-theme="dark"] .nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--in
 }
 .nx-app .nxb-no { border: 1px dashed var(--c-hair); background: transparent; }
 .nx-app .nxb-yes h3, .nx-app .nxb-no h3 {
-  margin: 0; font-size: var(--t-xs); font-weight: 700; color: var(--ink-2); letter-spacing: .02em;
+  margin: 0; font-size: var(--t-xs); font-weight: 700; color: var(--ink-2); letter-spacing: 0;
 }
 .nx-app .nxb-yes ul, .nx-app .nxb-no ul {
   display: grid; gap: var(--sp-2); margin: 0;
@@ -961,7 +961,7 @@ html[data-theme="dark"] .nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--in
   padding: var(--sp-2) var(--sp-3);
   background: var(--surface-2);
   color: var(--ink-2);
-  font-size: var(--t-micro); font-weight: 700; letter-spacing: .05em;
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0;
 }
 .nx-app .nxs-tbl td {
   padding: var(--sp-2) var(--sp-3);

@@ -210,9 +210,9 @@ html .nx-app .nx-canvas:has(> .nw) {
   align-items: center;
   gap: var(--sp-2);
   font-size: var(--t-micro);
-  letter-spacing: .16em;
+  letter-spacing: 0;
   color: var(--ink-3);
-  text-transform: uppercase;
+  text-transform: none;
 }
 .nw-eye i { inline-size: 20px; block-size: 1px; background: var(--m); opacity: .85; }
 
@@ -242,7 +242,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   font-size: clamp(1rem, 2.2cqi, 1.65rem);
   line-height: 1;
   font-weight: 700;
-  letter-spacing: -.02em;
+  letter-spacing: 0;
   color: color-mix(in srgb, var(--m) 78%, var(--ink-1));
   -webkit-text-stroke: 0;
   flex: none;
@@ -256,7 +256,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   font-size: clamp(2rem, 5.2cqi, 4.25rem);
   font-weight: 700;
   line-height: 1.02;
-  letter-spacing: -.03em;
+  letter-spacing: 0;
   text-wrap: balance;
 }
 .nw-code {
@@ -269,7 +269,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   background: color-mix(in srgb, var(--m) 12%, transparent);
   border: 1px solid color-mix(in srgb, var(--m) 42%, transparent);
 }
-.nw-en { font-size: var(--t-xs); color: var(--ink-3); letter-spacing: .04em; }
+.nw-en { font-size: var(--t-xs); color: var(--ink-3); letter-spacing: 0; }
 .nw-idicon {
   display: grid;
   place-items: center;
@@ -297,7 +297,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   font-variant-numeric: tabular-nums;
   font-size: clamp(1.375rem, 2.4cqi, 2rem);
   line-height: 1;
-  letter-spacing: -.03em;
+  letter-spacing: 0;
   color: var(--ink-1);
 }
 .nw-fig em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
@@ -331,8 +331,8 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw-idx-k {
   font-size: var(--t-micro);
   font-weight: 600;
-  letter-spacing: .14em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--ink-3);
 }
 .nw-idx-s { font-size: var(--t-sm); color: var(--ink-2); line-height: 1.7; }
@@ -355,7 +355,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   font-size: 1.375rem;
   font-weight: 700;
   line-height: 1;
-  letter-spacing: -.04em;
+  letter-spacing: 0;
   font-variant-numeric: tabular-nums;
   /* MODULE as a tint on a numeral — a surface value, never a dot. */
   color: color-mix(in srgb, var(--m) 78%, var(--ink-3));
@@ -429,7 +429,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   font-size: clamp(2.5rem, 5cqi, 4rem);
   font-weight: 700;
   line-height: .8;
-  letter-spacing: -.05em;
+  letter-spacing: 0;
   font-variant-numeric: tabular-nums;
   /* MODULE as a tint. A numeral is a surface, not a dot. */
   color: color-mix(in srgb, var(--m) 26%, transparent);
@@ -441,8 +441,8 @@ html .nx-app .nx-canvas:has(> .nw) {
   gap: var(--sp-2);
   font-size: var(--t-micro);
   font-weight: 600;
-  letter-spacing: .14em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--ink-3);
 }
 .nw-ch-ico {
@@ -469,7 +469,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   font-size: clamp(1.5rem, 3cqi, 2.5rem);
   font-weight: 700;
   line-height: 1.14;
-  letter-spacing: -.025em;
+  letter-spacing: 0;
   color: var(--ink-1);
   text-wrap: balance;
 }
@@ -517,7 +517,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   gap: var(--sp-2);
   font-size: 1.0625rem;
   font-weight: 700;
-  letter-spacing: -.012em;
+  letter-spacing: 0;
   color: var(--ink-1);
   padding-block-end: var(--sp-3);
   border-block-end: 1px solid color-mix(in srgb, var(--m) 18%, var(--hairline));
@@ -716,7 +716,7 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw-find input:focus { outline: none; }
 
 .nw-scope { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; font-size: var(--t-xs); }
-.nw-scope > b { font-size: var(--t-h2); color: var(--ink-1); font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.nw-scope > b { font-size: var(--t-h2); color: var(--ink-1); font-variant-numeric: tabular-nums; letter-spacing: 0; }
 .nw-scope > span { color: var(--ink-2); }
 .nw-scope b { color: var(--ink-1); font-variant-numeric: tabular-nums; }
 .nw-scope-all { font-size: var(--t-micro); color: var(--ink-3); }
@@ -735,8 +735,8 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw-fgroup { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; }
 .nw-fk {
   font-size: var(--t-micro);
-  letter-spacing: .08em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--ink-3);
   flex: 0 0 auto;
   min-inline-size: 7rem;
@@ -784,8 +784,8 @@ html .nx-app .nx-canvas:has(> .nw) {
   text-align: start;
   font-size: var(--t-micro);
   font-weight: 600;
-  letter-spacing: .06em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--ink-3);
   /* Opaque, and opaque in the PAGE's ground: rows scroll under this head, so it
      has to hide them completely and still be the same colour as the page. */
@@ -802,7 +802,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   color: inherit;
   font-size: inherit;
   font-weight: inherit;
-  letter-spacing: inherit;
+  letter-spacing: 0;
   text-transform: inherit;
 }
 .nw-sortbtn[data-on="1"] { color: var(--ink-1); }
@@ -889,8 +889,8 @@ html .nx-app .nx-canvas:has(> .nw) {
   inline-size: 100%;
   font-size: var(--t-micro);
   font-weight: 700;
-  letter-spacing: .08em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--ink-3);
   padding-block-end: 4px;
   border-block-end: 1px solid var(--hairline);
@@ -1057,7 +1057,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   font-size: clamp(2.75rem, 6cqi, 4.5rem);
   font-weight: 700;
   line-height: .95;
-  letter-spacing: -.045em;
+  letter-spacing: 0;
   color: var(--ink-1);
   font-variant-numeric: tabular-nums;
 }
@@ -1111,7 +1111,7 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw-move-h { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
 .nw-move-h .nu-status { font-size: var(--t-xs); font-weight: 700; }
 .nw-move-n { padding-block: 0; }
-.nw-move-n b { font-size: 1.125rem; letter-spacing: -.01em; }
+.nw-move-n b { font-size: 1.125rem; letter-spacing: 0; }
 .nw-move-he { font-size: var(--t-sm); color: var(--ink-2); }
 /* The one sentence the chapter exists for. */
 .nw-move-w {
@@ -1132,8 +1132,8 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw-move-kv dt {
   font-size: var(--t-xs);
   font-weight: 600;
-  letter-spacing: .06em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--ink-3);
 }
 /* SAP identifiers carry no natural break opportunity — an underscore is not
@@ -1202,7 +1202,7 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw-sheet-kv dt {
   font-size: var(--t-xs);
   font-weight: 600;
-  letter-spacing: .05em;
+  letter-spacing: 0;
   color: var(--ink-3);
 }
 .nw-sheet-kv dd {
@@ -1424,8 +1424,8 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
   .nw-tbl .nw-row > :is(.nw-c-tp, .nw-c-f, .nw-c-tc, .nw-c-fn, .nw-c-rel, .nw-c-cv, .nw-c-s4)::before {
     content: attr(data-l);
     font-size: var(--t-micro);
-    letter-spacing: .06em;
-    text-transform: uppercase;
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--ink-3);
   }
   .nw-tp-t { display: none; }
@@ -1580,3 +1580,14 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
 .nw-ch[data-collapsed="open"] .nw-ch-toggle::after { content: "▴"; }
 .nw-ch[data-collapsed="closed"] > .nw-ch-d > summary .nw-ch-h { margin-block-end: 0; }
 .nw-ch-d[open] > .nw-ch-body { margin-block-start: var(--sp-6); }
+
+/* 2026 system: a module environment is a gateway (DESIGN-SPEC: 32 to 44px), not
+   a 68px poster; chapter numerals are small mono labels (the bakeoff rejected
+   giant section numbers). */
+.nw-title { font-size: clamp(1.75rem, 1.3rem + 1.8vw, var(--t-display)); font-weight: 600; line-height: 1.2; }
+.nw-ch-n { font-family: var(--font-mono); font-size: var(--t-sm); font-weight: 600; line-height: 1.4; color: var(--ink-3); grid-row: auto; }
+/* The decorative light (blobs and a masked grid) and the gradient bands behind
+   alternate chapters go: the sections are separated by their rules. */
+.nw-light { display: none; }
+.nw > section.nw-ch:nth-of-type(odd)::before,
+html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before { background: none; }

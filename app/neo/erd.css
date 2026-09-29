@@ -195,7 +195,7 @@ html[data-theme="dark"] .ne {
 .ne-h1 {
   font-size: var(--t-h2);
   font-weight: 700;
-  letter-spacing: var(--t-h2-tr);
+  letter-spacing: 0;
   color: var(--ink-1);
   /* One line. The title wrapping inside a 346px identity block was the last
      row of chrome left, and a heading that reflows as the panel resizes is
@@ -335,7 +335,7 @@ html[data-theme="dark"] .ne {
   font-weight: 600;
   line-height: 1.4;
   font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
   color: var(--ink-2);
   border: 1px dashed color-mix(in srgb, var(--ink-2) 55%, transparent);
   border-radius: 6px;

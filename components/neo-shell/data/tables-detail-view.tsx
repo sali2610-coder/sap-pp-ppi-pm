@@ -35,6 +35,7 @@
              S/4HANA.
    ========================================================================== */
 
+import { ViewTransition } from "react";
 import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 import Link from "next/link";
 import {
@@ -168,10 +169,12 @@ export function TableDetailView({ t }: { t: TableDetail }) {
 
         <div className="nxb-title">
           <div className="nxt-codeline">
-            <h1 className="nxb-name nx-sap">
-              <span className="nxb-cls" aria-hidden="true" />
-              {t.name}
-            </h1>
+            <ViewTransition name={`rec-tbl-${t.name}`} share="rec-morph" default="none">
+              <h1 className="nxb-name nx-sap">
+                <span className="nxb-cls" aria-hidden="true" />
+                {t.name}
+              </h1>
+            </ViewTransition>
             <CopyId value={t.name} label="העתקת שם הטבלה" compact />
           </div>
           <div className="nxb-names">

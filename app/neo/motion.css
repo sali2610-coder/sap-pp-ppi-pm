@@ -420,3 +420,13 @@ html .nx-app .nm-lift,
 html .nx-app .nm-lift:hover { transform: none; box-shadow: none; }
 .nx-app .nm-sel[data-on="1"] { background-color: var(--select-bg); border-color: var(--select-line); font-weight: 600; }
 .nx-app .nm-sel[data-on="1"]::before { background: var(--select-line); border-radius: 0; inset-block: 6px; }
+
+/* THE LIST-TO-RECORD SIGNATURE (ported from the motion lab): a table's or a
+   transaction's code travels from its catalogue row into the record's title
+   (React <ViewTransition>, share="rec-morph"). 320ms on the system's out-curve;
+   reduced motion and browsers without the View Transitions API simply
+   navigate. */
+::view-transition-group(.rec-morph) { animation-duration: 320ms; animation-timing-function: var(--ease-out, cubic-bezier(.2, .75, .2, 1)); }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+}

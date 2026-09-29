@@ -29,8 +29,8 @@
 .ndm-eye {
   display: flex; align-items: center; gap: .5rem;
   margin: 0 0 .6rem;
-  font-size: var(--t-micro); font-weight: 700; letter-spacing: .09em;
-  text-transform: uppercase;
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0;
+  text-transform: none;
   color: var(--ink-3);
 }
 .ndm-eye i { inline-size: 14px; block-size: 1px; background: currentColor; opacity: .5; flex: none; }
@@ -46,7 +46,7 @@
   margin: 0;
   /* A reading screen's title: up to 40px (design audit §4), not the gate's. */
   font-size: clamp(1.75rem, 3.4vw, 2.5rem);
-  font-weight: 700; line-height: 1.08; letter-spacing: -.025em;
+  font-weight: 700; line-height: 1.08; letter-spacing: 0;
   text-wrap: balance;
 }
 .ndm-h1-en {
@@ -81,7 +81,7 @@
 
 .ndm-hero-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-block-start: .9rem; }
 .ndm-tag {
-  font-size: var(--t-micro); font-weight: 700; letter-spacing: .03em;
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0;
   padding: .16rem .45rem; border-radius: 6px;
   color: var(--ink-2); background: var(--surface-2);
   border: 1px solid var(--hairline); white-space: nowrap; unicode-bidi: isolate;
@@ -90,7 +90,7 @@
 
 /* DEPTH BADGE — the honest distinction between a full record and a base one. */
 .ndm-depth {
-  font-size: .75rem; font-weight: 700; letter-spacing: .04em;
+  font-size: .75rem; font-weight: 700; letter-spacing: 0;
   padding: .14rem .42rem; border-radius: var(--r-pill); white-space: nowrap;
 }
 .ndm-depth[data-deep="1"] {
@@ -143,7 +143,7 @@
 }
 .ndm-card:active { transform: translateY(0); }
 .ndm-card-top { display: flex; align-items: center; gap: .5rem; }
-.ndm-card-mod { font-size: var(--t-micro); font-weight: 700; letter-spacing: .05em; color: var(--m); }
+.ndm-card-mod { font-size: var(--t-micro); font-weight: 700; letter-spacing: 0; color: var(--m); }
 .ndm-card-top .ndm-depth { margin-inline-start: auto; }
 .ndm-card-he { font-size: 1.02rem; font-weight: 700; line-height: 1.3; }
 .ndm-card-en { font-size: .76rem; font-weight: 600; color: var(--ink-3); unicode-bidi: isolate; }
@@ -187,8 +187,8 @@
 }
 .ndm-sec-k {
   display: flex; align-items: center; gap: .45rem; margin: 0;
-  font-size: var(--t-micro); font-weight: 700; letter-spacing: .08em;
-  text-transform: uppercase; color: var(--ink-3);
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0;
+  text-transform: none; color: var(--ink-3);
 }
 .ndm-sec-ico {
   display: grid; place-items: center;
@@ -197,7 +197,7 @@
   background: color-mix(in srgb, var(--m) 10%, transparent);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m) 24%, transparent);
 }
-.ndm-h2 { margin: 0; font-size: 1.18rem; font-weight: 700; letter-spacing: -.015em; }
+.ndm-h2 { margin: 0; font-size: 1.18rem; font-weight: 700; letter-spacing: 0; }
 .ndm-sec-s { margin: .25rem 0 0; font-size: .84rem; line-height: 1.6; color: var(--ink-3); max-inline-size: 68ch; }
 .ndm-sec-b { display: grid; gap: .75rem; }
 

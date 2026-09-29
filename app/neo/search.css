@@ -387,7 +387,7 @@
 
 .nx-app .nxc--r .nxc-idle { padding: 0; gap: var(--sp-3); }
 .nx-app .nxc--r .nxc-idle-h {
-  color: var(--ink-2); text-transform: none; letter-spacing: .02em;
+  color: var(--ink-2); text-transform: none; letter-spacing: 0;
 }
 .nx-app .nxc--r .nxc-idle-grid { grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); }
 .nx-app .nxc--r .nxc-idle-c {

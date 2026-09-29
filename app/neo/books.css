@@ -130,8 +130,8 @@ html .nx-app .nx-canvas:has(> .nb) {
   align-items: center;
   gap: var(--sp-2);
   font-size: var(--t-micro);
-  letter-spacing: .16em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--ink-3);
 }
 .nb-eye i { inline-size: 20px; block-size: 1px; background: var(--m, var(--mod-pm)); opacity: .85; }
@@ -140,11 +140,11 @@ html .nx-app .nx-canvas:has(> .nb) {
   font-size: clamp(2.25rem, 7cqi, 7rem);
   font-weight: 700;
   line-height: .96;
-  letter-spacing: -.03em;
+  letter-spacing: 0;
   display: grid;
   text-wrap: balance;
 }
-.nb-mega-2 { font-size: .5em; color: var(--ink-2); letter-spacing: -.028em; }
+.nb-mega-2 { font-size: .5em; color: var(--ink-2); letter-spacing: 0; }
 .nb-lede { font-size: 1.0625rem; line-height: 1.62; color: var(--ink-2); max-inline-size: 64ch; }
 .nb-note { font-size: var(--t-xs); line-height: 1.7; color: var(--ink-3); max-inline-size: 78ch; }
 .nb-note--wide { max-inline-size: none; }
@@ -178,7 +178,7 @@ html .nx-app .nx-canvas:has(> .nb) {
   font-variant-numeric: tabular-nums;
   font-size: clamp(1.5rem, 2.6cqi, 2.25rem);
   line-height: 1;
-  letter-spacing: -.03em;
+  letter-spacing: 0;
 }
 .nb-stat em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
 
@@ -239,11 +239,11 @@ html .nx-app .nx-canvas:has(> .nb) {
 }
 .nb-cont-e {
   display: flex; align-items: center; gap: var(--sp-2);
-  font-size: var(--t-micro); letter-spacing: .12em; text-transform: uppercase;
+  font-size: var(--t-micro); letter-spacing: 0; text-transform: none;
   color: var(--ink-3);
 }
 .nb-cont-e svg { color: var(--m); flex: none; }
-.nb-cont-t { font-size: var(--t-h3, 1.125rem); font-weight: 700; letter-spacing: -.015em; line-height: 1.3; }
+.nb-cont-t { font-size: var(--t-h3, 1.125rem); font-weight: 700; letter-spacing: 0; line-height: 1.3; }
 .nb-cont-l { font-size: var(--t-xs); color: var(--ink-2); line-height: 1.6; }
 .nb-cont-a { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); margin-block-start: var(--sp-2); }
 
@@ -350,7 +350,7 @@ html[data-theme="dark"] .nb-shelf::after {
 .nb-shelf-code {
   font-size: clamp(1.125rem, 1.6cqi, 1.5rem);
   font-weight: 700;
-  letter-spacing: -.02em;
+  letter-spacing: 0;
   /* Module hue at 18px bold measured 4.19:1 (not yet "large" text); mixed toward ink. */
   color: color-mix(in srgb, var(--m) 78%, var(--ink-1));
   line-height: 1.1;
@@ -882,7 +882,7 @@ html[data-theme="dark"] .nb-slot::after {
   unicode-bidi: isolate;
   font-size: clamp(5px, 1.9cqi, 9px);
   font-weight: 700;
-  letter-spacing: .04em;
+  letter-spacing: 0;
   color: color-mix(in srgb, var(--m-lift) 68%, #fff);   /* 86% measured 4.26:1 at 9px */
   writing-mode: vertical-rl;
   text-orientation: mixed;
@@ -897,7 +897,7 @@ html[data-theme="dark"] .nb-slot::after {
   text-orientation: mixed;
   font-size: clamp(5px, 1.9cqi, 9px);
   font-weight: 600;
-  letter-spacing: .01em;
+  letter-spacing: 0;
   color: rgba(255,255,255,.82);
   overflow: hidden;
   white-space: nowrap;
@@ -1044,7 +1044,7 @@ html[data-theme="dark"] .nb-slot::after {
   unicode-bidi: isolate;
   font-size: clamp(9px, 4cqi, 13px);
   font-weight: 700;
-  letter-spacing: .08em;
+  letter-spacing: 0;
   color: color-mix(in srgb, var(--m-lift) 70%, #fff);   /* 88% measured 4.09:1 at 9px */
 }
 .nb-cov-foil { flex: 1; block-size: 2px; background: linear-gradient(to left, color-mix(in srgb, var(--m-lift) 70%, #fff), transparent); border-radius: 1px; }
@@ -1066,7 +1066,7 @@ html[data-theme="dark"] .nb-slot::after {
   unicode-bidi: isolate;
   font-size: clamp(8px, 3.4cqi, 12px);
   font-weight: 700;
-  letter-spacing: .1em;
+  letter-spacing: 0;
   color: rgba(255, 255, 255, .5);
 }
 
@@ -1102,7 +1102,7 @@ html[data-theme="dark"] .nb-slot::after {
   font-size: clamp(30px, 30cqi, 108px);
   font-weight: 700;
   line-height: .82;
-  letter-spacing: -.04em;
+  letter-spacing: 0;
   pointer-events: none;
   color: rgba(255, 255, 255, .045);
   text-shadow:
@@ -1111,7 +1111,7 @@ html[data-theme="dark"] .nb-slot::after {
 }
 
 .nb-cov-stamp[data-len="mid"]   { font-size: clamp(22px, 21cqi, 74px); }
-.nb-cov-stamp[data-len="long"]  { font-size: clamp(16px, 14.5cqi, 52px); letter-spacing: -.05em; }
+.nb-cov-stamp[data-len="long"]  { font-size: clamp(16px, 14.5cqi, 52px); letter-spacing: 0; }
 
 /* THE TYPE BLOCK, seated low. margin-block-start:auto pushes it to the foot of
    the free space, which is the whole compositional move. */
@@ -1126,8 +1126,8 @@ html[data-theme="dark"] .nb-slot::after {
 .nb-cov-kick {
   font-size: clamp(8px, 3.4cqi, 12px);
   font-weight: 600;
-  letter-spacing: .16em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
   color: color-mix(in srgb, var(--m-lift) 70%, #fff);
   direction: ltr;
   unicode-bidi: isolate;
@@ -1139,7 +1139,7 @@ html[data-theme="dark"] .nb-slot::after {
 .nb-cov-subj {
   font-weight: 700;
   line-height: 1.04;
-  letter-spacing: -.03em;
+  letter-spacing: 0;
   text-wrap: balance;
   /* NOT `anywhere`. A title is a name, and `anywhere` breaks eagerly inside a
      word, which printed "Plant Maintenan / ce" on the shelf. `break-word` only
@@ -1166,7 +1166,7 @@ html[data-theme="dark"] .nb-slot::after {
 .nb-cov-plat {
   font-size: clamp(8px, 3.7cqi, 13px);
   font-weight: 600;
-  letter-spacing: .01em;
+  letter-spacing: 0;
   color: rgba(255, 255, 255, .78);
 }
 
@@ -1416,7 +1416,7 @@ html[data-theme="dark"] .nb-slot::after {
    CARD META + THE DIRECT LINK INTO THE READER
    ========================================================================== */
 .nb-card-meta { display: grid; gap: 3px; }
-.nb-card-t { font-size: var(--t-sm); font-weight: 700; line-height: 1.35; letter-spacing: -.01em; }
+.nb-card-t { font-size: var(--t-sm); font-weight: 700; line-height: 1.35; letter-spacing: 0; }
 .nb-card-t2 { font-size: var(--t-micro); color: var(--ink-3); line-height: 1.4; }
 .nb-card-n {
   display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2);
@@ -1529,7 +1529,7 @@ html[data-theme="dark"] .nb-slot::after {
 }
 .nb-x:hover { color: var(--ink-1); transform: scale(1.04); }
 
-.nb-sheet-t { font-size: clamp(1.375rem, 3.4cqi, 2.25rem); font-weight: 700; line-height: 1.12; letter-spacing: -.025em; text-wrap: balance; }
+.nb-sheet-t { font-size: clamp(1.375rem, 3.4cqi, 2.25rem); font-weight: 700; line-height: 1.12; letter-spacing: 0; text-wrap: balance; }
 .nb-sheet-t2 { font-size: var(--t-xs); color: var(--ink-3); }
 .nb-sheet-k { font-size: var(--t-xs); color: var(--ink-3); }
 
@@ -1542,7 +1542,7 @@ html[data-theme="dark"] .nb-slot::after {
 }
 .nb-facts > div { display: grid; gap: 2px; min-inline-size: 0; }
 .nb-facts dt { font-size: var(--t-micro); color: var(--ink-3); }
-.nb-facts dd { font-size: 1.25rem; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.nb-facts dd { font-size: 1.25rem; font-weight: 700; letter-spacing: 0; font-variant-numeric: tabular-nums; }
 .nb-facts dd:not(.nb-sap) { font-size: var(--t-sm); font-weight: 600; letter-spacing: 0; }
 .nb-none { color: var(--ink-3); font-weight: 500; }
 
@@ -1573,7 +1573,7 @@ html[data-theme="dark"] .nb-slot::after {
 }
 .nb-resume-h {
   display: flex; align-items: center; gap: var(--sp-2);
-  font-size: var(--t-micro); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3);
+  font-size: var(--t-micro); letter-spacing: 0; text-transform: none; color: var(--ink-3);
 }
 .nb-resume-h svg { color: var(--m); flex: none; }
 .nb-resume-l { font-size: var(--t-sm); font-weight: 600; line-height: 1.5; color: var(--ink-1); }
@@ -1581,7 +1581,7 @@ html[data-theme="dark"] .nb-slot::after {
 
 .nb-h3 {
   display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-2) var(--sp-3);
-  font-size: var(--t-sm); font-weight: 700; letter-spacing: -.01em;
+  font-size: var(--t-sm); font-weight: 700; letter-spacing: 0;
 }
 .nb-h3 span { font-size: var(--t-micro); font-weight: 500; color: var(--ink-3); }
 
@@ -1805,7 +1805,7 @@ html[data-theme="dark"] .nb-slot::after {
   font-size: clamp(1.5rem, 3.6cqi, 2.75rem);
   font-weight: 700;
   line-height: 1.1;
-  letter-spacing: -.028em;
+  letter-spacing: 0;
   text-wrap: balance;
 }
 .nb-hub-chips { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
@@ -1866,8 +1866,8 @@ html[data-theme="dark"] [dir="ltr"] .nb-hub-id {
 .nb-mode { display: grid; justify-items: start; gap: var(--sp-2); max-inline-size: 30rem; }
 .nb-mode-k {
   font-size: var(--t-micro);
-  letter-spacing: .12em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--ink-3);
 }
 .nb-mode .nb-fine, .nb-mode .nb-hub-res { max-inline-size: 34ch; }
@@ -2101,3 +2101,11 @@ html[data-theme="dark"] .nb-cov-cast {
   .nb-scrim { backdrop-filter: none; background: Canvas; }
   .nb-mark, .nb-mark-t { border: 1px solid CanvasText; }
 }
+
+/* 2026 system: the shelf and a book's hub are gateways to reading, so their
+   titles take the display face at the gateway size (DESIGN-SPEC: 32 to 44px),
+   not a 112px poster. The count under the shelf title is a lead line. */
+.nb-mega { font-family: var(--font-display); font-size: clamp(2rem, 1.4rem + 2.4vw, var(--t-display)); font-weight: 600; line-height: 1.15; }
+.nb-mega-2 { font-family: var(--font-sans); font-size: var(--t-lead); font-weight: 500; line-height: 1.5; color: var(--ink-2); }
+.nb-eye { font-size: var(--t-xs); color: var(--ink-2); }
+.nb-hub-t { font-family: var(--font-display); font-size: clamp(1.75rem, 1.3rem + 1.8vw, var(--t-display)); font-weight: 600; line-height: 1.2; }

@@ -200,13 +200,13 @@
 
 .nxq-eyebrow {
   display: inline-flex; align-items: center; gap: 0.4rem;
-  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0;
+  text-transform: none;
   color: var(--ink-3);
 }
 
 .nxq-h1 {
-  font-size: var(--t-h1); line-height: var(--t-h1-lh); letter-spacing: var(--t-h1-tr);
+  font-size: var(--t-h1); line-height: var(--t-h1-lh); letter-spacing: 0;
   font-weight: 700; color: var(--ink-1); margin: 0;
 }
 
@@ -259,8 +259,8 @@
 .nxq-ctx-main { display: grid; gap: 0.15rem; min-inline-size: 0; flex: 1 1 14rem; }
 
 .nxq-ctx-l {
-  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0.06em;
-  text-transform: uppercase; color: var(--ink-3);
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0;
+  text-transform: none; color: var(--ink-3);
 }
 
 .nxq-ctx-line {
@@ -515,7 +515,7 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   min-block-size: 1.35rem;
 }
 .nxq-who-n {
-  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0.04em;
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0;
   color: var(--ink-2);
 }
 
@@ -1065,8 +1065,8 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   background: var(--surface);
 }
 .nxq-scope-cta-l {
-  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0.06em;
-  text-transform: uppercase; color: var(--ink-3);
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0;
+  text-transform: none; color: var(--ink-3);
 }
 .nxq-scope-cta-v {
   min-inline-size: 0; flex: 1 1 10rem;
@@ -1210,8 +1210,8 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
 .nxg-col[data-tone="not"] { border-style: dashed; }
 .nxg-col-h {
   margin: 0;
-  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0.06em;
-  text-transform: uppercase; color: var(--ink-3);
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0;
+  text-transform: none; color: var(--ink-3);
 }
 .nxg-col-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }
 .nxg-col-i {
@@ -1510,7 +1510,7 @@ html[data-theme="dark"] .nxq[data-surface="library"] {
   font-size: clamp(1.6rem, 3.4vw, 2.5rem);
   font-weight: 700;
   line-height: 1.14;
-  letter-spacing: -.022em;
+  letter-spacing: 0;
   color: var(--scene-ink);
   text-wrap: balance;
 }
@@ -1523,7 +1523,7 @@ html[data-theme="dark"] .nxq[data-surface="library"] {
 }
 .nxq[data-surface="library"] .nxq-eyebrow {
   color: var(--scene-accent);
-  letter-spacing: .08em;
+  letter-spacing: 0;
 }
 
 /* ---------------------------------------------------- 2. THE SCOPE, IN WORDS */
@@ -1581,7 +1581,7 @@ html[data-theme="dark"] .nxq[data-surface="library"] {
 .nxq[data-surface="library"] .nxq-qa { margin-top: 1.15rem; }
 .nxq[data-surface="library"] .nxq-qa-t {
   display: block; margin-bottom: .55rem;
-  font-size: .78rem; font-weight: 600; letter-spacing: .04em;
+  font-size: .78rem; font-weight: 600; letter-spacing: 0;
   color: var(--scene-ink-3);
 }
 .nxq[data-surface="library"] .nxq-qa-row {
