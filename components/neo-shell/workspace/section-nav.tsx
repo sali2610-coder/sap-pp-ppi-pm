@@ -155,6 +155,14 @@ export function SectionNav({
     if (!el || !host) return;
     const write = () => host.style.setProperty("--nxs-h", `${Math.round(el.offsetHeight)}px`);
     write();
+    // A page opened AT an anchor (a search result for a field, #field-AUFNR) was
+    // scrolled by the browser before this height existed, so the target sat
+    // under the bar (gate 6, minor 27). Once the height is known, the target is
+    // aligned again, now clear of the bar.
+    let hashed: HTMLElement | null = null;
+    try { hashed = location.hash ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null; }
+    catch { /* a malformed hash names nothing */ }
+    if (hashed && host.contains(hashed)) hashed.scrollIntoView({ block: "start" });
     if (typeof ResizeObserver === "undefined") return;
     const ro = new ResizeObserver(write);
     ro.observe(el);

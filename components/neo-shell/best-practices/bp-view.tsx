@@ -21,6 +21,7 @@ import {
 import { SmartReturn } from "@/components/neo-shell/nav-context";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { EvidenceBlock } from "@/components/neo-shell/evidence/evidence-block";
+import { repoSource } from "@/components/neo-shell/evidence/repo-text";
 import { modVar } from "../mod-var";
 import type { BpDetail, BpLineV, BpRow, BpXrefV } from "./bp-data";
 import { BpList } from "./bp-list";
@@ -51,6 +52,18 @@ function Ref({ r }: { r: BpXrefV }) {
         {r.kindHe ? <em className="nbp-kind">{r.kindHe}</em> : null}
       </span>
     </li>
+  );
+}
+
+/** A repository reference: the record's human label, then the file as a
+ *  quieter value, so the path is still on the page but is not the label. */
+function RepoRef({ raw }: { raw: string }) {
+  const r = repoSource(raw);
+  return (
+    <span className="nbp-claim-ref">
+      {r.label}
+      {r.files.length ? <span className="nx-sap nbp-claim-file" dir="ltr">{r.files.join(", ")}</span> : null}
+    </span>
   );
 }
 
@@ -431,9 +444,10 @@ export function BpDetailView({ d }: { d: BpDetail }) {
                     {c.sapNote ? <span className="nu-chip is-sap">SAP Note {c.sapNote}</span> : null}
                   </span>
                   <span className="nbp-claim-c">{c.claim}</span>
-                  {c.repoRef ? (
-                    <span className="nx-sap nbp-claim-ref" dir="ltr">{c.repoRef}</span>
-                  ) : null}
+                  {/* The repository reference by its human label ("רשומת
+                      המאגר: plan-to-produce"), the file beside it as
+                      metadata (gate 5, finding 18; evidence/repo-text.ts). */}
+                  {c.repoRef ? <RepoRef raw={c.repoRef} /> : null}
                 </li>
               ))}
             </ul>

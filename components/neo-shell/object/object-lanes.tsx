@@ -152,15 +152,12 @@ function LaneEdge({
     <g className="nol-e" data-on={on ? "1" : "0"} data-card={card ? "stated" : "unstated"}
       style={{ opacity: dimVal }}
       onMouseEnter={() => setHot(other)} onMouseLeave={() => setHot(null)}>
-      {/* A RESTING EDGE IS A LINE, A LIVE EDGE IS A FLOW.
-          At rest the dash is gone: fourteen dashed curves at once read as
-          noise, and a solid hairline is what lets the eye follow one
-          relationship across the canvas. The dash appears only on the path
-          being pointed at, which is the emphasis the brief asks for. */}
+      {/* A RESTING EDGE IS A HAIRLINE, A LIVE EDGE IS HEAVIER AND OPAQUE.
+          Solid either way: a dash would say "unverified" (DESIGN-SPEC §1), and
+          the dash that marched along a selected node's paths for as long as
+          the selection lasted was a perpetual loop (lead, MOTION-2). */}
       <path d={d} fill="none" stroke={col} strokeWidth={on ? 2.4 : 1.25}
-        strokeOpacity={on ? 1 : 0.4}
-        strokeDasharray={on ? "6 5" : undefined}
-        className={on ? "nol-flow" : undefined} />
+        strokeOpacity={on ? 1 : 0.4} />
       <path d={arrow} fill="none" stroke={col} strokeWidth={on ? 2 : 1.25} strokeOpacity={on ? 1 : 0.55} />
       {/* The cardinality FILLS when live. An outlined chip with 9px type on a
           hairline was the least readable thing on the diagram.

@@ -70,7 +70,7 @@ export function WorkspaceHero({ d }: { d: WsData }) {
             drift against the scroll. At L3 that is 6px and 0 on touch. */}
         <span className="nw-mark nw-sap nm-par-slow" aria-hidden="true">{d.code}</span>
         <div className="nw-idtext">
-          <h1 className="nw-title">
+          <h1 className="nw-title nx-display">
             {d.he}
             <span className="nw-code nw-sap">{d.code}</span>
           </h1>

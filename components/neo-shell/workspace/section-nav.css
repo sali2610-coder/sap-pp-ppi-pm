@@ -17,7 +17,7 @@
    must be visually obvious. Do not rely only on a thin underline. Use color,
    surface, motion and hierarchy." So the active chip carries FOUR signals at
    once — a filled ground, ink lifted to --ink-1, a solid accent edge along its
-   leading side, and a heavier weight — and the accent-inked number is a fifth.
+   leading side, and a heavier weight.
    Every one of them survives a dark theme, a bright room and a colour-vision
    difference; none of them is a 1px line.
 
@@ -63,11 +63,15 @@ html .nx-app .nx-canvas:has(> .nw) .nxs { --nxs-pad: 0px; }
   padding-block: var(--sp-2);
   margin-inline: calc(-1 * var(--nxs-pad));
   padding-inline: calc(var(--nxs-gut, 0px) + var(--nxs-pad));
-  /* Deliberately not opaque. Every page that hosts this bar has ambient light
-     or a tinted hero travelling under it, and a flat panel would cut that in
-     half at exactly the moment the reader starts scrolling. */
-  background: color-mix(in srgb, var(--background) 84%, transparent);
-  backdrop-filter: blur(12px);
+  /* Opaque, on the canvas's own ground: no glass on a sticky bar (gate 3,
+     minor 19). The ambient light and tinted heroes it was translucent for are
+     gone from the 2026 system. */
+  background: var(--background);
+  /* Brand red marks the SELECTED chip only (its fill, edge and selection line):
+     it is the colour of the one action and of selection (TOKENS.md). The
+     numbers, the key-section mark, the next control and the progress line are
+     ink (gate 3, blocker 2; lead: .nxs-n and .nxs-track were the last brand red
+     on the record pages). */
   --nxs-on: var(--brand);
   /* The one line that hands the bar's accent to the shared selection primitive
      in app/neo/motion.css. Scoped to the bar, so nothing outside it changes. */
@@ -165,7 +169,7 @@ html .nx-app .nx-canvas:has(> .nw) .nxs { --nxs-pad: 0px; }
 /* THE ACTIVE SECTION. .nm-sel[data-on="1"] (app/neo/motion.css) already carries
    the ground, the accent edge, the ink and the weight; this only states the two
    things that are specific to a chip — the extra room the edge needs, and the
-   number taking the accent — and it is written at (0,3,0) so the base rule
+   number in the chip's own ink — and it is written at (0,3,0) so the base rule
    above can never win the tie against the primitive. */
 .nx-app .nxs-i[data-on="1"] {
   padding-inline-start: calc(var(--sp-3) + 4px);
@@ -188,17 +192,19 @@ html .nx-app .nx-canvas:has(> .nw) .nxs { --nxs-pad: 0px; }
   font-weight: 700;
   color: var(--ink-3);
 }
-.nx-app .nxs-i[data-on="1"] .nxs-n { color: var(--nxs-on); }
+/* In the brand, the number measured 3.73:1 by day and 4.27:1 at night on the
+   chip's fill (gate 3, blocker 2); in ink-1 it is the chip's own text colour. */
+.nx-app .nxs-i[data-on="1"] .nxs-n { color: var(--ink-1); }
 
-/* THE SECTION THIS PAGE MOST WANTS READ. A short accent BAR before the number
-   and the number itself in the accent — a line and an ink, both forms module and
-   brand identity are allowed to take. It is deliberately not a small filled
-   circle: that shape belongs to status, and to status only.
+/* THE SECTION THIS PAGE MOST WANTS READ. A short BAR before the number and the
+   chip's heavier ink: a shape, not a colour, since brand red is kept for the
+   action and the selection. It is deliberately not a small filled circle: that
+   shape belongs to status, and to status only.
    :not([data-on]) so that reaching the section never makes it quieter than the
    other chips: once it is active it is drawn like any other active chip. */
 .nx-app .nxs-i[data-key="1"]:not([data-on="1"]) { color: var(--ink-2); }
 .nx-app .nxs-i[data-key="1"]:not([data-on="1"]) .nxs-n {
-  color: color-mix(in srgb, var(--nxs-on) 80%, var(--ink-3));
+  color: var(--ink-2);
 }
 .nx-app .nxs-i[data-key="1"] .nxs-n::before {
   content: "";
@@ -208,7 +214,7 @@ html .nx-app .nx-canvas:has(> .nw) .nxs { --nxs-pad: 0px; }
   margin-inline-end: 5px;
   border-radius: 1px;
   vertical-align: -1px;
-  background: var(--nxs-on);
+  background: var(--ink-3);
 }
 
 /* --------------------------------------------------------------------------
@@ -229,19 +235,19 @@ html .nx-app .nx-canvas:has(> .nw) .nxs { --nxs-pad: 0px; }
   color: var(--ink-2);
   font: inherit;
   font-size: var(--t-xs);
-  font-weight: 650;
+  font-weight: 600;
   line-height: 1.2;
   white-space: nowrap;
   cursor: pointer;
   transition: color var(--dur-fast) linear, border-color var(--dur-fast) linear;
 }
-.nx-app .nxs-next:hover { color: var(--ink-1); border-color: color-mix(in srgb, var(--nxs-on) 45%, var(--hairline)); }
+.nx-app .nxs-next:hover { color: var(--ink-1); border-color: var(--line-strong); }
 .nx-app .nxs-next:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.nx-app .nxs-next svg { flex: none; color: var(--nxs-on); }
+.nx-app .nxs-next svg { flex: none; color: var(--ink-2); }
 .nx-app .nxs-next-k {
   font-size: var(--t-micro);
-  font-weight: 650;
-  letter-spacing: .1em;
+  font-weight: 600;
+  letter-spacing: 0;   /* Hebrew takes no tracking (gate 3, minor 17) */
   color: var(--ink-3);
 }
 .nx-app .nxs-next-t { overflow: hidden; text-overflow: ellipsis; }
@@ -257,12 +263,13 @@ html .nx-app .nx-canvas:has(> .nw) .nxs { --nxs-pad: 0px; }
   block-size: 2px;
   overflow: hidden;
   pointer-events: none;
-  background: color-mix(in srgb, var(--nxs-on) 14%, transparent);
+  background: var(--hairline);
 }
 .nx-app .nxs-track > i {
   display: block;
   block-size: 100%;
-  background: var(--nxs-on);
+  /* A position readout, not a selection: line-strong clears 3:1 as a mark. */
+  background: var(--line-strong);
   /* The app is RTL, so progress grows from the inline start, which is the right
      edge. transform-origin takes no logical keyword, so both directions are
      stated rather than assumed. */

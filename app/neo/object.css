@@ -139,7 +139,7 @@
   font-size: var(--t-body);
   line-height: var(--lh-he, 1.7);
   color: var(--ink-2);
-  max-inline-size: 62ch;
+  max-inline-size: var(--measure);
 }
 .no-en {
   font-size: var(--t-xs);
@@ -207,7 +207,7 @@
   font-size: var(--t-xs);
   color: var(--ink-2);
   line-height: 1.6;
-  max-inline-size: 78ch;
+  max-inline-size: var(--measure);
 }
 .no-shared svg { flex: none; margin-block-start: 2px; color: var(--ink-3); }
 
@@ -298,7 +298,7 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
   font-size: var(--t-sm);
   color: var(--ink-2);
   line-height: 1.65;
-  max-inline-size: 82ch;
+  max-inline-size: var(--measure);
 }
 .no-s4flag .nu-status { font-size: var(--t-xs); font-weight: 700; flex: none; }
 .no-s4flag > b { font-size: 1rem; color: var(--ink-1); flex: none; }
@@ -394,7 +394,7 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
   font-size: var(--t-body);
   line-height: 1.72;
   color: var(--ink-2);
-  max-inline-size: 74ch;
+  max-inline-size: var(--measure);
 }
 .no-sec-s b { color: var(--ink-1); font-weight: 600; }
 .no-sec-b { display: grid; gap: var(--sp-5); align-content: start; }
@@ -421,7 +421,7 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
   font-size: var(--t-xs);
   line-height: 1.7;
   color: var(--ink-3);
-  max-inline-size: 82ch;
+  max-inline-size: var(--measure);
 }
 .no-note svg { flex: none; margin-block-start: 3px; }
 .no-note b { color: var(--ink-2); font-weight: 600; }
@@ -531,7 +531,7 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
   font-size: var(--t-xs);
   line-height: 1.7;
   color: var(--ink-2);
-  max-inline-size: 84ch;
+  max-inline-size: var(--measure);
 }
 .no-warn svg { flex: none; margin-block-start: 3px; color: var(--ink-3); }
 .no-read-warn {
@@ -795,13 +795,10 @@ html[data-theme="dark"] .no-key[data-k="PK"] { color: #0f0b08; }
   border: 1px solid color-mix(in srgb, var(--o) 24%, var(--hairline));
   border-inline-start: 1px solid var(--hairline);
 }
-/* A table the project rates high or medium gets the heavy edge and a lift, so
-   it is the first thing the eye lands on inside the section. */
-.no-stand[data-impact="1"] {
-  border-inline-start-width: 7px;
-  border-inline-start-color: var(--o);
-  box-shadow: var(--elev-2);
-}
+/* A table the project rates high or medium used to get a 7px object-hue edge
+   and a lift here. The panel's status mark already states the impact, so the
+   edge repeated it (SIDE-TABS.md, decorative): the panel keeps the 1px hairline
+   above and no shadow; the larger verdict below still marks it (lead, SIDE-1). */
 .no-stand-h { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
 .no-stand-h .nu-status { font-size: var(--t-xs); font-weight: 700; }
 .no-stand-w {
@@ -809,10 +806,10 @@ html[data-theme="dark"] .no-key[data-k="PK"] { color: #0f0b08; }
   line-height: 1.62;
   font-weight: 600;
   color: var(--ink-1);
-  max-inline-size: 76ch;
+  max-inline-size: var(--measure);
 }
 .no-stand[data-impact="1"] .no-stand-w { font-size: 1.1875rem; }
-.no-stand-y { font-size: var(--t-sm); line-height: 1.72; color: var(--ink-2); max-inline-size: 78ch; }
+.no-stand-y { font-size: var(--t-sm); line-height: 1.72; color: var(--ink-2); max-inline-size: var(--measure); }
 .no-stand-t {
   display: flex;
   align-items: center;
@@ -1090,7 +1087,7 @@ html[data-theme="dark"] .no-core-r {
 .no-read-keys { display: inline-flex; gap: var(--sp-3); font-size: var(--t-micro); color: var(--ink-3); }
 .no-read-keys em { font-style: normal; }
 .no-read-keys b { font-family: var(--font-mono); direction: ltr; color: var(--ink-2); }
-.no-read-idle { font-size: var(--t-xs); color: var(--ink-3); line-height: 1.8; max-inline-size: 72ch; }
+.no-read-idle { font-size: var(--t-xs); color: var(--ink-3); line-height: 1.8; max-inline-size: var(--measure); }
 
 .no-legend { display: flex; flex-wrap: wrap; gap: var(--sp-3); }
 .no-legend li { display: inline-flex; align-items: center; gap: 6px; font-size: var(--t-micro); color: var(--ink-3); }
@@ -1202,14 +1199,11 @@ html[data-theme="dark"] .no-core-r {
   fill: var(--ink-3);
 }
 
-/* THE ALIVE QUALITY, NOW SPENT ON PURPOSE.
-   The old graph's marching dash (6/5, offset 0 to -110) is what made it feel
-   live rather than printed, and it is ported exactly. What changed is WHEN:
-   running it on every edge at once means fourteen competing animations on a
-   busy object, which is noise, not precision. It now runs only on the paths
-   connected to whatever the reader is pointing at or has selected. */
-@keyframes nol-flow { to { stroke-dashoffset: -110; } }
-.nol-flow { animation: nol-flow 1.6s linear infinite; }
+/* No marching dash (lead, MOTION-2). It ran for as long as a node stayed
+   selected, the ERD's ne-march pattern the motion policy turned off
+   (MOTION.md), and a dashed line reads as an unverified relation. The paths of
+   the node pointed at or selected stand out by weight and opacity
+   (object-lanes.tsx), with the opacity transition below. */
 
 /* Hover elevation. transform on a <g> is composited, so this is free. */
 .nol-n { transition: opacity 200ms var(--ease-out-expo), transform 200ms var(--ease-out-expo); }
@@ -1240,7 +1234,9 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
 .nol-n rect:first-of-type { transition: stroke-width 160ms var(--ease-out-expo); }
 .nol-n, .nol-e { transition: opacity 200ms var(--ease-out-expo); }
 .nol-n:focus-visible { outline: none; }
-.nol-n:focus-visible rect:first-of-type { stroke: var(--brand); stroke-width: 2.6; }
+/* The focus colour, not the selection red (gate 3, minor 18). An SVG node has
+   no box-shadow, so the ring is the node's own stroke. */
+.nol-n:focus-visible rect:first-of-type { stroke: var(--focus); stroke-width: 2.6; }
 
 .nol-foot {
   display: flex; flex-wrap: wrap; align-items: center;
@@ -1251,10 +1247,9 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
 .nol-blast b { color: var(--ink-1); }
 .nol-more { font-size: var(--t-micro); padding: .3rem .7rem; }
 
-/* Motion off: the graph is a measurement instrument first. The dashes stop and
-   the strokes hold still; nothing about the composition depends on them. */
+/* Motion off: the graph is a measurement instrument first. The strokes change
+   state at once; nothing about the composition depends on the transitions. */
 @media (prefers-reduced-motion: reduce) {
-  .nol-flow { animation: none; }
   .nol-n, .nol-e, .nol-n rect:first-of-type { transition: none; }
 }
 
@@ -1277,27 +1272,29 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
 .nox-chip {
   display: inline-flex; align-items: baseline; gap: var(--sp-2);
   padding: 5px 10px;
-  border-radius: 8px;
+  border-radius: var(--r-xl);
   font-size: var(--t-xs);
   text-decoration: none;
   background: var(--surface-2);
   border: 1px solid var(--hairline);
   color: var(--ink-2);
-  transition: border-color .16s ease, transform .16s ease, background .16s ease;
+  transition: border-color var(--dur-fast) linear, background-color var(--dur-fast) linear;
 }
 .nox-chip b { font-family: var(--font-mono); color: var(--ink-1); unicode-bidi: isolate; }
 .nox-chip em { font-style: normal; color: var(--ink-3); font-size: var(--t-micro); }
 
-/* A destination: the object hue as an edge, and it lifts. */
-.nox-chip[data-live="1"] {
-  border-inline-start: 3px solid var(--select-line);
-  cursor: pointer;
-}
+/* A destination speaks the link language: the code in the link colour, a solid
+   edge, an underline on hover. It carried the 3px selection line, which means
+   "you are here" in the rail and the section bar, and it lifted on hover
+   (gate 5, finding 5). Nothing lifts; the selection line stays with selection. */
+.nox-chip[data-live="1"] { cursor: pointer; }
+.nox-chip[data-live="1"] b { color: var(--link); }
 .nox-chip[data-live="1"]:hover {
-  transform: translateY(-1px);
-  border-color: color-mix(in srgb, var(--o, var(--brand)) 45%, var(--hairline));
+  border-color: var(--line-strong);
   background: var(--surface);
 }
+.nox-chip[data-live="1"]:hover b { text-decoration: underline; text-underline-offset: 3px; }
+.nox-chip[data-live="1"]:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 /* A value with no page. Dashed edge, no lift, no pointer — it reads as data. */
 .nox-chip[data-live="0"] { border-style: dashed; }
 
@@ -1482,7 +1479,7 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
   unicode-bidi: isolate;
   tab-size: 2;
 }
-.nod-code:focus-visible { outline: 2px solid var(--o, var(--brand)); outline-offset: 2px; }
+.nod-code:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
 .nod-src {
   display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3);
@@ -1511,18 +1508,14 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
 
    Under prefers-reduced-motion it simply holds at its mid value — the ring is
    still there, it just stops breathing. */
-@keyframes nol-breathe {
-  0%, 100% { opacity: .18; }
-  50%      { opacity: .42; }
-}
+/* The ring holds still at .3 (lead, MOTION-1): it breathed forever while
+   nothing happened, a perpetual loop the motion policy rules out (MOTION.md,
+   "אין לולאה תמידית"). This was the reduced-motion state; it is now the only one. */
 .nol-halo {
   transform-box: fill-box;
   transform-origin: center;
-  animation: nol-breathe 4s var(--ease-in-out, ease-in-out) infinite;
+  opacity: .3;
   transition: stroke 260ms var(--ease-out-expo);
-}
-@media (prefers-reduced-motion: reduce) {
-  .nol-halo { animation: none; opacity: .3; }
 }
 
 /* A live cardinality chip is filled, so its label must not also be tinted. */
@@ -1561,3 +1554,12 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
 .nx-app .no-codeline { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); }
 .nx-app .no-codeline .no-mega { margin: 0; }
 .nx-app .no-status { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); margin: var(--sp-3) 0 0; }
+
+/* A field reached by its anchor (#field-AUFNR) lands under the running section
+   bar and is marked in the selection language (gate 6, minor 27). */
+.no-table tbody tr[id] { scroll-margin-block-start: calc(var(--nxs-h, 0px) + var(--sp-6)); }
+.no-table tbody tr[id]:target {
+  background: var(--select-bg);
+  outline: 2px solid var(--select-line);
+  outline-offset: -2px;
+}

@@ -7,7 +7,10 @@
    entries and they were never duplicates of each other:
 
      מושגים        33 terms   (data/concepts.ts)   — what does this mean?
-     מרכזי עבודה   89 topics  (data/centers/*)     — how do I carry it out?
+     מדריכי עבודה  89 topics  (data/centers/*)     — how do I carry it out?
+
+   "מדריכי עבודה" and not "מרכזי עבודה": that phrase is the SAP Work Center
+   (CRHD), which NEO documents as a concept of its own (gate 5, finding 7).
 
    Measured before consolidating: zero shared slugs, zero shared titles. So the
    second entry could not be deleted, and the two could not be flattened into
@@ -20,9 +23,11 @@
    The 89 topics were rebuilt INTO this language rather than the language being
    changed to accommodate them.
 
-   CONTROL LANGUAGE (app/neo/ui.css)
-     .nu-tab     switches which slice of the catalogue is listed.
-     .nu-filter  narrows it. A count on a filter is always the real count.
+   CONTROL LANGUAGE (app/neo/ui.css): two languages on this screen, not three
+   (gate 5, finding 6)
+     .nu-tab     switches which body of knowledge is listed. An underline.
+     .nu-filter  narrows it: the S/4HANA standing and the group. It inverts
+                 when on. A count on a filter is always the real count.
      .nu-chip    a value — the concept's group. Never clickable.
      .nu-status  dot + word. Used for exactly one thing: how the concept's own
                  S/4 sentence is worded, which is a real state of the record.
@@ -39,7 +44,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, BrainCircuit, Layers, Link2, Lightbulb, ListTree, Search, Sparkles, X } from "lucide-react";
+import { ArrowLeft, BookA, GitCompareArrows, Layers, Link2, Lightbulb, ListTree, Search, X } from "lucide-react";
 import { SmartReturn, consumeReturn, rememberOrigin, useReturnPacket } from "@/components/neo-shell/nav-context";
 import type { CenterRow, ConceptRow, KnowledgeData } from "./knowledge-data";
 
@@ -206,8 +211,8 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
      search term usually still makes sense. */
   const switchBody = (b: Body) => { if (b === body) return; setBody(b); setGroup(""); };
 
-  const dirty = !!q || !!group;
-  const reset = () => { setQ(""); setGroup(""); };
+  const dirty = !!q || !!group || view !== "all";
+  const reset = () => { setQ(""); setGroup(""); setView("all"); };
 
   /* -------------------------------------------------------- smart return */
 
@@ -230,7 +235,7 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
         : `/neo/knowledge/${slug}/`,
       href: "/neo/knowledge/",
       label: "מרכז הידע",
-      detail: [isWork ? "מרכזי עבודה" : "מושגים", ...parts].filter(Boolean).join(" · "),
+      detail: [isWork ? "מדריכי עבודה" : "מושגים", ...parts].filter(Boolean).join(" · "),
       surface: SURFACE,
       state,
     });
@@ -280,17 +285,18 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
           ECC ל-S/4HANA) ו-{nf.format(totals.centers)} נושאי עבודה ב-{nf.format(totals.families)} מרכזים.
         </p>
         <p className="nx-gate-note">
-          הסברי מושגים נמצאים ב<b>מרכז הידע</b>, שלבי ביצוע ורשימות בדיקה ב<b>מרכזי העבודה</b>, והמיקום בתהליך ב<b>תחומים העסקיים</b>.
+          הסברי מושגים נמצאים ב<b>מרכז הידע</b>, שלבי ביצוע ורשימות בדיקה ב<b>מדריכי העבודה</b>, והמיקום בתהליך ב<b>תחומים העסקיים</b>.
         </p>
       </header>
 
       {/* THE BODY SWITCH. Two bodies of one centre, never mixed into one list.
-          It uses .nu-tab, the same control the view switch below uses, so the
-          selected state is the strong filled one this surface already had. */}
-      <div className="nxl-bodies" role="tablist" aria-label="גוף הידע">
+          A .nu-tab row in the underline language: it switches what is shown,
+          it does not narrow it, so it must not wear a pressed filter's ink fill
+          (gate 5, finding 6). */}
+      <div className="nxl-tabs nxl-bodies" role="tablist" aria-label="גוף הידע">
         {([
-          { b: "terms" as Body, he: "מושגים", n: totals.concepts, i: <BrainCircuit size={14} strokeWidth={1.75} /> },
-          { b: "work" as Body, he: "מרכזי עבודה", n: totals.centers, i: <ListTree size={14} strokeWidth={1.75} /> },
+          { b: "terms" as Body, he: "מושגים", n: totals.concepts, i: <BookA size={14} strokeWidth={1.75} /> },
+          { b: "work" as Body, he: "מדריכי עבודה", n: totals.centers, i: <ListTree size={14} strokeWidth={1.75} /> },
         ]).map((x) => (
           <button
             key={x.b}
@@ -324,26 +330,6 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
           ) : null}
         </div>
 
-        <div className="nxl-tabs" role="tablist" aria-label="תצוגה">
-          {VIEWS.map((x) => (
-            <button
-              key={x.v}
-              type="button"
-              role="tab"
-              className="nu-tab"
-              aria-selected={view === x.v}
-              onClick={() => setView(x.v)}
-            >
-              {x.v === "all" ? (isWork ? "כל הנושאים" : x.he) : x.he}
-              <b>{nf.format(
-                x.v === "all" ? bodyTotal
-                  : x.v === "s4" ? (isWork ? totals.centersS4 : totals.s4Changed)
-                  : (isWork ? totals.centers - totals.centersS4 : totals.s4Same),
-              )}</b>
-            </button>
-          ))}
-        </div>
-
         <label className="nxl-sort">
           <span>מיון</span>
           <select value={sort} onChange={(e) => setSort(e.target.value as "repo" | "he")}>
@@ -354,6 +340,26 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
       </div>
 
       <div className="nxl-facets">
+        {/* The S/4HANA standing NARROWS the list, so it is a pair of filters and
+            not a row of tabs. No filter on is "all" (gate 5, finding 6). */}
+        <div className="nxl-facet" role="group" aria-label="סינון לפי תיעוד המעבר ל-S/4HANA">
+          <span className="nxl-facet-l">S/4HANA</span>
+          {VIEWS.filter((x) => x.v !== "all").map((x) => (
+            <button
+              key={x.v}
+              type="button"
+              className="nu-filter"
+              aria-pressed={view === x.v}
+              onClick={() => setView(view === x.v ? "all" : x.v)}
+            >
+              {x.he}
+              <b>{nf.format(
+                x.v === "s4" ? (isWork ? totals.centersS4 : totals.s4Changed)
+                  : (isWork ? totals.centers - totals.centersS4 : totals.s4Same),
+              )}</b>
+            </button>
+          ))}
+        </div>
         <div className="nxl-facet" role="group" aria-label={isWork ? "סינון לפי מרכז" : "סינון לפי קבוצה"}>
           <span className="nxl-facet-l">{isWork ? "מרכז" : "קבוצה"}</span>
           {facets.map((g) => (
@@ -376,12 +382,12 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
               { v: totals.centers, l: "נושאי עבודה", i: <ListTree size={14} strokeWidth={1.75} /> },
               { v: totals.families, l: "מרכזים", i: <Layers size={14} strokeWidth={1.75} /> },
               { v: totals.sections, l: "מקטעי תוכן", i: <Lightbulb size={14} strokeWidth={1.75} /> },
-              { v: totals.centersS4, l: "עם השפעת מעבר מתועדת", i: <Sparkles size={14} strokeWidth={1.75} /> },
+              { v: totals.centersS4, l: "עם השפעת מעבר מתועדת", i: <GitCompareArrows size={14} strokeWidth={1.75} /> },
             ]
           : [
-              { v: totals.concepts, l: "מושגים", i: <BrainCircuit size={14} strokeWidth={1.75} /> },
+              { v: totals.concepts, l: "מושגים", i: <BookA size={14} strokeWidth={1.75} /> },
               { v: totals.groups, l: "קבוצות", i: <Layers size={14} strokeWidth={1.75} /> },
-              { v: totals.s4Changed, l: "שינוי מתועד ב-S/4HANA", i: <Sparkles size={14} strokeWidth={1.75} /> },
+              { v: totals.s4Changed, l: "שינוי מתועד ב-S/4HANA", i: <GitCompareArrows size={14} strokeWidth={1.75} /> },
               { v: totals.s4Same, l: "ללא שינוי לפי התיעוד", i: <Layers size={14} strokeWidth={1.75} /> },
               { v: totals.examples, l: "דוגמאות", i: <Lightbulb size={14} strokeWidth={1.75} /> },
               { v: totals.links, l: "הפניות מקושרות לעמוד", i: <Link2 size={14} strokeWidth={1.75} /> },
@@ -437,7 +443,7 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
           </p>
         )}
         <p>
-          מקור: {isWork ? "מרכזי העבודה של הפרויקט" : "מאגר המושגים של הפרויקט"}: תיעוד SAP מאומת,
+          מקור: {isWork ? "מדריכי העבודה של הפרויקט" : "מאגר המושגים של הפרויקט"}: תיעוד SAP מאומת,
           {" "}שאינו מגיע ממערכת חיה. נדרש אימות במערכת לפני יישום.
         </p>
         {isWork ? (

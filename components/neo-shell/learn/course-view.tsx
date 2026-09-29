@@ -98,7 +98,7 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
         <span className="nx-modbar" aria-hidden="true" />
         <span className="nx-eyebrow">SAP Academy · {LEARN_MOD_HE[c.module] || c.module}</span>
         <div className="nxv-title">
-          <h1 className="nxv-h1">{c.title}</h1>
+          <h1 className="nxv-h1 nx-display">{c.title}</h1>
           {c.titleEn ? <p className="nxv-en">{c.titleEn}</p> : null}
         </div>
         <div className="nxv-meta">

@@ -44,12 +44,14 @@ import {
   Terminal, TriangleAlert, Workflow,
 } from "lucide-react";
 import { RISK_COLOR } from "@/lib/s4";
-import { SmartReturn } from "@/components/neo-shell/nav-context";
+import { OriginLink, SmartReturn } from "@/components/neo-shell/nav-context";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { CopyId } from "../copy-id";
 import { RecordStatus } from "../evidence/record-status";
 import { EvidenceBlock } from "../evidence/evidence-block";
 import { MOD_HE, REL_HE, relVar, tableSummary, type TableDetail } from "./tables-detail";
+import { fieldId } from "./field-id";
+import { RecordVisit } from "./record-visit";
 
 const nf = new Intl.NumberFormat("he-IL");
 
@@ -119,6 +121,10 @@ function ModTag({ mods }: { mods: string[] }) {
 export function TableDetailView({ t }: { t: TableDetail }) {
   const s = tableSummary(t);
   const m = MOD_VAR[t.mods[0]] || "var(--ink-3)";
+  // The origin every record link on this page records, so the page it opens
+  // returns HERE and not to the tables catalogue (gate 5, finding 12). One
+  // object, as on the transaction page.
+  const origin = { href: `/neo/tables/${encodeURIComponent(t.name)}/`, label: "טבלה", detail: t.name };
 
   // ONE list drives the numbering and the jump nav, so a section can never be
   // numbered 04 in the page and 03 in the nav.
@@ -155,6 +161,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         fallback={{ href: "/neo/tables/", label: "טבלאות SAP" }}
         hint="אין עמוד קודם בביקור הזה"
       />
+      <RecordVisit name={t.name} />
 
       {/* ==================================================== 1. IDENTITY */}
       <header className="nxb-head nm-rise nm-once">
@@ -363,7 +370,9 @@ export function TableDetailView({ t }: { t: TableDetail }) {
                   {t.fields.map((f) => {
                     const k = f.pk && f.fk ? "both" : f.pk ? "pk" : f.fk ? "fk" : "none";
                     return (
-                      <tr key={f.tech} data-k={k}>
+                      // An anchor per field, so a search result for a field can
+                      // open the table AT the field (gate 6, minor 27).
+                      <tr key={f.tech} data-k={k} id={fieldId(f.tech)}>
                         <td data-l="מפתח">
                           {k === "none"
                             ? <span className="nxb-kbadge" data-k="none" aria-label="לא מפתח">–</span>
@@ -426,10 +435,10 @@ export function TableDetailView({ t }: { t: TableDetail }) {
                   <span className="nxb-rel-name">
                     <i className="nxb-rel-cls" aria-hidden="true" />
                     {r.href ? (
-                      <Link className="nx-sap nu-link nxb-rel-a" href={r.href} prefetch={false}>
+                      <OriginLink className="nx-sap nu-link nxb-rel-a" href={r.href} origin={origin}>
                         {r.name}
                         <ArrowLeft className="nu-arw" size={12} strokeWidth={2} aria-hidden="true" />
-                      </Link>
+                      </OriginLink>
                     ) : (
                       // No page is generated for this table, so it is printed as
                       // the value it is. A chip has no hover and no pointer.
@@ -635,11 +644,11 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             {t.tx.map((x) => (
               <li key={x.code}>
                 {x.href ? (
-                  <Link className="nu-card nxb-txcard" href={x.href} prefetch={false}>
+                  <OriginLink className="nu-card nxb-txcard" href={x.href} origin={origin}>
                     <b className="nx-sap">{x.code}</b>
                     <ModTag mods={x.mods} />
                     <ArrowUpLeft className="nxb-txarw" size={14} strokeWidth={1.75} aria-hidden="true" />
-                  </Link>
+                  </OriginLink>
                 ) : (
                   <span className="nxb-txflat">
                     <span className="nu-chip is-sap">{x.code}</span>
@@ -780,13 +789,13 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             {t.siblings.map((sb) => (
               <li key={sb.name} style={{ "--o": sb.obj } as React.CSSProperties}>
                 {sb.href ? (
-                  <Link className="nu-card nxb-sibcard" href={sb.href} prefetch={false}>
+                  <OriginLink className="nu-card nxb-sibcard" href={sb.href} origin={origin}>
                     <i className="nxb-rel-cls" aria-hidden="true" />
                     <b className="nx-sap">{sb.name}</b>
                     <em>{sb.he || "אין תיעוד מאומת במאגר"}</em>
                     <span className="nxb-dim">{sb.topic}</span>
                     <ArrowUpLeft className="nxb-txarw" size={14} strokeWidth={1.75} aria-hidden="true" />
-                  </Link>
+                  </OriginLink>
                 ) : (
                   <span className="nxb-sibflat">
                     <i className="nxb-rel-cls" aria-hidden="true" />

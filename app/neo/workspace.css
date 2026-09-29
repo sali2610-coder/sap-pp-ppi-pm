@@ -123,7 +123,7 @@ html .nx-app .nx-canvas:has(> .nw) {
 }
 
 .nw-sap { font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate; }
-.nw-fine { font-size: var(--t-xs); color: var(--ink-3); line-height: 1.7; max-inline-size: 76ch; }
+.nw-fine { font-size: var(--t-xs); color: var(--ink-3); line-height: 1.7; max-inline-size: var(--measure); }
 .nw-sr {
   position: absolute; inline-size: 1px; block-size: 1px;
   margin: -1px; padding: 0; overflow: hidden; white-space: nowrap;
@@ -281,7 +281,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   border: 1px solid color-mix(in srgb, var(--m) 26%, var(--hairline));
   flex: none;
 }
-.nw-lede { font-size: 1.0625rem; color: var(--ink-2); line-height: 1.62; max-inline-size: 64ch; }
+.nw-lede { font-size: 1.0625rem; color: var(--ink-2); line-height: 1.62; max-inline-size: var(--measure); }
 
 /* --- where to start. Three routes, ranked by the shape of the control ----- */
 .nw-go { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
@@ -315,10 +315,9 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw .nxs {
   --nxs-gut: var(--nw-gut);
   --nxs-on: var(--m);
-  /* The bar is translucent so the ambient light keeps travelling under it, so
-     what it is translucent OVER has to be this page's ground and not the shell's
-     — otherwise the strip reads a shade cooler than everything beneath it. */
-  background: color-mix(in srgb, var(--scene-ground) 84%, transparent);
+  /* This page's own ground and not the shell's, opaque like the bar itself
+     (gate 3, minor 19). */
+  background: var(--scene-ground);
 }
 
 .nw-idx {
@@ -327,7 +326,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   padding: var(--sp-8) var(--nw-gut) var(--sp-8);
   border-block-start: 1px solid color-mix(in srgb, var(--m) 22%, var(--hairline));
 }
-.nw-idx-h { display: grid; gap: var(--sp-2); max-inline-size: 72ch; }
+.nw-idx-h { display: grid; gap: var(--sp-2); max-inline-size: var(--measure); }
 .nw-idx-k {
   font-size: var(--t-micro);
   font-weight: 600;
@@ -362,15 +361,11 @@ html .nx-app .nx-canvas:has(> .nw) {
 }
 .nw-idx-t { font-size: var(--t-sm); font-weight: 600; color: var(--ink-1); line-height: 1.35; }
 /* THE CHAPTER THIS PAGE IS FOR. The index is a flat list of eight equal tiles,
-   which is honest about the structure and silent about the priority — so the one
-   chapter the product exists to deliver takes a module EDGE, a tint and a
-   heavier title here, the same three signals the running bar draws. All three
-   are sanctioned module forms; none of them is a coloured dot. */
-.nw-idx-i[data-key="1"] {
-  border-inline-start-width: 3px;
-  border-inline-start-color: var(--m);
-  background: color-mix(in srgb, var(--m) 7%, var(--surface));
-}
+   which is honest about the structure and silent about the priority, so the one
+   chapter the product exists to deliver takes a heavier title and its number
+   in the module's ink. Its 3px module edge and 7% tint went (lead, SIDE-3):
+   under SIDE-TABS.md a colour bar is kept only when it doubles a word or marks
+   the current item, and this one did neither; the weight carries it. */
 .nw-idx-i[data-key="1"] .nw-idx-t { font-weight: 700; }
 .nw-idx-i[data-key="1"] .nw-idx-n { color: var(--m); }
 .nw-idx-c { display: flex; align-items: baseline; gap: 5px; }
@@ -477,7 +472,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   font-size: 1rem;
   color: var(--ink-2);
   line-height: 1.72;
-  max-inline-size: 68ch;
+  max-inline-size: var(--measure);
 }
 .nw-ch-s b { color: var(--ink-1); font-variant-numeric: tabular-nums; }
 .nw-ch-go { display: flex; gap: var(--sp-4); flex-wrap: wrap; margin-block-start: var(--sp-2); }
@@ -524,7 +519,7 @@ html .nx-app .nx-canvas:has(> .nw) {
 }
 .nw-sub-ico { display: inline-grid; place-items: center; color: var(--m); flex: none; }
 .nw-sub-h--2 { margin-block-start: var(--sp-5); }
-.nw-sub-s { font-size: var(--t-sm); color: var(--ink-2); line-height: 1.7; max-inline-size: 78ch; }
+.nw-sub-s { font-size: var(--t-sm); color: var(--ink-2); line-height: 1.7; max-inline-size: var(--measure); }
 .nw-links { display: flex; gap: var(--sp-5); flex-wrap: wrap; align-items: center; }
 
 /* ==========================================================================
@@ -680,11 +675,10 @@ html .nx-app .nx-canvas:has(> .nw) {
   display: grid;
   gap: var(--sp-3);
   padding: var(--sp-3) var(--nw-gut);
-  /* Deliberately not opaque: the ambient module light has to keep travelling
-     under the rail, so the blur has something to do. */
-  background: color-mix(in srgb, var(--m) 5%, color-mix(in srgb, var(--scene-ground) 88%, transparent));
+  /* Opaque, no glass (gate 3, minor 19): the "ambient module light" the blur
+     was kept for was removed with the scene washes (231328a2). */
+  background: color-mix(in srgb, var(--m) 5%, var(--scene-ground));
   border-block: 1px solid color-mix(in srgb, var(--m) 26%, var(--hairline));
-  backdrop-filter: blur(10px);
 }
 .nw-railtop { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
 
@@ -702,9 +696,12 @@ html .nx-app .nx-canvas:has(> .nw) {
   color: var(--ink-3);
   transition: border-color var(--dur-fast) linear, box-shadow var(--dur-fast) linear;
 }
-.nw-find:focus-within { border-color: var(--m); box-shadow: 0 0 0 3px color-mix(in srgb, var(--m) 16%, transparent); }
+/* The one focus language, the 2px blue ring (gate 3, minor 18). */
+.nw-find:focus-within { border-color: var(--line-strong); box-shadow: var(--focus-ring); }
 .nw-find input {
   min-block-size: 1.75rem;
+  /* Stretched to the field, so the field is the target (gate 4, major 8). */
+  align-self: stretch;
   flex: 1;
   min-inline-size: 0;
   border: 0;
@@ -835,6 +832,24 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw-c-cv { inline-size: 6rem; }
 .nw-c-s4 { inline-size: 6.5rem; }
 .nw-c-x { inline-size: 2.75rem; }
+/* A laptop canvas (the workspace 900 to 1099px wide, a 1280 window): the fixed
+   columns above sum 62.75rem, so the table spilled past the canvas and every
+   row's expand button sat 44px off screen (lead, WS-1: scrollWidth 1044 in
+   1000 at 1280). Here the widest columns give way and wrap and the cells lose
+   2px a side, so the description keeps a real column. From 1100px the widths
+   above fit; under 900px the rows are cards. */
+@container nw (min-width: 900px) and (max-width: 1099px) {
+  .nw-row > td, .nw-tbl thead th { padding-inline: 6px; }
+  .nw-c-n { inline-size: 8.5rem; }
+  .nw-c-tp { inline-size: 6.5rem; }
+  .nw-c-f { inline-size: 4.5rem; }
+  .nw-c-tc { inline-size: 7rem; }
+  .nw-c-fn { inline-size: 5rem; }    /* the "ממשקים" sort label, whole */
+  .nw-c-rel { inline-size: 4.5rem; }
+  .nw-c-cv { inline-size: 5rem; }
+  .nw-c-s4 { inline-size: 5.5rem; }
+  .nw-tp-t { max-inline-size: 4rem; }
+}
 
 /* The one thing in the row that leaves for a route. .nu-link supplies the
    colour, the arrow and the hover; this only adds the class dot and the floor. */
@@ -1101,13 +1116,9 @@ html .nx-app .nx-canvas:has(> .nw) {
      severity, because the hue may not. */
   border-inline-start: 1px solid var(--hairline);
 }
-.nw-move[data-risk="high"] {
-  border-inline-start-width: 6px;
-  border-inline-start-color: var(--m);
-  background: color-mix(in srgb, var(--m) 4%, var(--surface));
-  box-shadow: var(--elev-2);
-}
-.nw-move[data-risk="medium"] { border-inline-start-width: 4px; }
+/* The risk is the row's nu-status pill, a mark and a word; the 6px and 4px
+   edges (and the high row's tint and lift) re-thickened the 1px hairline
+   SIDE-TABS.md set here, repeating that word in module colour (lead, SIDE-3). */
 .nw-move-h { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
 .nw-move-h .nu-status { font-size: var(--t-xs); font-weight: 700; }
 .nw-move-n { padding-block: 0; }
@@ -1119,9 +1130,9 @@ html .nx-app .nx-canvas:has(> .nw) {
   line-height: 1.62;
   color: var(--ink-1);
   font-weight: 600;
-  max-inline-size: 74ch;
+  max-inline-size: var(--measure);
 }
-.nw-move-y { font-size: var(--t-sm); line-height: 1.7; color: var(--ink-2); max-inline-size: 76ch; }
+.nw-move-y { font-size: var(--t-sm); line-height: 1.7; color: var(--ink-2); max-inline-size: var(--measure); }
 .nw-move-kv { display: grid; gap: var(--sp-2); }
 .nw-move-kv > div {
   display: grid;
@@ -1405,7 +1416,10 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
   .nw-row > td { border: 0; padding: 0; }
   .nw-row:hover > td,
   .nw-row[data-open="1"] > td { background: none; }
-  .nw-row[data-open="1"] { border-color: var(--m); box-shadow: 0 0 0 1px var(--m) inset, var(--elev-2); }
+  /* The open card is the current item: the selection line of .nu-card
+     (ui.css), not a module ring. Its `var(--elev-2)` list item was invalid by
+     day until TOKEN-1, so the ring only ever showed at night. */
+  .nw-row[data-open="1"] { border-color: var(--select-line); box-shadow: inset 0 0 0 1px var(--select-line); }
   .nw-row[data-open="1"] > td:first-child { box-shadow: none; }
   .nw-c-n { grid-column: 1; }
   .nw-c-x { grid-column: 2; grid-row: 1 / span 2; justify-self: end; }
@@ -1571,7 +1585,7 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
    the header is the summary, the body opens on click or on anchor navigation. */
 .nw-ch-d > summary { list-style: none; cursor: pointer; }
 .nw-ch-d > summary::-webkit-details-marker { display: none; }
-.nw-ch-d > summary:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--m); border-radius: var(--r-sm); }
+.nw-ch-d > summary:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--r-sm); }
 .nw-ch-toggle {
   display: inline-flex; align-items: center; gap: 4px; margin-block-start: var(--sp-3);
   font-size: var(--t-micro); font-weight: 600; color: var(--m);
