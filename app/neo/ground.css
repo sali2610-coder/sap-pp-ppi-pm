@@ -590,3 +590,28 @@ html[data-theme="dark"] [data-scene="ai"] {
   .nm-scene,
   .nx-app[data-scene-now] { transition: none; }
 }
+
+/* --------------------------------------------------------------------------
+   §404. THE NOT-FOUND PAGE'S OWN FRAME (app/not-found.tsx)
+   The 404 renders outside the NEO shell, so it frames itself: a page on the
+   ground with the footer at its foot. `.nx-app` also carries the shell's grid
+   and 100dvh in globals.css; two classes out-rank it here (gate 3, major 12).
+   Inside the legacy chrome (an unknown address outside /neo/, `#main`) that
+   chrome already has a footer and a height, so this one steps back.
+   -------------------------------------------------------------------------- */
+.nx-app.nx-nf {
+  display: flex; flex-direction: column;
+  block-size: auto; min-block-size: 100dvh;
+  overflow: visible;
+  padding-inline: var(--sp-4);
+}
+.nx-nf-main { flex: 1 0 auto; display: grid; place-items: center; padding-block: var(--sp-12) var(--sp-8); }
+.nx-nf-box { inline-size: 100%; max-inline-size: 36rem; display: grid; gap: var(--sp-2); }
+.nx-nf-eye { margin: 0; font-size: var(--t-xs); color: var(--ink-2); }
+.nx-nf-code { margin: var(--sp-6) 0 0; font-family: var(--font-mono); font-size: var(--t-sm); color: var(--ink-2); justify-self: start; }
+.nx-nf-h1 { margin: 0; font-size: var(--t-h1); line-height: var(--t-h1-lh); font-weight: 600; letter-spacing: 0; color: var(--ink-1); }
+.nx-nf-lede { margin: 0; font-size: var(--t-body); line-height: 1.7; color: var(--ink-2); }
+.nx-nf-go { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-block-start: var(--sp-4); }
+.nx-app.nx-nf .nx-foot { margin-block-start: 0; }
+#main .nx-app.nx-nf { min-block-size: 0; background: transparent; }
+#main .nx-app.nx-nf .nx-foot { display: none; }

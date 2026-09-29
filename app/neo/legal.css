@@ -1,8 +1,13 @@
 /* The legal documents (components/neo-shell/legal/legal-view.tsx). Scoped to
    .nlg rather than .nx-app because the legacy /privacy/ renders the same view
    outside the NEO shell; every token therefore carries a fallback. A reading
-   column of at most 72 characters, the contents list beside it on a wide
-   screen and above it otherwise, rules between sections rather than boxes. */
+   column of about 67 characters, the contents list beside it on a wide screen
+   and above it otherwise, rules between sections rather than boxes.
+
+   THE MEASURE IS IN em, NOT ch (gate 3, major 11). `ch` is the Latin zero of
+   Plex (0.6em) and this Hebrew averages about 0.49em a character, so 72ch set
+   88 to 90 characters a line. 33em at the 16px body lands at about 67, inside
+   the spec's 60 to 72. */
 
 .nlg {
   display: grid;
@@ -23,7 +28,7 @@
   .nlg-other { grid-area: other; }
 }
 
-.nlg-head { display: grid; gap: var(--sp-2, .5rem); max-inline-size: 72ch; }
+.nlg-head { display: grid; gap: var(--sp-2, .5rem); max-inline-size: 33em; }
 .nlg-head h1 { font-size: var(--t-h1, 1.75rem); font-weight: 600; line-height: 1.25; letter-spacing: 0; }
 .nlg-lede { font-size: var(--t-lead, 1.125rem); line-height: 1.6; color: var(--ink-2); }
 .nlg-meta { font-size: var(--t-xs, .8125rem); color: var(--ink-2); }
@@ -56,7 +61,7 @@
 .nlg-toc a:hover { color: var(--ink-1); background: var(--surface-2); }
 .nlg-toc a:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
-.nlg-body { display: grid; max-inline-size: 72ch; }
+.nlg-body { display: grid; max-inline-size: 33em; }
 .nlg-body section { padding-block: var(--sp-5, 1.25rem); border-block-start: 1px solid var(--hairline); scroll-margin-block-start: var(--sp-6, 1.5rem); }
 .nlg-body section:first-child { border-block-start: 0; padding-block-start: 0; }
 .nlg-body h2 { font-size: var(--t-h2, 1.25rem); font-weight: 600; line-height: 1.35; letter-spacing: 0; margin-block-end: var(--sp-2, .5rem); }
