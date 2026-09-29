@@ -1734,3 +1734,31 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 .ne-node-s4 text { font-family: var(--font-sans, inherit); font-size: 9.5px; font-weight: 700; }
 .ne-s4-canon { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); margin: 0 0 var(--sp-2); }
 .ne-s4-canon em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
+
+/* 2026: nothing in the identity is cut except the count. The eyebrow is a
+   label over the title (ui.css draws it as one), so it takes its own line;
+   squeezed into the title row it broke over two lines in production and was
+   cut mid-word here. The title never ellipsises (it read "מודל הנתונים · כל
+   המו…" at 1440): it keeps its line where it fits and wraps only where the
+   identity block is narrower than the title. The mode chip keeps one line.
+   The count stays the part that gives way, as designed above, because the
+   module control and the panel print the same numbers. On a narrow bar every
+   part takes its own line instead of a column one word wide (390px). */
+.ne-bar-t { flex-wrap: wrap; row-gap: 2px; }
+.ne-bar-t .ne-eye { flex: 1 1 100%; margin: 0; }
+.ne-bar-t .ne-h1 { flex: 0 1 auto; white-space: normal; overflow: visible; }
+.ne-bar-t .ne-modechip { flex: none; margin: 0; white-space: nowrap; }
+@container ne (max-width: 900px) {
+  .ne-bar-t .ne-h1,
+  .ne-bar-t .ne-sub,
+  .ne-bar-t .ne-modechip { flex: 1 1 100%; white-space: normal; overflow: visible; }
+}
+
+/* THE NODE'S S/4HANA TAG takes its status family, the same --s4-* token the
+   pill and the legends read through S4_STATUS_DOT (set inline as --s4c), so
+   "הוסר" and "ECC בלבד" are no longer one red, and a tag's colour no longer
+   means risk here and status everywhere else. The risk is stated in words in
+   the open card. Day: surface text on a family that clears 4.95:1 on the
+   lightest surface; night: the dark surface on a family that clears 6.87:1. */
+.ne-node-s4[data-k] rect { fill: var(--s4c, var(--s4-verify)); }
+.ne-node-s4[data-k] text { fill: var(--surface); }

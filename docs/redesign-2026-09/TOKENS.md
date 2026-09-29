@@ -34,7 +34,7 @@ Ratios are the minimum over canvas, panel, recessed and floating surfaces.
 
 ## S/4HANA status families
 
-Always an icon and a word; colour is the third signal, never the only one. The words come from the content reviewer's dictionary (`reviews/content-review-copy-sap.md`, row 91).
+Always an icon and a word; colour is the third signal, never the only one. The status pill, the ERD tags and every legend read these same `--s4-*` tokens through `S4_STATUS_DOT` (`lib/evidence/types.ts`), so one family is one colour everywhere. The words come from the content reviewer's dictionary (`reviews/content-review-copy-sap.md`, row 91).
 
 | family | token | day | night | worst ratio |
 |---|---|---|---|---|
@@ -56,7 +56,7 @@ Identity only; every module mark carries its code as text, so colour is never th
 | module | day | night | day ratio | change |
 |---|---|---|---|---|
 | PM | #0d6c64 | #5eead4 | 5.10 | darker, same teal |
-| PP-PI | #1d4ed8 | #7dd3fc | 5.45 | kept |
+| PP-PI | #004cd6 | #7dd3fc | 5.68 | hue 264° to 262°: #1d4ed8 tinted to periwinkle on the warm paper |
 | PP | #436c0d | #bef264 | 5.03 | darker, same olive |
 | PP/DS | #8a5a12 | #f2c96b | 4.80 | bronze, no longer equal to BATCH |
 | MM | #0c6a84 | #67e8f9 | 5.00 | darker, same cyan |
@@ -66,7 +66,7 @@ Identity only; every module mark carries its code as text, so colour is never th
 | BATCH | #8b5606 | #fcd34d | 4.97 | darker, same amber |
 | CS | #137035 | #86efac | 5.02 | darker, same green |
 | CLASS | #0369a1 | #38bdf8 | 4.82 | kept |
-| FI | #1e3a8a | #93b4f5 | 8.42 | navy, was violet #6d28d9 |
+| FI | #103b8c | #93b4f5 | 8.42 | navy, was violet #6d28d9; #1e3a8a drifted like PP-PI |
 | CO | #375116 | #96c166 | 7.26 | moss, was fuchsia #86198f; a first bronze sat 0.031 OKLab from BATCH |
 | PI/PO | #475569 | #aab6c8 | 6.16 | slate, was indigo #4338ca |
 | Fiori | #3b5b7a | #9dbbd8 | 5.76 | cool slate, was violet #5b21b6 |
@@ -75,6 +75,8 @@ Identity only; every module mark carries its code as text, so colour is never th
 | S/4 | #44403c | #d6d3d1 | 8.35 | warm stone |
 | HR (ERD only) | #005350 | #0dcbc3 | 7.25 | deep teal, was #0d9488 |
 | BW (ERD only) | #684a00 | #daa843 | 6.64 | ochre, was indigo #4f46e5 |
+
+**Tint drift.** A module colour is also mixed into the surfaces at low strength (`color-mix` in sRGB, for rows and marks). Mixed into the warm paper, #1d4ed8 and #1e3a8a land at OKLCH hue 272-276° at 14-36% strength, inside the violet band, although neither passes the violet test alone. `tint-drift.mjs` tests every module at every strength on the four surfaces; `blue-fix.mjs` picked the nearest colour (OKLab) that never drifts, keeps 4.5:1 and sits no closer to another module than the original did. The runtime sweep (`violet-dom.mjs`, 160 route and theme pairs) confirms no painted violet.
 
 CO, HR and BW were chosen by `erd-extra-hues.mjs`: one OKLCH hue per module (so the day and night values are the same module), scored by the smaller of the two themes' minimum OKLab distance to the modules it lives beside, with 4.5:1 and the violet test as hard filters. The ERD reads these same `--mod-*` values (it used to carry the production graph's own palette, with PP violet and FI and CO red); HR and BW are declared in `app/neo/erd.css` because only the ERD shows them. The join between two modules on the ERD is drawn in `--ink-1`: every other edge carries a module colour, so the strongest ink is the one stroke that cannot be read as a module.
 

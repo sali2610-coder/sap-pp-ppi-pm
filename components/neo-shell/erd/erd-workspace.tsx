@@ -59,7 +59,7 @@ import {
   type RelKind,
 } from "./erd-types";
 import { RISK_HE } from "@/lib/s4";
-import { S4_STATUS_READING, S4_STATUS_WORD, type S4Status } from "@/lib/evidence/types";
+import { S4_STATUS_DOT, S4_STATUS_READING, S4_STATUS_WORD, type S4Status } from "@/lib/evidence/types";
 import { useShellFocus } from "../focus";
 import {
   SmartReturn, consumeReturn, rememberOrigin, useReturnPacket,
@@ -2746,6 +2746,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                                   className="ne-node-s4"
                                   data-risk={t.s4v?.r || "medium"}
                                   data-k={t.s4k.k}
+                                  style={{ "--s4c": S4_STATUS_DOT[t.s4k.k as S4Status] } as React.CSSProperties}
                                   transform={`translate(${ow / 2 - s4BadgeW(t.s4k) - 8} ${oy + 12})`}
                                 >
                                   <rect width={s4BadgeW(t.s4k)} height={13} rx={3} />
