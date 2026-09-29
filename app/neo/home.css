@@ -110,6 +110,30 @@ html[data-device="phone"] .nx-app .nh-find-k { display: none; }
 .nx-app .nh-door-sub { grid-area: sub; font-size: var(--t-xs); line-height: 1.5; color: var(--ink-2); }
 .nx-app .nh-door:hover .nh-door-name { text-decoration: underline; text-underline-offset: 3px; }
 
+/* THE COMMAND INPUT IS THE HOME (gate 10, M2). The gate takes the page's
+   column, so the search reads as the one object of the first screen; the
+   title and the lede keep their own measure. The doors become one dense list
+   (rows, not tiles: name, count in the identifier face, what it opens), three
+   columns from 60rem, so the process map reaches the first screen at 1440. */
+.nx-app .nh-gate { max-inline-size: none; }
+.nx-app .nh-h1 { max-inline-size: 30ch; }
+.nx-app .nh-find-f { min-block-size: 3.5rem; font-size: var(--t-lead); }
+.nx-app .nh-find-eg {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-1) var(--sp-3);
+  margin: 0; font-size: var(--t-sm); color: var(--ink-2);
+}
+.nx-app .nh-doors ul { gap: 0 var(--sp-6); }
+@container (min-width: 60rem) { .nx-app .nh-doors ul { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@container (min-width: 100rem) { .nx-app .nh-doors ul { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.nx-app .nh-doors .nh-door {
+  gap: 2px var(--sp-2);
+  padding: var(--sp-3) 0;
+  border: 0; border-block-end: 1px solid var(--hairline); border-radius: 0;
+  background: none; box-shadow: none;
+}
+.nx-app .nh-doors .nh-door:hover { border-block-end-color: var(--line-strong); }
+.nx-app .nh-doors .nh-door-n { font-size: var(--t-body); font-weight: 600; }
+
 /* ------------------------------------------------------------ continuing */
 
 .nx-app .nh-cont { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--sp-3); }

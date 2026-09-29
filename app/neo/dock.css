@@ -179,6 +179,13 @@ html[data-theme="dark"] .nxk-p { border-color: var(--line-strong); }
 /* Face is inherited, so one declaration on the shell reaches every NEO surface.
    Unset by default, which means the design system's own stack keeps winning. */
 .nx-app { font-family: var(--nx-face, inherit); }
+/* The reader's face (dock/typography.ts FACES, same stacks), keyed on <html>
+   so the pre-paint script can set it (lib/theme-boot.ts; gate 10, M6). The
+   stacks resolve here on the shell, which carries the self-hosted font
+   variables; declared on <html> the Frank one would resolve to nothing. */
+html[data-neo-face="grotesk"] .nx-app { --nx-face: 'Arial Hebrew', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+html[data-neo-face="serif"] .nx-app { --nx-face: var(--f-frank-he), var(--f-frank-lat), 'Frank Ruehl CLM', 'David', 'Times New Roman', serif; }
+html[data-neo-face="clear"] .nx-app { --nx-face: Tahoma, 'Arial Hebrew', Verdana, Arial, sans-serif; }
 
 /* ============================================================================
    APPEARANCE CONTROL — יום / אוטומטי / לילה

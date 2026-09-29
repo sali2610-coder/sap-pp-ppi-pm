@@ -260,4 +260,16 @@ a.nu-card:hover, button.nu-card:hover { border-color: var(--line-strong); }
   }
   html .nx-app .nx-foot-legal a { display: inline-flex; align-items: center; }
   html .nlg-toc a { align-items: center; }
+  /* Every other control too (gate 8, M8 measured chips, search fields, back
+     links, list rows and icon buttons at 24 to 42px on a phone). min-block-size
+     does nothing to an inline box, so a link inside running text keeps its
+     line (the WCAG 2.5.8 inline exception). Canvas nodes are drawn to their
+     own geometry and stay out: the ERD and the Studio list every node as a
+     row as well. */
+  html .nx-app :is(a[href], button, select, textarea, [role="button"], [role="tab"], [role="option"],
+    input:not([type="checkbox"], [type="radio"], [type="range"], [type="hidden"])):not(.nst-node, .ne-node, .nx-skip) {
+    min-block-size: var(--c-tap, 2.75rem);
+  }
+  html .nx-app :is(button, [role="button"], [role="tab"]):not(.nst-node, .ne-node) { min-inline-size: var(--c-tap, 2.75rem); }
+  html .nx-app .nx-skip { min-block-size: var(--c-tap, 2.75rem); display: inline-flex; align-items: center; }
 }

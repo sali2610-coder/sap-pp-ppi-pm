@@ -20,7 +20,7 @@
    ========================================================================== */
 
 import { useMemo } from "react";
-import { AlertTriangle, CircleSlash, RotateCcw, Sparkles, Timer } from "lucide-react";
+import { AlertTriangle, CircleHelp, CircleSlash, RotateCcw, Timer } from "lucide-react";
 import { AnswerBody } from "@/components/ai/answer-body";
 import { ANSWER_ACTIONS, type AnswerAction } from "@/lib/ai/prompts";
 import type { AiMode } from "@/lib/ai/modes";
@@ -211,7 +211,7 @@ export function Message({
                   {a.followUps.length ? (
                     <div className="nxq-follow">
                       <span className="nxq-follow-t">
-                        <Sparkles size={13} strokeWidth={2} aria-hidden="true" />
+                        <CircleHelp size={13} strokeWidth={2} aria-hidden="true" />
                         שאלות המשך מוצעות
                       </span>
                       <div className="nxq-follow-row">

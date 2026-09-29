@@ -164,9 +164,8 @@ html[data-theme="dark"] .nce { --gold: #e0bd5c; }
 
 .nce-result {
   text-align: center; padding: 2rem 1.25rem 1.6rem; border-radius: var(--r-xl);
-  background:
-    radial-gradient(80% 70% at 50% 0%, color-mix(in srgb, var(--gold) 14%, transparent), transparent 70%),
-    var(--surface);
+  /* A plain surface: the gold wash behind the score was decoration (gate 10, m13). */
+  background: var(--surface);
   border: 1px solid var(--hairline);
   box-shadow: var(--elev-3);
 }

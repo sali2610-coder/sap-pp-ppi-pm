@@ -163,10 +163,9 @@ html[data-theme="dark"] .nst-mode[data-on="1"] { color: var(--ink-1); }
 .nst[data-present="1"] .nst-node[data-tier="core"] b { font-size: .95rem; }
 .nst[data-present="1"] .nst-node span { font-size: .78rem; }
 .nst[data-present="1"] .nst-rel span { font-size: .85rem; }
-.nst-node span { direction: rtl; font-size: .72rem; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nst-node span { direction: rtl; font-size: var(--t-micro); color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .nst-node[data-tier="core"] b { font-size: .8rem; }
-.nst-node:hover { box-shadow: var(--elev-3); transform: translateY(-1px); }
-.nst-node:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+/* Hover and focus: see below (no lift; the system's blue ring, gate 10, m7). */
 /* Selected: ring + lift. Neighbours stay full strength. */
 .nst-node[data-on="1"] {
   box-shadow: var(--elev-3), 0 0 0 2px var(--c), 0 0 0 6px color-mix(in srgb, var(--c) 20%, transparent);

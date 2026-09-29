@@ -210,7 +210,8 @@ function s4Word(k: ErdS4K): string | null {
   if (key === "s4_native") return "חדש";
   return S4_STATUS_WORD[key];
 }
-const s4BadgeW = (k: ErdS4K): number => 10 + (s4Word(k) || "").length * 7.1;
+// 12px text (gate 10, M3): about 8px a Hebrew letter at weight 700.
+const s4BadgeW = (k: ErdS4K): number => 12 + (s4Word(k) || "").length * 8.2;
 /** A module's title without repeating its code: HR and BW have no Hebrew name
  *  in the dataset, and the catalogue falls back to the code, which printed
  *  "HR · HR" (gate 7, minor 21). */
@@ -2810,10 +2811,10 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                                   /* On the card's top edge, at the inline-start corner, like a
                                      flag: it covers only the module band, never the zone label it
                                      used to sit on (gate 7, major 11: "משתנה" hid "אובייקט"). */
-                                  transform={`translate(${ow / 2 - s4BadgeW(t.s4k) - 10} ${oy - 7})`}
+                                  transform={`translate(${ow / 2 - s4BadgeW(t.s4k) - 10} ${oy - 8})`}
                                 >
-                                  <rect width={s4BadgeW(t.s4k)} height={13} rx={3} />
-                                  <text x={s4BadgeW(t.s4k) / 2} y={10} textAnchor="middle">{s4Word(t.s4k)}</text>
+                                  <rect width={s4BadgeW(t.s4k)} height={16} rx={3} />
+                                  <text x={s4BadgeW(t.s4k) / 2} y={12} textAnchor="middle">{s4Word(t.s4k)}</text>
                                 </g>
                               ) : null}
                               {/* The affordance the old node shows on hover. */}
@@ -2836,8 +2837,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                                   const k = f[3] === "PK" || f[3] === "FK" ? f[3] : "";
                                   return (
                                     <g key={f[0]} className="ne-open-row" data-k={k || "-"}>
-                                      <rect className="ne-open-chip" x={px - 25} y={yr - 6.5} width={25} height={13} rx={3.5} />
-                                      <text className="ne-open-chip-t nx-sap" x={px - 12.5} y={yr} textAnchor="middle">
+                                      <rect className="ne-open-chip" x={px - 26} y={yr - 7.5} width={26} height={15} rx={3.5} />
+                                      <text className="ne-open-chip-t nx-sap" x={px - 13} y={yr} textAnchor="middle">
                                         {k || "·"}
                                       </text>
                                       <text className="ne-open-f nx-sap" x={px - 31} y={yr} textAnchor="end">

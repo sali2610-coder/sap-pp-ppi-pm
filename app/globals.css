@@ -42,7 +42,7 @@
   --status-not-started: #94a3b8;
   --status-in-analysis: #f59e0b;
   --status-in-conversion: #3b82f6;
-  --status-tested: #8b5cf6;
+  --status-tested: #0d6771;  /* = system.css; was violet (gate 10, M4) */
   --status-done: #10b981;
   /* An object the blueprint marks as GONE in S/4HANA. Deliberately separate
      from --status-not-started, which this product reads as "no verdict yet". */
@@ -1099,8 +1099,8 @@ html[data-theme="dark"] .bg-amber-50 { background-color: #2b2008; }
 html[data-theme="dark"] .text-amber-700 { color: #fbbf24; }
 html[data-theme="dark"] .bg-sky-50 { background-color: #0b2436; }
 html[data-theme="dark"] .text-sky-700 { color: #56b6f5; }
-html[data-theme="dark"] .bg-violet-50 { background-color: #1e1435; }
-html[data-theme="dark"] .text-violet-700 { color: #a78bfa; }
+html[data-theme="dark"] .bg-violet-50 { background-color: #10292b; } /* no violet, even in the old utilities (gate 10, M4) */
+html[data-theme="dark"] .text-violet-700 { color: #6fcfd6; }
 
 /* The block above remapped the -700 inks but not the darker -800/-900 ones, so
    callout bodies kept their near-black palette colour while the surface under
@@ -1214,9 +1214,9 @@ html[data-theme="dark"] .bg-brand-soft .text-rose-900 { color: #fda4af; }
   --mod-pp: #4d7c0f;
   --mod-ppds: #a16207;
   --mod-mm: #0e7490;
-  --mod-qm: #9d174d;
+  --mod-qm: #a0233f;        /* = system.css; was pink 336° (gate 10, M4) */
   --mod-ewm: #047857;
-  --mod-fiori: #5b21b6;
+  --mod-fiori: #3b5b7a;     /* = system.css; was violet (gate 10, M4) */
   --mod-sop: #155e75;
   --mod-s4: #3f3f46;
 
@@ -1224,8 +1224,8 @@ html[data-theme="dark"] .bg-brand-soft .text-rose-900 { color: #fda4af; }
   --obj-master: #1f6f8b;
   --obj-structure: #2d7a5f;
   --obj-transaction: #8a5a1f;
-  --obj-movement: #7a3f6b;
-  --obj-status: #5f5f8a;
+  --obj-movement: #444e05;  /* = system.css; was plum */
+  --obj-status: #0b5b5e;     /* = system.css */
   --obj-text: #6b6b6b;
   --obj-config: #8a3f4a;
   --rel-1-1: #3f6f6a;
@@ -1259,17 +1259,17 @@ html[data-theme="dark"] {
   --mod-pp: #bef264;
   --mod-ppds: #fde047;
   --mod-mm: #67e8f9;
-  --mod-qm: #f9a8d4;
+  --mod-qm: #f4a5b5;
   --mod-ewm: #6ee7b7;
-  --mod-fiori: #c4b5fd;
+  --mod-fiori: #9dbbd8;
   --mod-sop: #7dd3fc;
   --mod-s4: #d4d4d8;
 
   --obj-master: #6fc4e0;
   --obj-structure: #74d0aa;
   --obj-transaction: #e0ae6f;
-  --obj-movement: #d494c4;
-  --obj-status: #a9a9de;
+  --obj-movement: #c3d670;
+  --obj-status: #3fe4e9;
   --obj-text: #b8b8b8;
   --obj-config: #e09aa4;
   --rel-1-1: #7cc0b6;
@@ -1428,7 +1428,7 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
   transition: color var(--dur-fast), transform var(--dur-fast) var(--ease-out-expo),
     background-color var(--dur-fast);
 }
-.nx-iconbtn:hover { color: var(--ink-1); background: var(--surface-2); transform: translateY(-1px); }
+.nx-iconbtn:hover { color: var(--ink-1); background: var(--surface-2); }
 .nx-iconbtn--xs { inline-size: 1.75rem; block-size: 1.75rem; }
 
 /* --- 3. SEARCH THAT GROWS OUT OF THE NAVIGATION, NOT NEXT TO IT ---------- */
@@ -1441,7 +1441,7 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
   transition: transform var(--dur-fast) var(--ease-out-expo),
     opacity 180ms var(--ease-out-expo), border-color var(--dur-fast);
 }
-.nx-railq:hover { transform: translateY(-1px); color: var(--ink-1); border-color: var(--railtint); }
+.nx-railq:hover { color: var(--ink-1); border-color: var(--railtint); }
 .nx-railq-i { display: inline-flex; color: var(--railtint); }
 .nx-railq-l { flex: 1 1 auto; text-align: start; white-space: nowrap; }
 .nx-railq kbd {
@@ -1490,8 +1490,9 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
   border-radius: var(--r-xs); background: var(--surface-2); font-size: var(--t-micro);
   transition: transform var(--dur-fast) var(--ease-out-expo), background-color var(--dur-fast);
 }
-.nx-railres:hover { transform: translateX(-2px); background: var(--muted); }
-[dir="ltr"] .nx-railres:hover { transform: translateX(2px); }
+/* No lift, slide or scale on hover anywhere in the shell (COMPONENTS.md; gate 10,
+   M5): the hover states below change colour, border or ground only. */
+.nx-railres:hover { background: var(--muted); }
 .nx-railres-k {
   grid-row: span 2; display: inline-flex; align-items: center; gap: 4px;
   color: var(--ink-3); font-size: var(--t-micro); white-space: nowrap;
@@ -1587,7 +1588,6 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
   display: inline-flex; color: var(--ink-3); flex: none;
   transition: transform 260ms var(--c-spring);
 }
-.nx-navitem:hover .nx-navitem-i { transform: scale(1.12); }
 .nx-navitem[data-mod] .nx-navitem-i { color: var(--m); }
 .nx-navitem-l { flex: 1 1 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .nx-navitem-n {
@@ -1648,8 +1648,6 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
   border-radius: var(--r-xs);
   transition: transform var(--dur-fast) var(--ease-out-expo);
 }
-.nx-striprow:hover { transform: translateX(-3px); }
-[dir="ltr"] .nx-striprow:hover { transform: translateX(3px); }
 .nx-striprow > i { inline-size: 3px; block-size: 16px; border-radius: 2px; background: var(--m); }
 .nx-sap { font-family: var(--font-mono); direction: ltr; }
 .nx-striprow .nx-sap { font-size: var(--t-xs); color: var(--ink-1); }
@@ -1663,7 +1661,7 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
   background: var(--surface-2); font-size: var(--t-micro);
   transition: transform var(--dur-fast) var(--ease-out-expo), border-color var(--dur-fast);
 }
-.nx-pin:hover { transform: translateY(-2px); border-color: var(--m); }
+.nx-pin:hover { border-color: var(--m); }
 .nx-pin .nx-sap { color: var(--m); }
 .nx-pin .nx-n { font-family: var(--font-mono); font-size: var(--t-micro); color: var(--ink-3); direction: ltr; }
 
@@ -1705,7 +1703,7 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
   background: var(--surface); font-size: var(--t-micro);
   transition: transform var(--dur-fast) var(--ease-out-expo), border-color var(--dur-fast);
 }
-.nx-tcode:hover { transform: translateY(-1px); border-color: var(--ink-3); }
+.nx-tcode:hover { border-color: var(--ink-3); }
 .nx-ctx-joins { display: grid; gap: 6px; }
 .nx-ctx-joins li { display: grid; gap: 2px; }
 .nx-ctx-joins .nx-card { font-family: var(--font-mono); font-size: var(--t-micro); color: var(--ink-3); direction: ltr; }
@@ -1791,7 +1789,7 @@ html[data-device="tablet"] .nx-railedge { display: none !important; }
   inline-size: 3px; border-radius: 3px; background: var(--c-hair);
   transition: transform var(--dur-base) var(--ease-out-expo), background-color var(--dur-base);
 }
-.nx-railedge:hover i, .nx-railedge:focus-visible i { transform: scaleX(1.6); background: var(--brand); }
+.nx-railedge:hover i, .nx-railedge:focus-visible i { background: var(--brand); }
 /* Pure CSS reveal, no JS — hovering the strip springs the rail in OVER the
    canvas without it ever taking a layout column back. :has() rather than the
    prototype's `~` sibling combinator: the strip is a LATER sibling of the rail
@@ -2006,8 +2004,7 @@ html[data-device="tablet"] .nx-railedge { display: none !important; }
   transition: transform var(--dur-fast) var(--ease-out-expo), background-color var(--dur-fast);
 }
 .nx-tablerow:last-child { border-block-end: 0; }
-.nx-tablerow:hover { background: var(--surface-2); transform: translateX(-2px); }
-[dir="ltr"] .nx-tablerow:hover { transform: translateX(2px); }
+.nx-tablerow:hover { background: var(--surface-2); }
 .nx-tablerow .nx-sap { color: var(--ink-1); font-size: var(--t-sm); }
 .nx-tablerow .nx-he { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nx-tablerow .nx-n { font-family: var(--font-mono); font-size: var(--t-micro); direction: ltr; color: var(--ink-3); }
@@ -2081,10 +2078,10 @@ html[data-device="tablet"] .nx-railedge { display: none !important; }
 .nx-app {
   --sec-pm: var(--mod-pm);
   --sec-pppi: var(--mod-pppi);
-  --sec-erd: #5b3fd6;          /* data model · violet */
+  --sec-erd: var(--sec-studio);  /* = system.css; was violet */
   --sec-tables: #a8651c;       /* warm copper — data at rest */
   --sec-transactions: #1d5fd0; /* cobalt — the executable surface */
-  --sec-bapi: #7231c9;         /* deep violet — interfaces */
+  --sec-bapi: var(--mod-pipo, #475569); /* = system.css; was violet */
   --sec-idoc: #b95c0a;         /* warm technical orange — messages */
   --sec-cds: #0e7f8c;          /* turquoise — views */
   --sec-fiori: #4a5fd4;        /* blue-violet — SAP's own Fiori family */
@@ -2092,7 +2089,7 @@ html[data-device="tablet"] .nx-railedge { display: none !important; }
   --sec-library: #8f2140;      /* burgundy — the shelf */
   --sec-ask: #a03352;          /* the reading room's own burgundy */
   --sec-knowledge: #1c6bb5;    /* information blue */
-  --sec-academy: #4b3fb0;      /* indigo — learning */
+  --sec-academy: var(--sec-knowledge); /* = system.css; was indigo */
   --sec-incidents: #c2410c;    /* controlled orange-red, never full alarm red */
   --sec-cert: #92701a;         /* ochre */
   --sec-centers: #1c6bb5;   /* centers share the knowledge blue */
@@ -2102,18 +2099,18 @@ html[data-device="tablet"] .nx-railedge { display: none !important; }
 html[data-theme="dark"] .nx-app {
   /* Lifted for a dark ground. Same hue families, same roles — a tint that
      works on #f7f5f2 disappears on #0f0b08. */
-  --sec-erd: #a48dff;
+  --sec-erd: var(--sec-studio);
   --sec-tables: #e0a55c;
   --sec-transactions: #6da3ff;
-  --sec-bapi: #b98cf5;
+  --sec-bapi: var(--mod-pipo, #aab6c8);
   --sec-idoc: #f0a05a;
   --sec-cds: #4ecfd8;
-  --sec-fiori: #8fa0ff;
+  --sec-fiori: var(--mod-fiori);
   --sec-enh: #6dc47f;
   --sec-library: #e0819b;
   --sec-ask: #e0819b;
   --sec-knowledge: #6fb4f5;
-  --sec-academy: #9d90f5;
+  --sec-academy: var(--sec-knowledge);
   --sec-incidents: #ff8a5c;
   --sec-cert: #d7b45c;
   --sec-centers: #6fb4f5;

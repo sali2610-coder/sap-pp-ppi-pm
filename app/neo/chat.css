@@ -700,7 +700,8 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   pointer-events: none;
 }
 @media (hover: hover) and (pointer: fine) {
-  .nxq-src:hover { transform: translateY(-2px); box-shadow: var(--elev-3); }
+  /* No control lifts (MOTION.md; gate 10, M5). */
+  .nxq-src:hover { box-shadow: var(--elev-3); }
 }
 
 .nxq-src-head { display: flex; align-items: start; gap: var(--sp-2); }
@@ -954,7 +955,6 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
 /* The send button is dead weight until there is a question in the field, and
    then it is the loudest control on the screen. */
 .nxq-send { transition: transform var(--dur-fast) var(--ease-out-expo), opacity var(--dur-fast) linear; }
-.nxq-send:not([disabled]):hover { transform: translateY(-1px) scale(1.04); }
 .nxq-send:not([disabled]):active { transform: scale(.94); }
 
 .nxq-box-top {

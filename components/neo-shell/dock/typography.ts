@@ -56,7 +56,8 @@ export const SIZES: { id: NeoSize; he: string; scale: number }[] = [
   { id: "xl", he: "גדול מאוד", scale: 1.26 },
 ];
 
-const KEY = "neo:type:v1";
+export const TYPE_KEY = "neo:type:v1";
+const KEY = TYPE_KEY;
 
 export function readType(): NeoTypePref {
   if (typeof window === "undefined") return DEFAULT_TYPE;
@@ -87,21 +88,25 @@ export function applyType(pref: NeoTypePref, root?: HTMLElement | null): void {
   const face = FACES.find((f) => f.id === pref.face) ?? FACES[0];
   const size = SIZES.find((s) => s.id === pref.size) ?? SIZES[1];
 
+  // The face is an attribute on <html>, which dock.css turns into the stack on
+  // the shell; the pre-paint script (lib/theme-boot.ts) sets the same one, so
+  // a change back to the default clears what the script set. The default face
+  // writes nothing, so the shell keeps the design system's own stack.
+  const html = document.documentElement;
+  if (pref.face === "system") html.removeAttribute("data-neo-face");
+  else html.setAttribute("data-neo-face", face.id);
   if (el) {
-    // The default face writes nothing, so the shell keeps inheriting the design
-    // system's own stack rather than a copy of it that could drift.
-    if (pref.face === "system") el.style.removeProperty("--nx-face");
-    else el.style.setProperty("--nx-face", face.stack);
     el.dataset.face = pref.face;
     el.dataset.typeSize = pref.size;
   }
-  document.documentElement.style.setProperty("--nx-type-scale", String(size.scale));
+  html.style.setProperty("--nx-type-scale", String(size.scale));
 }
 
 /** Hand the document back exactly as it was found. */
 export function clearType(): void {
   if (typeof document === "undefined") return;
   document.documentElement.style.removeProperty("--nx-type-scale");
+  document.documentElement.removeAttribute("data-neo-face");
 }
 
 export function writeType(pref: NeoTypePref): void {

@@ -156,6 +156,14 @@ export default function NeoHome() {
           והמעבר מ-<bdi>ECC</bdi> ל-<bdi>S/4HANA</bdi>.
         </p>
         <HomeSearch />
+        {/* Three real records, shown as examples of what the search takes: a
+            table, a transaction and a BAPI (gate 10, M2). Each is a page in NEO. */}
+        <p className="nh-find-eg">
+          <span>לדוגמה:</span>
+          <Link href="/neo/tables/AFKO/" prefetch={false} className="nu-link"><bdi className="nh-sap">AFKO</bdi></Link>
+          <Link href="/neo/transactions/IW31/" prefetch={false} className="nu-link"><bdi className="nh-sap">IW31</bdi></Link>
+          <Link href="/neo/bapi/BAPI_ALM_ORDER_MAINTAIN/" prefetch={false} className="nu-link"><bdi className="nh-sap">BAPI_ALM_ORDER_MAINTAIN</bdi></Link>
+        </p>
       </header>
 
       <HomeContinue

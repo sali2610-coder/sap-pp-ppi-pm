@@ -1956,3 +1956,26 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
      measured 42px. */
   .nx-app .nxd-tools input[type="search"] { min-block-size: var(--c-tap); }
 }
+
+/* ==========================================================================
+   THE COUNTS ARE A LINE, NOT A PLATE (gate 10, M1)
+   On every width the figures read as one line of body text ("105 טבלאות ·
+   1,234 שדות"), the way the phone already drew them: every number stays, the
+   dashboard of large figures over small labels goes. BAKEOFF did not take the
+   Atlas metric cards, and the brief keeps work screens to a short lede.
+   ========================================================================== */
+.nx-app .nxd-stats, .nx-app .nxd-stats--after, .nx-app .nxb-stats {
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: var(--sp-1) var(--sp-4);
+  padding: var(--sp-2) 0;
+  background: none; border: 0; border-radius: 0; box-shadow: none;
+}
+.nx-app .nxd-stats .nxd-stat, .nx-app .nxd-stats--after .nxd-stat, .nx-app .nxb-stats .nxb-stat {
+  display: inline-flex; align-items: baseline; gap: var(--sp-1);
+}
+.nx-app .nxd-stats .nxd-stat b, .nx-app .nxd-stats--after .nxd-stat b, .nx-app .nxb-stats .nxb-stat b {
+  font-size: var(--t-sm); font-weight: 600; line-height: 1.5;
+}
+.nx-app .nxd-stats .nxd-stat > span:last-child, .nx-app .nxb-stats .nxb-stat em {
+  font-size: var(--t-sm); color: var(--ink-2);
+}

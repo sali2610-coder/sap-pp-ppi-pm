@@ -647,7 +647,7 @@ html[data-theme="dark"] .ne {
 }
 .ne-badge text {
   font-family: var(--font-mono);
-  font-size: 11.5px;
+  font-size: var(--t-micro);
   font-weight: 700;
   direction: ltr;
   fill: var(--ink-1);
@@ -704,20 +704,20 @@ html[data-theme="dark"] .ne {
 }
 .ne-node-mod {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--t-micro);
   font-weight: 700;
   fill: color-mix(in srgb, var(--m) 72%, var(--ink-2));
   direction: ltr;
   dominant-baseline: middle;
 }
 .ne-node-z {
-  font-size: 11px;
+  font-size: var(--t-micro);
   fill: var(--ink-3);
   dominant-baseline: middle;
 }
 .ne-node-k, .ne-node-fk {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--t-micro);
   fill: var(--ink-3);
   direction: ltr;
   dominant-baseline: middle;
@@ -851,7 +851,7 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 .ne-open { animation: ne-unfold var(--dur-base) var(--ease-out-expo) both; }
 
 .ne-open-rule { stroke: var(--hairline); stroke-width: 1; }
-.ne-open-cap { font-size: 11.5px; fill: var(--ink-3); dominant-baseline: middle; }
+.ne-open-cap { font-size: var(--t-micro); fill: var(--ink-3); dominant-baseline: middle; }
 .ne-open-cap.nx-sap { font-family: var(--font-mono); direction: ltr; }
 
 .ne-open-f {
@@ -865,7 +865,7 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 .ne-open-t {
   font-family: var(--font-mono);
   direction: ltr;
-  font-size: 11.5px;
+  font-size: var(--t-micro);
   fill: var(--ink-3);
   dominant-baseline: middle;
 }
@@ -873,8 +873,8 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 .ne-open-chip-t {
   font-family: var(--font-mono);
   direction: ltr;
-  font-size: 9.5px;
-  font-weight: 800;
+  font-size: var(--t-micro);
+  font-weight: 700;
   fill: var(--ink-3);
   dominant-baseline: middle;
 }
@@ -894,7 +894,7 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 .ne-open-row[data-k="FK"] .ne-open-f { fill: var(--ne-fk); font-weight: 700; }
 
 .ne-open-none {
-  font-size: 11.5px;
+  font-size: var(--t-micro);
   fill: var(--ink-3);
   font-style: italic;
   dominant-baseline: middle;
@@ -905,8 +905,8 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
    traffic light whose red sits beside the brand red (gate 7, minor 26). */
 .ne-open-s4[data-risk] .ne-open-s4-d { fill: var(--ink-3); }
 .ne-open-s4[data-risk="low"] .ne-open-s4-d { fill: var(--ne-r-low); }
-.ne-open-s4-h { font-size: 11.5px; font-weight: 700; fill: var(--ink-2); dominant-baseline: middle; }
-.ne-open-s4-b { font-size: 11.5px; fill: var(--ink-3); dominant-baseline: middle; }
+.ne-open-s4-h { font-size: var(--t-micro); font-weight: 700; fill: var(--ink-2); dominant-baseline: middle; }
+.ne-open-s4-b { font-size: var(--t-micro); fill: var(--ink-3); dominant-baseline: middle; }
 /* A derived standing is not a verified one, and it does not get to look like
    one. Dotted underline, same words, visibly softer. */
 .ne-open-s4[data-trust="partial"] .ne-open-s4-h,
@@ -931,9 +931,10 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
   gap: var(--sp-2);
   padding: 6px var(--sp-3);
   border: 1px solid var(--hairline);
-  border-radius: var(--r-pill);
-  background: color-mix(in srgb, var(--surface) 92%, transparent);
-  backdrop-filter: blur(6px);
+  /* An opaque raised surface with the system's corner: no glass and no pill
+     (gate 10, m9; the anti-pattern list). */
+  border-radius: var(--r-md);
+  background: var(--surface-raised, var(--surface));
   box-shadow: var(--elev-2);
   animation: ne-unfold var(--dur-base) var(--ease-out-expo) both;
 }
@@ -1657,20 +1658,19 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 /* Risk carries the colour, matching RISK_COLOR in lib/s4.ts. A badge that is
    one flat amber whether the table is high or medium risk is a badge that has
    stopped saying anything. */
-.ne-node-s4 rect { fill: #d97706; }
-.ne-node-s4[data-risk="high"] rect { fill: #dc2626; }
+/* The status word on its own status colour, day and night (gate 10, m10):
+   --s4c is the dictionary's dot token (S4_STATUS_DOT), set on the badge. It
+   was a fixed amber or red with #451a03 text at 10.5px/800 and no night value. */
+.ne-node-s4 rect { fill: var(--s4c, var(--s4-change)); }
 .ne-node-s4 text {
-  font-family: var(--font-mono);
-  font-size: 10.5px; font-weight: 800;
-  fill: #451a03;
+  font-family: var(--font-sans, inherit);
+  font-size: var(--t-micro); font-weight: 700;
+  fill: var(--surface);
 }
-/* Dark brown on the red high-risk fill was near-invisible; the badge keeps its
-   risk colours in both themes, so the text contrast is fixed per-fill. */
-.ne-node-s4[data-risk="high"] text { fill: #fef2f2; }
 
 /* The click affordance, quiet until the pointer is on the node. */
 .ne-node-hint {
-  font-size: 11px; font-weight: 700;
+  font-size: var(--t-micro); font-weight: 700;
   fill: var(--ink-3);
   opacity: 0;
   transition: opacity 160ms var(--ease-out-expo);
@@ -1734,15 +1734,6 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 .ne-modechip { display: inline-flex; align-items: center; gap: var(--sp-2); margin: var(--sp-2) 0 0; font-size: var(--t-micro); color: var(--ink-2); }
 .ne-modechip-k { color: var(--ink-3); }
 .ne-modechip b { font-weight: 600; color: var(--ink-1); }
-.ne-node-s4[data-k="replaced"] rect { fill: var(--sec-transactions, #1d5fd0); }
-.ne-node-s4[data-k="replaced"] text { fill: #eff6ff; }
-.ne-node-s4[data-k="not_available"] rect, .ne-node-s4[data-k="legacy_ecc_only"] rect { fill: #dc2626; }
-.ne-node-s4[data-k="not_available"] text, .ne-node-s4[data-k="legacy_ecc_only"] text { fill: #fef2f2; }
-.ne-node-s4[data-k="verification_required"] rect { fill: #94a3b8; }
-.ne-node-s4[data-k="verification_required"] text { fill: #0f172a; }
-.ne-node-s4[data-k="s4_native"] rect { fill: #0e7f8c; }
-.ne-node-s4[data-k="s4_native"] text { fill: #ecfeff; }
-.ne-node-s4 text { font-family: var(--font-sans, inherit); font-size: 10.5px; font-weight: 700; }
 .ne-s4-canon { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); margin: 0 0 var(--sp-2); }
 .ne-s4-canon em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
 

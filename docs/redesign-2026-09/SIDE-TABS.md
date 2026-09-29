@@ -109,3 +109,13 @@ The first sweep matched the shorthand `border-inline-start: <n>px`. Five edges w
 | `object.css` `.nox-chip[data-live="1"]` | 3px selection-line edge | link language: `--link` text, underline on hover, blue focus ring | it is a link, not a selection (gate 5, finding 5) |
 
 The detector (`impeccable detect`) reports 0 side-tab findings in `object.css` after the merge.
+
+## Added after gate 10 (2026-09-29)
+
+Gate 10 (m12) found two 3px lines outside this record, because the generator reads `app/neo/*.css` only.
+
+| file:line | selector | before | after | why |
+|---|---|---|---|---|
+| `search.css:441` | `.nx-app .nxc--r .nxc-d-rels li` | `border-inline-start-width: 3px;` | `border-inline-start-width: 2px;` | a relation row's module line in the command surface; the module code is written on the row, so it is the same semantic second channel as `.no-rel-row` |
+| `globals.css:841` | `.neo-reader blockquote` | `border-inline-start: 3px solid var(--brand);` | unchanged | the pre-NEO reader's quotation style. No NEO page renders `.neo-reader` (the NEO reader is `.nr`, and every pre-NEO reader address redirects to NEO, NAV-LEGACY.md); it goes with the old layer when `globals.css` is cleaned (gate 10, m14) |
+

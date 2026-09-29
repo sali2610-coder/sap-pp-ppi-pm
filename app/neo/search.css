@@ -438,7 +438,9 @@
   border-block-color: color-mix(in srgb, var(--m, var(--ink-3)) 20%, var(--c-hair));
 }
 .nx-app .nxc--r .nxc-d-rels li {
-  border-inline-start-width: 3px;
+  /* A relation row's module line, 2px like the other relation lines
+     (SIDE-TABS.md; gate 10, m12). */
+  border-inline-start-width: 2px;
   border-inline-start-color: color-mix(in srgb, var(--m, var(--ink-3)) 55%, transparent);
 }
 

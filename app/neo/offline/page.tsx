@@ -3,6 +3,9 @@
 // network. Inside the NEO shell, like every page: the pre-NEO /offline/ page
 // carried the old chrome and pointed back to the old home, and it redirects
 // here now (vercel.json).
+// The two actions here are nu-btn and nu-btn2, which live in ui.css; the
+// page did not import it, so they drew as bare links (gate 8, M8).
+import "@/app/neo/ui.css";
 import Link from "next/link";
 import { Home, WifiOff } from "lucide-react";
 import { OfflineRetry } from "@/components/neo-shell/offline-retry";

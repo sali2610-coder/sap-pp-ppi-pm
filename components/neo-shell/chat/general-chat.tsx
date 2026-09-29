@@ -30,7 +30,7 @@
    object, run anything, or read your SAP system, because it cannot.
    ========================================================================== */
 
-import { Check, MessageSquarePlus, Minus, ShieldAlert, Sparkles, Terminal } from "lucide-react";
+import { Check, CircleHelp, MessageSquarePlus, Minus, ShieldAlert, Terminal } from "lucide-react";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
 import { CONSULT_DISCLAIMER, MODES } from "@/lib/ai/modes";
 import { Composer } from "./composer";
@@ -230,7 +230,7 @@ function Intro({ onPick }: { onPick: (q: string) => void }) {
 
       <div className="nxq-starters">
         <span className="nxq-starters-t">
-          <Sparkles size={13} strokeWidth={2} aria-hidden="true" />
+          <CircleHelp size={13} strokeWidth={2} aria-hidden="true" />
           שאלות לדוגמה
         </span>
         <div className="nxq-starters-row nm-seq">

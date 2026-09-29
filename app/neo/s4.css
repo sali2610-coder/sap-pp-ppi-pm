@@ -475,3 +475,15 @@ html[data-theme="dark"] .ns4-risk { color: color-mix(in srgb, var(--r, var(--ink
 html[data-theme="dark"] .ns4-topic-st, html[data-theme="dark"] .ns4-arch-st { color: color-mix(in srgb, var(--s) 45%, #fff); }
 html[data-theme="dark"] .ns4-free { color: color-mix(in srgb, var(--status-done) 45%, #fff); }
 html[data-theme="dark"] .ns4-abap-k { color: var(--scene-ink); }
+
+/* ==========================================================================
+   THE COUNTS ARE A LINE, NOT A PLATE (gate 10, M1)
+   On every width the figures read as one line of body text ("105 טבלאות ·
+   1,234 שדות"), the way the phone already drew them: every number stays, the
+   dashboard of large figures over small labels goes. BAKEOFF did not take the
+   Atlas metric cards, and the brief keeps work screens to a short lede.
+   ========================================================================== */
+.ns4-stats { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-1) var(--sp-4); }
+.ns4-stats .ns4-stat { display: inline-flex; align-items: baseline; gap: var(--sp-1); }
+.ns4-stats .ns4-stat b { font-size: var(--t-sm); font-weight: 600; }
+.ns4-stats .ns4-stat em { font-size: var(--t-sm); color: var(--ink-2); }

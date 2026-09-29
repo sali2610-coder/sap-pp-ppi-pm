@@ -29,7 +29,7 @@
    reported per answer by ./message.Grounding.
    ========================================================================== */
 
-import { BookOpen, ChevronLeft, Layers, Sparkles } from "lucide-react";
+import { BookOpen, ChevronLeft, Layers, MessageSquare } from "lucide-react";
 import { scopeBreadth } from "@/lib/ai/tree";
 import type { AiMode } from "@/lib/ai/modes";
 import type { Scope } from "@/lib/ai/types";
@@ -49,7 +49,8 @@ export function ContextBar({ scope, mode, onOpenScope }: {
     return (
       <div className="nxq-ctx" data-kind="consult">
         <span className="nxq-ctx-i" aria-hidden="true">
-          <Sparkles size={14} strokeWidth={2} />
+          {/* A conversation, not a spark: the icon says what the screen is (gate 10, m8). */}
+          <MessageSquare size={14} strokeWidth={2} />
         </span>
         <p className="nxq-ctx-line">
           <b>ידע כללי על SAP</b>

@@ -1,4 +1,8 @@
 // Project NEO · /neo/terms/ — rendered from components/neo-shell/legal/legal-content.ts.
+// ui.css is imported per route (see app/neo/tables/page.tsx); without it the
+// footer links, the return link and the contents list lost their touch size
+// and their control styles on this page (gate 8, M8).
+import "@/app/neo/ui.css";
 import "@/app/neo/legal.css";
 import { LegalView } from "@/components/neo-shell/legal/legal-view";
 import { SmartReturn } from "@/components/neo-shell/nav-context";

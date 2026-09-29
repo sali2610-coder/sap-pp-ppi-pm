@@ -538,7 +538,8 @@ html[data-theme="dark"] .nb-slot::after {
   color: var(--m);
   transition: transform 200ms var(--ease-out-expo), box-shadow 200ms var(--ease-out-expo);
 }
-.nb-mark:hover, .nb-mark:focus-visible { transform: translateY(-2px); box-shadow: var(--elev-3); }
+/* No control lifts (MOTION.md; gate 10, M5): the shadow deepens in place. */
+.nb-mark:hover, .nb-mark:focus-visible { box-shadow: var(--elev-3); }
 .nb-mark-t {
   position: absolute;
   inset-inline-end: calc(100% + 8px);
@@ -1440,8 +1441,8 @@ html[data-theme="dark"] .nb-slot::after {
   border: 0;
   padding: 0;
   cursor: pointer;
-  background: color-mix(in srgb, var(--background) 72%, transparent);
-  backdrop-filter: blur(7px);
+  /* A plain dim, no glass (gate 10, m9). */
+  background: color-mix(in srgb, var(--background) 80%, transparent);
   animation: nb-fade 240ms var(--ease-out-expo) both;
 }
 @keyframes nb-fade { from { opacity: 0; } to { opacity: 1; } }
@@ -1509,7 +1510,7 @@ html[data-theme="dark"] .nb-slot::after {
   cursor: pointer;
   transition: transform 180ms var(--ease-out-expo), color 180ms;
 }
-.nb-x:hover { color: var(--ink-1); transform: scale(1.04); }
+.nb-x:hover { color: var(--ink-1); }
 
 .nb-sheet-t { font-size: clamp(1.375rem, 3.4cqi, 2.25rem); font-weight: 700; line-height: 1.12; letter-spacing: 0; text-wrap: balance; }
 .nb-sheet-t2 { font-size: var(--t-xs); color: var(--ink-3); }
@@ -1736,7 +1737,7 @@ html[data-theme="dark"] .nb-slot::after {
   font-size: var(--t-xs);
   transition: transform 200ms var(--ease-out-expo), background-color 200ms;
 }
-.nb-dict:hover { transform: translateY(-1px); background: color-mix(in srgb, var(--m) 14%, transparent); }
+.nb-dict:hover { background: color-mix(in srgb, var(--m) 14%, transparent); }
 .nb-dict svg { flex: none; color: var(--ink-3); }
 .nb-dict-t { font-weight: 600; }
 .nb-dict-n { color: var(--ink-3); margin-inline-start: auto; font-variant-numeric: tabular-nums; }

@@ -286,7 +286,7 @@ html[data-theme="dark"] [data-scene="pppi"] { --scene-ground: color-mix(in oklab
 /* THE MUDDY MIDDLE IS THE BUG.
 
    The previous pass answered "too saturated" by desaturating, and landed on
-   #1e3b39 grey-green, #302a47 grey-violet and #1b3444 blue-grey — three
+   a grey-green, a grey-violet and a blue-grey — three
    surfaces that read as neither light nor dark, just dim. Saturation was never
    the problem; COMMITMENT was. Every scene below is now deliberately a LIGHT
    world or a DARK world, and each carries its hue at full strength.

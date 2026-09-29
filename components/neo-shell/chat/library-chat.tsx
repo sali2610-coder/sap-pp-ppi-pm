@@ -32,7 +32,7 @@
 import { useState } from "react";
 import {
   BookOpen, CheckSquare, ChevronDown, Eraser, GitCompare, Layers,
-  ListTree, MessageSquarePlus, Share2, Sparkles, WandSparkles,
+  ListTree, MessageSquarePlus, Share2, Lightbulb, ClipboardCheck, CircleHelp,
 } from "lucide-react";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
 import { MODES } from "@/lib/ai/modes";
@@ -66,9 +66,10 @@ const PRIMARY_IDS = ["simple", "summary", "review", "checklist", "diagram", "ecc
 const MORE_IDS = ["expand", "example", "onepage", "deck"] as const;
 
 const QA_ICON: Record<string, React.ReactNode> = {
-  simple: <WandSparkles size={15} strokeWidth={1.9} aria-hidden="true" />,
+  // Icons that name the task, not sparks (gate 10, m8).
+  simple: <Lightbulb size={15} strokeWidth={1.9} aria-hidden="true" />,
   summary: <ListTree size={15} strokeWidth={1.9} aria-hidden="true" />,
-  review: <Sparkles size={15} strokeWidth={1.9} aria-hidden="true" />,
+  review: <ClipboardCheck size={15} strokeWidth={1.9} aria-hidden="true" />,
   checklist: <CheckSquare size={15} strokeWidth={1.9} aria-hidden="true" />,
   diagram: <Share2 size={15} strokeWidth={1.9} aria-hidden="true" />,
   ecc: <GitCompare size={15} strokeWidth={1.9} aria-hidden="true" />,
@@ -359,7 +360,7 @@ function Welcome({ scope, onPick, onAction, onOpenScope }: {
       {/* ------------------------------------------------------- starters */}
       <div className="nxq-starters">
         <span className="nxq-starters-t">
-          <Sparkles size={13} strokeWidth={2} aria-hidden="true" />
+          <CircleHelp size={13} strokeWidth={2} aria-hidden="true" />
           שאלות לדוגמה
         </span>
         <div className="nxq-starters-row nm-seq">

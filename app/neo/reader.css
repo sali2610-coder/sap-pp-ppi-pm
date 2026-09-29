@@ -1135,7 +1135,7 @@ html[data-theme="dark"] .nr-infig-b img { opacity: .86; }
   background: color-mix(in srgb, var(--ink-3) 45%, transparent);
   transition: transform var(--dur-fast) var(--ease-out-expo);
 }
-.nr-tick:hover::before { transform: scaleX(1.35); background: var(--ink-2); }
+.nr-tick:hover::before { background: var(--ink-2); }
 /* A chapter the canonical reader recorded as read is drawn SOLID rather than in
    a status colour: status hue is reserved for the dot-plus-word form, and a
    tick is a line. */
