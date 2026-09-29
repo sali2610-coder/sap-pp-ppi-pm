@@ -22,6 +22,7 @@ export function CopyId({ value, label, compact }: { value: string; label?: strin
     }
   };
   return (
+    <>
     <button
       type="button"
       className="nu-ghost nx-copy"
@@ -35,5 +36,9 @@ export function CopyId({ value, label, compact }: { value: string; label?: strin
         : <Copy size={13} strokeWidth={1.75} aria-hidden="true" />}
       {compact ? null : <span>{done ? "הועתק" : what}</span>}
     </button>
+    {/* The confirmation, said to a screen reader too (DESIGN-SPEC §1, states):
+        the compact button only swaps its icon. */}
+    <span className="nx-sr" role="status">{done ? "הועתק" : ""}</span>
+    </>
   );
 }
