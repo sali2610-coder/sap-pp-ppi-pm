@@ -1775,3 +1775,19 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
    motion. */
 .ne-edge-p { stroke-dasharray: none; animation: none; }
 .ne-edge[data-kind="unstated"] .ne-edge-p { stroke-dasharray: 5 5; }
+
+/* THE CREDIT ON THE INSTRUMENT (gate 7, blocker 1). The shell footer carries
+   the mandatory credit on every page; the ERD locks its canvas (no page
+   scroll), so above 1100px the footer sat below the fold and could not be
+   reached (1440x900: y=942). The canvas now holds the workspace and the
+   footer as a column: the workspace takes what is left, and the footer keeps
+   one compact line at the bottom. Where the ERD is a scrolling page again
+   (1100px and less) the same column simply scrolls. */
+html .nx-app .nx-canvas:has(> .ne) { display: flex; flex-direction: column; }
+html .nx-app .nx-canvas:has(> .ne) > .ne { flex: 1 1 auto; block-size: auto; min-block-size: 0; }
+html .nx-app .nx-canvas:has(> .ne) > .nx-foot { flex: none; margin: 0; padding: 4px var(--sp-5); }
+
+/* The flow pulse on a focused relation runs twice and stops (gate 7, major 13;
+   brief §16: no perpetual loops). Two passes show the direction, parent to
+   child; the last keyframe (opacity 0) is kept, so no dot is left behind. */
+.ne-pulse { animation-iteration-count: 2; animation-fill-mode: forwards; }

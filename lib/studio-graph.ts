@@ -74,22 +74,11 @@ export function buildHetero(module: Module): SHetero {
     if (t.fioriApp) { const id = `A:${t.fioriApp}`; add({ id, kind: "fiori", label: t.fioriApp, he: "" }); link(t.tableName, id); }
   }
 
-  // ── LO-HU · Handling Unit Management — an INTEGRATED logistics layer, not a
-  // PP-PI table. Rendered in the logistics swimlane and linked to the process-
-  // order output area (HU packs finished goods at process-order GR). Verified.
-  const extraTables: string[] = [];
-  if (module === "PP-PI") {
-    const HU: { name: string; he: string }[] = [
-      { name: "VEKP", he: "LO-HU · כותרת יחידה מטפלת (Handling Unit)" },
-      { name: "VEPO", he: "LO-HU · תכולת יחידה מטפלת (HU Item)" },
-    ];
-    for (const h of HU) { add({ id: h.name, kind: "table", label: h.name, he: h.he, href: `/object/${encodeURIComponent(h.name)}/` }); extraTables.push(h.name); }
-    link("VEKP", "VEPO");
-    // anchor the HU into the real PP-PI flow (first available verified anchor)
-    for (const anchor of ["AFKO", "AFPO", "MSEG", "MKPF", "MCHA", "MARA"]) { if (tset.has(anchor)) { link("VEKP", anchor); break; } }
-  }
-
-  return { nodes, adj, tables: [...tables.map((t) => t.tableName), ...extraTables], master: new Set((MASTER[module] || []).filter((x) => tset.has(x))) };
+  // Handling Units (VEKP, VEPO) are not in either blueprint. They used to be
+  // added here as PP-PI tables and tied to the first of AFKO, AFPO, MSEG… that
+  // existed, a relation no dataset states (gate 7, blocker 3). They are drawn
+  // no longer; the Studio says in words where their pages are.
+  return { nodes, adj, tables: tables.map((t) => t.tableName), master: new Set((MASTER[module] || []).filter((x) => tset.has(x))) };
 }
 
 // dagre layout for a VISIBLE subset → positioned nodes + edges.

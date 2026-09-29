@@ -79,6 +79,14 @@ const PAD = 52;
  *  this zoom, so a module read from across a meeting room keeps legible
  *  titles; the presenter pans to the rest instead of squinting at all of it. */
 const PRESENT_MIN_K = 1;
+/** …and inside a module (not the fifteen-card map) it never lands below the
+ *  zoom where a table's Hebrew name, 13px in presentation mode, reads at 16px
+ *  (gate 7, major 10: 13px and 11.5px on a 1080p meeting-room screen). */
+const PRESENT_TABLE_MIN_K = 1.25;
+/** ARRIVAL IN A MODULE. A module arrives no smaller than this, where a table's
+ *  Hebrew name (11.5px) reads at 12px and its code at 16.8px (gate 7, major 9:
+ *  PM opened at 37%, names at 4.3px). */
+const ENTRY_MIN_K = 1.05;
 
 /** PHONE. The workspace on a ≤640px viewport — the same breakpoint erd.css
  *  uses for its phone rules. Read through an external store so the server
@@ -781,14 +789,15 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       if (!st) return;
       const raw = Math.min((st.clientWidth - PAD * 2) / b.w, (st.clientHeight - PAD * 2) / b.h);
       autoBox.current = b;
-      const k = clampK(present ? Math.max(raw, PRESENT_MIN_K) : raw);
+      const floor = present ? (isMap ? PRESENT_MIN_K : PRESENT_TABLE_MIN_K) : 0;
+      const k = clampK(Math.max(raw, floor));
       glide({
         k,
         x: (st.clientWidth - b.w * k) / 2 - b.x * k,
         y: (st.clientHeight - b.h * k) / 2 - b.y * k,
       });
     },
-    [glide, present],
+    [glide, present, isMap],
   );
 
   /** The toolbar's fit: a true fit, no floor. */
@@ -805,7 +814,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
    *  small content is content they can zoom into, and the zoom controls, the
    *  minimap and the keyboard are all there for that. So arrival now frames
    *  exactly what the fit control frames. */
-  const fitOnEnter = useCallback(() => fitTo(bboxRef.current), [fitTo]);
+  // (fitOnEnter is defined below centre(), which it uses.)
 
   /** Soft camera — centre plus a gentle zoom toward the table. The studio's
    *  focusOn, same numbers. */
@@ -821,6 +830,28 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     },
     [live.pos, glide],
   );
+
+  /** Gate 7 (major 9): a true fit inside a module set table names at 4.3px.
+   *  So a module arrives no smaller than ENTRY_MIN_K, centred on its most
+   *  connected table; "0", the fit control and the minimap still show the
+   *  whole picture, and the panel lists every table in full text. The module
+   *  map and a focus neighbourhood keep the true fit: there the whole thing is
+   *  the thing to see, and it is small enough to read. */
+  const fitOnEnter = useCallback(() => {
+    const st = stage.current;
+    const b = bboxRef.current;
+    if (!st || isMap || present || live.ego) { fitTo(b); return; }
+    const raw = Math.min((st.clientWidth - PAD * 2) / b.w, (st.clientHeight - PAD * 2) / b.h);
+    if (raw >= ENTRY_MIN_K) { fitTo(b); return; }
+    let hub = "";
+    let best = -1;
+    for (const n of live.pos.keys()) {
+      const d = tByName.get(n)?.d ?? 0;
+      if (d > best) { best = d; hub = n; }
+    }
+    if (hub) centre(hub, ENTRY_MIN_K);
+    else fitTo(b);
+  }, [fitTo, centre, isMap, present, live.ego, live.pos, tByName]);
 
   /** Cinematic zoom INTO a table. The studio's zoomInto, same numbers. */
   const zoomInto = useCallback(
@@ -2341,8 +2372,9 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
           </>
         ) : (
           <p className="ne-fhint">
-            בחירת מודול פותחת את מודל הנתונים שלו. כל קו במפה מציין את מספר קשרי הטבלאות בין
-            שני המודולים.
+            בחירת מודול פותחת את מודל הנתונים שלו. המספר על קו הוא כמה קשרי טבלאות מחברים בין שתי
+            התמונות: קצה אחד בתמונה של מודול אחד והקצה השני בתמונה של השני. טבלה יכולה להופיע בכמה
+            תמונות, ולכן קשר אחד נספר בכמה זוגות. מוצגים קווים של 4 קשרים ומעלה.
           </p>
         )}
 
@@ -2508,8 +2540,11 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                   const off = !edgeOn(e) || !shown(e.p) || !shown(e.c) || !nodeOn(e.p) || !nodeOn(e.c);
                   const lvl = edgeLvl(e);
                   const out = !inGroup(e.p) || !inGroup(e.c);
+                  // A line between two modules belongs to neither, so the map
+                  // draws it in the cross-module ink (TOKENS.md), not in the
+                  // colour of whichever module sorts first (gate 7, minor 17).
                   const stroke = isMap
-                    ? modVar(e.p)
+                    ? "var(--erd-cross)"
                     : rec?.x
                       ? "var(--ink-3)"
                       : modVar(tByName.get(e.p)?.m);
@@ -2532,7 +2567,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                     >
                       <title>
                         {isMap
-                          ? `${e.p} ↔ ${e.c}: ${e.n} קשרי טבלאות`
+                          ? `${e.p} ↔ ${e.c}: ${e.n} קשרי טבלאות בין שתי התמונות`
                           : `${e.p} → ${e.c} · ${rec?.cd || REL_HE[(rec?.k ?? "unstated") as RelKind]}${rec?.ds ? ` · ${rec.ds}` : ""}`}
                       </title>
                       <path className="ne-edge-p" data-edge={e.i} d={pathD(g)} />
@@ -2939,14 +2974,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       ) : null}
 
       {keys ? (
-        <div
-          className="ne-sheet"
-          role="dialog"
-          aria-modal="true"
-          aria-label="קיצורי מקלדת ומקרא"
-          onClick={() => setKeys(false)}
-        >
-          <div className="ne-sheet-b nu-card" onClick={(e) => e.stopPropagation()}>
+        <KeysSheet onClose={() => setKeys(false)}>
             <header>
               <h2>קיצורי מקלדת ומקרא</h2>
               <button type="button" className="nu-ghost" onClick={() => setKeys(false)} aria-label="סגירה">
@@ -3009,9 +3037,46 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             <button type="button" className="nu-btn2" onClick={() => setKeys(false)}>
               סגירה
             </button>
-          </div>
-        </div>
+        </KeysSheet>
       ) : null}
+    </div>
+  );
+}
+
+/* The keyboard-and-legend sheet: a modal dialog that behaves like one (gate 7,
+   blocker 5). Focus moves into the card when it opens, Tab wraps inside it,
+   and focus goes back to the control that opened it when it closes; Escape
+   stays with the workspace's own ladder, which already closes it. The same
+   contract as ErdSheet. */
+function KeysSheet({ onClose, children }: { onClose: () => void; children: React.ReactNode }) {
+  const cardRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    cardRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+      const root = cardRef.current;
+      if (!root) return;
+      const items = [...root.querySelectorAll<HTMLElement>("a[href], button:not([disabled])")]
+        .filter((el) => el.tabIndex !== -1 && el.offsetParent !== null);
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      const at = document.activeElement;
+      if (!e.shiftKey && (at === last || !root.contains(at))) { e.preventDefault(); first.focus(); }
+      else if (e.shiftKey && (at === first || !root.contains(at))) { e.preventDefault(); last.focus(); }
+    };
+    document.addEventListener("keydown", onKey, true);
+    return () => {
+      document.removeEventListener("keydown", onKey, true);
+      opener?.focus();
+    };
+  }, []);
+  return (
+    <div className="ne-sheet" role="dialog" aria-modal="true" aria-label="קיצורי מקלדת ומקרא" onClick={onClose}>
+      <div ref={cardRef} tabIndex={-1} className="ne-sheet-b nu-card" onClick={(e) => e.stopPropagation()}>
+        {children}
+      </div>
     </div>
   );
 }

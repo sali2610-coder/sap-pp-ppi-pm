@@ -230,3 +230,36 @@ html[data-theme="dark"] .nst-mode[data-on="1"] { color: var(--ink-1); }
   .nst-search { flex-basis: 100%; order: 3; }
   .nst-tools { order: 2; }
 }
+
+/* The source line under the layer strip (studio-view, gate 7). */
+.nx-app .nst-layer-src { margin: 4px 0 0; font-size: var(--t-micro); line-height: 1.5; color: var(--ink-2); }
+.nx-app .nst-layer-src a { color: var(--link); text-decoration: underline; text-underline-offset: 3px; }
+
+/* 2026 · THE NODE SAYS WHAT IT IS (gate 7, blocker 4 and major 14). A small
+   mark in the node's colour, the one the legend names (the kind, or the
+   S/4HANA status family in the ECC ↔ S/4 view), and the words beside it: the
+   status in that view, otherwise the description, or the kind for a node that
+   has none. Lines are plain ink until something is selected (major 15); the
+   node no longer lifts on hover, and focus is the system's blue ring (minor
+   18). */
+.nst-dot { display: inline-block; inline-size: 8px; block-size: 8px; margin-inline-end: 6px; border-radius: 2px; background: var(--c); vertical-align: 1px; }
+.nst-node .nst-s4w { color: var(--ink-1); font-weight: 600; }
+.nst-edge[data-lit="1"] { stroke: var(--select-line, var(--brand)); }
+.nst-node:hover { transform: none; }
+.nst-node:focus-visible { outline: none; box-shadow: var(--elev-1), var(--focus-ring); }
+
+
+/* THE STUDIO ON A PHONE (gate 7, blocker 6). The page canvas sizes the studio
+   to its min-content, and the body could shrink (flex-shrink, min 0, a
+   scrolling side), so the modules, views and zones collapsed to a 19px strip
+   under the canvas: measured 18.6px against 294px of controls, and the PM /
+   PP-PI buttons were not hit targets. Below 900px nothing inside the studio
+   shrinks; the studio is as tall as its content and the page scrolls. */
+@media (max-width: 900px) {
+  .nst-body { flex: none; }
+  .nst-side { overflow: visible; }
+  /* The canvas row can only grow into free space above an item's explicit
+     minimum (34rem), so the studio was held at 584px with 1,306px inside.
+     A content-based minimum makes the row as tall as the studio. */
+  .nst { min-block-size: auto; }
+}

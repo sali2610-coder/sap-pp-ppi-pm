@@ -415,7 +415,11 @@ export function erdCatalog(): ErdCatalog {
     const fields = (t.fields || []).map(
       (f) => [clean(f[0]), clean(f[1]), clean(f[2]), clean(f[3]) || "-"] as [string, string, string, string],
     );
-    const zone = t.zone && ZONE_OBJ[t.zone] ? t.zone : "Transaction";
+    // The dataset's own zone, as written. Only the five mapped zones take an
+    // object-class colour; any other (HR Config, Payroll, InfoProviders…) keeps
+    // its words and a neutral mark. It used to default to "Transaction", which
+    // printed "נתוני תנועה" on all 65 HR and BW tables (gate 7, blocker 2).
+    const zone = clean(t.zone);
     return {
       n,
       he: clean(t.he),
@@ -423,7 +427,7 @@ export function erdCatalog(): ErdCatalog {
       m: (t.mod as ModCode) || (mods.get(n) || ["PM"])[0],
       ms: mods.get(n) || [],
       z: zone,
-      o: ZONE_OBJ[zone],
+      o: ZONE_OBJ[zone] || "var(--ink-3)",
       f: fields.slice(0, 16),
       fn: fields.length,
       pk: fields.filter((f) => f[3] === "PK").map((f) => f[0]).length

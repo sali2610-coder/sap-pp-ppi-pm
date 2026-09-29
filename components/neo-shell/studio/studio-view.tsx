@@ -49,7 +49,7 @@ import {
   KIND_META, MODES, S4_COLOR, ZONES, buildHetero, layoutSubset, layoutZoned,
   nodeTier, zoneOf, type BlueprintS4, type LEdge, type LNode, type SKind, type SNode,
 } from "@/lib/studio-graph";
-import { S4_STATUS_WORD } from "@/lib/evidence/types";
+import { S4_STATUS_DOT, S4_STATUS_WORD } from "@/lib/evidence/types";
 
 type Mod = "PM" | "PP-PI";
 const MODULES: Mod[] = ["PM", "PP-PI"];
@@ -272,8 +272,11 @@ export function StudioView() {
       .sort((a, b) => a.kind.localeCompare(b.kind) || a.id.localeCompare(b.id));
   }, [sel, hetero]);
 
+  // The S/4HANA view paints the status families (--s4-*), the tokens the pill
+  // and the ERD tag read; the kind view keeps the kind colours. Either way the
+  // node also says it in words (gate 7, blocker 4 and major 14).
   const colorOf = (n: LNode) =>
-    mode.colorBy === "s4" && n.s4 ? S4_COLOR[n.s4] : KIND_META[n.kind].c;
+    mode.colorBy === "s4" && n.s4 ? S4_STATUS_DOT[n.s4] : KIND_META[n.kind].c;
 
   /* The layer strip: which layer is on stage, how much of the module it is,
      and the two ways out — the next layer, or everything. Counted from the
@@ -370,6 +373,17 @@ export function StudioView() {
           <button type="button" className="nu-ghost" onClick={() => setZones(firstZoneOf(mod))}>חזרה לשכבה הראשונה</button>
         )}
       </div>
+      {/* Where the layers come from, and what the graph leaves out (gate 7,
+          blocker 3 and minor 27). */}
+      <p className="nst-layer-src">
+        השכבות הן קיבוץ של הסטודיו לפי שמות הטבלאות, לא סיווג מהמאגר.
+        {mod === "PP-PI" ? (
+          <>
+            {" "}יחידות מטפלות (<Link href="/neo/object/VEKP/" prefetch={false}><bdi>VEKP</bdi></Link>,{" "}
+            <Link href="/neo/object/VEPO/" prefetch={false}><bdi>VEPO</bdi></Link>) אינן במילון של <bdi>PP-PI</bdi> ואינן מצוירות כאן.
+          </>
+        ) : null}
+      </p>
 
       <div className="nst-body">
         {/* ---------------------------------------------------------- side */}
@@ -434,12 +448,14 @@ export function StudioView() {
           <div className="nst-stage" style={{ transform: `translate(${cam.x}px, ${cam.y}px) scale(${cam.k})` }}>
             <svg className="nst-edges" width={laid.width || 1} height={laid.height || 1} aria-hidden="true">
               {laid.edges.map((e) => {
-                const lit = !near || (near.has(e.from) && near.has(e.to));
+                // Lit only around a selection: with nothing selected every line
+                // is plain ink, not the brand red (gate 7, major 15).
+                const lit = near ? near.has(e.from) && near.has(e.to) : null;
                 return (
                   <polyline
                     key={e.id}
                     className="nst-edge"
-                    data-lit={lit ? "1" : "0"}
+                    data-lit={lit === null ? undefined : lit ? "1" : "0"}
                     points={e.points.map((p) => `${p.x},${p.y}`).join(" ")}
                   />
                 );
@@ -467,9 +483,10 @@ export function StudioView() {
                   onDoubleClick={() => pick(n.id)}
                   aria-pressed={on}
                 >
-                  <b className="nx-sap" dir="ltr">{n.label}</b>
-                  <span>{n.he}</span>
-                  {n.s4 ? <i className="nst-s4" style={{ background: S4_COLOR[n.s4] }} aria-hidden="true" /> : null}
+                  <b className="nx-sap" dir="ltr"><i className="nst-dot" aria-hidden="true" />{n.label}</b>
+                  {mode.colorBy === "s4" && n.s4
+                    ? <span className="nst-s4w">{S4_STATUS_WORD[n.s4]}</span>
+                    : <span>{n.he || KIND_META[n.kind].he}</span>}
                 </button>
               );
             })}
@@ -492,7 +509,7 @@ export function StudioView() {
 
             {selNode.s4 ? (
               <>
-                <p className="nst-ctx-s4" style={{ "--s4": S4_COLOR[selNode.s4] } as React.CSSProperties}>
+                <p className="nst-ctx-s4" style={{ "--s4": S4_STATUS_DOT[selNode.s4] } as React.CSSProperties}>
                   <i aria-hidden="true" />
                   <b>S/4HANA</b> {S4_STATUS_WORD[selNode.s4]}
                 </p>
@@ -527,7 +544,7 @@ export function StudioView() {
         {(mode.colorBy === "s4"
           ? (Object.keys(S4_COLOR) as BlueprintS4[])
               .filter((k) => laid.nodes.some((n) => n.s4 === k))
-              .map((k) => ({ c: S4_COLOR[k], he: S4_STATUS_WORD[k] }))
+              .map((k) => ({ c: S4_STATUS_DOT[k], he: S4_STATUS_WORD[k] }))
           : [...new Set(laid.nodes.map((n) => n.kind))].map((k) => ({ c: KIND_META[k as SKind].c, he: KIND_META[k as SKind].he }))
         ).map((x) => (
           <span key={x.he}><i style={{ background: x.c }} aria-hidden="true" />{x.he}</span>
