@@ -24,7 +24,9 @@ out.s4 = await page.evaluate(() => ({
   actions: document.querySelectorAll(".ns4-act").length,
   canvasH: Math.round(document.querySelector(".nx-canvas")?.scrollHeight || 0),
 }));
-await page.click('.ns4-chipsrow button:has-text("השתנה")');
+// The chip carries the S/4HANA dictionary word "משתנה" since the status
+// dictionary (lib/evidence/types.ts S4_STATUS_WORD); it read "השתנה" before.
+await page.click('.ns4-chipsrow button:has-text("משתנה")');
 await page.waitForTimeout(300);
 out.s4Filtered = (await page.locator(".ns4-count").textContent())?.trim().slice(0, 60);
 await page.goto(base + "/neo/migration-cockpit/", { waitUntil: "networkidle" });

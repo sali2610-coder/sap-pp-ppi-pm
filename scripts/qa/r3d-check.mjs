@@ -11,9 +11,13 @@ out.incident = { sym: idx(cogi, 'id="i-sym"'), fix: idx(cogi, 'id="i-fx"'), s4: 
 out.incident.ok = out.incident.sym > 0 && out.incident.sym < out.incident.fix && out.incident.fix < out.incident.s4 && out.incident.s4 < out.incident.sc;
 out.gates = { knowledge: (await get("/neo/knowledge/")).includes("nx-gate-note"), centers: (await get("/neo/centers/")).includes("nx-gate-note"), domains: (await get("/neo/domain-model/")).includes("nx-gate-note") };
 const academy = await get("/neo/academy/");
-out.academy = { what: academy.includes("מה תלמד"), start: academy.includes("התחלת הלמידה"), cert: academy.includes("תרגול ובדיקת ידע") };
+// "מה לומדים כאן" replaced "מה תלמד" in the approved copy pass (COPY-AUDIT.md row 93).
+out.academy = { what: academy.includes("מה לומדים כאן"), start: academy.includes("התחלת הלמידה"), cert: academy.includes("תרגול ובדיקת ידע") };
 const home = await get("/neo/");
-out.home = ["חיפוש טבלה", "פתיחת תהליך עסקי", "בדיקת שינוי ב-", "המשך ללמוד", "מודל הנתונים"].map((t) => [t, home.includes(t)]);
+// The redesigned home (docs/redesign-2026-09) offers the same five actions as
+// the search field and doors; checked by destination, not by the old labels:
+// table search, a business process, S/4HANA change, learning, the data model.
+out.home = [["search", /class="[^"]*nh-find/], ["/neo/domain-model/", /href="\/neo\/domain-model\/"/], ["/neo/s4hana/", /href="\/neo\/s4hana\/"/], ["/neo/academy/", /href="\/neo\/academy\/"/], ["/neo/erd/", /href="\/neo\/erd\/"/]].map(([t, re]) => [t, re.test(home)]);
 const browser = await chromium.launch({ executablePath: process.env.CHROME || "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" });
 const page = await browser.newPage({ viewport: { width: 1363, height: 936 } });
 const errs = []; page.on("console", (m) => { if (m.type() === "error") errs.push(m.text()); });

@@ -41,5 +41,7 @@ out.tablesEmpty = (await page.locator(".nxd-none p").first().textContent())?.tri
 out.consoleErrors = errs.length;
 console.log(JSON.stringify(out, null, 2));
 await browser.close();
-const ok = out.topicCta.visible > 0 && out.railSticky?.onScreen && out.domains.afterQuery < out.domains.before && !!out.domains.emptyText && (out.tablesEmpty || "").includes("נסה חיפוש אחר") && errs.length === 0;
+// The empty state offers "אפשר לשנות את החיפוש…" since the copy pass
+// (docs/redesign-2026-09/COPY-AUDIT.md row 69); it read "נסה חיפוש אחר…".
+const ok = out.topicCta.visible > 0 && out.railSticky?.onScreen && out.domains.afterQuery < out.domains.before && !!out.domains.emptyText && (out.tablesEmpty || "").includes("אפשר לשנות את החיפוש") && errs.length === 0;
 process.exit(ok ? 0 : 1);

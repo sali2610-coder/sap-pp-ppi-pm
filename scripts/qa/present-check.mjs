@@ -53,13 +53,16 @@ st.exit = await page.evaluate(() => document.querySelector(".nst")?.getAttribute
 st.ok = st.start.pressedZones === 1 && st.start.nodes > 0 && st.start.nodes < st.all.nodes && (st.start.labelOnScreen ?? 0) >= 11 && st.present.present === "1" && st.present.focus === "1" && parseInt(st.present.zoom) >= 90 && st.exit === "0";
 out.studio = st;
 
-/* ---- Home: three actionable metrics */
+/* ---- Home: actionable metrics. The redesigned home carries its figures on
+   the doors (.nh-door, docs/redesign-2026-09): every door is a link with the
+   number its destination states (home-check.mjs verifies the numbers). The
+   old home had three metric links (.nh-stat). */
 await page.goto(base + "/neo/", { waitUntil: "networkidle" }); await page.waitForTimeout(500);
 out.home = await page.evaluate(() => {
-  const s = [...document.querySelectorAll(".nh-stat")];
-  return { count: s.length, links: s.filter((e) => e.tagName === "A").length, items: s.map((e) => ({ n: e.querySelector("b")?.textContent, l: e.querySelector("em")?.textContent, href: e.getAttribute("href") })) };
+  const s = [...document.querySelectorAll(".nh-door")];
+  return { count: s.length, links: s.filter((e) => e.tagName === "A").length, items: s.map((e) => ({ n: e.querySelector(".nh-door-n")?.textContent, l: e.querySelector(".nh-door-name")?.textContent, href: e.getAttribute("href") })) };
 });
-out.home.ok = out.home.count === 3 && out.home.links === 3 && out.home.items.every((i) => i.href);
+out.home.ok = out.home.count >= 6 && out.home.links === out.home.count && out.home.items.every((i) => i.href && i.n);
 
 await browser.close();
 out.consoleErrors = errs.length; out.errs = errs.slice(0, 3);
