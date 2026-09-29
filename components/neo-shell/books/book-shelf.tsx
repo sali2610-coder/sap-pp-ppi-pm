@@ -427,7 +427,7 @@ export function BookShelf({ data }: { data: BooksData }) {
 
                       <div className="nb-card-meta">
                         <h3 className="nb-card-t" lang={enLang(b.titleHe || b.titleEn)}>{b.titleHe || b.titleEn}</h3>
-                        {b.titleHe && <p className="nb-card-t2 nb-sap">{b.titleEn}</p>}
+                        {b.titleHe && <p className="nb-card-t2 nb-sap" lang={enLang(b.titleEn)}>{b.titleEn}</p>}
                         <p className="nb-card-n">
                           <span>{b.chapters} פרקים</span>
                           <i aria-hidden="true" />

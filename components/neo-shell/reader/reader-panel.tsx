@@ -86,7 +86,8 @@ export function ReaderPanel({
       const last = items[items.length - 1];
       const at = document.activeElement;
       if (!e.shiftKey && at === last) { e.preventDefault(); first.focus(); }
-      else if (e.shiftKey && (at === first || !root.contains(at))) { e.preventDefault(); last.focus(); }
+      // The box itself holds focus right after opening (gate 8, M10).
+      else if (e.shiftKey && (at === first || at === root || !root.contains(at))) { e.preventDefault(); last.focus(); }
     };
     window.addEventListener("keydown", onKey);
     return () => {

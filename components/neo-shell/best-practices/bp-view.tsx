@@ -259,7 +259,7 @@ function ProcessProfile({ p }: { p: NonNullable<BpDetail["process"]> }) {
         {p.reference ? (
           <p className="nxt-v nxr-text">
             {p.reference.url ? (
-              <a href={p.reference.url} target="_blank" rel="noopener noreferrer" className="nu-link" dir="ltr">
+              <a href={p.reference.url} target="_blank" rel="noopener noreferrer" className="nu-link" dir="ltr" lang={enLang(p.reference.title)}>
                 {p.reference.title}
                 <span className="nx-sr"> (נפתח בכרטיסייה חדשה)</span>
               </a>
@@ -384,7 +384,7 @@ export function BpDetailView({ d }: { d: BpDetail }) {
         />
         {d.antiPatterns.length ? (
           <ul className="nxt-ul">
-            {d.antiPatterns.map((x) => <li key={x.slice(0, 40)}>{x}</li>)}
+            {d.antiPatterns.map((x) => <li key={x.slice(0, 40)} lang={enLang(x)}>{x}</li>)}
           </ul>
         ) : (
           <p className="nxt-absent">{NONE} · דפוסים שגויים</p>
@@ -401,7 +401,7 @@ export function BpDetailView({ d }: { d: BpDetail }) {
         />
         {d.checks.length ? (
           <ul className="nxt-ul">
-            {d.checks.map((x) => <li key={x.slice(0, 40)}>{x}</li>)}
+            {d.checks.map((x) => <li key={x.slice(0, 40)} lang={enLang(x)}>{x}</li>)}
           </ul>
         ) : (
           <p className="nxt-absent">{NONE} · בדיקות</p>

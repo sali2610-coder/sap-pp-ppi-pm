@@ -90,7 +90,7 @@ function Status({ color, children }: { color: string; children: React.ReactNode 
 }
 
 function Bullets({ items }: { items: string[] }) {
-  return <ul className="nxt-ul">{items.map((x, i) => <li key={`${i}-${x.slice(0, 24)}`}>{x}</li>)}</ul>;
+  return <ul className="nxt-ul">{items.map((x, i) => <li key={`${i}-${x.slice(0, 24)}`} lang={enLang(x)}>{x}</li>)}</ul>;
 }
 
 /** SAP identifiers in a list. A code with a page in NEO is a link to it (the
@@ -182,7 +182,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
                 area, it is not mistaken for what this code does. */}
             {heIsArea
               ? <p className="nxt-he"><span className="nxt-he-k">תחום:</span> {t.he}</p>
-              : <p className="nxt-he">{t.he || NONE}</p>}
+              : <p className="nxt-he" lang={enLang(t.he)}>{t.he || NONE}</p>}
             {t.en ? <p className="nxt-en" dir="ltr" lang={enLang(t.en)}>{t.en}</p> : <p className="nxt-en nxt-absent">אין שם אנגלי במקור</p>}
           </div>
           <TxActions code={t.code} />
@@ -427,7 +427,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
                 <span className="nxt-iss-k">
                   {x.kind === "incident" ? "תקלה מתועדת" : x.kind === "mistake" ? "טעות נפוצה" : "שגיאה"}
                 </span>
-                <span className="nxt-iss-t">{x.he}</span>
+                <span className="nxt-iss-t" lang={enLang(x.he)}>{x.he}</span>
                 {x.detail ? <span className="nxt-iss-d">{x.detail}</span> : null}
               </li>
             ))}

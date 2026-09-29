@@ -820,6 +820,30 @@ export function NeoShellClient({
     return () => window.removeEventListener("keydown", onKey);
   }, [changeMode, closeSearch, hidePreview, mode]);
 
+  /* Keyboard scrolling before anything has focus (gate 8, M12). The page
+     scrolls inside the canvas, not the document, so PageDown, Space and the
+     arrows did nothing until a control in it was focused. Only while focus is
+     on <body>: a focused control keeps its own keys, and a page that handles
+     a key itself (defaultPrevented) keeps it too. */
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
+      if (document.activeElement && document.activeElement !== document.body) return;
+      const c = document.getElementById("main"); // the canvas, main#main.nx-canvas
+      if (!c) return;
+      const page = c.clientHeight * 0.85, line = 40;
+      const dy = e.key === "PageDown" || (e.key === " " && !e.shiftKey) ? page
+        : e.key === "PageUp" || (e.key === " " && e.shiftKey) ? -page
+        : e.key === "ArrowDown" ? line : e.key === "ArrowUp" ? -line
+        : e.key === "End" ? c.scrollHeight : e.key === "Home" ? -c.scrollHeight : 0;
+      if (!dy) return;
+      e.preventDefault();
+      c.scrollBy({ top: dy });
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
   const onRailKeyDown = (e: React.KeyboardEvent) => {
     const scroll = scrollRef.current;
     if (!scroll) return;

@@ -18,6 +18,7 @@
    sequence never has a hole where a field was missing.
    ========================================================================== */
 
+import { enLang } from "../lang";
 import Link from "next/link";
 import {
   ArrowLeft, Bug, GitCompareArrows, Info, ListChecks, Puzzle, Quote, Search, ShieldCheck,
@@ -106,7 +107,7 @@ export function IncidentView({ r }: { r: IncidentRow }) {
         <span className="nx-modbar" aria-hidden="true" />
         <span className="nx-eyebrow">תקלות ופתרון בעיות · {r.moduleHe || r.module}</span>
         <div className="nxv-title">
-          <h1 className="nxv-h1 nxv-h1--rec">{r.he}</h1>
+          <h1 className="nxv-h1 nxv-h1--rec" lang={enLang(r.he)}>{r.he}</h1>
         </div>
         <div className="nxv-meta">
           <span className="nu-chip nxv-mod">

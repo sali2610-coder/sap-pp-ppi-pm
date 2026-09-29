@@ -290,6 +290,9 @@ export function SectionNav({
   useEffect(() => {
     const box = reel.current;
     if (!box || !active) return;
+    // The keyboard is on a chip: the browser keeps THAT chip in view, and
+    // centring the active one scrolled the focused one out (gate 8, M5).
+    if (box.contains(document.activeElement)) return;
     const chip = box.querySelector<HTMLElement>(`[data-sec="${CSS.escape(active)}"]`);
     if (!chip) return;
     const b = box.getBoundingClientRect();
@@ -374,7 +377,12 @@ export function SectionNav({
         <span>{two(sections.length)}</span>
       </p>
 
-      <div className="nxs-reel" ref={reel}>
+      <div
+        className="nxs-reel" ref={reel}
+        // A focused chip is shown at once, which also stops a smooth centring
+        // that was already on its way (gate 8, M5).
+        onFocus={(e) => (e.target as HTMLElement).scrollIntoView({ block: "nearest", inline: "nearest", behavior: "instant" })}
+      >
         {sections.map((s, i) => (
           <a
             key={s.id}

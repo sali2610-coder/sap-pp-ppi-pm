@@ -1512,6 +1512,9 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
   mask-image: linear-gradient(to bottom,
     transparent 0, #000 var(--c-ft, 0px), #000 calc(100% - var(--c-fb, 0px)), transparent 100%);
 }
+/* A focused destination scrolls clear of the sticky group heading above it
+   (WCAG 2.4.11; gate 8, M5 measured the first item of a group under it). */
+.nx-rail-scroll { scroll-padding-block-start: 2.25rem; }
 .nx-rail-scroll[data-top="1"] { --c-ft: var(--c-mask-t); }
 .nx-rail-scroll[data-bot="1"] { --c-fb: var(--c-mask-b); }
 .nx-app[data-nav="context"] .nx-rail-scroll { display: none; }

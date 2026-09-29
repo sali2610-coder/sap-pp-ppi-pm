@@ -71,7 +71,7 @@ function Fact({ f }: { f: RefFact }) {
         {empty ? <span className="nxt-absent">{f.absent || NONE}</span> : null}
         {f.text ? <span className="nxr-text">{f.text}</span> : null}
         {f.bullets?.length ? (
-          <ul className="nxt-ul">{f.bullets.map((x, i) => <li key={`${i}-${x.slice(0, 24)}`}>{x}</li>)}</ul>
+          <ul className="nxt-ul">{f.bullets.map((x, i) => <li key={`${i}-${x.slice(0, 24)}`} lang={enLang(x)}>{x}</li>)}</ul>
         ) : null}
         {f.steps?.length ? (
           <ol className="nxt-ol">{f.steps.map((x, i) => <li key={`${i}-${x.slice(0, 24)}`}>{x}</li>)}</ol>
@@ -226,7 +226,7 @@ export function RefDetailView({ d }: { d: RefDetail }) {
               <CopyId value={d.code} label="העתקת השם הטכני" compact />
             </div>
             <div className="nxt-names">
-              <p className="nxt-he">{d.he || NONE}</p>
+              <p className="nxt-he" lang={enLang(d.he)}>{d.he || NONE}</p>
               {d.en
                 ? <p className="nxt-en" dir="ltr" lang={enLang(d.en)}>{d.en}</p>
                 : d.enAbsent ? <p className="nxt-en nxt-absent">{d.enAbsent}</p> : null}

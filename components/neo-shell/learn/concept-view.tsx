@@ -85,7 +85,7 @@ export function ConceptView({ c }: { c: ConceptRow }) {
       <header className="nxv-head">
         <span className="nx-eyebrow">מרכז הידע · {c.groupHe}</span>
         <div className="nxv-title">
-          <h1 className="nxv-h1 nx-display">{c.he}</h1>
+          <h1 className="nxv-h1 nx-display" lang={enLang(c.he)}>{c.he}</h1>
           {c.title.toLowerCase() !== c.he.toLowerCase() ? <p className="nxv-en" lang={enLang(c.title)}>{c.title}</p> : null}
         </div>
         <div className="nxv-meta">

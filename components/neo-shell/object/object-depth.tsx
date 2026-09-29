@@ -23,6 +23,7 @@
      never wrapped. A wrapped ABAP snippet is a wrong ABAP snippet.
    ========================================================================== */
 
+import { enLang } from "../lang";
 import { BadgeCheck, Braces, Bug, Database, Gauge, KeyRound, Link2, ScrollText, Zap } from "lucide-react";
 import type { TableEnrichment } from "@/data/table-enrichment";
 
@@ -45,7 +46,7 @@ function Block({
 
 const List = ({ items, tone }: { items: string[]; tone?: string }) => (
   <ul className="nod-l" data-tone={tone}>
-    {items.map((x, i) => <li key={i}>{x}</li>)}
+    {items.map((x, i) => <li key={i} lang={enLang(x)}>{x}</li>)}
   </ul>
 );
 
@@ -128,7 +129,7 @@ export function ObjectDepth({ e }: { e: TableEnrichment }) {
             </span>
           ) : null}
           {e.sources?.length ? (
-            <span className="nod-src-l">
+            <span className="nod-src-l" lang={enLang(e.sources.join(" "))}>
               <ScrollText size={12} strokeWidth={2} aria-hidden="true" />
               {e.sources.join(" · ")}
             </span>

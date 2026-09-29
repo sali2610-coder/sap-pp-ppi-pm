@@ -806,7 +806,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
                   <header>
                     <b>{i.he}</b>
                     <em className="nx-sap">{i.module}</em>
-                    {i.impact ? <span className="no-imp">{i.impact}</span> : null}
+                    {i.impact ? <span className="no-imp" lang={enLang(i.impact)}>{i.impact}</span> : null}
                   </header>
                   <p>{i.symptom}</p>
                   {i.error ? <code className="no-join">{i.error}</code> : null}

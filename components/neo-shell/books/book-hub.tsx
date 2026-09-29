@@ -332,7 +332,7 @@ export function BookHub({ d }: { d: BookHubData }) {
                 origin={() => ({ href: b.hubHref, label: "ספר", detail: title })}
               >
                 <span className="nb-sib-id nb-sap">{s.id}</span>
-                <span className="nb-sib-t">{s.title}</span>
+                <span className="nb-sib-t" lang={enLang(s.title)}>{s.title}</span>
               </OriginLink>
             ))}
           </div>

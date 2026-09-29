@@ -286,7 +286,10 @@ export function CertExam() {
           {q.context ? <p className="nce-ctx">{q.context}</p> : null}
           {q.code ? <pre className="nce-code" dir="ltr">{q.code}</pre> : null}
 
-          <ul className="nce-choices" role="listbox" aria-label="אפשרויות התשובה">
+          {/* A list of buttons. It was a listbox whose options sat inside li
+              elements, which the listbox pattern forbids, and it had none of
+              the listbox's arrow keys (gate 8, found by axe on the open exam). */}
+          <ul className="nce-choices" aria-label="אפשרויות התשובה">
             {q.choices.map((c, i) => {
               const isPicked = given?.picked === i;
               const isAnswer = i === q.answer;
@@ -295,8 +298,6 @@ export function CertExam() {
                 <li key={i}>
                   <button
                     type="button"
-                    role="option"
-                    aria-selected={isPicked}
                     disabled={!!given}
                     className="nce-choice"
                     data-state={state}
@@ -306,6 +307,9 @@ export function CertExam() {
                     <span className="nce-choice-t">{c}</span>
                     {given && isAnswer ? <Check size={16} strokeWidth={2.4} aria-hidden="true" /> : null}
                     {given && isPicked && !isAnswer ? <X size={16} strokeWidth={2.4} aria-hidden="true" /> : null}
+                    {/* The icons carry the verdict on screen; this carries it to a screen reader. */}
+                    {given && isAnswer ? <span className="nce-sr"> · התשובה הנכונה</span> : null}
+                    {given && isPicked && !isAnswer ? <span className="nce-sr"> · הבחירה שלך, שגויה</span> : null}
                   </button>
                 </li>
               );

@@ -229,8 +229,8 @@ export function S4HanaCenter() {
                   <b className="nx-sap" dir="ltr">{c.s4}</b>
                 </p>
                 <dl className="ns4-ba">
-                  <div><dt>ECC</dt><dd>{c.eccDesc}</dd></div>
-                  <div><dt>S/4HANA</dt><dd>{c.s4Desc}</dd></div>
+                  <div><dt>ECC</dt><dd lang={enLang(c.eccDesc)}>{c.eccDesc}</dd></div>
+                  <div><dt>S/4HANA</dt><dd lang={enLang(c.s4Desc)}>{c.s4Desc}</dd></div>
                 </dl>
                 <ul className="ns4-sg">
                   <li data-k="stay"><b>נשאר</b><span>{c.stays}</span></li>
@@ -661,7 +661,7 @@ export function MigrationCockpit() {
           {MIG_ERRORS.map((e, i) => (
             <li key={i}>
               <header><b>{e.he}</b><Trust t={e.trust} /></header>
-              <p><span className="ns4-lbl">סימפטום</span>{e.symptom}</p>
+              <p><span className="ns4-lbl">סימפטום</span><span lang={enLang(e.symptom)}>{e.symptom}</span></p>
               <p><span className="ns4-lbl">סיבה</span>{e.cause}</p>
               <p><span className="ns4-lbl">תיקון</span>{e.fix}</p>
             </li>

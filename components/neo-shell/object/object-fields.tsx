@@ -28,6 +28,7 @@
 // solid/dot form; it carries PK. MODULE hue (--m) stays a line/tint and carries
 // the per-module marker. STATUS never appears in this file.
 
+import { enLang } from "../lang";
 import { useMemo, useState } from "react";
 import { KeyRound, Link2 } from "lucide-react";
 import { isFkKey, isPkKey } from "../erd/key-role";
@@ -181,8 +182,8 @@ export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: strin
                   )}
                 </td>
                 <th scope="row" className="nx-sap" data-l="שדה">{f.tech}</th>
-                <td data-l="תיאור">{f.he || "–"}</td>
-                <td className="nx-sap no-dim" data-l="אנגלית">{f.en || "–"}</td>
+                <td data-l="תיאור" lang={enLang(f.he)}>{f.he || "–"}</td>
+                <td className="nx-sap no-dim" data-l="אנגלית" lang={enLang(f.en)}>{f.en || "–"}</td>
                 <td className="nx-sap" data-l="סוג נתונים">{f.dt || "–"}</td>
                 <td className="nx-sap" data-l="אורך">{f.len || "–"}</td>
                 <td data-l="מודול">

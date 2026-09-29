@@ -162,7 +162,7 @@ export function CenterDetailView({ fam, item }: { fam: CenterFamily; item: Cente
           <span className="nct-sap" dir="ltr">{item.eyebrow}</span>
         </p>
         <h1 className="nct-h1">{item.he}</h1>
-        <p className="nct-h1-en" dir="ltr">{item.title}</p>
+        <p className="nct-h1-en" dir="ltr" lang={enLang(item.title)}>{item.title}</p>
         <p className="nct-lede">{item.sub}</p>
         <div className="nct-hero-tags">
           {item.module ? <span className="nct-tag nct-tag--mod">{item.module}</span> : null}
@@ -177,11 +177,11 @@ export function CenterDetailView({ fam, item }: { fam: CenterFamily; item: Cente
             style={{ "--nm-i": i } as React.CSSProperties}>
             <h2 className="nct-sec-h"><i aria-hidden="true" />{s.title}</h2>
 
-            {s.type === "text" && <p className="nct-p">{s.text}</p>}
+            {s.type === "text" && <p className="nct-p" lang={enLang(s.text)}>{s.text}</p>}
 
             {s.type === "bullets" && (
               <ul className="nct-bul">
-                {(s.items || []).map((x, k) => <li key={k}>{x}</li>)}
+                {(s.items || []).map((x, k) => <li key={k} lang={enLang(x)}>{x}</li>)}
               </ul>
             )}
 
