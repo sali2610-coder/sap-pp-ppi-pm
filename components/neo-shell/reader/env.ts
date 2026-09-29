@@ -65,3 +65,21 @@ export function scrollHost(from: HTMLElement | null): HTMLElement {
     ? document.scrollingElement
     : document.documentElement;
 }
+
+/**
+ * Which of the reader's two sticky bars may stay pinned (gate 4, blocker 2).
+ *
+ * A bar stays sticky only while it covers at most a quarter of the reading
+ * area. On a small phone, a landscape phone or a page zoomed to 200 or 400% the
+ * header wraps to several rows, and pinned it hid most of the text (93% at
+ * 320x568); a bar taller than the budget scrolls with the page instead.
+ * `flow` names the bars that scroll ("head", "dock"); `cover` is the height the
+ * pinned header really takes, 0 when it scrolls.
+ */
+export function stickyBars(head: number, dock: number, room: number): { flow: string; cover: number } {
+  const tall = (px: number) => px > room / 4;
+  return {
+    flow: [tall(head) ? "head" : "", tall(dock) ? "dock" : ""].filter(Boolean).join(" "),
+    cover: tall(head) ? 0 : Math.round(head),
+  };
+}

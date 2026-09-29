@@ -142,7 +142,7 @@ export function BookHub({ d }: { d: BookHubData }) {
   return (
     <div className="nb nb-hub" style={{ "--m": b.mod } as React.CSSProperties}>
       <nav className="nb-crumb" aria-label="מסלול ניווט">
-        <SmartReturn fallback={{ href: "/neo/books/", label: "מדף הספרים" }} className="nb-crumb-back" />
+        <SmartReturn fallback={{ href: "/neo/books/", label: "ספריית SAP" }} className="nb-crumb-back" />
         <span className="nu-chip is-sap">{b.module}</span>
         <span className="nu-chip">{b.moduleHe}</span>
       </nav>
