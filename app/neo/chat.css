@@ -1647,6 +1647,9 @@ html[data-theme="dark"] .nxq[data-surface="library"] {
   border-color: color-mix(in oklab, var(--scene-accent) 40%, var(--scene-hair));
   box-shadow: var(--nq-lift-2);
 }
+/* The paper lift out-ranked .nu-card:focus-visible, so a starter took keyboard
+   focus with no indicator at all (measured on /neo/ai/, day and phone). */
+.nxq[data-surface="library"] .nxq-starter:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
 /* The composer was the heaviest object on the screen. It becomes a light,
    floating sheet: paper, one ring, and the send button as the only saturated

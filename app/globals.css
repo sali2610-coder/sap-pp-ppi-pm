@@ -1881,6 +1881,9 @@ html[data-device="tablet"] .nx-railedge { display: none !important; }
      by the margin so the bar's layout does not move. */
   padding: 4px; margin: -4px; }
 .nx-crumbs > a, .nx-crumbs > span { min-inline-size: 0; flex: 0 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* A crumb link never shrinks below a 24px target (WCAG 2.5.8: axe at a 390px
+   desktop window measured "מסך הבית" 3.4 to 4.9px wide). */
+.nx-crumbs > a { min-inline-size: 1.5rem; }
 .nx-crumbs > svg { flex: none; }
 .nx-crumbs a { display: inline-flex; align-items: center; min-block-size: 1.5rem; }
 .nx-crumbs a:hover { color: var(--ink-1); }
@@ -1909,6 +1912,9 @@ html[data-device="tablet"] .nx-railedge { display: none !important; }
   .nx-topbar .nx-cmdbar kbd { display: none; }
 }
 @container nx-top (max-width: 32rem) {
+  /* Too narrow for a trail: the page's own crumb stays, the way home is the
+     rail (a page with no current crumb keeps its one link). */
+  .nx-crumbs:has(.nx-cur) > :not(.nx-cur) { display: none; }
   .nx-topbar .nx-cmdbar { position: relative; flex: none; inline-size: var(--c-tap); min-block-size: var(--c-tap); padding: 0; justify-content: center; }
   .nx-topbar .nx-cmdbar .nx-ph {
     position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden;
