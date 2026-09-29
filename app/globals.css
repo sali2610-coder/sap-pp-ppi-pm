@@ -1368,6 +1368,11 @@ html[data-device="phone"] .nx-app .nx-main { grid-column: 1 / -1; grid-template-
   min-inline-size: 0;
   transition: opacity var(--dur-base) var(--ease-out-expo);
 }
+/* The track is minmax(0, 1fr), but a page root kept its content-based minimum
+   and could be wider than the track: at 320px (the 400% reflow) the domain
+   record was 291px in a 272px track (gate 8, M6). No page root sets its own
+   minimum above the canvas. */
+.nx-canvas > * { min-inline-size: 0; }
 .nx-app[data-searching="1"] .nx-canvas { opacity: .38; }
 @media (min-width: 1440px) { .nx-canvas { padding: var(--sp-8); } }
 html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }

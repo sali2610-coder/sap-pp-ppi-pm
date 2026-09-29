@@ -16,7 +16,12 @@
 // neo-v2: Project NEO is the only site. The precache held the pre-NEO home ("/")
 // and the pre-NEO /offline/ page (old chrome, a link back to the old home); the
 // bump purges every cache of v1, including any cached pre-NEO page.
-const SW_VERSION = "neo-v2";
+// neo-v3: the offline page's own scripts and styles are precached with it (see
+// install). With only its HTML cached, a device that had opened other pages
+// began to hydrate it from the cached shared chunks, failed on one it never
+// loaded (ChunkLoadError) and showed the error screen instead of the offline
+// page (gate 8 final series, nav-click D).
+const SW_VERSION = "neo-v3";
 const PRECACHE = `${SW_VERSION}-precache`;
 const RUNTIME = `${SW_VERSION}-runtime`;
 
@@ -35,9 +40,20 @@ const isCacheable = (url) =>
   /\.(?:png|jpg|jpeg|gif|webp|avif|svg|ico|woff2?|json|webmanifest)$/i.test(url.pathname);
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(PRECACHE).then((cache) => cache.addAll(PRECACHE_URLS)).then(() => self.skipWaiting()),
-  );
+  event.waitUntil((async () => {
+    const cache = await caches.open(PRECACHE);
+    await cache.addAll(PRECACHE_URLS);
+    // Every build asset the offline page names in its HTML, so it runs offline
+    // whatever else the device has cached. Best effort: a missing asset must not
+    // stop the worker from installing.
+    const page = await cache.match("/neo/offline/");
+    if (page) {
+      const html = await page.text();
+      const assets = [...new Set([...html.matchAll(/(?:src|href)="(\/_next\/static\/[^"?#]+)"/g)].map((m) => m[1]))];
+      await Promise.all(assets.map((a) => cache.add(a).catch(() => {})));
+    }
+    await self.skipWaiting();
+  })());
 });
 
 self.addEventListener("activate", (event) => {

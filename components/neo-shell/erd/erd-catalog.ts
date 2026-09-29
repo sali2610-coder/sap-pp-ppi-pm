@@ -551,8 +551,9 @@ export function erdCatalog(): ErdCatalog {
       const [a, b] = k.split(">") as [ModCode, ModCode];
       return { a, b, n };
     })
-    // Only links carried by more than a single relation get a place on the
-    // overview; a one-off would draw 13 modules as a solid mesh and say nothing.
+    // Only links carried by four relations or more get a place on the overview
+    // (the map's explanation says so, erd-workspace.tsx); fewer drew the modules
+    // as a solid mesh that said nothing.
     .filter((l) => l.n >= 4)
     .sort((a, b) => b.n - a.n);
 

@@ -1563,3 +1563,14 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
   outline: 2px solid var(--select-line);
   outline-offset: -2px;
 }
+
+/* ==========================================================================
+   THE COUNTS ARE A LINE, NOT A PLATE (gate 10, M1; the object pages were left
+   out of the first pass, CLOSURE.md). One line of body text, every number kept;
+   the number sits with its own label in both directions (gate 3, finding 5).
+   ========================================================================== */
+.no-stats { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-1) var(--sp-4); }
+.no-stats .no-stat { display: inline-flex; align-items: baseline; gap: var(--sp-1); }
+.no-stats .no-stat b { font-size: var(--t-sm); font-weight: 600; }
+.no-stats .no-stat em { font-size: var(--t-sm); color: var(--ink-2); }
+

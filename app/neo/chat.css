@@ -1608,10 +1608,8 @@ html[data-theme="dark"] .nxq[data-surface="library"] {
 .nxq[data-surface="library"] .nxq-qa-b:hover {
   color: var(--scene-accent);
   border-color: color-mix(in oklab, var(--scene-accent) 45%, var(--scene-hair));
-  box-shadow: var(--nq-lift-2);
-  transform: translateY(-1px);
+  /* No lift (MOTION.md; gate 11, m2): the border and the ink say hover. */
 }
-.nxq[data-surface="library"] .nxq-qa-b:active { transform: translateY(0); }
 .nxq[data-surface="library"] .nxq-qa-b2 {
   font-weight: 500; box-shadow: none;
   background: color-mix(in oklab, var(--scene-raised) 55%, var(--scene-ground));

@@ -194,6 +194,11 @@ html[data-theme="dark"] .ne {
 /* nowrap on purpose: the count is the line that has to give, and .ne-sub
    ellipsises. Wrapping put the title block on three rows at 1440. */
 .ne-bar-t { display: flex; flex-wrap: nowrap; align-items: baseline; gap: var(--sp-2); min-inline-size: 0; }
+/* The counts take their own full line under the title, so they can be read
+   ("220 טבלאות · 232 קשרים" was cut to "…0" at 1440; gate 11, m7). The title
+   does not wrap, so the block is two rows at most. */
+.ne-bar-t { flex-wrap: wrap; row-gap: 0; }
+.ne-bar-t > .ne-sub { flex: 1 1 100%; }
 .ne-h1 {
   font-size: var(--t-h2);
   font-weight: 700;
@@ -1788,6 +1793,13 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 html .nx-app .nx-canvas:has(> .ne) { display: flex; flex-direction: column; }
 html .nx-app .nx-canvas:has(> .ne) > .ne { flex: 1 1 auto; block-size: auto; min-block-size: 0; }
 html .nx-app .nx-canvas:has(> .ne) > .nx-foot { flex: none; margin: 0; padding: 4px var(--sp-5); }
+/* Where the ERD is a scrolling page (1100px and less) the workspace keeps its
+   full height and the footer comes after it. Shrunk to the window by the
+   column above, its content ran on under the footer, and the credit and the
+   legal links were drawn over the module list (gate 11, B3). */
+@media (max-width: 1100px) {
+  html .nx-app .nx-canvas:has(> .ne) > .ne { flex: none; }
+}
 
 /* The flow pulse on a focused relation runs twice and stops (gate 7, major 13;
    brief §16: no perpetual loops). Two passes show the direction, parent to

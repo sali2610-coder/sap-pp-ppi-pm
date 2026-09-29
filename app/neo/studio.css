@@ -31,7 +31,7 @@
   background: var(--surface);
   flex: none;
 }
-.nst-h1 { margin: 0; font-size: 1rem; font-weight: 700; letter-spacing: 0; }
+.nst-h1 { margin: 0; font-size: var(--t-h2); font-weight: 700; letter-spacing: 0; } /* the ERD's instrument-title size (gate 3, finding 15; BLOCKERS §5) */
 .nst-sub { margin: 0; font-size: var(--t-micro); color: var(--ink-3); }
 /* The studio's role next to the ERD's, one line (design audit S7-STU-1). */
 .nst-role { margin: .2rem 0 0; font-size: var(--t-xs); line-height: 1.5; color: var(--ink-3); max-inline-size: min(60ch, 100%); overflow-wrap: anywhere; }

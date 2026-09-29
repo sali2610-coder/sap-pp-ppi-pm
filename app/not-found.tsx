@@ -17,9 +17,9 @@ import "@/app/neo/rail.css";
    (the theme attribute is set before paint by the root layout's script), and
    the footer with the credit and the three legal documents (gate 3, major 12;
    gate 5, blocker 3). The markup does not depend on the address, so it is the
-   same HTML wherever it is served. The React #418 on a /neo/ address comes
-   from the shell choosing its branch by pathname (components/app-shell.tsx),
-   not from this page. */
+   same HTML wherever it is served. The React #418 an unknown /neo/ address
+   used to throw came from the shell choosing its branch by pathname; it now
+   chooses by the layout segment (components/app-shell.tsx). */
 
 const FONTS = [plexHe, plexLat, plexMono].map((f) => f.variable).join(" ");
 

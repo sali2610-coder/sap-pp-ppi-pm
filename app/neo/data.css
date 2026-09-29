@@ -681,10 +681,10 @@ html[data-theme="dark"] .nx-app .nxd-mark { opacity: 1; }
   display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3);
   padding-block-start: var(--sp-1);
 }
-.nx-app .nxt-known {
-  font-family: var(--font-mono); font-size: var(--t-micro); color: var(--ink-3);
-  font-variant-numeric: tabular-nums;
-}
+/* The digits in the identifier face, the words in the UI face: the Hebrew set
+   in mono fell back to a system face with mono spacing (gate 11, m5). */
+.nx-app .nxt-known { font-size: var(--t-micro); color: var(--ink-3); }
+.nx-app .nxt-known-n { font-family: var(--font-mono); font-variant-numeric: tabular-nums; direction: ltr; unicode-bidi: isolate; }
 /* A module VALUE inside a chip: ring + tint + leading line, same as the list. */
 .nx-app .nxt-mod {
   color: color-mix(in srgb, var(--m) 80%, var(--ink-1)); /* axe: pure --m on its own 10% tint measured 4.31-4.38 for PP and PM */
@@ -908,7 +908,9 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
   padding-block-start: var(--sp-4);
   border-block-start: 1px solid var(--c-hair);
 }
-.nx-app .nxt-src { display: flex; align-items: flex-start; gap: var(--sp-2); }
+/* A source title can be one long string (a URL, a path): it breaks rather than
+   widening the page (the 400% reflow measured 6px on a Fiori app record). */
+.nx-app .nxt-src { display: flex; align-items: flex-start; gap: var(--sp-2); overflow-wrap: anywhere; min-inline-size: 0; }
 .nx-app .nxt-src > svg { flex: none; margin-block-start: 2px; }
 
 /* ------------------------------------------------- 12.9 RESPONSIVE 390→ */

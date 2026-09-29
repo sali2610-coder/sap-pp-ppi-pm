@@ -133,6 +133,9 @@ html[data-device="phone"] .nx-app .nh-find-k { display: none; }
   background: none; box-shadow: none;
 }
 .nx-app .nh-doors .nh-door:hover { border-block-end-color: var(--line-strong); }
+/* The row's own reset above outranked .nu-card's focus ring: the keyboard sweep
+   found the seven doors with no visible focus (gate 8 method, final series). */
+.nx-app .nh-doors .nh-door:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--r-sm); }
 .nx-app .nh-doors .nh-door-n { font-size: var(--t-body); font-weight: 600; }
 
 /* ------------------------------------------------------------ continuing */

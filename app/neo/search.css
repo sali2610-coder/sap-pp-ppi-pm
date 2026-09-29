@@ -186,7 +186,6 @@
   color: var(--ink-2); font-size: var(--t-micro);
   transition: transform 200ms var(--c-spring);
 }
-.nx-app .nxc--r .nxc-modchip:hover { transform: translateY(-1px); }
 .nx-app .nxc--r .nxc-modchip > i {
   inline-size: 3px; block-size: .9rem; border-radius: 2px; flex: none;
   background: var(--m, var(--ink-3));

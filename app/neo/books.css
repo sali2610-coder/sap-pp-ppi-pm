@@ -169,15 +169,17 @@ html .nx-app .nx-canvas:has(> .nb) {
 .nb-more-b { display: grid; gap: var(--sp-2); padding-block: var(--sp-1) var(--sp-2); }
 @media (prefers-reduced-motion: reduce) { .nb-more > summary::before { transition: none; } }
 
-.nb-stats { display: flex; flex-wrap: wrap; gap: var(--sp-5) var(--sp-8); }
-.nb-stat { display: grid; gap: 2px; }
+/* The counts are one line of text, as on the catalogues and records (gate 10,
+   M1; gate 11, m1): every number stays, the plate of large figures goes. */
+.nb-stats { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-1) var(--sp-4); }
+.nb-stat { display: inline-flex; align-items: baseline; gap: var(--sp-1); }
 .nb-stat b {
   font-variant-numeric: tabular-nums;
-  font-size: clamp(1.5rem, 2.6cqi, 2.25rem);
-  line-height: 1;
+  font-size: var(--t-sm);
+  font-weight: 600;
   letter-spacing: 0;
 }
-.nb-stat em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
+.nb-stat em { font-style: normal; font-size: var(--t-sm); color: var(--ink-2); }
 
 /* ==========================================================================
    DICTIONARY BAR — the honest coverage statement

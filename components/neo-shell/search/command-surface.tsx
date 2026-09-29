@@ -49,7 +49,7 @@ const PLURAL: Record<CmdKind, string> = {
   nav: "פריטי ניווט", module: "מודולים", table: "טבלאות", object: "אובייקטים", field: "שדות",
   tcode: "טרנזקציות", bapi: "BAPI", func: "מודולי פונקציה", idoc: "סוגי הודעת IDoc",
   cds: "תצוגות CDS", fiori: "יישומי Fiori", enh: "טכניקות הרחבה", flow: "תחומים עסקיים",
-  chapter: "פרקים", book: "ספרים", guide: "מושגים", center: "מרכזי עבודה", topic: "נושאי עבודה",
+  chapter: "פרקים", book: "ספרים", guide: "מושגים", center: "מדריכי עבודה", topic: "נושאי עבודה",
   bp: "שיטות עבודה", incident: "תקלות",
 };
 

@@ -42,7 +42,8 @@ export const KINDS: { k: CmdKind; he: string; icon: string }[] = [
   { k: "chapter", he: "פרק", icon: "BookMarked" },
   { k: "book", he: "ספר", icon: "BookOpen" },
   { k: "guide", he: "מושג", icon: "ScrollText" },
-  { k: "center", he: "מרכז עבודה", icon: "Library" },
+  // "מדריך עבודה", as the pages name it: "מרכז עבודה" is the SAP Work Center (gate 5, finding 7).
+  { k: "center", he: "מדריך עבודה", icon: "Library" },
   { k: "topic", he: "נושא עבודה", icon: "ClipboardCheck" },
   { k: "bp", he: "שיטת עבודה", icon: "ClipboardCheck" },
   { k: "incident", he: "תקלה", icon: "AlertTriangle" },

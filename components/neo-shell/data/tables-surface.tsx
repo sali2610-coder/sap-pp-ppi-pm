@@ -155,7 +155,8 @@ function Row({ r, q, makeOrigin, landed }: { r: NeoTableRow; q: string; makeOrig
 
         <span className="nxd-s4">
           <StatusPill status={r.status.key} label={st.he} dot={st.s} />
-          <span className="nxd-s4-t">
+          {/* The full note on hover where the row clamps it (gate 11, m8). */}
+          <span className="nxd-s4-t" title={[r.s4Alt, r.s4].filter(Boolean).join(" · ") || undefined}>
             {r.s4Alt ? <b className="nx-sap">{r.s4Alt}</b> : null}
             {/* The alternative and the note were printed with nothing between
                 them ("SAP ILMללא שינוי"): a separator, as everywhere else. */}

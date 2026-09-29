@@ -101,14 +101,14 @@ Book cloths (`books-data.ts` CLOTH, mirrored on the home spines): slot 5 slate v
 | token | size | use |
 |---|---|---|
 | `--t-display` | 2.5rem, line 1.15 | gateway titles, display face |
-| `--t-h1` | 1.75rem, line 1.25 | work-screen titles |
+| `--t-h1` | 1.75rem, line 1.25 | work-screen titles. The ERD and the Studio, canvas instruments, keep one title row at `--t-h2` so the canvas stays in the first screen (`BLOCKERS.md` §5) |
 | `--t-h2` | 1.25rem, line 1.35 | section titles |
 | `--t-lead` | 1.125rem | lead paragraphs |
 | `--t-body` | 1rem, line 1.7 | reading (was 0.875rem) |
 | `--t-ui` | 0.9375rem | UI body |
 | `--t-sm` | 0.875rem | dense UI, tables |
 | `--t-xs` | 0.8125rem | secondary |
-| `--t-micro` | 0.75rem | the floor: nothing smaller. After gate 10 (M3) no sheet under `app/neo` or `components/neo-shell` declares a smaller size, the ERD and Studio labels included |
+| `--t-micro` | 0.75rem | the floor: nothing smaller. After gate 10 (M3) no sheet under `app/neo` or `components/neo-shell` declares a smaller fixed size, the ERD and Studio labels included. Two recorded exceptions (`BLOCKERS.md` §5): the text drawn on the book covers scales with the cover (`books.css`, `clamp`, 5 to 11px; the title is also text at full size in the card, the hub and the reader), and a zoomable canvas renders its labels smaller than declared when zoomed out (the ERD overview opens at a fit, 49% at 1440) |
 
 Families: `--font-sans` IBM Plex Sans Hebrew (Hebrew and Latin instances, 400/500/600), `--font-mono` IBM Plex Mono (every SAP identifier), `--font-display` Frank Ruhl Libre (class `.nx-display`, gateway and reading titles only). All self-hosted, OFL, one module per family (`app/fonts/plex.ts`, `frank.ts`). Tracking on Hebrew headings is 0. Weights 400, 500, 600; a 700 request renders the 600 face.
 

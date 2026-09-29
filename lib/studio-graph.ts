@@ -226,8 +226,9 @@ export const MODES: StudioMode[] = [
   { id: "fiori", he: "Fiori Apps", kinds: ["table", "fiori"], behavior: "expand", colorBy: "kind" },
 ];
 
-/** Hex twins of the S4_STATUS_DOT tokens (lib/evidence/types) for the same
- *  keys: the legacy studio appends alpha to these strings, so they stay hex. */
+/** The pre-NEO studio's status colours, as hex because that studio appends an
+ *  alpha to them. They are NOT the 2026 tokens: the NEO Studio draws status from
+ *  S4_STATUS_DOT (lib/evidence/types; components/neo-shell/studio/studio-view.tsx). */
 export const S4_COLOR: Record<BlueprintS4, string> = {
   unchanged: "#10b981", changed: "#f59e0b", replaced: "#3b82f6", not_available: "#dc2626", verification_required: "#94a3b8",
 };

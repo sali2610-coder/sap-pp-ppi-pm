@@ -157,7 +157,7 @@ export function WorkspaceTable({
 
                   <td className="nw-c-tp" data-l="נושא">
                     <span className="nw-sap">{String(r.tp).padStart(2, "0")}</span>
-                    <span className="nw-tp-t">{title.get(r.tp) || ""}</span>
+                    <span className="nw-tp-t" title={title.get(r.tp) || undefined}>{title.get(r.tp) || ""}</span>
                   </td>
 
                   <td className="nw-c-f" data-l="שדות">

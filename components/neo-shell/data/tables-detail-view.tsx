@@ -282,10 +282,19 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             [s.cds, s.cds === 1 ? "תצוגת CDS" : "תצוגות CDS"],
             [s.funcs, "BAPI · FM · IDoc"],
           ] as [number, string][]).map(([v, l]) => (
-            <span className="nxb-stat" key={l}>
-              <b className="nx-sap">{nf.format(v)}</b>
-              <em>{l}</em>
-            </span>
+            // A zero is a gap in the repository, said in words, not a figure
+            // (brief: missing information is stated; gate 11, m9).
+            v === 0 ? (
+              <span className="nxb-stat" key={l}>
+                <em>{l}:</em>
+                <em>אין במאגר</em>
+              </span>
+            ) : (
+              <span className="nxb-stat" key={l}>
+                <b className="nx-sap">{nf.format(v)}</b>
+                <em>{l}</em>
+              </span>
+            )
           ))}
         </div>
 

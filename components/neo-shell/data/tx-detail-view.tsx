@@ -205,7 +205,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
           ) : null}
           <span className="nxt-known">
             <span className="nx-sr">שלמות הרשומה </span>
-            {nf.format(t.known)}/{nf.format(t.total)} עובדות מאומתות
+            <bdi className="nxt-known-n">{nf.format(t.known)}/{nf.format(t.total)}</bdi> עובדות מאומתות
           </span>
         </div>
       </header>
