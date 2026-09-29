@@ -25,6 +25,19 @@ class H(http.server.SimpleHTTPRequestHandler):
             if os.path.exists(idx):
                 return idx
         return p
+    def send_error(self, code, message=None, explain=None):
+        # The host answers an unknown address with the exported 404.html and
+        # status 404, so its hydration at any URL can be checked here too.
+        if code == 404 and os.path.exists("404.html"):
+            body = open("404.html", "rb").read()
+            self.send_response(404)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            if self.command != "HEAD":
+                self.wfile.write(body)
+            return
+        super().send_error(code, message, explain)
     def log_message(self, *a):
         pass
 

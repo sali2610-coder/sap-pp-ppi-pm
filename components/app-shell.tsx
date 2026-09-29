@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSelectedLayoutSegment } from "next/navigation";
 import Link from "next/link";
 import { GlobalBack } from "@/components/global-back";
 import { WorkspaceInspector } from "@/components/workspace-inspector";
@@ -85,12 +85,23 @@ function Header() {
 export function AppShell({ children }: { children: React.ReactNode }) {
   mark("shell-render");
   const path = usePathname() || "/";
+  const segment = useSelectedLayoutSegment();
   // /neo renders its own chrome (Project NEO shell) — no global header, rail,
   // tab bar or footer. Two-armed on purpose: a bare startsWith("/neo") would
   // also swallow a future /neon… or /neo-lab route.
   // The redesign direction boards (/design/redesign-2026/*) are self-contained
   // specimens; the legacy chrome around them would distort what they compare.
-  const bare = path === "/neo" || path.startsWith("/neo/") || path.startsWith("/design/redesign-2026/");
+  // The site's 404 is one exported file (out/404.html) that answers every
+  // unknown address, so its HTML cannot depend on the address it is served at.
+  // It carries its own NEO frame and footer (app/not-found.tsx) and is always
+  // bare. The layout segment says so without reading the address: it is
+  // "/_not-found" in the prerender and again when that file hydrates at any
+  // URL, and it changes on navigation. Choosing by pathname alone made React
+  // throw #418 at every unknown /neo/ address and rebuild the page (gate 5,
+  // blocker 3).
+  const bare =
+    segment === "/_not-found" ||
+    path === "/neo" || path.startsWith("/neo/") || path.startsWith("/design/redesign-2026/");
 
   // Clears the API key the old chat page left in localStorage. Deleting that
   // page removed the code but not the stored credential, which stays readable

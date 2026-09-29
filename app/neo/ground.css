@@ -596,8 +596,10 @@ html[data-theme="dark"] [data-scene="ai"] {
    The 404 renders outside the NEO shell, so it frames itself: a page on the
    ground with the footer at its foot. `.nx-app` also carries the shell's grid
    and 100dvh in globals.css; two classes out-rank it here (gate 3, major 12).
-   Inside the legacy chrome (an unknown address outside /neo/, `#main`) that
-   chrome already has a footer and a height, so this one steps back.
+   The exported 404 is always bare (components/app-shell.tsx reads the
+   "/_not-found" layout segment), so the two `#main` rules below only apply if
+   it ever renders inside the legacy chrome (the dev server): that chrome
+   already has a footer and a height, so this one steps back.
    -------------------------------------------------------------------------- */
 .nx-app.nx-nf {
   display: flex; flex-direction: column;
