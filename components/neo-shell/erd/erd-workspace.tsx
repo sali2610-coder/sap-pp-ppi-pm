@@ -209,7 +209,11 @@ function s4Word(k: ErdS4K): string | null {
   if (key === "s4_native") return "חדש";
   return S4_STATUS_WORD[key];
 }
-const s4BadgeW = (k: ErdS4K): number => 10 + (s4Word(k) || "").length * 6.4;
+const s4BadgeW = (k: ErdS4K): number => 10 + (s4Word(k) || "").length * 7.1;
+/** A module's title without repeating its code: HR and BW have no Hebrew name
+ *  in the dataset, and the catalogue falls back to the code, which printed
+ *  "HR · HR" (gate 7, minor 21). */
+const modTitle = (m: { code: string; he: string }): string => (m.he && m.he !== m.code ? `${m.code} · ${m.he}` : m.code);
 
 export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   const router = useRouter();
@@ -787,17 +791,21 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     (b: { x: number; y: number; w: number; h: number }) => {
       const st = stage.current;
       if (!st) return;
-      const raw = Math.min((st.clientWidth - PAD * 2) / b.w, (st.clientHeight - PAD * 2) / b.h);
+      // The fit frames the space above the minimap when it is shown, so no
+      // table lands under it (gate 7, minor 24).
+      const miniEl = mini && !present ? document.querySelector<HTMLElement>(".ne .ne-mini") : null;
+      const miniH = miniEl ? miniEl.getBoundingClientRect().height + 12 : 0;
+      const raw = Math.min((st.clientWidth - PAD * 2) / b.w, (st.clientHeight - PAD * 2 - miniH) / b.h);
       autoBox.current = b;
       const floor = present ? (isMap ? PRESENT_MIN_K : PRESENT_TABLE_MIN_K) : 0;
       const k = clampK(Math.max(raw, floor));
       glide({
         k,
         x: (st.clientWidth - b.w * k) / 2 - b.x * k,
-        y: (st.clientHeight - b.h * k) / 2 - b.y * k,
+        y: (st.clientHeight - miniH - b.h * k) / 2 - b.y * k,
       });
     },
-    [glide, present, isMap],
+    [glide, present, isMap, mini],
   );
 
   /** The toolbar's fit: a true fit, no floor. */
@@ -1153,7 +1161,13 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   // the pinned control exits. Page-scoped; nothing persisted.
   const [shellFocus, setShellFocus] = useState(false);
   // Leaving focus (Esc, or the exit button) also ends a presentation.
-  const exitShellFocus = useCallback(() => { setShellFocus(false); setPresent(false); }, []);
+  // Presentation mode is fullscreen too, so leaving it leaves both (gate 7,
+  // minor 23: Escape ended the presentation and kept the browser fullscreen).
+  const exitShellFocus = useCallback(() => {
+    setShellFocus(false);
+    setPresent(false);
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+  }, []);
   useShellFocus(shellFocus, exitShellFocus);
   useEffect(() => {
     const d = document as FsDoc;
@@ -1282,8 +1296,11 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     // and resolving it inline would be a synchronous cascading render.
     const raf = requestAnimationFrame(() => {
       if (returning.current) return;
+      // Compared without case: HR and BW carry mixed-case names
+      // (EC_JobInformation, CompositeProvider) that an upper-cased hash missed
+      // (gate 7, minor 19).
       const want = decodeURIComponent((window.location.hash || "").slice(1)).toUpperCase();
-      const t = want ? data.tables.find((x) => x.n === want) : undefined;
+      const t = want ? data.tables.find((x) => x.n.toUpperCase() === want) : undefined;
       if (!t) return;
       setMod(t.ms[0] ?? t.m);
       setSel(t.n);
@@ -1745,7 +1762,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
 
   const crumbs: { he: string; go?: () => void }[] = [
     { he: LEVEL_HE.overview, go: M ? toOverview : undefined },
-    ...(M ? [{ he: `${M.code} · ${M.he}`, go: group || sel ? () => { setGroup(null); setSel(null); setFocus(false); } : undefined }] : []),
+    ...(M ? [{ he: modTitle(M), go: group || sel ? () => { setGroup(null); setSel(null); setFocus(false); } : undefined }] : []),
     ...(group ? [{ he: group.v, go: sel ? () => { setSel(null); setFocus(false); } : undefined }] : []),
     ...(sel ? [{ he: sel }] : []),
   ];
@@ -1814,7 +1831,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               <i aria-hidden="true" />
               תרשים ישויות וקשרים
             </p>
-            <h1 className="ne-h1">{M ? `${M.code} · ${M.he}` : "מודל הנתונים · כל המודולים"}</h1>
+            <h1 className="ne-h1">{M ? modTitle(M) : "מודל הנתונים · כל המודולים"}</h1>
             <p className="ne-sub">
               {M
                 ? `${nf.format(scopeCount)} טבלאות · ${nf.format(edgeCount)} קשרים${M.purpose ? ` · ${M.purpose}` : ""}`
@@ -2115,7 +2132,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                 >
                   <i className="ne-row-bar" aria-hidden="true" />
                   <b className="nx-sap">{m.code}</b>
-                  <em>{m.he}</em>
+                  <em>{m.he !== m.code ? m.he : ""}</em>
                   <span className="nx-sap">{m.core.length}</span>
                 </button>
                 {/* ADD TO THE COMPARISON. Separate from the row itself so the
@@ -2506,7 +2523,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               words the inspector and the keys sheet already use. */}
           {present ? (
             <div className="ne-legend" role="note" aria-label="מקרא">
-              <span className="ne-legend-h">{M ? `${M.code} · ${M.he}` : `מפת ${data.stats.modules} המודולים`}</span>
+              <span className="ne-legend-h">{M ? modTitle(M) : `מפת ${data.stats.modules} המודולים`}</span>
               {REL_ORDER.map((k) => (
                 <span key={k} className="ne-legend-i">
                   <i data-kind={k} aria-hidden="true" />
@@ -2604,7 +2621,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                         />
                       ) : null}
                       <g className="ne-badge" data-blank={!isMap && !rec?.cd ? "1" : "0"}>
-                        <rect x={g.cx - bw / 2} y={g.cy - 17} width={bw} height={16} rx={8} />
+                        <rect x={g.cx - bw / 2} y={g.cy - 17} width={bw} height={16} rx={4} />
                         <text x={g.cx} y={g.cy - 5.5} textAnchor="middle">
                           {lab}
                         </text>
@@ -2634,7 +2651,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                           onDoubleClick={() => openModule(m.code)}
                           style={{ "--m": modVar(m.code), "--ms": modVar(m.code), "--o": "var(--obj-master)" } as React.CSSProperties}
                         >
-                          <title>{`${m.code} · ${m.he}${m.purpose ? `. ${m.purpose}` : ""}`}</title>
+                          <title>{`${modTitle(m)}${m.purpose ? `. ${m.purpose}` : ""}`}</title>
                           <rect className="ne-node-h" x={-W / 2 - 5} y={-H / 2 - 5} width={W + 10} height={H + 10} rx={16} />
                           <rect className="ne-node-r" x={-W / 2} y={-H / 2} width={W} height={H} rx={12} />
                           <rect className="ne-node-mb" x={W / 2 - 11} y={-H / 2 + 10} width={5} height={H - 20} rx={2.5} />
@@ -2649,12 +2666,17 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                           <text className="ne-mod-c nx-sap" x={W / 2 - 22} y={-H / 2 + 32} textAnchor="end">
                             {m.code}
                           </text>
-                          <text className="ne-mod-he" x={W / 2 - 22} y={-H / 2 + 58} textAnchor="start">
-                            {cut(m.he, 22)}
-                          </text>
-                          <text className="ne-mod-en" x={W / 2 - 22} y={-H / 2 + 78} textAnchor="end">
-                            {cut(m.en, 26)}
-                          </text>
+                          {/* A name that only repeats the code is not drawn again. */}
+                          {m.he && m.he !== m.code ? (
+                            <text className="ne-mod-he" x={W / 2 - 22} y={-H / 2 + 58} textAnchor="start">
+                              {cut(m.he, 22)}
+                            </text>
+                          ) : null}
+                          {m.en && m.en !== m.code && m.en !== m.he ? (
+                            <text className="ne-mod-en" x={W / 2 - 22} y={-H / 2 + 78} textAnchor="end">
+                              {cut(m.en, 26)}
+                            </text>
+                          ) : null}
                           <text className="ne-mod-n nx-sap" x={-W / 2 + 18} y={H / 2 - 14} textAnchor="start">
                             {m.core.length} / {total}
                           </text>
@@ -2782,7 +2804,10 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                                   data-risk={t.s4v?.r || "medium"}
                                   data-k={t.s4k.k}
                                   style={{ "--s4c": S4_STATUS_DOT[t.s4k.k as S4Status] } as React.CSSProperties}
-                                  transform={`translate(${ow / 2 - s4BadgeW(t.s4k) - 8} ${oy + 12})`}
+                                  /* On the card's top edge, at the inline-start corner, like a
+                                     flag: it covers only the module band, never the zone label it
+                                     used to sit on (gate 7, major 11: "משתנה" hid "אובייקט"). */
+                                  transform={`translate(${ow / 2 - s4BadgeW(t.s4k) - 10} ${oy - 7})`}
                                 >
                                   <rect width={s4BadgeW(t.s4k)} height={13} rx={3} />
                                   <text x={s4BadgeW(t.s4k) / 2} y={10} textAnchor="middle">{s4Word(t.s4k)}</text>
@@ -2808,7 +2833,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                                   const k = f[3] === "PK" || f[3] === "FK" ? f[3] : "";
                                   return (
                                     <g key={f[0]} className="ne-open-row" data-k={k || "-"}>
-                                      <rect className="ne-open-chip" x={px - 25} y={yr - 10} width={25} height={13} rx={3.5} />
+                                      <rect className="ne-open-chip" x={px - 25} y={yr - 6.5} width={25} height={13} rx={3.5} />
                                       <text className="ne-open-chip-t nx-sap" x={px - 12.5} y={yr} textAnchor="middle">
                                         {k || "·"}
                                       </text>

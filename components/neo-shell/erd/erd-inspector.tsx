@@ -62,7 +62,8 @@ export function ErdInspector({
       {M ? (
         <div className="ne-find">
           <p className="ne-find-n">
-            {nf.format(hits.length)} טבלאות ברשימה
+            {/* Announced as it changes (gate 6, blocker 6: the count was silent). */}
+            <span role="status">{nf.format(hits.length)} טבלאות ברשימה</span>
             {q ? (
               <button type="button" className="nu-ghost" onClick={onClearQ}>
                 מסונן לפי &quot;{q}&quot; · ניקוי

@@ -188,7 +188,9 @@ html[data-theme="dark"] .ne {
    reserving a 40px tap row inside a 2-line identity block on a mouse-driven
    screen. Coarse pointers are untouched — ui.css's own 2.75rem rule is scoped
    to (pointer: coarse) and still wins there. */
-.ne-bar-nav .nxr-link { min-block-size: 1.75rem; }
+/* Fine pointers only: the (0,2,0) selector used to beat ui.css's coarse
+   2.75rem rule, so touch screens got 28px (gate 4, major 8). */
+@media (pointer: fine) { .ne-bar-nav .nxr-link { min-block-size: 1.75rem; } }
 /* nowrap on purpose: the count is the line that has to give, and .ne-sub
    ellipsises. Wrapping put the title block on three rows at 1440. */
 .ne-bar-t { display: flex; flex-wrap: nowrap; align-items: baseline; gap: var(--sp-2); min-inline-size: 0; }
@@ -414,7 +416,7 @@ html[data-theme="dark"] .ne {
   background: var(--ink-1);
   color: var(--surface);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--t-micro);
   font-weight: 700;
   text-align: center;
   direction: ltr;
@@ -575,7 +577,7 @@ html[data-theme="dark"] .ne {
 
 .ne-edge-t {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   fill: var(--ink-1);
   direction: ltr;
   opacity: 0;
@@ -642,7 +644,7 @@ html[data-theme="dark"] .ne {
 }
 .ne-badge text {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 11.5px;
   font-weight: 700;
   direction: ltr;
   fill: var(--ink-1);
@@ -693,26 +695,26 @@ html[data-theme="dark"] .ne {
   dominant-baseline: middle;
 }
 .ne-node-he {
-  font-size: 11.5px;
+  font-size: 12px;
   fill: var(--ink-2);
   dominant-baseline: middle;
 }
 .ne-node-mod {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   fill: color-mix(in srgb, var(--m) 72%, var(--ink-2));
   direction: ltr;
   dominant-baseline: middle;
 }
 .ne-node-z {
-  font-size: 10px;
+  font-size: 11px;
   fill: var(--ink-3);
   dominant-baseline: middle;
 }
 .ne-node-k, .ne-node-fk {
   font-family: var(--font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   fill: var(--ink-3);
   direction: ltr;
   dominant-baseline: middle;
@@ -743,7 +745,7 @@ html[data-theme="dark"] .ne {
   direction: ltr;
   dominant-baseline: middle;
 }
-.ne-mod-l { font-size: 11.5px; fill: var(--ink-3); dominant-baseline: middle; }
+.ne-mod-l { font-size: 12px; fill: var(--ink-3); dominant-baseline: middle; }
 .ne-mod .ne-node-r { stroke-width: 2; }
 .ne-mod:hover .ne-node-r { stroke-width: 3.4; }
 .ne-mod:hover .ne-node-h { opacity: 1; }
@@ -761,7 +763,9 @@ html[data-theme="dark"] .ne {
 .ne-node[data-lvl="0"] .ne-node-go,
 .ne-node-go:focus-visible { opacity: 1; pointer-events: auto; }
 .ne-node-go:focus-visible { outline: none; }
-.ne-node-go:focus-visible rect { stroke: var(--brand); stroke-width: 2.5; }
+/* Focus is the system's blue, 2px at any zoom (gate 7, minor 18: a 0.9px red
+   line around an 11x8 target at the entry zoom). */
+.ne-node-go:focus-visible rect { stroke: var(--focus); stroke-width: 2px; vector-effect: non-scaling-stroke; }
 
 /* --- the emphasis ladder -------------------------------------------------- */
 .ne-node:hover .ne-node-r { stroke-width: 2.6; }
@@ -844,21 +848,21 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 .ne-open { animation: ne-unfold var(--dur-base) var(--ease-out-expo) both; }
 
 .ne-open-rule { stroke: var(--hairline); stroke-width: 1; }
-.ne-open-cap { font-size: 10.5px; fill: var(--ink-3); dominant-baseline: middle; }
+.ne-open-cap { font-size: 11.5px; fill: var(--ink-3); dominant-baseline: middle; }
 .ne-open-cap.nx-sap { font-family: var(--font-mono); direction: ltr; }
 
 .ne-open-f {
   font-family: var(--font-mono);
   direction: ltr;
   font-size: 12.5px;
-  font-weight: 650;
+  font-weight: 600;
   fill: var(--ink-1);
   dominant-baseline: middle;
 }
 .ne-open-t {
   font-family: var(--font-mono);
   direction: ltr;
-  font-size: 10.5px;
+  font-size: 11.5px;
   fill: var(--ink-3);
   dominant-baseline: middle;
 }
@@ -866,7 +870,7 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 .ne-open-chip-t {
   font-family: var(--font-mono);
   direction: ltr;
-  font-size: 8.5px;
+  font-size: 9.5px;
   font-weight: 800;
   fill: var(--ink-3);
   dominant-baseline: middle;
@@ -887,18 +891,19 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 .ne-open-row[data-k="FK"] .ne-open-f { fill: var(--ne-fk); font-weight: 700; }
 
 .ne-open-none {
-  font-size: 10.5px;
+  font-size: 11.5px;
   fill: var(--ink-3);
   font-style: italic;
   dominant-baseline: middle;
 }
 
 .ne-open-s4-d { fill: var(--ink-3); }
-.ne-open-s4[data-risk="high"] .ne-open-s4-d { fill: var(--ne-r-high); }
-.ne-open-s4[data-risk="medium"] .ne-open-s4-d { fill: var(--ne-r-medium); }
+/* The risk is written beside it in words; the dot stays neutral, not a
+   traffic light whose red sits beside the brand red (gate 7, minor 26). */
+.ne-open-s4[data-risk] .ne-open-s4-d { fill: var(--ink-3); }
 .ne-open-s4[data-risk="low"] .ne-open-s4-d { fill: var(--ne-r-low); }
-.ne-open-s4-h { font-size: 10.5px; font-weight: 700; fill: var(--ink-2); dominant-baseline: middle; }
-.ne-open-s4-b { font-size: 10.5px; fill: var(--ink-3); dominant-baseline: middle; }
+.ne-open-s4-h { font-size: 11.5px; font-weight: 700; fill: var(--ink-2); dominant-baseline: middle; }
+.ne-open-s4-b { font-size: 11.5px; fill: var(--ink-3); dominant-baseline: middle; }
 /* A derived standing is not a verified one, and it does not get to look like
    one. Dotted underline, same words, visibly softer. */
 .ne-open-s4[data-trust="partial"] .ne-open-s4-h,
@@ -1047,7 +1052,7 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 }
 .ne-hint kbd {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--t-micro);
   padding: 1px 5px;
   border-radius: var(--r-xs);
   border: 1px solid var(--hairline);
@@ -1105,7 +1110,7 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.ne-row > span { font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); direction: ltr; }
+.ne-row > span { font-family: var(--font-mono); font-size: var(--t-micro); color: var(--ink-3); direction: ltr; }
 @media (pointer: coarse) { .ne-row { min-block-size: var(--c-tap, 2.75rem); } }
 
 .ne-detail {
@@ -1138,7 +1143,7 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
   background: var(--surface-2);
   text-align: center;
 }
-.ne-det-n dt { font-size: 10px; color: var(--ink-3); }
+.ne-det-n dt { font-size: var(--t-micro); color: var(--ink-3); }
 .ne-det-n dd { font-family: var(--font-mono); font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); font-variant-numeric: tabular-nums; }
 
 .ne-det-mods { display: grid; gap: var(--sp-2); }
@@ -1211,7 +1216,7 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
   gap: 5px;
   font-family: var(--font-mono);
   direction: ltr;
-  font-size: 10px;
+  font-size: var(--t-micro);
   padding: 2px 7px;
   border-radius: var(--r-pill);
   background: var(--surface-2);
@@ -1221,18 +1226,18 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 /* A direction the two blueprints disagree about. Dashed and uncoloured — a
    disagreement is a caveat, not a data category. */
 .ne-ct {
-  font-size: 10px;
+  font-size: var(--t-micro);
   padding: 2px 7px;
   border-radius: var(--r-pill);
   border: 1px dashed var(--ink-3);
   color: var(--ink-3);
 }
 .ne-join-s { display: grid; gap: 3px; padding-inline-start: var(--sp-2); border-inline-start: 1px solid var(--hairline); }
-.ne-join-m { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; color: var(--ink-3); direction: ltr; }
+.ne-join-m { display: inline-flex; align-items: center; gap: 5px; font-size: var(--t-micro); color: var(--ink-3); direction: ltr; }
 .ne-join-m i { inline-size: 10px; block-size: 2px; border-radius: 2px; background: var(--m); }
 .ne-join-s code {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--t-xs);
   direction: ltr;
   text-align: start;
   unicode-bidi: isolate;
@@ -1244,10 +1249,10 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
   overflow-x: auto;
   white-space: pre;
 }
-.ne-join-k { display: inline-flex; gap: var(--sp-3); font-size: 10px; color: var(--ink-3); }
+.ne-join-k { display: inline-flex; gap: var(--sp-3); font-size: var(--t-micro); color: var(--ink-3); }
 .ne-join-k em { font-style: normal; }
 .ne-join-k b { font-family: var(--font-mono); direction: ltr; color: var(--ink-2); }
-.ne-join-d { font-size: 10px; color: var(--ink-3); line-height: 1.6; }
+.ne-join-d { font-size: var(--t-xs); color: var(--ink-3); line-height: 1.6; }
 
 .ne-idle { display: grid; gap: var(--sp-3); align-content: start; }
 .ne-idle h2 { display: flex; align-items: center; gap: 6px; font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); }
@@ -1296,7 +1301,7 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 .ne-sheet-k dt { font-size: var(--t-xs); color: var(--ink-2); }
 .ne-sheet-k kbd {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--t-micro);
   padding: 2px 6px;
   border-radius: var(--r-xs);
   border: 1px solid var(--hairline);
@@ -1315,7 +1320,7 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
   flex: none;
   font-family: var(--font-mono);
   direction: ltr;
-  font-size: 10px;
+  font-size: var(--t-micro);
   font-weight: 700;
   padding: 2px 7px;
   border-radius: var(--r-pill);
@@ -1366,7 +1371,7 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
   direction: ltr;
   unicode-bidi: isolate;
   color: var(--ink-1);
-  font-weight: 650;
+  font-weight: 600;
   white-space: nowrap;
 }
 .ne-fields td:last-child { inline-size: 1%; white-space: nowrap; }
@@ -1395,7 +1400,7 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
   background: var(--surface-2);
   font-size: var(--t-xs);
 }
-.ne-flow li b { color: var(--ink-1); font-weight: 650; }
+.ne-flow li b { color: var(--ink-1); font-weight: 600; }
 .ne-flow li em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); direction: ltr; }
 
 .ne-modlist { display: grid; gap: 1px; }
@@ -1519,7 +1524,7 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 }
 .ne[data-present="1"] .ne-node-he { font-size: 13px; }
 .ne[data-present="1"] .ne-node-k, .ne[data-present="1"] .ne-node-fk { font-size: 12px; }
-.ne[data-present="1"] .ne-node-mod, .ne[data-present="1"] .ne-node-z { font-size: 11.5px; }
+.ne[data-present="1"] .ne-node-mod, .ne[data-present="1"] .ne-node-z { font-size: 12.5px; }
 .ne[data-present="1"] .ne-mod-he { font-size: 19px; }
 .ne[data-present="1"] .ne-mod-en { font-size: 14px; }
 .ne[data-present="1"] .ne-mini { display: none; }
@@ -1563,6 +1568,9 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
   /* The list replaces the shrunk map: the stage is not drawn until the reader
      asks for the full map or opens a module. The inspector below it stays. */
   .ne[data-level="overview"]:not([data-pmap="1"]) .ne-stage { display: none; }
+  /* …and so are the map's own controls (zoom, fit, minimap, presentation):
+     eleven live buttons over a list had nothing to act on (gate 4, minor 17). */
+  .ne[data-level="overview"]:not([data-pmap="1"]) .ne-view { display: none; }
 
   /* The stage grows: an opened table is a card with a field list in it, and it
      has to be read without pinching. */
@@ -1650,7 +1658,7 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 .ne-node-s4[data-risk="high"] rect { fill: #dc2626; }
 .ne-node-s4 text {
   font-family: var(--font-mono);
-  font-size: 10px; font-weight: 800;
+  font-size: 10.5px; font-weight: 800;
   fill: #451a03;
 }
 /* Dark brown on the red high-risk fill was near-invisible; the badge keeps its
@@ -1659,7 +1667,7 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 
 /* The click affordance, quiet until the pointer is on the node. */
 .ne-node-hint {
-  font-size: 10px; font-weight: 700;
+  font-size: 11px; font-weight: 700;
   fill: var(--ink-3);
   opacity: 0;
   transition: opacity 160ms var(--ease-out-expo);
@@ -1722,7 +1730,7 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 }
 .ne-modechip { display: inline-flex; align-items: center; gap: var(--sp-2); margin: var(--sp-2) 0 0; font-size: var(--t-micro); color: var(--ink-2); }
 .ne-modechip-k { color: var(--ink-3); }
-.ne-modechip b { font-weight: 650; color: var(--ink-1); }
+.ne-modechip b { font-weight: 600; color: var(--ink-1); }
 .ne-node-s4[data-k="replaced"] rect { fill: var(--sec-transactions, #1d5fd0); }
 .ne-node-s4[data-k="replaced"] text { fill: #eff6ff; }
 .ne-node-s4[data-k="not_available"] rect, .ne-node-s4[data-k="legacy_ecc_only"] rect { fill: #dc2626; }
@@ -1731,7 +1739,7 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 .ne-node-s4[data-k="verification_required"] text { fill: #0f172a; }
 .ne-node-s4[data-k="s4_native"] rect { fill: #0e7f8c; }
 .ne-node-s4[data-k="s4_native"] text { fill: #ecfeff; }
-.ne-node-s4 text { font-family: var(--font-sans, inherit); font-size: 9.5px; font-weight: 700; }
+.ne-node-s4 text { font-family: var(--font-sans, inherit); font-size: 10.5px; font-weight: 700; }
 .ne-s4-canon { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); margin: 0 0 var(--sp-2); }
 .ne-s4-canon em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
 

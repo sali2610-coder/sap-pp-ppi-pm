@@ -82,8 +82,26 @@ export function StudioView() {
   /* PRESENTATION MODE (design audit S6-3): focus + fullscreen + larger type
      (studio.css [data-present]). One switch; Esc or the same button ends it. */
   const [present, setPresent] = useState(false);
-  const exitShellFocus = useCallback(() => { setShellFocus(false); setPresent(false); }, []);
+  // Presentation mode is fullscreen too, so leaving it leaves both (gate 7,
+  // minor 23: Escape ended the presentation and kept the browser fullscreen).
+  const exitShellFocus = useCallback(() => {
+    setShellFocus(false);
+    setPresent(false);
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+  }, []);
   useShellFocus(shellFocus, exitShellFocus);
+  // Escape clears the selection first, as in the ERD (gate 7, minor 22). In
+  // the capture phase, so the same key does not also leave presentation mode.
+  useEffect(() => {
+    if (!sel) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      e.stopImmediatePropagation();
+      setSel(null);
+    };
+    window.addEventListener("keydown", onKey, true);
+    return () => window.removeEventListener("keydown", onKey, true);
+  }, [sel]);
 
   /* Camera. Kept in state rather than in the DOM so reset and fit are one
      assignment, and so the transition is declarative. */
@@ -501,7 +519,7 @@ export function StudioView() {
         {selNode ? (
           <aside className="nst-ctx" aria-label="פרטי האובייקט הנבחר">
             <header>
-              <span className="nst-kind" style={{ background: KIND_META[selNode.kind].c }}>{KIND_META[selNode.kind].he}</span>
+              <span className="nst-kind"><i style={{ background: KIND_META[selNode.kind].c }} aria-hidden="true" />{KIND_META[selNode.kind].he}</span>
               <button type="button" className="nst-x" aria-label="סגירה" onClick={() => setSel(null)}><X size={14} /></button>
             </header>
             <h2 className="nst-ctx-id nx-sap" dir="ltr">{selNode.id}</h2>
