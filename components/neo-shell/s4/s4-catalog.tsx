@@ -14,7 +14,8 @@ import { S4_STATUS_WORD, type S4Status } from "@/lib/evidence/types";
 import type { S4Link, S4ObjView } from "./s4-data";
 
 const nf = new Intl.NumberFormat("he-IL");
-const RISK_C: Record<string, string> = { high: "var(--status-blocked, #dc2626)", medium: "var(--status-in-analysis, #d97706)", low: "var(--status-done, #16a34a)" };
+// Risk takes the feedback tokens; --status-blocked was never defined (gate 3, majors 6 and 28).
+const RISK_C: Record<string, string> = { high: "var(--danger)", medium: "var(--warning)", low: "var(--success)" };
 const TRUST_HE: Record<string, string> = { curated: "תיעוד מאומת", "needs-verification": "נדרש אימות נוסף" };
 /** Groups by the canonical key (s4-data: fromS4Object), worded by the status
  *  dictionary. "חדש ב-S/4HANA" (MATDOC, ACDOCA) is its own group: an object

@@ -64,7 +64,9 @@
   border-block-start: 1px solid var(--hairline);
 }
 .ndm-stat { display: grid; gap: 2px; }
+/* The LTR number on its label's edge, as in s4.css (gate 3, blocker 5). */
 .ndm-stat b {
+  justify-self: start;
   font-family: var(--font-mono); font-size: 1.45rem; direction: ltr;
   font-variant-numeric: tabular-nums; color: var(--ink-1);
 }
@@ -82,7 +84,7 @@
 .ndm-hero-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-block-start: .9rem; }
 .ndm-tag {
   font-size: var(--t-micro); font-weight: 700; letter-spacing: 0;
-  padding: .16rem .45rem; border-radius: 6px;
+  padding: .16rem .45rem; border-radius: var(--r-lg);
   color: var(--ink-2); background: var(--surface-2);
   border: 1px solid var(--hairline); white-space: nowrap; unicode-bidi: isolate;
 }
@@ -134,14 +136,11 @@
   border: 1px solid var(--hairline);
   border-inline-start: 1px solid var(--hairline);
   box-shadow: var(--elev-1);
-  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  transition: border-color .18s ease;
 }
-.ndm-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--elev-3);
-  border-color: color-mix(in srgb, var(--m) 40%, var(--hairline));
-}
-.ndm-card:active { transform: translateY(0); }
+/* A card that is a link says so with its edge; nothing lifts (ui.css rule 3). */
+.ndm-card:hover { border-color: var(--line-strong); }
+.ndm-card:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .ndm-card-top { display: flex; align-items: center; gap: .5rem; }
 .ndm-card-mod { font-size: var(--t-micro); font-weight: 700; letter-spacing: 0; color: var(--m); }
 .ndm-card-top .ndm-depth { margin-inline-start: auto; }
@@ -158,11 +157,13 @@
   font-family: var(--font-mono); color: var(--ink-1); direction: ltr;
   font-variant-numeric: tabular-nums;
 }
+/* --mod-s4 (--sec-transactions is not in the system; gate 3, minor 28), and
+   the 12px floor (it was .68rem). */
 .ndm-card-s4 {
-  font-size: .68rem !important; font-weight: 700;
-  color: var(--sec-transactions, #1d5fd0) !important;
-  padding: 0 .35rem; border-radius: 5px;
-  border: 1px solid color-mix(in srgb, var(--sec-transactions, #1d5fd0) 34%, transparent);
+  font-size: var(--t-micro) !important; font-weight: 700;
+  color: var(--mod-s4) !important;
+  padding: 0 .35rem; border-radius: var(--r-sm);
+  border: 1px solid color-mix(in srgb, var(--mod-s4) 34%, transparent);
 }
 .ndm-card-go {
   display: inline-flex; align-items: center; gap: .35rem;
@@ -192,7 +193,7 @@
 }
 .ndm-sec-ico {
   display: grid; place-items: center;
-  inline-size: 1.5rem; block-size: 1.5rem; border-radius: 8px;
+  inline-size: 1.5rem; block-size: 1.5rem; border-radius: var(--r-xl);
   color: var(--m);
   background: color-mix(in srgb, var(--m) 10%, transparent);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m) 24%, transparent);
@@ -243,7 +244,7 @@
   border-inline-start: 1px solid var(--hairline);
 }
 .ndm-step-n {
-  inline-size: 1.55rem; block-size: 1.55rem; border-radius: .55rem;
+  inline-size: 1.55rem; block-size: 1.55rem; border-radius: var(--r-xl);
   display: grid; place-items: center;
   font-family: var(--font-mono); font-size: var(--t-micro); font-weight: 700;
   color: var(--m);
@@ -266,14 +267,14 @@
   font-size: .8rem; font-weight: 600; color: var(--m); text-decoration: none;
 }
 .ndm-step-more:hover { text-decoration: underline; }
-.ndm-step-more:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 4px; }
+.ndm-step-more:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--r-sm); }
 @media (max-width: 480px) { .ndm-steps { --stp: 8.5rem; gap: .5rem .85rem; } }
 
 .ndm-chain { margin: 0; padding: 0 0 0 0; list-style: none; display: flex; flex-wrap: wrap; gap: .4rem; }
 .ndm-chain li {
   position: relative;
   padding: .3rem .6rem;
-  border-radius: 7px;
+  border-radius: var(--r-lg);
   font-size: .82rem; color: var(--ink-2);
   background: var(--surface-2);
   border: 1px solid var(--hairline);
@@ -289,21 +290,22 @@
 .ndm-chips { display: flex; flex-wrap: wrap; gap: .4rem; }
 .ndm-chip {
   display: inline-flex; align-items: center;
-  padding: .22rem .55rem; border-radius: 7px;
+  padding: .22rem .55rem; border-radius: var(--r-lg);
   font-size: .78rem; text-decoration: none;
   color: var(--ink-2); background: var(--surface-2);
   border: 1px solid var(--hairline);
-  transition: transform .14s ease, border-color .14s ease, background .14s ease;
+  transition: border-color .14s ease, background .14s ease;
 }
-.ndm-chip[data-live="1"] {
-  border-inline-start: 3px solid var(--select-line);
-  color: var(--ink-1);
-}
+/* A code that opens a page is a LINK: the link colour, underlined on hover,
+   a 24px target. Not the red selection line (nine "current" chips on one page)
+   and no lift (gate 5, finding 5; gate 3, major 8). */
+.ndm-chip[data-live="1"] { color: var(--link); min-block-size: 1.5rem; }
 .ndm-chip[data-live="1"]:hover {
-  transform: translateY(-1px);
   background: var(--surface);
-  border-color: color-mix(in srgb, var(--m) 45%, var(--hairline));
+  border-color: var(--line-strong);
+  text-decoration: underline; text-underline-offset: 3px;
 }
+.ndm-chip[data-live="1"]:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .ndm-chip[data-live="0"] { border-style: dashed; color: var(--ink-3); }
 
 /* --------------------------------------------------------------- bullets */
@@ -351,12 +353,13 @@ html[data-theme="dark"] .ndm-s4 li b { color: color-mix(in srgb, var(--t, var(--
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); }
 .ndm-sib a {
   display: flex; align-items: baseline; gap: .5rem;
-  padding: .45rem .65rem; border-radius: .6rem;
+  padding: .45rem .65rem; border-radius: var(--r-xl);
   text-decoration: none; color: inherit;
   border: 1px solid var(--hairline);
   transition: border-color .14s ease, background .14s ease;
 }
 .ndm-sib a:hover { background: var(--surface-2); border-color: color-mix(in srgb, var(--m) 40%, var(--hairline)); }
+.ndm-sib a:focus-visible, .ndm-back:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .ndm-sib a b { font-size: .84rem; font-weight: 600; }
 .ndm-sib a em { margin-inline-start: auto; font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
 
@@ -379,7 +382,7 @@ html[data-theme="dark"] .ndm-s4 li b { color: color-mix(in srgb, var(--t, var(--
   padding: .45rem .7rem; border: 1px solid var(--hairline); border-radius: var(--r-xl); background: var(--surface);
   color: var(--ink-3);
 }
-.ndm-find:focus-within { border-color: var(--m, var(--brand)); color: var(--ink-1); }
+.ndm-find:focus-within { border-color: var(--line-strong); box-shadow: var(--focus-ring); color: var(--ink-1); }
 .ndm-find input { flex: 1 1 auto; min-inline-size: 0; border: 0; background: transparent; font: inherit; color: var(--ink-1); outline: none; }
 .ndm-modchips { display: flex; flex-wrap: wrap; gap: .4rem; }
 .ndm-modchips .nu-tab em { font-style: normal; margin-inline-start: .3rem; color: var(--ink-3); }

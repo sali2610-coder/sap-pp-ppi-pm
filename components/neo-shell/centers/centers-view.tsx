@@ -22,9 +22,10 @@
    ========================================================================== */
 
 import Link from "next/link";
-import { ArrowLeft, Layers, ListTree, Sparkles } from "lucide-react";
+import { ArrowLeft, Cable, Layers, ListTree } from "lucide-react";
 import type { CenterItem } from "@/components/topic-center";
 import { CopyId } from "../copy-id";
+import { SmartReturn } from "../nav-context";
 import { CENTER_FAMILIES, centerTotals, type CenterFamily } from "./centers-data";
 import { CenterTopics } from "./center-topics";
 import { knowledgeData } from "../learn/knowledge-data";
@@ -53,19 +54,24 @@ export function CentersHub() {
   const k = knowledgeData();
   return (
     <div className="nct nm-scene" data-surface="centers" data-scene="cream">
+      {/* The way back (gate 5, finding 10): this section lives in the knowledge
+          centre's second body. */}
+      <SmartReturn fallback={{ href: "/neo/knowledge/", label: "מרכז הידע" }} />
       <header className="nct-hero">
+        {/* "מדריכי עבודה", not "מרכזי עבודה": that is the Hebrew name of the SAP
+            Work Center (CRHD), which the project documents (gate 5, finding 7). */}
         <p className="nct-eye">
           <Layers size={13} strokeWidth={2} aria-hidden="true" />
-          מרכזי עבודה
+          מדריכי עבודה
         </p>
-        <h1 className="nct-h1">מרכזי העבודה של הפרויקט</h1>
+        <h1 className="nct-h1">מדריכי העבודה של הפרויקט</h1>
         <p className="nct-lede">
-          {t.families} מרכזים, {nf.format(t.items)} נושאים ו-{nf.format(t.sections)} מקטעי תוכן.
+          {t.families} מדריכים, {nf.format(t.items)} נושאים ו-{nf.format(t.sections)} מקטעי תוכן.
           כל נושא נכתב כיחידת עבודה: מטרה, מתי להשתמש, רשימת בדיקה, מלכודות נפוצות ואימות.
           {" "}{t.withS4} מהנושאים כוללים הכרעת מעבר מתועדת ל-<span className="nct-sap">S/4HANA</span>.
         </p>
         <p className="nx-gate-note">
-          הסברי מושגים נמצאים ב<b>מרכז הידע</b>, שלבי ביצוע ורשימות בדיקה ב<b>מרכזי העבודה</b>, והמיקום בתהליך ב<b>תחומים העסקיים</b>.
+          הסברי מושגים נמצאים ב<b>מרכז הידע</b>, שלבי ביצוע ורשימות בדיקה ב<b>מדריכי העבודה</b>, והמיקום בתהליך ב<b>תחומים העסקיים</b>.
         </p>
       </header>
 
@@ -86,7 +92,7 @@ export function CentersHub() {
             <span className="nct-fam-lede">{f.lede}</span>
             <span className="nct-fam-go">
               <ArrowLeft size={14} strokeWidth={2} aria-hidden="true" />
-              פתיחת המרכז
+              פתיחת המדריך
             </span>
           </Link>
         ))}
@@ -103,6 +109,7 @@ export function CenterFamilyView({ fam }: { fam: CenterFamily }) {
   const withS4 = fam.items.filter((i) => i.eccS4).length;
   return (
     <div className="nct nm-scene" data-surface="centers" data-scene="cream">
+      <SmartReturn fallback={{ href: "/neo/centers/", label: "מדריכי עבודה" }} />
       <header className="nct-hero">
         <p className="nct-eye">
           <ListTree size={13} strokeWidth={2} aria-hidden="true" />
@@ -146,6 +153,7 @@ export function CenterFamilyView({ fam }: { fam: CenterFamily }) {
 export function CenterDetailView({ fam, item }: { fam: CenterFamily; item: CenterItem }) {
   return (
     <article className="nct nct-detail nm-scene" data-surface="centers" data-scene="cream">
+      <SmartReturn fallback={{ href: `/neo/centers/${fam.id}/`, label: fam.he }} />
       <header className="nct-hero nct-hero--item">
         <p className="nct-eye">
           <Link href={`/neo/centers/${fam.id}/`} prefetch={false} className="nct-back">{fam.he}</Link>
@@ -217,7 +225,7 @@ export function CenterDetailView({ fam, item }: { fam: CenterFamily; item: Cente
       </div>
 
       <p className="nct-foot">
-        <Sparkles size={13} strokeWidth={2} aria-hidden="true" />
+        <Cable size={13} strokeWidth={1.75} aria-hidden="true" />
         מקור: תיעוד הפרויקט.
       </p>
     </article>

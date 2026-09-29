@@ -46,11 +46,8 @@ html .nx-app .nx-canvas:has(> .nb) {
   gap: var(--sp-8);
   padding: var(--sp-16) var(--nb-gut) var(--sp-12);
   --nb-gut: var(--sp-8);
-  /* Ambient light. Two module hues, very low percentage over a large area —
-     the difference between "white page" and "inside Project NEO". */
-  background:
-    radial-gradient(80rem 40rem at 100% -10%, color-mix(in srgb, var(--mod-pm) 8%, transparent), transparent 68%),
-    radial-gradient(70rem 38rem at 0% 6%, color-mix(in srgb, var(--mod-pppi) 6%, transparent), transparent 66%);
+  /* No ambient wash: the page stands on the ordinary ground like every other
+     family (gate 3, minor 20). */
   /* Every breakpoint in this file is a CONTAINER query on this element. The
      rail owns up to 22rem of the window, so a 768px window can leave a 488px
      canvas: sizing on the window would lay out a desktop page in a tablet
@@ -168,7 +165,7 @@ html .nx-app .nx-canvas:has(> .nb) {
 }
 .nb-more[open] > summary::before { transform: rotate(-135deg) translateY(-10%); }
 .nb-more > summary:hover { color: var(--ink-1); }
-.nb-more > summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.nb-more > summary:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .nb-more-b { display: grid; gap: var(--sp-2); padding-block: var(--sp-1) var(--sp-2); }
 @media (prefers-reduced-motion: reduce) { .nb-more > summary::before { transition: none; } }
 
@@ -210,9 +207,9 @@ html .nx-app .nx-canvas:has(> .nb) {
   background: color-mix(in srgb, var(--m) 8%, transparent);
   color: var(--ink-1);
   font-size: var(--t-xs);
-  transition: transform 200ms var(--ease-out-expo), background-color 200ms;
+  transition: background-color 200ms;
 }
-.nb-dictbar-a:hover { background: color-mix(in srgb, var(--m) 15%, transparent); transform: translateY(-1px); }
+.nb-dictbar-a:hover { background: color-mix(in srgb, var(--m) 15%, transparent); }
 .nb-dictbar-a em { font-style: normal; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 
 /* ==========================================================================
@@ -227,15 +224,8 @@ html .nx-app .nx-canvas:has(> .nb) {
   padding: var(--sp-5) var(--sp-6);
   border: 1px solid color-mix(in srgb, var(--m) 30%, var(--hairline));
   border-radius: var(--r-lg);
-  background:
-    radial-gradient(30rem 12rem at 100% 0%, color-mix(in srgb, var(--m) 10%, transparent), transparent 70%),
-    color-mix(in srgb, var(--surface) 86%, transparent);
+  background: color-mix(in srgb, var(--surface) 86%, transparent);
   max-inline-size: 62rem;
-}
-[dir="ltr"] .nb-cont {
-  background:
-    radial-gradient(30rem 12rem at 0% 0%, color-mix(in srgb, var(--m) 10%, transparent), transparent 70%),
-    color-mix(in srgb, var(--surface) 86%, transparent);
 }
 .nb-cont-e {
   display: flex; align-items: center; gap: var(--sp-2);
@@ -253,7 +243,10 @@ html .nx-app .nx-canvas:has(> .nb) {
 .nb-filter { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
 .nb-f-he { color: var(--ink-3); font-weight: 500; }
 .nb-f-n { font-style: normal; font-weight: 500; color: var(--ink-3); font-variant-numeric: tabular-nums; }
-.nu-filter[aria-pressed="true"] .nb-f-he { color: var(--ink-2); }
+/* Pressed = ink fill with surface text (ui.css), so the name and the count
+   take the button's own colour: ink-2 and ink-3 on the ink fill measured
+   1.82:1 and 2.74:1 (gate 3, blocker 1). */
+.nu-filter[aria-pressed="true"] :is(.nb-f-he, .nb-f-n) { color: inherit; }
 .nb-count { font-size: var(--t-micro); color: var(--ink-3); line-height: 1.6; max-inline-size: 70ch; }
 
 /* ==========================================================================
@@ -280,12 +273,6 @@ html .nx-app .nx-canvas:has(> .nb) {
   padding-block: var(--sp-7);
   padding-inline-start: var(--sp-5);
   border-block-start: 1px solid var(--hairline);
-  /* Module lighting: a single soft corner wash at the bound edge of the shelf,
-     under 6% so it reads as air rather than as a panel. */
-  background: radial-gradient(34rem 16rem at 100% 0%, color-mix(in srgb, var(--m) 6%, transparent), transparent 72%);
-}
-[dir="ltr"] .nb-shelf {
-  background: radial-gradient(34rem 16rem at 0% 0%, color-mix(in srgb, var(--m) 6%, transparent), transparent 72%);
 }
 .nb-shelf:first-child { border-block-start: 0; }
 .nb-shelf:last-child { border-block-end: 1px solid var(--hairline); }
@@ -333,16 +320,14 @@ html[data-theme="dark"] .nb-shelf::after {
    the run ends on a board with a stray line under it. */
 .nb-shelf:last-child { border-block-end: 0; }
 
-/* The shelf's spine colour: a hairline-thin module edge that fades at both
-   ends, so the run of shelves reads as one object with coloured joints. */
+/* The shelf's edge: one hairline, as in the other families (gate 3, minor 20).
+   The module is named in the shelf's own heading. */
 .nb-shelf-edge {
   position: absolute;
   inset-block: var(--sp-5);
   inset-inline-start: 0;
-  inline-size: 3px;
-  border-radius: 2px;
-  background: linear-gradient(to bottom, transparent, var(--m) 16%, var(--m) 84%, transparent);
-  opacity: .55;
+  inline-size: 1px;
+  background: var(--hairline);
 }
 
 .nb-shelf-h { display: grid; align-content: start; gap: 4px; }
@@ -1479,10 +1464,7 @@ html[data-theme="dark"] .nb-slot::after {
   border: 1px solid color-mix(in srgb, var(--m) 26%, var(--hairline));
   background: var(--surface);
   box-shadow: var(--elev-4);
-  /* Module light on the panel itself, strongest at the bound edge. */
-  background-image: radial-gradient(70% 55% at 100% 0%, color-mix(in srgb, var(--m) 11%, transparent), transparent 66%);
 }
-[dir="ltr"] .nb-sheet { background-image: radial-gradient(70% 55% at 0% 0%, color-mix(in srgb, var(--m) 11%, transparent), transparent 66%); }
 .nb-sheet > * { min-inline-size: 0; }
 .nb-sheet-side { align-self: start; display: grid; gap: var(--sp-3); }
 /* The panel's cover and the hub's cover are the same `.nb-cov` object, so they
@@ -1814,46 +1796,26 @@ html[data-theme="dark"] .nb-slot::after {
 
 /* §4 — THE INSIDE COVER.
    The hub is the book, opened: the cover is hinged back beside it and this
-   column is the endpaper it opens onto. Paper, not a card — a very low warm
-   wash, a module tint bleeding from the binding edge, and one hairline down the
-   bound side standing in for the gutter. It is all colour and one gradient, so
-   it costs nothing and survives a theme switch. */
+   column is the endpaper it opens onto. Paper, not a card: the surface, one
+   hairline around it and one down the bound side standing in for the gutter.
+   No module wash or gradient (gate 3, minor 20). */
 .nb-hub-id {
   position: relative;
   padding: var(--sp-6) var(--sp-6) var(--sp-6) var(--sp-5);
   border-radius: var(--r-lg);
-  background:
-    radial-gradient(60% 80% at 100% 0%, color-mix(in srgb, var(--m) 10%, transparent), transparent 68%),
-    linear-gradient(to left, color-mix(in srgb, var(--m) 4%, var(--surface)), var(--surface) 42%);
+  background: var(--surface);
   box-shadow: inset 0 0 0 1px var(--hairline);
 }
-[dir="ltr"] .nb-hub-id {
-  background:
-    radial-gradient(60% 80% at 0% 0%, color-mix(in srgb, var(--m) 10%, transparent), transparent 68%),
-    linear-gradient(to right, color-mix(in srgb, var(--m) 4%, var(--surface)), var(--surface) 42%);
-}
-/* The gutter. A hairline of module colour on the bound edge — module identity
-   as an EDGE, which is a form the system allows. */
+/* The gutter: a hairline on the bound edge. */
 .nb-hub-id::before {
   content: "";
   position: absolute;
   inset-block: var(--sp-4);
   inset-inline-start: 0;
-  inline-size: 2px;
-  border-radius: 1px;
-  background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--m) 60%, transparent) 18%, color-mix(in srgb, var(--m) 60%, transparent) 82%, transparent);
+  inline-size: 1px;
+  background: var(--hairline);
 }
-html[data-theme="dark"] .nb-hub-id {
-  background:
-    radial-gradient(60% 80% at 100% 0%, color-mix(in srgb, var(--m) 12%, transparent), transparent 68%),
-    var(--surface-2);
-}
-[dir="ltr"] html[data-theme="dark"] .nb-hub-id,
-html[data-theme="dark"] [dir="ltr"] .nb-hub-id {
-  background:
-    radial-gradient(60% 80% at 0% 0%, color-mix(in srgb, var(--m) 12%, transparent), transparent 68%),
-    var(--surface-2);
-}
+html[data-theme="dark"] .nb-hub-id { background: var(--surface-2); }
 
 /* §7 — the two entry modes, side by side and labelled. */
 .nb-modes {

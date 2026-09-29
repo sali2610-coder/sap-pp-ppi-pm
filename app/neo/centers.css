@@ -79,14 +79,11 @@
      would produce eleven colour blocks fighting each other. */
   border-inline-start: 1px solid var(--hairline);
   box-shadow: var(--elev-1);
-  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  transition: border-color .18s ease;
 }
-.nct-fam:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--elev-3);
-  border-color: color-mix(in srgb, var(--ct) 40%, var(--hairline));
-}
-.nct-fam:active { transform: translateY(0); }
+/* A card that is a link says so with its edge; nothing lifts (ui.css rule 3). */
+.nct-fam:hover { border-color: var(--line-strong); }
+.nct-fam:focus-visible, .nct-item:focus-visible, .nct-back:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .nct-fam-top { display: flex; align-items: baseline; gap: .5rem; }
 .nct-fam-he { font-size: 1.05rem; font-weight: 700; }
 .nct-fam-n {
@@ -144,10 +141,11 @@
   white-space: nowrap; unicode-bidi: isolate;
 }
 .nct-tag--mod { color: var(--ct); border-color: color-mix(in srgb, var(--ct) 34%, transparent); }
+/* --mod-s4: --sec-transactions is not in the system (gate 3, minor 28). */
 .nct-tag--s4 {
-  color: var(--sec-transactions, #1d5fd0);
-  border-color: color-mix(in srgb, var(--sec-transactions, #1d5fd0) 38%, transparent);
-  background: color-mix(in srgb, var(--sec-transactions, #1d5fd0) 8%, transparent);
+  color: var(--mod-s4);
+  border-color: color-mix(in srgb, var(--mod-s4) 38%, transparent);
+  background: color-mix(in srgb, var(--mod-s4) 8%, transparent);
 }
 
 /* ----------------------------------------------------------- detail body */
@@ -207,13 +205,12 @@
 }
 
 /* The migration verdict is the loudest section on the page, because on this
-   platform it is the point. */
+   platform it is the point: the S/4 identity (--mod-s4) on its edge and marks,
+   a flat surface (gate 3, minor 28). */
 .nct-s4 {
-  --st: var(--sec-transactions, #1d5fd0);
+  --st: var(--mod-s4);
   border-color: color-mix(in srgb, var(--st) 30%, var(--hairline));
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--st) 5%, transparent), transparent 60%),
-    var(--surface);
+  background: var(--surface);
 }
 .nct-s4-changed { margin: 0 0 .5rem; font-size: .95rem; font-weight: 600; line-height: 1.6; }
 .nct-s4--none { --st: var(--ink-3); }

@@ -4,7 +4,9 @@
    hub's eleven cards open a centre each; below them the 89 work topics carry
    the catalogue bar every catalogue shares: search, a centre filter, sort and
    the "N מתוך M" count. The rows and the card are the knowledge centre's own
-   ("מרכזי עבודה" body, knowledge-data and CenterCard), not a second copy. */
+   (its work body, knowledge-data and CenterCard), not a second copy. The
+   section is "מדריכי עבודה" and each family a "מדריך": "מרכז עבודה" is the SAP
+   Work Center, which the project documents (gate 5, finding 7). */
 import { useMemo, useState } from "react";
 import { Search, X } from "lucide-react";
 import { CenterCard } from "../learn/knowledge-surface";
@@ -40,7 +42,7 @@ export function CenterTopics({ rows, families }: { rows: CenterRow[]; families: 
             type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="נושא · מרכז · מודול · השפעת מעבר"
+            placeholder="נושא · מדריך · מודול · השפעת מעבר"
             aria-label="חיפוש נושאי עבודה"
           />
           {q ? (
@@ -52,15 +54,15 @@ export function CenterTopics({ rows, families }: { rows: CenterRow[]; families: 
         <label className="nxl-sort">
           <span>מיון</span>
           <select value={sort} onChange={(e) => setSort(e.target.value as "repo" | "he")}>
-            <option value="repo">סדר המרכזים</option>
+            <option value="repo">סדר המדריכים</option>
             <option value="he">לפי שם</option>
           </select>
         </label>
       </div>
 
       <div className="nxl-facets">
-        <div className="nxl-facet" role="group" aria-label="סינון לפי מרכז">
-          <span className="nxl-facet-l">מרכז</span>
+        <div className="nxl-facet" role="group" aria-label="סינון לפי מדריך">
+          <span className="nxl-facet-l">מדריך</span>
           {families.map((f) => (
             <button
               key={f.id}
@@ -87,7 +89,7 @@ export function CenterTopics({ rows, families }: { rows: CenterRow[]; families: 
       ) : (
         <div className="nx-card nxl-none">
           <p><b>לא נמצאו נושאים מתאימים. אפשר לשנות את החיפוש או לנקות את המסננים.</b></p>
-          <p className="nx-muted">החיפוש מכסה את שם הנושא, המונח האנגלי, התקציר, שם המרכז, המודול והשפעת המעבר.</p>
+          <p className="nx-muted">החיפוש מכסה את שם הנושא, המונח האנגלי, התקציר, שם המדריך, המודול והשפעת המעבר.</p>
           <div className="nxl-none-a">
             <button type="button" className="nu-btn" onClick={reset}>הצגת כל הנושאים</button>
           </div>

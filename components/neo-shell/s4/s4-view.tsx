@@ -7,11 +7,11 @@
      /neo/s4-readiness/      where each module actually stands + the 18 changes
      /neo/migration-cockpit/ what loads, in what order, and what breaks
 
-   ONE VISUAL RULE ACROSS ALL THREE: status is the only colour, and it is always
-   the dataset's own. data/s4-objects, data/s4-architecture and data/ecc-s4 each
-   ship a status→colour map that the legacy pages already rendered; those maps
-   are used verbatim rather than re-mapped onto product tokens, because a reader
-   moving between the legacy site and NEO must not see "removed" change colour.
+   ONE VISUAL RULE ACROSS ALL THREE: status is the only colour, and it is the
+   system's. data/s4-objects, data/s4-architecture and data/ecc-s4 each ship a
+   status→hex map in the old palette; the views map the status to its --s4-*
+   family (S4_STATUS_DOT) instead, so one family is one colour everywhere in
+   NEO, and removed is brick, never the red of selection (gate 3, major 6).
 
    AND ONE HONESTY RULE: `trust` is printed. Every one of these datasets marks
    curated vs needs-verification per record. A page that hides that flag turns a
@@ -22,13 +22,14 @@
 import Link from "next/link";
 import {
   AlertTriangle, ArrowLeft, BadgeCheck, Boxes, Cable, CheckCircle2, ClipboardList,
-  Code2, Database, Gauge, GitBranch, Layers, Network, Rocket, Route, ShieldQuestion,
-  Sparkles, Truck, Waypoints,
+  Code2, Database, Gauge, GitBranch, History, Layers, Network, Rocket, Route, ShieldQuestion,
+  Truck, Waypoints,
 } from "lucide-react";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
 import { RISK_HE } from "@/lib/s4";
-import { S4_STATUS_WORD } from "@/lib/evidence/types";
+import { S4_STATUS_DOT, S4_STATUS_WORD } from "@/lib/evidence/types";
+import type { ArchStatus } from "@/data/s4-architecture";
 import { S4Catalog } from "./s4-catalog";
 import type { MigCat } from "@/data/migration-cockpit";
 import {
@@ -40,11 +41,28 @@ import {
 
 const nf = new Intl.NumberFormat("he-IL");
 
+/* Risk is not an S/4 status: it takes the feedback tokens. --status-blocked was
+   never defined, so "high" painted its #dc2626 fallback (gate 3, majors 6 and 28). */
 const RISK_C: Record<string, string> = {
-  high: "var(--status-blocked, #dc2626)",
-  medium: "var(--status-in-analysis, #d97706)",
-  low: "var(--status-done, #16a34a)",
+  high: "var(--danger)",
+  medium: "var(--warning)",
+  low: "var(--success)",
 };
+/** The landscape's four verdicts as S/4 families (gate 3, major 6). */
+const ARCH_C: Record<ArchStatus, string> = {
+  Replaced: S4_STATUS_DOT.replaced,
+  Enhanced: S4_STATUS_DOT.changed,
+  New: S4_STATUS_DOT.s4_native,
+  Stays: S4_STATUS_DOT.unchanged,
+};
+/** The cutover phases carry the old traffic-light hexes; the same meaning in tokens. */
+const PHASE_C: Record<string, string> = { "#d97706": "var(--warning)", "#dc2626": "var(--danger)", "#16a34a": "var(--success)" };
+/** A coverage score's band colour (lib/s4-readiness bands), in tokens. */
+const bandC = (score: number) =>
+  score >= 75 ? "var(--success)"
+    : score >= 55 ? "var(--warning)"
+      : score >= 35 ? "color-mix(in srgb, var(--warning) 50%, var(--danger))"
+        : "var(--danger)";
 const TRUST_HE: Record<string, string> = { curated: "תיעוד מאומת", "needs-verification": "נדרש אימות נוסף" };
 
 /* ------------------------------------------------------------- primitives */
@@ -80,7 +98,8 @@ function Hero({
           like them they carry the way back. */}
       <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
       <p className="ns4-eye">{icon}{eyebrow}</p>
-      <h1 className="ns4-h1">{title}</h1>
+      {/* A gateway title: the display face, 32 to 40px (DESIGN-SPEC §1; gate 3, major 15). */}
+      <h1 className="ns4-h1 nx-display">{title}</h1>
       <p className="ns4-lede">{lede}</p>
       <div className="ns4-stats">
         {stats.map(([v, l]) => (
@@ -197,7 +216,7 @@ export function S4HanaCenter() {
           {ARCH.map((c) => {
             const meta = ARCH_STATUS[c.status];
             return (
-              <article key={c.id} className="ns4-arch-c" style={{ "--s": meta.c } as React.CSSProperties}>
+              <article key={c.id} className="ns4-arch-c" style={{ "--s": ARCH_C[c.status] } as React.CSSProperties}>
                 <header className="ns4-arch-h">
                   <span className="ns4-arch-layer">{c.layerHe}</span>
                   <span className="ns4-arch-st">{meta.he}</span>
@@ -287,8 +306,8 @@ export function S4HanaCenter() {
       >
         <div className="ns4-cut">
           {CUTOVER.map((p) => (
-            <section key={p.phase} className="ns4-cut-p" style={{ "--s": p.c } as React.CSSProperties}>
-              <h3 className="ns4-h3"><i aria-hidden="true" style={{ background: p.c }} />{p.phase}<span className="ns4-h3-n">{p.items.length}</span></h3>
+            <section key={p.phase} className="ns4-cut-p" style={{ "--s": PHASE_C[p.c] ?? "var(--ink-3)" } as React.CSSProperties}>
+              <h3 className="ns4-h3"><i aria-hidden="true" style={{ background: PHASE_C[p.c] ?? "var(--ink-3)" }} />{p.phase}<span className="ns4-h3-n">{p.items.length}</span></h3>
               <ul className="ns4-check">{p.items.map((x, i) => <li key={i}>{x}</li>)}</ul>
             </section>
           ))}
@@ -298,7 +317,7 @@ export function S4HanaCenter() {
       {/* ======================================================= LESSONS */}
       <Sec
         id="ns4-les" n={7}
-        icon={<Sparkles size={15} strokeWidth={1.75} />}
+        icon={<History size={15} strokeWidth={1.75} />}
         eyebrow="ניסיון"
         title="לקחים מפרויקטי מעבר"
         lede={`${tr.lessons} לקחים חוזרים בפרויקטי מעבר ל-S/4HANA.`}
@@ -376,7 +395,7 @@ export function S4ReadinessCenter() {
         {r.available ? (
           <ul className="ns4-mods">
             {r.mods.map((m) => (
-              <li key={m.mod} style={{ "--s": m.color } as React.CSSProperties}>
+              <li key={m.mod} style={{ "--s": bandC(m.score) } as React.CSSProperties}>
                 <header>
                   <b>{m.he}</b>
                   <span className="ns4-mod-code nx-sap" dir="ltr">{m.mod}</span>

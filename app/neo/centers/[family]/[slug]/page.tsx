@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ family: s
   const { family, slug } = await params;
   const hit = centerItem(family, slug);
   return {
-    title: hit ? `${hit.item.he} · ${hit.fam.he} · Project NEO` : "נושא · מרכזי עבודה · Project NEO",
+    title: hit ? `${hit.item.he} · ${hit.fam.he} · Project NEO` : "נושא · מדריכי עבודה · Project NEO",
     description: hit?.item.sub,
     robots: { index: false, follow: false },
   };

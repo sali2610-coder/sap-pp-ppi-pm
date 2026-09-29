@@ -12,8 +12,8 @@
 
    COLOUR: the MODULE hue (--m) is the only colour on the page, and it enters as
    an edge and a marker, never as a fill. The ECC↔S/4 verdict is the single
-   exception — its six tones are semantic, not decorative, and they use the
-   product's existing status tokens rather than a new palette.
+   exception — its tones are semantic, not decorative, and they are the S/4
+   status families (S4_STATUS_DOT), the same colour as everywhere else.
    ========================================================================== */
 
 import Link from "next/link";
@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
+import { S4_STATUS_DOT } from "@/lib/evidence/types";
 import { domainCards, domainTotals, type DomLink, type DomainView } from "./domain-data";
 import { DomainHubList } from "./domain-hub-list";
 
@@ -31,14 +32,16 @@ const nf = new Intl.NumberFormat("he-IL");
 
 const MOD_VAR: Record<string, string> = { PM: "var(--mod-pm)", "PP-PI": "var(--mod-pppi)" };
 
-/** The four semantic tones of the ECC↔S/4 verdict, mapped onto the status
- *  tokens the product already owns. No new colour is introduced. */
+/** The verdict's tones as the S/4 status families (S4_STATUS_DOT), so a word
+ *  has one colour on every surface. "gone" labels the record's `deprecated`
+ *  row ("הוסר או לא אסטרטגי"), which the canonical mapper reads as not
+ *  strategic: never the brand red, which is selection (gate 3, major 6). */
 const TONE: Record<string, string> = {
-  stays: "var(--status-done)",
-  changes: "var(--status-in-analysis)",
-  replaced: "var(--sec-transactions, #1d5fd0)",
-  gone: "var(--status-blocked, var(--brand))",
-  new: "var(--sec-cds, #0e7f8c)",
+  stays: S4_STATUS_DOT.unchanged,
+  changes: S4_STATUS_DOT.changed,
+  replaced: S4_STATUS_DOT.replaced,
+  gone: S4_STATUS_DOT.deprecated,
+  new: S4_STATUS_DOT.s4_native,
   plan: "var(--ink-3)",
 };
 
@@ -65,7 +68,7 @@ export function DomainsHub() {
           תקלות מהשטח, תרחיש מהמפעל והכרעת מעבר ל-S/4HANA.
         </p>
         <p className="nx-gate-note">
-          הסברי מושגים נמצאים ב<b>מרכז הידע</b>, שלבי ביצוע ורשימות בדיקה ב<b>מרכזי העבודה</b>, והמיקום בתהליך ב<b>תחומים העסקיים</b>.
+          הסברי מושגים נמצאים ב<b>מרכז הידע</b>, שלבי ביצוע ורשימות בדיקה ב<b>מדריכי העבודה</b>, והמיקום בתהליך ב<b>תחומים העסקיים</b>.
         </p>
         <div className="ndm-stats">
           {([
@@ -165,6 +168,8 @@ export function DomainDetailView({ v }: { v: DomainView }) {
       data-scene="cream"
       style={{ "--m": MOD_VAR[v.module] } as React.CSSProperties}
     >
+      {/* The way back, as on every NEO detail page (gate 5, finding 10). */}
+      <SmartReturn fallback={{ href: "/neo/domain-model/", label: "תחומים עסקיים" }} />
       <header className="ndm-hero ndm-hero--item">
         <p className="ndm-eye">
           <Link className="ndm-back" href="/neo/domain-model/" prefetch={false}>תחומים עסקיים</Link>

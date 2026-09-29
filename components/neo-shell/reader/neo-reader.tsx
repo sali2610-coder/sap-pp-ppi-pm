@@ -72,7 +72,7 @@ import { ReadingLens } from "./lens";
 import { FigureTail, SectionBlock } from "./section-body";
 import { planFigures, type PlacedFigure } from "./figures";
 import { canStep, LANG_HE, LANG_NOTE, LANGS, LEAD_HE, MEASURE_HE, SIZE_HE, useReaderPrefs } from "./prefs";
-import { scrollHost, useReducedMotion } from "./env";
+import { scrollHost, stickyBars, useReducedMotion } from "./env";
 import { useShellFocus } from "../focus";
 
 /* --------------------------------------------------------------- scrolling */
@@ -297,6 +297,12 @@ export function NeoReader({ book }: { book: NRBook }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
   const headRef = useRef<HTMLDivElement>(null);
+  const dockRef = useRef<HTMLDivElement>(null);
+  /** The height the sticky header really covers: 0 while it scrolls with the
+   *  page (see the header effect below). */
+  const headCover = useRef(0);
+  /** "head" and/or "dock": the bars too tall to stay sticky here. */
+  const [flow, setFlow] = useState("");
   const host = useRef<HTMLElement | null>(null);
   const offsets = useRef<Offset[]>([]);
   const raf = useRef(0);
@@ -332,8 +338,7 @@ export function NeoReader({ book }: { book: NRBook }) {
     const list = offsets.current;
     if (!h || list.length === 0) return;
     // The reading line: a little below the sticky header, where the eye sits.
-    const headH = headRef.current?.getBoundingClientRect().height ?? 0;
-    const line = hostScrollTop(h) + headH + hostHeight(h) * 0.18;
+    const line = hostScrollTop(h) + headCover.current + hostHeight(h) * 0.18;
 
     let lo = 0;
     let hi = list.length - 1;
@@ -395,16 +400,35 @@ export function NeoReader({ book }: { book: NRBook }) {
   /* The sticky header's real height, published as a custom property. The rail
      docks under it and the scroll spy's reading line starts below it, and both
      have to survive the header wrapping to two rows on a narrow screen — so it
-     is measured rather than guessed at in the stylesheet. */
+     is measured rather than guessed at in the stylesheet.
+
+     GATE 4, BLOCKER 2: a bar stays sticky only while it covers at most a quarter
+     of the reading area. On a small phone, a landscape phone or a page zoomed to
+     200 or 400% the header wraps to several rows, and kept sticky it hid most of
+     the text (93% at 320x568). There it scrolls with the page (data-flow,
+     reader.css), and the height it no longer covers counts as 0 for the rail,
+     the reading line and the section jumps. */
   useEffect(() => {
     const head = headRef.current;
+    const dock = dockRef.current;
     const root = rootRef.current;
     if (!head || !root) return;
-    const ro = new ResizeObserver(() => {
-      root.style.setProperty("--nr-headh", `${Math.round(head.getBoundingClientRect().height)}px`);
-    });
+    const fit = () => {
+      const h = host.current;
+      const bars = stickyBars(
+        head.getBoundingClientRect().height,
+        dock ? dock.getBoundingClientRect().height : 0,
+        h ? hostHeight(h) : window.innerHeight,
+      );
+      setFlow(bars.flow);
+      headCover.current = bars.cover;
+      root.style.setProperty("--nr-headh", `${bars.cover}px`);
+    };
+    const ro = new ResizeObserver(fit);
     ro.observe(head);
-    return () => ro.disconnect();
+    if (dock) ro.observe(dock);
+    window.addEventListener("resize", fit);
+    return () => { ro.disconnect(); window.removeEventListener("resize", fit); };
   }, []);
 
   /* ------------------------------------------------------- chapter bodies */
@@ -495,9 +519,8 @@ export function NeoReader({ book }: { book: NRBook }) {
     // the target while the smooth scroll is still travelling.
     const wantIdx = target.sections.findIndex((s) => s.id === sectionId);
     if (wantIdx >= 0) want.current = { index: wantIdx, until: Date.now() + 2600 };
-    const headH = headRef.current?.getBoundingClientRect().height ?? 0;
     const hostTop = isDocHost(h) ? 0 : h.getBoundingClientRect().top;
-    scrollHostTo(h, el.getBoundingClientRect().top - hostTop + hostScrollTop(h) - headH - 12, smooth && !reduced);
+    scrollHostTo(h, el.getBoundingClientRect().top - hostTop + hostScrollTop(h) - headCover.current - 12, smooth && !reduced);
   }, [book.chapters, chapterN, reduced, markMoved]);
 
   // A chapter change that carried a subchapter with it lands once the new
@@ -641,6 +664,7 @@ export function NeoReader({ book }: { book: NRBook }) {
       data-lead={prefs.lead}
       data-measure={prefs.measure}
       data-lang={prefs.lang}
+      data-flow={flow || undefined}
       style={{ "--m": book.mod } as React.CSSProperties}
     >
       {/* ------------------------------------------------------------ head */}
@@ -653,7 +677,7 @@ export function NeoReader({ book }: { book: NRBook }) {
           />
 
           <nav className="nr-crumb" aria-label="מיקום בקריאה">
-            <Link className="nr-crumb-l" href={book.shelfHref} prefetch={false}>מדף הספרים</Link>
+            <Link className="nr-crumb-l" href={book.shelfHref} prefetch={false}>ספריית SAP</Link>
             <ChevronLeft size={12} strokeWidth={2} aria-hidden="true" />
             <Link className="nr-crumb-l" href={book.hubHref} prefetch={false}>{title}</Link>
             <ChevronLeft size={12} strokeWidth={2} aria-hidden="true" />
@@ -1043,7 +1067,7 @@ export function NeoReader({ book }: { book: NRBook }) {
           so the crossing is a decision and not a surprise. At the two ends of
           the book the control is disabled and says why, rather than wrapping
           round to the beginning. */}
-      <div className="nr-dock">
+      <div className="nr-dock" ref={dockRef}>
         <button
           type="button"
           className="nu-btn2 nr-dock-b"

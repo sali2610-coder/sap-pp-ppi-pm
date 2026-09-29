@@ -42,20 +42,21 @@ html[data-theme="dark"] .nce { --ok: #4ec98a; --no: #ff8a5c; --gold: #e0bd5c; }
   border-radius: var(--r-xl); cursor: pointer;
   font: inherit; color: var(--ink-2);
   background: var(--surface); border: 1px solid var(--hairline);
-  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, color .16s ease;
+  transition: border-color .16s ease, color .16s ease, background-color .16s ease;
 }
 .nce-opt b { font-size: .98rem; font-weight: 700; color: var(--ink-1); }
 .nce-opt span { font-size: .8rem; color: var(--ink-1); }
-.nce-opt:hover { transform: translateY(-1px); box-shadow: var(--elev-2); }
-/* Selected is a FILL, per the product's selection language. */
+.nce-opt:hover { border-color: var(--line-strong); }
+.nce-opt:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+/* Selected is the one pressed state of every toggle (.nu-filter in ui.css):
+   ink fill, surface text. Not a red fill, a red shadow or a lift, which read
+   as the primary action (gate 5, finding 13). */
 .nce-opt[data-on="1"] {
-  color: #fff; border-color: transparent;
-  /* A shade under brand red: white at 12.8px on #d62027 measured 3.6:1; on
-     #b21a20 it is 5.9:1. A plain hex, so contrast tools read it too. */
-  background: #b21a20;
-  box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--brand) 70%, transparent);
+  color: var(--surface);
+  border-color: var(--ink-1);
+  background: var(--ink-1);
 }
-.nce-opt[data-on="1"] b, .nce-opt[data-on="1"] span { color: #fff; }
+.nce-opt[data-on="1"] b, .nce-opt[data-on="1"] span { color: inherit; }
 
 .nce-go { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin-top: 1.6rem; }
 .nce-start { font-size: .95rem; }
@@ -103,11 +104,12 @@ html[data-theme="dark"] .nce { --ok: #4ec98a; --no: #ff8a5c; --gold: #e0bd5c; }
   border-radius: var(--r-xl); text-align: start; cursor: pointer;
   font: inherit; font-size: .93rem; color: var(--ink-1);
   background: var(--surface); border: 1px solid var(--hairline);
-  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background .2s ease;
+  transition: border-color .16s ease, background .2s ease;
 }
-.nce-choice:hover:not(:disabled) { transform: translateY(-1px); box-shadow: var(--elev-2); border-color: color-mix(in srgb, var(--brand) 34%, var(--hairline)); }
+.nce-choice:hover:not(:disabled) { border-color: var(--line-strong); }
 .nce-choice:disabled { cursor: default; }
-.nce-choice:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+/* The one focus language, blue (gate 3, minor 18). */
+.nce-choice:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .nce-key {
   flex: none; inline-size: 1.6rem; block-size: 1.6rem; border-radius: .5rem;
   display: grid; place-items: center; font-size: var(--t-micro); font-weight: 700;

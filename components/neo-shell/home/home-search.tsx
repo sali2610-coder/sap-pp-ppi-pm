@@ -17,7 +17,9 @@ export function HomeSearch() {
       <span className="nh-find-l">מה צריך למצוא?</span>
       <span className="nh-find-f">
         <Search size={20} strokeWidth={1.75} aria-hidden="true" />
-        <span className="nh-find-ph">קוד טבלה או טרנזקציה, שם שדה, או מושג בעברית</span>
+        {/* The words of the field it opens (command-surface.tsx), so the same
+            search is described one way (gate 5, finding 16). */}
+        <span className="nh-find-ph">טבלה, שדה, טרנזקציה, BAPI או ספר</span>
         <kbd className="nh-find-k" aria-hidden="true"><CmdKey /></kbd>
       </span>
     </button>

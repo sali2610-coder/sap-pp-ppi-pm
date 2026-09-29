@@ -243,7 +243,7 @@ export function BookShelf({ data }: { data: BooksData }) {
   const leaving = useCallback(
     (detail?: string): OriginArg => ({
       href: "/neo/books/",
-      label: "מדף הספרים",
+      label: "ספריית SAP",
       detail,
       surface: SHELF_SURFACE,
       state: { mod } satisfies ShelfReturn,

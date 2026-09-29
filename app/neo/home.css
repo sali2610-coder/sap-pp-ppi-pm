@@ -24,6 +24,14 @@
 }
 .nx-app .nh-sap { font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate; font-variant-numeric: tabular-nums; }
 
+/* A presentation display (2560px and up): the page takes the room for more
+   columns (doors, lanes, the continue grid) while running text keeps its own
+   measure: the lede, the section heads and the gate are capped in ch or rem
+   below (gate 4, minor 16). */
+@media (min-width: 160rem) {
+  .nx-app .nh { max-inline-size: 120rem; }
+}
+
 /* ---------------------------------------------------------------- the gate */
 
 .nx-app .nh-gate { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--sp-3); max-inline-size: 48rem; padding-block-start: var(--sp-4); }
@@ -86,6 +94,7 @@ html[data-device="phone"] .nx-app .nh-find-k { display: none; }
 }
 @container (min-width: 34rem) { .nx-app .nh-doors ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @container (min-width: 60rem) { .nx-app .nh-doors ul { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@container (min-width: 100rem) { .nx-app .nh-doors ul { grid-template-columns: repeat(7, minmax(0, 1fr)); } }
 .nx-app .nh-door {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
@@ -147,28 +156,38 @@ html[data-device="phone"] .nx-app .nh-find-k { display: none; }
 
 /* ---------------------------------------------------- the process map
    Ported from the motion lab (app/design/redesign-2026/motion/motion.css), on
-   the system's tokens. --mod is set per chain from the module's own token. */
+   the system's tokens. --mod is set per chain from the module's own token.
+
+   THE LANES WRAP INTO ROWS (gate 3, major 9; gate 4, major 7; gate 5, finding
+   8). A lane used to be one line that scrolled sideways: at 1440 four of PM's
+   nine tables and three of PP-PI's eight were off screen, and on a phone the
+   map was a 2,326px column. Now every step (a table and its crossing to the
+   next) is a box in a wrapping row: every table is visible at every width,
+   the phone gets two to a row, and nothing scrolls. A gap is quiet (a grey
+   chevron of process order, no line) and says its words once in the legend
+   and in full to a screen reader. */
 
 .nx-app .fm { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--sp-3); }
 .nx-app .fm-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; margin: 0; font-size: var(--t-xs); color: var(--ink-2); }
 .nx-app .fm-key { display: inline-block; inline-size: 28px; block-size: 0; margin-inline-end: 6px; vertical-align: middle; border-block-start: 2px solid var(--ink-2); }
 .nx-app .fm-key--via { border-block-start-style: dashed; }
 .nx-app .fm-key--missing { inline-size: 14px; block-size: 14px; border: 1px dashed var(--line-strong); border-radius: 2px; }
-.nx-app .fm-lanes { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--sp-4); }
+.nx-app .fm-key-gap { display: inline-block; margin-inline-end: 4px; vertical-align: middle; color: var(--ink-3); }
+/* Two lanes side by side where both fit whole (a presentation display). */
+.nx-app .fm-lanes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 56rem), 1fr)); gap: var(--sp-4); }
 .nx-app .fm-chain {
   padding: var(--sp-4);
   border: 1px solid var(--hairline); border-radius: var(--r-lg);
   background: var(--surface);
-  overflow-x: auto;
 }
-.nx-app .fm-chain:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .nx-app .fm-title { margin: 0 0 var(--sp-3); font-size: var(--t-body); font-weight: 600; color: var(--ink-1); }
 .nx-app .fm-mod { margin-inline-end: 6px; font-family: var(--font-mono); color: var(--mod); }
-.nx-app .fm-lane { display: flex; align-items: center; margin: 0; padding: 0; list-style: none; }
-.nx-app .fm-step { display: flex; align-items: center; flex: none; }
+.nx-app .fm-lane { display: flex; flex-wrap: wrap; align-items: center; row-gap: var(--sp-4); margin: 0; padding: 0; list-style: none; }
+.nx-app .fm-step { display: flex; align-items: center; flex: none; max-inline-size: 100%; }
 .nx-app .fm-node {
   display: grid; gap: 2px;
   min-inline-size: 7.25rem;
+  max-inline-size: 11rem;
   padding: 10px 12px;
   border: 1px solid var(--line-strong); border-radius: var(--r-sm);
   background: var(--surface-raised);
@@ -194,18 +213,18 @@ html[data-device="phone"] .nx-app .nh-find-k { display: none; }
 .nx-app .fm-card, .nx-app .fm-via { position: relative; padding: 0 4px; background: var(--surface); }
 .nx-app .fm-card { font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate; transform: translateY(-14px); }
 .nx-app .fm-via { transform: translateY(12px); }
-.nx-app .fm-gap { max-inline-size: 5rem; text-align: center; line-height: 1.3; color: var(--ink-2); }
+/* A gap: narrow, no line, the order of the process only. */
+.nx-app .fm-link--gap { min-inline-size: 1.75rem; padding-inline: 4px; }
+.nx-app .fm-gap { color: var(--ink-3); }
+[dir="ltr"] .nx-app :is(.fm-gap, .fm-key-gap) { transform: scaleX(-1); }
 .nx-app .fm-sr { position: absolute; inline-size: 1px; block-size: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 
+/* The phone: the same rows, compact, two tables to a row. */
 @media (max-width: 720px) {
-  .nx-app .fm-chain { overflow-x: visible; }
-  .nx-app .fm-lane, .nx-app .fm-step { flex-direction: column; align-items: stretch; }
-  .nx-app .fm-node { min-inline-size: 0; }
-  .nx-app .fm-link { min-block-size: 3.5rem; padding: 0; }
-  .nx-app .fm-line { inset-inline: auto; inset-inline-start: calc(50% - 1px); inset-block: 0; border-block-start: 0; border-inline-start: 2px solid var(--mod); transform-origin: 50% 0; }
-  .nx-app .fm-link--via .fm-line { border-inline-start-style: dashed; }
-  .nx-app .fm-card, .nx-app .fm-via { transform: none; }
-  .nx-app .fm-gap { max-inline-size: none; }
+  .nx-app .fm-chain { padding: var(--sp-3); }
+  .nx-app .fm-node { min-inline-size: 6.5rem; max-inline-size: 9.5rem; padding: 8px 10px; }
+  .nx-app .fm-link { min-inline-size: 4.25rem; padding-inline: 6px; }
+  .nx-app .fm-link--gap { min-inline-size: 1.5rem; padding-inline: 2px; }
 }
 
 /* The build: in the order of the process, 95ms apart, capped under a second.
@@ -217,11 +236,9 @@ html[data-device="phone"] .nx-app .nh-find-k { display: none; }
   .nx-app .fm:is([data-motion="armed"], [data-motion="run"]) .fm-line { animation: fm-line var(--dur-base) var(--ease-out) both; animation-delay: min(calc(var(--i) * 95ms + 90ms), 850ms); }
   .nx-app .fm:is([data-motion="armed"], [data-motion="run"]) :is(.fm-card, .fm-via, .fm-gap) { animation: fm-fade var(--dur-fast) var(--ease-out) both; animation-delay: min(calc(var(--i) * 95ms + 200ms), 960ms); }
   .nx-app .fm[data-motion="armed"] :is(.fm-node, .fm-line, .fm-card, .fm-via, .fm-gap) { animation-play-state: paused; }
-  @media (max-width: 720px) { .nx-app .fm:is([data-motion="armed"], [data-motion="run"]) .fm-line { animation-name: fm-line-v; } }
 }
 @keyframes fm-node { from { opacity: 0; transform: translateY(6px); } }
 @keyframes fm-line { from { transform: scaleX(0); } }
-@keyframes fm-line-v { from { transform: scaleY(0); } }
 @keyframes fm-fade { from { opacity: 0; } }
 @media print { .nx-app .fm * { animation: none !important; } }
 
@@ -242,7 +259,7 @@ html[data-device="phone"] .nx-app .nh-find-k { display: none; }
 
 /* ------------------------------------------------------- S/4HANA picture */
 
-.nx-app .nh-imp { display: grid; margin: 0; padding: 0; list-style: none; border-block-start: 1px solid var(--hairline); }
+.nx-app .nh-imp { display: grid; max-inline-size: 72rem; margin: 0; padding: 0; list-style: none; border-block-start: 1px solid var(--hairline); }
 .nx-app .nh-imp li {
   display: grid;
   grid-template-columns: minmax(7rem, 10rem) 4rem minmax(0, 1fr) 3.5rem;
@@ -257,3 +274,6 @@ html[data-device="phone"] .nx-app .nh-find-k { display: none; }
   .nx-app .nh-imp li { grid-template-columns: minmax(0, 1fr) auto auto; padding-block: var(--sp-2); }
   .nx-app .nh-imp li .nh-bar { grid-column: 1 / -1; grid-row: 2; }
 }
+/* "כולל 2 Simplification Item" under the word it shares (gate 5, finding 19). */
+.nx-app .nh-imp-l { display: grid; justify-items: start; gap: 2px; }
+.nx-app .nh-imp-inc { font-size: var(--t-micro); color: var(--ink-2); }

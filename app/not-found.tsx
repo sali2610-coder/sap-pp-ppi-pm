@@ -1,52 +1,48 @@
 import Link from "next/link";
 import { BookOpen, Home, Table2, Terminal } from "lucide-react";
+import { plexHe, plexLat, plexMono } from "@/app/fonts/plex";
+import { SiteFooter } from "@/components/neo-shell/site-footer";
+// The NEO look outside the NEO shell: the ground (and this page's own frame,
+// §404 in ground.css), then the 2026 tokens, which must come after it, the
+// controls, and the footer's rules (rail.css). Every rule in them is scoped to
+// .nx-app, so nothing reaches another route.
+import "@/app/neo/ground.css";
+import "@/app/neo/system.css";
+import "@/app/neo/ui.css";
+import "@/app/neo/rail.css";
 
-/* The site's 404 (2026 system). It is served for every unknown URL, so it has
-   to stand on its own in both contexts it can appear in: inside the legacy
-   shell, and bare (an unknown /neo/ address takes the shell's bare branch).
-   It therefore uses only the theme-aware root tokens, which both themes set.
-   No gradient text, no glow; the number is a plain label and the actions are
-   the product's own front doors, not legacy routes. */
+/* The site's 404. One exported file (out/404.html) answers every unknown URL,
+   the unknown /neo/ addresses included, so it stands on its own: the NEO
+   tokens, Plex and the night theme through .nx-app and the font variables
+   (the theme attribute is set before paint by the root layout's script), and
+   the footer with the credit and the three legal documents (gate 3, major 12;
+   gate 5, blocker 3). The markup does not depend on the address, so it is the
+   same HTML wherever it is served. The React #418 on a /neo/ address comes
+   from the shell choosing its branch by pathname (components/app-shell.tsx),
+   not from this page. */
 
-function Mark() {
-  return (
-    <span className="grid size-10 place-items-center rounded-[6px] bg-brand" aria-hidden="true">
-      <svg viewBox="0 0 100 100" width="24" height="24" fill="none">
-        <g stroke="#fff" strokeWidth="6" strokeLinecap="round"><line x1="33" y1="37" x2="67" y2="35" /><line x1="33" y1="37" x2="50" y2="68" /><line x1="67" y1="35" x2="50" y2="68" /></g>
-        <g fill="#fff"><circle cx="33" cy="37" r="8" /><circle cx="67" cy="35" r="8" /><circle cx="50" cy="68" r="10.5" /></g>
-      </svg>
-    </span>
-  );
-}
-
-const link =
-  "inline-flex min-h-11 items-center gap-2 rounded-[4px] border border-hairline px-4 text-sm font-medium text-ink-1 hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#1f5fbf]";
+const FONTS = [plexHe, plexLat, plexMono].map((f) => f.variable).join(" ");
 
 export default function NotFound() {
   return (
-    <div dir="rtl" className="grid min-h-[70vh] place-items-center px-4 py-12">
-      <div className="w-full max-w-lg">
-        <div className="flex items-center gap-3">
-          <Mark />
-          <p className="text-sm text-ink-2"><bdi>SAP by Sali</bdi> · <bdi>Project NEO</bdi></p>
+    <div dir="rtl" className={`nx-app nx-nf ${FONTS}`}>
+      <main className="nx-nf-main">
+        <div className="nx-nf-box">
+          <p className="nx-nf-eye"><bdi>SAP by Sali</bdi> · <bdi>Project NEO</bdi></p>
+          <p className="nx-nf-code" dir="ltr">404</p>
+          <h1 className="nx-nf-h1">העמוד לא נמצא</h1>
+          <p className="nx-nf-lede">
+            ייתכן שהקישור השתנה, או שהעמוד עבר לכתובת חדשה. אפשר להמשיך מאחת הכניסות:
+          </p>
+          <nav className="nx-nf-go" aria-label="לאן אפשר להמשיך">
+            <Link href="/neo/" prefetch={false} className="nu-btn"><Home size={16} strokeWidth={1.75} aria-hidden="true" />למסך הבית</Link>
+            <Link href="/neo/tables/" prefetch={false} className="nu-btn2"><Table2 size={16} strokeWidth={1.75} aria-hidden="true" />טבלאות SAP</Link>
+            <Link href="/neo/transactions/" prefetch={false} className="nu-btn2"><Terminal size={16} strokeWidth={1.75} aria-hidden="true" />טרנזקציות</Link>
+            <Link href="/neo/books/" prefetch={false} className="nu-btn2"><BookOpen size={16} strokeWidth={1.75} aria-hidden="true" />ספריית SAP</Link>
+          </nav>
         </div>
-        <p className="mt-8 font-mono text-sm text-ink-2" dir="ltr">404</p>
-        <h1 className="mt-1 text-[1.75rem] font-semibold leading-tight text-ink-1">העמוד לא נמצא</h1>
-        <p className="mt-2 text-base leading-relaxed text-ink-2">
-          ייתכן שהקישור השתנה, או שהעמוד עבר לכתובת חדשה. אפשר להמשיך מאחת הכניסות:
-        </p>
-        <nav className="mt-6 flex flex-wrap gap-2" aria-label="לאן אפשר להמשיך">
-          {/* Outlined like the others, first and bold: the root theme's brand
-              foreground is dark on red (3.7:1), and this page must hold in both
-              themes without a dark variant. */}
-          <Link href="/neo/" prefetch={false} className={`${link} border-ink-2 font-semibold`}>
-            <Home className="size-4" aria-hidden="true" />למסך הבית
-          </Link>
-          <Link href="/neo/tables/" prefetch={false} className={link}><Table2 className="size-4" aria-hidden="true" />טבלאות SAP</Link>
-          <Link href="/neo/transactions/" prefetch={false} className={link}><Terminal className="size-4" aria-hidden="true" />טרנזקציות</Link>
-          <Link href="/neo/books/" prefetch={false} className={link}><BookOpen className="size-4" aria-hidden="true" />ספריית SAP</Link>
-        </nav>
-      </div>
+      </main>
+      <SiteFooter />
     </div>
   );
 }
