@@ -27,7 +27,7 @@
 
 import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 import { S4_STATUS_HE } from "@/lib/evidence/types";
-import { useEffect, useMemo, useState, ViewTransition } from "react";
+import { useCallback, useEffect, useId, useMemo, useState, ViewTransition } from "react";
 import {
   ArrowLeft, Boxes, Database, GitBranch, KeyRound, Layers, LayoutGrid,
   ListTree, Search, Sigma, Table as TableIcon, Terminal, X,
@@ -37,6 +37,8 @@ import {
 } from "@/components/neo-shell/nav-context";
 import { MOD_HE, modVar } from "../mod-var";
 import { CAPS, capMatch, type Cap } from "./table-caps";
+import { ActiveFilters, FacetSheet, FacetToggle } from "./facet-sheet";
+import { catalogScore } from "./catalog-match";
 import type { NeoTableRow, NeoTablesData } from "./types";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -232,6 +234,12 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
   const [caps, setCaps] = useState<Cap[]>([]);
   const [zones, setZones] = useState<string[]>([]);
   const [zonesOpen, setZonesOpen] = useState(false);
+  // The filter sheet on a phone (facet-sheet.tsx). A stable close, because the
+  // dialog hook re-arms whenever it changes.
+  const [sheet, setSheet] = useState(false);
+  const closeSheet = useCallback(() => setSheet(false), []);
+  const sheetId = useId();
+  const toggleId = useId();
 
   const toggle = <T,>(list: T[], v: T): T[] =>
     list.includes(v) ? list.filter((x) => x !== v) : [...list, v];
@@ -242,7 +250,10 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
       if (mods.length && !mods.some((m) => r.mods.includes(m))) return false;
       if (zones.length && !zones.includes(r.zone)) return false;
       if (!caps.every((c) => capMatch(r, c))) return false;
-      return !needle || r.hay.includes(needle);
+      // Every word, in any order, with the Hebrew forms and the code's typos
+      // (catalog-match.ts): "כותרת פקודה" found no table as one phrase, AFKO's
+      // text says "כותרת פקודת" (gate 6, major 10).
+      return !needle || catalogScore(r.hay, r.name.toLowerCase(), needle) > 0;
     });
     out = [...out].sort((a, b) => {
       if (sort === "fields") return b.fields - a.fields || a.name.localeCompare(b.name);
@@ -335,6 +346,13 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
 
   const dirty = !!q || mods.length > 0 || caps.length > 0 || zones.length > 0;
   const reset = () => { setQ(""); setMods([]); setCaps([]); setZones([]); };
+  // The filters alone, for the sheet: its "clear" leaves the search as typed.
+  const active = [
+    ...mods.map((id) => ({ key: `m:${id}`, label: data.mods.find((m) => m.id === id)?.he || id, off: () => setMods((v) => v.filter((x) => x !== id)) })),
+    ...caps.map((id) => ({ key: `c:${id}`, label: CAPS.find((c) => c.id === id)?.he || id, off: () => setCaps((v) => v.filter((x) => x !== id)) })),
+    ...zones.map((id) => ({ key: `z:${id}`, label: data.zones.find((z) => z.id === id)?.he || id, off: () => setZones((v) => v.filter((x) => x !== id)) })),
+  ];
+  const clearFilters = () => { setMods([]); setCaps([]); setZones([]); };
 
   // One module selected ⇒ the whole surface takes that module's hue. Two, or
   // none, and it correctly stays neutral rather than picking a side.
@@ -416,9 +434,20 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
             {SORTS.map((s) => <option key={s.s} value={s.s}>{s.he}</option>)}
           </select>
         </label>
+        <FacetToggle id={toggleId} open={sheet} active={active.length} controls={sheetId} onOpen={() => setSheet(true)} />
       </div>
 
-      <div className="nxd-facets nm-fade nm-once">
+      <ActiveFilters items={active} back={toggleId} />
+
+      <FacetSheet
+        id={sheetId}
+        open={sheet}
+        onClose={closeSheet}
+        onClear={clearFilters}
+        dirty={active.length > 0}
+        shown={rows.length}
+        noun="טבלאות"
+      >
         <div className="nxd-facet" role="group" aria-label="סינון לפי מודול">
           <span className="nxd-facet-l">מודול</span>
           {data.mods.map((m) => (
@@ -476,7 +505,7 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
             ))}
           </div>
         ) : null}
-      </div>
+      </FacetSheet>
 
       <section className="nx-card nxd-stats nxd-stats--after nm-rise nm-once" aria-label="מספרי מאגר הטבלאות">
         {[

@@ -54,9 +54,7 @@
 .nx-app .nxr-row[data-impacted="1"]:hover {
   border-color: color-mix(in srgb, var(--brand) 55%, var(--hairline));
 }
-html[data-theme="dark"] .nx-app .nxr-row[data-impacted="1"] {
-  background: linear-gradient(to inline-start, color-mix(in srgb, var(--brand) 7%, transparent), transparent 38%), var(--surface);
-}
+/* No night wash either: the 2026 row is on the list's own ground (lead, SIDE-2). */
 
 /* The directory rows carry no object-class hue — that encoding belongs to the
    dictionary. Reset the gradient data.css applies on [data-surface="tables"] so
@@ -94,7 +92,8 @@ html[data-theme="dark"] .nx-app .nxr-row[data-impacted="1"] {
   line-height: var(--lh-he);
   color: var(--ink-1);
 }
-.nx-app .nxr-ref > .nxt-sec > .nxr-text { max-inline-size: 78ch; }
+/* 60 to 72 Hebrew characters a line: 78ch set 92 to 94 (gate 3, major 11). */
+.nx-app .nxr-ref > .nxt-sec > .nxr-text { max-inline-size: var(--measure); }
 
 /* Two forms for a SAP identifier, and the difference is the whole point:
      .nu-link + arrow  →  opens a generated page
@@ -319,7 +318,8 @@ html[data-theme="dark"] .nx-app .nxr-st-i {
 .nx-app .nxr-chain-c b { font-size: var(--t-xs); color: var(--ink-1); }
 .nx-app .nxr-chain-c span { font-size: var(--t-micro); color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nx-app a.nxr-chain-c:hover { border-color: color-mix(in srgb, var(--m, var(--brand)) 45%, var(--hairline)); }
-.nx-app a.nxr-chain-c:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+/* One focus language, the blue ring; red reads as selection (gate 3, minor 18). */
+.nx-app a.nxr-chain-c:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .nx-app .nxr-chain-c--none { opacity: .8; }
 .nx-app .nxr-chain-none { font-size: var(--t-xs); color: var(--ink-3); }
 .nx-app .nxr-chain-note { grid-column: 1 / -1; margin: 0; font-size: var(--t-xs); color: var(--ink-3); }
@@ -347,7 +347,7 @@ html[data-theme="dark"] .nx-app .nxr-st-i {
 .nx-app .nxr-compare > summary::-webkit-details-marker { display: none; }
 .nx-app .nxr-compare > summary em { font-style: normal; font-weight: 400; font-size: var(--t-xs); color: var(--ink-3); }
 .nx-app .nxr-compare > summary:hover { background: color-mix(in srgb, var(--ink-1) 4%, transparent); }
-.nx-app .nxr-compare > summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.nx-app .nxr-compare > summary:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .nx-app .nxr-compare-w { overflow-x: auto; padding: 0 var(--sp-4) var(--sp-4); }
 .nx-app .nxr-compare-t { border-collapse: collapse; inline-size: 100%; min-inline-size: 56rem; font-size: var(--t-xs); }
 .nx-app .nxr-compare-t th, .nx-app .nxr-compare-t td {
@@ -358,7 +358,7 @@ html[data-theme="dark"] .nx-app .nxr-st-i {
 .nx-app .nxr-compare-t tbody th a { display: grid; gap: 2px; color: inherit; text-decoration: none; min-inline-size: 9rem; }
 .nx-app .nxr-compare-t tbody th a span { font-size: var(--t-micro); font-weight: 400; color: var(--ink-3); }
 .nx-app .nxr-compare-t tbody th a:hover b { text-decoration: underline; }
-.nx-app .nxr-compare-t tbody th a:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.nx-app .nxr-compare-t tbody th a:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .nx-app .nxr-compare-t td { color: var(--ink-2); max-inline-size: 26rem; }
 
 /* 2026 system: an impacted row keeps its status mark and word; the brand side

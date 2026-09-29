@@ -36,7 +36,7 @@
 //               "showing the first 300" note.
 
 import Link from "next/link";
-import { useEffect, useMemo, useState, ViewTransition } from "react";
+import { useCallback, useEffect, useId, useMemo, useState, ViewTransition } from "react";
 import {
   AppWindow, ArrowLeft, Clock, Flame, Layers, Search, SlidersHorizontal,
   Star, Terminal, X,
@@ -49,6 +49,8 @@ import { toggleTxFavorite, useRecentTx, useTxFavorites } from "@/lib/tx-prefs";
 import { SmartReturn, consumeReturn, rememberOrigin, useReturnPacket } from "@/components/neo-shell/nav-context";
 import { MOD_HE, modVar } from "../mod-var";
 import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
+import { ActiveFilters, FacetSheet, FacetToggle } from "./facet-sheet";
+import { catalogScore, txHay } from "./catalog-match";
 
 const nf = new Intl.NumberFormat("he-IL");
 const PAGE = 120;
@@ -103,28 +105,10 @@ const SORTS: { s: Sort; he: string }[] = [
 ];
 
 /* --------------------------------------------------------------- matching
-   Typo-tolerant, in the same three tiers the live centre uses: prefix beats an
-   inner substring beats an in-order subsequence. Every token has to land, so a
-   two-word query narrows instead of widening. */
-
-function tokenScore(hay: string, q: string): number {
-  const i = hay.indexOf(q);
-  if (i === 0) return 100;
-  if (i > 0) return 70 - Math.min(i, 30);
-  let qi = 0;
-  for (let h = 0; h < hay.length && qi < q.length; h++) if (hay[h] === q[qi]) qi++;
-  return qi === q.length ? 28 : 0;
-}
-
-function fuzzyScore(hay: string, query: string): number {
-  let total = 0;
-  for (const t of query.split(/\s+/).filter(Boolean)) {
-    const s = tokenScore(hay, t);
-    if (s === 0) return 0;
-    total += s;
-  }
-  return total;
-}
+   ./catalog-match.ts, shared with the tables and the reference directories:
+   prefix beats an inner substring beats a Hebrew form (פקודה/הזמנה,
+   אחזקה/תחזוקה, endings, one-letter prefixes) beats an in-order subsequence
+   or a one-letter typo of the code itself. Every word has to land. */
 
 /* -------------------------------------------------------------------- row */
 
@@ -236,6 +220,12 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
   const [fiori, setFiori] = useState(false);
   const [more, setMore] = useState(false);
   const [limit, setLimit] = useState(PAGE);
+  // The filter sheet on a phone (facet-sheet.tsx). A stable close, because the
+  // dialog hook re-arms whenever it changes.
+  const [sheet, setSheet] = useState(false);
+  const closeSheet = useCallback(() => setSheet(false), []);
+  const sheetId = useId();
+  const toggleId = useId();
 
   const list = useMemo(() => {
     let base: RegistryTx[];
@@ -254,7 +244,7 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
     const s = q.trim().toLowerCase();
     if (s) {
       rows = rows
-        .map((t) => ({ t, sc: fuzzyScore(`${t.code} ${t.area} ${t.he} ${t.en} ${t.module}`.toLowerCase(), s) }))
+        .map((t) => ({ t, sc: catalogScore(txHay(t), t.code.toLowerCase(), s) }))
         .filter((x) => x.sc > 0)
         .sort((a, b) => b.sc - a.sc || txPopularity(b.t.code) - txPopularity(a.t.code))
         .map((x) => x.t);
@@ -274,6 +264,14 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
   const shown = list.slice(0, limit);
   const dirty = !!q || !!mod || !!topic || !!obj || fiori;
   const reset = () => { setQ(""); setMod(""); setTopic(""); setObj(""); setFiori(false); setLimit(PAGE); };
+  // The filters alone, for the sheet: its "clear" leaves the search as typed.
+  const active = [
+    ...(mod ? [{ key: "m", label: mod, off: () => { setMod(""); setLimit(PAGE); } }] : []),
+    ...(fiori ? [{ key: "f", label: "עם יישום Fiori קשור", off: () => { setFiori(false); setLimit(PAGE); } }] : []),
+    ...(topic ? [{ key: "t", label: topic, off: () => { setTopic(""); setLimit(PAGE); } }] : []),
+    ...(obj ? [{ key: "o", label: obj, off: () => { setObj(""); setLimit(PAGE); } }] : []),
+  ];
+  const clearFilters = () => { setMod(""); setTopic(""); setObj(""); setFiori(false); setLimit(PAGE); };
   const onView = (v: View) => { setView(v); setLimit(PAGE); };
 
   /* ------------------------------------------------------- smart return */
@@ -302,7 +300,7 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
     rememberOrigin({
       to: txHref(code),
       href: "/neo/transactions/",
-      label: "טרנזקציות SAP",
+      label: "טרנזקציות",   // the rail's name for this page (gate 5, finding 16)
       detail: parts.join(" · "),
       surface: SURFACE,
       state,
@@ -380,9 +378,11 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
       <header className="nxd-head nm-rise nm-once">
         {surfaceMod ? <span className="nx-modbar" aria-hidden="true" /> : null}
         <span className="nx-eyebrow">קטלוג טרנזקציות</span>
-        {/* Was the bare word "טרנזקציות", which is the category and not this
-            surface. The eyebrow already calls it a registry; the title agrees. */}
-        <h1 className="nx-h1">טרנזקציות SAP</h1>
+        {/* One name per destination (gate 5, finding 16): the rail, the
+            breadcrumb, the home's door and the return link all call this page
+            "טרנזקציות"; the title had "טרנזקציות SAP". The eyebrow says what
+            kind of page it is. */}
+        <h1 className="nx-h1">טרנזקציות</h1>
         <p className="nx-lede">
           {nf.format(stats.total)} טרנזקציות SAP מ-{nf.format(modules.length)} מודולים בקטלוג אחד;
           {/* The lede used to end by printing the raw route /neo/transactions/
@@ -438,9 +438,20 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
             {SORTS.map((x) => <option key={x.s} value={x.s}>{x.he}</option>)}
           </select>
         </label>
+        <FacetToggle id={toggleId} open={sheet} active={active.length} controls={sheetId} onOpen={() => setSheet(true)} />
       </div>
 
-      <div className="nxd-facets nm-fade nm-once">
+      <ActiveFilters items={active} back={toggleId} />
+
+      <FacetSheet
+        id={sheetId}
+        open={sheet}
+        onClose={closeSheet}
+        onClear={clearFilters}
+        dirty={active.length > 0}
+        shown={list.length}
+        noun="טרנזקציות"
+      >
         <div className="nxd-facet" role="group" aria-label="סינון לפי מודול">
           <span className="nxd-facet-l">מודול</span>
           {modules.slice(0, more ? modules.length : 8).map((m) => (
@@ -510,7 +521,7 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
             ) : null}
           </>
         ) : null}
-      </div>
+      </FacetSheet>
 
       <section className="nx-card nxd-stats nxd-stats--after nm-rise nm-once" aria-label="מספרי המאגר">
         {[
