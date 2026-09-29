@@ -172,8 +172,11 @@ export function ContextPane({ ctx, onOpen }: { ctx: ObjectContext | null; onOpen
         <div className="nx-ctx-sec">
           <h5>קשרים ({ctx.relations.length})</h5>
           <ul className="nx-ctx-joins">
-            {ctx.relations.map((r) => (
-              <li key={r.table}>
+            {ctx.relations.map((r, i) => (
+              // A shared table can carry one relation per blueprint to the same
+              // table (AFKO to AUFK: PM "1:1" with its join, PP-PI with a
+              // FROM-JOIN clause). Both are shown, so the table alone is not a key.
+              <li key={`${r.table}-${i}`}>
                 <button type="button" onClick={() => onOpen(r.table)}>
                   <span className="nx-sap">{r.table}</span>
                   {r.card ? <span className="nx-card">{r.card}</span> : null}
