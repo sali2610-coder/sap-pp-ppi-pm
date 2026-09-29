@@ -248,8 +248,17 @@ html[data-theme="dark"] .nst-mode[data-on="1"] { color: var(--ink-1); }
 .nst-dot { display: inline-block; inline-size: 8px; block-size: 8px; margin-inline-end: 6px; border-radius: 2px; background: var(--c); vertical-align: 1px; }
 .nst-node .nst-s4w { color: var(--ink-1); font-weight: 600; }
 .nst-edge[data-lit="1"] { stroke: var(--select-line, var(--brand)); }
-.nst-node:hover { transform: none; }
-.nst-node:focus-visible { outline: none; box-shadow: var(--elev-1), var(--focus-ring); }
+/* Hover: the border darkens; the node neither lifts nor gains a shadow (the
+   earlier rule above still raised it to --elev-3). */
+.nst-node:hover { transform: none; box-shadow: var(--elev-1); border-color: var(--line-strong); }
+/* The ring alone: by day --elev-1 is "none", and "none, <ring>" is an invalid
+   box-shadow list that computed to no focus indicator at all. */
+.nst-node:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+/* Selected: the selection language (a 2px --select-line ring on --select-bg),
+   not the node's kind colour with a lift and a 6px halo. The kind stays on the
+   node's own mark. Focus on a selected node keeps the blue ring outside it. */
+.nst-node[data-on="1"] { background: var(--select-bg); box-shadow: 0 0 0 2px var(--select-line); }
+.nst-node[data-on="1"]:focus-visible { box-shadow: 0 0 0 2px var(--select-line), 0 0 0 4px var(--surface), 0 0 0 6px var(--focus); }
 
 
 /* THE STUDIO ON A PHONE (gate 7, blocker 6). The page canvas sizes the studio
