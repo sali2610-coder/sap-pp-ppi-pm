@@ -1344,7 +1344,10 @@ html[data-theme="dark"] {
 html[data-device="tablet"] .nx-app,
 html[data-device="phone"] .nx-app { --nx-rail-col: 0px; grid-template-columns: 1fr; }
 
-.nx-main { display: grid; grid-template-rows: var(--c-top-h) minmax(0, 1fr); min-inline-size: 0; min-block-size: 0; }
+/* One column that never grows past the shell: an `auto` column took the phone
+   bar's min-content, and with the worded dock tools (gate 5, #14) that was
+   328px on a 320px phone at night, pushing the bar past the screen's edge. */
+.nx-main { display: grid; grid-template-rows: var(--c-top-h) minmax(0, 1fr); grid-template-columns: minmax(0, 1fr); min-inline-size: 0; min-block-size: 0; }
 .nx-app[data-nav="hidden"] .nx-main,
 .nx-app[data-nav="peek"] .nx-main { grid-column: 1 / -1; }
 html[data-device="tablet"] .nx-app .nx-main,
@@ -1873,7 +1876,10 @@ html[data-device="tablet"] .nx-railedge { display: none !important; }
 }
 /* The breadcrumb gives way first and never paints outside its own box: every
    crumb shrinks with an ellipsis except the page's own. */
-.nx-crumbs { display: flex; align-items: center; gap: 4px; font-size: var(--t-xs); color: var(--ink-3); min-inline-size: 0; flex: 0 1 auto; overflow: hidden; }
+.nx-crumbs { display: flex; align-items: center; gap: 4px; font-size: var(--t-xs); color: var(--ink-3); min-inline-size: 0; flex: 0 1 auto; overflow: hidden;
+  /* Room inside the clip for a link's focus ring (2px, offset 2px), taken back
+     by the margin so the bar's layout does not move. */
+  padding: 4px; margin: -4px; }
 .nx-crumbs > a, .nx-crumbs > span { min-inline-size: 0; flex: 0 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nx-crumbs > svg { flex: none; }
 .nx-crumbs a { display: inline-flex; align-items: center; min-block-size: 1.5rem; }
