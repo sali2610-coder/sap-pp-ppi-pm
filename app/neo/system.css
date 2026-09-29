@@ -34,6 +34,27 @@
    Hebrew, for Plex's Hebrew range only (so Latin still falls through to Plex
    Latin): Plex 400/500/600 run 3.95%, 6.79% and 3.40% wider than Arial and
    Arial Bold; ascent .90, descent .25. */
+/* THE DISPLAY FALLBACK (gate 9, majors 1 and 2). Frank Ruhl Libre is no
+   longer preloaded (app/fonts/frank.ts); until it arrives a display title is set
+   in Times New Roman Bold sized to Frank 600's advance widths, measured in Chrome
+   over the 443 display titles in the export: Frank is 2.78% wider in Hebrew and
+   3.68% in Latin (neo-redesign-evidence/tools/display-calibrate.mjs). The line
+   height is fixed (--t-display-lh), so only the widths decide the wrap. */
+@font-face {
+  font-family: "NEO Display Hebrew Fallback";
+  src: local("Times New Roman Bold"), local("TimesNewRomanPS-BoldMT"), local("Times New Roman");
+  font-weight: 600 700;
+  size-adjust: 102.78%;
+  unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+}
+@font-face {
+  font-family: "NEO Display Latin Fallback";
+  src: local("Times New Roman Bold"), local("TimesNewRomanPS-BoldMT"), local("Times New Roman");
+  font-weight: 600 700;
+  size-adjust: 103.68%;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 @font-face {
   font-family: "NEO Hebrew Fallback";
   src: local("Arial"), local("ArialMT");
@@ -232,7 +253,7 @@
   /* ---- type --------------------------------------------------------------- */
   --font-sans: var(--f-plex-he), "NEO Hebrew Fallback", var(--f-plex-lat), "NEO Latin Fallback", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
   --font-mono: var(--f-plex-mono), "NEO Mono Fallback", "Cascadia Code", Consolas, "SF Mono", ui-monospace, monospace;
-  --font-display: var(--f-frank-he), var(--f-frank-lat), var(--font-sans);
+  --font-display: var(--f-frank-he), "NEO Display Hebrew Fallback", var(--f-frank-lat), "NEO Display Latin Fallback", var(--font-sans);
   --t-micro: 0.75rem;     /* 12px, the floor */
   --t-xs: 0.8125rem;      /* 13px */
   --t-sm: 0.875rem;       /* 14px, dense UI */

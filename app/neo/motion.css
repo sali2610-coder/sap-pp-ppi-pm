@@ -411,7 +411,7 @@
    Specificity is set to beat each family's own level-scoped rules.
    ========================================================================== */
 .nx-app .nm-rise,
-.nx-app .nm-fade { animation: none; opacity: 1; transform: none; transition: none; }
+.nx-app .nm-fade { animation: none; opacity: 1; transform: none; transition: none; will-change: auto; }
 .nx-app .nm-par,
 .nx-app .nm-par-slow { animation: none; transform: none; }
 .nx-app .nm-kin > span > * { animation: none; opacity: 1; transform: none; transition: none; }
