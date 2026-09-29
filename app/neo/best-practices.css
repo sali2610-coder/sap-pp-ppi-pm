@@ -210,3 +210,12 @@ html[data-theme="dark"] .nx-app .nbp-claims > li {
 .nx-app .nbp-ref-n { color: var(--ink-2); }
 .nx-app .nbp-gaps { margin-block-start: var(--sp-3); }
 .nx-app .nbp-prof-chip { color: var(--ink-2); }
+
+/* 2026 system: the catalogue as a list, as in app/neo/data.css. Rows on
+   hairlines; the module is the chip's code in its colour, so the edge bar goes.
+   Nothing a row says is removed. */
+.nx-app .nbp-list { gap: 0; border-block-start: 1px solid var(--hairline); }
+.nx-app .nbp-row { grid-template-columns: minmax(0, 1fr) auto auto; padding: var(--sp-4) var(--sp-2); border: 0; border-block-end: 1px solid var(--hairline); border-radius: 0; background: transparent; }
+.nx-app .nbp-mark { display: none; }
+.nx-app .nbp-row:hover { background: var(--surface-2); border-color: var(--hairline); }
+@media (max-width: 720px) { .nx-app .nbp-row { grid-template-columns: minmax(0, 1fr); } .nx-app .nbp-side { grid-column: 1; } }

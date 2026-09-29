@@ -243,7 +243,7 @@
   padding: 0.6rem 0.85rem;
   border-radius: var(--r-lg);
   border: 1px solid var(--hairline);
-  border-inline-start: 3px solid color-mix(in srgb, var(--brand) 55%, var(--hairline));
+  border-inline-start: 1px solid var(--hairline);
   /* Opaque, not translucent: the thread scrolls underneath it. A backdrop
      filter here would blur an answer's text into an unreadable smear behind
      the one element that must stay legible. */
@@ -546,7 +546,7 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   border: 1px solid var(--hairline);
   /* A calm reading surface, and a brand edge on the inline-start side so the
      answer is identifiable at a glance without a second colour. */
-  border-inline-start: 3px solid color-mix(in srgb, var(--brand) 55%, var(--hairline));
+  border-inline-start: 1px solid var(--hairline);
   background: var(--surface);
   box-shadow: var(--elev-1);
 }
@@ -600,7 +600,7 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   padding: var(--sp-4);
   border-radius: var(--r-xl);
   border: 1px solid color-mix(in srgb, var(--brand) 30%, var(--hairline));
-  border-inline-start: 3px solid var(--brand);
+  border-inline-start: 1px solid var(--hairline);
   background: var(--surface);
   box-shadow: var(--elev-1);
 }
@@ -735,7 +735,7 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   margin: 0;
   padding: var(--sp-3);
   border-radius: var(--r-sm);
-  border-inline-start: 2px solid color-mix(in srgb, var(--brand) 45%, var(--hairline));
+  border-inline-start: 2px solid var(--line-strong);
   /* The card became paper, so the quote has to recede rather than match it —
      they were both `--surface` and the blockquote vanished into its own card. */
   background: var(--surface-2);
@@ -1547,7 +1547,7 @@ html[data-theme="dark"] .nxq[data-surface="library"] {
   border: 1px solid var(--scene-hair);
   /* The accent enters as an EDGE, which is the form rule the shell already
      uses for module colour: tint, ring, line, edge — never a fill. */
-  border-inline-start: 3px solid var(--scene-accent);
+  border-inline-start: 1px solid var(--hairline);
   box-shadow: var(--nq-lift);
   transition: box-shadow .18s ease, border-color .18s ease, transform .18s ease;
 }

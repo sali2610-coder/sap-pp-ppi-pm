@@ -272,7 +272,7 @@
   display: grid; gap: 3px;
   padding-inline-start: var(--sp-2);
   margin-inline-start: 7px;
-  border-inline-start: 2px solid color-mix(in srgb, var(--m, var(--ink-3)) 24%, transparent);
+  border-inline-start: 1px solid var(--hairline);
 }
 .nx-app .nxc--r .nxc-sec[data-mod="0"] .nxc-sec-body {
   border-inline-start-color: var(--c-hair);
@@ -420,7 +420,7 @@
 }
 .nx-app .nxc--r .nxc-none {
   padding: var(--sp-6) var(--sp-3);
-  border-inline-start: 2px solid var(--c-hair);
+  border-inline-start: 1px solid var(--hairline);
 }
 
 /* ------------------------------------------------------- 8. THE DETAIL PANE */
@@ -480,10 +480,10 @@
 
 .nx-app[data-live="1"] .nx-group[data-hit="1"] .nx-group-btn {
   color: var(--ink-1);
-  box-shadow: inset 2px 0 0 0 var(--gm, var(--ink-3));
+  box-shadow: none;
 }
 [dir="ltr"] .nx-app[data-live="1"] .nx-group[data-hit="1"] .nx-group-btn {
-  box-shadow: inset -2px 0 0 0 var(--gm, var(--ink-3));
+  box-shadow: none;
 }
 .nx-app[data-live="1"] .nx-group[data-dim="1"] { opacity: .42; }
 .nx-app[data-live="1"] .nx-group { transition: opacity var(--dur-base) var(--ease-out-expo); }
@@ -788,3 +788,35 @@ html[data-device="tablet"] .nx-app .nxc--r::after { display: none; }
   .nx-app .nxc--r .nxc-row,
   .nx-app .nxc--r .nxc-sec { animation: none; }
 }
+
+/* ============================================================================
+   2026 SYSTEM · THE COMMAND SURFACE, FLAT
+   The same language as the rail (app/neo/rail.css): a flat panel on the
+   overlay elevation; rows with no resting tint; the keyboard cursor is the
+   selection fill and the selection line; the result's kind is its glyph in its
+   module's colour, not a tinted tile; no module wash behind the header, no
+   spine down the panel, no lifted plate. The module scope still reads, in the
+   header's chips and on every row's module code. Placed last: the last word.
+   ========================================================================== */
+.nx-app .nxc--r .nxc-wash,
+[dir="ltr"] .nx-app .nxc--r .nxc-wash { background: none; }
+.nx-app .nxc--r .nxc-panel { border-color: var(--hairline); box-shadow: var(--elev-4); }
+html[data-theme="dark"] .nx-app .nxc--r .nxc-panel { border-color: var(--line-strong); }
+.nx-app .nxc--r .nxc-panel::before,
+html[data-device="tablet"] .nx-app .nxc--r .nxc-panel::before,
+html[data-device="phone"] .nx-app .nxc--r .nxc-panel::before { content: none; }
+.nx-app .nxc--r .nxc-head,
+html[data-theme="dark"] .nx-app .nxc--r .nxc-head { background: var(--surface-raised); border-block-end-color: var(--hairline); }
+.nx-app .nxc--r .nxc-detail,
+html[data-theme="dark"] .nx-app .nxc--r .nxc-detail { background: var(--surface); }
+.nx-app .nxc--r .nxc-sec-h,
+html[data-theme="dark"] .nx-app .nxc--r .nxc-sec-h { background: var(--surface-raised); box-shadow: none; }
+.nx-app .nxc--r .nxc-modchip:hover { transform: none; }
+.nx-app .nxc--r .nxc-row,
+.nx-app .nxc--r .nxc-row[data-mod="0"],
+html[data-theme="dark"] .nx-app .nxc--r .nxc-row { background: transparent; box-shadow: none; }
+.nx-app .nxc--r .nxc-row::before,
+html[data-theme="dark"] .nx-app .nxc--r .nxc-row::before { background: var(--select-bg); box-shadow: none; transform: none; }
+.nx-app .nxc--r .nxc-row::after { inset-block: 6px; inline-size: 3px; background: var(--select-line); }
+.nx-app .nxc--r .nxc-row-k { background: none; box-shadow: none; border-radius: 0; }
+.nx-app .nxc--r .nxc-row[data-shape] .nxc-row-k { border-radius: 0; }

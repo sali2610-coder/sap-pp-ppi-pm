@@ -158,25 +158,27 @@ export const S4_STATUS_WORD: Record<S4Status, string> = {
   not_applicable: "לא רלוונטי",
 };
 
-/** Same reading as lib/s4-class: green stays, amber changes, blue moves, red
- *  is gone, grey is "no verdict". Purple marks the ECC-only past. The two
- *  not-strategic statuses are amber too: they still exist in S/4HANA, so they
- *  are never painted "gone"; their glyph tells them from "changes". */
+/** One colour per reading group (S4_STATUS_READING), from the S/4HANA status
+ *  families in app/neo/system.css (TOKENS.md): keeps, changes, moves (replaced),
+ *  not strategic, gone, new, the ECC-only past, and open (no verdict). The glyph
+ *  and the word carry the meaning; the colour is the third signal. The two
+ *  not-strategic statuses still exist in S/4HANA, so they are never painted
+ *  "gone". Every family clears 4.5:1 on every surface in both themes. */
 export const S4_STATUS_DOT: Record<S4Status, string> = {
-  s4_native: "var(--status-done)",
-  unchanged: "var(--status-done)",
-  changed: "var(--status-in-analysis)",
-  simplified: "var(--status-in-analysis)",
-  replaced: "var(--status-in-conversion)",
-  restricted: "var(--status-in-analysis)",
-  deprecated: "var(--status-in-analysis)",
-  not_available: "var(--status-removed)",
-  compatibility_scope: "var(--status-in-analysis)",
-  fiori_alternative_available: "var(--status-done)",
-  released_api_available: "var(--status-done)",
-  legacy_ecc_only: "var(--status-tested)",
-  verification_required: "var(--status-not-started)",
-  not_applicable: "var(--status-not-started)",
+  s4_native: "var(--s4-new)",
+  unchanged: "var(--s4-keep)",
+  changed: "var(--s4-change)",
+  simplified: "var(--s4-change)",
+  replaced: "var(--s4-replace)",
+  restricted: "var(--s4-change)",
+  deprecated: "var(--s4-not-strategic)",
+  not_available: "var(--s4-removed)",
+  compatibility_scope: "var(--s4-not-strategic)",
+  fiori_alternative_available: "var(--s4-keep)",
+  released_api_available: "var(--s4-keep)",
+  legacy_ecc_only: "var(--s4-ecc-only)",
+  verification_required: "var(--s4-verify)",
+  not_applicable: "var(--s4-verify)",
 };
 
 /** THE SHAPE BESIDE THE COLOUR (design audit S5-3: "symbol and text, never

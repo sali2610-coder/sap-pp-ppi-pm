@@ -149,7 +149,7 @@ html[data-theme="dark"] .nst-mode[data-on="1"] { color: var(--ink-1); }
   border: 1px solid var(--hairline);
   /* Kind / verdict colour as an EDGE and a marker. Never a fill: seven kinds
      and eight zones on one canvas would otherwise be a colour riot. */
-  border-inline-start: 3px solid var(--c);
+  border-inline-start: 1px solid var(--hairline);
   box-shadow: var(--elev-1);
   font: inherit; overflow: hidden;
   transition: opacity .22s ease, box-shadow .18s ease, border-color .18s ease, transform .18s ease;

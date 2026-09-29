@@ -201,7 +201,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   /* The module edge. A LINE of module colour — the sanctioned form. It sits on
      the canvas edge rather than inside the gutter, so the hero's text baseline
      lines up with every block below it instead of sitting a step in. */
-  border-inline-start: 3px solid var(--m);
+  border-inline-start: 1px solid var(--hairline);
 }
 .nw-hero > * { min-inline-size: 0; }
 
@@ -822,8 +822,8 @@ html .nx-app .nx-canvas:has(> .nw) {
   background: color-mix(in srgb, var(--m) 8%, transparent);
   border-block-end-color: transparent;
 }
-.nw-row[data-open="1"] > td:first-child { box-shadow: inset 2px 0 0 0 var(--m); }
-[dir="ltr"] .nw-row[data-open="1"] > td:first-child { box-shadow: inset -2px 0 0 0 var(--m); }
+.nw-row[data-open="1"] > td:first-child { box-shadow: inset 3px 0 0 0 var(--select-line); }
+[dir="ltr"] .nw-row[data-open="1"] > td:first-child { box-shadow: inset -3px 0 0 0 var(--select-line); }
 
 .nw-c-n { inline-size: 12.5rem; }
 .nw-c-he { inline-size: auto; }
@@ -882,7 +882,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   gap: var(--sp-5);
   padding: var(--sp-4) var(--sp-3) var(--sp-5);
   background: color-mix(in srgb, var(--m) 4%, transparent);
-  border-inline-start: 2px solid var(--m);
+  border-inline-start: 1px solid var(--hairline);
 }
 .nw-det > section { display: grid; gap: var(--sp-2); align-content: start; justify-items: start; min-inline-size: 0; }
 .nw-det h3 {
@@ -1099,7 +1099,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   border: 1px solid var(--hairline);
   /* MODULE as the leading edge. Thicker for a high-risk row: WEIGHT carries the
      severity, because the hue may not. */
-  border-inline-start: 3px solid color-mix(in srgb, var(--m) 45%, var(--hairline));
+  border-inline-start: 1px solid var(--hairline);
 }
 .nw-move[data-risk="high"] {
   border-inline-start-width: 6px;
@@ -1179,7 +1179,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   background: var(--surface);
   border: 1px solid var(--hairline);
   /* MODULE as an edge — the record is of this module's blueprint. */
-  border-inline-start: 3px solid color-mix(in srgb, var(--m) 38%, var(--hairline));
+  border-inline-start: 1px solid var(--hairline);
 }
 .nw-sheet-h {
   display: flex;
@@ -1267,7 +1267,7 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw-bookrow > span { grid-column: 1; font-size: var(--t-micro); color: var(--ink-3); }
 .nw-bookrow em { grid-column: 1; font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
 .nw-bookrow--flat {
-  border-inline-start: 2px solid color-mix(in srgb, var(--m) 40%, transparent);
+  border-inline-start: 1px solid var(--hairline);
   border-radius: 0;
 }
 .nw-bookrow .nw-steparw { grid-column: 2; grid-row: 1; align-self: center; }

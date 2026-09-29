@@ -1194,7 +1194,7 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
    row and carries one piece of meaning, because a relation whose cardinality
    the dictionary does not state switches it to dashed. Kept at 2px so it reads
    as a rule rather than a coloured tab. */
-.ne-joins > li { display: grid; gap: 5px; padding-inline-start: var(--sp-3); border-inline-start: 2px solid var(--hairline); }
+.ne-joins > li { display: grid; gap: 5px; padding-inline-start: var(--sp-3); border-inline-start: 1px solid var(--hairline); }
 .ne-joins > li[data-kind="unstated"] { border-inline-start-style: dashed; }
 .ne-join-h { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
 .ne-join-go {
@@ -1227,7 +1227,7 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
   border: 1px dashed var(--ink-3);
   color: var(--ink-3);
 }
-.ne-join-s { display: grid; gap: 3px; padding-inline-start: var(--sp-2); border-inline-start: 2px solid color-mix(in srgb, var(--m) 45%, transparent); }
+.ne-join-s { display: grid; gap: 3px; padding-inline-start: var(--sp-2); border-inline-start: 1px solid var(--hairline); }
 .ne-join-m { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; color: var(--ink-3); direction: ltr; }
 .ne-join-m i { inline-size: 10px; block-size: 2px; border-radius: 2px; background: var(--m); }
 .ne-join-s code {
@@ -1562,7 +1562,7 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
   .ne-phone-up { margin-inline-start: auto; }
   /* The list replaces the shrunk map: the stage is not drawn until the reader
      asks for the full map or opens a module. The inspector below it stays. */
-  .ne[data-plist="1"] .ne-stage { display: none; }
+  .ne[data-level="overview"]:not([data-pmap="1"]) .ne-stage { display: none; }
 
   /* The stage grows: an opened table is a card with a field list in it, and it
      has to be read without pinching. */

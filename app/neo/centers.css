@@ -77,7 +77,7 @@
   border: 1px solid var(--hairline);
   /* The accent enters as an EDGE. Eleven families on one screen, so a fill
      would produce eleven colour blocks fighting each other. */
-  border-inline-start: 3px solid var(--ct);
+  border-inline-start: 1px solid var(--hairline);
   box-shadow: var(--elev-1);
   transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
 }
@@ -234,3 +234,11 @@
   .nct-item-sub { -webkit-line-clamp: 3; line-clamp: 3; }
   .nct-grid { grid-template-columns: 1fr; }
 }
+
+/* 2026 system: the centre's items as a list, as in app/neo/data.css. Rows on
+   hairlines; the family tint stays on the headings it names, not as a bar on
+   every row; nothing lifts. Nothing an item says is removed. */
+.nct-items { gap: 0; border-block-start: 1px solid var(--hairline); }
+.nct-item { padding: var(--sp-3) var(--sp-2); border: 0; border-block-end: 1px solid var(--hairline); border-radius: 0; background: transparent; box-shadow: none; transform: none; }
+.nct-item:hover { background: var(--surface-2); transform: none; box-shadow: none; border-color: var(--hairline); }
+.nct-item-bar { display: none; }

@@ -251,7 +251,8 @@ export function ProgressRail({
         onPointerLeave={() => setHover(null)}
         onClick={(e) => {
           if (book.totalSections === 0) return;
-          onChapter(chapterAtRatio(ratioOf(e.clientY)).n);
+          const tick = (e.target as HTMLElement).closest<HTMLElement>(".nr-tick");
+          onChapter(tick?.dataset.ch ? Number(tick.dataset.ch) : chapterAtRatio(ratioOf(e.clientY)).n);
         }}
       >
         <span className="nr-track-bed" aria-hidden="true" />
@@ -277,22 +278,22 @@ export function ProgressRail({
           const on = c.n === chapter.n;
           const bm = marked.has(c.n);
           return (
-            <button
-              type="button"
+            // A drawn mark, not a button (WCAG 2.5.8): short chapters put ticks
+            // 10 to 20px apart, so their 24px targets overlapped. A click on a
+            // tick still opens exactly its chapter (the track reads data-ch),
+            // and keyboard and screen-reader users reach every chapter through
+            // the contents list beside the track, full-size rows.
+            <span
               key={c.n}
               className="nr-tick"
+              aria-hidden="true"
+              data-ch={c.n}
               data-on={on ? "1" : undefined}
               data-read={read.includes(c.n) ? "1" : undefined}
               data-mark={bm ? "1" : undefined}
               style={{ "--at": chapterAt(book, c) } as React.CSSProperties}
-              aria-current={on ? "true" : undefined}
-              onClick={(e) => { e.stopPropagation(); onChapter(c.n); }}
               title={`פרק ${c.n} · ${c.title}${bm ? " · סימנייה" : ""}`}
-            >
-              <span className="nr-sr">
-                {`פרק ${c.n} · ${c.title}${bm ? " · מכיל סימנייה" : ""}`}
-              </span>
-            </button>
+            />
           );
         })}
 

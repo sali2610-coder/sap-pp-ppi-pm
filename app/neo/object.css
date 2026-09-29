@@ -200,7 +200,7 @@
   padding: var(--sp-3);
   border-radius: var(--r-md);
   border: 1px solid var(--hairline);
-  border-inline-start: 3px solid var(--mod-pm);
+  border-inline-start: 1px solid var(--hairline);
   background: linear-gradient(to left,
     color-mix(in srgb, var(--mod-pm) 6%, transparent),
     color-mix(in srgb, var(--mod-pppi) 6%, transparent));
@@ -294,7 +294,7 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
   border: 1px solid var(--hairline);
   /* MODULE-neutral: the object's own class carries the edge here, thick, so it
      reads as an alert without a status hue ever becoming a line. */
-  border-inline-start: 5px solid var(--o);
+  border-inline-start: 1px solid var(--hairline);
   font-size: var(--t-sm);
   color: var(--ink-2);
   line-height: 1.65;
@@ -504,7 +504,7 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
   border-radius: var(--r-sm);
   background: var(--surface-2);
   /* RELATION hue as the row's leading edge — a line, never a dot. */
-  border-inline-start: 3px solid var(--r);
+  border-inline-start: 2px solid var(--r);
 }
 .no-rel-dir {
   font-size: var(--t-micro);
@@ -602,7 +602,7 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
   padding: var(--sp-2) var(--sp-3);
   border: 1px dashed var(--hairline);
   border-radius: var(--r-sm);
-  border-inline-start: 3px dashed var(--r);
+  border-inline-start: 2px dashed var(--r);
   font-size: var(--t-xs);
 }
 .no-dangle-l li b { font-family: var(--font-mono); direction: ltr; color: var(--ink-1); }
@@ -628,8 +628,8 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
 /* The primary-key panel carries the OBJECT hue as a solid leading edge; the
    foreign-key panel carries the same edge dashed. Same distinction as the
    badges, at panel scale. */
-.no-keyg[data-k="PK"] { border-inline-start: 4px solid var(--o); }
-.no-keyg[data-k="FK"] { border-inline-start: 4px dashed color-mix(in srgb, var(--o) 55%, var(--ink-3)); }
+.no-keyg[data-k="PK"] { border-inline-start: 2px solid var(--o); }
+.no-keyg[data-k="FK"] { border-inline-start: 2px dashed color-mix(in srgb, var(--o) 55%, var(--ink-3)); }
 .no-keyg h4 {
   display: flex;
   align-items: center;
@@ -708,9 +708,9 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
    solid for a primary key and dashed for a foreign one. That is what makes the
    two findable in a forty-row table without reading a single cell. */
 .no-table tr[data-key="PK"] > :first-child {
-  box-shadow: inset 3px 0 0 0 var(--o);
+  box-shadow: inset 2px 0 0 0 var(--o);
 }
-[dir="ltr"] .no-table tr[data-key="PK"] > :first-child { box-shadow: inset -3px 0 0 0 var(--o); }
+[dir="ltr"] .no-table tr[data-key="PK"] > :first-child { box-shadow: inset -2px 0 0 0 var(--o); }
 .no-table tr[data-key="PK"] { background: color-mix(in srgb, var(--o) 7%, transparent); }
 .no-table tr[data-key="PK"] tbody th, .no-table tr[data-key="PK"] th[scope="row"] { color: var(--ink-1); }
 .no-table tr[data-key="FK"] { background: color-mix(in srgb, var(--o) 3%, transparent); }
@@ -793,7 +793,7 @@ html[data-theme="dark"] .no-key[data-k="PK"] { color: #0f0b08; }
   border-radius: var(--r-lg);
   background: color-mix(in srgb, var(--o) 5%, var(--surface-2));
   border: 1px solid color-mix(in srgb, var(--o) 24%, var(--hairline));
-  border-inline-start: 4px solid color-mix(in srgb, var(--o) 55%, var(--hairline));
+  border-inline-start: 1px solid var(--hairline);
 }
 /* A table the project rates high or medium gets the heavy edge and a lift, so
    it is the first thing the eye lands on inside the section. */
@@ -838,7 +838,7 @@ html[data-theme="dark"] .no-key[data-k="PK"] { color: #0f0b08; }
   line-height: 1.7;
   color: var(--ink-1);
   padding-inline-start: var(--sp-3);
-  border-inline-start: 2px solid var(--hairline);
+  border-inline-start: 2px solid var(--line-strong);
 }
 .no-sum { display: grid; gap: 4px; font-size: var(--t-xs); color: var(--ink-2); line-height: 1.7; }
 .no-sum b { font-size: var(--t-micro); color: var(--ink-3); letter-spacing: .05em; }
@@ -1082,7 +1082,7 @@ html[data-theme="dark"] .no-core-r {
   display: grid;
   gap: 4px;
   padding-inline-start: var(--sp-3);
-  border-inline-start: 3px solid var(--m);
+  border-inline-start: 1px solid var(--hairline);
 }
 .no-read-mod { display: inline-flex; align-items: center; gap: 5px; font-size: var(--t-micro); color: var(--ink-3); direction: ltr; }
 .no-read-mod i { inline-size: 10px; block-size: 2px; border-radius: 2px; background: var(--m); }
@@ -1150,9 +1150,9 @@ html[data-theme="dark"] .no-core-r {
     color: var(--ink-3);
   }
   .no-fields .no-table tr[data-key="PK"] > :first-child { box-shadow: none; }
-  .no-fields .no-table tr[data-key="PK"] { border-inline-start: 3px solid var(--o); }
+  .no-fields .no-table tr[data-key="PK"] { border-inline-start: 2px solid var(--o); }
   .no-fields .no-table tr[data-key="FK"] {
-    border-inline-start: 3px dashed color-mix(in srgb, var(--o) 55%, var(--ink-3));
+    border-inline-start: 2px dashed color-mix(in srgb, var(--o) 55%, var(--ink-3));
   }
 }
 
@@ -1290,7 +1290,7 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
 
 /* A destination: the object hue as an edge, and it lifts. */
 .nox-chip[data-live="1"] {
-  border-inline-start: 2px solid var(--o, var(--brand));
+  border-inline-start: 3px solid var(--select-line);
   cursor: pointer;
 }
 .nox-chip[data-live="1"]:hover {
@@ -1385,7 +1385,7 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
 .nox-int li {
   display: grid; gap: 3px;
   padding-inline-start: var(--sp-3);
-  border-inline-start: 2px solid color-mix(in srgb, var(--o, var(--brand)) 35%, transparent);
+  border-inline-start: 1px solid var(--hairline);
 }
 .nox-int li b { font-family: var(--font-mono); font-size: var(--t-xs); color: var(--ink-1); unicode-bidi: isolate; }
 .nox-int li span { font-size: var(--t-xs); line-height: 1.65; color: var(--ink-2); }
@@ -1416,7 +1416,7 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
   border-radius: var(--r-xl);
   font-size: var(--t-sm); line-height: 1.75; color: var(--ink-2);
   background: color-mix(in srgb, var(--o, var(--brand)) 5%, var(--surface-2));
-  border-inline-start: 3px solid color-mix(in srgb, var(--o, var(--brand)) 50%, transparent);
+  border-inline-start: 1px solid var(--hairline);
 }
 
 .nod-b { display: grid; gap: var(--sp-2); }
@@ -1527,3 +1527,21 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
 
 /* A live cardinality chip is filled, so its label must not also be tinted. */
 .nol-e[data-on="1"] text { paint-order: stroke; }
+
+/* ============================================================================
+   2026 SYSTEM · THE OBJECT PAGE'S SCALE
+   The giant section numerals (52px "01") were the editorial trap the bakeoff
+   rejected; a section is numbered in small mono beside its kicker. The object
+   title is the work screen's title (--t-h1), section titles --t-h2, facts
+   20px. Kickers lose the capitals and tracking (Hebrew), the kicker's tinted
+   icon tile and trailing bar go. Placed last: the same selectors, the last word.
+   ========================================================================== */
+.no-mega { font-size: var(--t-h1); line-height: 1.2; letter-spacing: 0; font-weight: 600; }
+.no-sec-n { grid-row: auto; font-family: var(--font-mono); font-size: var(--t-sm); font-weight: 600; line-height: 1.4; letter-spacing: 0; color: var(--ink-3); padding-block-start: 0; }
+.no-sec-k { letter-spacing: 0; text-transform: none; font-size: var(--t-xs); color: var(--ink-2); }
+.no-sec-ico { background: none; border-color: var(--hairline); color: var(--ink-3); }
+.no-sec-k::after { content: none; }
+.no-h2 { font-size: var(--t-h2); line-height: 1.35; letter-spacing: 0; font-weight: 600; }
+.no-stat b { font-size: var(--t-h2); font-weight: 500; letter-spacing: 0; }
+.no-stat em { color: var(--ink-2); }
+@container no (max-width: 760px) { .no-sec-n { font-size: var(--t-sm); } }

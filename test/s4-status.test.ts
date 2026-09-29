@@ -260,7 +260,7 @@ test("validate.ts validId agrees with canonical.ts isValidId; RANK agrees with d
 
 /* ------------------------------------------------------ Hebrew hygiene */
 
-test("vocabulary Hebrew is complete, em-dash-free, and dots use --status-* tokens", () => {
+test("vocabulary Hebrew is complete, em-dash-free, and dots are tokens (S/4 families, verification levels)", () => {
   const maps: Record<string, string>[] = [S4_STATUS_HE, S4_STATUS_WORD, VERIFICATION_HE, ACTION_HE, DEPTH_HE as unknown as Record<string, string>];
   for (const m of maps) {
     for (const [k, v] of Object.entries(m)) {
@@ -268,9 +268,10 @@ test("vocabulary Hebrew is complete, em-dash-free, and dots use --status-* token
       assert.ok(!v.includes("—"), `em dash in label for ${k}: ${v}`);
     }
   }
-  for (const v of [...Object.values(S4_STATUS_DOT), ...Object.values(VERIFICATION_DOT)]) {
-    assert.match(v, /^var\(--status-[a-z-]+\)$/, v);
-  }
+  // The S/4HANA statuses read the eight status families (app/neo/system.css
+  // --s4-*); the verification levels keep the --status-* tokens. Never a literal.
+  for (const v of Object.values(S4_STATUS_DOT)) assert.match(v, /^var\(--s4-[a-z-]+\)$/, v);
+  for (const v of Object.values(VERIFICATION_DOT)) assert.match(v, /^var\(--status-[a-z-]+\)$/, v);
 });
 
 

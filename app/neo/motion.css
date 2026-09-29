@@ -391,3 +391,32 @@
 @media (min-width: 1600px) {
   .nx-app { --nm-par: 0px; }
 }
+
+/* ============================================================================
+   12. 2026 SYSTEM · THE MOTION POLICY (Knowledge Workbench)
+   ----------------------------------------------------------------------------
+   Motion explains a change of place or state (DESIGN-SPEC §1; BAKEOFF: short
+   motion only where it explains a transition). So, from here on:
+
+   OFF  scroll-driven reveals (nm-rise, nm-fade), parallax (nm-par), kinetic
+        headlines (nm-kin), bars that grow as they scroll in (nm-grow), hover
+        lift (nm-lift). Content is simply there. The measured reason beside the
+        principle: a reveal completes 160px into the viewport, so at every
+        scroll position the bottom 160px of the screen held half-faded text
+        (axe, 2026-09-29: 3.36:1 on a table code, 2.42:1 on a module chip).
+   KEPT selection (nm-sel, a state change) in the system's selection language;
+        pinning (nm-pin is layout); the signature moments (the home's process
+        map, the list-to-record view transition); panels arriving; the rail's
+        selection moving. The motion levels keep working for what remains.
+   Specificity is set to beat each family's own level-scoped rules.
+   ========================================================================== */
+.nx-app .nm-rise,
+.nx-app .nm-fade { animation: none; opacity: 1; transform: none; transition: none; }
+.nx-app .nm-par,
+.nx-app .nm-par-slow { animation: none; transform: none; }
+.nx-app .nm-kin > span > * { animation: none; opacity: 1; transform: none; transition: none; }
+.nx-app .nm-grow { animation: none; transform: none; transition: none; }
+html .nx-app .nm-lift,
+html .nx-app .nm-lift:hover { transform: none; box-shadow: none; }
+.nx-app .nm-sel[data-on="1"] { background-color: var(--select-bg); border-color: var(--select-line); font-weight: 600; }
+.nx-app .nm-sel[data-on="1"]::before { background: var(--select-line); border-radius: 0; inset-block: 6px; }

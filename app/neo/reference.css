@@ -360,3 +360,8 @@ html[data-theme="dark"] .nx-app .nxr-st-i {
 .nx-app .nxr-compare-t tbody th a:hover b { text-decoration: underline; }
 .nx-app .nxr-compare-t tbody th a:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 .nx-app .nxr-compare-t td { color: var(--ink-2); max-inline-size: 26rem; }
+
+/* 2026 system: an impacted row keeps its status mark and word; the brand side
+   bar and red-tinted border go (red is the action colour). */
+.nx-app .nxr-row[data-impacted="1"],
+[dir="ltr"] .nx-app .nxr-row[data-impacted="1"] { border-color: var(--hairline); box-shadow: none; }

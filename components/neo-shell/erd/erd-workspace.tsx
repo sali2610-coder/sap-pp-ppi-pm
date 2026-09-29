@@ -347,7 +347,6 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
      one tap away for the reader who wants it. `phoneMap` is that choice. */
   const phone = useSyncExternalStore(subPhone, getPhone, getPhoneServer);
   const [phoneMap, setPhoneMap] = useState(false);
-  const phoneList = phone && isMap && !phoneMap;
 
   /** The modules on screen. One unless the reader has added more. */
   const mods = useMemo(
@@ -1742,7 +1741,11 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       // closest(), so a second one here would swallow every canvas click.
       data-opencard={openT ? "1" : "0"}
       data-mode={isMap ? "" : mode}
-      data-plist={phoneList ? "1" : "0"}
+      // The phone list mode is decided by CSS (erd.css, 640px) from these two,
+      // not by the script's phone test: the server cannot know the device, and
+      // a stage hidden only after hydration moved the inspector into view late
+      // (mobile CLS 0.19 at 1.6 Mbps, tools/vitals.mjs).
+      data-pmap={phoneMap ? "1" : "0"}
       data-present={present ? "1" : "0"}
     >
       <header className="ne-bar">
@@ -2373,8 +2376,10 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             with one tap from that list, and the full map is one tap away here.
             Inside a module the second bar moves between the whole module and
             the focused neighbourhood of the chosen table or sub-process. Both
-            bars are phone-only by CSS; a desktop never renders them. */}
-        {phone && isMap ? (
+            bars are rendered always and shown by CSS on a phone only (erd.css,
+            .ne-phone), so a phone paints them first time instead of after
+            hydration. */}
+        {isMap ? (
           <div className="ne-phone" role="group" aria-label="מפת המודולים בנייד">
             {phoneMap ? (
               <button type="button" className="nu-btn2 ne-phone-btn" onClick={() => setPhoneMap(false)}>
@@ -2394,7 +2399,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             )}
           </div>
         ) : null}
-        {phone && M ? (
+        {M ? (
           <div className="ne-phone ne-phone--focus" role="group" aria-label="מיקוד התצוגה">
             <button
               type="button"

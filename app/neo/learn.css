@@ -920,7 +920,7 @@ html[data-theme="dark"] .nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--in
   padding: var(--sp-3) var(--sp-4);
   border-radius: var(--r-md);
   background: var(--surface-2);
-  border-inline-start: 2px solid var(--nxs-tone, var(--c-hair));
+  border-inline-start: 2px solid var(--line-strong);
 }
 .nx-app .nxs-l--note[data-tone="warn"] { --nxs-tone: var(--status-in-conversion); }
 .nx-app .nxs-l--note[data-tone="good"] { --nxs-tone: var(--status-done); }
@@ -1265,3 +1265,49 @@ html[data-theme="dark"] .nx-app .nxl-bodies .nu-tab.nxl-bodytab[aria-selected="t
 .nxs-toc li { font-size: var(--t-sm); }
 .nxs-toc a { color: var(--ink-1); text-decoration: none; }
 .nxs-toc a:hover { color: var(--brand); text-decoration: underline; }
+
+/* ============================================================================
+   2026 SYSTEM · THE LEARNING CATALOGUES AS LISTS (knowledge, incidents, and
+   every surface on .nxl-*). The same finish as app/neo/data.css: rows on
+   hairlines, no module spine, a flat facts row. The S/4HANA side note keeps
+   its label and text but no longer takes brand red, which is reserved for the
+   one action and for selection. The body toggle selects with an ink fill, like
+   a pressed filter. Placed last: the same selectors, the last word.
+   ========================================================================== */
+.nx-app .nxl-list { gap: 0; border-block-start: 1px solid var(--hairline); }
+/* The grid keeps its "mark" track (the responsive layouts name it); the mark is
+   no longer painted. */
+.nx-app .nxl-row {
+  border: 0;
+  border-block-end: 1px solid var(--hairline);
+  border-radius: 0;
+  background: transparent;
+}
+.nx-app .nxl-mark,
+.nx-app .nxl-row[style*="--o"] .nxl-mark { background: transparent; }
+.nx-app .nxl-row:hover { background: var(--surface-2); border-color: var(--hairline); }
+.nx-app .nxl-t1 > b { font-size: var(--t-body); font-weight: 600; letter-spacing: 0; }
+.nx-app .nxl-side-l { font-weight: 600; letter-spacing: 0; color: var(--ink-2); }
+.nx-app .nxl-side[data-s4="1"] { border-inline-start-color: var(--hairline); border-inline-start-width: 1px; }
+.nx-app .nxl-side[data-s4="1"] .nxl-side-l,
+html[data-theme="dark"] .nx-app .nxl-side[data-s4="1"] .nxl-side-l { color: var(--ink-2); }
+
+.nx-app .nxl-stats {
+  gap: var(--sp-2) var(--sp-5);
+  grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+  padding: var(--sp-3) 0;
+  background: none; border: 0; border-radius: 0; box-shadow: none;
+  border-block: 1px solid var(--hairline);
+}
+.nx-app .nxl-stats::before { content: none; }
+.nx-app .nxl-stat { grid-template-columns: minmax(0, 1fr); grid-template-areas: "v" "l"; gap: 2px; }
+.nx-app .nxl-stat-i { display: none; }
+.nx-app .nxl-stat b { font-size: var(--t-h2); font-weight: 500; letter-spacing: 0; }
+.nx-app .nxl-stat > span:last-child { font-size: var(--t-xs); color: var(--ink-2); }
+
+.nx-app .nxl-bodies .nu-tab.nxl-bodytab[aria-selected="true"] { color: var(--surface); background: var(--ink-1); box-shadow: none; font-weight: 600; }
+html[data-theme="dark"] .nx-app .nxl-bodies .nu-tab.nxl-bodytab[aria-selected="true"] { color: var(--background); }
+/* The knowledge record's S/4HANA plate: brand red leaves the plate (bar, tint,
+   border); its status mark and words carry the change (2026 system). */
+.nx-app .nxv-s4[data-s4="1"],
+[dir="ltr"] .nx-app .nxv-s4[data-s4="1"] { border-color: var(--hairline); background: var(--surface); box-shadow: none; }

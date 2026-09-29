@@ -25,7 +25,10 @@ import "./nav-context.css";
 export interface SmartReturnProps {
   /** Override the computed parent when a route knows better than the map. */
   fallback?: ParentRef;
-  /** Show a short note when the label is a fallback rather than a real memory. */
+  /** A short note for when the label is a fallback rather than a real memory.
+   *  Carried in the tooltip only: the label already says where the link goes,
+   *  and a visible "no previous page in this visit" beside every detail
+   *  page's back link was noise (2026 system). */
   hint?: string;
   className?: string;
 }
@@ -50,7 +53,7 @@ export function SmartReturn({ fallback, hint, className }: SmartReturnProps) {
         // control that reads "חזרה ל-PM · פקודות…" to the eye must still read
         // whole to a screen reader.
         aria-label={text}
-        title={text}
+        title={!origin && hint ? `${text} · ${hint}` : text}
         // `data-from` is diagnostic, and it is also the honest signal a reviewer
         // needs: "memory" means the previous surface told us where it was,
         // "fallback" means we resolved the route's parent instead.
@@ -67,7 +70,6 @@ export function SmartReturn({ fallback, hint, className }: SmartReturnProps) {
         <ArrowRight size={15} strokeWidth={2} aria-hidden="true" className="nxr-a" />
         <span className="nxr-t">{text}</span>
       </Link>
-      {!origin && hint ? <span className="nxr-hint">{hint}</span> : null}
     </div>
   );
 }

@@ -138,7 +138,7 @@ html[data-theme="dark"] .nce { --ok: #4ec98a; --no: #ff8a5c; --gold: #e0bd5c; }
 .nce-why {
   margin-top: .9rem; padding: .85rem 1rem; border-radius: var(--r-xl);
   background: var(--surface-2); border: 1px solid var(--hairline);
-  border-inline-start: 3px solid var(--ok);
+  border-inline-start: 1px solid var(--hairline);
   font-size: .89rem; line-height: 1.66; color: var(--ink-2);
 }
 .nce-why[data-ok="0"] { border-inline-start-color: var(--no); }

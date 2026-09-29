@@ -1102,7 +1102,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
 .nx-app .nxb-keyline > div {
   display: grid; gap: var(--sp-2);
   padding-inline-start: var(--sp-3);
-  border-inline-start: 3px solid var(--k, var(--ink-3));
+  border-inline-start: 2px solid var(--k, var(--ink-3));
 }
 .nx-app .nxb-keyline > div[data-k="PK"] { --k: var(--obj-master); }
 .nx-app .nxb-keyline > div[data-k="FK"] { --k: var(--rel-n-1); }
@@ -1318,7 +1318,7 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
 .nx-app .nxb-quote {
   font-size: var(--t-sm); color: var(--ink-1); line-height: var(--lh-he);
   padding-inline-start: var(--sp-3);
-  border-inline-start: 2px solid color-mix(in srgb, var(--m) 40%, var(--hairline));
+  border-inline-start: 2px solid var(--line-strong);
 }
 .nx-app .nxb-sum {
   display: flex; gap: var(--sp-2); align-items: baseline;
@@ -1725,3 +1725,93 @@ html[data-theme="dark"] .nx-app .nxb-mods > li { background: color-mix(in srgb, 
 .nx-app .nxt-codeline { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; }
 .nx-app .nx-copy { display: inline-flex; align-items: center; gap: 4px; font-size: var(--t-micro); }
 .nx-app .nx-copy[data-done="1"] { color: var(--status-done); }
+
+/* ============================================================================
+   2026 SYSTEM · THE CATALOGUE AS A LIST (Knowledge Workbench)
+   ----------------------------------------------------------------------------
+   Rows on hairlines, not a stack of cards. A row's module is its code in its
+   colour (the chip), so the full-bleed module spine, the chip's tint and the
+   chip's own leading bar go: identity was drawn three times over. The facts
+   strip is a flat row without icon tiles (the bakeoff rejected metric cards).
+   Nothing a row or the strip says is removed. Placed last on purpose: the same
+   selectors, the last word, one place to read the catalogue's finish.
+   ========================================================================== */
+.nx-app .nxd-list { gap: 0; border-block-start: 1px solid var(--hairline); }
+/* The grid keeps its "mark" track at every breakpoint (the responsive layouts
+   above name it); the mark is simply no longer painted. */
+.nx-app .nxd-row {
+  border: 0;
+  border-block-end: 1px solid var(--hairline);
+  border-radius: 0;
+  background: transparent;
+}
+.nx-app .nxd-mark,
+.nx-app .nxd[data-surface="tables"] .nxd-mark { background: transparent; }
+.nx-app .nxd-row:hover { background: var(--surface-2); border-color: var(--hairline); }
+.nx-app .nxd-row.is-flat { background: transparent; border: 0; border-block-end: 1px dashed var(--line-strong); }
+.nx-app .nxd-row.is-flat:hover { background: transparent; }
+.nx-app .nxd-id > b { font-weight: 600; letter-spacing: 0; }
+.nx-app .nxd-mod { color: var(--m); background: none; border-color: var(--hairline); }
+.nx-app .nxd-mod > i { display: none; }
+.nx-app .nxd-go { color: var(--ink-3); transform: none; }
+[dir="ltr"] .nx-app .nxd-go { transform: none; }
+.nx-app .nxd-star[aria-pressed="true"] { color: var(--ink-1); background: none; }
+
+.nx-app .nxd-stats,
+.nx-app .nxd-stats--after {
+  gap: var(--sp-2) var(--sp-5);
+  grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+  padding: var(--sp-3) 0;
+  background: none; border: 0; border-radius: 0; box-shadow: none;
+  border-block: 1px solid var(--hairline);
+}
+.nx-app .nxd-stats::before { content: none; }
+.nx-app .nxd-stat { grid-template-columns: minmax(0, 1fr); grid-template-areas: "v" "l"; gap: 2px; }
+.nx-app .nxd-stat-i,
+.nx-app .nxd-stats--after .nxd-stat-i { display: none; }
+.nx-app .nxd-stat b,
+.nx-app .nxd-stats--after .nxd-stat b { font-size: var(--t-h2); font-weight: 500; letter-spacing: 0; }
+.nx-app .nxd-stat > span:last-child { font-size: var(--t-xs); color: var(--ink-2); }
+.nx-app .nxd-head .nx-h1 { letter-spacing: 0; }
+
+/* ============================================================================
+   2026 SYSTEM · THE RECORD HEADER AND ITS SCALE (tables, transactions, BAPI,
+   FM, CDS, IDoc, Fiori records on .nxt-* / .nxb-*)
+   ----------------------------------------------------------------------------
+   One scale for every record type (DESIGN-SPEC §1): the identifier is the work
+   screen's title (--t-h1, 28px, mono, 600) on its own line; section titles are
+   --t-h2; the S/4HANA verdict is a statement at lead size beside its status
+   mark, not a 35px heading; facts are 20px numbers. Brand red leaves the
+   verdict plate: its status mark and word already say "impacted", and red is
+   the action colour. Placed last: the same selectors, the last word.
+   ========================================================================== */
+.nx-app .nxt-code,
+.nx-app .nxb-name { font-size: var(--t-h1); line-height: 1.2; letter-spacing: 0; font-weight: 600; }
+.nx-app .nxt-s4-h { font-size: var(--t-lead); line-height: 1.5; letter-spacing: 0; font-weight: 600; }
+.nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h,
+html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: var(--ink-1); }
+.nx-app .nxt-s4[data-impacted="1"],
+[dir="ltr"] .nx-app .nxt-s4[data-impacted="1"] { box-shadow: none; }
+.nx-app .nxb-h2 { font-size: var(--t-h2); font-weight: 600; letter-spacing: 0; line-height: 1.35; }
+.nx-app .nxb-stat b { font-size: var(--t-h2); font-weight: 500; letter-spacing: 0; }
+@media (max-width: 720px) {
+  .nx-app .nxt-code,
+  .nx-app .nxb-name { font-size: 1.5rem; }
+  .nx-app .nxt-s4-h { font-size: var(--t-body); }
+  .nx-app .nxb-h2 { font-size: 1.125rem; }
+}
+/* The identifier has a line of its own, with its copy control and the record's
+   actions; the Hebrew and English names sit under it (DESIGN-SPEC §2, "the same
+   header for every record type"). A name-led record (Fiori) keeps its own
+   order (.nxr-title[data-lead="name"], app/neo/reference.css). */
+.nx-app .nxt-title { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); }
+.nx-app .nxt-title > .nxt-names { flex: 1 0 100%; order: 2; }
+.nx-app .nxb-title { grid-template-columns: minmax(0, 1fr); gap: var(--sp-2); }
+.nx-app .nxt-he,
+.nx-app .nxb-he { font-size: var(--t-lead); font-weight: 500; }
+/* The English name is an LTR paragraph, so its "start" is the left edge, far
+   from the Hebrew above it in an RTL page. It aligns with the Hebrew instead. */
+.nx-app .nxt-en,
+.nx-app .nxb-en { text-align: end; }
+[dir="ltr"] .nx-app .nxt-en,
+[dir="ltr"] .nx-app .nxb-en { text-align: start; }
