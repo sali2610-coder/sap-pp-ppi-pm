@@ -1748,6 +1748,10 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 .ne-bar-t .ne-eye { flex: 1 1 100%; margin: 0; }
 .ne-bar-t .ne-h1 { flex: 0 1 auto; white-space: normal; overflow: visible; }
 .ne-bar-t .ne-modechip { flex: none; margin: 0; white-space: nowrap; }
+/* The count keeps at least 8rem, so where the bar leaves the identity narrow
+   (1440 inside a module: 270px beside the toolbar and the table search) it
+   takes the next line rather than shrinking to an 8px sliver that read "0". */
+.ne-bar-t .ne-sub { flex: 1 1 8rem; }
 @container ne (max-width: 900px) {
   .ne-bar-t .ne-h1,
   .ne-bar-t .ne-sub,
@@ -1762,3 +1766,12 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
    lightest surface; night: the dark surface on a family that clears 6.87:1. */
 .ne-node-s4[data-k] rect { fill: var(--s4c, var(--s4-verify)); }
 .ne-node-s4[data-k] text { fill: var(--surface); }
+
+/* 2026: NO PERPETUAL MOTION ON THE GRAPH (brief §16: no endless loops). The
+   march made every edge dashed, so the legend's "a relation recorded without
+   cardinality: dashed line" could not be read off the drawing. A stated
+   relation is now a solid line and an unstated one is dashed, as the legend
+   says; the relations in focus stand out by weight and full opacity, not by
+   motion. */
+.ne-edge-p { stroke-dasharray: none; animation: none; }
+.ne-edge[data-kind="unstated"] .ne-edge-p { stroke-dasharray: 5 5; }

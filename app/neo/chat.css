@@ -1775,3 +1775,12 @@ html[data-theme="dark"] .nxq[data-surface="library"] {
   .nxq[data-surface="library"] .nxq-qa-b { flex: none; scroll-snap-align: start; }
   .nxq[data-surface="library"] .nxq-qa-row2 { flex-wrap: wrap; overflow: visible; }
 }
+
+/* 2026: AT REST NOTHING MOVES (brief §16: no perpetual loops, no blinking).
+   The marks turn and pulse only while the assistant works (thinking, writing),
+   a state the motion reports; idle they hold still. The live caret marks
+   where the streamed text ends, without blinking. */
+.nxm[data-mark="librarian"]:not([data-state="thinking"]):not([data-state="writing"]) :is(.nxm-o1, .nxm-o2),
+.nxm[data-mark="neo"]:not([data-state="thinking"]):not([data-state="writing"]) .nxm-hex,
+.nql[data-state="idle"] .nql-body,
+.nxq-caret-live { animation: none; }
