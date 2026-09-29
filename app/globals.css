@@ -1310,6 +1310,12 @@ html[data-theme="dark"] {
 /* --------------------------------------------------------------- 1. SHELL */
 .nx-app {
   --nx-rail-col: var(--c-rail-x);
+  /* The alias is computed where it is declared: on :root it took the legacy
+     cool hairline (#eaecef, #262b33 at night) and drew it through the shell
+     and the catalogues. Declared again here it takes the 2026 warm hairline
+     that app/neo/system.css sets on .nx-app (gate 3, #13). The legacy library
+     canvas outside .nx-app keeps its own. */
+  --c-hair: var(--hairline);
   position: relative;
   display: grid;
   grid-template-columns: var(--nx-rail-col) 1fr;
@@ -1540,8 +1546,8 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
 .nx-group-btn {
   inline-size: 100%; display: flex; align-items: center; gap: 6px;
   padding: 6px var(--sp-3); min-block-size: 1.9rem;
-  background: color-mix(in srgb, var(--surface) 92%, transparent);
-  backdrop-filter: blur(8px);
+  /* Sticky, so an opaque ground, and no glass behind it (gate 3, #19). */
+  background: var(--surface);
   font-size: var(--t-micro); font-weight: 700; letter-spacing: .05em;
   color: var(--ink-3);
 }
@@ -1769,6 +1775,10 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
   inline-size: var(--c-peek-w); z-index: 21; background: transparent;
 }
 .nx-app[data-nav="peek"] .nx-railedge { display: block; }
+/* A phone or a tablet has no rail to reveal: the strip was a 14px ghost control
+   over the right edge of every page there (gate 4, major 9). */
+html[data-device="phone"] .nx-railedge,
+html[data-device="tablet"] .nx-railedge { display: none !important; }
 .nx-railedge i {
   position: absolute; inset-block: 25% 25%; inset-inline-start: 3px;
   inline-size: 3px; border-radius: 3px; background: var(--c-hair);
@@ -1856,11 +1866,19 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
   display: flex; align-items: center; gap: var(--sp-2);
   padding-inline: var(--sp-3); border-block-end: 1px solid var(--c-hair);
   background: var(--surface); min-inline-size: 0;
+  /* Sized by its OWN width, not the window's (gate 4, blocker 1): at 200% and
+     400% zoom and from 834 to 1024 the bar is narrow on a desktop, which the
+     phone and tablet rules never see. */
+  container: nx-top / inline-size;
 }
-.nx-crumbs { display: flex; align-items: center; gap: 4px; font-size: var(--t-xs); color: var(--ink-3); min-inline-size: 0; }
+/* The breadcrumb gives way first and never paints outside its own box: every
+   crumb shrinks with an ellipsis except the page's own. */
+.nx-crumbs { display: flex; align-items: center; gap: 4px; font-size: var(--t-xs); color: var(--ink-3); min-inline-size: 0; flex: 0 1 auto; overflow: hidden; }
+.nx-crumbs > a, .nx-crumbs > span { min-inline-size: 0; flex: 0 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nx-crumbs > svg { flex: none; }
 .nx-crumbs a { display: inline-flex; align-items: center; min-block-size: 1.5rem; }
 .nx-crumbs a:hover { color: var(--ink-1); }
-.nx-crumbs .nx-cur { color: var(--ink-1); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nx-crumbs .nx-cur { color: var(--ink-1); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 0 0 auto; max-inline-size: 100%; }
 .nx-cmdbar {
   display: flex; align-items: center; gap: var(--sp-2);
   margin-inline-start: auto; min-inline-size: 0; max-inline-size: 22rem; flex: 1 1 12rem;
@@ -1872,8 +1890,25 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
 .nx-cmdbar:hover { border-color: var(--ink-3); color: var(--ink-1); }
 .nx-cmdbar .nx-ph { flex: 1 1 auto; text-align: start; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .nx-cmdbar kbd { font-family: var(--font-mono); font-size: var(--t-micro); direction: ltr;
-  padding: 2px 5px; border: 1px solid var(--c-hair); border-radius: 4px; }
+  padding: 2px 5px; border: 1px solid var(--c-hair); border-radius: 4px;
+  /* "Ctrl K" is one key chord: it never breaks over two lines. */
+  white-space: nowrap; flex: none; }
 .nx-topbar-tools { display: flex; align-items: center; gap: 2px; flex: none; }
+/* Under 60rem of bar the page tools keep their icons and their accessible
+   names, and the shortcut hint goes (it is on the button as
+   aria-keyshortcuts); under 32rem the search field is a search button. */
+@container nx-top (max-width: 60rem) {
+  .nx-topbar .nxk-b { inline-size: 2.25rem; padding: 0; justify-content: center; }
+  .nx-topbar .nxk-b > span, .nx-topbar .nxk-b > em { display: none; }
+  .nx-topbar .nx-cmdbar kbd { display: none; }
+}
+@container nx-top (max-width: 32rem) {
+  .nx-topbar .nx-cmdbar { position: relative; flex: none; inline-size: var(--c-tap); min-block-size: var(--c-tap); padding: 0; justify-content: center; }
+  .nx-topbar .nx-cmdbar .nx-ph {
+    position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden;
+    clip-path: inset(50%); white-space: nowrap;
+  }
+}
 
 /* ------------------------------------------------- 9. MOBILE (a different
    shell, not a rail state): top bar / body / bottom tabs, nav is a sheet. */
@@ -1975,7 +2010,11 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
   padding: 2px 6px; border: 1px solid var(--c-hair); border-radius: 4px; background: var(--surface-2); }
 
 /* --------------------------------------------------- 11. FOCUS + MOTION */
-.nx-app :focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: var(--r-xs); }
+/* The default ring is the --focus-ring's blue (gate 3, #18): a red ring read as
+   the brand's selection. Drawn as an outline in the same 2px-gap, 2px-ring
+   geometry as --focus-ring, so a state that owns box-shadow (a pressed or
+   selected control) cannot erase it. */
+.nx-app :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: var(--r-xs); }
 
 /* The rail's FLIP is driven by the Web Animations API rather than inline
    transition strings, so the global reduced-motion rule (which only forces

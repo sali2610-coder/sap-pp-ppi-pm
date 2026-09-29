@@ -190,13 +190,15 @@
 
 /* ---------------------------------- 7. THE SEARCH RESPONSE OF THE RAIL */
 
-/* When a query lands somewhere real, those rows stay and the rest step back.
-   Opacity and weight only; the hit takes no hue. */
-.nx-app .nx-navitem[data-dim="1"] { opacity: .4; }
+/* When a query lands somewhere real, those rows are marked and the rest step
+   back — by ink, never by opacity (gate 6, blocker 5): the rail stays live
+   during a query, and faded items and groups measured 1.31:1. A hit is a fill,
+   ink-1 and weight; the rest keep ink-3, which clears 5.2:1. The top bar's
+   field needs no dimming: it is inert while the surface is open. */
+.nx-app .nx-navitem[data-dim="1"] { color: var(--ink-3); }
 .nx-app .nx-navitem[data-hit="1"] { color: var(--ink-1); font-weight: 600; }
 .nx-app .nx-navitem[data-hit="1"]::before { opacity: 1; background: var(--surface-2); box-shadow: none; }
-.nx-app[data-nav="search"] .nx-cmdbar { opacity: .4; }
-.nx-app .nx-cmdbar { transition: opacity 200ms var(--ease-out), border-color var(--dur-fast), color var(--dur-fast); }
+.nx-app .nx-cmdbar { transition: border-color var(--dur-fast), color var(--dur-fast); }
 
 /* -------------------------------------------------------- 8. THE SHELF */
 
@@ -257,8 +259,11 @@
    filters, a list of rows, a detail pane on wide screens, a footer of keys.
    ========================================================================== */
 
+/* Fixed rather than absolute: on a desktop the surface is rendered inside the
+   rail, right after its field (gate 6, blocker 4), and the window is the box
+   .nx-app fills, so the insets are the same as before. */
 .nx-app .nxc {
-  position: absolute; z-index: 45;
+  position: fixed; z-index: 45;
   inset-block: calc(var(--c-top-h) + var(--sp-3)) var(--sp-4);
   inset-inline-start: calc(var(--nx-rail-col) + var(--sp-3));
   inset-inline-end: var(--sp-4);
@@ -301,7 +306,7 @@
 }
 .nx-app .nxc-chips { display: flex; flex-wrap: wrap; gap: 4px; }
 .nx-app .nxc-chip {
-  display: inline-flex; align-items: center; gap: 5px;
+  display: inline-flex; align-items: center; gap: 5px; cursor: pointer;
   min-block-size: 2rem; padding-inline: var(--sp-2);
   border: 1px solid var(--hairline); border-radius: var(--r-sm);
   background: var(--surface); color: var(--ink-2); font-size: var(--t-xs);
@@ -344,7 +349,7 @@
 .nx-app .nxc-row {
   position: relative; isolation: isolate;
   display: grid; align-items: center; gap: var(--sp-2);
-  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
   min-block-size: 2.5rem; padding: 4px var(--sp-2);
   border-radius: var(--r-sm); cursor: pointer;
 }
@@ -417,28 +422,26 @@
   inline-size: 6px; block-size: 6px; border-radius: 50%;
   background: var(--o, var(--ink-3)); flex: none;
 }
-.nx-app .nxc-act {
-  display: inline-flex; align-items: center; gap: 4px; flex: none;
-  min-block-size: 1.75rem; padding-inline: var(--sp-2);
-  border: 1px solid var(--hairline); border-radius: var(--r-xs);
-  background: var(--surface); color: var(--ink-2); font-size: var(--t-micro);
-  opacity: 0;
-  transition: opacity var(--dur-fast), border-color var(--dur-fast), color var(--dur-fast);
-}
-.nx-app .nxc-row:hover .nxc-act,
-.nx-app .nxc-row[data-active="1"] .nxc-act { opacity: 1; transform: none; }
-.nx-app .nxc-act:hover { color: var(--ink-1); border-color: var(--line-strong); }
 .nx-app .nxc-go { display: inline-flex; flex: none; color: var(--ink-3); opacity: 0; transition: opacity var(--dur-fast); }
 .nx-app .nxc-row[data-active="1"] .nxc-go { opacity: 1; transform: none; }
 
+/* The row that ends a section with more to show. It is an option of the
+   listbox (gate 6, blocker 7), so the cursor lands on it like on a record and
+   takes the same selection fill and line. */
 .nx-app .nxc-more {
-  inline-size: 100%; text-align: start;
+  position: relative;
+  display: flex; align-items: center;
+  inline-size: 100%; text-align: start; cursor: pointer;
   min-block-size: 2.25rem; padding-inline: var(--sp-2); margin-block-start: 2px;
   border-radius: var(--r-xs); border: 1px dashed var(--line-strong);
   font-size: var(--t-micro); color: var(--ink-2);
   transition: color var(--dur-fast), border-color var(--dur-fast);
 }
 .nx-app .nxc-more:hover { color: var(--ink-1); border-color: var(--ink-3); transform: none; }
+.nx-app .nxc-more[data-active="1"] {
+  color: var(--ink-1); background: var(--select-bg);
+  border-style: solid; border-color: var(--select-line);
+}
 
 /* --- idle + empty ------------------------------------------------------- */
 .nx-app .nxc-idle { padding: var(--sp-2); display: grid; gap: var(--sp-3); }
@@ -463,9 +466,21 @@
 }
 .nx-app .nxc-idle-c span { font-size: var(--t-micro); }
 .nx-app .nxc-none {
+  display: grid; gap: var(--sp-3); justify-items: start;
   padding: var(--sp-5) var(--sp-3); font-size: var(--t-xs); color: var(--ink-2);
-  line-height: var(--lh-he); max-inline-size: 42ch;
+  line-height: var(--lh-he); max-inline-size: 60ch;
 }
+/* The empty state's one action. */
+.nx-app .nxc-none-a {
+  display: inline-flex; align-items: center; gap: 4px; cursor: pointer;
+  min-block-size: 2.25rem; padding-inline: var(--sp-3);
+  border: 1px solid var(--line-strong); border-radius: var(--r-sm);
+  background: var(--surface); color: var(--ink-1); font-size: var(--t-xs); font-weight: 600;
+  transition: border-color var(--dur-fast), background-color var(--dur-fast);
+}
+.nx-app .nxc-none-a:hover { border-color: var(--ink-3); background: var(--surface-2); }
+.nx-app .nxc-none-a:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+@media (pointer: coarse) { .nx-app .nxc-none-a { min-block-size: var(--c-tap); } }
 
 /* --- the detail pane ---------------------------------------------------- */
 .nx-app .nxc-detail {
@@ -530,13 +545,11 @@
 
 /* --- the phone field ---------------------------------------------------- */
 .nx-app .nxc-mfield {
-  align-items: center; gap: var(--sp-2);
+  display: flex; align-items: center; gap: var(--sp-2);
   padding: var(--sp-2) var(--sp-3);
   border-block-end: 1px solid var(--hairline);
   background: var(--surface-raised);
 }
-html[data-device="tablet"] .nx-app .nxc-mfield,
-html[data-device="phone"] .nx-app .nxc-mfield { display: flex !important; }
 .nx-app .nxc-mfield-i {
   inline-size: 2rem; block-size: 2rem;
   display: inline-grid; place-items: center; flex: none;
@@ -549,17 +562,12 @@ html[data-device="phone"] .nx-app .nxc-mfield { display: flex !important; }
 .nx-app .nxc-minput::-webkit-search-cancel-button,
 .nx-app .nxc-minput::-webkit-search-decoration { -webkit-appearance: none; appearance: none; }
 
-/* --- narrow + phone ----------------------------------------------------- */
-@media (max-width: 900px) {
-  .nx-app .nxc-row { grid-template-columns: auto minmax(0, 1fr) auto; }
-  .nx-app .nxc-row-meta { display: none; }
-}
-html[data-device="tablet"] .nx-app .nxc,
-html[data-device="phone"] .nx-app .nxc {
+/* --- the full-screen sheet: phone, tablet, and a desktop window under 40rem
+   (shell-client sets data-sheet; gate 4, blocker 4) ------------------------ */
+.nx-app[data-sheet="1"] .nxc {
   inset: 0; z-index: 60; padding: 0;
 }
-html[data-device="tablet"] .nx-app .nxc-panel,
-html[data-device="phone"] .nx-app .nxc-panel {
+.nx-app[data-sheet="1"] .nxc-panel {
   max-inline-size: none; border: 0; border-radius: 0;
   animation-name: nxc-in-up;
 }
@@ -569,7 +577,6 @@ html[data-device="phone"] .nx-app .nxc-panel {
 }
 html[data-device="phone"] .nx-app .nxc-head { padding-inline: var(--sp-3); }
 html[data-device="phone"] .nx-app .nxc-foot { padding-inline: var(--sp-3); }
-html[data-device="phone"] .nx-app .nxc-row-meta { display: none; }
 /* A phone has no arrow keys: the legend is dead weight, the honesty note is not. */
 html[data-device="phone"] .nx-app .nxc-keys,
 html[data-device="tablet"] .nx-app .nxc-keys { display: none; }
@@ -632,7 +639,6 @@ html[data-theme="dark"] .nx-app .nxc-chip[aria-pressed="true"] b { color: var(--
 @media (prefers-reduced-motion: reduce) {
   .nx-app .nxc-panel { animation: none; opacity: 1; transform: none; }
   .nx-app .nx-ind { transition: none; }
-  .nx-app .nxc-act,
   .nx-app .nxc-go { opacity: 1; }
 }
 
@@ -641,13 +647,15 @@ html[data-theme="dark"] .nx-app .nxc-chip[aria-pressed="true"] b { color: var(--
 .nx-app .nx-shelf[data-empty="1"] { min-block-size: 0; grid-template-rows: auto; }
 .nx-app .nx-shelf[data-empty="1"] .nx-shelf-tabs,
 .nx-app .nx-shelf[data-empty="1"] .nx-shelf-panes { display: none; }
+/* It wraps rather than truncates: at 17.5rem the two phrases are 295px
+   (gate 4, minor 13). */
 .nx-app .nx-shelf-empty {
-  display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: var(--sp-2);
-  inline-size: 100%; margin: 0; padding: var(--sp-2) var(--sp-3); white-space: nowrap; overflow: hidden;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 2px var(--sp-2);
+  inline-size: 100%; margin: 0; padding: var(--sp-2) var(--sp-3);
   font-size: var(--t-micro); color: var(--ink-2); line-height: 1.5; text-align: start;
   background: transparent; border: 0; cursor: pointer;
 }
 .nx-app .nx-shelf-empty:hover { color: var(--ink-1); }
-.nx-app .nx-shelf-empty-a { color: var(--ink-2); font-weight: 600; white-space: nowrap; }
+.nx-app .nx-shelf-empty-a { color: var(--ink-2); font-weight: 600; }
 
 .nx-app .nx-srch-input { block-size: 1.75rem; min-block-size: 1.75rem; } /* the rail field sits under a 0.9 scale; 28px renders as 25px */

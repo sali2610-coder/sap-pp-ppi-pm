@@ -10,7 +10,6 @@
 // item with no backed count carries `count: null` and the rail draws an
 // explicit em-dash that says so.
 
-import { TRANSACTIONS } from "@/data/transactions";
 import { ALL_TABLES, PM_DATA, PPPI_DATA } from "@/data/sapData";
 import {
   cdsViews,
@@ -18,7 +17,6 @@ import {
   funcs,
   moduleTables,
   overviewStats,
-  transactions,
 } from "@/lib/module-portal";
 import { ZONES, zoneOf, type Zone } from "@/lib/studio-graph";
 import { registryStats, registryCodes } from "@/lib/tx-registry";
@@ -40,8 +38,7 @@ import { ECC_S4_TOPICS } from "@/data/ecc-s4";
 import { BEST_PRACTICES } from "@/data/best-practices";
 import { erdCatalog } from "./erd/erd-catalog";
 import { tablesData } from "./data/tables-data";
-import { txStatusMap } from "./data/tx-detail";
-import { bapiDir, bapiFnCount } from "./reference/bapi-data";
+import { bapiFnCount } from "./reference/bapi-data";
 import { cdsDir } from "./reference/cds-data";
 import { fioriDir } from "./reference/fiori-data";
 import type { SAPModuleData, SAPTable } from "@/lib/types";
@@ -201,7 +198,9 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
            the built shelf, and on /neo/books/ NOTHING in the nav matched, which
            left the surface with no active state and no section hue. */
         { id: "library", href: "/neo/books/", label: "ספריית SAP", icon: "Library", count: allBookIds().length, countLabel: "ספרים" },
-        { id: "ai", label: "שאל את הספרייה", icon: "Sparkles", count: null, countLabel: "" },
+        // An icon that says what the destination does (gate 3, #30): it answers
+        // from the books, so a book, not a sparkle.
+        { id: "ai", label: "שאל את הספרייה", icon: "BookOpen", count: null, countLabel: "" },
       ],
     },
     {
@@ -215,7 +214,7 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
            they answer different questions. Both bodies live at /neo/knowledge/
            now, and this number is counted from the two real arrays rather than
            written down, so it cannot drift from what the page lists. */
-        { id: "knowledge", label: "מרכז הידע", icon: "BrainCircuit", count: knowledgeData().totals.all, countLabel: "רשומות" },
+        { id: "knowledge", label: "מרכז הידע", icon: "ScrollText", count: knowledgeData().totals.all, countLabel: "רשומות" },
         /* Owns its route (href ⇒ excluded from NEO_HUBS), like /neo/erd/ and
            /neo/books/. The count is the registry's real length. */
         { id: "best-practices", href: "/neo/best-practices/", label: "שיטות עבודה מומלצות", icon: "ClipboardCheck", count: BEST_PRACTICES.length, countLabel: "שיטות" },
@@ -395,51 +394,33 @@ function objectsAndContexts(): { objects: Record<string, ObjectMeta>; contexts: 
   return { objects, contexts, defaultContext: best };
 }
 
-/** The dictionary the rail search reaches. Bounded on purpose: the rail is a
- *  navigation surface, and the last row escalates to the full command surface
- *  rather than pretending to be it. Every record is a real project record. */
+/** The dictionary part of the command index: tables, CDS views, Fiori apps and
+ *  incidents. Transactions, function objects, books and every other family are
+ *  built beside it in search/command-index.ts, which carries them in a compact
+ *  form (gate 6, major 9). Every record is a real project record, and `href` is
+ *  the record's own page or null — never the family's list. */
 function searchIndex(objects: Record<string, ObjectMeta>): SearchRecord[] {
   const out: SearchRecord[] = [];
 
   // ONE status per record, on the search result too (design audit ACC-3): the
   // keys come from the very builders the catalog rows and the pages read, so
   // a result, a row and a page cannot disagree about one record.
-  const tStatus = new Map(tablesData().rows.map((r) => [r.name, r.status.key]));
-  const xStatus = txStatusMap();
-  const fStatus = new Map(bapiDir().rows.map((r) => [r.name.toUpperCase(), r.s4.status.key]));
+  const tRows = new Map(tablesData().rows.map((r) => [r.name, r]));
   const cStatus = new Map(cdsDir().rows.map((r) => [r.name, r.s4.status.key]));
   const aStatus = new Map(fioriDir().rows.map((r) => [r.name, r.s4.status.key]));
 
+  // A table result opens its table page, like every other way into a table
+  // (gate 6, minor 19); the catalogue row already carries that gated href.
   for (const o of Object.values(objects)) {
-    out.push({ k: "table", t: o.name, s: o.he, m: true, href: "/neo/tables/", obj: o.name, st: tStatus.get(o.name) });
-  }
-
-  // The blueprint's codes PLUS the project's own transaction catalog: a code
-  // that has a page must be findable in the palette. IP30H was written into
-  // data/transactions.ts on 2026-09-22 and had a page, but the palette read
-  // only the blueprint and returned nothing for it (final audit finding).
-  const moduleCodes = uniq([
-    ...[...transactions(PM_DATA), ...transactions(PPPI_DATA)].map((t) => t.code),
-    ...TRANSACTIONS.map((t) => t.code),
-  ]);
-  for (const code of moduleCodes) out.push({ k: "tcode", t: code, s: "טרנזקציית SAP בתיעוד הפרויקט", m: true, href: "/neo/transactions/", st: xStatus[code.toUpperCase()] });
-
-  const seenFn = new Set<string>();
-  for (const m of [PM_DATA, PPPI_DATA] as SAPModuleData[]) {
-    for (const t of moduleTables(m)) {
-      for (const [raw, he] of t.funcs || []) {
-        const nm = (raw || "").trim();
-        if (!nm || seenFn.has(nm)) continue;
-        seenFn.add(nm);
-        out.push({ k: "func", t: nm, s: he || "BAPI או FM", m: true, href: "/neo/bapi/", st: fStatus.get(nm.toUpperCase()) });
-      }
-    }
+    const row = tRows.get(o.name);
+    out.push({ k: "table", t: o.name, s: o.he, m: true, href: row?.href ?? null, obj: o.name, st: row?.status.key });
   }
 
   for (const v of CDS_VIEWS) out.push({ k: "cds", t: v.view, s: v.he, m: true, href: "/neo/cds/", st: cStatus.get(v.view) });
   for (const a of FIORI_APPS) out.push({ k: "fiori", t: a.id, s: a.he || a.name, m: true, href: "/neo/fiori-apps/", st: aStatus.get(a.id) });
-  for (const b of LIBRARY) out.push({ k: "book", t: b.titleHe || b.title, s: b.title, m: false, href: "/neo/books/" });
-  for (const i of INCIDENTS) out.push({ k: "incident", t: i.he, s: i.symptom.slice(0, 90), m: false, href: "/neo/incidents/" });
+  // An incident result opens the incident (gate 6, major 13): the route
+  // generates /neo/incidents/<slug>/ from this same array (incidentSlugs).
+  for (const i of INCIDENTS) out.push({ k: "incident", t: i.he, s: i.symptom.slice(0, 90), m: false, href: `/neo/incidents/${encodeURIComponent(i.slug)}/` });
 
   return out;
 }

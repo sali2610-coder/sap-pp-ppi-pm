@@ -39,7 +39,9 @@ export function MobileTabs({
           <Ico name="LayoutGrid" size={18} />
           <span>ניווט</span>
         </button>
-        <button type="button" className="nx-mtab" aria-current={searchOpen ? "page" : undefined} onClick={onSearch}>
+        {/* data-search-tab: where focus returns when the search sheet closes
+            (search/shell-client.tsx, gate 6, blocker 2). */}
+        <button type="button" className="nx-mtab" data-search-tab="" aria-current={searchOpen ? "page" : undefined} onClick={onSearch}>
           <Ico name="Search" size={18} />
           <span>חיפוש</span>
         </button>

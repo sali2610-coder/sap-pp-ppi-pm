@@ -13,6 +13,7 @@
  *   - Any desktop OS (Windows / macOS / Linux / ChromeOS) → ALWAYS desktop,
  *     at any resolution, zoom level or monitor size. Covers laptops, ultrawides,
  *     4K/5K, conference displays, projectors and TVs driven by a PC.
+ *   - Android TVs and streaming sticks (no "Mobile", no touch) → desktop.
  *   - Real tablets (iPad, Android tablet) → tablet.
  *   - Phones → phone.
  *
@@ -51,10 +52,16 @@ export const DEVICE_DETECT_SOURCE = `(function(){
                       /linux/.test(platLC) && !isAndroid ||
                       /x11/.test(uaLC) && !isAndroid ||
                       (/macintosh|mac os x/.test(uaLC) && !isIPad);
+    // An Android TV or streaming stick (BRAVIA, Google TV, Fire TV "AFT…",
+    // Chromecast "CrKey") is a big screen driven by a remote, not a tablet:
+    // its UA carries no "Mobile" and it has no touch (gate 4, minor 18).
+    var isTV = /\btv\b|smart-?tv|googletv|android tv|bravia|crkey|\baft[a-z]{1,4}\b/.test(uaLC) ||
+               (isAndroid && !/mobile/.test(uaLC) && (n.maxTouchPoints || 0) === 0);
 
     var cls;
     if (isIPhone) cls = "phone";
     else if (isIPad) cls = "tablet";
+    else if (isTV) cls = "desktop";
     else if (isAndroid) cls = /mobile/.test(uaLC) ? "phone" : "tablet";
     else if (isDesktopOS) cls = "desktop";           // never demoted by size or zoom
     else if (uaMobile === true) cls = "phone";
