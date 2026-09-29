@@ -21,9 +21,9 @@
 import {
   AlertTriangle, Award, BookMarked, BookOpen, BrainCircuit, Cable, ChevronDown,
   ChevronLeft, CircleHelp, ClipboardCheck, Command, Compass, CornerDownLeft, Database,
-  FlaskConical, GitBranch, GraduationCap, History, Home, Layers, LayoutGrid,
-  Library, MessageSquare, PanelLeft, Pin, Plug, Puzzle, ScrollText, Search,
-  Settings, Sigma, Sparkles, SquareFunction, Table, Terminal, Waypoints,
+  FlaskConical, Gauge, GitBranch, GraduationCap, History, Home, Layers, LayoutGrid,
+  Library, MessageSquare, PanelLeft, Pin, Plug, Puzzle, Route, ScrollText, Search,
+  Settings, Sigma, Sparkles, SquareFunction, Table, Terminal, Truck, Waypoints,
   Workflow, Wrench, X,
   type LucideIcon,
 } from "lucide-react";
@@ -31,9 +31,9 @@ import {
 const MAP: Record<string, LucideIcon> = {
   AlertTriangle, Award, BookMarked, BookOpen, BrainCircuit, Cable, ChevronDown,
   ChevronLeft, CircleHelp, ClipboardCheck, Command, Compass, CornerDownLeft, Database,
-  FlaskConical, GitBranch, GraduationCap, History, Home, Layers, LayoutGrid,
-  Library, MessageSquare, PanelLeft, Pin, Plug, Puzzle, ScrollText, Search,
-  Settings, Sigma, Sparkles, SquareFunction, Table, Terminal, Waypoints,
+  FlaskConical, Gauge, GitBranch, GraduationCap, History, Home, Layers, LayoutGrid,
+  Library, MessageSquare, PanelLeft, Pin, Plug, Puzzle, Route, ScrollText, Search,
+  Settings, Sigma, Sparkles, SquareFunction, Table, Terminal, Truck, Waypoints,
   Workflow, Wrench, X,
 };
 

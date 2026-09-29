@@ -147,7 +147,7 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
            "39 תחומים" arrived at a table graph and never reached a single one
            of the 39. The domains have their own hub now, and the ER model keeps
            its own entry below, where a data model belongs. */
-        { id: "domain-model", href: "/neo/domain-model/", label: "תחומים עסקיים", icon: "Boxes", count: DOMAINS.length, countLabel: "תחומים" },
+        { id: "domain-model", href: "/neo/domain-model/", label: "תחומים עסקיים", icon: "Route", count: DOMAINS.length, countLabel: "תחומים" },
       ],
     },
     {
@@ -156,7 +156,10 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
       id: "s4",
       label: "המעבר ל-S/4HANA",
       items: [
-        { id: "s4hana", href: "/neo/s4hana/", label: "מרכז S/4HANA", icon: "Rocket", count: S4_OBJECTS.length, countLabel: "אובייקטים" },
+        // Waypoints is the home door's glyph for this destination, as Route is
+        // for the domains above. Rocket, Boxes, Gauge and Truck were missing from
+        // icon.tsx's map, so four rail items drew its Database fallback.
+        { id: "s4hana", href: "/neo/s4hana/", label: "מרכז S/4HANA", icon: "Waypoints", count: S4_OBJECTS.length, countLabel: "אובייקטים" },
         { id: "s4-readiness", href: "/neo/s4-readiness/", label: "כיסוי תיעוד למעבר", icon: "Gauge", count: ECC_S4_TOPICS.length, countLabel: "נושאי שינוי" },
         { id: "migration-cockpit", href: "/neo/migration-cockpit/", label: "קוקפיט המעבר", icon: "Truck", count: MIG_OBJECTS.length, countLabel: "אובייקטי מיגרציה" },
       ],
