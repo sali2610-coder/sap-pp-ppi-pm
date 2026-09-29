@@ -157,6 +157,9 @@ function Row({ r, q, makeOrigin, landed }: { r: NeoTableRow; q: string; makeOrig
           <StatusPill status={r.status.key} label={st.he} dot={st.s} />
           <span className="nxd-s4-t">
             {r.s4Alt ? <b className="nx-sap">{r.s4Alt}</b> : null}
+            {/* The alternative and the note were printed with nothing between
+                them ("SAP ILMללא שינוי"): a separator, as everywhere else. */}
+            {r.s4Alt && r.s4 ? " · " : null}
             {r.s4 || (r.s4Alt ? "" : "תיעוד המקור אינו מציין הערת S/4HANA לטבלה זו")}
           </span>
         </span>

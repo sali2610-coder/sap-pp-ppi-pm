@@ -30,7 +30,7 @@
         lens. All of it is presentation; none of it touches the corpus.
    ========================================================================== */
 
-import { enLang } from "../lang";
+import { enDir, enLang } from "../lang";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import {
@@ -683,7 +683,7 @@ export function NeoReader({ book }: { book: NRBook }) {
           <nav className="nr-crumb" aria-label="מיקום בקריאה">
             <Link className="nr-crumb-l" href={book.shelfHref} prefetch={false}>ספריית SAP</Link>
             <ChevronLeft size={12} strokeWidth={2} aria-hidden="true" />
-            <Link className="nr-crumb-l" href={book.hubHref} prefetch={false} lang={enLang(title)}>{title}</Link>
+            <Link className="nr-crumb-l" href={book.hubHref} prefetch={false} lang={enLang(title)} dir={enDir(title)}>{title}</Link>
             <ChevronLeft size={12} strokeWidth={2} aria-hidden="true" />
             <button type="button" className="nr-crumb-b" onClick={() => setPanel("toc")}>
               פרק {chapter.n} · <span lang={enLang(chapter.title)}>{chapter.title}</span>
@@ -691,7 +691,7 @@ export function NeoReader({ book }: { book: NRBook }) {
             {secTitle && (
               <>
                 <ChevronLeft size={12} strokeWidth={2} aria-hidden="true" />
-                <span className="nr-crumb-now" aria-current="true" lang={enLang(secTitle)}>{secTitle}</span>
+                <span className="nr-crumb-now" aria-current="true" lang={enLang(secTitle)} dir={enDir(secTitle)}>{secTitle}</span>
               </>
             )}
           </nav>

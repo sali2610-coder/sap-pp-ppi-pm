@@ -27,7 +27,7 @@
    am I". Nothing is animated except transform and opacity.
    ========================================================================== */
 
-import { enLang } from "../lang";
+import { enDir, enLang } from "../lang";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Bookmark, BookOpen, Check, ChevronDown, Layers, Rows3 } from "lucide-react";
 import { bookmarkedChapters, type NeoBookmark } from "@/components/neo-shell/books/reading-state";
@@ -145,7 +145,7 @@ function RailTree({
                   title={`פרק ${c.n} · ${c.title}`}
                 >
                   <span className="nr-rtoc-n">{c.n}</span>
-                  <span className="nr-rtoc-tt" lang={enLang(c.title)}>{c.title}</span>
+                  <span className="nr-rtoc-tt" lang={enLang(c.title)} dir={enDir(c.title)}>{c.title}</span>
                   {marked.has(c.n) && (
                     <Bookmark className="nr-rtoc-i" size={11} strokeWidth={2.4} aria-hidden="true" />
                   )}
@@ -180,7 +180,7 @@ function RailTree({
                             title={`${s.id} · ${s.title}`}
                           >
                             <span className="nr-rtoc-sid">{s.id}</span>
-                            <span className="nr-rtoc-st" lang={enLang(s.title)}>{s.title}</span>
+                            <span className="nr-rtoc-st" lang={enLang(s.title)} dir={enDir(s.title)}>{s.title}</span>
                           </button>
                         </li>
                       );

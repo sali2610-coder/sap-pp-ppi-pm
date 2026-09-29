@@ -583,6 +583,12 @@ html[data-theme="dark"] .nx-app .nxl-side[data-s4="1"] .nxl-side-l { color: var(
   position: relative; overflow: hidden;
   box-shadow: var(--elev-1);
 }
+/* One flexible column: an auto track took the min-content of the no-wrap
+   button, grew wider than the plate, and the plate's overflow cut the note and
+   the button under WCAG text spacing (gate 8, M7: /neo/academy/wm/ at 390,
+   261px). The button's long label wraps instead. */
+.nx-app .nxv-s4 { grid-template-columns: minmax(0, 1fr); }
+.nx-app .nxv-s4 .nu-btn { white-space: normal; text-align: start; }
 /* MODULE AS LINE — the plate's top rule. */
 .nx-app .nxv-s4::before {
   content: '';

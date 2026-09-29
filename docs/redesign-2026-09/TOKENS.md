@@ -4,11 +4,10 @@ Source of truth at runtime: `app/neo/system.css` (scoped to `.nx-app`, loaded la
 
 Contrast is computed, never estimated: `neo-redesign-evidence/tools/palette-check.mjs` (ground, ink, action, link, focus, S/4 states) and `module-check.mjs` (modules), both built on `contrast.mjs` (WCAG 2.x relative luminance). Last run: 0 failures.
 
-"No violet" is a test, not a judgement: `contrast.mjs` `violet()` flags a colour with OKLCH chroma of at least 0.015 whose HSL hue is 235° to 340° at 10% saturation or more, or whose OKLCH hue is 272° to 345°. HSL alone let a periwinkle (#616491, 19.8% HSL saturation) through, hence the second model. New colours are chosen further out still (no OKLCH hue 262° to 350°). `violet-sweep.mjs` runs the test over every hex and rgb() value in `app/neo`, `components/neo-shell`, `lib/evidence` and the boards. Last run: 257 files, 3 hits, all accepted below.
+"No violet" is a test, not a judgement: `contrast.mjs` `violet()` flags a colour with OKLCH chroma of at least 0.015 whose HSL hue is 235° to 340° at 10% saturation or more, or whose OKLCH hue is 272° to 345°. HSL alone let a periwinkle (#616491, 19.8% HSL saturation) through, hence the second model. New colours are chosen further out still (no OKLCH hue 262° to 350°). `violet-sweep.mjs` runs the test over every hex and rgb() value in `app/neo`, `components/neo-shell`, `lib/evidence`, `app/globals.css` (added after gate 10, M4: its root and section tokens still held the old violet, QM pink, plum and indigo values, now the values of this file) and the boards. Last run (29.09, after gate 10): 282 files, 2 hits, both accepted below.
 
 | hit | why it stays |
 |---|---|
-| `app/neo/ground.css:289` `#302a47` | a history comment naming a removed value, not a colour in use |
 | `app/design/redesign-2026/workbench/board.css:145,219` QM `#A3345E` / `#E57BA2` | the bakeoff exhibit as judged (hue 337°, outside the brief's 240° to 330° band, inside the widened test); the system's QM is `#a0233f` (347°) |
 
 ## Colour · day (paper) and night (warm charcoal)
@@ -109,7 +108,7 @@ Book cloths (`books-data.ts` CLOTH, mirrored on the home spines): slot 5 slate v
 | `--t-ui` | 0.9375rem | UI body |
 | `--t-sm` | 0.875rem | dense UI, tables |
 | `--t-xs` | 0.8125rem | secondary |
-| `--t-micro` | 0.75rem | the floor: nothing smaller |
+| `--t-micro` | 0.75rem | the floor: nothing smaller. After gate 10 (M3) no sheet under `app/neo` or `components/neo-shell` declares a smaller size, the ERD and Studio labels included |
 
 Families: `--font-sans` IBM Plex Sans Hebrew (Hebrew and Latin instances, 400/500/600), `--font-mono` IBM Plex Mono (every SAP identifier), `--font-display` Frank Ruhl Libre (class `.nx-display`, gateway and reading titles only). All self-hosted, OFL, one module per family (`app/fonts/plex.ts`, `frank.ts`). Tracking on Hebrew headings is 0. Weights 400, 500, 600; a 700 request renders the 600 face.
 
@@ -119,7 +118,8 @@ Families: `--font-sans` IBM Plex Sans Hebrew (Hebrew and Latin instances, 400/50
 - Depth: `--elev-1` and `--elev-2` are flat (cards sit on a hairline). By day they are `0 0 0 0 transparent`, not `none`: `none` cannot be one item of a shadow list, so `var(--elev-1), var(--focus-ring)` computed to no shadow at all by day and removed the focus ring (Studio nodes, catalogue plates; fixed on the branch). `--elev-3` and `--elev-4` only for menus, the palette and dialogs.
 - `--measure`: `31em`, the reading column (60 to 72 Hebrew characters a line), used by the legal pages, the reader's intro, evidence paragraphs and course text.
 - Status and section tokens stated in the token layer: `--status-blocked` is the danger family; `--sec-transactions` (#1d5fd0 day, #6da3ff night) and `--sec-studio` (#1f5f8a, #6fb0d8) were referenced by the S/4 and centres views without a definition.
-- Faces: Plex Hebrew, Latin and Mono are preloaded with fallback faces sized per weight to Plex over the UI's own text, so the swap does not re-wrap a line (CLS on /neo/transactions/ 0.34 to 0.003). The display face (Frank Ruhl) is preloaded with `display: optional`: without the preload a late face re-wrapped the phone home title (CLS 0.11); optional means a late arrival is never swapped in. Measured after: CLS 0, the display face on first paint, throttled phone included.
+- Faces: Plex Hebrew, Latin and Mono are preloaded with fallback faces sized per weight to Plex over the UI's own text, so the swap does not re-wrap a line (CLS on /neo/transactions/ 0.34 to 0.003). The display face (Frank Ruhl) is not preloaded and swaps in (`display: swap`), over two calibrated fallbacks from the machine's own Times New Roman Bold (Hebrew `size-adjust` 102.78%, Latin 103.68%; `system.css`), so it is fetched only on pages whose title paints it and its arrival does not move a line (gate 9, majors 1 and 2; 31d39b4d). Measured after: CLS 0 on every measured route.
+- The reader's own font and size (the Dock's display menu) apply before the first paint on NEO pages: the pre-paint script sets `--nx-type-scale` and a `data-neo-face` attribute on `<html>`, and `dock.css` maps the attribute to the stack on the shell, where the self-hosted font variables resolve (gate 10, M6; `lib/theme-boot.ts`).
 - Motion: `--dur-micro` 100ms, `--dur-fast` 160ms, `--dur-base` 240ms, `--dur-panel` 280ms, `--dur-slow` 400ms, `--dur-signature` 900ms (one per screen at most). Curves: `--ease-out`, `--ease-emphasis`, `--ease-accel`, `--ease-spring` (small overshoot, never a bounce). Transform and opacity only; every animation has a reduced-motion final state.
 
 ## Scenes

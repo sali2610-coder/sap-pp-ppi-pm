@@ -269,16 +269,17 @@ export function TableDetailView({ t }: { t: TableDetail }) {
           </p>
         ) : null}
 
-        {/* Every number below is the length of something real. */}
+        {/* Every number below is the length of something real. One takes the
+            singular: "1 שדה מפתח זר", not "1 שדות" (Hebrew polish pass). */}
         <div className="nxb-stats">
           {([
-            [s.fields, "שדות מתועדים"],
-            [s.pk, "שדות מפתח ראשי"],
-            [s.fk, "שדות מפתח זר"],
-            [s.rels, "קשרים ממודלים"],
+            [s.fields, s.fields === 1 ? "שדה מתועד" : "שדות מתועדים"],
+            [s.pk, s.pk === 1 ? "שדה מפתח ראשי" : "שדות מפתח ראשי"],
+            [s.fk, s.fk === 1 ? "שדה מפתח זר" : "שדות מפתח זר"],
+            [s.rels, s.rels === 1 ? "קשר ממודל" : "קשרים ממודלים"],
             [s.joins, "תנאי JOIN"],
-            [s.tx, "טרנזקציות"],
-            [s.cds, "תצוגות CDS"],
+            [s.tx, s.tx === 1 ? "טרנזקציה" : "טרנזקציות"],
+            [s.cds, s.cds === 1 ? "תצוגת CDS" : "תצוגות CDS"],
             [s.funcs, "BAPI · FM · IDoc"],
           ] as [number, string][]).map(([v, l]) => (
             <span className="nxb-stat" key={l}>
@@ -339,7 +340,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         n={num["nxb-fields"]}
         icon={<Columns3 size={16} strokeWidth={1.75} />}
         eyebrow="שדות"
-        title={`${nf.format(s.fields)} שדות · ${nf.format(s.pk)} שדות PK · ${nf.format(s.fk)} שדות FK`}
+        title={`${nf.format(s.fields)} ${s.fields === 1 ? "שדה" : "שדות"} · ${nf.format(s.pk)} ${s.pk === 1 ? "שדה" : "שדות"} PK · ${nf.format(s.fk)} ${s.fk === 1 ? "שדה" : "שדות"} FK`}
         lede={
           <>
             עמודת המפתח לפי תיעוד המקור, על ארבעת ערכיה: <b>PK</b>, <b>FK</b>, <b>PK/FK</b> ו-<b>-</b>.

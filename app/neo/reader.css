@@ -946,6 +946,10 @@ html[data-theme="dark"] .nr-infig-b img { opacity: .86; }
    Structures" is a row you have to hover to read; two lines fit the great
    majority of this corpus's titles whole, and the `title` attribute still
    carries the rest. §30: disclose progressively, do not amputate. */
+/* An English title (lang="en", dir="ltr" from progress-rail.tsx) hyphenates
+   in this narrow column instead of breaking a word anywhere: "Implementati /
+   on" (Hebrew polish pass). */
+.nr-rtoc-tt[lang="en"], .nr-rtoc-st[lang="en"] { hyphens: auto; overflow-wrap: break-word; }
 .nr-rtoc-tt {
   flex: 1 1 auto;
   min-inline-size: 0;

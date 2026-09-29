@@ -379,9 +379,17 @@ export function SectionNav({
 
       <div
         className="nxs-reel" ref={reel}
-        // A focused chip is shown at once, which also stops a smooth centring
-        // that was already on its way (gate 8, M5).
-        onFocus={(e) => (e.target as HTMLElement).scrollIntoView({ block: "nearest", inline: "nearest", behavior: "instant" })}
+        // A focused chip is centred at once, measured the way the active chip
+        // is (the effect above): scrollIntoView("nearest") lost to the reel's
+        // centre snapping and left a chip outside the reel (gate 8, M5, BAPI
+        // record). Instant, so it also stops a smooth centring on its way.
+        onFocus={(e) => {
+          const box = reel.current, chip = e.target as HTMLElement;
+          if (!box || chip === box) return;
+          const b = box.getBoundingClientRect(), c = chip.getBoundingClientRect();
+          if (c.left >= b.left && c.right <= b.right) return;
+          box.scrollBy({ left: c.left - b.left - (b.width - c.width) / 2, behavior: "instant" });
+        }}
       >
         {sections.map((s, i) => (
           <a
