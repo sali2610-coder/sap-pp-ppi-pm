@@ -75,7 +75,9 @@ const SINGLE = {
   "/mrp/": ["/neo/domain/pppi-mrp/", "equivalent"], "/onboarding/": ["/neo/academy/", "hub"], "/delivery/": ["/neo/centers/toolkit/", "hub"],
   "/alm/": ["/neo/", "hub"], "/connector/": ["/neo/", "hub"], "/evolution/": ["/neo/", "hub"], "/import/": ["/neo/", "hub"],
   "/quality-audit/": ["/neo/s4-readiness/", "hub"], "/sap-infrastructure/": ["/neo/", "hub"], "/verification/": ["/neo/s4hana/", "hub"],
-  "/offline/": ["/neo/offline/", "equivalent"],
+  // Visited online, the old offline page leads home; the worker reaches the
+  // NEO offline page from its cache, never through this address.
+  "/offline/": ["/neo/", "equivalent"],
 };
 
 /* ------------------------------------------------------ one page -> target */

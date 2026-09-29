@@ -1680,7 +1680,7 @@
     },
     {
       "source": "/offline/",
-      "destination": "/neo/offline/",
+      "destination": "/neo/",
       "permanent": false
     },
     {

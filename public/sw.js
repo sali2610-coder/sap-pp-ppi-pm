@@ -60,8 +60,16 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return; // never touch cross-origin
 
-  // 1) Navigations → network-first, cache fallback, offline shell last.
+  // 1) Navigations → network-first, cache fallback, offline page last. The
+  //    offline page is reached by a redirect to its own address (with the one
+  //    that was asked for in ?from=), so the NEO shell hydrates at the address
+  //    it was built for: served in place, it hydrated at another path and React
+  //    threw #418. The offline page itself only ever comes from the cache.
   if (request.mode === "navigate") {
+    if (url.pathname === "/neo/offline/") {
+      event.respondWith(fetch(request).catch(() => caches.match("/neo/offline/")));
+      return;
+    }
     event.respondWith(
       fetch(request)
         .then((res) => {
@@ -70,7 +78,8 @@ self.addEventListener("fetch", (event) => {
           return res;
         })
         .catch(() =>
-          caches.match(request).then((cached) => cached || caches.match("/neo/offline/")),
+          caches.match(request).then((cached) =>
+            cached || Response.redirect(`/neo/offline/?from=${encodeURIComponent(url.pathname + url.search)}`, 302)),
         ),
     );
     return;

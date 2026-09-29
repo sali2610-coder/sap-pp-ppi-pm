@@ -4,7 +4,8 @@
 // carried the old chrome and pointed back to the old home, and it redirects
 // here now (vercel.json).
 import Link from "next/link";
-import { Home, RotateCcw, WifiOff } from "lucide-react";
+import { Home, WifiOff } from "lucide-react";
+import { OfflineRetry } from "@/components/neo-shell/offline-retry";
 
 export const metadata = {
   title: "אין חיבור לרשת · Project NEO",
@@ -24,9 +25,7 @@ export default function NeoOffline() {
         </p>
         <nav className="nx-nf-go" aria-label="לאן אפשר להמשיך">
           <Link href="/neo/" prefetch={false} className="nu-btn"><Home size={16} strokeWidth={1.75} aria-hidden="true" />למסך הבית</Link>
-          {/* Reloads the address that was asked for: the worker serves this page
-              in its place, so an empty href is that address. */}
-          <a href="" className="nu-btn2"><RotateCcw size={16} strokeWidth={1.75} aria-hidden="true" />ניסיון נוסף</a>
+          <OfflineRetry />
         </nav>
       </div>
     </div>
