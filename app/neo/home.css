@@ -74,11 +74,18 @@ html[data-device="phone"] .nx-app .nh-find-k { display: none; }
 
 /* --------------------------------------------------------------- the doors */
 
+/* Seven doors in set columns rather than auto-fill: auto-fill left one door
+   alone on a third row at 1440 (3 + 3 + 1). One column on a phone, two on a
+   narrow canvas, four from 60rem (4 + 3). Measured on the doors' own width,
+   so the rail being open or closed decides it, not the window. */
+.nx-app .nh-doors { container-type: inline-size; }
 .nx-app .nh-doors ul {
   display: grid; gap: var(--sp-3);
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  grid-template-columns: minmax(0, 1fr);
   margin: 0; padding: 0; list-style: none;
 }
+@container (min-width: 34rem) { .nx-app .nh-doors ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container (min-width: 60rem) { .nx-app .nh-doors ul { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .nx-app .nh-door {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
@@ -168,6 +175,9 @@ html[data-device="phone"] .nx-app .nh-find-k { display: none; }
 }
 .nx-app .fm-code { font-family: var(--font-mono); font-size: var(--t-ui); font-weight: 600; color: var(--mod); direction: ltr; unicode-bidi: isolate; }
 .nx-app .fm-label { font-size: var(--t-xs); color: var(--ink-2); }
+.nx-app a.fm-node { color: inherit; text-decoration: none; transition: border-color var(--dur-fast) linear, background-color var(--dur-fast) linear; }
+.nx-app a.fm-node:hover { border-color: var(--ink-2); background: var(--surface); }
+.nx-app a.fm-node:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .nx-app .fm-node--missing { border-style: dashed; background: transparent; }
 .nx-app .fm-node--missing .fm-code { color: var(--ink-3); }
 .nx-app .fm-note { font-size: var(--t-micro); color: var(--ink-2); }

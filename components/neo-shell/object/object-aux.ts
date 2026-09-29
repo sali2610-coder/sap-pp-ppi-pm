@@ -34,7 +34,7 @@ import { HR_TABLES } from "@/data/hr-module";
 import { BW_TABLES } from "@/data/bw-module";
 import { verifiedObject, LO_HU_DOMAIN, type DataDomain, type VerifiedObject } from "@/data/verified-objects";
 import { txHref, cdsHref, bapiHref, fioriHref } from "../reference/ref-links";
-import { hasObjectPage, objectSource } from "./object-names";
+import { canonicalObjectName, hasObjectPage, objectSource } from "./object-names";
 import { splitTcodes } from "../erd/model";
 
 /* ------------------------------------------------------------------ types */
@@ -250,7 +250,9 @@ const cache = new Map<string, AuxView | null>();
 /** The supplemental view of an object, or null when the name belongs to the
  *  blueprint (in which case `objectView()` owns it) or to nothing at all. */
 export function auxView(raw: string): AuxView | null {
-  const name = (raw || "").toUpperCase();
+  // The registry's own spelling (object-names canonicalObjectName): HR/BW keys
+  // keep their case, so an upper-cased name would miss them.
+  const name = canonicalObjectName(raw) ?? (raw || "").toUpperCase();
   if (cache.has(name)) return cache.get(name) ?? null;
   const src = objectSource(name);
   const v = src === "hrbw" ? hrbwView(name) : src === "verified" ? verifiedView(name) : null;

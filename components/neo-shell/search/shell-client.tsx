@@ -38,7 +38,7 @@ import {
   useSyncExternalStore,
 } from "react";
 import { mark } from "@/components/defer-mount";
-import { consumeReturn, rememberOrigin, useReturnPacket } from "@/components/neo-shell/nav-context";
+import { consumeReturn, normalisePath, parentOf, rememberOrigin, useReturnPacket } from "@/components/neo-shell/nav-context";
 import { Ico } from "../icon";
 import {
   GROUP_MS, RAIL_MS, measure, play, playEnter, playScaleX, raf, raf2, reducedMotion,
@@ -97,6 +97,10 @@ type SearchBack = { q: string; only: string | null; mod: string | null };
 /** Prefix match, but only on a full path segment: "/neo/pm/" must not be
  *  activated by "/neo/pm-something/". */
 const isActive = (path: string, href: string) => path === href || path.startsWith(href);
+
+/** Families whose detail pages are named by an SAP identifier, so the last
+ *  path segment is the record's own name (AFKO, IW31, I_Product). */
+const RECORD_FAMILIES = ["/neo/tables/", "/neo/transactions/", "/neo/bapi/", "/neo/cds/", "/neo/idoc/", "/neo/fiori-apps/", "/neo/enhancements/", "/neo/object/"];
 
 export function NeoShellClient({
   data, cmd, fontClass = "", children,
@@ -635,6 +639,16 @@ export function NeoShellClient({
 
   const ctx = data.contexts[ctxName] || null;
   const crumbGroup = active ? data.groups.find((g) => g.items.some((i) => i.id === active.id)) : null;
+  // Below the item's own page the catalogue is a link and, for a record named
+  // by its SAP identifier, the identifier is the current crumb. A family with
+  // no rail item (object, domain, centres, reader) takes its parent from the
+  // same table the return link reads (nav-context/fallbacks).
+  const here = normalisePath(path);
+  const below = active ? here !== normalisePath(active.href) : false;
+  const crumbParent = active ? null : parentOf(here);
+  const crumbRecord = RECORD_FAMILIES.some((f) => here.startsWith(f) && here !== f)
+    ? decodeURIComponent(here.replace(/\/+$/, "").split("/").pop() || "")
+    : null;
   const searching = mode === "search";
   const activeRow = result.flat[cursor] || null;
 
@@ -802,7 +816,7 @@ export function NeoShellClient({
                             data-hit={hit ? "1" : "0"}
                             data-dim={searching && live && !hit ? "1" : "0"}
                             style={it.mod ? ({ "--m": modVar(it.mod) } as React.CSSProperties) : undefined}
-                            aria-current={active?.id === it.id ? "page" : undefined}
+                            aria-current={active?.id === it.id ? (below ? "true" : "page") : undefined}
                             title={mode === "compact" ? it.label : undefined}
                             onFocus={(e) => showPreview(e.currentTarget, true)}
                             onBlur={hidePreview}
@@ -900,7 +914,20 @@ export function NeoShellClient({
             {active ? (
               <>
                 <Ico name="ChevronLeft" size={12} />
-                <span className="nx-cur">{active.label}</span>
+                {below
+                  ? <Link prefetch={false} href={active.href}>{active.label}</Link>
+                  : <span className="nx-cur" aria-current="page">{active.label}</span>}
+              </>
+            ) : crumbParent && crumbParent.href !== "/neo/" ? (
+              <>
+                <Ico name="ChevronLeft" size={12} />
+                <Link prefetch={false} href={crumbParent.href}>{crumbParent.label}</Link>
+              </>
+            ) : null}
+            {crumbRecord ? (
+              <>
+                <Ico name="ChevronLeft" size={12} />
+                <bdi className="nx-cur nx-sap" aria-current="page">{crumbRecord}</bdi>
               </>
             ) : null}
           </nav>

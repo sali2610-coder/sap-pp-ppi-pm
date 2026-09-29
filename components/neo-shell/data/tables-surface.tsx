@@ -26,6 +26,7 @@
 // table, which is a real state of the record.
 
 import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
+import { S4_STATUS_HE } from "@/lib/evidence/types";
 import { useEffect, useMemo, useState, ViewTransition } from "react";
 import {
   ArrowLeft, Boxes, Database, GitBranch, KeyRound, Layers, LayoutGrid,
@@ -485,7 +486,9 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
           { v: t.rels, l: "קשרי ER", i: <GitBranch size={14} strokeWidth={1.75} /> },
           { v: t.tcodes, l: "טרנזקציות", i: <Terminal size={14} strokeWidth={1.75} /> },
           { v: t.shared, l: "משותפות לשני המודולים", i: <Boxes size={14} strokeWidth={1.75} /> },
-          { v: t.s4, l: "עם טבלה חלופית ב-S/4HANA", i: <ArrowLeft size={14} strokeWidth={1.75} /> },
+          // t.s4 counts the canonical "replaced" status (the chip beside it), so
+          // the label is that status, not "has a successor table named".
+          { v: t.s4, l: S4_STATUS_HE.replaced, i: <ArrowLeft size={14} strokeWidth={1.75} /> },
           { v: t.cds, l: "עם תצוגת CDS", i: <Sigma size={14} strokeWidth={1.75} /> },
         ].map((s) => (
           <div key={s.l} className="nxd-stat">

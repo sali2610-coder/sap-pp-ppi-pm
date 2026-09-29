@@ -241,6 +241,14 @@ export function ObjectPage({ v }: { v: ObjectView }) {
               הצגה במודל הנתונים המלא
               <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
             </OriginLink>
+            {/* A dictionary table has a table page (the S/4HANA pill sits in its
+                header); every table page links here, and this is the way back. */}
+            {v.mods.length ? (
+              <OriginLink className="nu-btn2" href={`/neo/tables/${v.name}/`} origin={from}>
+                <Table2 size={15} strokeWidth={1.75} aria-hidden="true" />
+                עמוד הטבלה <bdi className="nx-sap">{v.name}</bdi>
+              </OriginLink>
+            ) : null}
             <OriginLink className="nu-btn2" href="/neo/tables/" origin={from}>
               <Table2 size={15} strokeWidth={1.75} aria-hidden="true" />
               טבלאות SAP

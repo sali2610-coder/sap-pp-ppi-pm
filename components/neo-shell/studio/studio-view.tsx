@@ -41,6 +41,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useShellFocus } from "../focus";
+import { SmartReturn } from "@/components/neo-shell/nav-context";
 import {
   Crosshair, Expand, Filter, Maximize2, Minus, Plus, Presentation, RotateCcw, Search, X, Focus,
 } from "lucide-react";
@@ -289,6 +290,7 @@ export function StudioView() {
 
   return (
     <div className="nst" data-full={full ? "1" : "0"} data-present={present ? "1" : "0"}>
+      <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
       {/* ------------------------------------------------------------ top */}
       <header className="nst-top">
         <div className="nst-brand">

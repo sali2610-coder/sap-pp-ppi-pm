@@ -12,6 +12,7 @@
    waits until the map is on screen (the page opens above it), plays once, and
    reduced motion shows the finished map. Without script the map is simply
    there: the paused start is armed by the effect below, never by the HTML. */
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { FlowChain } from "./home-data";
 
@@ -50,11 +51,20 @@ export function ProcessMap({ chains }: { chains: FlowChain[] }) {
             <ol className="fm-lane">
               {c.steps.map((s, i) => (
                 <li key={`${s.code}-${i}`} className="fm-step" style={{ "--i": i } as React.CSSProperties}>
-                  <span className={`fm-node${s.exists ? "" : " fm-node--missing"}`}>
-                    <bdi className="fm-code">{s.code}</bdi>
-                    <span className="fm-label">{s.label}</span>
-                    {!s.exists ? <span className="fm-note">לא במילון</span> : null}
-                  </span>
+                  {/* A table the dictionary holds opens its record; a missing
+                      one has no record to open and stays a plain box. */}
+                  {s.exists ? (
+                    <Link className="fm-node" prefetch={false} href={`/neo/tables/${s.code}/`}>
+                      <bdi className="fm-code">{s.code}</bdi>
+                      <span className="fm-label">{s.label}</span>
+                    </Link>
+                  ) : (
+                    <span className="fm-node fm-node--missing">
+                      <bdi className="fm-code">{s.code}</bdi>
+                      <span className="fm-label">{s.label}</span>
+                      <span className="fm-note">לא במילון</span>
+                    </span>
+                  )}
                   {i < c.steps.length - 1 ? (
                     s.link ? (
                       <span className={`fm-link${s.link.via ? " fm-link--via" : ""}`}>

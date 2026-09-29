@@ -297,29 +297,42 @@ function chainOf(m: SAPModuleData, key: ModuleKey): FlowChain {
   const byName = new Map(tables.map((t) => [t.tableName, t]));
   const clean = (s: string) => (s || "").replace(/\s+/g, " ").trim().slice(0, 160);
   /** Neighbours of a table as the DICTIONARY states them — both directions,
-   *  because a relation is stored on whichever side the blueprint wrote it. */
+   *  because a relation is stored on whichever side the blueprint wrote it.
+   *  `up` is true when the neighbour is the table's parent (the table points
+   *  at it), read from the stored `role`. */
   const near = (a: string) => {
-    const out = new Map<string, { card: string; join: string }>();
-    for (const r of byName.get(a)?.relations || []) out.set(r.table, { card: r.card || "", join: clean(r.join) });
+    const out = new Map<string, { card: string; join: string; up: boolean }>();
+    for (const r of byName.get(a)?.relations || []) out.set(r.table, { card: r.card || "", join: clean(r.join), up: r.role === "child" });
     for (const t of tables) {
       for (const r of t.relations || []) {
-        if (r.table === a && !out.has(t.tableName)) out.set(t.tableName, { card: r.card || "", join: clean(r.join) });
+        if (r.table === a && !out.has(t.tableName)) out.set(t.tableName, { card: r.card || "", join: clean(r.join), up: r.role === "parent" });
       }
     }
     return out;
   };
   // A→B counts as reached only through a real stored relation: directly, or via
-  // ONE intermediate table that the dictionary links to both ends. Nothing is
+  // ONE intermediate table on a chain through the hierarchy. Nothing is
   // inferred beyond that — an unreached crossing stays a process boundary and
   // the page draws it as one instead of inventing an arrow.
   const linkOf = (a: string, b: string): FlowStep["link"] => {
     const na = near(a);
     const direct = na.get(b);
-    if (direct) return { ...direct, via: null };
+    // The dictionary states cardinality child:parent ("N:1", many rows of the
+    // child per parent), so it reads along the flow only where the flow runs
+    // from the child to its parent.
+    if (direct) return { card: direct.up ? direct.card : "", join: direct.join, via: null };
     const nb = near(b);
     for (const [mid, ra] of na) {
       const rb = nb.get(mid);
-      if (rb) return { card: ra.card || rb.card || "", join: ra.join || rb.join, via: mid };
+      // A chain goes down or up the hierarchy through the intermediate: it is
+      // the parent of one end and the child of the other (AFKO is AUFK's child
+      // and AFVC's parent). A table both ends point at (JSTO, the status
+      // object each of them owns) or one that points at both (QMEL names a
+      // location and an equipment) is not a path between them.
+      if (!rb || ra.up === rb.up) continue;
+      // No cardinality: the dictionary states one per relation, never for a
+      // path of two. Both JOINs are kept, in order.
+      return { card: "", join: `${ra.join} · ${rb.join}`, via: mid };
     }
     return null;
   };

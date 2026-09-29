@@ -38,7 +38,7 @@ import { MIG_OBJECTS } from "@/data/migration-cockpit";
 import { S4_OBJECTS } from "@/data/s4-objects";
 import { ECC_S4_TOPICS } from "@/data/ecc-s4";
 import { BEST_PRACTICES } from "@/data/best-practices";
-import { modelStats } from "./erd/model";
+import { erdCatalog } from "./erd/erd-catalog";
 import { tablesData } from "./data/tables-data";
 import { txStatusMap } from "./data/tx-detail";
 import { bapiDir, bapiFnCount } from "./reference/bapi-data";
@@ -171,7 +171,10 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
         // Unique names, as the catalogue lists them (a table both blueprints
         // document is one row there): 105, not the 126 per-module rows.
         { id: "tables", label: "טבלאות SAP", icon: "Table", count: new Set(ALL_TABLES.map((t) => t.tableName)).size, countLabel: "טבלאות" },
-        { id: "erd", href: "/neo/erd/", label: "מודל הנתונים · ERD", icon: "GitBranch", count: modelStats().edges, countLabel: "קשרים" },
+        // The relations the ERD page itself states (erdCatalog, 15 modules),
+        // not the PM/PP-PI dictionary's 118: the rail said 118 of a page that
+        // shows 232.
+        { id: "erd", href: "/neo/erd/", label: "מודל הנתונים · ERD", icon: "GitBranch", count: erdCatalog().stats.edges, countLabel: "קשרים" },
         { id: "transactions", label: "טרנזקציות", icon: "Terminal", count: registryStats().total, countLabel: "טרנזקציות" },
         { id: "bapi", label: "BAPI ו-FM", icon: "Plug", count: bapiFnCount(), countLabel: "BAPI ו-FM" },
         { id: "idoc", label: "IDoc", icon: "Cable", count: idocMessageTypes().length, countLabel: "סוגי הודעה" },
@@ -216,7 +219,7 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
         /* Owns its route (href ⇒ excluded from NEO_HUBS), like /neo/erd/ and
            /neo/books/. The count is the registry's real length. */
         { id: "best-practices", href: "/neo/best-practices/", label: "שיטות עבודה מומלצות", icon: "ClipboardCheck", count: BEST_PRACTICES.length, countLabel: "שיטות" },
-        { id: "academy", label: "SAP Academy", icon: "GraduationCap", count: BOOKS.length, countLabel: "ספרי לימוד" },
+        { id: "academy", label: "SAP Academy", icon: "GraduationCap", count: BOOKS.length, countLabel: "קורסים" },
         { id: "incidents", label: "תקלות", icon: "AlertTriangle", count: INCIDENTS.length, countLabel: "תקלות" },
         { id: "certification", label: "תרגול ובדיקת ידע", icon: "Award", count: null, countLabel: "" },
       ],

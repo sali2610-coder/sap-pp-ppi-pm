@@ -23,6 +23,7 @@ import {
   Table2, Terminal,
 } from "lucide-react";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
+import { SmartReturn } from "@/components/neo-shell/nav-context";
 import { domainCards, domainTotals, type DomLink, type DomainView } from "./domain-data";
 import { DomainHubList } from "./domain-hub-list";
 
@@ -50,6 +51,7 @@ export function DomainsHub() {
 
   return (
     <div className="ndm nm-scene" data-surface="domains" data-scene="cream">
+      <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
       <header className="ndm-hero">
         <p className="ndm-eye">
           <Boxes size={13} strokeWidth={2} aria-hidden="true" />

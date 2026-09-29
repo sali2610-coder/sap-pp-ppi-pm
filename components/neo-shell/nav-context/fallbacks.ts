@@ -35,17 +35,17 @@ const PARENTS: [prefix: string, parent: ParentRef][] = [
   // table's own detail page family — /neo/tables/ is the honest landing when the
   // session has no memory of which one.
   ["/neo/object/", { href: "/neo/tables/", label: "טבלאות SAP" }],
-  ["/neo/erd/", { href: "/neo/erd/", label: "מודל הנתונים" }],
+  ["/neo/erd/", { href: "/neo/erd/", label: "מודל הנתונים · ERD" }],
   ["/neo/cds/", { href: "/neo/cds/", label: "תצוגות CDS" }],
-  ["/neo/bapi/", { href: "/neo/bapi/", label: "קטלוג BAPI ו-FM" }],
-  ["/neo/idoc/", { href: "/neo/idoc/", label: "קטלוג IDoc" }],
+  ["/neo/bapi/", { href: "/neo/bapi/", label: "BAPI ו-FM" }],
+  ["/neo/idoc/", { href: "/neo/idoc/", label: "IDoc" }],
   ["/neo/fiori-apps/", { href: "/neo/fiori-apps/", label: "יישומי Fiori" }],
   ["/neo/enhancements/", { href: "/neo/enhancements/", label: "הרחבות" }],
   // --- business domains and the S/4 migration surfaces ---------------------
   ["/neo/domain/", { href: "/neo/domain-model/", label: "תחומים עסקיים" }],
   ["/neo/domain-model/", { href: "/neo/domain-model/", label: "תחומים עסקיים" }],
   ["/neo/s4hana/", { href: "/neo/s4hana/", label: "מרכז S/4HANA" }],
-  ["/neo/s4-readiness/", { href: "/neo/s4-readiness/", label: "כיסוי תיעוד למעבר ל-S/4HANA" }],
+  ["/neo/s4-readiness/", { href: "/neo/s4-readiness/", label: "כיסוי תיעוד למעבר" }],
   ["/neo/migration-cockpit/", { href: "/neo/migration-cockpit/", label: "קוקפיט המעבר" }],
   // --- library and learning -----------------------------------------------
   // `/neo/library/` is deliberately absent: the Stage-1 placeholder that used to

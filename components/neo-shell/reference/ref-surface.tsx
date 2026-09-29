@@ -313,7 +313,7 @@ export function RefSurface({ dir, children }: { dir: RefDir; children?: React.Re
       style={surfaceMod ? ({ "--m": modVar(surfaceMod) } as React.CSSProperties) : undefined}
     >
       <SmartReturn
-        fallback={{ href: "/neo/", label: "Project NEO" }}
+        fallback={{ href: "/neo/", label: "מסך הבית" }}
         hint="אין עמוד קודם בביקור הזה"
       />
 

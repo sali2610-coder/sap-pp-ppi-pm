@@ -26,6 +26,7 @@ import {
   Sparkles, Truck, Waypoints,
 } from "lucide-react";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
+import { SmartReturn } from "@/components/neo-shell/nav-context";
 import { RISK_HE } from "@/lib/s4";
 import { S4_STATUS_WORD } from "@/lib/evidence/types";
 import { S4Catalog } from "./s4-catalog";
@@ -75,6 +76,9 @@ function Hero({
 }) {
   return (
     <header className="ns4-hero">
+      {/* The three S/4HANA pages open from the rail like their siblings, and
+          like them they carry the way back. */}
+      <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
       <p className="ns4-eye">{icon}{eyebrow}</p>
       <h1 className="ns4-h1">{title}</h1>
       <p className="ns4-lede">{lede}</p>

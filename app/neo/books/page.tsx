@@ -6,6 +6,7 @@ import "../ui.css";
 import "../books.css";
 import { booksData } from "@/components/neo-shell/books/books-data";
 import { BookShelf } from "@/components/neo-shell/books/book-shelf";
+import { SmartReturn } from "@/components/neo-shell/nav-context";
 
 export const metadata = {
   title: "ספריית SAP · Project NEO",
@@ -30,6 +31,8 @@ export default function NeoBooks() {
 
   return (
     <div className="nb">
+      {/* The way back, on the page's own ground above the dark masthead. */}
+      <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
       {/* THE OPENING, ON ITS OWN GROUND.
           app/neo/ground.css reserves `deep` for "a moment that is meant to feel
           like a held breath — a hero, an opening, a statement", and it is the

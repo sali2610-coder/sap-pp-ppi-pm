@@ -214,12 +214,12 @@ export const FLOWS: Record<string, { label: string; code: string }[]> = {
   PM: [
     { label: "מיקום פונקציונלי", code: "IFLOT" }, { label: "ציוד", code: "EQUI" }, { label: "רשימת משימות", code: "PLKO" },
     { label: "תוכנית אחזקה", code: "MPLA" }, { label: "הודעת תקלה", code: "QMEL" }, { label: "פקודת אחזקה", code: "AUFK" },
-    { label: "פעולות", code: "AFVC" }, { label: "אישור", code: "AFRU" }, { label: "סטטוס/סילוק", code: "JEST" },
+    { label: "פעולות", code: "AFVC" }, { label: "אישור", code: "AFRU" }, { label: "סטטוס", code: "JEST" },
   ],
   "PP-PI": [
-    { label: "אב חומר", code: "MARA" }, { label: "עץ מוצר (BOM)", code: "MAST" }, { label: "מתכון/Routing", code: "PLKO" },
+    { label: "אב חומר", code: "MARA" }, { label: "עץ מוצר (BOM)", code: "MAST" }, { label: "מתכון אב", code: "PLKO" },
     { label: "גרסת ייצור", code: "MKAL" }, { label: "פקודת תהליך", code: "AFKO" }, { label: "שמורות", code: "RESB" },
-    { label: "אישור", code: "AFRU" }, { label: "תיקון Backflush", code: "COGI" },
+    { label: "אישור", code: "AFRU" }, { label: "תיקון Backflush ב-COGI", code: "AFFW" },
   ],
 };
 

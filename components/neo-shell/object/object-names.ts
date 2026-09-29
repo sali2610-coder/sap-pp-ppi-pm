@@ -68,10 +68,21 @@ const sourceMap = memo(() => {
  *  then the supplemental registries, each alphabetically. */
 export const objectNames = (): string[] => [...sourceMap().keys()];
 
-export const objectSource = (name: string): ObjectSource | null =>
-  sourceMap().get((name || "").toUpperCase()) ?? null;
+/** A name as its registry writes it, found whatever the case. Most names are
+ *  upper case, but HR/BW carries 27 mixed-case objects (EC_Position,
+ *  BEx_Query, SAC_Story): their pages are generated under those names, and an
+ *  upper-cased lookup missed every one of them, so each page rendered "not
+ *  found" over a registry entry that exists. No two names differ only by case. */
+const canonMap = memo(() => new Map([...sourceMap().keys()].map((n) => [n.toUpperCase(), n])));
+export const canonicalObjectName = (name: string): string | null =>
+  canonMap().get((name || "").toUpperCase()) ?? null;
 
-export const hasObjectPage = (name: string): boolean => sourceMap().has((name || "").toUpperCase());
+export const objectSource = (name: string): ObjectSource | null => {
+  const c = canonicalObjectName(name);
+  return c ? sourceMap().get(c) ?? null : null;
+};
+
+export const hasObjectPage = (name: string): boolean => canonicalObjectName(name) !== null;
 
 /** Counts per registry, for the surfaces that state their own coverage rather
  *  than implying it. */
