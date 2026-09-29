@@ -286,7 +286,9 @@ html[data-theme="dark"] .nr[data-paper="1"] {
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
-.nr-mark[data-on="1"] .nr-mark-n { background: color-mix(in srgb, var(--m) 26%, transparent); }
+/* On the pressed (ink-filled) bookmark the count takes the button's own ink:
+   ink-2 on the ink fill is the 1.82:1 of gate 3, blocker 1. */
+.nr-mark[data-on="1"] .nr-mark-n { background: color-mix(in srgb, currentColor 16%, transparent); color: inherit; }
 
 /* 44px targets. ui.css already does this for `pointer: coarse`, but the mobile
    COMPOSITION of this surface starts at a width, not at an input type — a
@@ -958,13 +960,16 @@ html[data-theme="dark"] .nr-infig-b img { opacity: .86; }
 .nr-rtoc-i--read { color: var(--ink-3); }
 
 /* The chapter you are IN, in the selection language (--select-bg and the
-   --select-line edge), not the module colour (gate 3, minor 21). */
+   --select-line edge), not the module colour (gate 3, minor 21). The edge is a
+   box-shadow like the focus ring, so it steps aside while the row has the
+   keyboard focus: selection never hides focus (gate 3, blocker 3). The same
+   holds for every selection edge below. */
 .nr-rtoc-ch[data-on="1"] > .nr-rtoc-hd .nr-rtoc-t {
   color: var(--ink-1);
   background: var(--select-bg);
-  box-shadow: inset 3px 0 0 0 var(--select-line);
 }
-[dir="ltr"] .nr-rtoc-ch[data-on="1"] > .nr-rtoc-hd .nr-rtoc-t { box-shadow: inset -3px 0 0 0 var(--select-line); }
+.nr-rtoc-ch[data-on="1"] > .nr-rtoc-hd .nr-rtoc-t:not(:focus-visible) { box-shadow: inset 3px 0 0 0 var(--select-line); }
+[dir="ltr"] .nr-rtoc-ch[data-on="1"] > .nr-rtoc-hd .nr-rtoc-t:not(:focus-visible) { box-shadow: inset -3px 0 0 0 var(--select-line); }
 .nr-rtoc-ch[data-on="1"] > .nr-rtoc-hd .nr-rtoc-n { color: var(--ink-1); }
 .nr-rtoc-bar {
   display: block;
@@ -1017,10 +1022,9 @@ html[data-theme="dark"] .nr-infig-b img { opacity: .86; }
   color: var(--ink-1);
   font-weight: 700;
   background: var(--select-bg);
-  box-shadow: inset 3px 0 0 0 var(--select-line);
 }
-[dir="ltr"] .nr-rtoc-sec[data-now="1"],
-[dir="ltr"] .nr-rtoc-t[data-now="1"] { box-shadow: inset -3px 0 0 0 var(--select-line); }
+:is(.nr-rtoc-sec, .nr-rtoc-t)[data-now="1"]:not(:focus-visible) { box-shadow: inset 3px 0 0 0 var(--select-line); }
+[dir="ltr"] :is(.nr-rtoc-sec, .nr-rtoc-t)[data-now="1"]:not(:focus-visible) { box-shadow: inset -3px 0 0 0 var(--select-line); }
 .nr-rtoc-none {
   margin-inline-start: calc(1.5rem + 2px);
   padding: 2px var(--sp-2) var(--sp-1);
@@ -1407,9 +1411,9 @@ html[dir="ltr"] .nr-tick[data-mark="1"]::after { inset-inline-end: auto; inset-i
 .nr-toc-row[data-on="1"] {
   background: var(--select-bg);
   color: var(--ink-1); font-weight: 700;
-  box-shadow: inset 3px 0 0 0 var(--select-line);
 }
-html[dir="ltr"] .nr-toc-row[data-on="1"] { box-shadow: inset -3px 0 0 0 var(--select-line); }
+.nr-toc-row[data-on="1"]:not(:focus-visible) { box-shadow: inset 3px 0 0 0 var(--select-line); }
+html[dir="ltr"] .nr-toc-row[data-on="1"]:not(:focus-visible) { box-shadow: inset -3px 0 0 0 var(--select-line); }
 .nr-toc-row:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .nr-toc-id {
   flex: none; min-inline-size: 2.25rem;
@@ -1472,8 +1476,9 @@ html[dir="ltr"] .nr-toc-row[data-on="1"] { box-shadow: inset -3px 0 0 0 var(--se
   font: inherit; font-size: 0.75rem; color: var(--ink-2); text-align: start; cursor: pointer;
 }
 .nr-chmap-row:hover { background: var(--surface-2); }
-.nr-chmap-row[data-on="1"] { background: var(--select-bg); color: var(--ink-1); font-weight: 700; box-shadow: inset 3px 0 0 0 var(--select-line); }
-html[dir="ltr"] .nr-chmap-row[data-on="1"] { box-shadow: inset -3px 0 0 0 var(--select-line); }
+.nr-chmap-row[data-on="1"] { background: var(--select-bg); color: var(--ink-1); font-weight: 700; }
+.nr-chmap-row[data-on="1"]:not(:focus-visible) { box-shadow: inset 3px 0 0 0 var(--select-line); }
+html[dir="ltr"] .nr-chmap-row[data-on="1"]:not(:focus-visible) { box-shadow: inset -3px 0 0 0 var(--select-line); }
 .nr-chmap-row:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .nr-chmap-n { flex: none; min-inline-size: 1.5rem; font-variant-numeric: tabular-nums; color: var(--ink-3); }
 .nr-chmap-t { flex: 1 1 auto; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
