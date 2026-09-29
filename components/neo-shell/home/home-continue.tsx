@@ -4,6 +4,7 @@ import Link from "next/link";
 import { BookOpen, Table2 } from "lucide-react";
 import { useRecent } from "../store";
 import { useReading } from "../books/reading-state";
+import { neoResumeHref } from "../books/links";
 
 /* "Where you were": the book being read and the tables opened last, read from
    the stores the reader and the shelf already keep (books/reading-state.ts,
@@ -22,6 +23,10 @@ export function HomeContinue({
   const bookId = reading.currentBook ?? reading.lastBook;
   const book = bookId ? books.find((b) => b.id === bookId) ?? null : null;
   const chapter = bookId ? reading.map[bookId]?.chapter ?? null : null;
+  // The saved subchapter too, through the same link builder as the shelf's
+  // "המשך קריאה": the chapter alone reopened 3.1 when the reader was at 3.6,
+  // 28,000px back (gate 5, finding 4).
+  const section = bookId ? reading.map[bookId]?.section ?? null : null;
   const objs = recent.names.filter((n) => n in tables).slice(0, 5);
 
   if (!book && objs.length === 0) return null;
@@ -30,11 +35,11 @@ export function HomeContinue({
       <h2 className="nh-h2" id="nh-cont-h">להמשיך מאיפה שהפסקת</h2>
       <div className="nh-cont-grid">
         {book ? (
-          <Link className="nh-cont-book" prefetch={false} href={`/neo/read/${book.id}/${chapter ? `?c=${chapter}` : ""}`}>
+          <Link className="nh-cont-book" prefetch={false} href={neoResumeHref(book.id, chapter, section)}>
             <BookOpen size={18} strokeWidth={1.75} aria-hidden="true" />
             <span>
               <b>{book.title}</b>
-              <em>{chapter ? `פרק ${chapter}` : "חזרה לספר"}</em>
+              <em>{chapter ? <>פרק {chapter}{section ? <> · <bdi>{section}</bdi></> : null}</> : "חזרה לספר"}</em>
             </span>
           </Link>
         ) : null}

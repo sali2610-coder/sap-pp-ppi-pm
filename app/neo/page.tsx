@@ -37,8 +37,10 @@ const pct = (a: number, b: number) => Math.round((a / b) * 100);
    states no verdict the page says nothing rather than inventing one.
 
      gate       identity, scope, and the search as the primary action
-     doors      six ways in, each with the size of what it opens
-     continue   the book and the tables you had open (only when there are any)
+     continue   the book and the tables you had open (only when there are any),
+                right under the search so a phone does not scroll past seven
+                doors to reach it (gate 5, finding 4)
+     doors      seven ways in, each with the size of what it opens
      map        the signature: both documented processes, table by table
      modules    PM and PP-PI in numbers
      S/4HANA    the marked migration verdicts, one door to the cockpit
@@ -120,7 +122,7 @@ export default function NeoHome() {
       sub: <>{nf.format(bp.reduce((a, r) => a + r.steps, 0))} צעדי עבודה, עם דפוסים שגויים ובדיקות</>,
     },
     {
-      href: "/neo/books/", icon: <BookOpen size={20} strokeWidth={1.75} aria-hidden="true" />, name: "ספרים", n: books.totals.books,
+      href: "/neo/books/", icon: <BookOpen size={20} strokeWidth={1.75} aria-hidden="true" />, name: "ספריית SAP", n: books.totals.books,
       sub: <>{nf.format(books.totals.chapters)} פרקים · {nf.format(books.totals.sections)} תת-פרקים</>,
     },
     {
@@ -138,6 +140,9 @@ export default function NeoHome() {
   const byWord = (k: S4Status) => td.rows.filter((r) => S4_STATUS_WORD[r.status.key as S4Status] === S4_STATUS_WORD[k]).length;
   const impact = (["changed", "replaced", "not_available", "verification_required"] as const).map((key) => ({ key, n: byWord(key) }));
   const marked = byWord("changed") + byWord("replaced") + byWord("not_available");
+  // "משתנה" is also the word of a Simplification Item, which a table page names
+  // as such, so the row says how many of its tables those are (gate 5, finding 19).
+  const simplified = td.rows.filter((r) => r.status.key === "simplified").length;
 
   return (
     <div className="nh">
@@ -152,6 +157,11 @@ export default function NeoHome() {
         </p>
         <HomeSearch />
       </header>
+
+      <HomeContinue
+        books={books.books.map((b) => ({ id: b.id, title: b.titleHe ?? b.titleEn }))}
+        tables={Object.fromEntries(d.dots.map((x) => [x.n, x.he]))}
+      />
 
       <nav className="nh-doors" aria-label="כניסות">
         <ul>
@@ -168,17 +178,12 @@ export default function NeoHome() {
         </ul>
       </nav>
 
-      <HomeContinue
-        books={books.books.map((b) => ({ id: b.id, title: b.titleHe ?? b.titleEn }))}
-        tables={Object.fromEntries(d.dots.map((x) => [x.n, x.he]))}
-      />
-
       <section className="nh-sec" aria-labelledby="nh-map-h">
         <div className="nh-sec-head">
           <h2 className="nh-h2" id="nh-map-h">שני תהליכים, טבלה אחר טבלה</h2>
           <p className="nh-sec-lede">
             הזרימה של פקודת אחזקה ב-<bdi>PM</bdi> ושל פקודת תהליך ב-<bdi>PP-PI</bdi>. קו מופיע רק בין טבלאות שמילון הנתונים
-            מקשר ביניהן; מעבר שהמילון לא מתעד נשאר פתוח.
+            מקשר ביניהן; מעבר שהמילון לא מתעד מסומן רק בחץ של סדר התהליך.
           </p>
         </div>
         <ProcessMap chains={d.flows} />
@@ -214,7 +219,12 @@ export default function NeoHome() {
         <ul className="nh-imp">
           {impact.map((im) => (
             <li key={im.key} style={{ "--bar": S4_STATUS_DOT[im.key] } as React.CSSProperties}>
-              <StatusPill status={im.key} label={S4_STATUS_WORD[im.key]} />
+              <span className="nh-imp-l">
+                <StatusPill status={im.key} label={S4_STATUS_WORD[im.key]} />
+                {im.key === "changed" && simplified ? (
+                  <span className="nh-imp-inc">כולל {nf.format(simplified)} <bdi>Simplification Item</bdi></span>
+                ) : null}
+              </span>
               <bdi className="nh-sap nh-imp-n">{nf.format(im.n)}</bdi>
               <span className="nh-bar" aria-hidden="true"><i style={{ "--p": im.n / td.rows.length } as React.CSSProperties} /></span>
               <bdi className="nh-sap nh-imp-p">{pct(im.n, td.rows.length)}%</bdi>

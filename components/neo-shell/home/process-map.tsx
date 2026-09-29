@@ -6,7 +6,14 @@
    Each lane is a real FlowChain from homeData(): table after table, with the
    hop the dictionary models, direct or through one intermediate table. A step
    whose table the dictionary lacks is drawn hollow and says so; a crossing the
-   dictionary does not model is drawn as a gap, not as an arrow.
+   dictionary does not model is never drawn as a relation.
+
+   THE LANES WRAP (gate 3, major 9; gate 4, major 7; gate 5, finding 8). Every
+   table is on screen at every width: a lane breaks into rows instead of
+   scrolling sideways, so nothing is clipped and there is no hidden end of the
+   chain. 12 of the 15 crossings are gaps, so a gap is quiet: a small grey
+   chevron of process order, no line, its words once in the legend and in full
+   for a screen reader at each gap.
 
    Motion: transform and opacity only, 95ms apart, capped under a second. It
    waits until the map is on screen (the page opens above it), plays once, and
@@ -14,6 +21,7 @@
    there: the paused start is armed by the effect below, never by the HTML. */
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { ChevronLeft } from "lucide-react";
 import type { FlowChain } from "./home-data";
 
 export function ProcessMap({ chains }: { chains: FlowChain[] }) {
@@ -42,10 +50,11 @@ export function ProcessMap({ chains }: { chains: FlowChain[] }) {
         <span><i className="fm-key" aria-hidden="true" /> קשר ישיר במילון</span>
         <span><i className="fm-key fm-key--via" aria-hidden="true" /> דרך טבלת ביניים</span>
         <span><i className="fm-key fm-key--missing" aria-hidden="true" /> לא במילון</span>
+        <span><ChevronLeft className="fm-key-gap" size={14} strokeWidth={2} aria-hidden="true" /> אין קשר במילון, רק סדר התהליך</span>
       </p>
       <div className="fm-lanes">
         {chains.map((c) => (
-          <section key={c.key} className="fm-chain" aria-label={`תהליך ${c.he}`} data-mod={c.key} tabIndex={0}
+          <section key={c.key} className="fm-chain" aria-label={`תהליך ${c.he}`} data-mod={c.key}
             style={{ "--mod": c.m } as React.CSSProperties}>
             <h3 className="fm-title"><bdi className="fm-mod">{c.key}</bdi> {c.he}</h3>
             <ol className="fm-lane">
@@ -74,9 +83,14 @@ export function ProcessMap({ chains }: { chains: FlowChain[] }) {
                         {s.link.via ? <span className="fm-via">דרך <bdi>{s.link.via}</bdi></span> : null}
                       </span>
                     ) : (
-                      // A process boundary the dictionary does not model: a gap
-                      // with its words, never a line that would claim a relation.
-                      <span className="fm-link fm-link--gap"><span className="fm-gap">אין קשר במילון</span></span>
+                      // A process boundary the dictionary does not model: the
+                      // order of the process and nothing more, never a line that
+                      // would claim a relation. The words are read out here and
+                      // shown once, in the legend.
+                      <span className="fm-link fm-link--gap">
+                        <span className="fm-sr">אין קשר במילון</span>
+                        <ChevronLeft className="fm-gap" size={14} strokeWidth={2} aria-hidden="true" />
+                      </span>
                     )
                   ) : null}
                 </li>
