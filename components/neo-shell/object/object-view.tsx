@@ -877,7 +877,6 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         </p>
       </Sec>
 
-      <p className="no-credit nm-fade nm-once">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</p>
     </div>
   );
 }

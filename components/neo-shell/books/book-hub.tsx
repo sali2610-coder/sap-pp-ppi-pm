@@ -357,7 +357,6 @@ export function BookHub({ d }: { d: BookHubData }) {
           <ChevronRight size={15} strokeWidth={1.75} aria-hidden="true" />
           חזרה למדף
         </Link>
-        <p className="nb-credit">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</p>
       </footer>
     </div>
   );

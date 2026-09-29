@@ -81,7 +81,9 @@ const DICT: Dict = {
     he: "נבנה על ידי סאלי חליף · Project NEO — פלטפורמת ידע SAP",
     en: "Built by Sali Halif · Project NEO — SAP Knowledge Platform",
   },
-  "footer.offline": { he: "100% Offline · Static Export", en: "100% Offline · Static Export" },
+  // Was "100% Offline": pages already opened work offline, the AI assistants need a network
+  // (docs/redesign-2026-09/LEGAL-READINESS.md, claim 16; terms of use, "זמינות").
+  "footer.offline": { he: "אתר סטטי · דפים שנפתחו זמינים גם בלי רשת", en: "Static site · pages already opened work offline" },
   "lang.switch": { he: "EN", en: "עב" },
 };
 

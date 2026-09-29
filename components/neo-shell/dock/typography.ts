@@ -2,10 +2,11 @@
    PROJECT NEO · READING TYPOGRAPHY — the global font control (§23).
    ----------------------------------------------------------------------------
    THE CONSTRAINT THAT PICKED THESE FONTS
-     The product is 100% offline: no webfont, no CDN, no @import. So every
-     option has to be a font the machine already has. That rules out choosing by
-     taste and forces choosing by what is actually installed on a Mac and on a
-     corporate Windows box.
+     The product is 100% offline: no CDN, no @import. The 2026 system ships its
+     own faces self-hosted (IBM Plex Sans Hebrew, Frank Ruhl Libre; app/fonts);
+     every other option has to be a font the machine already has, which forces
+     choosing by what is actually installed on a Mac and on a corporate Windows
+     box.
 
      It also has to differ in HEBREW, not only in Latin. Georgia and Palatino
      are different faces in English and the SAME fallback in Hebrew — offering
@@ -14,9 +15,10 @@
      partner, so a mixed SAP line ("טבלת AUFK") stays coherent.
 
    WHAT EACH OPTION IS FOR
-     system   the NEO default. Matches the rest of the product.
+     system   the NEO default, IBM Plex Sans Hebrew. Matches the product.
      grotesk  wider apertures, looser tracking. The everyday reading choice.
-     serif    for long prose; the books read noticeably better in it.
+     serif    for long prose; Frank Ruhl Libre, the display face the product
+              already ships, so it is there on every machine.
      clear    the accessibility option: large x-height, unambiguous shapes,
               generous spacing. Tahoma and Arial Hebrew are on both platforms.
    ========================================================================== */
@@ -30,8 +32,8 @@ export const DEFAULT_TYPE: NeoTypePref = { face: "system", size: "md" };
 
 export const FACES: { id: NeoFace; he: string; note: string; stack: string }[] = [
   {
-    id: "system", he: "מערכת", note: "ברירת המחדל של NEO",
-    stack: `'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif`,
+    id: "system", he: "ברירת המחדל", note: "IBM Plex Sans Hebrew, הגופן של NEO",
+    stack: `var(--font-sans)`,
   },
   {
     id: "grotesk", he: "סן־סריף", note: "אותיות רחבות, קריאה יומיומית",
@@ -39,7 +41,7 @@ export const FACES: { id: NeoFace; he: string; note: string; stack: string }[] =
   },
   {
     id: "serif", he: "סריף", note: "נוח לקריאה ארוכה בספרים",
-    stack: `'Frank Ruehl CLM', 'FrankRuehl', 'David', 'Times New Roman', Georgia, serif`,
+    stack: `var(--f-frank-he), var(--f-frank-lat), 'Frank Ruehl CLM', 'David', 'Times New Roman', serif`,
   },
   {
     id: "clear", he: "קריאוּת מוגברת", note: "אותיות גדולות ומרווחות",

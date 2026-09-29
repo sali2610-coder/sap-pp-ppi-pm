@@ -527,7 +527,6 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
       {ch.build ? <WorkspaceBuild d={data} meta={ch.build} /> : null}
       <WorkspaceLearn d={data} meta={ch.learn} />
 
-      <p className="nw-credit">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</p>
     </div>
   );
 

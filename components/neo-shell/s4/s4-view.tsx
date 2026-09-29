@@ -29,6 +29,7 @@ import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { RISK_HE } from "@/lib/s4";
 import { S4_STATUS_WORD } from "@/lib/evidence/types";
 import { S4Catalog } from "./s4-catalog";
+import type { MigCat } from "@/data/migration-cockpit";
 import {
   APPROACHES, ARCH, ARCH_STATUS, CUSTOM_CODE, CUSTOM_CODE_NOTE, CUTOVER, EXEC_NARRATIVE,
   INTEGRATION, LESSONS, MIG_CHECKLIST, MIG_ERRORS, MIG_LOAD_LAYERS, QUALITY_DIMS, READINESS,
@@ -454,7 +455,13 @@ export function MigrationCockpit() {
   const objs = migObjects();
   const t = migTotals();
   const waves = Array.from({ length: t.waves }, (_, i) => i + 1);
-  const catColor = Object.fromEntries(MIG_LOAD_LAYERS.map((l) => [l.cat, l.c]));
+  // Each card names its layer in text; the colour is a second cue, taken from the
+  // object-class tokens rather than the data's Tailwind hexes (violet for Master,
+  // 2.6:1 amber for Transactional). HR is a separate system and stays neutral.
+  const catColor: Record<MigCat, string> = {
+    Foundation: "var(--obj-config)", Master: "var(--obj-master)",
+    Transactional: "var(--obj-transaction)", HR: "var(--ink-3)",
+  };
   const catHe = Object.fromEntries(MIG_LOAD_LAYERS.map((l) => [l.cat, l.he]));
 
   const nav: [string, string][] = [

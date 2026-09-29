@@ -679,8 +679,10 @@ html[data-theme="dark"] .nb-slot::after {
      Mixed toward ink rather than pure black, so a cloth that is already dark
      does not collapse into a black rectangle. */
   --cloth: var(--m);
-  --m-deep: color-mix(in srgb, var(--cloth) 86%, #0d1117);
-  --m-mid: color-mix(in srgb, var(--cloth) 62%, #0d1117);
+  /* Mixed toward a WARM black: the blue-black this used (#0d1117) pulled the
+     claret and oxblood cloths into plum (violet-dom.mjs, 2026-09-29). */
+  --m-deep: color-mix(in srgb, var(--cloth) 86%, #140f0c);
+  --m-mid: color-mix(in srgb, var(--cloth) 62%, #140f0c);
   --m-lift: color-mix(in srgb, var(--m) 96%, #ffffff);
   --paper: #efe9dd;
   --paper-2: #cfc6b6;
@@ -1776,8 +1778,6 @@ html[data-theme="dark"] .nb-slot::after {
   padding-block-start: var(--sp-8);
   border-block-start: 1px solid var(--hairline);
 }
-.nb-credit { font-size: var(--t-micro); color: var(--ink-3); margin-inline-start: auto; }
-
 /* ==========================================================================
    THE BOOK HUB — one book, one control surface
    ========================================================================== */
@@ -1909,8 +1909,8 @@ html[data-theme="dark"] .nb-cov {
      identical objects in the dark. Held higher than a naive dim (58/40 rather
      than 42/26) because at 42% of a near-black ground eleven different bindings
      converge on the same charcoal and the whole scheme is lost after sunset. */
-  --m-deep: color-mix(in srgb, var(--cloth) 58%, #090d12);
-  --m-mid: color-mix(in srgb, var(--cloth) 40%, #090d12);
+  --m-deep: color-mix(in srgb, var(--cloth) 58%, #0d0a08);
+  --m-mid: color-mix(in srgb, var(--cloth) 40%, #0d0a08);
   --m-lift: color-mix(in srgb, var(--m) 92%, #ffffff);
   --paper: #b9b2a4;
   --paper-2: #8c8577;

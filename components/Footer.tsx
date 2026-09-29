@@ -19,6 +19,10 @@ export function Footer() {
           Project NEO
           <span className="mx-1.5 text-muted-foreground/40">·</span>
           <Link href="/privacy/" className="font-medium text-muted-foreground hover:text-brand hover:underline">מדיניות פרטיות</Link>
+          <span className="mx-1.5 text-muted-foreground/40">·</span>
+          <Link href="/neo/terms/" className="font-medium text-muted-foreground hover:text-brand hover:underline">תנאי שימוש</Link>
+          <span className="mx-1.5 text-muted-foreground/40">·</span>
+          <Link href="/neo/accessibility/" className="font-medium text-muted-foreground hover:text-brand hover:underline">הצהרת נגישות</Link>
         </p>
         <span className="flex shrink-0 items-center gap-2 text-xs font-medium text-muted-foreground">
           <span className="size-1.5 rounded-full bg-status-done" />

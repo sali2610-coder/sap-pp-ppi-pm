@@ -920,14 +920,6 @@ html[data-theme="dark"] .no-key[data-k="PK"] { color: #0f0b08; }
 .no-inc-tx li { padding: 3px 7px !important; border-radius: var(--r-xs); background: var(--surface); font-family: var(--font-mono); direction: ltr; font-size: var(--t-micro); }
 .no-inc-tx li::before { content: none !important; }
 
-.no-credit {
-  font-size: var(--t-micro);
-  color: var(--ink-3);
-  text-align: center;
-  padding-block: var(--sp-4);
-  border-block-start: 1px solid var(--hairline);
-}
-
 /* ==========================================================================
    THE ORBIT
    ========================================================================== */

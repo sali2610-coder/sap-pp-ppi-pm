@@ -9,6 +9,7 @@
 // window width; a real tablet never gets it. Same policy as the legacy chrome.
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Ico } from "./icon";
 import { modVar } from "./mod-var";
 import type { NavGroup } from "./types";
@@ -23,10 +24,14 @@ export function MobileTabs({
   navOpen: boolean;
   searchOpen: boolean;
 }) {
+  // "בית" is the current page only on the home page. It used to be marked
+  // current whenever no sheet was open, so every page claimed to be home.
+  const path = usePathname() || "";
+  const onHome = path === "/neo" || path === "/neo/";
   return (
     <nav className="nx-mtabs" data-shell="mobile-only" aria-label="ניווט תחתון">
       <div>
-        <Link prefetch={false} href="/neo/" className="nx-mtab" aria-current={!navOpen && !searchOpen ? "page" : undefined}>
+        <Link prefetch={false} href="/neo/" className="nx-mtab" aria-current={onHome && !navOpen && !searchOpen ? "page" : undefined}>
           <Ico name="Home" size={18} />
           <span>בית</span>
         </Link>

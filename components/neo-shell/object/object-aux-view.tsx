@@ -22,7 +22,7 @@
 
 import Link from "next/link";
 import {
-  BadgeCheck, Boxes, Cable, Columns3, GitBranch, Info, KeyRound, Layers,
+  BadgeCheck, Boxes, Columns3, GitBranch, Info, KeyRound, Layers,
   Route, Search, ShieldQuestion, Table2, Terminal,
 } from "lucide-react";
 import { OriginLink } from "@/components/neo-shell/nav-context";
@@ -427,10 +427,6 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
         </Sec>
       ) : null}
 
-      <p className="no-credit nm-fade nm-once">
-        <Cable size={13} strokeWidth={1.75} aria-hidden="true" />
-        {" "}Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding
-      </p>
     </div>
   );
 }

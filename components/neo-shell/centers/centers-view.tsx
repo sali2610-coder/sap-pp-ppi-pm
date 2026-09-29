@@ -3,8 +3,16 @@
    ----------------------------------------------------------------------------
    A shared template is allowed; loss of information is not. Every field the
    legacy center detail rendered travels through here: all five section types
-   (text / bullets / steps / chips / linkchips), each section's tone, the item's
-   tag, module and accent, and the ECC→S/4HANA verdict. Nothing is summarised.
+   (text / bullets / steps / chips / linkchips), the item's tag and module, and
+   the ECC→S/4HANA verdict. Nothing is summarised. (Tone and accent are colours,
+   not content; see COLOUR below.)
+
+   COLOUR (2026 system): the legacy data's `accent` and section `tone` are
+   Tailwind 600/700 decoration with no consistent meaning (one ABAP item uses the
+   same violet for "purpose" and for "related objects"). Measured as text on the
+   2026 surfaces they clear 2.25 to 4.45:1, and three are violet, so they are no
+   longer painted: every item and section takes the centre family's tint (--ct,
+   4.61:1). The fields stay in the data untouched.
 
    The one thing this surface adds is HONESTY ABOUT COVERAGE. The legacy grid
    showed a card per item and said nothing about which items carry a validated
@@ -108,7 +116,7 @@ export function CenterFamilyView({ fam }: { fam: CenterFamily }) {
         {fam.items.map((it, i) => (
           <li key={it.slug} className="nm-rise nm-once" style={{ "--nm-i": i } as React.CSSProperties}>
             <Link href={`/neo/centers/${fam.id}/${it.slug}/`} prefetch={false} className="nct-item">
-              <span className="nct-item-bar" style={{ background: it.accent }} aria-hidden="true" />
+              <span className="nct-item-bar" aria-hidden="true" />
               <span className="nct-item-body">
                 <b className="nct-item-he">{it.he}</b>
                 <span className="nct-item-en" dir="ltr">{it.title}</span>
@@ -132,8 +140,7 @@ export function CenterFamilyView({ fam }: { fam: CenterFamily }) {
 
 export function CenterDetailView({ fam, item }: { fam: CenterFamily; item: CenterItem }) {
   return (
-    <article className="nct nct-detail nm-scene" data-surface="centers" data-scene="cream"
-      style={{ "--ct": item.accent } as React.CSSProperties}>
+    <article className="nct nct-detail nm-scene" data-surface="centers" data-scene="cream">
       <header className="nct-hero nct-hero--item">
         <p className="nct-eye">
           <Link href={`/neo/centers/${fam.id}/`} prefetch={false} className="nct-back">{fam.he}</Link>
@@ -153,7 +160,7 @@ export function CenterDetailView({ fam, item }: { fam: CenterFamily; item: Cente
       <div className="nct-secs">
         {item.sections.map((s, i) => (
           <section key={i} className="nct-sec nm-rise nm-once"
-            style={{ "--st": s.tone || "var(--ct)", "--nm-i": i } as React.CSSProperties}>
+            style={{ "--nm-i": i } as React.CSSProperties}>
             <h2 className="nct-sec-h"><i aria-hidden="true" />{s.title}</h2>
 
             {s.type === "text" && <p className="nct-p">{s.text}</p>}

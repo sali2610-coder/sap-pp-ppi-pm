@@ -1108,14 +1108,6 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nh-out-t { margin: 0; font-size: 1rem; line-height: 1.7; color: var(--scene-ink-2, var(--ink-2)); }
 .nh-out .nh-cta { margin-block-end: 0; }
 
-.nh-credit {
-  margin: clamp(2rem, 4cqi, 3rem) 0 0;
-  padding-block-start: 1.2rem;
-  border-block-start: 1px solid var(--scene-hair, var(--hairline));
-  font-size: .76rem;
-  color: var(--scene-ink-3, var(--ink-3));
-}
-
 /* --------------------------------------------------------------------------
    11. NARROW CANVASES
    The container, not the window: the rail can take 22rem off a 768px screen,
@@ -1426,7 +1418,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 }
 .nz-zone[data-band="0"] { --zc: var(--mod-pm, #0d7a6b); }
 .nz-zone[data-band="1"] { --zc: var(--brand, #c8102e); }
-.nz-zone[data-band="2"] { --zc: var(--mod-pppi, #1d4ed8); }
+.nz-zone[data-band="2"] { --zc: var(--mod-pppi, #004cd6); }
 /* The count wears its zone's hue, so the three numbers are three colours. */
 /* The zone total takes SCENE INK, not the zone hue. A 72% mix of --zc measured
    1.75:1 at 58px in dark; the hue keeps the card edge, which is where the

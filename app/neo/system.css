@@ -58,6 +58,10 @@
   --link: #1d5486;                /* 6.40:1 at worst; underlined in running text */
   --focus: #1f5fbf;               /* focus is blue so it never reads as selection */
   --focus-ring: 0 0 0 2px var(--surface), 0 0 0 4px var(--focus);
+  /* selection: a brand-tinted fill and the brand line (the fill alone is
+     ~1.05:1 against the panel, so the line carries the state) */
+  --select-bg: var(--brand-soft);
+  --select-line: var(--brand);
   --sel-bg: #fbe9e6;
   --sel-bar: var(--brand);
 
@@ -87,7 +91,7 @@
 
   /* ---- modules: identity only, each always carries its code in text ------ */
   --mod-pm: #0d6c64;
-  --mod-pppi: #1d4ed8;
+  --mod-pppi: #004cd6;   /* #1d4ed8 tinted to periwinkle on warm paper (OKLCH 272-276 at 14-36%) */
   --mod-pp: #436c0d;
   --mod-ppds: #8a5a12;
   --mod-mm: #0c6a84;
@@ -100,7 +104,7 @@
   --mod-cs: #137035;
   --mod-class: #0369a1;
   --mod-pipo: #475569;
-  --mod-fi: #1e3a8a;
+  --mod-fi: #103b8c;     /* #1e3a8a drifted the same way */
   --mod-co: #375116;     /* moss; the first bronze sat 0.031 OKLab from BATCH */
   --mod-idoc: #57534e;
   --mod-s4: #44403c;
@@ -180,7 +184,8 @@
   --ease-accel: cubic-bezier(.4, 0, 1, 1);
   --ease-spring: cubic-bezier(.3, 1.25, .6, 1);   /* a small overshoot, never a bounce */
 
-  font-family: var(--font-sans);
+  /* the reader's face choice (dock/typography.ts) wins over the default */
+  font-family: var(--nx-face, var(--font-sans));
   color: var(--ink-1);
   background: var(--background);
 }

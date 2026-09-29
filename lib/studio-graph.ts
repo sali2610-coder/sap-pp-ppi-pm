@@ -26,9 +26,12 @@ export interface SNode {
 }
 export interface SHetero { nodes: Map<string, SNode>; adj: Map<string, Set<string>>; tables: string[]; master: Set<string> }
 
+// 2026 system: no violet. IDoc was #7c3aed and is now olive #3f6212 (the most
+// distant non-red, non-status hue from the other six kinds, 0.139 OKLab, 7.08:1
+// under white type); the config zone takes NEO's --obj-config value #8a3f4a.
 export const KIND_META: Record<SKind, { he: string; c: string }> = {
   table: { he: "טבלה", c: "#0891b2" }, tcode: { he: "טרנזקציה", c: "#475569" }, bapi: { he: "BAPI", c: "#2563eb" },
-  fm: { he: "FM", c: "#0d9488" }, idoc: { he: "IDoc", c: "#7c3aed" }, cds: { he: "CDS", c: "#16a34a" }, fiori: { he: "Fiori", c: "#d97706" },
+  fm: { he: "FM", c: "#0d9488" }, idoc: { he: "IDoc", c: "#3f6212" }, cds: { he: "CDS", c: "#16a34a" }, fiori: { he: "Fiori", c: "#d97706" },
 };
 
 const MASTER: Record<string, string[]> = {
@@ -143,7 +146,7 @@ export const ZONES: { id: Zone; he: string; c: string }[] = [
   { id: "execution", he: "ביצוע", c: "#f97316" },
   { id: "status", he: "סטטוס", c: "#64748b" },
   { id: "quality", he: "איכות", c: "#0d9488" },
-  { id: "config", he: "תצורה", c: "#7c3aed" },
+  { id: "config", he: "תצורה", c: "#8a3f4a" },
   { id: "logistics", he: "לוגיסטיקה / פיננסי", c: "#16a34a" },
   { id: "other", he: "אחר", c: "#94a3b8" },
 ];

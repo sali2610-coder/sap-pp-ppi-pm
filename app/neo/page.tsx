@@ -341,10 +341,6 @@ export default function NeoHome() {
               טבלאות SAP
             </Link>
           </div>
-
-          <p className="nh-credit">
-            Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding
-          </p>
         </div>
        </div>
       </section>

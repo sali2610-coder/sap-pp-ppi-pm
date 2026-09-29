@@ -3,14 +3,17 @@
 /* ============================================================================
    PROJECT NEO · THE DOCK (§22 + §23)
    ----------------------------------------------------------------------------
-   Two small controls at the bottom of every NEO page: גופן and שאל את NEO.
-   "לא גדולים. לא מסתירים תוכן.": so they sit in the corner, at chip size, and
-   the page reserves room for them rather than having them float over the last
-   line of text.
+   Two controls on every NEO page: display settings and page help.
 
-   שאל את NEO opens a SIDE PANEL on a desktop and a BOTTOM SHEET on a phone, as
-   specified. Both are the same component in two positions; only the CSS differs,
-   because two implementations would drift.
+   2026 system: they live in the TOP BAR, not in a floating corner. Floating,
+   they covered the phone's tab bar and the last line of content; in the bar they
+   sit with the other page tools, in reading order. The buttons are portalled
+   into a slot the shell renders (#nx-dock-slot on a desktop, #nx-dock-mslot on
+   a phone or tablet), so they are in the header's DOM and its tab order, while
+   the state and the panels stay here, where a route change never remounts them.
+
+   Page help opens a popover under the bar on a desktop and a BOTTOM SHEET on a
+   phone. Both are the same component in two positions; only the CSS differs.
 
    WHAT THIS IS NOT, AND SAYS SO ON SCREEN
      The assistant here is a SHELL. §22 asks for the architecture, not a second
@@ -20,10 +23,11 @@
      surfaces — /neo/ai/ for the books, /neo/chat/ for general SAP.
    ========================================================================== */
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Type, Sparkles, X, BookOpen, MessageSquare, Check } from "lucide-react";
+import { Type, CircleHelp, X, BookOpen, MessageSquare, Check } from "lucide-react";
 import { ThemeSwitch } from "./theme-switch";
 import {
   contextFromPath, contextLine, NEO_CTX_EVENT,
@@ -35,6 +39,11 @@ import {
 } from "./typography";
 
 type Panel = "none" | "type" | "ask";
+
+const noSubscribe = () => () => {};
+const dockSlot = () =>
+  document.getElementById(document.documentElement.dataset.device === "desktop" ? "nx-dock-slot" : "nx-dock-mslot");
+const noSlot = () => null;
 
 export function NeoDock() {
   const path = usePathname() || "/";
@@ -87,6 +96,12 @@ export function NeoDock() {
 
   const open = panel !== "none";
 
+  // The slot the shell renders for this device. data-device is written before
+  // first paint and never changes, so there is nothing to subscribe to; the
+  // server snapshot (null) keeps hydration identical to the server HTML, and
+  // the client value arrives in the render right after it.
+  const slot = useSyncExternalStore(noSubscribe, dockSlot, noSlot);
+
   // The resolved theme, read from the document so the bar can name it without
   // owning the switch's state. Hebrew words only; nothing shown before hydration.
   const [themeNow, setThemeNow] = useState<string>("");
@@ -101,7 +116,8 @@ export function NeoDock() {
 
   return (
     <>
-      <div className="nxk" data-open={open ? "1" : "0"}>
+      {slot ? createPortal(
+      <div className="nxk">
         {/* ONE display menu (design audit §3, 2026-09-22): appearance, font
             and size live in the same panel. The bar still answers "which mode am
             I in" from across the room: the button carries the resolved theme. */}
@@ -112,7 +128,7 @@ export function NeoDock() {
           aria-label={`הגדרות תצוגה: מראה, גופן וגודל טקסט${themeNow ? ` (כעת ${themeNow})` : ""}`}
           onClick={() => setPanel((p) => (p === "type" ? "none" : "type"))}
         >
-          <Type className="ico" size={15} aria-hidden="true" />
+          <Type className="ico" size={16} aria-hidden="true" />
           <span>תצוגה</span>
           {themeNow ? <em className="nxk-b-state">{themeNow}</em> : null}
         </button>
@@ -123,14 +139,14 @@ export function NeoDock() {
           aria-label="עזרה בעמוד: ההקשר הנוכחי והיכן אפשר לשאול"
           onClick={() => setPanel((p) => (p === "ask" ? "none" : "ask"))}
         >
-          <Sparkles className="ico" size={15} aria-hidden="true" />
+          <CircleHelp className="ico" size={16} aria-hidden="true" />
           {/* THREE NAMES, THREE THINGS (design audit S7-AI-4): "עזרה בעמוד"
               is this panel — the current page's context and the way to the
               two assistants; "עזרה מהספרייה" answers from the books; "שיחה
               כללית" is the open SAP conversation. */}
           <span>עזרה בעמוד</span>
         </button>
-      </div>
+      </div>, slot) : null}
 
       {open && <button type="button" className="nxk-scrim" aria-label="סגירת החלונית" onClick={() => setPanel("none")} />}
 
@@ -197,20 +213,11 @@ export function NeoDock() {
         </section>
       )}
 
-      {/* The assistant panel wears NEO'S OWN GROUND — the same near-black indigo
-          as /neo/chat/. It was a plain light sheet, which read as a generic form
-          rather than as the site assistant: opening it should feel like NEO
-          arriving, and should be recognisably the same thing the full chat
-          surface is. The font panel deliberately takes NO scene — that one is a
-          settings sheet and belongs to the page it adjusts, not to NEO. */}
+      {/* The help panel is an ordinary panel: the 2026 system takes the scenes
+          away, and the panel's job is the page's context and two ways to ask. */}
       {panel === "ask" && (
         <section
-          /* data-scene alone, NOT .nm-scene: that helper sets position:relative
-             to paint its own ground, which overrode this panel's position:fixed
-             and threw it to the wrong edge of the screen. The attribute still
-             supplies every scene token; dock.css does the painting. */
           className="nxk-p nxk-p--ask"
-          data-scene="ai"
           role="dialog"
           aria-modal="false"
           aria-label="עזרה בעמוד הזה"

@@ -2913,8 +2913,6 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
         ) : null}
       </div>
 
-      <p className="ne-credit">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</p>
-
       {sheet && tByName.get(sheet) ? (
         <ErdSheet
           t={tByName.get(sheet)!}

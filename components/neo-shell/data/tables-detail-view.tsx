@@ -39,7 +39,7 @@ import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 import Link from "next/link";
 import {
   AppWindow, ArrowLeft, ArrowUpLeft, BadgeCheck, BookOpen, Boxes, Cable,
-  Columns3, Database, GitBranch, KeyRound, Layers, Library, Sigma, Table2,
+  Columns3, Database, GitBranch, Layers, Library, Sigma, Table2,
   Terminal, TriangleAlert, Workflow,
 } from "lucide-react";
 import { RISK_COLOR } from "@/lib/s4";
@@ -863,10 +863,6 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         <p>
           <Database size={13} strokeWidth={1.75} aria-hidden="true" />
           מקור: שני קובצי תיעוד המקור של הפרויקט ומיפויי ה-CDS וה-S/4HANA שלו. שדה שלא תועד מסומן בעמוד.
-        </p>
-        <p className="nxb-credit">
-          <KeyRound size={13} strokeWidth={1.75} aria-hidden="true" />
-          Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding
         </p>
       </footer>
     </article>

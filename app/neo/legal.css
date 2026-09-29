@@ -1,0 +1,91 @@
+/* The legal documents (components/neo-shell/legal/legal-view.tsx). Scoped to
+   .nlg rather than .nx-app because the legacy /privacy/ renders the same view
+   outside the NEO shell; every token therefore carries a fallback. A reading
+   column of at most 72 characters, the contents list beside it on a wide
+   screen and above it otherwise, rules between sections rather than boxes. */
+
+.nlg {
+  display: grid;
+  gap: var(--sp-6, 1.5rem);
+  max-inline-size: 66rem;
+  color: var(--ink-1);
+}
+@media (min-width: 1100px) {
+  .nlg {
+    grid-template-columns: 15rem minmax(0, 1fr);
+    grid-template-areas: "head head" "toc body" "other other";
+    column-gap: var(--sp-8, 2rem);
+    align-items: start;
+  }
+  .nlg-head { grid-area: head; }
+  .nlg-toc { grid-area: toc; position: sticky; inset-block-start: var(--sp-6, 1.5rem); }
+  .nlg-body { grid-area: body; }
+  .nlg-other { grid-area: other; }
+}
+
+.nlg-head { display: grid; gap: var(--sp-2, .5rem); max-inline-size: 72ch; }
+.nlg-head h1 { font-size: var(--t-h1, 1.75rem); font-weight: 600; line-height: 1.25; letter-spacing: 0; }
+.nlg-lede { font-size: var(--t-lead, 1.125rem); line-height: 1.6; color: var(--ink-2); }
+.nlg-meta { font-size: var(--t-xs, .8125rem); color: var(--ink-2); }
+.nlg-draft {
+  margin-block-start: var(--sp-2, .5rem);
+  padding: var(--sp-2, .5rem) var(--sp-3, .75rem);
+  border: 1px dashed var(--line-strong, #867e72);
+  border-radius: var(--r-sm, 4px);
+  font-size: var(--t-sm, .875rem);
+  color: var(--ink-1);
+}
+
+.nlg-toc ol { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; counter-reset: nlg; }
+.nlg-toc li { counter-increment: nlg; }
+.nlg-toc a {
+  display: flex; gap: var(--sp-2, .5rem);
+  padding: 4px var(--sp-2, .5rem);
+  border-radius: var(--r-sm, 4px);
+  font-size: var(--t-sm, .875rem); line-height: 1.5;
+  color: var(--ink-2); text-decoration: none;
+}
+.nlg-toc a::before {
+  content: counter(nlg);
+  min-inline-size: 1.25rem;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: var(--t-micro, .75rem);
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.nlg-toc a:hover { color: var(--ink-1); background: var(--surface-2); }
+.nlg-toc a:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+.nlg-body { display: grid; max-inline-size: 72ch; }
+.nlg-body section { padding-block: var(--sp-5, 1.25rem); border-block-start: 1px solid var(--hairline); scroll-margin-block-start: var(--sp-6, 1.5rem); }
+.nlg-body section:first-child { border-block-start: 0; padding-block-start: 0; }
+.nlg-body h2 { font-size: var(--t-h2, 1.25rem); font-weight: 600; line-height: 1.35; letter-spacing: 0; margin-block-end: var(--sp-2, .5rem); }
+.nlg-body p,
+.nlg-body li { font-size: var(--t-body, 1rem); line-height: 1.7; color: var(--ink-1); }
+.nlg-body p + p,
+.nlg-body p + ul,
+.nlg-body ul + p { margin-block-start: var(--sp-3, .75rem); }
+.nlg-body ul { display: grid; gap: 4px; margin: 0; padding-inline-start: 1.25rem; list-style: disc; }
+.nlg-body li::marker { color: var(--ink-3); }
+
+.nlg-owner {
+  padding: var(--sp-2, .5rem) var(--sp-3, .75rem);
+  border: 1px dashed var(--line-strong, #867e72);
+  border-radius: var(--r-sm, 4px);
+  background: var(--surface-2);
+}
+.nlg-body .nlg-owner { font-size: var(--t-sm, .875rem); }
+.nlg-owner code {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: var(--t-micro, .75rem);
+  color: var(--ink-2);
+  unicode-bidi: isolate;
+}
+
+.nlg-other {
+  display: flex; flex-wrap: wrap; gap: var(--sp-2, .5rem) var(--sp-5, 1.25rem);
+  padding-block-start: var(--sp-4, 1rem);
+  border-block-start: 1px solid var(--hairline);
+}
+.nlg-other a { color: var(--link, #1d5486); font-size: var(--t-sm, .875rem); text-decoration: underline; text-underline-offset: 3px; }
+.nlg-other a:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 2px; }

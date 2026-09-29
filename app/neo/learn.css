@@ -742,12 +742,8 @@ html[data-theme="dark"] .nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--in
 }
 .nx-app .nxb-no li::marker { color: var(--ink-3); }
 
-/* The one real action on a surface that has NO owning module. ui.css resolves a
-   primary button's fill from --m, and this surface's --m is neutral ink, which
-   paints a solid grey button that reads as disabled. Brand red is the product's
-   global accent and is explicitly never a module colour, so the single primary
-   action takes it. Nothing else on this surface does. */
-.nx-app .nxl .nu-btn.nxl-primary { --_m: var(--brand); }
+/* .nxl-primary needed brand red forced here while ui.css took a primary's fill
+   from --m; in the 2026 system every .nu-btn is brand red (app/neo/ui.css). */
 
 /* ------------------------------------------------------------------------
    CERTIFICATION ENTRY (design audit S7-CERT-2)

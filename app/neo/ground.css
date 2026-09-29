@@ -523,7 +523,7 @@ html[data-theme="dark"] [data-scene="books"] {
   --scene-ink: #10131c;
   --scene-ink-2: #363e4f;
   --scene-ink-3: #5b6475;
-  --scene-accent: #1d4ed8;
+  --scene-accent: #004cd6;
   --scene-hot: var(--brand);
   --scene-hair: rgba(16, 19, 28, .14);
 }

@@ -1281,14 +1281,6 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw-rc-he { font-size: var(--t-xs); color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nw-rcrow em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); white-space: nowrap; }
 
-.nw-credit {
-  margin: var(--sp-8) var(--nw-gut) 0;
-  padding-block-start: var(--sp-4);
-  border-block-start: 1px solid var(--hairline);
-  font-size: var(--t-micro);
-  color: var(--ink-3);
-}
-
 /* ==========================================================================
    DARK — layered, not inverted.
    ========================================================================== */

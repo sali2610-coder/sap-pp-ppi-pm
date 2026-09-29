@@ -93,7 +93,6 @@ export function DomainsHub() {
 
       <DomainHubList cards={cards} />
 
-      <p className="ndm-credit">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</p>
     </div>
   );
 }

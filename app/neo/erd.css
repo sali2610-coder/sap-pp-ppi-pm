@@ -76,7 +76,7 @@ html .nx-app .nx-canvas:has(> .ne) {
      from a status hue — a key is a role, not a state. Both clear 4.5:1 on
      --surface. */
   --ne-pk: #a16207;
-  --ne-fk: #1d4ed8;
+  --ne-fk: #004cd6;   /* the PP-PI blue of the 2026 system: #1d4ed8 tinted to periwinkle at 18% */
 
   /* --- S/4 RISK ------------------------------------------------------------
      The project's own three grades, on the open card's bottom strip and
@@ -1258,15 +1258,6 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 .ne-facts dt { color: var(--ink-3); }
 .ne-facts dd { font-family: var(--font-mono); direction: ltr; font-variant-numeric: tabular-nums; color: var(--ink-1); }
 .ne-note { font-size: var(--t-micro); color: var(--ink-3); line-height: var(--lh-he); padding-block-start: var(--sp-2); border-block-start: 1px solid var(--hairline); }
-
-.ne-credit {
-  font-size: var(--t-micro);
-  color: var(--ink-3);
-  text-align: center;
-  padding: var(--sp-2);
-  border-block-start: 1px solid var(--hairline);
-  background: var(--surface);
-}
 
 /* ==========================================================================
    KEYBOARD + LEGEND SHEET

@@ -43,13 +43,14 @@ import { Ico } from "../icon";
 import {
   GROUP_MS, RAIL_MS, measure, play, playEnter, playScaleX, raf, raf2, reducedMotion,
 } from "../flip";
-import { modVar, secVar } from "../mod-var";
+import { modVar } from "../mod-var";
+import { SiteFooter } from "../site-footer";
 import { PreviewPanel } from "../preview";
 import { ContextPane, PinnedPane, RecentPane, ShelfTabs } from "../shelf";
 import { useFavorites } from "@/lib/prefs";
 import { MobileSheet, MobileTabs } from "../mobile-nav";
 import { pushRecentObject, relTime, setLayout, useLayout, useRecent } from "../store";
-import type { ModuleKey, NavItem, RailMode, ShelfTab, ShellData } from "../types";
+import type { NavItem, RailMode, ShelfTab, ShellData } from "../types";
 import { KINDS, buildIndex, runQuery } from "./build";
 import { CommandSurface } from "./command-surface";
 import { CmdKey } from "../cmd-key";
@@ -114,7 +115,6 @@ export function NeoShellClient({
     () => items.find((i) => isActive(path, i.href)) || null,
     [items, path],
   );
-  const activeMod = active?.mod;
 
   /* ------------------------------------------------------------- state
      mode and the per-group open map live in an external store rather than in
@@ -137,7 +137,6 @@ export function NeoShellClient({
   const [shelf, setShelf] = useState<ShelfTab>("recent");
   const [ctxName, setCtxName] = useState<string>(data.defaultContext);
   const [pvId, setPvId] = useState<string | null>(null);
-  const [hoverMod, setHoverMod] = useState<ModuleKey | undefined>(undefined);
   const [sheet, setSheet] = useState(false);
 
   const { names: recent, seen } = useRecent();
@@ -308,39 +307,9 @@ export function NeoShellClient({
     return () => { window.removeEventListener("resize", on); ro.disconnect(); };
   }, [syncInd]);
 
-  /* -------------------------------------------------------- rail tint
-     One variable drives everything hue-reactive in the rail: the top wash, the
-     hairline edge, the quick-action border, the search field and its glow, the
-     shelf underline and the scrollbar thumb on hover.
-
-     Hover tint REVERTS here. In the prototype showPreview() retinted the rail
-     and hidePreview() did not undo it, so the surface stayed the colour of
-     whatever module you last passed over. Deriving it from state instead makes
-     that impossible. */
-  useLayoutEffect(() => {
-    const rail = railRef.current;
-    if (!rail) return;
-    /* SECTION HUE, NOT JUST MODULE HUE.
-       This used to be `m ? modVar(m) : "var(--ink-3)"` — a colour only when a
-       MODULE was active. PM and PP-PI are modules; Tables, Transactions,
-       BAPIs, IDocs, CDS, Fiori, Enhancements, Knowledge, Academy, Incidents,
-       Studio and the two AI surfaces are not, so every one of them fell to
-       neutral ink. That single ternary is why the product looked finished in
-       two places and migrated-from-an-older-UI everywhere else.
-
-       Resolution order is hover, then search, then the active route, and at
-       each step a module hue wins over a section hue because a module IS the
-       more specific context. Ink remains the honest fallback for an id that
-       has no hue assigned. */
-    const hue = (mod: string | undefined, id: string | undefined) =>
-      (mod ? modVar(mod) : "") || secVar(id);
-    const tint =
-      hue(hoverMod, pvId ?? undefined) ||
-      hue(searchMod, undefined) ||
-      hue(activeMod, active?.id);
-    rail.style.setProperty("--railtint", tint || "var(--ink-3)");
-    rail.dataset.tinted = tint ? "1" : "0";
-  }, [hoverMod, searchMod, activeMod, pvId, active?.id]);
+  /* The rail used to take the current section's hue (--railtint) for a wash,
+     a bloom and tinted chips. The 2026 system keeps the rail neutral
+     (app/neo/rail.css), so nothing sets or reads it any more. */
 
   /* -------------------------------------------------- shelf underline */
   useLayoutEffect(() => {
@@ -462,11 +431,7 @@ export function NeoShellClient({
     const id = el.dataset.nav;
     if (!id) return;
     pvAnchor.current = el;
-    const fire = () => {
-      setPvId(id);
-      const m = el.dataset.mod as ModuleKey | undefined;
-      setHoverMod(m);
-    };
+    const fire = () => setPvId(id);
     if (pvTimer.current) window.clearTimeout(pvTimer.current);
     if (immediate) fire();
     else pvTimer.current = window.setTimeout(fire, PREVIEW_DELAY);
@@ -475,7 +440,6 @@ export function NeoShellClient({
   const hidePreview = useCallback(() => {
     if (pvTimer.current) window.clearTimeout(pvTimer.current);
     setPvId(null);
-    setHoverMod(undefined);
   }, []);
 
   useLayoutEffect(() => {
@@ -520,6 +484,14 @@ export function NeoShellClient({
     window.addEventListener("neo:nx:object", on as EventListener);
     return () => window.removeEventListener("neo:nx:object", on as EventListener);
   }, [openObject]);
+
+  // A page can open the command surface the way the top bar does (the home's
+  // search field), without importing the shell.
+  useEffect(() => {
+    const on = () => changeMode("search");
+    window.addEventListener("neo:nx:search", on);
+    return () => window.removeEventListener("neo:nx:search", on);
+  }, [changeMode]);
 
   /* ----------------------------------------------- the command surface */
   const goResult = useCallback((r: CmdRecord) => {
@@ -878,14 +850,10 @@ export function NeoShellClient({
           </div>
         </div>
 
+        {/* The credit is the page footer's (SiteFooter), on every page and device.
+            An initials avatar here read as a signed-in profile on a site with
+            no accounts, so the foot keeps only the context-mode control. */}
         <div className="nx-rail-foot" ref={footRef}>
-          <span className="nx-who">
-            <span className="nx-avatar" aria-hidden="true">SH</span>
-            <span className="nx-who-t">
-              <b>סאלי חליף</b>
-              <span>Web Coding</span>
-            </span>
-          </span>
           <button
             type="button"
             className="nx-iconbtn"
@@ -942,6 +910,8 @@ export function NeoShellClient({
             <kbd><CmdKey /></kbd>
           </button>
           <div className="nx-topbar-tools">
+            {/* Display settings and page help render here (components/neo-shell/dock). */}
+            <span id="nx-dock-slot" className="nx-dock-slot" />
             <button
               type="button"
               className="nx-iconbtn"
@@ -959,18 +929,13 @@ export function NeoShellClient({
             <span className="nx-glyph" aria-hidden="true"><i /><i /><i /></span>
             <b>{active?.label || "Project NEO"}</b>
           </div>
+          <span id="nx-dock-mslot" className="nx-dock-slot" />
         </header>
 
-        <main id="main" className="nx-canvas">{children}</main>
-
-        {/* The mandatory footer credit, on the MOBILE shell. On desktop it
-            lives in the rail foot; on a phone the rail never renders, and 12
-            of 21 surfaces had no visible credit at all (the deferred open item
-            from the release record). Surfaces that already end with their own
-            credit line suppress this one via :has() in rail.css. */}
-        <p className="nx-mcredit" data-shell="mobile-only">
-          Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding
-        </p>
+        <main id="main" className="nx-canvas">
+          {children}
+          <SiteFooter />
+        </main>
 
         <MobileTabs
           navOpen={sheet}
