@@ -23,6 +23,9 @@ const EXTRA = [
   "/neo/best-practices/ecc-to-s4hana-migration-process/",
 ];
 for (const r of EXTRA) if (!ROUTES.includes(r)) ROUTES.push(r);
+// NEO_ONLY=1: the pre-NEO addresses (/exits/…) redirect into NEO now, so they
+// would measure a NEO page twice under an old name (gate 8, M6).
+if (process.env.NEO_ONLY === "1") ROUTES.splice(0, ROUTES.length, ...ROUTES.filter((r) => r.startsWith("/neo/")));
 
 const browser = await chromium.launch({ executablePath: process.env.CHROME || "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" });
 const ctx = await browser.newContext({ viewport: { width: 1363, height: 936 } });
