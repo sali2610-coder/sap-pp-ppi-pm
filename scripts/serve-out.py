@@ -30,6 +30,9 @@ class H(http.server.SimpleHTTPRequestHandler):
 
 import os
 PORT = int(os.environ.get("PORT", "4173"))
+# Rebind at once after a restart (a rebuild replaces out/, so the server has to
+# restart with it) instead of failing on the old socket's TIME_WAIT.
+socketserver.TCPServer.allow_reuse_address = True
 with socketserver.TCPServer(("", PORT), H) as httpd:
     print(f"serving out/ on {PORT}", flush=True)
     httpd.serve_forever()
