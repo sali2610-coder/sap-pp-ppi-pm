@@ -19,6 +19,95 @@
    - Shadow only on things that float (menus, palette, dialogs).
    ========================================================================== */
 
+/* THE FALLBACK FACES (gate 4, major 6). Until the Plex faces arrive, text was
+   painted in next/font's generic fallbacks: Hebrew in an Arial sized for LATIN
+   letters (about 4% narrower than Plex's Hebrew), SAP identifiers and counts in
+   an Arial 16% wider than Plex Mono. Rows that wrapped differently then moved
+   when Plex swapped in: CLS 0.29 on /neo/transactions/ at 1440, 0.34 with the
+   fonts held 1.5s. These faces stand in for Plex with its own widths and
+   vertical metrics, measured in Chrome over this UI's own text (app/fonts/plex.ts
+   no longer requests next/font's). The overrides are divided by size-adjust,
+   which scales them.
+
+   Each weight is measured against the text the UI sets in it, over seven
+   screens (the catalogues, two records, the knowledge centre, the home):
+   Hebrew, for Plex's Hebrew range only (so Latin still falls through to Plex
+   Latin): Plex 400/500/600 run 3.95%, 6.79% and 3.40% wider than Arial and
+   Arial Bold; ascent .90, descent .25. */
+@font-face {
+  font-family: "NEO Hebrew Fallback";
+  src: local("Arial"), local("ArialMT");
+  font-weight: 400;
+  size-adjust: 103.95%;
+  ascent-override: 86.58%;
+  descent-override: 24.05%;
+  line-gap-override: 0%;
+  unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+}
+@font-face {
+  font-family: "NEO Hebrew Fallback";
+  src: local("Arial"), local("ArialMT");
+  font-weight: 500;
+  size-adjust: 106.79%;
+  ascent-override: 84.28%;
+  descent-override: 23.41%;
+  line-gap-override: 0%;
+  unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+}
+@font-face {
+  font-family: "NEO Hebrew Fallback";
+  src: local("Arial Bold"), local("Arial-BoldMT");
+  font-weight: 600 700;
+  size-adjust: 103.40%;
+  ascent-override: 87.04%;
+  descent-override: 24.18%;
+  line-gap-override: 0%;
+  unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+}
+/* Latin, measured per weight on the Latin this UI sets in that weight (codes,
+   module names, English titles on four catalogue and record pages): Plex runs
+   0.19%, 0.21% and 0.27% narrower than Arial, Arial and Arial Bold; ascent
+   1.02, descent .27. No unicode-range: like the face it replaces, it catches
+   what the others do not. */
+@font-face {
+  font-family: "NEO Latin Fallback";
+  src: local("Arial"), local("ArialMT");
+  font-weight: 400;
+  size-adjust: 99.81%;
+  ascent-override: 102.19%;
+  descent-override: 27.05%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "NEO Latin Fallback";
+  src: local("Arial"), local("ArialMT");
+  font-weight: 500;
+  size-adjust: 99.79%;
+  ascent-override: 102.21%;
+  descent-override: 27.06%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "NEO Latin Fallback";
+  src: local("Arial Bold"), local("Arial-BoldMT");
+  font-weight: 600 700;
+  size-adjust: 99.73%;
+  ascent-override: 102.28%;
+  descent-override: 27.07%;
+  line-gap-override: 0%;
+}
+/* Mono: Plex Mono advances 0.6em, and so does Courier New (0.99976 of it over
+   the catalogue's identifiers and counts), so the fallback keeps every width
+   and only the vertical metrics are set: ascent 1.02, descent .27. */
+@font-face {
+  font-family: "NEO Mono Fallback";
+  src: local("Courier New"), local("CourierNewPSMT");
+  font-weight: 100 700;
+  ascent-override: 102%;
+  descent-override: 27%;
+  line-gap-override: 0%;
+}
+
 .nx-app {
   /* ---- ground ------------------------------------------------------------ */
   --background: #f3f0ea;          /* paper: the canvas */
@@ -88,6 +177,10 @@
   --status-tested: #0d6771;
   --status-not-started: #655e54;
   --status-removed: #8a3b22;
+  /* Read by the S/4HANA centre (high risk, "gone") and never declared, so its
+     #dc2626 fallback painted (gate 3, minor 28). Risk is feedback, so it takes
+     the danger family. */
+  --status-blocked: var(--danger);
 
   /* ---- modules: identity only, each always carries its code in text ------ */
   --mod-pm: #0d6c64;
@@ -128,10 +221,17 @@
   --sec-incidents: #b83b04;
   --sec-cert: #82620a;
   --sec-neo: var(--brand-ink);
+  /* Declared in globals.css only and undocumented (gate 3, minor 28); stated
+     here with their values unchanged so the token layer names every section
+     tint it re-values: cobalt for the executable surface, navy-cyan for the
+     studio (and, through --sec-erd, the data model). Both clear 4.5:1 on the
+     four surfaces. */
+  --sec-transactions: #1d5fd0;
+  --sec-studio: #1f5f8a;
 
   /* ---- type --------------------------------------------------------------- */
-  --font-sans: var(--f-plex-he), var(--f-plex-lat), "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
-  --font-mono: var(--f-plex-mono), "Cascadia Code", Consolas, "SF Mono", ui-monospace, monospace;
+  --font-sans: var(--f-plex-he), "NEO Hebrew Fallback", var(--f-plex-lat), "NEO Latin Fallback", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  --font-mono: var(--f-plex-mono), "NEO Mono Fallback", "Cascadia Code", Consolas, "SF Mono", ui-monospace, monospace;
   --font-display: var(--f-frank-he), var(--f-frank-lat), var(--font-sans);
   --t-micro: 0.75rem;     /* 12px, the floor */
   --t-xs: 0.8125rem;      /* 13px */
@@ -149,6 +249,11 @@
   --t-display: 2.5rem;
   --t-display-lh: 1.15;
   --t-display-tr: 0;
+  /* The Hebrew reading column. `ch` is the width of "0", wider than an average
+     Hebrew letter, so 72ch to 78ch set 86 to 96 characters a line (gate 3, major
+     11). Plex Sans Hebrew runs about 0.46em a character, spaces included
+     (measured: 35em set 70 to 79), so 31em holds 60 to 72 at any size. */
+  --measure: 31em;
 
   /* ---- shape -------------------------------------------------------------- */
   --radius: 4px;
@@ -161,8 +266,11 @@
   --r-pill: 4px;          /* the old pill token becomes a rectangle; true circles use 50% */
 
   /* ---- depth: flat by default, shadows only for what floats --------------- */
-  --elev-1: none;
-  --elev-2: none;
+  /* Flat, written as a shadow that paints nothing: `none` cannot be one item of
+     a box-shadow list, so `var(--elev-1), var(--focus-ring)` computed to none by
+     day and dropped the focus ring (lead, TOKEN-1). */
+  --elev-1: 0 0 0 0 transparent;
+  --elev-2: 0 0 0 0 transparent;
   --elev-3: 0 1px 0 rgba(46, 34, 20, .06), 0 10px 28px -14px rgba(46, 34, 20, .30);
   --elev-4: 0 1px 0 rgba(46, 34, 20, .08), 0 20px 48px -20px rgba(46, 34, 20, .36);
   --shadow-card: none;
@@ -270,6 +378,8 @@ html[data-theme="dark"] .nx-app {
   --sec-academy: var(--sec-knowledge);
   --sec-centers: var(--sec-knowledge);
   --sec-neo: var(--brand-ink);
+  --sec-transactions: #6da3ff;
+  --sec-studio: #6fb0d8;
 
   /* at night a shadow is invisible; floating layers get a lighter edge and a deep drop */
   --elev-3: 0 1px 0 rgba(255, 240, 220, .06), 0 14px 32px -14px rgba(0, 0, 0, .7);
@@ -298,3 +408,9 @@ html .nx-app[data-scene] {
 
 /* Display face: gateway and reading titles only; work screens never request it. */
 .nx-app .nx-display { font-family: var(--font-display); font-weight: 600; letter-spacing: 0; }
+
+/* No tracking on Hebrew headings and eyebrows (DESIGN-SPEC §1). globals.css
+   still tracks h1-h3 at -0.02em and .nx-eyebrow at .06em, which reached every
+   family outside app/neo (gate 3, minor 17). One rule, the system's last word. */
+.nx-app :is(h1, h2, h3),
+.nx-app .nx-eyebrow { letter-spacing: 0; }

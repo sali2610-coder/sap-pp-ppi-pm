@@ -7,12 +7,19 @@
    instance keeps it, last in the stack. next/font needs literal option values. */
 import localFont from "next/font/local";
 
+// Not preloaded (gate 3, minor 29): the shell imports this module on every NEO
+// route, so a preload made /neo/tables/, AFKO, IW31 and the ERD download 18.7KB
+// they never paint. The display face is requested where a title uses it
+// (.nx-display: home, books, academy, knowledge articles, the PM and PP-PI
+// gateways) and swaps in; measured on those titles with the fonts held 1.5s,
+// the swap moves no layout (CLS 0.003 on /neo/academy/, 0.005 on /neo/).
 export const frankHe = localFont({
   src: "./frank-ruhl-libre/frank-ruhl-libre-hebrew-wght-normal.woff2",
   weight: "300 900",
   variable: "--f-frank-he",
   adjustFontFallback: false,
   display: "swap",
+  preload: false,
   declarations: [{ prop: "unicode-range", value: "U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F" }],
 });
 
