@@ -116,7 +116,10 @@ Families: `--font-sans` IBM Plex Sans Hebrew (Hebrew and Latin instances, 400/50
 ## Shape, depth, motion
 
 - Radius: `--r-xs` 2px, `--r-sm` and `--r-md` 4px, `--r-lg` 6px, `--r-xl` and `--r-2xl` 8px. `--r-pill` is 4px, so every former pill is a rectangle; a true circle (dot, avatar) states `50%`.
-- Depth: `--elev-1` and `--elev-2` are `none` (cards are flat, with a hairline); `--elev-3` and `--elev-4` only for menus, the palette and dialogs.
+- Depth: `--elev-1` and `--elev-2` are flat (cards sit on a hairline). By day they are `0 0 0 0 transparent`, not `none`: `none` cannot be one item of a shadow list, so `var(--elev-1), var(--focus-ring)` computed to no shadow at all by day and removed the focus ring (Studio nodes, catalogue plates; fixed on the branch). `--elev-3` and `--elev-4` only for menus, the palette and dialogs.
+- `--measure`: `31em`, the reading column (60 to 72 Hebrew characters a line), used by the legal pages, the reader's intro, evidence paragraphs and course text.
+- Status and section tokens stated in the token layer: `--status-blocked` is the danger family; `--sec-transactions` (#1d5fd0 day, #6da3ff night) and `--sec-studio` (#1f5f8a, #6fb0d8) were referenced by the S/4 and centres views without a definition.
+- Faces: Plex Hebrew, Latin and Mono are preloaded with fallback faces sized per weight to Plex over the UI's own text, so the swap does not re-wrap a line (CLS on /neo/transactions/ 0.34 to 0.003). The display face (Frank Ruhl) is preloaded with `display: optional`: without the preload a late face re-wrapped the phone home title (CLS 0.11); optional means a late arrival is never swapped in. Measured after: CLS 0, the display face on first paint, throttled phone included.
 - Motion: `--dur-micro` 100ms, `--dur-fast` 160ms, `--dur-base` 240ms, `--dur-panel` 280ms, `--dur-slow` 400ms, `--dur-signature` 900ms (one per screen at most). Curves: `--ease-out`, `--ease-emphasis`, `--ease-accel`, `--ease-spring` (small overshoot, never a bounce). Transform and opacity only; every animation has a reduced-motion final state.
 
 ## Scenes

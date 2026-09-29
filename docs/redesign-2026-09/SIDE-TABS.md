@@ -95,3 +95,17 @@ A side-tab can also be an inset box-shadow a few pixels wide on the start edge; 
 | `search.css` `.nx-group[data-hit] .nx-group-btn` | module bar on a rail group that holds search hits | decorative: removed; hits read by weight |
 | `reader.css` `.nr-rtoc-t[data-now]`, `.nr-toc-row[data-on]`, `workspace.css` `.nw-row[data-open]` | the current contents entry, the open row | current item: the selection line (3px `--select-line`) |
 | `data.css` `.nxb-tbl tr[data-k]`, `object.css` `.no-table tr[data-key="PK"] > :first-child` | primary / foreign key role on a field row, with PK / FK in the key column | semantic: kept at 2px |
+
+## Late decisions (review of the merged branch)
+
+The first sweep matched the shorthand `border-inline-start: <n>px`. Five edges written as longhand or as an inset shadow were found later, by the design hook and by review, and were decided under the same rule:
+
+| Where | Was | Now | Why |
+|---|---|---|---|
+| `object.css` `.no-stand[data-impact="1"]` | 7px object-colour edge plus `--elev-2` | no edge, no shadow | the panel's status pill already says "impacted" (SIDE-1) |
+| `data.css` `.nxt-s4[data-impacted="1"]`, `.nxb-s4flag`; `learn.css` `.nxv-s4[data-s4="1"]`; `reference.css` `.nxr-row[data-impacted="1"]` | brand-red inset edge, tinted border or gradient wash | neutral surface and hairline | red is the action colour, the status word carries the impact (SIDE-2). The row's `box-shadow: none` override was then removed as well: it out-ranked `.nu-card:focus-visible` and hid the keyboard focus ring |
+| `workspace.css` `.nw-move[data-risk]` | 6px / 4px edge plus a lift | no edge | the risk word is in the row's pill (SIDE-3) |
+| `workspace.css` `.nw-idx-i[data-key="1"]` | 3px module edge | weight and module-coloured number | a key chapter is marked in text, not by a bar |
+| `object.css` `.nox-chip[data-live="1"]` | 3px selection-line edge | link language: `--link` text, underline on hover, blue focus ring | it is a link, not a selection (gate 5, finding 5) |
+
+The detector (`impeccable detect`) reports 0 side-tab findings in `object.css` after the merge.
