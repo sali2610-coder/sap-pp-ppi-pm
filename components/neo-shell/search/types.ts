@@ -12,16 +12,21 @@ export type CmdKind =
   | "nav"
   | "module"
   | "table"
+  | "object"
   | "field"
   | "tcode"
   | "bapi"
   | "func"
+  | "idoc"
   | "cds"
   | "fiori"
+  | "enh"
   | "book"
   | "chapter"
   | "flow"
   | "guide"
+  | "center"
+  | "topic"
   | "bp"
   | "incident";
 
@@ -29,7 +34,7 @@ export type CmdKind =
  *  build time by search/command-index.ts. Short keys: this payload is inlined
  *  into the HTML of every page in the namespace. */
 export interface CmdExtraRecord {
-  k: "chapter" | "flow" | "guide" | "bp";
+  k: "chapter" | "flow" | "guide" | "bp" | "book" | "enh" | "object" | "center" | "topic";
   /** Title — always a real title from the dataset. */
   t: string;
   /** Short context — the Hebrew line the dataset already carries. */
@@ -39,6 +44,10 @@ export interface CmdExtraRecord {
   mod?: string;
   /** Relationship line, only when the source record really has one. */
   rel?: string;
+  /** 1 when the title is a SAP identifier (mono, LTR-isolated). */
+  m?: 1;
+  /** Canonical S/4HANA status key, when the record's page renders one. */
+  st?: string;
 }
 
 /** A module the project really documents, as a first-class search result. */
@@ -55,10 +64,23 @@ export interface CmdModuleRecord {
 }
 
 /** One dictionary FIELD, as a tuple. Tuples rather than objects on purpose:
- *  there are ~600 of them and this payload is inlined into the HTML of every
- *  page in the namespace, so repeating five key names 600 times is not free.
+ *  there are ~500 of them and this payload is inlined into the HTML of every
+ *  page in the namespace, so repeating five key names 500 times is not free.
  *  [technical name, Hebrew name, owning table, type+length]. */
 export type CmdFieldTuple = [string, string, string, string];
+
+/** One transaction, as a tuple (1,818 of them, so the same reasoning as fields):
+ *  [code, the registry's Hebrew line, index into `txMods`, index into `txSts`
+ *  (-1: no status), the tables it is documented on ("" when none), page (1|0)].
+ *  The page flag stands for `/neo/transactions/<code>/`, and it is 1 only when
+ *  that route generates the code (search/command-index.ts, gated by ref-links). */
+export type CmdTxTuple = [string, string, number, number, string, number];
+
+/** One function object with a page of its own: [clean identifier, Hebrew line,
+ *  modules, canonical status key, destination (/neo/bapi/… or /neo/idoc/…),
+ *  the blueprint table it is documented on ("" when none), and the page's own
+ *  class word when it is neither a BAPI nor a function module ("מושג תהליכי")]. */
+export type CmdFnTuple = [string, string, string, string, string, string, string?];
 
 /** The build-time supplement handed to the client shell. It carries ONLY what
  *  ShellData cannot already answer — never a second copy of the same records. */
@@ -68,14 +90,14 @@ export interface CommandExtra {
   mods: CmdModuleRecord[];
   /** Every dictionary field, with the table that owns it. */
   fields: CmdFieldTuple[];
-  /** function / BAPI name -> [owning table, module, real destination or ""].
-   *  Ownership is read from the same `t.funcs` lists the dictionary pages
-   *  render; the destination is resolved at build time against the routes that
-   *  are really generated, so a row never offers a link to a page that does not
-   *  exist. */
-  fn: Record<string, [string, string, string]>;
-  /** transaction code -> [tables it appears on, modules, real destination]. */
-  tx: Record<string, [string, string, string]>;
+  /** Every transaction the project knows (the registry /neo/transactions is
+   *  generated from, plus the blueprint codes that have no page). */
+  txs: CmdTxTuple[];
+  txMods: string[];
+  txSts: string[];
+  /** Every BAPI, function module and IDoc message type with a page, one row per
+   *  page (gate 6, major 11). */
+  fns: CmdFnTuple[];
   /** Fiori app id -> its FULL resolved /neo/ destination, or "" when the build
    *  generates no page for it. Resolved on the server against the very set the
    *  route generates from, because this map used to carry a bare slug that the
@@ -87,8 +109,8 @@ export interface CommandExtra {
   cds: Record<string, string>;
   /** functional-zone id -> Hebrew label (lib/studio-graph's own ZONES). */
   zone: Record<string, string>;
-  /** Result families the client asked for that have NO build-time index in this
-   *  stage. Stated in the UI instead of being filled with plausible rows. */
+  /** Families with pages that the index does not carry. Stated in the UI
+   *  instead of being left for the reader to notice. */
   gaps: { he: string; why: string }[];
 }
 
@@ -121,10 +143,17 @@ export interface CmdRecord {
   /** The canonical S/4HANA status key of the record, when it has one — drawn
    *  as the same pill its page renders (design audit ACC-3). */
   st?: string;
+  /** The record's own class word when its page names one other than its
+   *  family's (a process concept kept on a /neo/bapi page). */
+  kindHe?: string;
   /** Lowercased title. Built once on the client, never shipped. */
   lt: string;
   /** Lowercased everything else (context, relationship, module). */
   hay: string;
+  /** The title and the context with Hebrew forms folded (search/hebrew.ts),
+   *  space-padded so a word start is " " + token. Built once on the client. */
+  nt: string;
+  nh: string;
 }
 
 /** A rendered section: one kind, its matches, and its real total. */
@@ -138,4 +167,15 @@ export interface CmdSection {
    *  hue. Absent when the family's records declare no module at all, in which
    *  case the section stays neutral rather than borrowing a colour. */
   mod?: string;
+  /** What the keyboard reaches after the rows when the family has more:
+   *  "all" narrows the surface to this family, "next" shows the next page of
+   *  it. Absent when every match is already listed. */
+  more?: "all" | "next";
 }
+
+/** One stop of the keyboard walk: a record, or the "more" row that ends a
+ *  section. Both are options of the listbox, so nothing interactive sits
+ *  outside the list the arrow keys walk (gate 6, blocker 7). */
+export type CmdItem =
+  | { rec: CmdRecord; more?: undefined }
+  | { rec?: undefined; more: CmdKind; next: boolean; total: number; shown: number };

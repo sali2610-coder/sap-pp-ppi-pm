@@ -78,6 +78,9 @@
   z-index: -1;
   border: 0; padding: 0; margin: 0;
   cursor: default;
+  /* .nxc passes pointers through to the rail; the wash takes them, so a click
+     beside the panel closes it (gate 6, minor 18). */
+  pointer-events: auto;
   background:
     radial-gradient(115% 85% at 100% 0%, color-mix(in srgb, var(--sm) 17%, transparent), transparent 68%),
     linear-gradient(to bottom, color-mix(in srgb, var(--sm) 8%, transparent), transparent 62%);
@@ -158,29 +161,15 @@
   display: flex; align-items: center;
   min-block-size: 2rem;
   font-size: var(--t-micro); color: var(--ink-3);
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 
 /* --- family chips: SHAPE first, module tint second ----------------------- */
-.nx-app .nxc--r .nxc-chip { flex: none; }
-.nx-app .nxc--r .nxc-chip[data-shape="data"] { border-radius: 6px; }
-.nx-app .nxc--r .nxc-chip[data-shape="code"] { border-radius: var(--r-pill); }
-.nx-app .nxc--r .nxc-chip[data-shape="doc"] {
-  border-radius: 4px;
-  border-start-end-radius: 12px; border-end-end-radius: 12px;
-}
+/* A pressed chip is the one "on" state every filter in the product has, the
+   ink inversion of .nu-filter (rail.css), not a module tint (gate 5, #13). */
+.nx-app .nxc--r .nxc-chip { flex: none; border-radius: var(--r-sm); }
 .nx-app .nxc--r .nxc-chip > svg { color: var(--m, var(--ink-3)); }
-.nx-app .nxc--r .nxc-chip[aria-pressed="true"] {
-  background: color-mix(in srgb, var(--m, var(--ink-3)) 13%, var(--surface));
-  border-color: color-mix(in srgb, var(--m, var(--ink-3)) 50%, transparent);
-  color: var(--ink-1);
-}
-.nx-app .nxc--r .nxc-chip[aria-pressed="true"] b { color: var(--ink-2); opacity: 1; }
-.nx-app .nxc--r .nxc-chip[data-all][aria-pressed="true"] {
-  background: color-mix(in srgb, var(--ink-1) 10%, var(--surface));
-  border-color: color-mix(in srgb, var(--ink-1) 34%, transparent);
-}
-.nx-app .nxc--r .nxc-chip:disabled { opacity: .45; }
+.nx-app .nxc--r .nxc-chip[aria-pressed="true"] { font-weight: 600; }
+.nx-app .nxc--r .nxc-chip[aria-pressed="true"] > svg { color: currentColor; }
 
 /* --- module facets: LINE + RING + TINT, never a dot ---------------------- */
 .nx-app .nxc--r .nxc-mods {
@@ -189,7 +178,7 @@
 }
 .nx-app .nxc--r .nxc-mods::-webkit-scrollbar { block-size: 0; }
 .nx-app .nxc--r .nxc-modchip {
-  display: inline-flex; align-items: center; gap: 5px; flex: none;
+  display: inline-flex; align-items: center; gap: 5px; flex: none; cursor: pointer;
   min-block-size: 1.75rem; padding-inline: var(--sp-2);
   border-radius: var(--r-xs);
   border: 1px solid color-mix(in srgb, var(--m, var(--ink-3)) 22%, var(--c-hair));
@@ -207,10 +196,10 @@
   direction: ltr; unicode-bidi: isolate; padding-inline-start: 3px;
 }
 .nx-app .nxc--r .nxc-modchip[aria-pressed="true"] {
-  background: color-mix(in srgb, var(--m, var(--ink-3)) 14%, var(--surface));
-  border-color: color-mix(in srgb, var(--m, var(--ink-3)) 55%, transparent);
-  color: var(--ink-1);
+  background: var(--ink-1); border-color: var(--ink-1); color: var(--surface); font-weight: 600;
 }
+.nx-app .nxc--r .nxc-modchip[aria-pressed="true"] > b { color: var(--surface); }
+.nx-app .nxc--r .nxc-modchip:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
 /* ------------------------------------------------------------- 5. RESULTS */
 
@@ -281,9 +270,13 @@
 /* ----------------------------------------------------------------- 6. ROW */
 
 .nx-app .nxc--r .nxc-row {
-  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
-  grid-template-areas: "k main meta act go";
-  gap: var(--sp-2);
+  /* The title column is never narrower than the SAP code in it, and the meta
+     column never narrower than its widest item; the meta wraps and the context
+     line runs under both at the row's full width (gate 6, blocker 8: at 1280
+     to 1440 the meta took the whole row and the code was cut to nothing). */
+  grid-template-columns: auto minmax(min-content, 1fr) minmax(min-content, max-content) auto;
+  grid-template-areas: "k main meta go" "k sub sub go";
+  gap: 1px var(--sp-2);
   padding: 7px var(--sp-2);
   /* STATIC, deliberately: the resting module tint is what stops the surface
      being white and grey, and because it never transitions, the selected state
@@ -303,12 +296,22 @@
 }
 
 .nx-app .nxc--r .nxc-row-k { grid-area: k; }
-.nx-app .nxc--r .nxc-row-main { grid-area: main; gap: 2px; }
-.nx-app .nxc--r .nxc-row-meta { grid-area: meta; }
+/* The title line and the context line are placed by the row's own grid. */
+.nx-app .nxc--r .nxc-row-main { display: contents; }
+.nx-app .nxc--r .nxc-row-meta {
+  grid-area: meta; flex-wrap: wrap; justify-content: flex-end; row-gap: 4px; min-inline-size: 0;
+}
+.nx-app .nxc--r .nxc-row-t { grid-area: main; flex-wrap: nowrap; }
+.nx-app .nxc--r .nxc-row-s { grid-area: sub; }
+/* The identifier keeps its whole width; a Hebrew title wraps instead of being
+   cut with an ellipsis. */
+.nx-app .nxc--r .nxc-row-t > .nxc-row-id { flex: none; overflow: visible; white-space: nowrap; }
+.nx-app .nxc--r .nxc-row-t > .nxc-row-name { overflow: visible; white-space: normal; min-inline-size: 0; }
+/* The context line never sizes the title column. */
+.nx-app .nxc--r .nxc-row-s { contain: inline-size; }
 /* The record's S/4HANA standing on the result row: the same pill its page
    renders, at the row's meta size. */
 .nx-app .nxc-st { font-size: var(--t-micro); }
-.nx-app .nxc--r .nxc-act { grid-area: act; }
 .nx-app .nxc--r .nxc-go { grid-area: go; }
 
 /* the selected plate — opacity only */
@@ -337,12 +340,7 @@
   background: color-mix(in srgb, var(--m, var(--ink-3)) 13%, var(--surface));
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m, var(--ink-3)) 26%, transparent);
 }
-.nx-app .nxc--r .nxc-row[data-shape="data"] .nxc-row-k { border-radius: 6px; }
-.nx-app .nxc--r .nxc-row[data-shape="code"] .nxc-row-k { border-radius: var(--r-pill); }
-.nx-app .nxc--r .nxc-row[data-shape="doc"] .nxc-row-k {
-  border-radius: 4px;
-  border-start-end-radius: 13px; border-end-end-radius: 13px;
-}
+
 
 .nx-app .nxc--r .nxc-row-t { font-size: var(--t-sm); font-weight: 500; }
 .nx-app .nxc--r .nxc-row-kind {
@@ -371,11 +369,6 @@
 /* OBJECT class — the one palette globals.css sanctions as a small dot. */
 .nx-app .nxc--r .nxc-cls i { inline-size: 6px; block-size: 6px; }
 
-.nx-app .nxc--r .nxc-act {
-  min-block-size: 1.85rem;
-  border-radius: var(--r-xs);
-  border-color: color-mix(in srgb, var(--m, var(--ink-3)) 30%, var(--c-hair));
-}
 .nx-app .nxc--r .nxc-more {
   border-color: color-mix(in srgb, var(--m, var(--ink-3)) 30%, var(--c-hair));
   color: var(--ink-2);
@@ -406,12 +399,7 @@
   background: color-mix(in srgb, var(--ink-3) 10%, transparent);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink-3) 18%, transparent);
 }
-.nx-app .nxc--r .nxc-idle-c[data-shape="data"] .nxc-idle-i { border-radius: 6px; }
-.nx-app .nxc--r .nxc-idle-c[data-shape="code"] .nxc-idle-i { border-radius: var(--r-pill); }
-.nx-app .nxc--r .nxc-idle-c[data-shape="doc"] .nxc-idle-i {
-  border-radius: 4px;
-  border-start-end-radius: 14px; border-end-end-radius: 14px;
-}
+.nx-app .nxc--r .nxc-idle-i { border-radius: var(--r-sm); }
 .nx-app .nxc--r .nxc-idle-c b { grid-area: n; font-size: var(--t-h2); }
 .nx-app .nxc--r .nxc-idle-l { grid-area: l; font-size: var(--t-micro); }
 .nx-app .nxc--r .nxc-idle-f {
@@ -445,12 +433,7 @@
   border-color: color-mix(in srgb, var(--m, var(--ink-3)) 40%, transparent);
   font-weight: 600;
 }
-.nx-app .nxc--r .nxc-detail-in[data-shape="data"] .nxc-d-kind { border-radius: 6px; }
-.nx-app .nxc--r .nxc-detail-in[data-shape="code"] .nxc-d-kind { border-radius: var(--r-pill); }
-.nx-app .nxc--r .nxc-detail-in[data-shape="doc"] .nxc-d-kind {
-  border-radius: 4px;
-  border-start-end-radius: 13px; border-end-end-radius: 13px;
-}
+.nx-app .nxc--r .nxc-d-kind { border-radius: var(--r-xs); }
 .nx-app .nxc--r .nxc-d-facts {
   border-block-color: color-mix(in srgb, var(--m, var(--ink-3)) 20%, var(--c-hair));
 }
@@ -485,8 +468,9 @@
 [dir="ltr"] .nx-app[data-live="1"] .nx-group[data-hit="1"] .nx-group-btn {
   box-shadow: none;
 }
-.nx-app[data-live="1"] .nx-group[data-dim="1"] { opacity: .42; }
-.nx-app[data-live="1"] .nx-group { transition: opacity var(--dur-base) var(--ease-out-expo); }
+/* A group with no hit steps back by ink, not opacity: its items stay live
+   (gate 6, blocker 5). */
+.nx-app[data-live="1"] .nx-group[data-dim="1"] .nx-group-btn { color: var(--ink-3); }
 
 /* A hit destination gets a module EDGE and a module TINT, not just weight. */
 .nx-app[data-live="1"] .nx-navitem[data-hit="1"] {
@@ -499,31 +483,31 @@
    context and relationship — Stage 2A hid exactly those. They move to a second
    line instead of disappearing. */
 
-@media (max-width: 1179px) {
+/* Three lines when the RESULTS box is narrow, whatever the window: the title,
+   the context, then the meta line, and a code longer than its line wraps
+   rather than being cut. 48rem is where one line holds a 30-character
+   identifier with its kind and class beside the meta's widest item (1280 with
+   the detail pane: 650px, three lines; 1440: 794px, two). */
+.nx-app .nxc--r .nxc-results { container: nxc-results / inline-size; }
+/* Its ring is drawn inside it: the panel clips what lies outside. */
+.nx-app .nxc--r .nxc-results:focus-visible { outline-offset: -2px; }
+@container nxc-results (max-width: 48rem) {
   .nx-app .nxc--r .nxc-row {
     grid-template-columns: auto minmax(0, 1fr) auto;
-    grid-template-areas: "k main go" ". meta act";
-    row-gap: 5px;
+    grid-template-areas: "k main go" "k sub go" "k meta go";
+    row-gap: 3px;
   }
-  .nx-app .nxc--r .nxc-row-meta {
-    display: flex; flex-wrap: wrap; gap: 5px var(--sp-2);
-  }
+  .nx-app .nxc--r .nxc-row-meta { display: flex; justify-content: flex-start; gap: 5px var(--sp-2); }
+  .nx-app .nxc--r .nxc-row-t { flex-wrap: wrap; row-gap: 2px; }
+  .nx-app .nxc--r .nxc-row-t > .nxc-row-id { flex: 0 1 auto; white-space: normal; overflow-wrap: anywhere; }
   .nx-app .nxc--r .nxc-rel { max-inline-size: none; }
-  .nx-app .nxc--r .nxc-act { justify-self: end; }
 }
 
-@media (max-width: 900px) {
-  /* undo Stage 2A's `display: none` on the meta line */
-  .nx-app .nxc--r .nxc-row-meta { display: flex; }
-}
-
-html[data-device="tablet"] .nx-app .nxc--r .nxc-panel,
-html[data-device="phone"] .nx-app .nxc--r .nxc-panel {
+.nx-app[data-sheet="1"] .nxc--r .nxc-panel {
   max-inline-size: none;
   box-shadow: none;
 }
-html[data-device="tablet"] .nx-app .nxc--r .nxc-panel::before,
-html[data-device="phone"] .nx-app .nxc--r .nxc-panel::before {
+.nx-app[data-sheet="1"] .nxc--r .nxc-panel::before {
   /* a full-screen sheet has no side to grow out of — the spine becomes the top
      edge of the sheet instead */
   inset: 0 0 auto 0; inline-size: auto; block-size: 3px;
@@ -535,10 +519,6 @@ html[data-device="tablet"] .nx-app .nxc--r .nxc-row {
 }
 html[data-device="phone"] .nx-app .nxc--r .nxc-row-meta,
 html[data-device="tablet"] .nx-app .nxc--r .nxc-row-meta { display: flex; }
-html[data-device="phone"] .nx-app .nxc--r .nxc-act,
-html[data-device="tablet"] .nx-app .nxc--r .nxc-act {
-  opacity: 1; transform: none; min-block-size: var(--c-tap); padding-inline: var(--sp-3);
-}
 html[data-device="phone"] .nx-app .nxc--r .nxc-results { padding-inline: var(--sp-3); }
 html[data-device="phone"] .nx-app .nxc--r .nxc-idle-grid {
   grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
@@ -547,9 +527,19 @@ html[data-device="phone"] .nx-app .nxc--r .nxc-mfield {
   padding-block: var(--sp-3);
   border-block-end-color: color-mix(in srgb, var(--sm) 18%, var(--c-hair));
 }
-/* The wash has nothing to wash on a full-screen sheet. */
-html[data-device="phone"] .nx-app .nxc--r .nxc-wash,
-html[data-device="tablet"] .nx-app .nxc--r .nxc-wash { display: none; }
+/* The sheet's close button is a 44px target (gate 6, minor 26). */
+.nx-app .nxc--r .nxc-close { flex: none; }
+/* A short window (a desktop at 400% zoom is 256px tall) scrolls the whole
+   sheet, with the field pinned, instead of leaving the results a sliver
+   between a fixed header and footer (gate 4, blocker 4). */
+@media (max-height: 30rem) {
+  .nx-app[data-sheet="1"] .nxc--r .nxc-panel { overflow-y: auto; }
+  .nx-app[data-sheet="1"] .nxc--r .nxc-body { flex: none; min-block-size: auto; }
+  .nx-app[data-sheet="1"] .nxc--r .nxc-results { overflow: visible; }
+  .nx-app[data-sheet="1"] .nxc--r .nxc-mfield { position: sticky; inset-block-start: 0; z-index: 4; padding-block: var(--sp-1); }
+  .nx-app[data-sheet="1"] .nxc--r .nxc-sec-h { position: static; }
+  .nx-app[data-sheet="1"] .nxc--r .nxc-head { padding-block: var(--sp-2); }
+}
 
 /* ------------------------------------------------------------- 12. DARK
    The Stage 2A dark block is more specific than the light rules above, so the
@@ -582,17 +572,6 @@ html[data-theme="dark"] .nx-app .nxc--r .nxc-sec-h {
     color-mix(in srgb, var(--m, var(--ink-3)) 9%, var(--surface))
   );
 }
-html[data-theme="dark"] .nx-app .nxc--r .nxc-chip[aria-pressed="true"] {
-  background: color-mix(in srgb, var(--m, var(--ink-3)) 20%, var(--surface));
-  border-color: color-mix(in srgb, var(--m, var(--ink-3)) 55%, transparent);
-  color: var(--ink-1);
-}
-html[data-theme="dark"] .nx-app .nxc--r .nxc-chip[aria-pressed="true"] b { color: var(--ink-2); }
-html[data-theme="dark"] .nx-app .nxc--r .nxc-chip[data-all][aria-pressed="true"] {
-  background: color-mix(in srgb, var(--ink-1) 16%, var(--surface));
-  border-color: color-mix(in srgb, var(--ink-1) 34%, transparent);
-  color: var(--ink-1);
-}
 html[data-theme="dark"] .nx-app .nxc--r .nxc-row {
   background: linear-gradient(
     to bottom,
@@ -608,18 +587,20 @@ html[data-theme="dark"] .nx-app .nxc--r .nxc-row::before {
     color-mix(in srgb, var(--m, var(--ink-3)) 12%, var(--surface))
   );
 }
-html[data-theme="dark"] .nx-app .nxc--r .nxc-act,
 html[data-theme="dark"] .nx-app .nxc--r .nxc-modchip {
   background: color-mix(in srgb, var(--m, var(--ink-3)) 8%, var(--surface-2));
 }
+html[data-theme="dark"] .nx-app .nxc--r .nxc-modchip[aria-pressed="true"] {
+  background: var(--ink-1); border-color: var(--ink-1); color: var(--background);
+}
+html[data-theme="dark"] .nx-app .nxc--r .nxc-modchip[aria-pressed="true"] > b { color: var(--background); }
 
 /* -------------------------------------------------------- 13. FOCUS + A11Y */
 
 .nx-app .nxc--r .nxc-chip:focus-visible,
 .nx-app .nxc--r .nxc-modchip:focus-visible,
 .nx-app .nxc--r .nxc-idle-c:focus-visible,
-.nx-app .nxc--r .nxc-more:focus-visible,
-.nx-app .nxc--r .nxc-act:focus-visible {
+.nx-app .nxc--r .nxc-close:focus-visible {
   outline: none;
   box-shadow: var(--focus-ring);
 }
@@ -638,7 +619,6 @@ html[data-theme="dark"] .nx-app .nxc--r .nxc-modchip {
   .nx-app .nxc--r .nxc-panel::before { transition: none; }
   .nx-app .nxc--r .nxc-row::before { transform: none; }
   .nx-app .nxc--r .nxc-modchip:hover { transform: none; }
-  .nx-app[data-live="1"] .nx-group { transition: none; }
 }
 
 /* ============================================================================
@@ -677,10 +657,8 @@ html[data-theme="dark"] .nx-app .nxc--r .nxc-modchip {
   opacity: .32;
 }
 /* A full-screen sheet has no rail to be tethered to. */
-html[data-device="phone"] .nx-app .nxc--r::before,
-html[data-device="phone"] .nx-app .nxc--r::after,
-html[data-device="tablet"] .nx-app .nxc--r::before,
-html[data-device="tablet"] .nx-app .nxc--r::after { display: none; }
+.nx-app[data-sheet="1"] .nxc--r::before,
+.nx-app[data-sheet="1"] .nxc--r::after { display: none; }
 
 /* ============================================================================
    16. THE DESTINATION, ON THE ROW
@@ -723,41 +701,18 @@ html[data-device="tablet"] .nx-app .nxc--r::after { display: none; }
 .nx-app .nxc--r .nxc-d-dest[data-none="1"] { color: var(--ink-3); }
 
 /* ============================================================================
-   17. PROGRESSIVE RESULTS + AN ANCHORED SELECTION
+   17. AN ANCHORED SELECTION
    ----------------------------------------------------------------------------
-   PROGRESSIVE. Rows arrive in sequence rather than as one block. React keys
-   every row by its record id, so a row that survives a keystroke keeps its DOM
-   node and does NOT re-animate — only genuinely new answers move. `--i` is set
-   on the row and capped at 16 by the component, so the last row of a long list
-   is never left waiting on a half-second cascade.
+   Rows and sections have no entrance: they answer each keystroke, and the
+   staggered one they had left rows half drawn for 300ms after every key (gate
+   6, minor 20; DESIGN-SPEC §2, "no typing effect"). The panel's own entrance
+   stays.
 
    ANCHORED. The selected row is joined to the detail pane that describes it:
    the row grows a module bar on the edge that faces the pane, and the pane's own
    content grows the matching line on the edge that faces the row. Both are
    module LINES, which is the form module identity is allowed to take.
-
-   Sections fade only. A section is the containing block of its own sticky
-   heading, and a transform on it would break that heading's sticky positioning
-   for the length of the animation.
    ========================================================================== */
-
-@keyframes nxc-row-in {
-  from { opacity: 0; transform: translateY(6px) scale(.994); }
-  to { opacity: 1; transform: none; }
-}
-@keyframes nxc-sec-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.nx-app .nxc--r .nxc-row {
-  animation: nxc-row-in 240ms var(--ease-out-expo) both;
-  animation-delay: calc(var(--i, 0) * 16ms);
-}
-.nx-app .nxc--r .nxc-sec {
-  animation: nxc-sec-in 260ms var(--ease-out-expo) both;
-  animation-delay: calc(var(--i, 0) * 45ms);
-}
 
 /* The bar on the row's inline-END edge — the side the detail pane is on. It is
    a pseudo of .nxc-go, which is deliberately NOT positioned, so it resolves
@@ -784,10 +739,6 @@ html[data-device="tablet"] .nx-app .nxc--r::after { display: none; }
   background: var(--m, var(--ink-3));
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .nx-app .nxc--r .nxc-row,
-  .nx-app .nxc--r .nxc-sec { animation: none; }
-}
 
 /* ============================================================================
    2026 SYSTEM · THE COMMAND SURFACE, FLAT

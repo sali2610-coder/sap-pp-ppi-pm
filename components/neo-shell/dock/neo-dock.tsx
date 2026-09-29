@@ -7,10 +7,11 @@
 
    2026 system: they live in the TOP BAR, not in a floating corner. Floating,
    they covered the phone's tab bar and the last line of content; in the bar they
-   sit with the other page tools, in reading order. The buttons are portalled
-   into a slot the shell renders (#nx-dock-slot on a desktop, #nx-dock-mslot on
-   a phone or tablet), so they are in the header's DOM and its tab order, while
-   the state and the panels stay here, where a route change never remounts them.
+   sit with the other page tools, in reading order. The shell renders the buttons
+   (dock/dock-buttons.tsx) in its bars, in the server HTML, so they are in the
+   header's DOM and its tab order from the first paint; the panels stay here,
+   where a route change never remounts them, and the two share the open panel
+   through dock/dock-state.ts.
 
    Page help opens a popover under the bar on a desktop and a BOTTOM SHEET on a
    phone. Both are the same component in two positions; only the CSS differs.
@@ -23,12 +24,12 @@
      surfaces — /neo/ai/ for the books, /neo/chat/ for general SAP.
    ========================================================================== */
 
-import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
-import { createPortal } from "react-dom";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Type, CircleHelp, X, BookOpen, MessageSquare, Check } from "lucide-react";
+import { X, BookOpen, MessageSquare, Check } from "lucide-react";
 import { ThemeSwitch } from "./theme-switch";
+import { setDockPanel, useDockPanel } from "./dock-state";
 import {
   contextFromPath, contextLine, NEO_CTX_EVENT,
   type NeoContext, type NeoContextPatch,
@@ -38,16 +39,10 @@ import {
   type NeoFace, type NeoSize, type NeoTypePref,
 } from "./typography";
 
-type Panel = "none" | "type" | "ask";
-
-const noSubscribe = () => () => {};
-const dockSlot = () =>
-  document.getElementById(document.documentElement.dataset.device === "desktop" ? "nx-dock-slot" : "nx-dock-mslot");
-const noSlot = () => null;
-
 export function NeoDock() {
   const path = usePathname() || "/";
-  const [panel, setPanel] = useState<Panel>("none");
+  const panel = useDockPanel();
+  const setPanel = setDockPanel;
   const [pref, setPref] = useState<NeoTypePref | null>(null);
   const [patch, setPatch] = useState<NeoContextPatch | null>(null);
   const closer = useRef<HTMLButtonElement | null>(null);
@@ -78,8 +73,16 @@ export function NeoDock() {
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setPanel("none"); };
     window.addEventListener("keydown", onKey);
     closer.current?.focus();
-    return () => window.removeEventListener("keydown", onKey);
-  }, [panel]);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      // Closing hands focus back to the bar button that opened the panel (the
+      // one the device's bar shows) when it was left on nothing: the panel's
+      // own close button is gone by the time this runs.
+      const lost = !document.activeElement || document.activeElement === document.body;
+      const back = [...document.querySelectorAll<HTMLElement>(`[data-dock="${panel}"]`)].find((b) => b.offsetParent);
+      if (lost) back?.focus({ preventScroll: true });
+    };
+  }, [panel, setPanel]);
 
   const ctx: NeoContext = useMemo(() => {
     const base = contextFromPath(path);
@@ -96,58 +99,8 @@ export function NeoDock() {
 
   const open = panel !== "none";
 
-  // The slot the shell renders for this device. data-device is written before
-  // first paint and never changes, so there is nothing to subscribe to; the
-  // server snapshot (null) keeps hydration identical to the server HTML, and
-  // the client value arrives in the render right after it.
-  const slot = useSyncExternalStore(noSubscribe, dockSlot, noSlot);
-
-  // The resolved theme, read from the document so the bar can name it without
-  // owning the switch's state. Hebrew words only; nothing shown before hydration.
-  const [themeNow, setThemeNow] = useState<string>("");
-  useEffect(() => {
-    const root = document.documentElement;
-    const read = () => setThemeNow(root.getAttribute("data-theme") === "dark" ? "לילה" : root.getAttribute("data-theme") === "light" ? "יום" : "");
-    read();
-    const mo = new MutationObserver(read);
-    mo.observe(root, { attributes: true, attributeFilter: ["data-theme"] });
-    return () => mo.disconnect();
-  }, []);
-
   return (
     <>
-      {slot ? createPortal(
-      <div className="nxk">
-        {/* ONE display menu (design audit §3, 2026-09-22): appearance, font
-            and size live in the same panel. The bar still answers "which mode am
-            I in" from across the room: the button carries the resolved theme. */}
-        <button
-          type="button"
-          className="nxk-b nxk-b--display"
-          aria-expanded={panel === "type"}
-          aria-label={`הגדרות תצוגה: מראה, גופן וגודל טקסט${themeNow ? ` (כעת ${themeNow})` : ""}`}
-          onClick={() => setPanel((p) => (p === "type" ? "none" : "type"))}
-        >
-          <Type className="ico" size={16} aria-hidden="true" />
-          <span>תצוגה</span>
-          {themeNow ? <em className="nxk-b-state">{themeNow}</em> : null}
-        </button>
-        <button
-          type="button"
-          className="nxk-b nxk-b--ask"
-          aria-expanded={panel === "ask"}
-          aria-label="עזרה בעמוד: ההקשר הנוכחי והיכן אפשר לשאול"
-          onClick={() => setPanel((p) => (p === "ask" ? "none" : "ask"))}
-        >
-          <CircleHelp className="ico" size={16} aria-hidden="true" />
-          {/* THREE NAMES, THREE THINGS (design audit S7-AI-4): "עזרה בעמוד"
-              is this panel — the current page's context and the way to the
-              two assistants; "עזרה מהספרייה" answers from the books; "שיחה
-              כללית" is the open SAP conversation. */}
-          <span>עזרה בעמוד</span>
-        </button>
-      </div>, slot) : null}
-
       {open && <button type="button" className="nxk-scrim" aria-label="סגירת החלונית" onClick={() => setPanel("none")} />}
 
       {panel === "type" && (

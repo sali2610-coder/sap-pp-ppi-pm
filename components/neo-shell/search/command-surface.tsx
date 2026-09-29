@@ -2,31 +2,28 @@
 
 // Project NEO · the command surface.
 //
-// It is not a dropdown and it is not a modal. It grows out of the rail's own
-// search slot — the approved idea — and it TRANSFORMS the surface it grew from:
-// the canvas behind it takes the hue of the module the answer lives in, the rail
-// brightens the destinations the query really reaches and steps the rest back,
-// and the panel itself is edged in that same module colour. Close it and the
-// surface returns; nothing was ever covered by an unrelated sheet.
+// On a desktop it grows out of the rail's own search slot and is rendered right
+// after that field, so the keyboard goes from the field into it; the page behind
+// it is inert while it is open and the rail stays live. On a phone, a tablet and
+// a narrow window it is a full-screen dialog that carries its own field.
 //
 // WHAT A ROW SAYS, AND WHY EACH PART IS THERE
-//   shape      three of them, not twelve — dictionary data / executable
-//              identifier / something written. The shape of the answer is
-//              readable before the words are.
 //   type       the family icon and its Hebrew name.
-//   module     surface tint, ring and section marker. Never a small dot: the
-//              form rule in globals.css reserves the labelled dot for --status-*
-//              so a blue ring can never be misread as a blue status.
+//   module     the module code in the module's colour on a hairline.
 //   context    the Hebrew line the dataset already carries for the record.
 //   relation   only when the dataset really has one.
-//   action     load the record's table into the context shelf.
-// A field the dataset cannot answer is simply not rendered, and a family with no
-// build-time index is named in the footer instead of being filled with rows.
+//   status     the S/4HANA pill the record's page renders, when it has one.
+//   destination  the route Enter opens, or that the record has no page.
+// A field the dataset cannot answer is simply not rendered, and a family the
+// index does not carry is named in the footer instead of being filled with rows.
 //
-// ACCESSIBILITY. The input is the combobox (it lives in the rail on desktop and
-// in this surface's own header on a phone, and only ever one of the two is
-// displayed). This element is the listbox it controls; the active row is
-// pointed at with aria-activedescendant, so focus never leaves the field.
+// ACCESSIBILITY (gate 6, blockers 6 and 7). The input is the combobox; this
+// surface holds the listbox it controls, and the listbox holds only groups and
+// options: each group is labelled by its heading, and the "more" row that ends
+// a section is an option too, so nothing interactive sits inside an option or
+// between options. The idle board and the empty state are outside the listbox,
+// which is only rendered while it has options. The header readout is a status
+// region, so counts and "no results" are announced on every device.
 
 import "@/app/neo/search.css";
 
@@ -34,10 +31,34 @@ import { Ico } from "../icon";
 import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 import { modVar } from "../mod-var";
 import type { ObjectContext } from "../types";
-import { KIND_SHAPE, kindMeta, modLabel, type CmdResult } from "./build";
-import type { CmdKind, CmdRecord, CommandExtra } from "./types";
+import { BROWSE_CAP, KIND_SHAPE, kindMeta, modLabel, type CmdResult } from "./build";
+import type { CmdItem, CmdKind, CmdRecord, CommandExtra } from "./types";
 
 const nf = new Intl.NumberFormat("he-IL");
+
+/** The one action the empty state offers (shell-client decides which). */
+export type EmptyAction =
+  | { t: "filter" }
+  | { t: "suggest"; code: string }
+  | { t: "catalogue"; label: string; q: string }
+  | { t: "clear" };
+
+/** Each family in the plural, for the sentence that states what the index
+ *  holds. The same names as the kind labels in build.ts. */
+const PLURAL: Record<CmdKind, string> = {
+  nav: "פריטי ניווט", module: "מודולים", table: "טבלאות", object: "אובייקטים", field: "שדות",
+  tcode: "טרנזקציות", bapi: "BAPI", func: "מודולי פונקציה", idoc: "סוגי הודעת IDoc",
+  cds: "תצוגות CDS", fiori: "יישומי Fiori", enh: "טכניקות הרחבה", flow: "תחומים עסקיים",
+  chapter: "פרקים", book: "ספרים", guide: "מושגים", center: "מרכזי עבודה", topic: "נושאי עבודה",
+  bp: "שיטות עבודה", incident: "תקלות",
+};
+
+const listHe = (xs: string[]) => (xs.length < 2 ? xs.join("") : `${xs.slice(0, -1).join(", ")} ו${xs[xs.length - 1]}`);
+
+/** "תוצאה אחת" rather than "1 תוצאות" (gate 6, minor 25). */
+function Count({ n, one, many }: { n: number; one: string; many: string }) {
+  return n === 1 ? <>{one}</> : <><b>{nf.format(n)}</b> {many}</>;
+}
 
 /** A row's module hue. A record shared by two modules is tinted by the first —
  *  the chip next to it still names both, so nothing is hidden by the choice. */
@@ -50,13 +71,12 @@ const isSap = (s: string) => /^[\x20-\x7E]+$/.test(s);
 /* ------------------------------------------------------------------- row */
 
 function Row({
-  r, i, active, onGo, onContext, onHover,
+  r, i, active, onGo, onHover,
 }: {
   r: CmdRecord;
   i: number;
   active: boolean;
-  onGo: (r: CmdRecord) => void;
-  onContext: (name: string) => void;
+  onGo: () => void;
   onHover: (i: number) => void;
 }) {
   const m = rowMod(r);
@@ -71,23 +91,19 @@ function Row({
       data-shape={KIND_SHAPE[r.k]}
       data-mod={m ? "1" : "0"}
       data-active={active ? "1" : "0"}
-      /* --i drives the progressive reveal. It is capped in the stylesheet, and
-         it only ever runs for a row React has just inserted: a row that survives
-         a keystroke keeps its DOM node and therefore does not re-animate. */
       style={{
         "--m": modVar(m),
-        "--i": Math.min(i, 16),
         ...(r.obj ? { "--o": r.obj } : null),
       } as React.CSSProperties}
       onPointerMove={() => onHover(i)}
-      onClick={() => onGo(r)}
+      onClick={onGo}
     >
       <span className="nxc-row-k" aria-hidden="true"><Ico name={meta.icon} size={14} /></span>
 
       <span className="nxc-row-main">
         <span className="nxc-row-t">
-          <span className={r.mono ? "nx-sap" : undefined}>{r.title}</span>
-          <span className="nxc-row-kind">{meta.he}</span>
+          <span className={r.mono ? "nx-sap nxc-row-id" : "nxc-row-name"}>{r.title}</span>
+          <span className="nxc-row-kind">{r.kindHe ?? meta.he}</span>
           {r.objHe ? (
             <span className="nxc-cls"><i aria-hidden="true" />{r.objHe}</span>
           ) : null}
@@ -119,22 +135,6 @@ function Row({
           {r.dest ? <span className="nx-sap">{r.dest}</span> : <span>אין עמוד ייעודי</span>}
         </span>
       </span>
-
-      {r.ctx ? (
-        <button
-          type="button"
-          className="nxc-act"
-          /* Out of the tab order on purpose: this is a listbox driven by
-             aria-activedescendant, and Enter on the row already performs the
-             same action (goResult loads the context before it navigates). */
-          tabIndex={-1}
-          aria-label={`הצגת ${r.ctx} במדף ההקשר`}
-          onClick={(e) => { e.stopPropagation(); onContext(r.ctx!); }}
-        >
-          <Ico name="Layers" size={12} />
-          <span>הקשר</span>
-        </button>
-      ) : null}
 
       <span className="nxc-go" aria-hidden="true"><Ico name="CornerDownLeft" size={13} /></span>
     </div>
@@ -168,7 +168,7 @@ function Detail({
     >
       <span className="nxc-d-kind">
         <Ico name={meta.icon} size={12} />
-        {meta.he}
+        {rec.kindHe ?? meta.he}
       </span>
       <b className={rec.mono ? "nx-sap nxc-d-t" : "nxc-d-t"}>{rec.title}</b>
       {rec.sub ? <p className="nxc-d-s">{rec.sub}</p> : null}
@@ -214,8 +214,10 @@ function Detail({
             <div className="nxc-d-sec">
               <h4>קשרים ({ctx.relations.length})</h4>
               <ul className="nxc-d-rels">
-                {ctx.relations.map((r) => (
-                  <li key={r.table}>
+                {/* A table can relate to the same partner twice (two joins, two
+                    cardinalities), so the key is the position as well. */}
+                {ctx.relations.map((r, i) => (
+                  <li key={`${r.table}:${i}`}>
                     <span className="nx-sap">{r.table}</span>
                     {r.card ? <em className="nx-sap">{r.card}</em> : null}
                   </li>
@@ -227,7 +229,9 @@ function Detail({
       ) : null}
 
       <p className="nxc-d-f">
-        {rec.href ? "Enter פותח את היעד" : "לרשומה זו אין עמוד ייעודי"}
+        {rec.href
+          ? rec.ctx ? "Enter פותח את היעד וטוען את הטבלה למדף ההקשר" : "Enter פותח את היעד"
+          : "לרשומה זו אין עמוד ייעודי"}
       </p>
     </div>
   );
@@ -236,13 +240,15 @@ function Detail({
 /* --------------------------------------------------------------- surface */
 
 export function CommandSurface({
-  query, onQuery, onKey, result, only, onOnly, modOnly, onModOnly,
-  active, onActive, onGo, onContext, onClose,
-  contexts, extra, idle, navHits, navTotal, listRef, mobileInputRef, surfaceMod,
+  sheet, query, onQuery, onKey, result, only, onOnly, modOnly, onModOnly,
+  active, onActive, onItem, onClose,
+  contexts, extra, idle, emptyAction, onEmptyAction, listRef, mobileInputRef, surfaceMod,
 }: {
+  /** Full-screen dialog with its own field (phone, tablet, narrow window). */
+  sheet: boolean;
   query: string;
   onQuery: (v: string) => void;
-  /** The SAME key handler the rail's field uses. Without it the phone field's
+  /** The SAME key handler the rail's field uses. Without it the sheet field's
    *  arrow keys fall through to the document and scroll the page — the one
    *  thing the brief says must never happen. */
   onKey: (e: React.KeyboardEvent<HTMLInputElement>) => void;
@@ -254,100 +260,108 @@ export function CommandSurface({
   onModOnly: (m: string | null) => void;
   active: number;
   onActive: (i: number) => void;
-  onGo: (r: CmdRecord) => void;
-  onContext: (name: string) => void;
+  onItem: (it: CmdItem) => void;
   onClose: () => void;
   contexts: Record<string, ObjectContext>;
   extra: CommandExtra;
   /** Real per-family totals across the whole index — the idle readout. */
   idle: { k: CmdKind; he: string; icon: string; n: number }[];
-  /** Navigation destinations the query names, out of the real total. */
-  navHits: number;
-  navTotal: number;
+  emptyAction: EmptyAction | null;
+  onEmptyAction: () => void;
   listRef: React.RefObject<HTMLDivElement | null>;
   mobileInputRef: React.RefObject<HTMLInputElement | null>;
-  /** The module the whole surface takes on — the answer's own colour, carried
-   *  into the panel edge, the header wash and the scrim over the canvas. */
+  /** The module the whole surface takes on, when one module owns the answer. */
   surfaceMod?: string;
 }) {
   const q = query.trim();
   const live = !!q || result.browse;
-  const rec = live ? result.flat[active] || null : null;
+  const expanded = live && result.items.length > 0;
+  const item = expanded ? result.items[active] : undefined;
+  const rec = item?.rec ?? null;
   const ctx = rec?.ctx ? contexts[rec.ctx] || null : null;
   const indexTotal = idle.reduce((a, x) => a + x.n, 0);
   const onlyMeta = only ? kindMeta(only) : null;
+
+  /* The filters stay on screen, pressed and clearable, even when they leave
+     nothing to show (gate 6, major 15): the active family and the active module
+     are listed with the families and modules the matches really have. */
+  const kinds: { k: CmdKind; he: string; icon: string; n: number; mod?: string }[] =
+    result.sections.map((s) => ({ k: s.k, he: s.he, icon: s.icon, n: s.total, mod: s.mod }));
+  if (only && !kinds.some((x) => x.k === only)) kinds.push({ ...kindMeta(only), n: 0 });
   // Only modules that really own matches become facets. Never a fixed PM/PP-PI
   // pair that pretends both are present when one of them is not.
   const facets = Object.entries(result.modCounts).sort((a, b) => b[1] - a[1]);
+  if (modOnly && !facets.some(([m]) => m === modOnly)) facets.push([modOnly, 0]);
+  const filterHe = `${onlyMeta ? ` מסוג ${onlyMeta.he}` : ""}${modOnly ? ` במודול ${modLabel(modOnly)}` : ""}`;
 
+  let n = 0; // the keyboard index of the next option, in render order
   return (
     <div
       className="nxc nxc--r"
       data-live={live ? "1" : "0"}
       data-mod={surfaceMod ? "1" : "0"}
       style={{ "--sm": modVar(surfaceMod) } as React.CSSProperties}
-      role="presentation"
+      role={sheet ? "dialog" : undefined}
+      aria-modal={sheet || undefined}
+      aria-label={sheet ? "חיפוש בניווט ובתיעוד" : undefined}
     >
-      {/* The canvas is not covered by a grey sheet. It is washed in the hue of
-          the module the answer lives in — the surface responding, not a modal
-          landing on it. Clicking it returns the surface. */}
-      <button
-        type="button"
-        className="nxc-wash"
-        tabIndex={-1}
-        aria-hidden="true"
-        onClick={onClose}
-      />
+      {/* A click beside the panel closes it and returns focus (gate 6, minor
+          18). It is a pointer target only; the keyboard closes with Escape. */}
+      {sheet ? null : (
+        <button type="button" className="nxc-wash" tabIndex={-1} aria-hidden="true" onClick={onClose} />
+      )}
 
       <div className="nxc-panel">
-        {/* Phone and tablet never get the rail, so the surface carries the field
-            itself there. Exactly one of the two inputs is ever displayed. */}
-        <div className="nxc-mfield" data-shell="mobile-only">
-          <span className="nxc-mfield-i"><Ico name="Search" size={16} /></span>
-          <input
-            ref={mobileInputRef}
-            type="search"
-            className="nxc-minput"
-            value={query}
-            onChange={(e) => onQuery(e.target.value)}
-            onKeyDown={onKey}
-            placeholder="טבלה, שדה, טרנזקציה, BAPI או ספר"
-            aria-label="חיפוש בניווט ובתיעוד הטכני"
-            role="combobox"
-            aria-expanded
-            aria-controls="nxc-list"
-            aria-autocomplete="list"
-            aria-activedescendant={rec ? `nxc-o-${active}` : undefined}
-          />
-          <button type="button" className="nx-iconbtn nx-iconbtn--xs" aria-label="סגירת החיפוש" onClick={onClose}>
-            <Ico name="X" size={14} />
-          </button>
-        </div>
+        {sheet ? (
+          <div className="nxc-mfield">
+            <span className="nxc-mfield-i"><Ico name="Search" size={16} /></span>
+            <input
+              ref={mobileInputRef}
+              type="search"
+              className="nxc-minput"
+              value={query}
+              onChange={(e) => onQuery(e.target.value)}
+              onKeyDown={onKey}
+              placeholder="קוד טבלה או טרנזקציה, שם שדה, או מושג בעברית"
+              aria-label="חיפוש בניווט ובתיעוד"
+              role="combobox"
+              aria-expanded={expanded}
+              aria-controls={expanded ? "nxc-list" : undefined}
+              aria-autocomplete="list"
+              aria-activedescendant={item ? `nxc-o-${active}` : undefined}
+            />
+            <button type="button" className="nx-iconbtn nxc-close" aria-label="סגירת החיפוש" onClick={onClose}>
+              <Ico name="X" size={16} />
+            </button>
+          </div>
+        ) : null}
 
-        {/* Header geometry is FIXED. The readout is one line that never wraps and
-            the scope strip is one line that never wraps, so the result list never
-            moves under the cursor while the query is being typed. */}
+        {/* Header geometry is FIXED. The readout is one line and the scope strip
+            is one line, so the result list never moves under the cursor while
+            the query is being typed. */}
         <header className="nxc-head">
-          <p className="nxc-head-t">
+          <p className="nxc-head-t" role="status">
             {q ? (
-              <>
-                <b>{nf.format(result.total)}</b> תוצאות עבור <span className="nxc-q">{q}</span>
-                <span className="nxc-head-sep">·</span>
-                <b>{nf.format(navHits)}</b> מתוך {nf.format(navTotal)} פריטי ניווט
-              </>
+              result.total ? (
+                <>
+                  <Count n={result.total} one="תוצאה אחת" many="תוצאות" /> עבור <span className="nxc-q">{q}</span>{filterHe}
+                </>
+              ) : (
+                <>אין תוצאות עבור <span className="nxc-q">{q}</span>{filterHe}</>
+              )
             ) : result.browse && onlyMeta ? (
               <>
-                <b>{nf.format(result.total)}</b> רשומות מסוג {onlyMeta.he} · אפשר להקליד כדי לסנן
+                <Count n={result.total} one="רשומה אחת" many="רשומות" />{filterHe} · אפשר להקליד כדי לסנן
               </>
             ) : (
               <>
-                <b>{nf.format(indexTotal)}</b> רשומות באינדקס · <b>{nf.format(navTotal)}</b> פריטי ניווט · אפשר להקליד כדי לסנן
+                <Count n={indexTotal} one="רשומה אחת" many="רשומות" /> באינדקס · אפשר להקליד כדי לסנן
               </>
             )}
           </p>
 
           <div className="nxc-scope">
-            {live && result.sections.length ? (
+            {live && kinds.length ? (
               <div className="nxc-chips" role="group" aria-label="סינון לפי סוג">
                 <button
                   type="button"
@@ -355,11 +369,10 @@ export function CommandSurface({
                   data-all=""
                   aria-pressed={only === null}
                   onClick={() => onOnly(null)}
-                  disabled={!q && result.browse}
                 >
                   הכל<b>{nf.format(q ? result.total : indexTotal)}</b>
                 </button>
-                {result.sections.map((s) => (
+                {kinds.map((s) => (
                   <button
                     key={s.k}
                     type="button"
@@ -371,19 +384,19 @@ export function CommandSurface({
                     onClick={() => onOnly(only === s.k ? null : s.k)}
                   >
                     <Ico name={s.icon} size={12} />
-                    {s.he}<b>{nf.format(s.total)}</b>
+                    {s.he}<b>{nf.format(s.n)}</b>
                   </button>
                 ))}
               </div>
+            ) : !live ? (
+              <p className="nxc-scope-hint">בחירת סוג מציגה את כל הרשומות שלו.</p>
             ) : (
-              <p className="nxc-scope-hint">
-                החיפוש כולל טבלאות, שדות, טרנזקציות, BAPI ו-FM, ספרים ותהליכים.
-              </p>
+              <span className="nxc-scope-hint" aria-hidden="true" />
             )}
 
-            {/* MODULE facet — ring and tint, never a dot. Present only when the
-                matches really belong to more than one module. */}
-            {live && facets.length > 1 ? (
+            {/* MODULE facet. Present when the matches belong to more than one
+                module, and whenever a module filter is on. */}
+            {live && (facets.length > 1 || modOnly) ? (
               <div className="nxc-mods" role="group" aria-label="סינון לפי מודול">
                 <button
                   type="button"
@@ -393,7 +406,7 @@ export function CommandSurface({
                 >
                   כל המודולים
                 </button>
-                {facets.map(([m, n]) => (
+                {facets.map(([m, c]) => (
                   <button
                     key={m}
                     type="button"
@@ -403,7 +416,7 @@ export function CommandSurface({
                     onClick={() => onModOnly(modOnly === m ? null : m)}
                   >
                     <i aria-hidden="true" />
-                    {modLabel(m)}<b>{nf.format(n)}</b>
+                    {modLabel(m)}<b>{nf.format(c)}</b>
                   </button>
                 ))}
               </div>
@@ -412,13 +425,11 @@ export function CommandSurface({
         </header>
 
         <div className="nxc-body">
-          <div
-            className="nxc-results"
-            id="nxc-list"
-            role="listbox"
-            aria-label="תוצאות חיפוש"
-            ref={listRef}
-          >
+          {/* While it lists options the results box holds nothing focusable
+              (the options follow aria-activedescendant), so the box itself is
+              a tab stop, and a keyboard can scroll it (axe
+              scrollable-region-focusable). */}
+          <div className="nxc-results" ref={listRef} tabIndex={expanded ? 0 : undefined}>
             {!live ? (
               <div className="nxc-idle">
                 <p className="nxc-idle-h">מה יש באינדקס: בחירת סוג מציגה את כל הרשומות שלו</p>
@@ -440,58 +451,85 @@ export function CommandSurface({
                   ))}
                 </ul>
                 <p className="nxc-idle-f">
-                  {nf.format(indexTotal)} רשומות באינדקס.
+                  <Count n={indexTotal} one="רשומה אחת" many="רשומות" /> באינדקס.
                 </p>
               </div>
-            ) : result.sections.length === 0 ? (
-              <p className="nxc-none">
-                לא נמצאו תוצאות עבור «{q}»
-                {modOnly ? ` במודול ${modLabel(modOnly)}` : ""}. החיפוש כולל את כל{" "}
-                {nf.format(indexTotal)} הרשומות באינדקס.
-              </p>
+            ) : !expanded ? (
+              /* ONE sentence that says what the index holds, and ONE action
+                 (gate 6, major 14; DESIGN-SPEC §1). */
+              <div className="nxc-none">
+                <p>
+                  {filterHe
+                    ? <>לא נמצאו תוצאות עבור «{q || onlyMeta?.he}»{filterHe}.</>
+                    : <>לא נמצאו תוצאות עבור «{q}» בין {nf.format(indexTotal)} הרשומות באינדקס: {listHe(idle.map((x) => PLURAL[x.k]))}.</>}
+                </p>
+                {emptyAction ? (
+                  <button type="button" className="nxc-none-a" onClick={onEmptyAction}>
+                    {emptyAction.t === "filter" ? "ניקוי המסנן"
+                      : emptyAction.t === "suggest" ? <>האם התכוונת ל-<bdi className="nx-sap">{emptyAction.code}</bdi>?</>
+                      : emptyAction.t === "catalogue" ? <>חיפוש «<bdi className="nx-sap">{emptyAction.q}</bdi>» בקטלוג {emptyAction.label}</>
+                      : "ניקוי החיפוש"}
+                  </button>
+                ) : null}
+              </div>
             ) : (
-              result.sections.map((sec, si) => {
-                let base = 0;
-                for (const s of result.sections) { if (s.k === sec.k) break; base += s.rows.length; }
-                return (
-                  <section
+              <div className="nxc-list" role="listbox" id="nxc-list" aria-label="תוצאות חיפוש">
+                {result.sections.map((sec) => (
+                  <div
                     key={sec.k}
                     className="nxc-sec"
                     role="group"
-                    aria-label={sec.he}
+                    aria-labelledby={`nxc-g-${sec.k}`}
                     data-k={sec.k}
                     data-shape={KIND_SHAPE[sec.k]}
                     data-mod={sec.mod ? "1" : "0"}
-                    style={{ "--m": modVar(sec.mod), "--i": Math.min(si, 6) } as React.CSSProperties}
+                    style={{ "--m": modVar(sec.mod) } as React.CSSProperties}
                   >
-                    <h3 className="nxc-sec-h">
+                    <div className="nxc-sec-h" role="presentation" id={`nxc-g-${sec.k}`}>
                       <i className="nxc-sec-mark" aria-hidden="true" />
                       <Ico name={sec.icon} size={12} />
                       <span>{sec.he}</span>
                       {sec.mod ? <span className="nxc-sec-mod">{modLabel(sec.mod)}</span> : null}
-                      <em>{sec.total > sec.rows.length ? `${sec.rows.length} מתוך ${nf.format(sec.total)}` : nf.format(sec.total)}</em>
-                    </h3>
-                    <div className="nxc-sec-body">
-                      {sec.rows.map((r, j) => (
-                        <Row
-                          key={r.id}
-                          r={r}
-                          i={base + j}
-                          active={base + j === active}
-                          onGo={onGo}
-                          onContext={onContext}
-                          onHover={onActive}
-                        />
-                      ))}
-                      {sec.total > sec.rows.length && only !== sec.k ? (
-                        <button type="button" className="nxc-more" onClick={() => onOnly(sec.k)}>
-                          הצגת כל {nf.format(sec.total)} התוצאות מסוג {sec.he}
-                        </button>
-                      ) : null}
+                      <em>{sec.total > sec.rows.length ? `${nf.format(sec.rows.length)} מתוך ${nf.format(sec.total)}` : nf.format(sec.total)}</em>
                     </div>
-                  </section>
-                );
-              })
+                    <div className="nxc-sec-body" role="presentation">
+                      {sec.rows.map((r) => {
+                        const i = n++;
+                        return (
+                          <Row
+                            key={r.id}
+                            r={r}
+                            i={i}
+                            active={i === active}
+                            onGo={() => onItem({ rec: r })}
+                            onHover={onActive}
+                          />
+                        );
+                      })}
+                      {sec.more ? (() => {
+                        const i = n++;
+                        const rest = sec.total - sec.rows.length;
+                        const it: CmdItem = { more: sec.k, next: sec.more === "next", total: sec.total, shown: sec.rows.length };
+                        return (
+                          <div
+                            id={`nxc-o-${i}`}
+                            role="option"
+                            aria-selected={i === active}
+                            className="nxc-more"
+                            data-active={i === active ? "1" : "0"}
+                            onPointerMove={() => onActive(i)}
+                            onClick={() => onItem(it)}
+                          >
+                            {sec.more === "next"
+                              ? `הצגת עוד ${nf.format(Math.min(BROWSE_CAP, rest))} · מוצגות ${nf.format(sec.rows.length)} מתוך ${nf.format(sec.total)}`
+                              : `הצגת כל ${nf.format(sec.total)} התוצאות מסוג ${sec.he}`}
+                          </div>
+                        );
+                      })() : null}
+                    </div>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
 
