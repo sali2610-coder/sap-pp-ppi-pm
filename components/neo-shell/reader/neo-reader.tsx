@@ -1034,11 +1034,7 @@ export function NeoReader({ book }: { book: NRBook }) {
             </nav>
 
             <footer className="nr-foot">
-              <p>
-                התוכן מתוך מאגר הספרים של Project NEO. הספר זמין גם בקורא של הספרייה הדיגיטלית:
-                {" "}
-                <Link className="nu-link" href={book.libraryHref} prefetch={false}>{book.libraryHref}</Link>
-              </p>
+              <p>התוכן מתוך מאגר הספרים של Project NEO.</p>
               <p>
                 {book.publisher ?? "מוציא לאור לא מתועד"}
                 {book.pages === null ? " · עמודים לא מתועדים" : ` · ${n(book.pages)} עמ׳`}

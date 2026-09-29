@@ -31,8 +31,10 @@ test("no quote means no q parameter rather than an empty one", () => {
   assert.equal(got.section, "2.4");
 });
 
-test("a chapter-only citation still lands on the chapter", () => {
-  assert.equal(citationHref("book1", 5), "/library/book1/#ch-5");
+test("a chapter-only citation still lands on the chapter, in the NEO reader", () => {
+  // The destination moved from the pre-NEO /library/ reader to /neo/read/ when
+  // NEO became the only site; the URL grammar the tests above hold is unchanged.
+  assert.equal(citationHref("book1", 5), "/neo/read/book1/#ch-5");
 });
 
 test("hebrew and special characters survive the round trip", () => {

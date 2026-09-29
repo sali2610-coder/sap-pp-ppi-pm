@@ -46,7 +46,6 @@ import { SmartReturn, OriginLink, type OriginArg } from "@/components/neo-shell/
 import { orderedBlocks, type BlockKind, type LessonBlock } from "@/lib/academy/lesson-types";
 import { recordBlock, setLastLesson, useLessonProgress } from "@/lib/academy/store";
 import { learnModVar, LEARN_MOD_HE } from "./mod";
-import { academyLessonHref } from "./lesson-links";
 import type { NeoLessonData, NeoLessonLink } from "./lesson-data";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -450,14 +449,6 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
           <span>
             מקור: מאגר השיעורים של SAP Academy.
           </span>
-        </p>
-        <p>
-          <Info size={13} strokeWidth={1.75} aria-hidden="true" />
-          {" "}השיעור זמין גם{" "}
-          <Link className="nu-link" href={academyLessonHref(lesson.slug)} prefetch={false}>
-            במסך הלמידה הקודם
-          </Link>
-          , וההתקדמות משותפת.
         </p>
       </div>
     </div>

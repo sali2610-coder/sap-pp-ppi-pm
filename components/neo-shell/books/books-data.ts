@@ -271,7 +271,9 @@ export function booksData(): BooksData {
 
     books.push({
       id: b.id,
-      href: `/library/${b.id}/`,
+      // The NEO reader: every resume, chapter and section link built from this
+      // address stays inside Project NEO (the pre-NEO /library/<id>/ redirects).
+      href: `/neo/read/${b.id}/`,
       hubHref: `/neo/books/${b.id}/`,
       titleEn,
       titleHe,

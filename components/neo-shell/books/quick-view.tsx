@@ -350,14 +350,7 @@ export function BookQuickView({
               מרכז הספר
             </OriginLink>
           </div>
-          <p className="nb-fine">
-            הקריאה נפתחת בקורא של Project NEO.
-            הספר זמין גם בקורא של הספרייה הדיגיטלית:{" "}
-            <Link className="nu-link" href={b.href} prefetch={false}>
-              <span className="nb-sap">{b.href}</span>
-            </Link>
-            .
-          </p>
+          <p className="nb-fine">הקריאה נפתחת בקורא של Project NEO.</p>
         </div>
       </div>
     </div>

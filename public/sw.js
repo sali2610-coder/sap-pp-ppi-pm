@@ -2,7 +2,7 @@
  *
  * Strategy:
  *  - Navigations (HTML): NETWORK-FIRST → always fresh when online; on failure fall
- *    back to the cached page, then to the branded /offline/ shell. Avoids stale
+ *    back to the cached page, then to the NEO /neo/offline/ page. Avoids stale
  *    HTML entirely while still working fully offline for visited pages.
  *  - Hashed build assets (/_next/static/**): CACHE-FIRST (immutable, content-hashed
  *    → safe to cache forever; new deploys ship new URLs).
@@ -13,14 +13,17 @@
  * on activate. skipWaiting + clients.claim so an update takes effect promptly; the
  * page is notified so it can offer a refresh.
  */
-const SW_VERSION = "neo-v1";
+// neo-v2: Project NEO is the only site. The precache held the pre-NEO home ("/")
+// and the pre-NEO /offline/ page (old chrome, a link back to the old home); the
+// bump purges every cache of v1, including any cached pre-NEO page.
+const SW_VERSION = "neo-v2";
 const PRECACHE = `${SW_VERSION}-precache`;
 const RUNTIME = `${SW_VERSION}-runtime`;
 
 // Minimal offline boot shell (kept tiny — the rest is runtime-cached on visit).
 const PRECACHE_URLS = [
-  "/",
-  "/offline/",
+  "/neo/",
+  "/neo/offline/",
   "/manifest.webmanifest",
   "/icon-192.png",
   "/icon-512.png",
@@ -67,7 +70,7 @@ self.addEventListener("fetch", (event) => {
           return res;
         })
         .catch(() =>
-          caches.match(request).then((cached) => cached || caches.match("/offline/")),
+          caches.match(request).then((cached) => cached || caches.match("/neo/offline/")),
         ),
     );
     return;

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Library, Table2 } from "lucide-react";
+import { Table2 } from "lucide-react";
 // The interaction system first, this page's own sheet second, so a .nb rule can
 // refine a .nu- control without an !important.
 import "../ui.css";
@@ -130,14 +130,6 @@ export default function NeoBooks() {
         </details>
       </section>
 
-      <footer className="nb-foot nm-fade">
-        {/* The button names the DIGITAL LIBRARY — the canonical /library/ site,
-            not this shelf. It used to link back to the page it sits on. */}
-        <Link className="nu-btn2" href="/library/" prefetch={false}>
-          <Library size={15} strokeWidth={1.75} aria-hidden="true" />
-          הספרייה הדיגיטלית
-        </Link>
-      </footer>
     </div>
   );
 }

@@ -44,7 +44,7 @@ const DOTTED = /^[0-9]+(\.[0-9]+)*$/;
 /** True when `?s=` will actually land on this section in the reader. */
 export const isExactSection = (id: string): boolean => DOTTED.test(id);
 
-/** `/library/book1/` + 3 -> `/library/book1/#ch-3` */
+/** `/neo/read/book1/` + 3 -> `/neo/read/book1/#ch-3` */
 export const chapterHref = (bookHref: string, n: number): string => `${bookHref}#ch-${n}`;
 
 /** The deepest link the reader genuinely supports for this section. */

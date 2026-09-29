@@ -42,6 +42,7 @@ import { BOOK_IDENTITY } from "@/lib/book-identity";
 import { FLOWS, ZONES, zoneOf, type Zone } from "@/lib/studio-graph";
 import { LIBRARY } from "@/data/library";
 import { BOOKS } from "@/data/library/academy-index";
+import { textbookCourseHref } from "../learn/lesson-links";
 import type { SAPModuleData, SAPSheet, SAPTable } from "@/lib/types";
 import type { ModuleKey } from "../types";
 
@@ -798,8 +799,8 @@ export function workspaceData(key: ModuleKey): WsData {
       en: b.titleEn,
       module: b.module,
       chapters: Object.keys(b.data || {}).length,
-      // The academy registry owns the route; it is not reconstructed here.
-      href: b.base.endsWith("/") ? b.base : `${b.base}/`,
+      // The textbook's NEO course, not the pre-NEO /library/ textbook route.
+      href: textbookCourseHref(b.id),
     })),
 
     rows: wsRows,

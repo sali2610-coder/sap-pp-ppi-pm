@@ -4,11 +4,70 @@ Static export means `out/` IS the product, so this is the only faithful way to
 check the reader outside production. Mirrors the host's trailing-slash routing:
 /a/b/ resolves to out/a/b/index.html.
 """
-import http.server, os, socketserver
+import http.server, json, os, re, socketserver
 
-os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "out"))
+HERE = os.path.dirname(os.path.abspath(__file__))
+
+# The host's redirects (vercel.json), so a local check sees what a reader gets:
+# every pre-NEO address redirects into /neo/ (scripts/gen-legacy-redirects.mjs).
+# The subset those rules use: literal segments, :name, :name(regex). Rules with
+# "has" (the www host rule) do not apply to localhost.
+def _compile(source):
+    names = []
+    def part(m):
+        if m.group(1):
+            names.append(m.group(1))
+            return "(" + (m.group(3) or "[^/]+") + ")"
+        return re.escape(m.group(0))
+    rx = re.sub(r":([A-Za-z]+)(\(((?:[^()\\]|\\.)+)\))?|[^:]+", part, source)
+    return re.compile("^" + rx + "$"), names
+
+REDIRECTS = []
+try:
+    with open(os.path.join(HERE, "..", "vercel.json"), encoding="utf-8") as f:
+        for r in json.load(f).get("redirects", []):
+            if "has" in r:
+                continue
+            rx, names = _compile(r["source"])
+            REDIRECTS.append((rx, names, r["destination"], 308 if r.get("permanent") else 307))
+except (OSError, ValueError):
+    pass
+
+def redirect_for(raw_path):
+    for rx, names, dest, code in REDIRECTS:
+        m = rx.match(raw_path)
+        if m:
+            for i, n in enumerate(names):
+                dest = re.sub(":" + n + r"\b", lambda _m, v=m.group(i + 1): v, dest)
+            return dest, code
+    return None
+
+os.chdir(os.path.join(HERE, "..", "out"))
 
 class H(http.server.SimpleHTTPRequestHandler):
+    def _redirect(self):
+        raw, _, query = self.path.partition("?")
+        # trailing slash first, as the host does for an exported page
+        if not raw.endswith("/") and "." not in raw.rsplit("/", 1)[-1]:
+            target, code = raw + "/", 308
+        else:
+            hit = redirect_for(raw)
+            if not hit:
+                return False
+            target, code = hit
+        if query and "?" not in target:
+            target += "?" + query
+        self.send_response(code)
+        self.send_header("Location", target)
+        self.send_header("Content-Length", "0")
+        self.end_headers()
+        return True
+    def do_GET(self):
+        if not self._redirect():
+            super().do_GET()
+    def do_HEAD(self):
+        if not self._redirect():
+            super().do_HEAD()
     def translate_path(self, path):
         p = super().translate_path(path)
         if not os.path.exists(p):

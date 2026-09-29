@@ -270,20 +270,6 @@ export function BookHub({ d }: { d: BookHubData }) {
             </p>
           )}
 
-          {/* THE CANONICAL READER, named as itself and not as a second "open".
-              It is a different surface with its own tools, it is unchanged by
-              this stage, and its own deep-link limitation belongs to it — which
-              is why b.exactNote is printed HERE and not over the table of
-              contents, whose rows no longer go there. */}
-          <p className="nb-fine nb-hub-alt">
-            <Link className="nu-link" href={b.href} prefetch={false}>
-              <ChevronRight className="nu-arw" size={13} strokeWidth={1.75} aria-hidden="true" />
-              הקורא של הספרייה הדיגיטלית
-            </Link>
-            {" "}
-            <span className="nb-sap">{b.href}</span>.
-            {!b.exact && b.exactNote ? ` ${b.exactNote}` : ""}
-          </p>
         </div>
       </header>
 

@@ -26,8 +26,11 @@
 
    THE RULES
 
-     · Only the FAMILIES the project actually mirrors are translated. Anything
-       else is left exactly as written.
+     · Project NEO is the only site: a legacy href either becomes its NEO twin
+       or loses its link. A lesson link opens the lesson in its NEO course, a
+       book link the NEO reader (keeping ?s= and #ch-), a textbook link its NEO
+       course; any other pre-NEO address renders as a plain chip, never as a
+       link out of /neo/ (the addresses themselves redirect, vercel.json).
      · Every translated href is GATED by components/neo-shell/reference/ref-links
        — the same gate the rest of /neo/ uses. A code with no NEO page loses its
        link and renders as a plain chip, which the lesson view already supports.
@@ -37,6 +40,10 @@
 
 import type { Lesson } from "@/lib/academy/lesson-types";
 import { bapiHref, cdsHref, fioriHref, idocHref, objectHref, txHref } from "../reference/ref-links";
+import { ACADEMY, getLesson } from "@/lib/academy/model";
+import { BOOKS as TEXTBOOKS } from "@/data/library/academy-index";
+import { neoLessonHref, textbookCourseHref } from "./lesson-links";
+import { readerBookIds } from "../reader/reader-data";
 
 /** legacy first segment -> the NEO resolver for that family. */
 const FAMILY: Record<string, (id: string) => string | null> = {
@@ -63,15 +70,39 @@ const DIRECTORY: Record<string, string> = {
   domain: "/neo/domain-model/",
 };
 
-/** The NEO twin of a legacy href, or null when the project generates no page.
- *  A non-legacy or already-NEO href comes back unchanged. */
+/** /academy/lesson/<slug>/ and /academy/path/<course>/ inside NEO. */
+function academyHref(kind: string | undefined, id: string | undefined): string | null {
+  if (kind === "lesson" && id) { const l = getLesson(id); return l ? neoLessonHref(l.moduleId, id) : null; }
+  if (kind === "path" && id) return ACADEMY[id] ? `/neo/academy/${id}/` : null;
+  return kind ? null : "/neo/academy/";
+}
+
+/** /library/<book>/… (the NEO reader, with the location kept) and a
+ *  textbook's /library/<base>/… (its NEO course). */
+let readers: Set<string> | null = null;
+function libraryHref(href: string): string | null {
+  const u = new URL(href, "https://neo.local");
+  const seg = u.pathname.split("/").filter(Boolean);
+  if (seg.length === 1) return "/neo/books/";
+  const book = seg[1] === "v2" ? seg[2] : seg[1];
+  if (!readers) readers = new Set(readerBookIds());
+  if (book && readers.has(book)) return `/neo/read/${book}/${u.search}${u.hash}`;
+  const tb = TEXTBOOKS.find((b) => b.base === `/library/${seg[1]}`);
+  return tb ? textbookCourseHref(tb.id) : null;
+}
+
+/** The NEO twin of a legacy href, or null when NEO has no page for it: the
+ *  caller renders a plain chip, never a link to the pre-NEO interface. A
+ *  non-internal or already-NEO href comes back unchanged. */
 export function neoHrefOf(href: string | undefined): string | null | undefined {
   if (!href) return href;
-  if (!href.startsWith("/") || href.startsWith("/neo/")) return href;
-  const [, family, id] = href.split("/");
-  if (!id) return DIRECTORY[family] ?? href;   // a family root, not a record
+  if (!href.startsWith("/") || href.startsWith("/neo/") || href.startsWith("//")) return href;
+  const [, family, id, rest] = href.split(/[/?#]/);
+  if (family === "academy") return academyHref(id || undefined, rest || undefined);
+  if (family === "library") return libraryHref(href);
+  if (!id) return DIRECTORY[family] ?? null;   // a family root, not a record
   const resolve = FAMILY[family];
-  if (!resolve) return href;                   // family NEO does not mirror
+  if (!resolve) return null;                   // no NEO twin: shown, not linked
   return resolve(decodeURIComponent(id));      // string, or null → render flat
 }
 

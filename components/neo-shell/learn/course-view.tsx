@@ -33,7 +33,6 @@
    ========================================================================== */
 
 import { useEffect } from "react";
-import Link from "next/link";
 import { ArrowLeft, BookOpen, Blocks, Clock, Info, Layers, Play } from "lucide-react";
 import {
   OriginLink, SmartReturn, restoreScroll, scrollOffset, useReturnState, type OriginArg,
@@ -246,14 +245,7 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
           שיעור נחשב מושלם כשכל יחידות התוכן שהוא דורש נקראו.
           {" "}ההתקדמות נשמרת במכשיר בלבד ואינה מסונכרנת.
         </p>
-        <p>
-          השיעורים נפתחים בתוך Project NEO.
-          {" "}אותו שיעור זמין גם{" "}
-          <Link className="nu-link" href="/academy/" prefetch={false}>
-            במסך הלמידה הקודם
-          </Link>
-          , וההתקדמות משותפת לשני המסכים.
-        </p>
+        <p>השיעורים נפתחים בתוך Project NEO.</p>
       </div>
     </div>
   );

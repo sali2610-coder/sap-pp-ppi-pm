@@ -20,7 +20,10 @@
 export function citationHref(
   bookId: string, chapter: number, section?: string, quote?: string | null,
 ) {
-  const base = `/library/${bookId}/`;
+  // Project NEO is the only site: a citation opens the NEO reader, which reads
+  // the same `?s=` and `#sec-` / `#ch-` (components/neo-shell/reader). The
+  // pre-NEO /library/<id>/ address redirects there too.
+  const base = `/neo/read/${bookId}/`;
   if (!section) return `${base}#ch-${chapter}`;
   const q = quote ? `&q=${encodeURIComponent(String(quote).slice(0, 300))}` : "";
   // `sec-<id>` is the id the canonical bespoke reader gives a section. The
