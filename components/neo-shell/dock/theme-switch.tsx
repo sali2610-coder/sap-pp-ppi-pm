@@ -115,11 +115,12 @@ export function ThemeSwitch() {
           >
             <Icon className="ico" size={14} strokeWidth={2} aria-hidden="true" />
             <span className="nxk-theme-t">{he}</span>
+            {/* The resolved state of Auto, stated inside Auto itself: at the end
+                of the row it read as a fourth option (gate 5, #14). */}
+            {id === "system" && resolved ? <em className="nxk-theme-now">כרגע {resolved}</em> : null}
           </button>
         );
       })}
-      {/* The resolved state of Auto, stated rather than left to be inferred. */}
-      {resolved ? <span className="nxk-theme-now">{resolved}</span> : null}
     </div>
   );
 }
