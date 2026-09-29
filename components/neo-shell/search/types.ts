@@ -82,6 +82,16 @@ export type CmdTxTuple = [string, string, number, number, string, number];
  *  class word when it is neither a BAPI nor a function module ("מושג תהליכי")]. */
 export type CmdFnTuple = [string, string, string, string, string, string, string?];
 
+/** Every transaction the project knows (the registry /neo/transactions is
+ *  generated from, plus the blueprint codes that have no page). Served apart,
+ *  as the static file /neo/search-tx.json, and fetched once per visit: inline,
+ *  its ~24 KB gzip rode in the HTML of every page (gate 6, major 9). */
+export interface CommandTx {
+  txs: CmdTxTuple[];
+  txMods: string[];
+  txSts: string[];
+}
+
 /** The build-time supplement handed to the client shell. It carries ONLY what
  *  ShellData cannot already answer — never a second copy of the same records. */
 export interface CommandExtra {
@@ -90,11 +100,6 @@ export interface CommandExtra {
   mods: CmdModuleRecord[];
   /** Every dictionary field, with the table that owns it. */
   fields: CmdFieldTuple[];
-  /** Every transaction the project knows (the registry /neo/transactions is
-   *  generated from, plus the blueprint codes that have no page). */
-  txs: CmdTxTuple[];
-  txMods: string[];
-  txSts: string[];
   /** Every BAPI, function module and IDoc message type with a page, one row per
    *  page (gate 6, major 11). */
   fns: CmdFnTuple[];

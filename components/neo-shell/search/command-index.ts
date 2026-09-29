@@ -59,7 +59,7 @@ import { bookHubData, bookIds } from "../books/books-data";
 import { MOD_HE } from "../mod-var";
 import type { SAPModuleData } from "@/lib/types";
 import type {
-  CmdExtraRecord, CmdFieldTuple, CmdFnTuple, CmdModuleRecord, CmdTxTuple, CommandExtra,
+  CmdExtraRecord, CmdFieldTuple, CmdFnTuple, CmdModuleRecord, CmdTxTuple, CommandExtra, CommandTx,
 } from "./types";
 
 /** Same split rule the transaction list in lib/module-portal uses, re-stated
@@ -371,6 +371,14 @@ function bestPractices(): CmdExtraRecord[] {
 /* ------------------------------------------------------------------ build */
 
 let cached: CommandExtra | null = null;
+let cachedTx: CommandTx | null = null;
+
+/** The transactions, for /neo/search-tx.json (app/neo/search-tx.json/route.ts). */
+export function commandTransactions(): CommandTx {
+  if (!cachedTx) cachedTx = transactions(ownership().tx);
+  return cachedTx;
+}
+
 
 export function commandIndex(): CommandExtra {
   if (cached) return cached;
@@ -393,7 +401,6 @@ export function commandIndex(): CommandExtra {
     ],
     mods: modules(),
     fields: fields(),
-    ...transactions(own.tx),
     fns: functionObjects(own.fn),
     fiori,
     cds,

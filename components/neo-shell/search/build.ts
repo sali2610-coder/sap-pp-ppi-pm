@@ -18,7 +18,7 @@ import { within } from "@/lib/search-intel";
 import { MOD_HE } from "../mod-var";
 import type { ShellData } from "../types";
 import { foldText, queryReadings } from "./hebrew";
-import type { CmdItem, CmdKind, CmdRecord, CmdSection, CommandExtra } from "./types";
+import type { CmdItem, CmdKind, CmdRecord, CmdSection, CommandExtra, CommandTx } from "./types";
 
 /* ------------------------------------------------------------------ kinds */
 
@@ -93,7 +93,9 @@ const txPath = (code: string) => `/neo/transactions/${encodeURIComponent(code)}/
 
 /* --------------------------------------------------------------- assembly */
 
-export function buildIndex(data: ShellData, extra: CommandExtra): CmdRecord[] {
+/** `tx` arrives after the page loads (/neo/search-tx.json); until then the
+ *  index holds every other family. */
+export function buildIndex(data: ShellData, extra: CommandExtra, tx?: CommandTx | null): CmdRecord[] {
   const out: CmdRecord[] = [];
   const push = (r: Omit<CmdRecord, "lt" | "hay" | "nt" | "nh">) => {
     const context = [r.sub, r.rel, r.mod, r.objHe].filter(Boolean).join(" ");
@@ -208,7 +210,7 @@ export function buildIndex(data: ShellData, extra: CommandExtra): CmdRecord[] {
   }
 
   /* transactions — every code the registry holds, with its own Hebrew line */
-  for (const [code, he, m, s, rel, page] of extra.txs) {
+  for (const [code, he, m, s, rel, page] of tx?.txs ?? []) {
     push({
       id: `tcode:${code}`,
       k: "tcode",
@@ -216,9 +218,9 @@ export function buildIndex(data: ShellData, extra: CommandExtra): CmdRecord[] {
       mono: true,
       sub: he,
       href: page ? txPath(code) : null,
-      mod: extra.txMods[m] || undefined,
+      mod: tx?.txMods[m] || undefined,
       rel: rel || undefined,
-      st: s >= 0 ? extra.txSts[s] : undefined,
+      st: s >= 0 ? tx?.txSts[s] : undefined,
     });
   }
 

@@ -69,7 +69,15 @@ import type { NavItem, RailMode, ShelfTab, ShellData } from "../types";
 import { BROWSE_CAP, KINDS, buildIndex, runQuery, suggest } from "./build";
 import { CommandSurface, type EmptyAction } from "./command-surface";
 import { CmdKey } from "../cmd-key";
-import type { CmdItem, CmdKind, CmdRecord, CommandExtra } from "./types";
+import type { CmdItem, CmdKind, CmdRecord, CommandExtra, CommandTx } from "./types";
+
+/* The transaction rows (1,847) come from /neo/search-tx.json, once per visit:
+   inline they added ~24 KB gzip to every page (gate 6, major 9). A failed load
+   is retried on the next attempt; the rest of the index works meanwhile. */
+let txLoad: Promise<CommandTx> | null = null;
+const loadTx = () => (txLoad ??= fetch("/neo/search-tx.json")
+  .then((r) => { if (!r.ok) throw new Error(`search-tx ${r.status}`); return r.json() as Promise<CommandTx>; })
+  .catch((e: unknown) => { txLoad = null; throw e; }));
 
 const nf = new Intl.NumberFormat("he-IL");
 const PREVIEW_DELAY = 260;
@@ -275,7 +283,9 @@ export function NeoShellClient({
 
   /** The whole command index, assembled once from the two build-time payloads.
    *  ~thousands of plain rows — cheap to hold, and never rebuilt per keystroke. */
-  const index = useMemo(() => buildIndex(data, cmd), [data, cmd]);
+  const [tx, setTx] = useState<CommandTx | null>(null);
+  const [txFailed, setTxFailed] = useState(false);
+  const index = useMemo(() => buildIndex(data, cmd, tx), [data, cmd, tx]);
   const result = useMemo(() => runQuery(index, dq, only, modOnly, limit), [index, dq, only, modOnly, limit]);
 
   /** Real per-family totals for the idle state of the surface. */
@@ -510,6 +520,22 @@ export function NeoShellClient({
   }, [changeMode]);
 
   const searching = mode === "search";
+
+  /* The transactions load when the browser is idle after the page, or at once
+     when the search opens first; the index rebuilds when they arrive. A failed
+     load is said so in the surface and tried again when the search opens. */
+  useEffect(() => {
+    if (tx) return;
+    let live = true;
+    const go = () => {
+      loadTx().then((t) => { if (live) { setTx(t); setTxFailed(false); } }, () => { if (live) setTxFailed(true); });
+    };
+    if (searching) { go(); return () => { live = false; }; }
+    if (txFailed) return;
+    const idle = "requestIdleCallback" in window;
+    const id = idle ? window.requestIdleCallback(go, { timeout: 3000 }) : window.setTimeout(go, 1500);
+    return () => { live = false; if (idle) window.cancelIdleCallback(id); else window.clearTimeout(id); };
+  }, [tx, txFailed, searching]);
 
   /* Opening focuses the field in the same task as the key or the click that
      opened it (gate 6, major 16): a 200ms timer used to swallow the first
@@ -836,6 +862,8 @@ export function NeoShellClient({
   const surface = searching ? (
     <CommandSurface
       sheet={sheet}
+      txPending={!tx && !txFailed}
+      txFailed={!tx && txFailed}
       query={query}
       onQuery={applyQuery}
       onKey={onFieldKey}

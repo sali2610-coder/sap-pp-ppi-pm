@@ -242,7 +242,7 @@ function Detail({
 export function CommandSurface({
   sheet, query, onQuery, onKey, result, only, onOnly, modOnly, onModOnly,
   active, onActive, onItem, onClose,
-  contexts, extra, idle, emptyAction, onEmptyAction, listRef, mobileInputRef, surfaceMod,
+  contexts, extra, idle, emptyAction, onEmptyAction, listRef, mobileInputRef, surfaceMod, txPending, txFailed,
 }: {
   /** Full-screen dialog with its own field (phone, tablet, narrow window). */
   sheet: boolean;
@@ -266,6 +266,11 @@ export function CommandSurface({
   extra: CommandExtra;
   /** Real per-family totals across the whole index — the idle readout. */
   idle: { k: CmdKind; he: string; icon: string; n: number }[];
+  /** The transactions are still loading (/neo/search-tx.json): an answer
+   *  without them says so rather than reading as final. */
+  txPending?: boolean;
+  /** The file did not load (tried again when the search reopens). */
+  txFailed?: boolean;
   emptyAction: EmptyAction | null;
   onEmptyAction: () => void;
   listRef: React.RefObject<HTMLDivElement | null>;
@@ -280,6 +285,7 @@ export function CommandSurface({
   const rec = item?.rec ?? null;
   const ctx = rec?.ctx ? contexts[rec.ctx] || null : null;
   const indexTotal = idle.reduce((a, x) => a + x.n, 0);
+  const txNote = txPending ? " · רשימת הטרנזקציות עדיין נטענת" : txFailed ? " · רשימת הטרנזקציות לא נטענה" : null;
   const onlyMeta = only ? kindMeta(only) : null;
 
   /* The filters stay on screen, pressed and clearable, even when they leave
@@ -344,10 +350,10 @@ export function CommandSurface({
             {q ? (
               result.total ? (
                 <>
-                  <Count n={result.total} one="תוצאה אחת" many="תוצאות" /> עבור <span className="nxc-q">{q}</span>{filterHe}
+                  <Count n={result.total} one="תוצאה אחת" many="תוצאות" /> עבור <span className="nxc-q">{q}</span>{filterHe}{txNote}
                 </>
               ) : (
-                <>אין תוצאות עבור <span className="nxc-q">{q}</span>{filterHe}</>
+                <>אין תוצאות עבור <span className="nxc-q">{q}</span>{filterHe}{txNote}</>
               )
             ) : result.browse && onlyMeta ? (
               <>
@@ -461,7 +467,11 @@ export function CommandSurface({
                 <p>
                   {filterHe
                     ? <>לא נמצאו תוצאות עבור «{q || onlyMeta?.he}»{filterHe}.</>
-                    : <>לא נמצאו תוצאות עבור «{q}» בין {nf.format(indexTotal)} הרשומות באינדקס: {listHe(idle.map((x) => PLURAL[x.k]))}.</>}
+                    : txPending
+                      ? <>לא נמצאו תוצאות עבור «{q}» בינתיים. רשימת הטרנזקציות עדיין נטענת, והתוצאות יתעדכנו מעצמן.</>
+                      : txFailed
+                      ? <>לא נמצאו תוצאות עבור «{q}». רשימת הטרנזקציות לא נטענה, ולכן טרנזקציות לא נכללו בחיפוש הזה.</>
+                      : <>לא נמצאו תוצאות עבור «{q}» בין {nf.format(indexTotal)} הרשומות באינדקס: {listHe(idle.map((x) => PLURAL[x.k]))}.</>}
                 </p>
                 {emptyAction ? (
                   <button type="button" className="nxc-none-a" onClick={onEmptyAction}>

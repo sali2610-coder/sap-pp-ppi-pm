@@ -7,11 +7,11 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 const { shellData } = await import("../components/neo-shell/nav-data.ts");
-const { commandIndex } = await import("../components/neo-shell/search/command-index.ts");
+const { commandIndex, commandTransactions } = await import("../components/neo-shell/search/command-index.ts");
 const { BROWSE_CAP, buildIndex, runQuery, suggest } = await import("../components/neo-shell/search/build.ts");
 const { foldText, queryReadings } = await import("../components/neo-shell/search/hebrew.ts");
 
-const index = buildIndex(shellData(), commandIndex());
+const index = buildIndex(shellData(), commandIndex(), commandTransactions());
 const first = (q: string) => runQuery(index, q, null).items[0]?.rec;
 const titles = (q: string) => runQuery(index, q, null).items.flatMap((i: { rec?: { title: string } }) => (i.rec ? [i.rec.title] : []));
 

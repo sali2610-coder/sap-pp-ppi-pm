@@ -11,7 +11,7 @@ import { readFileSync, readdirSync, existsSync } from "node:fs";
 import path from "node:path";
 
 const { shellData, NEO_HUBS } = await import("../components/neo-shell/nav-data.ts");
-const { commandIndex } = await import("../components/neo-shell/search/command-index.ts");
+const { commandIndex, commandTransactions } = await import("../components/neo-shell/search/command-index.ts");
 const { buildIndex } = await import("../components/neo-shell/search/build.ts");
 const { txHref } = await import("../components/neo-shell/reference/ref-links.ts");
 const { tableDetailNames } = await import("../components/neo-shell/data/tables-detail.ts");
@@ -69,7 +69,7 @@ function generatedRoutes(): Set<string> {
 }
 
 const routes = generatedRoutes();
-const index = buildIndex(shellData(), commandIndex());
+const index = buildIndex(shellData(), commandIndex(), commandTransactions());
 const pathOf = (href: string) => decodeURIComponent(href.split("#")[0].split("?")[0]);
 
 test("the route files still generate from the lists this test reads", () => {
@@ -147,4 +147,13 @@ test("every object, enhancement, book, incident and work centre page is reachabl
   for (const id of bookIds()) assert.ok(hrefs.has(`/neo/books/${id}/`), id);
   for (const s of incidentSlugs()) assert.ok(hrefs.has(`/neo/incidents/${s}/`), s);
   for (const p of allCenterParams() as { family: string; slug: string }[]) assert.ok(hrefs.has(`/neo/centers/${p.family}/${p.slug}/`), p.slug);
+});
+
+test("the transactions travel apart, as the static file the shell fetches", async () => {
+  // gate 6, major 9: inline, the 1,800+ transaction rows rode in every page's HTML
+  assert.equal("txs" in commandIndex(), false);
+  const { GET } = await import("../app/neo/search-tx.json/route.ts");
+  const body = await GET().json();
+  assert.deepEqual(body, JSON.parse(JSON.stringify(commandTransactions())));
+  assert.ok(body.txs.length >= 1818, `${body.txs.length} transaction rows`);
 });
