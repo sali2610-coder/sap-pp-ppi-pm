@@ -69,7 +69,7 @@ const VIEWS: { v: View; he: string }[] = [
 /** A WORK TOPIC, in the same row language as a concept: mark, body, S/4HANA
  *  side panel, go arrow. The side panel states whether the topic carries a
  *  validated migration verdict — and says so plainly when it does not. */
-function CenterCard({ c, onOpen }: { c: CenterRow; onOpen: (slug: string) => void }) {
+export function CenterCard({ c, onOpen }: { c: CenterRow; onOpen: (slug: string) => void }) {
   return (
     <li className="nxl-item" data-slug={c.slug}>
       <Link
@@ -89,7 +89,7 @@ function CenterCard({ c, onOpen }: { c: CenterRow; onOpen: (slug: string) => voi
           <span className="nxl-meta">
             <span className="nu-chip">{c.famHe}</span>
             {c.module ? <span className="nu-chip">{c.module}</span> : null}
-            {c.tag ? <span className="nu-chip">{c.tag}</span> : null}
+            {c.tag && c.tag !== c.module ? <span className="nu-chip">{c.tag}</span> : null}
             <span className="nu-chip">
               <ListTree size={11} strokeWidth={2} aria-hidden="true" />
               {nf.format(c.sections)}
@@ -169,6 +169,9 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
   const [view, setView] = useState<View>("all");
   const [q, setQ] = useState("");
   const [group, setGroup] = useState("");
+  // The catalogue bar every catalogue shares (knowledge gate 2, finding 7):
+  // search, view, sort, filters, then the count.
+  const [sort, setSort] = useState<"repo" | "he">("repo");
 
   const tokens = useMemo(() => q.trim().toLowerCase().split(/\s+/).filter(Boolean), [q]);
 
@@ -178,8 +181,8 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
     else if (view === "same") out = out.filter((r) => !r.s4Changed);
     if (group) out = out.filter((r) => r.group === group);
     if (tokens.length) out = out.filter((r) => tokens.every((t) => r.hay.includes(t)));
-    return out;
-  }, [rows, view, group, tokens]);
+    return sort === "he" ? [...out].sort((a, b) => a.he.localeCompare(b.he, "he")) : out;
+  }, [rows, view, group, tokens, sort]);
 
   /* The work topics get the SAME three controls, reading their own fields: the
      S/4 view keys off whether the topic carries a verdict, and the facet is the
@@ -190,8 +193,8 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
     else if (view === "same") out = out.filter((c) => !c.s4);
     if (group) out = out.filter((c) => c.famId === group);
     if (tokens.length) out = out.filter((c) => tokens.every((t) => c.hay.includes(t)));
-    return out;
-  }, [centers, view, group, tokens]);
+    return sort === "he" ? [...out].sort((a, b) => a.he.localeCompare(b.he, "he")) : out;
+  }, [centers, view, group, tokens, sort]);
 
   const isWork = body === "work";
   const shown = isWork ? workList.length : list.length;
@@ -281,31 +284,6 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
         </p>
       </header>
 
-      <section className="nx-card nxl-stats" aria-label="סיכום מרכז הידע">
-        {(isWork
-          ? [
-              { v: totals.centers, l: "נושאי עבודה", i: <ListTree size={14} strokeWidth={1.75} /> },
-              { v: totals.families, l: "מרכזים", i: <Layers size={14} strokeWidth={1.75} /> },
-              { v: totals.sections, l: "מקטעי תוכן", i: <Lightbulb size={14} strokeWidth={1.75} /> },
-              { v: totals.centersS4, l: "עם השפעת מעבר מתועדת", i: <Sparkles size={14} strokeWidth={1.75} /> },
-            ]
-          : [
-              { v: totals.concepts, l: "מושגים", i: <BrainCircuit size={14} strokeWidth={1.75} /> },
-              { v: totals.groups, l: "קבוצות", i: <Layers size={14} strokeWidth={1.75} /> },
-              { v: totals.s4Changed, l: "שינוי מתועד ב-S/4HANA", i: <Sparkles size={14} strokeWidth={1.75} /> },
-              { v: totals.s4Same, l: "ללא שינוי לפי התיעוד", i: <Layers size={14} strokeWidth={1.75} /> },
-              { v: totals.examples, l: "דוגמאות", i: <Lightbulb size={14} strokeWidth={1.75} /> },
-              { v: totals.links, l: "הפניות מקושרות לעמוד", i: <Link2 size={14} strokeWidth={1.75} /> },
-            ]
-        ).map((s) => (
-          <div key={s.l} className="nxl-stat">
-            <span className="nxl-stat-i" aria-hidden="true">{s.i}</span>
-            <b>{nf.format(s.v)}</b>
-            <span>{s.l}</span>
-          </div>
-        ))}
-      </section>
-
       {/* THE BODY SWITCH. Two bodies of one centre, never mixed into one list.
           It uses .nu-tab, the same control the view switch below uses, so the
           selected state is the strong filled one this surface already had. */}
@@ -365,6 +343,14 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
             </button>
           ))}
         </div>
+
+        <label className="nxl-sort">
+          <span>מיון</span>
+          <select value={sort} onChange={(e) => setSort(e.target.value as "repo" | "he")}>
+            <option value="repo">סדר המאגר</option>
+            <option value="he">לפי שם</option>
+          </select>
+        </label>
       </div>
 
       <div className="nxl-facets">
@@ -384,9 +370,33 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
         </div>
       </div>
 
+      <section className="nx-card nxl-stats" aria-label="סיכום מרכז הידע">
+        {(isWork
+          ? [
+              { v: totals.centers, l: "נושאי עבודה", i: <ListTree size={14} strokeWidth={1.75} /> },
+              { v: totals.families, l: "מרכזים", i: <Layers size={14} strokeWidth={1.75} /> },
+              { v: totals.sections, l: "מקטעי תוכן", i: <Lightbulb size={14} strokeWidth={1.75} /> },
+              { v: totals.centersS4, l: "עם השפעת מעבר מתועדת", i: <Sparkles size={14} strokeWidth={1.75} /> },
+            ]
+          : [
+              { v: totals.concepts, l: "מושגים", i: <BrainCircuit size={14} strokeWidth={1.75} /> },
+              { v: totals.groups, l: "קבוצות", i: <Layers size={14} strokeWidth={1.75} /> },
+              { v: totals.s4Changed, l: "שינוי מתועד ב-S/4HANA", i: <Sparkles size={14} strokeWidth={1.75} /> },
+              { v: totals.s4Same, l: "ללא שינוי לפי התיעוד", i: <Layers size={14} strokeWidth={1.75} /> },
+              { v: totals.examples, l: "דוגמאות", i: <Lightbulb size={14} strokeWidth={1.75} /> },
+              { v: totals.links, l: "הפניות מקושרות לעמוד", i: <Link2 size={14} strokeWidth={1.75} /> },
+            ]
+        ).map((s) => (
+          <div key={s.l} className="nxl-stat">
+            <span className="nxl-stat-i" aria-hidden="true">{s.i}</span>
+            <b>{nf.format(s.v)}</b>
+            <span>{s.l}</span>
+          </div>
+        ))}
+      </section>
+
       <p className="nxl-count" aria-live="polite">
-        <b>{nf.format(shown)}</b> {isWork ? "נושאי עבודה" : "מושגים"}
-        {view === "all" && !dirty ? <> מתוך {nf.format(bodyTotal)}</> : null}
+        <b>{nf.format(shown)}</b> מתוך {nf.format(bodyTotal)} {isWork ? "נושאי עבודה" : "מושגים"}
         {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
       </p>
 

@@ -36,6 +36,8 @@ import Link from "next/link";
 import { ArrowLeft, ShieldCheck } from "lucide-react";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
 import { EvidenceBlock } from "../evidence/evidence-block";
+import { RecordStatus } from "../evidence/record-status";
+import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { CopyId } from "../copy-id";
 import { MOD_HE, modVar } from "../mod-var";
 import { Glyph } from "./icons";
@@ -231,6 +233,7 @@ export function RefDetailView({ d }: { d: RefDetail }) {
           </div>
         )}
 
+        {d.evidence ? <p className="nxt-s4line"><RecordStatus e={d.evidence} /></p> : null}
         <div className="nxt-meta">
           {d.statuses.map((s) => <Status key={s.he} s={s} />)}
           {d.mod ? (
@@ -278,8 +281,12 @@ export function RefDetailView({ d }: { d: RefDetail }) {
           The loudest block on the screen, and the only one rendered even when
           the dataset is silent: "we do not know" is decision-relevant for a
           migration, and hiding it would be the lie. */}
+      {/* The page's own index, as on the transaction and table pages. */}
+      <SectionNav sections={[{ id: "nxt-s4", label: "S/4HANA" }, ...d.sections.map((s) => ({ id: `sec-${s.id}`, label: s.title }))]} />
+
       <section
         className="nxt-s4"
+        id="nxt-s4"
         data-tone={d.s4.tone}
         data-impacted={impacted ? "1" : undefined}
         aria-labelledby="s4-h"

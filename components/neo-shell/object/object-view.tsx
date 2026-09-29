@@ -26,6 +26,8 @@ import { RISK_COLOR } from "@/lib/s4";
 import { OriginLink } from "@/components/neo-shell/nav-context";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { EvidenceBlock } from "../evidence/evidence-block";
+import { RecordStatus } from "../evidence/record-status";
+import { CopyId } from "../copy-id";
 import { ObjectDepth } from "./object-depth";
 import { ObjectFields } from "./object-fields";
 import { ObjectReturn } from "./object-return";
@@ -149,13 +151,19 @@ export function ObjectPage({ v }: { v: ObjectView }) {
             טבלת SAP
           </p>
 
-          <h1 className="no-mega">
-            <span className="no-cls" aria-hidden="true" />
-            <span className="nx-sap">{v.name}</span>
-          </h1>
+          <div className="no-codeline">
+            <h1 className="no-mega">
+              <span className="no-cls" aria-hidden="true" />
+              <span className="nx-sap">{v.name}</span>
+            </h1>
+            <CopyId value={v.name} label="העתקת שם הטבלה" compact />
+          </div>
 
           <p className="no-lede">{v.he || "לא קיים תיאור בעברית בתיעוד לטבלה זו."}</p>
           {v.en ? <p className="no-en nx-sap">{v.en}</p> : null}
+
+          {/* The header pair every record type states (evidence/record-status). */}
+          <p className="no-status"><RecordStatus e={v.evidence} /></p>
 
           <ul className="no-mods" aria-label="שיוך למודול">
             {v.mods.map((m) => (

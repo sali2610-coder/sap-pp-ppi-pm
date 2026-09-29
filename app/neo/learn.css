@@ -1311,3 +1311,14 @@ html[data-theme="dark"] .nx-app .nxl-bodies .nu-tab.nxl-bodytab[aria-selected="t
    border); its status mark and words carry the change (2026 system). */
 .nx-app .nxv-s4[data-s4="1"],
 [dir="ltr"] .nx-app .nxv-s4[data-s4="1"] { border-color: var(--hairline); background: var(--surface); box-shadow: none; }
+
+/* THE SORT CONTROL of the shared catalogue bar (knowledge gate 2, finding 7),
+   the same control as .nxd-sort in data.css, which these pages do not load. */
+.nx-app .nxl-sort { display: inline-flex; align-items: center; gap: var(--sp-2); font-size: var(--t-micro); color: var(--ink-3); }
+.nx-app .nxl-sort select {
+  font: inherit; font-size: var(--t-xs); font-weight: 600; color: var(--ink-1);
+  min-block-size: 2.5rem; padding-inline: var(--sp-3);
+  border: 1px solid var(--hairline); border-radius: var(--r-sm);
+  background: var(--surface); cursor: pointer;
+}
+.nx-app .nxl-sort select:focus-visible { outline: none; box-shadow: var(--focus-ring); }

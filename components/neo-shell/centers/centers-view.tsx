@@ -26,6 +26,8 @@ import { ArrowLeft, Layers, ListTree, Sparkles } from "lucide-react";
 import type { CenterItem } from "@/components/topic-center";
 import { CopyId } from "../copy-id";
 import { CENTER_FAMILIES, centerTotals, type CenterFamily } from "./centers-data";
+import { CenterTopics } from "./center-topics";
+import { knowledgeData } from "../learn/knowledge-data";
 
 /** The toolkit items are templates and checklists. "Copy template" (design audit
  *  §7) hands the whole item over as plain text: title, purpose line, then every
@@ -48,6 +50,7 @@ const nf = new Intl.NumberFormat("he-IL");
 
 export function CentersHub() {
   const t = centerTotals();
+  const k = knowledgeData();
   return (
     <div className="nct nm-scene" data-surface="centers" data-scene="cream">
       <header className="nct-hero">
@@ -88,6 +91,8 @@ export function CentersHub() {
           </Link>
         ))}
       </div>
+
+      <CenterTopics rows={k.centers} families={k.families} />
     </div>
   );
 }

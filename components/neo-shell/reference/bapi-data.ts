@@ -81,6 +81,9 @@ const VERIF: Record<string, RefStatus> = {
 
 const TRI_HE: Record<string, string> = { yes: "כן", no: "לא", unknown: "לא מתועד במאגר" };
 
+/** Registry verification values that only restate the verification tier. */
+const PLAIN_TIER = new Set(["verified-system", "verified-docs", "requires-verification"]);
+
 /* ------------------------------------------------------------- the objects */
 
 let _rows: SapFuncObject[] | null = null;
@@ -545,7 +548,13 @@ export function bapiDetail(id: string): RefDetail | null {
     !!errs.length,
   ];
 
-  const statuses: RefStatus[] = [VERIF[o.verificationStatus] || VERIF["requires-verification"]];
+  // The header's verification tier (evidence/record-status) is resolved from
+  // this same registry field, so the three plain verification words would say
+  // it twice; the statuses that add a fact (internal FM, invalid name,
+  // version-dependent, deprecated) stay.
+  const statuses: RefStatus[] = PLAIN_TIER.has(o.verificationStatus)
+    ? []
+    : [VERIF[o.verificationStatus] || VERIF["requires-verification"]];
   if (intel) statuses.push({ he: "מתועד לעומק", color: "var(--status-done)" });
 
   return {

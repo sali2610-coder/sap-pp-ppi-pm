@@ -1554,3 +1554,10 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
 .no-orbit-scroll { background: none; }
 .no-en { text-align: end; }
 [dir="ltr"] .no-en { text-align: start; }
+
+/* ONE RECORD HEADER (DESIGN-SPEC §2, knowledge gate 2 finding 6): the name
+   with its copy control on one line, then the S/4HANA status and the
+   verification tier (evidence/record-status), as on every record type. */
+.nx-app .no-codeline { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); }
+.nx-app .no-codeline .no-mega { margin: 0; }
+.nx-app .no-status { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); margin: var(--sp-3) 0 0; }

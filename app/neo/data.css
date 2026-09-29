@@ -1815,3 +1815,10 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
 .nx-app .nxb-en { text-align: end; }
 [dir="ltr"] .nx-app .nxt-en,
 [dir="ltr"] .nx-app .nxb-en { text-align: start; }
+
+/* A transaction whose registry row holds the functional area where a meaning
+   would be says so (tx-detail-view heIsArea). */
+.nx-app .nxt-he-k { color: var(--ink-3); font-weight: 500; }
+/* The S/4HANA pill and its verification tier, one line of their own on every
+   record type (evidence/record-status), apart from the record's own states. */
+.nx-app .nxt-s4line { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); margin: var(--sp-2) 0 0; }

@@ -23,6 +23,7 @@ import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { EvidenceBlock } from "@/components/neo-shell/evidence/evidence-block";
 import { modVar } from "../mod-var";
 import type { BpDetail, BpLineV, BpRow, BpXrefV } from "./bp-data";
+import { BpList } from "./bp-list";
 
 const nf = new Intl.NumberFormat("he-IL");
 const NONE = "אין תיעוד מאומת במאגר";
@@ -163,9 +164,7 @@ export function BpCatalog({ rows }: { rows: BpRow[] }) {
       </header>
 
       {rows.length ? (
-        <ul className="nbp-list">
-          {rows.map((r) => <Row key={r.slug} r={r} />)}
-        </ul>
+        <BpList rows={rows} items={Object.fromEntries(rows.map((r) => [r.slug, <Row key={r.slug} r={r} />]))} />
       ) : (
         <p className="nxt-absent">{NONE} · שיטות עבודה</p>
       )}

@@ -47,6 +47,7 @@ import { RISK_COLOR } from "@/lib/s4";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { CopyId } from "../copy-id";
+import { RecordStatus } from "../evidence/record-status";
 import { EvidenceBlock } from "../evidence/evidence-block";
 import { MOD_HE, REL_HE, relVar, tableSummary, type TableDetail } from "./tables-detail";
 
@@ -237,7 +238,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             S/4HANA status in the header — the same pill the S/4 section and
             the evidence block carry — before any source is shown. */}
         <p className="nxb-stand-h">
-          <StatusPill status={t.evidence.status.key} label={t.evidence.status.label} dot={t.evidence.status.dot} />
+          <RecordStatus e={t.evidence} />
           {!t.s4.impacted ? (
             <a className="nu-link" href="#nxb-s4">
               פירוט המעבר ל-S/4HANA

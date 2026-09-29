@@ -242,3 +242,7 @@
 .nct-item { padding: var(--sp-3) var(--sp-2); border: 0; border-block-end: 1px solid var(--hairline); border-radius: 0; background: transparent; box-shadow: none; transform: none; }
 .nct-item:hover { background: var(--surface-2); transform: none; box-shadow: none; border-color: var(--hairline); }
 .nct-item-bar { display: none; }
+
+/* The topic list under the cards (centers/center-topics.tsx): the knowledge
+   centre's bar and cards, a section of its own below the hub. */
+.nx-app .nct-topics { display: grid; gap: var(--sp-3); margin-block-start: var(--sp-8); min-inline-size: 0; }

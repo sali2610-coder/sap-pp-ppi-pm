@@ -28,6 +28,7 @@ import {
 import { OriginLink } from "@/components/neo-shell/nav-context";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { ObjectReturn } from "./object-return";
+import { CopyId } from "../copy-id";
 import { auxSummary, type AuxLink, type AuxView } from "./object-aux";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -137,10 +138,17 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
             {v.source === "hrbw" ? "טבלת SAP" : "אובייקט מאומת"}
           </p>
 
-          <h1 className="no-mega">
-            <span className="no-cls" aria-hidden="true" />
-            <span className="nx-sap">{v.name}</span>
-          </h1>
+          {/* The name and its copy control, as on every record. No S/4HANA pill
+              here: this page has no canonical status to show (object-aux.ts
+              refuses the blueprint's resolver for objects outside it), and the
+              registry's own S/4HANA sentence is printed further down. */}
+          <div className="no-codeline">
+            <h1 className="no-mega">
+              <span className="no-cls" aria-hidden="true" />
+              <span className="nx-sap">{v.name}</span>
+            </h1>
+            <CopyId value={v.name} label="העתקת שם האובייקט" compact />
+          </div>
 
           <p className="no-lede">{v.he || "לא קיים תיאור בעברית בקטלוג לאובייקט זה."}</p>
           {v.en ? <p className="no-en nx-sap">{v.en}</p> : null}

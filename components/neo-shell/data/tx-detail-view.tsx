@@ -34,6 +34,8 @@ import {
 import { OriginLink, SmartReturn } from "@/components/neo-shell/nav-context";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { EvidenceBlock } from "../evidence/evidence-block";
+import { RecordStatus } from "../evidence/record-status";
+import { CopyId } from "../copy-id";
 import { RISK_COLOR, RISK_HE, TRUST_HE } from "@/lib/s4";
 import { MOD_HE, modVar } from "../mod-var";
 import type { TxDetail } from "./tx-detail";
@@ -119,6 +121,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
     flow: !!(t.flow.length || t.selection.length),
     int: !!(t.bapis.length || t.exits.length || t.badis.length || t.enhancements.length || t.auth.length),
   };
+  const heIsArea = !!t.he && t.he === t.area;
   const nav: { id: string; label: string }[] = [
     { id: "nxt-s4", label: "המעבר ל-S/4HANA" },
     ...(has.what ? [{ id: "sec-what", label: "תפקיד הטרנזקציה" }] : []),
@@ -144,16 +147,25 @@ export function TxDetailView({ t }: { t: TxDetail }) {
         </p>
 
         <div className="nxt-title">
-          <ViewTransition name={`rec-tx-${t.code}`} share="rec-morph" default="none">
-            <h1 className="nxt-code nx-sap">{t.code}</h1>
-          </ViewTransition>
+          <div className="nxt-codeline">
+            <ViewTransition name={`rec-tx-${t.code}`} share="rec-morph" default="none">
+              <h1 className="nxt-code nx-sap">{t.code}</h1>
+            </ViewTransition>
+            <CopyId value={t.code} label="העתקת קוד הטרנזקציה" compact />
+          </div>
           <div className="nxt-names">
-            <p className="nxt-he">{t.he || NONE}</p>
+            {/* Most registry rows carry the functional area where a meaning would
+                be (IW31, IW32 and IW33 all read "הזמנות תחזוקה"); said as an
+                area, it is not mistaken for what this code does. */}
+            {heIsArea
+              ? <p className="nxt-he"><span className="nxt-he-k">תחום:</span> {t.he}</p>
+              : <p className="nxt-he">{t.he || NONE}</p>}
             {t.en ? <p className="nxt-en" dir="ltr">{t.en}</p> : <p className="nxt-en nxt-absent">אין שם אנגלי במקור</p>}
           </div>
           <TxActions code={t.code} />
         </div>
 
+        <p className="nxt-s4line"><RecordStatus e={t.evidence} /></p>
         <div className="nxt-meta">
           <Status color={t.depth === "deep" ? "var(--status-done)" : "var(--status-not-started)"}>
             {t.depth === "deep" ? "מתועדת לעומק" : "רשומת אימות"}
@@ -162,7 +174,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
           <span className="nu-chip nxt-mod" style={{ "--m": m } as React.CSSProperties}>
             <i aria-hidden="true" />{t.module}
           </span>
-          {t.area ? <span className="nu-chip">{t.area}</span> : null}
+          {t.area && !heIsArea ? <span className="nu-chip">{t.area}</span> : null}
           {t.popularity > 0 ? (
             <span className="nu-chip">
               <span className="nx-sr">הפניות מתוך גרף הקשרים </span>{nf.format(t.popularity)} הפניות במאגר

@@ -157,6 +157,8 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
   const [mod, setMod] = useState("");
   const [imp, setImp] = useState("");
   const [limit, setLimit] = useState(PAGE);
+  // The catalogue bar every catalogue shares (knowledge gate 2, finding 7).
+  const [sort, setSort] = useState<"repo" | "he">("repo");
 
   const impactHe = useMemo(
     () => Object.fromEntries(impacts.map((f) => [f.id, f.he])) as Record<string, string>,
@@ -174,8 +176,8 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
       const tokens = s.split(/\s+/).filter(Boolean);
       out = out.filter((r) => tokens.every((t) => r.hay.includes(t)));
     }
-    return out;
-  }, [rows, view, mod, imp, q]);
+    return sort === "he" ? [...out].sort((a, b) => a.he.localeCompare(b.he, "he")) : out;
+  }, [rows, view, mod, imp, q, sort]);
 
   const shown = list.slice(0, limit);
   const dirty = !!q || !!mod || !!imp;
@@ -249,23 +251,6 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
         </p>
       </header>
 
-      <section className="nx-card nxl-stats" aria-label="סיכום הקטלוג">
-        {[
-          { v: totals.incidents, l: "תקלות בקטלוג", i: <Bug size={14} strokeWidth={1.75} /> },
-          { v: totals.tcodes, l: "טרנזקציות אבחון", i: <Terminal size={14} strokeWidth={1.75} /> },
-          { v: totals.tables, l: "טבלאות לבדיקה", i: <TableIcon size={14} strokeWidth={1.75} /> },
-          { v: totals.withFix, l: "עם צעדי תיקון", i: <ListChecks size={14} strokeWidth={1.75} /> },
-          { v: totals.withPrevention, l: "עם צעדי מניעה", i: <ShieldCheck size={14} strokeWidth={1.75} /> },
-          { v: totals.withS4, l: "עם הבחנה בין ECC ל-S/4HANA", i: <Sparkles size={14} strokeWidth={1.75} /> },
-        ].map((s) => (
-          <div key={s.l} className="nxl-stat">
-            <span className="nxl-stat-i" aria-hidden="true">{s.i}</span>
-            <b>{nf.format(s.v)}</b>
-            <span>{s.l}</span>
-          </div>
-        ))}
-      </section>
-
       <div className="nxl-tools">
         <div className="nxl-field">
           <Search size={15} strokeWidth={1.75} aria-hidden="true" />
@@ -302,6 +287,14 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
             </button>
           ))}
         </div>
+
+        <label className="nxl-sort">
+          <span>מיון</span>
+          <select value={sort} onChange={(e) => { setSort(e.target.value as "repo" | "he"); setLimit(PAGE); }}>
+            <option value="repo">סדר המאגר</option>
+            <option value="he">לפי כותרת</option>
+          </select>
+        </label>
       </div>
 
       <div className="nxl-facets">
@@ -336,9 +329,25 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
         </div>
       </div>
 
+      <section className="nx-card nxl-stats" aria-label="סיכום הקטלוג">
+        {[
+          { v: totals.incidents, l: "תקלות בקטלוג", i: <Bug size={14} strokeWidth={1.75} /> },
+          { v: totals.tcodes, l: "טרנזקציות אבחון", i: <Terminal size={14} strokeWidth={1.75} /> },
+          { v: totals.tables, l: "טבלאות לבדיקה", i: <TableIcon size={14} strokeWidth={1.75} /> },
+          { v: totals.withFix, l: "עם צעדי תיקון", i: <ListChecks size={14} strokeWidth={1.75} /> },
+          { v: totals.withPrevention, l: "עם צעדי מניעה", i: <ShieldCheck size={14} strokeWidth={1.75} /> },
+          { v: totals.withS4, l: "עם הבחנה בין ECC ל-S/4HANA", i: <Sparkles size={14} strokeWidth={1.75} /> },
+        ].map((s) => (
+          <div key={s.l} className="nxl-stat">
+            <span className="nxl-stat-i" aria-hidden="true">{s.i}</span>
+            <b>{nf.format(s.v)}</b>
+            <span>{s.l}</span>
+          </div>
+        ))}
+      </section>
+
       <p className="nxl-count" aria-live="polite">
-        <b>{nf.format(list.length)}</b> תקלות
-        {view === "all" && !dirty ? <> מתוך {nf.format(totals.incidents)}</> : null}
+        <b>{nf.format(list.length)}</b> מתוך {nf.format(totals.incidents)} תקלות
         {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
       </p>
 

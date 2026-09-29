@@ -5,6 +5,8 @@
 // this is one surface rather than eleven migrations.
 import "@/app/neo/ui.css";
 import "@/app/neo/centers.css";
+// The topic list under the cards reuses the knowledge centre's card and bar.
+import "@/app/neo/learn.css";
 import { CentersHub } from "@/components/neo-shell/centers/centers-view";
 
 export const metadata = {

@@ -530,8 +530,7 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
       </section>
 
       <p className="nxd-count nm-fade nm-once" aria-live="polite">
-        <b>{nf.format(list.length)}</b> תוצאות
-        {view === "all" && !dirty ? <> מתוך {nf.format(stats.total)}</> : null}
+        <b>{nf.format(list.length)}</b> מתוך {nf.format(stats.total)} טרנזקציות
         {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
       </p>
 
