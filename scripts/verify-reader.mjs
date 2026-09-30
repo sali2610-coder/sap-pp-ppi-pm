@@ -57,6 +57,11 @@ const results = [];
 const fail = (name, detail) => results.push({ ok: false, name, detail });
 const pass = (name, detail = "") => results.push({ ok: true, name, detail });
 
+// A check passes on a string (its evidence) and fails on false or a throw. A
+// check that RETURNED its failure text passed with it, so ten checks could not
+// fail; `must` makes the failing branch a failure.
+const must = (ok, good, bad) => { if (!ok) throw new Error(bad); return good; };
+
 async function check(page, name, fn) {
   try { const d = await fn(); d === false ? fail(name, "assertion false") : pass(name, typeof d === "string" ? d : ""); }
   catch (e) { fail(name, String(e.message).slice(0, 90)); }
@@ -99,7 +104,7 @@ for (const vp of VIEWPORTS) {
 
     await check(page, `${vp.label}/${book}: shell resolved to ${vp.expect}`, async () => {
       const d = await page.evaluate(() => document.documentElement.getAttribute("data-device"));
-      return d === vp.expect ? "" : `got ${d}`;
+      return must(d === vp.expect, "", `got ${d}`);
     });
 
     await check(page, `${vp.label}/${book}: main fills the viewport`, async () => {
@@ -109,7 +114,7 @@ for (const vp of VIEWPORTS) {
       }));
       // Desktop keeps a sidebar; touch layouts must use the full width.
       const ok = vp.expect === "desktop" ? main > win * 0.6 : main > win * 0.9;
-      return ok ? `${main}px of ${win}px` : `${main}px of ${win}px`;
+      return must(ok, `${main}px of ${win}px`, `${main}px of ${win}px`);
     });
 
     // ---- the canonical reader's CURRENT contract (design audit S7-LIB-7,
@@ -191,19 +196,24 @@ for (const vp of VIEWPORTS) {
       const href = citationHref(book, 1, "1.1", "בדיקת מבנה כתובת");
       await page.goto(`http://localhost:${PORT}${href}`, { waitUntil: "domcontentloaded", timeout: 30_000 });
       const search = await page.evaluate(() => location.search);
-      return search.includes("s=1.1") ? "" : `location.search was ${JSON.stringify(search)}`;
+      return must(search.includes("s=1.1"), "", `location.search was ${JSON.stringify(search)}`);
     });
 
     if (book === "book1") {
       await check(page, `${vp.label}/${book}: deep link highlights the exact sentence`, async () => {
         // A sentence taken verbatim from the rendered section, so the premise
         // cannot be wrong: if this does not match, the matcher is at fault.
-        await page.goto(`http://localhost:${PORT}/library/${book}/`, { waitUntil: "networkidle", timeout: 30_000 });
-        await page.waitForTimeout(600);
+        // Since b5b5b634 a citation opens the NEO reader (lib/ai/links.ts), so
+        // the sentence is taken from that reader, and its mark is either a
+        // <mark> (the canonical reader) or the "neo-cited" highlight the NEO
+        // reader paints without moving React's nodes (reader/cited.ts). The
+        // marked text must be the sentence, not merely something marked.
+        await page.goto(`http://localhost:${PORT}/neo/read/${book}/`, { waitUntil: "networkidle", timeout: 30_000 });
+        await page.waitForTimeout(900);
         const probe = await page.evaluate(() => {
-          const sec = document.querySelector("[data-section]");
-          const lines = (sec?.innerText || "").split("\n").map((x) => x.trim()).filter((x) => x.length > 40);
-          return { id: sec?.getAttribute("data-section") ?? "", text: (lines[1] || lines[0] || "").slice(0, 80) };
+          const sec = document.querySelector('[id^="nr-sec-"]');
+          const p = [...(sec?.querySelectorAll(".nr-p") || [])].find((x) => x.getClientRects().length && (x.textContent || "").trim().length > 40);
+          return { id: sec ? sec.id.slice("nr-sec-".length) : "", text: (p?.textContent || "").trim().slice(0, 80) };
         });
         if (!probe.id || probe.text.length < 25) return false;
         const url = `http://localhost:${PORT}`
@@ -212,9 +222,13 @@ for (const vp of VIEWPORTS) {
         await page.waitForTimeout(1200);
         const marks = await page.evaluate(() => {
           const m = document.querySelector("mark");
-          return { count: document.querySelectorAll("mark").length, text: (m?.textContent ?? "").trim().slice(0, 40) };
+          const h = typeof CSS !== "undefined" && CSS.highlights ? CSS.highlights.get("neo-cited") : undefined;
+          const r = h ? [...h][0] : undefined;
+          const text = (m?.textContent ?? r?.toString() ?? "").replace(/\s+/g, " ").trim();
+          return { count: document.querySelectorAll("mark").length + (h ? h.size : 0), text };
         });
-        return marks.count > 0 ? `${marks.count} mark: "${marks.text}"` : false;
+        const same = marks.text.length >= 20 && probe.text.replace(/\s+/g, " ").startsWith(marks.text.slice(0, 20));
+        return must(marks.count > 0 && same, `${marks.count} mark: "${marks.text.slice(0, 40)}"`, `count=${marks.count} marked="${marks.text.slice(0, 40)}" probe="${probe.text.slice(0, 40)}"`);
       });
 
       await check(page, `${vp.label}/${book}: a bogus quote highlights nothing`, async () => {
@@ -222,8 +236,9 @@ for (const vp of VIEWPORTS) {
           + citationHref(book, 1, "1.1", "משפט שהומצא ואינו מופיע בשום מקום בספר הזה");
         await page.goto(url, { waitUntil: "networkidle", timeout: 30_000 });
         await page.waitForTimeout(700);
-        const n = await page.evaluate(() => document.querySelectorAll("mark").length);
-        return n === 0 ? "" : `${n} false highlight(s)`;
+        const n = await page.evaluate(() => document.querySelectorAll("mark").length
+          + (typeof CSS !== "undefined" && CSS.highlights ? (CSS.highlights.get("neo-cited")?.size ?? 0) : 0));
+        return must(n === 0, "", `${n} false highlight(s)`);
       });
     }
 
@@ -245,8 +260,10 @@ for (const vp of VIEWPORTS) {
       await page.waitForTimeout(900);
       const btns = page.locator(".nr-langs .nr-lang");
       const n = await btns.count();
-      if (n < 3) return `only ${n} language buttons`;
-      await btns.nth(lang === "he" ? 0 : lang === "en" ? 1 : 2).click();
+      if (n < 3) throw new Error(`only ${n} language buttons`);
+      // By label, not position: the buttons read עברית, דו-לשוני, English
+      // (reader/prefs.ts LANGS), so position 1 was the bilingual mode and 2 English.
+      await page.locator(".nr-langs .nr-lang", { hasText: { he: "עברית", en: "English", both: "דו-לשוני" }[lang] }).click();
       await page.waitForTimeout(700);
       const m = await page.evaluate(() => ({
         lang: document.querySelector(".nr")?.getAttribute("data-lang"),
@@ -258,7 +275,7 @@ for (const vp of VIEWPORTS) {
       }));
       const ok = m.paras > 0 && m.over <= 2 && m.chars > 2000
         && (lang !== "en" || m.en > 0 || m.lang === "en") && (lang !== "both" || m.bi > 0 || m.lang === "both");
-      return ok ? `lang=${m.lang} paras=${m.paras} en=${m.en} bi=${m.bi} chars=${m.chars}` : `lang=${m.lang} paras=${m.paras} en=${m.en} bi=${m.bi} over=${m.over} chars=${m.chars}`;
+      return must(ok, `lang=${m.lang} paras=${m.paras} en=${m.en} bi=${m.bi} chars=${m.chars}`, `lang=${m.lang} paras=${m.paras} en=${m.en} bi=${m.bi} over=${m.over} chars=${m.chars}`);
     });
   }
   await check(page, `${vp.label}/neo-reader: dark theme + reduced motion`, async () => {
@@ -277,7 +294,7 @@ for (const vp of VIEWPORTS) {
       bg: getComputedStyle(document.body).backgroundColor,
     }));
     await dctx.close();
-    return m.theme === "dark" && m.paras > 0 && m.over <= 2 && derr.length === 0 ? `dark, paras=${m.paras}, bg=${m.bg}` : `theme=${m.theme} paras=${m.paras} over=${m.over} errs=${derr.length}`;
+    return must(m.theme === "dark" && m.paras > 0 && m.over <= 2 && derr.length === 0, `dark, paras=${m.paras}, bg=${m.bg}`, `theme=${m.theme} paras=${m.paras} over=${m.over} errs=${derr.length}`);
   });
 
   // The AI chat, at every viewport. /chat/ is the route the nav, the mobile tab
@@ -330,7 +347,7 @@ for (const vp of VIEWPORTS) {
 
     const libOk = lib.some((h) => h.includes("library")) && !lib.some((h) => h.includes("consult"));
     const conOk = con.some((h) => h.includes("consult")) && !con.some((h) => h.includes("library"));
-    return libOk && conOk ? `${lib[0]} vs ${con[0]}` : `lib=${lib.join(",")} con=${con.join(",")}`;
+    return must(libOk && conOk, `${lib[0]} vs ${con[0]}`, `lib=${lib.join(",")} con=${con.join(",")}`);
   });
 
   // Priority 1: switching surfaces must not carry a conversation across.
@@ -397,7 +414,7 @@ for (const vp of VIEWPORTS) {
       const txt = [...document.querySelectorAll("button, span")].map((e) => e.textContent?.trim() ?? "");
       return txt.filter((t) => /^(true|false)$/i.test(t)).length;
     });
-    return bad === 0 ? "" : `${bad} boolean labels`;
+    return must(bad === 0, "", `${bad} boolean labels`);
   });
 
   await check(page, `${vp.label}/chat: no legacy Gemini key field`, async () => {
@@ -411,7 +428,7 @@ for (const vp of VIEWPORTS) {
       try { return Object.keys(localStorage).filter((k) => /gemini|api[-_]?key/i.test(k)); }
       catch { return []; }
     });
-    return leaked.length === 0 ? "" : `found ${leaked.join(",")}`;
+    return must(leaked.length === 0, "", `found ${leaked.join(",")}`);
   });
 
   // Above lg the rail is a column; below it, it lives behind a button. Both

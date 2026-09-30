@@ -56,6 +56,7 @@ import {
 } from "lucide-react";
 import type { SectionBody } from "@/lib/library/book";
 import { loadChapterBodies } from "@/lib/library/book";
+import { readDeepLink } from "@/lib/library/deep-link";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
 import {
   isBookmarked,
@@ -74,6 +75,7 @@ import { FigureTail, SectionBlock } from "./section-body";
 import { planFigures, type PlacedFigure } from "./figures";
 import { canStep, LANG_HE, LANG_NOTE, LANGS, LEAD_HE, MEASURE_HE, SIZE_HE, useReaderPrefs } from "./prefs";
 import { scrollHost, stickyBars, useReducedMotion } from "./env";
+import { CITED, citedRange } from "./cited";
 import { useShellFocus } from "../focus";
 
 /* --------------------------------------------------------------- scrolling */
@@ -527,6 +529,26 @@ export function NeoReader({ book }: { book: NRBook }) {
     scrollHostTo(h, el.getBoundingClientRect().top - hostTop + hostScrollTop(h) - headCover.current - 12, smooth && !reduced);
   }, [book.chapters, chapterN, reduced, markMoved]);
 
+  /* A citation names its sentence as well as its subchapter (./cited.ts): the
+     sentence is marked once the subchapter has landed, and brought into view
+     below the sticky head when the jump left it off screen. Without the
+     Highlight API the reader still lands on the subchapter. */
+  const markCited = useCallback((sectionId: string, quote: string) => {
+    const el = document.getElementById(`nr-sec-${sectionId}`);
+    const h = host.current;
+    if (!el || !h || typeof CSS === "undefined" || !CSS.highlights) return;
+    const range = citedRange(el, quote);
+    if (!range) return;
+    CSS.highlights.set(CITED, new Highlight(range));
+    const r = range.getBoundingClientRect();
+    const top = r.top - (isDocHost(h) ? 0 : h.getBoundingClientRect().top);
+    const view = hostHeight(h);
+    if (top < headCover.current + 12 || top + r.height > view - 24) {
+      scrollHostTo(h, top + hostScrollTop(h) - headCover.current - Math.round(view / 4), false);
+    }
+  }, []);
+  useEffect(() => () => { if (typeof CSS !== "undefined") CSS.highlights?.delete(CITED); }, []);
+
   // A chapter change that carried a subchapter with it lands once the new
   // chapter's elements exist — never before, or the target is not mounted.
   useEffect(() => {
@@ -553,9 +575,15 @@ export function NeoReader({ book }: { book: NRBook }) {
     if (landed.current || load === "loading" || url === null) return;
     if (opening.source !== "url" || !opening.section) { landed.current = true; return; }
     landed.current = true;
-    const t = window.setTimeout(() => { measure(); goTo(chapterN, opening.section, false); schedule(); }, 60);
+    const section = opening.section;
+    const quote = readDeepLink(url.split("#")[0])?.quote ?? null;
+    const t = window.setTimeout(() => {
+      measure(); goTo(chapterN, section, false); schedule();
+      // Two frames: the jump's layout first, then the sentence's position.
+      if (quote) requestAnimationFrame(() => requestAnimationFrame(() => markCited(section, quote)));
+    }, 60);
     return () => window.clearTimeout(t);
-  }, [load, url, opening, chapterN, goTo, measure, schedule]);
+  }, [load, url, opening, chapterN, goTo, measure, schedule, markCited]);
 
   /* ------------------------------------------------------------ bookmark */
 

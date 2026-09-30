@@ -615,6 +615,19 @@ html[data-theme="dark"] .nr-infig-b img { opacity: .86; }
 }
 .nr-p:last-child { margin-block-end: 0; }
 .nr-p strong { font-weight: 700; color: var(--nr-ink); }
+/* The sentence a citation names (components/neo-shell/reader/cited.ts): a tint
+   and an underline, so the mark is not colour alone. The values are the
+   --warning token's (#7f5400 day, #e4b95f night) written out, because a
+   highlight pseudo-element does not reliably resolve a variable declared on
+   .nx-app. The text keeps its own ink. */
+::highlight(neo-cited) {
+  background-color: rgb(127 84 0 / .18);
+  text-decoration: underline 2px rgb(127 84 0 / .75);
+}
+html[data-theme="dark"] ::highlight(neo-cited) {
+  background-color: rgb(228 185 95 / .26);
+  text-decoration-color: rgb(228 185 95 / .85);
+}
 .nr-snip { color: var(--ink-3); }
 .nr-none {
   font-size: 0.8125rem;
