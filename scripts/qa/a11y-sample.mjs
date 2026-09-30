@@ -78,7 +78,7 @@ for (const url of ROUTES) {
     const fade = (el) => { let a = 1, top = null; for (let e = el; e && e !== document.documentElement; e = e.parentElement) { const o = parseFloat(getComputedStyle(e).opacity); if (o < 1) { a *= o; top = e; } } return { a, top }; };
     const mix = (c, b, a) => c.map((v, i) => v * a + b[i] * (1 - a));
     const ratio = (f, b) => { const l1 = lum(f), l2 = lum(b); return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05); };
-    const contrast = []; let checked = 0; let unresolved = 0;
+    const contrast = []; let checked = 0; let unresolved = 0; const exempt = [];
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     const seen = new Set();
     let n;
@@ -100,7 +100,12 @@ for (const url of ROUTES) {
       }
       const size = parseFloat(cs.fontSize); const bold = parseInt(cs.fontWeight, 10) >= 700;
       const large = size >= 24 || (size >= 18.66 && bold);
-      const need = large ? 3 : 4.5; const r = ratio(fgRgb, bg); checked++;
+      const need = large ? 3 : 4.5; const r = ratio(fgRgb, bg);
+      // Text of an inactive control has no contrast requirement (WCAG 1.4.3,
+      // incidental), as in axe. It is listed apart, never dropped silently: a
+      // disabled button is drawn faded, which the inherited opacity above now sees.
+      if (el.closest('button:disabled, input:disabled, select:disabled, textarea:disabled, fieldset:disabled, [aria-disabled="true"]')) { if (r < need) exempt.push({ text: t.slice(0, 40), ratio: +r.toFixed(2) }); continue; }
+      checked++;
       if (r < need) contrast.push({ text: t.slice(0, 40), ratio: +r.toFixed(2), need, size: +size.toFixed(1), cls: (typeof el.className === "string" ? el.className : "").split(" ").slice(0, 2).join(".") });
     }
     const small = [];
@@ -110,7 +115,7 @@ for (const url of ROUTES) {
       const cs = getComputedStyle(el); if (cs.visibility === "hidden" || cs.display === "none") continue;
       if (b.width < 24 || b.height < 24) small.push({ tag: el.tagName.toLowerCase(), w: Math.round(b.width), h: Math.round(b.height), label: (el.getAttribute("aria-label") || el.textContent || "").trim().slice(0, 30), cls: (typeof el.className === "string" ? el.className : "").split(" ").slice(0, 2).join(".") });
     }
-    return { checked, unresolved, contrast: contrast.slice(0, 40), contrastCount: contrast.length, small: small.slice(0, 25), smallCount: small.length };
+    return { checked, unresolved, contrast: contrast.slice(0, 40), contrastCount: contrast.length, exemptDisabled: exempt.slice(0, 10), exemptDisabledCount: exempt.length, small: small.slice(0, 25), smallCount: small.length };
   });
   // focus not obscured: tab through the first 40 focusables
   const obscured = [];
@@ -121,7 +126,7 @@ for (const url of ROUTES) {
     await page.keyboard.press("Tab");
   }
   results.push({ url, ...r, focusObscured: obscured.slice(0, 5), focusObscuredCount: obscured.length });
-  console.log(`${url}: text ${r.checked} · contrast<need ${r.contrastCount} · targets<24px ${r.smallCount} · focus-obscured ${obscured.length}`);
+  console.log(`${url}: text ${r.checked} · contrast<need ${r.contrastCount}${r.exemptDisabledCount ? ` (+${r.exemptDisabledCount} in a disabled control, exempt)` : ""} · targets<24px ${r.smallCount} · focus-obscured ${obscured.length}`);
 }
 fs.writeFileSync(OUT, JSON.stringify({ theme: process.env.THEME || "light", viewport: "1363x936", measuredAt: new Date().toISOString(), results }, null, 2));
 await browser.close();
