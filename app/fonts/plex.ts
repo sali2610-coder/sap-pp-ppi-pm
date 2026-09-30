@@ -32,6 +32,11 @@ export const plexLat = localFont({
   variable: "--f-plex-lat",
   adjustFontFallback: false,
   display: "swap",
+  // Not preloaded (gate 9, P2): 60,472 bytes that competed with the render-
+  // blocking CSS on every page. The faces are still requested at the first
+  // render, and until they arrive "NEO Latin Fallback" (app/neo/system.css,
+  // calibrated to this UI's text) holds the same metrics.
+  preload: false,
   declarations: [{ prop: "unicode-range", value: "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD" }],
 });
 

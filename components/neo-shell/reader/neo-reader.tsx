@@ -993,13 +993,6 @@ export function NeoReader({ book }: { book: NRBook }) {
               </p>
             )}
 
-            {load === "loading" && (
-              <p className="nr-load" aria-live="polite">
-                <Loader2 size={15} strokeWidth={2} aria-hidden="true" />
-                טוען את גוף הפרק…
-              </p>
-            )}
-
             {/* A chapter whose shard could not be read at all, said plainly and
                 separated from the real state below it — a chapter that simply
                 holds no prose. */}
@@ -1027,6 +1020,17 @@ export function NeoReader({ book }: { book: NRBook }) {
                 <p className="nr-intro-t" dir="ltr" lang="en">{chapter.intro.en}</p>
               </div>
             ) : null}
+
+            {/* Where the body will appear, below the chapter's own opening: the
+                line leaves when the body arrives, and above the opening its
+                leaving moved the opening up (a layout shift of 0.014 on the
+                phone profile). */}
+            {load === "loading" && (
+              <p className="nr-load" aria-live="polite">
+                <Loader2 size={15} strokeWidth={2} aria-hidden="true" />
+                טוען את גוף הפרק…
+              </p>
+            )}
 
             {chapter.sections.length === 0 ? (
               <p className="nr-none">

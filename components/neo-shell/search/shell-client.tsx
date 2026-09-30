@@ -528,6 +528,20 @@ export function NeoShellClient({
 
   const searching = mode === "search";
 
+  /* The page behind the search is inert one frame after the surface opens,
+     not in the same commit: `inert` recalculates the style of every element
+     under .nx-main (6,326 on /neo/tables/), and in the same commit that work
+     sat between the key press and the surface's first paint (gate 9, #4: INP
+     136 to 272ms on the phone profile). Focus still moves into the surface at
+     once, and closing removes `inert` in the closing commit, so focus can
+     return into the page. */
+  const [mainInert, setMainInert] = useState(false);
+  useEffect(() => {
+    if (!searching) return;
+    const id = requestAnimationFrame(() => setMainInert(true));
+    return () => { cancelAnimationFrame(id); setMainInert(false); };
+  }, [searching]);
+
   /* The transactions load when the browser is idle after the page, or at once
      when the search opens first; the index rebuilds when they arrive. A failed
      load is said so in the surface and tried again when the search opens. */
@@ -1177,7 +1191,7 @@ export function NeoShellClient({
       </button>
 
       {/* -------------------------------------------------------- the main */}
-      <div className="nx-main" ref={mainRef} inert={searching || undefined}>
+      <div className="nx-main" ref={mainRef} inert={(searching && mainInert) || undefined}>
         <header className="nx-topbar" data-shell="desktop-only">
           <button
             type="button"
