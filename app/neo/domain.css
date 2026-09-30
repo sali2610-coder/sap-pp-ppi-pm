@@ -19,6 +19,13 @@
   max-inline-size: 74rem;
   margin-inline: auto;
   color: var(--scene-ink, var(--ink-1));
+  /* The record is sized to its content (auto margins), so one string with no
+     break point set its minimum above the canvas at 320px (the 400% reflow),
+     and the section bar's bleed scrolled the page by 4 to 51px on six records:
+     VB_BD_BATCH_DETERMINATION, API_PROCESS_ORDER_2_SRV;, and the dataset's
+     "יצירה→שחרור→...→התחשבנות." (an arrow is no break point). Such a string
+     breaks only where it cannot fit; at wider widths nothing moves. */
+  overflow-wrap: anywhere;
 }
 
 /* ------------------------------------------------------------------- hero */
@@ -295,6 +302,7 @@
   color: var(--ink-2); background: var(--surface-2);
   border: 1px solid var(--hairline);
   transition: border-color .14s ease, background .14s ease;
+  max-inline-size: 100%;
 }
 /* A code that opens a page is a LINK: the link colour, underlined on hover,
    a 24px target. Not the red selection line (nine "current" chips on one page)
@@ -314,6 +322,7 @@
 .ndm-bul li {
   position: relative; padding-inline-start: 1.05rem;
   font-size: .88rem; line-height: 1.65; color: var(--ink-2);
+  min-inline-size: 0;
 }
 .ndm-bul li::before {
   content: ""; position: absolute; inset-inline-start: 0; inset-block-start: .62em;

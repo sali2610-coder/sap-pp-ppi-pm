@@ -71,7 +71,10 @@ async function fromPalette(name) {
   if (typeof name !== "string" || !name) return { absent: "no technical name on the list card" };
   await page.goto(base + "/neo/", { waitUntil: "networkidle" });
   await page.keyboard.press("Control+k");
-  const input = page.locator('input[aria-label="חיפוש בניווט ובתיעוד הטכני"]:visible').first();
+  // The field was "…ובתיעוד הטכני" until 40035346; with only the old name the
+  // palette step reported "did not open" and a record with no list row (COR3)
+  // was left with one reading.
+  const input = page.locator('input[aria-label="חיפוש בניווט ובתיעוד"]:visible, input[aria-label="חיפוש בניווט ובתיעוד הטכני"]:visible').first();
   await input.waitFor({ timeout: 4000 }).catch(() => {});
   if (!(await input.count())) return { absent: "palette did not open" };
   await input.fill(name);

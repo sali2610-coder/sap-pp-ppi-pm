@@ -1101,8 +1101,11 @@ export function NeoShellClient({
                           >
                             <span className="nx-navitem-i"><Ico name={it.icon} size={16} /></span>
                             <span className="nx-navitem-l">{it.label}</span>
+                            {/* The space keeps the count a separate word in the link's
+                                name ("…מפעל 56", not "…מפעל56"); a flex item gap is not text. */}
+                            {" "}
                             {it.count === null ? (
-                              <span className="nx-navitem-n nx-navitem-n--none" title="אין מספר בנתוני הפרויקט">—</span>
+                              <span className="nx-navitem-n nx-navitem-n--none" title="אין מספר בנתוני הפרויקט" aria-hidden="true">—</span>
                             ) : (
                               <span className="nx-navitem-n">{nf.format(it.count)}</span>
                             )}
