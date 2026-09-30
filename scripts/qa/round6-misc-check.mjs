@@ -24,7 +24,8 @@ out.lib5.ok = out.lib5.toggle && !out.lib5.advOpen && out.lib5.langs && out.lib5
 // AI-4 names
 await desk.goto(base + "/neo/chat/", { waitUntil: "networkidle" }); await desk.waitForTimeout(500);
 out.ai4 = await desk.evaluate(() => ({ chatH1: document.querySelector("h1")?.textContent?.trim(), chatEyebrow: document.querySelector(".nxq-eyebrow")?.textContent?.trim(), dockBtn: document.querySelector(".nxk-b--ask span")?.textContent?.trim(), title: document.title }));
-await desk.locator(".nxk-b--ask").click(); await desk.waitForTimeout(400);
+// The dock is rendered in the desktop and the phone bar (202fdc23); click the one shown.
+await desk.locator(".nxk-b--ask:visible").click(); await desk.waitForTimeout(400);
 out.ai4.panel = await desk.evaluate(() => ({ h2: document.querySelector(".nxk-p--ask h2")?.textContent?.trim(), links: [...document.querySelectorAll(".nxk-go-a")].map((a) => a.textContent.trim().split("\n")[0].trim().slice(0, 30)) }));
 await desk.goto(base + "/neo/ai/", { waitUntil: "networkidle" }); await desk.waitForTimeout(400);
 out.ai4.libH1 = await desk.evaluate(() => document.querySelector("h1")?.textContent?.trim());

@@ -18,7 +18,7 @@ const check = (id, ok, detail) => { out[id] = { ok: !!ok, ...detail }; if (!ok) 
 
 const visible = (h) => h.replace(/<script[\s\S]*?<\/script>/g, " ").replace(/<style[\s\S]*?<\/style>/g, " ").replace(/<[^>]+>/g, " ")
   .replace(/&nbsp;/g, " ").replace(/&quot;/g, '"').replace(/&#x27;|&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/\s+/g, " ");
-const get = async (u) => { const r = await fetch(base + u); const html = await r.text(); return { status: r.status, html, t: visible(html) }; };
+const get = async (u) => { const r = await fetch(base + u); const html = await r.text(); return { status: r.status, html, t: visible(html), url: new URL(r.url).pathname }; };
 
 /* ------------------------------------------------ SAP fact rows (static) */
 {
@@ -46,9 +46,13 @@ const get = async (u) => { const r = await fetch(base + u); const html = await r
 {
   const ce = await get("/neo/enhancements/customer-exit/"), ie = await get("/neo/enhancements/implicit-enhancement/");
   const oc = await get("/exits/CMOD-SMOD/"), oi = await get("/exits/Implicit-Enhancement/");
-  const links = (h, to) => h.includes(`href="${to}"`);
-  const ok = ce.status === 200 && ie.status === 200 && ce.t.includes("CMOD") && links(oc.html, "/neo/enhancements/customer-exit/") && links(oi.html, "/neo/enhancements/implicit-enhancement/");
-  check("SAP-6", ok, { status: [ce.status, ie.status], customerExitNamesCMOD: ce.t.includes("CMOD"), legacyCMODpointsToNeo: links(oc.html, "/neo/enhancements/customer-exit/"), legacyImplicitPointsToNeo: links(oi.html, "/neo/enhancements/implicit-enhancement/") });
+  // A legacy address points to the NEO page when it links to it or, since every
+  // pre-NEO address redirects into NEO (b5b5b634), when it lands on it: the
+  // implicit-enhancement page redirects to its own NEO page, which does not
+  // link to itself (ASTRA-CRITERIA.md).
+  const links = (p, to) => p.url === to || p.html.includes(`href="${to}"`);
+  const ok = ce.status === 200 && ie.status === 200 && ce.t.includes("CMOD") && links(oc, "/neo/enhancements/customer-exit/") && links(oi, "/neo/enhancements/implicit-enhancement/");
+  check("SAP-6", ok, { status: [ce.status, ie.status], customerExitNamesCMOD: ce.t.includes("CMOD"), legacyCMODpointsToNeo: links(oc, "/neo/enhancements/customer-exit/"), legacyImplicitPointsToNeo: links(oi, "/neo/enhancements/implicit-enhancement/"), landed: [oc.url, oi.url] });
 }
 {
   const p = await get("/neo/bapi/BAPI_PROCORD_GET_DETAIL/");
@@ -162,7 +166,9 @@ const desk = async (w = 1363, h = 936, extra = {}) => {
     await page.goto(base + u, { waitUntil: "networkidle" });
     sig[u] = await page.evaluate(() => {
       const tok = (el) => el.matches('input[type="search"]') || el.querySelector('input[type="search"]') ? "search" : /nxd-sort/.test(el.className) ? "sort" : /nxd-tabs/.test(el.className) || el.getAttribute("role") === "tablist" ? "view" : String(el.className || el.tagName).split(" ")[0];
-      const tools = [...(document.querySelector(".nxd-tools")?.children || [])].map(tok);
+      // The toolbar as shown: the phone-only "מסננים" sheet button (013f0329) is
+      // in the markup of catalogues with filters and hidden on the desktop.
+      const tools = [...(document.querySelector(".nxd-tools")?.children || [])].filter((el) => el.getClientRects().length).map(tok);
       const blocks = [];
       for (const el of document.querySelectorAll("h1, .nxd-tools, .nxd-facet, .nxd-count, .nxd-list, .nxd-groups, .nxd-none")) {
         const k = el.tagName === "H1" ? "h1" : el.matches(".nxd-tools") ? "tools" : el.matches(".nxd-facet") ? "filters" : el.matches(".nxd-count") ? "count" : "list";
@@ -267,28 +273,28 @@ const desk = async (w = 1363, h = 936, extra = {}) => {
   await ctx.close();
 }
 
-/* ------------------------------------------------ ACC-6 bridge on the legacy shell */
+/* ------------------------------------------------ ACC-6 from the legacy addresses into NEO */
+// The row asked for a way from the legacy shell to NEO (a bridge pill in its
+// header). Since b5b5b634 there is no legacy shell to stand in: every pre-NEO
+// address redirects into NEO (vercel.json; 4,644 of 4,644 in the redirect check),
+// so the criterion is now that each of these addresses LANDS in NEO, on the NEO
+// shell, without an error, and that no legacy welcome dialog is left over
+// (ASTRA-CRITERIA.md).
 {
   const res = {};
   for (const [kind, opts] of [["desktop", {}], ["phone", { userAgent: PHONE_UA, isMobile: true, hasTouch: true }]]) {
     const { ctx, page, errs } = await desk(kind === "phone" ? 390 : 1363, kind === "phone" ? 844 : 936, opts);
-    // A first visit opens the legacy welcome dialog (modal, lib/role.ts neo:onboarded)
-    // over the header; record it, then measure as a returning reader.
-    await page.goto(base + "/tables/", { waitUntil: "networkidle" });
-    res[`${kind} first-visit welcome dialog`] = await page.evaluate(() => !!document.querySelector('aside[role="dialog"][aria-modal="true"]'));
-    await page.evaluate(() => { try { localStorage.setItem("neo:onboarded", "1"); } catch {} });
     for (const u of ["/library/", "/knowledge/", "/tables/", "/sap-notes/"]) {
-      await page.goto(base + u, { waitUntil: "networkidle" });
-      res[`${kind} ${u}`] = await page.evaluate(() => { const a = [...document.querySelectorAll("[data-neo-bridge]")].find((e) => e.getBoundingClientRect().width > 0); const r = a?.getBoundingClientRect(); return a ? { href: a.getAttribute("href"), w: Math.round(r.width), h: Math.round(r.height) } : null; });
+      const r = await page.goto(base + u, { waitUntil: "networkidle" });
+      res[`${kind} ${u}`] = await page.evaluate(() => ({ landed: location.pathname, neoShell: !!document.querySelector("[data-neo-shell]"), legacyDialog: !!document.querySelector('aside[role="dialog"][aria-modal="true"]') }));
+      res[`${kind} ${u}`].status = r ? r.status() : 0;
     }
-    await page.goto(base + "/tables/", { waitUntil: "networkidle" });
-    const a = page.locator("[data-neo-bridge]").filter({ visible: true }).first();
-    await a.click(); await page.waitForTimeout(800);
-    res[`${kind} click`] = { landed: new URL(page.url()).pathname, consoleErrors: errs.length };
+    res[`${kind} consoleErrors`] = errs.length;
     await ctx.close();
   }
-  const pills = Object.entries(res).filter(([k]) => / \/.*\/$/.test(k)).map(([, v]) => v);
-  const ok = pills.every((v) => v && v.href === "/neo/" && v.h >= 24 && v.w >= 24) && ["desktop click", "phone click"].every((k) => res[k].landed === "/neo/");
+  const visits = Object.entries(res).filter(([k]) => / \/.*\/$/.test(k)).map(([, v]) => v);
+  const ok = visits.length === 8 && visits.every((v) => v.status === 200 && v.landed.startsWith("/neo/") && v.neoShell && !v.legacyDialog)
+    && res["desktop consoleErrors"] === 0 && res["phone consoleErrors"] === 0;
   check("ACC-6", ok, res);
 }
 
