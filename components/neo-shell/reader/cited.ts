@@ -12,7 +12,10 @@
 
    The matching is markQuote's: the shared matcher (findQuote), one block at a
    time so a "quote" cannot span two paragraphs, and nothing at all when the
-   sentence is not there. A wrong highlight claims a source it is not. */
+   sentence is not there. A wrong highlight claims a source it is not. One
+   difference: a whitespace-only node inside a block is kept. The reader wraps
+   each **bold** chunk in its own element, so the space in "**A** **B**" is a
+   node of its own, and without it the searched text read "AB". */
 import { findQuote } from "@/lib/library/highlight";
 
 export const CITED = "neo-cited";
@@ -23,8 +26,11 @@ const BLOCK = "p, li, td, h1, h2, h3, h4, blockquote";
  * The Range of `quote` inside `root`, or null. Visible text is searched first;
  * when the sentence is only in the other language, which single-language mode
  * keeps in a closed disclosure, that disclosure is opened so the mark is seen.
+ * With `openHidden` false (after the reader switches language) a closed
+ * disclosure is left closed and its text is not searched: the reader's choice
+ * of language wins over the mark.
  */
-export function citedRange(root: HTMLElement, quote: string): Range | null {
+export function citedRange(root: HTMLElement, quote: string, openHidden = true): Range | null {
   if (!quote || quote.length < 12) return null;
   const doc = root.ownerDocument;
   const blocks = new Map<Element, Text[]>();
@@ -32,7 +38,7 @@ export function citedRange(root: HTMLElement, quote: string): Range | null {
   for (let n = walker.nextNode(); n; n = walker.nextNode()) {
     const t = n as Text;
     const parent = t.parentElement;
-    if (!parent || parent.closest("script, style") || !t.data.trim()) continue;
+    if (!parent || parent.closest("script, style")) continue;
     const block = parent.closest(BLOCK) || parent;
     const list = blocks.get(block) || [];
     list.push(t);
@@ -41,6 +47,7 @@ export function citedRange(root: HTMLElement, quote: string): Range | null {
   const closed = (b: Element) => b.closest("details:not([open])");
   const order = [...blocks].sort(([a], [b]) => Number(!!closed(a)) - Number(!!closed(b)));
   for (const [block, texts] of order) {
+    if (!openHidden && closed(block)) continue;
     const hit = findQuote(texts.map((t) => t.data).join(""), quote);
     if (!hit) continue;
     const range = doc.createRange();

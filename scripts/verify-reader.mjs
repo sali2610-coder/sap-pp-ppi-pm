@@ -225,10 +225,12 @@ for (const vp of VIEWPORTS) {
           const h = typeof CSS !== "undefined" && CSS.highlights ? CSS.highlights.get("neo-cited") : undefined;
           const r = h ? [...h][0] : undefined;
           const text = (m?.textContent ?? r?.toString() ?? "").replace(/\s+/g, " ").trim();
-          return { count: document.querySelectorAll("mark").length + (h ? h.size : 0), text };
+          const box = (m ?? r)?.getBoundingClientRect();
+          const inView = !!box && box.height > 0 && box.top >= 0 && box.top < innerHeight;
+          return { count: document.querySelectorAll("mark").length + (h ? h.size : 0), text, inView };
         });
         const same = marks.text.length >= 20 && probe.text.replace(/\s+/g, " ").startsWith(marks.text.slice(0, 20));
-        return must(marks.count > 0 && same, `${marks.count} mark: "${marks.text.slice(0, 40)}"`, `count=${marks.count} marked="${marks.text.slice(0, 40)}" probe="${probe.text.slice(0, 40)}"`);
+        return must(marks.count > 0 && same && marks.inView, `${marks.count} mark on screen: "${marks.text.slice(0, 40)}"`, `count=${marks.count} inView=${marks.inView} marked="${marks.text.slice(0, 40)}" probe="${probe.text.slice(0, 40)}"`);
       });
 
       await check(page, `${vp.label}/${book}: a bogus quote highlights nothing`, async () => {
@@ -377,9 +379,9 @@ for (const vp of VIEWPORTS) {
     }));
 
     const bookScopeStayed = libSees.scope.bookId === "book5" && !conSees.scope.bookId;
-    return !libSees.other && !conSees.other && bookScopeStayed
-      ? "no cross-over, scope not inherited"
-      : `libSawOther=${libSees.other} conSawOther=${conSees.other} conScope=${JSON.stringify(conSees.scope)}`;
+    return must(!libSees.other && !conSees.other && bookScopeStayed,
+      "no cross-over, scope not inherited",
+      `libSawOther=${libSees.other} conSawOther=${conSees.other} conScope=${JSON.stringify(conSees.scope)}`);
   });
 
   // Storage must be namespaced, or one surface restores the other's history.
@@ -389,7 +391,7 @@ for (const vp of VIEWPORTS) {
       catch { return []; }
     });
     const shared = keys.filter((k) => /^neo:ai:(threads|scope|active)$/.test(k));
-    return shared.length === 0 ? (keys.length ? keys.join(",") : "no shared keys") : `SHARED: ${shared.join(",")}`;
+    return must(shared.length === 0, keys.length ? keys.join(",") : "no shared keys", `SHARED: ${shared.join(",")}`);
   });
 
   // The navigation tree rendered the literal string "true" as 94% of its

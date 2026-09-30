@@ -533,13 +533,17 @@ export function NeoShellClient({
      under .nx-main (6,326 on /neo/tables/), and in the same commit that work
      sat between the key press and the surface's first paint (gate 9, #4: INP
      136 to 272ms on the phone profile). Focus still moves into the surface at
-     once, and closing removes `inert` in the closing commit, so focus can
-     return into the page. */
-  const [mainInert, setMainInert] = useState(false);
-  useEffect(() => {
-    if (!searching) return;
-    const id = requestAnimationFrame(() => setMainInert(true));
-    return () => { cancelAnimationFrame(id); setMainInert(false); };
+     once. Two frames, because a frame requested during the commit runs before
+     that same frame's paint. The cleanup is a layout effect's, so closing
+     removes `inert` in the closing commit and focus can return into the page.
+     Set on the element, not through state: state re-rendered the whole shell
+     on every open and close. */
+  useLayoutEffect(() => {
+    const el = mainRef.current;
+    if (!searching || !el) return;
+    let second = 0;
+    const first = requestAnimationFrame(() => { second = requestAnimationFrame(() => { el.inert = true; }); });
+    return () => { cancelAnimationFrame(first); cancelAnimationFrame(second); el.inert = false; };
   }, [searching]);
 
   /* The transactions load when the browser is idle after the page, or at once
@@ -1191,7 +1195,7 @@ export function NeoShellClient({
       </button>
 
       {/* -------------------------------------------------------- the main */}
-      <div className="nx-main" ref={mainRef} inert={(searching && mainInert) || undefined}>
+      <div className="nx-main" ref={mainRef}>
         <header className="nx-topbar" data-shell="desktop-only">
           <button
             type="button"

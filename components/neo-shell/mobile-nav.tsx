@@ -87,7 +87,12 @@ export function MobileSheet({
                 >
                   <Ico name={it.icon} size={18} />
                   <span>{it.label}</span>
-                  <span className="nx-n">{it.count === null ? "—" : nf.format(it.count)}</span>
+                  {/* As in the rail: the count is its own word in the link's name,
+                      and the "—" placeholder is not read out. */}
+                  {" "}
+                  {it.count === null
+                    ? <span className="nx-n" aria-hidden="true">—</span>
+                    : <span className="nx-n">{nf.format(it.count)}</span>}
                 </Link>
               ))}
             </section>

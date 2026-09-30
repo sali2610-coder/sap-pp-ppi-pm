@@ -31,7 +31,7 @@
    ========================================================================== */
 
 import { enDir, enLang } from "../lang";
-import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import {
   AArrowDown,
@@ -56,7 +56,6 @@ import {
 } from "lucide-react";
 import type { SectionBody } from "@/lib/library/book";
 import { loadChapterBodies } from "@/lib/library/book";
-import { readDeepLink } from "@/lib/library/deep-link";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
 import {
   isBookmarked,
@@ -533,13 +532,18 @@ export function NeoReader({ book }: { book: NRBook }) {
      sentence is marked once the subchapter has landed, and brought into view
      below the sticky head when the jump left it off screen. Without the
      Highlight API the reader still lands on the subchapter. */
-  const markCited = useCallback((sectionId: string, quote: string) => {
+  const cited = useRef<{ section: string; quote: string } | null>(null);
+  const markCited = useCallback((sectionId: string, quote: string, landing = true) => {
+    cited.current = { section: sectionId, quote };
+    if (typeof CSS === "undefined" || !CSS.highlights) return;
+    CSS.highlights.delete(CITED);
     const el = document.getElementById(`nr-sec-${sectionId}`);
     const h = host.current;
-    if (!el || !h || typeof CSS === "undefined" || !CSS.highlights) return;
-    const range = citedRange(el, quote);
+    if (!el || !h) return;
+    const range = citedRange(el, quote, landing);
     if (!range) return;
     CSS.highlights.set(CITED, new Highlight(range));
+    if (!landing) return;
     const r = range.getBoundingClientRect();
     const top = r.top - (isDocHost(h) ? 0 : h.getBoundingClientRect().top);
     const view = hostHeight(h);
@@ -548,6 +552,14 @@ export function NeoReader({ book }: { book: NRBook }) {
     }
   }, []);
   useEffect(() => () => { if (typeof CSS !== "undefined") CSS.highlights?.delete(CITED); }, []);
+  // A language switch rewrites the subchapter's text nodes, and a Range inside a
+  // rewritten node falls back to its start, so the mark would sit on other text.
+  // The sentence is found again in what is now shown, or the mark is removed
+  // when this language does not show it.
+  useLayoutEffect(() => {
+    const c = cited.current;
+    if (c) markCited(c.section, c.quote, false);
+  }, [prefs.lang, markCited]);
 
   // A chapter change that carried a subchapter with it lands once the new
   // chapter's elements exist — never before, or the target is not mounted.
@@ -576,7 +588,10 @@ export function NeoReader({ book }: { book: NRBook }) {
     if (opening.source !== "url" || !opening.section) { landed.current = true; return; }
     landed.current = true;
     const section = opening.section;
-    const quote = readDeepLink(url.split("#")[0])?.quote ?? null;
+    // Read directly, not through readDeepLink, which accepts only dotted ids:
+    // book 7's subchapters are Fiori app ids (F1393). The section was already
+    // resolved against this book's own ids, and the quote is only searched for.
+    const quote = new URLSearchParams(url.split("#")[0]).get("q")?.trim() || null;
     const t = window.setTimeout(() => {
       measure(); goTo(chapterN, section, false); schedule();
       // Two frames: the jump's layout first, then the sentence's position.
