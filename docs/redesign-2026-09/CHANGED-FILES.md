@@ -1,8 +1,8 @@
 # הקבצים ששונו · deliverable 19
 
-כל קובץ שהענף `design/neo-experience-redesign` שינה מול נקודת הפתיחה `6ba22207` (הגרסה שבייצור), עד `632fa37e`. נוצר מ-git (`neo-redesign-evidence/tools/changed-files.py`), לא נכתב ביד.
+כל קובץ שהענף `design/neo-experience-redesign` שינה מול נקודת הפתיחה `6ba22207` (הגרסה שבייצור), עד `3a1dba05`. נוצר מ-git (`neo-redesign-evidence/tools/changed-files.py`), לא נכתב ביד.
 
-סך הכול: 324 קבצים (134 נוספו, 190 שונו, 0 נמחקו).
+סך הכול: 325 קבצים (135 נוספו, 190 שונו, 0 נמחקו).
 
 קבצים מוגנים שלא שונו: `data/books/**`, ‏`data/library/**`, ‏`data/ai-tree/**`, ‏`data/verification/**`, ‏`components/book-reader.tsx`, ‏`components/chapter-reader.tsx`, ‏`components/library/**`, ‏`components/neo/**`, ‏`app/library/**` (בדיקה: `git diff --name-only 6ba22207..HEAD` על הנתיבים האלה ריקה; ראו QA-REPORT.md).
 
@@ -16,7 +16,7 @@
 | `app/neo/bapi/page.tsx` | שונה | +1/-1 | 1fe5a3a5 |
 | `app/neo/best-practices.css` | שונה | +34/-17 | 6167e61e 231328a2 04b6025d 42fa18ea |
 | `app/neo/best-practices/[slug]/page.tsx` | שונה | +2/-1 | b4f87193 |
-| `app/neo/books.css` | שונה | +81/-108 | d175dba7 a6a56f22 b83d8382 231328a2 beb3a89a 42fa18ea |
+| `app/neo/books.css` | שונה | +86/-110 | 7795e53b d175dba7 a6a56f22 b83d8382 231328a2 beb3a89a … |
 | `app/neo/books/page.tsx` | שונה | +6/-14 | b5b5b634 d7461ae1 beb3a89a b4f87193 |
 | `app/neo/cds/page.tsx` | שונה | +1/-1 | b4f87193 |
 | `app/neo/centers.css` | שונה | +37/-28 | b189c244 05919eee 231328a2 04b6025d beb3a89a 42fa18ea |
@@ -27,12 +27,12 @@
 | `app/neo/data.css` | שונה | +365/-111 | d175dba7 a6a56f22 fab76fa6 013f0329 05919eee 231328a2 … |
 | `app/neo/dock.css` | שונה | +120/-163 | a6a56f22 202fdc23 beb3a89a 42fa18ea |
 | `app/neo/domain.css` | שונה | +65/-53 | 9dc3f2be b189c244 231328a2 04b6025d 42fa18ea |
-| `app/neo/erd.css` | שונה | +155/-144 | d175dba7 a6a56f22 fab76fa6 f555cfb3 a673f893 ffd0f265 … |
+| `app/neo/erd.css` | שונה | +156/-144 | 7795e53b d175dba7 a6a56f22 fab76fa6 f555cfb3 a673f893 … |
 | `app/neo/erd/page.tsx` | שונה | +1/-1 | 1fe5a3a5 |
 | `app/neo/evidence.css` | שונה | +33/-12 | 6167e61e 231328a2 04b6025d |
 | `app/neo/fiori-apps/page.tsx` | שונה | +1/-1 | 1fe5a3a5 |
 | `app/neo/ground.css` | שונה | +31/-13 | a6a56f22 7da3441e 7b8db044 beb3a89a 42fa18ea |
-| `app/neo/home.css` | שונה | +288/-1761 | d175dba7 3989d65e a6a56f22 137a05e1 d7461ae1 8fdd65ca … |
+| `app/neo/home.css` | שונה | +292/-1761 | 7795e53b d175dba7 3989d65e a6a56f22 137a05e1 d7461ae1 … |
 | `app/neo/idoc/page.tsx` | שונה | +1/-1 | b4f87193 |
 | `app/neo/incidents/[slug]/page.tsx` | שונה | +2/-1 | b4f87193 |
 | `app/neo/knowledge/[slug]/page.tsx` | שונה | +2/-1 | b4f87193 |
@@ -40,7 +40,7 @@
 | `app/neo/learn.css` | שונה | +155/-114 | 3989d65e a6a56f22 fab76fa6 6167e61e 05919eee 231328a2 … |
 | `app/neo/legal.css` | נוסף | +96/-0 | 7b8db044 beb3a89a |
 | `app/neo/motion.css` | שונה | +40/-1 | 31d39b4d 231328a2 04b6025d 42fa18ea |
-| `app/neo/object.css` | שונה | +153/-114 | d175dba7 fab76fa6 6167e61e 05919eee 231328a2 04b6025d … |
+| `app/neo/object.css` | שונה | +157/-115 | bb8a7204 d175dba7 fab76fa6 6167e61e 05919eee 231328a2 … |
 | `app/neo/offline/page.tsx` | נוסף | +36/-0 | a6a56f22 b6fc3176 b5b5b634 |
 | `app/neo/page.tsx` | שונה | +197/-289 | a6a56f22 137a05e1 d7461ae1 8fdd65ca beb3a89a 3b9e5583 … |
 | `app/neo/privacy/page.tsx` | נוסף | +27/-0 | a6a56f22 7b8db044 beb3a89a |
@@ -105,7 +105,7 @@
 | `components/neo-shell/erd/erd-inspector.tsx` | שונה | +6/-10 | f555cfb3 1fe5a3a5 b4f87193 |
 | `components/neo-shell/erd/erd-sheet.tsx` | שונה | +10/-12 | 1fe5a3a5 b4f87193 |
 | `components/neo-shell/erd/erd-types.ts` | שונה | +22/-33 | 42fa18ea 1fe5a3a5 |
-| `components/neo-shell/erd/erd-workspace.tsx` | שונה | +175/-74 | a6a56f22 fab76fa6 f555cfb3 a673f893 98bf289a 04b6025d … |
+| `components/neo-shell/erd/erd-workspace.tsx` | שונה | +182/-79 | 7795e53b a6a56f22 fab76fa6 f555cfb3 a673f893 98bf289a … |
 | `components/neo-shell/erd/model.ts` | שונה | +1/-1 | 1fe5a3a5 |
 | `components/neo-shell/evidence/evidence-block.tsx` | שונה | +26/-10 | fab76fa6 6167e61e 1fe5a3a5 b4f87193 |
 | `components/neo-shell/evidence/record-status.tsx` | נוסף | +21/-0 | 05919eee |
@@ -134,7 +134,7 @@
 | `components/neo-shell/learn/lesson-neo-links.ts` | שונה | +39/-8 | b5b5b634 |
 | `components/neo-shell/learn/lesson-view.tsx` | שונה | +6/-15 | db03d1d3 fab76fa6 b5b5b634 6167e61e b4f87193 |
 | `components/neo-shell/learn/mod.ts` | שונה | +4/-4 | 1fe5a3a5 |
-| `components/neo-shell/legal/legal-content.ts` | נוסף | +229/-0 | 22186616 d7461ae1 e5963a1b |
+| `components/neo-shell/legal/legal-content.ts` | נוסף | +233/-0 | 19e1a4f9 7795e53b 22186616 d7461ae1 e5963a1b |
 | `components/neo-shell/legal/legal-view.tsx` | נוסף | +61/-0 | beb3a89a |
 | `components/neo-shell/mobile-nav.tsx` | שונה | +20/-4 | 2610ef1a fab76fa6 40035346 beb3a89a |
 | `components/neo-shell/mod-var.ts` | שונה | +1/-1 | 1fe5a3a5 |
@@ -142,7 +142,7 @@
 | `components/neo-shell/nav-context/smart-return.tsx` | שונה | +5/-3 | 04b6025d |
 | `components/neo-shell/nav-data.ts` | שונה | +42/-53 | 8de03566 40035346 d7461ae1 8fdd65ca 1fe5a3a5 b4f87193 |
 | `components/neo-shell/neo-shell.tsx` | שונה | +7/-1 | 42fa18ea |
-| `components/neo-shell/object/object-aux-view.tsx` | שונה | +17/-12 | fab76fa6 05919eee beb3a89a 1fe5a3a5 b4f87193 |
+| `components/neo-shell/object/object-aux-view.tsx` | שונה | +41/-27 | 7795e53b fab76fa6 05919eee beb3a89a 1fe5a3a5 b4f87193 |
 | `components/neo-shell/object/object-aux.ts` | שונה | +4/-2 | d7461ae1 |
 | `components/neo-shell/object/object-depth.tsx` | שונה | +3/-2 | db03d1d3 |
 | `components/neo-shell/object/object-fields.tsx` | שונה | +13/-9 | db03d1d3 fab76fa6 6167e61e b4f87193 |
@@ -150,7 +150,7 @@
 | `components/neo-shell/object/object-names.ts` | שונה | +14/-3 | d7461ae1 |
 | `components/neo-shell/object/object-orbit.tsx` | שונה | +2/-2 | 1fe5a3a5 |
 | `components/neo-shell/object/object-return.tsx` | שונה | +1/-1 | b4f87193 |
-| `components/neo-shell/object/object-view.tsx` | שונה | +41/-26 | db03d1d3 fab76fa6 05919eee d7461ae1 beb3a89a 1fe5a3a5 … |
+| `components/neo-shell/object/object-view.tsx` | שונה | +64/-38 | 7795e53b db03d1d3 fab76fa6 05919eee d7461ae1 beb3a89a … |
 | `components/neo-shell/offline-retry.tsx` | נוסף | +27/-0 | b6fc3176 |
 | `components/neo-shell/preview.tsx` | שונה | +1/-1 | b4f87193 |
 | `components/neo-shell/reader/cited.ts` | נוסף | +69/-0 | 2610ef1a 6ab0084c |
@@ -168,7 +168,7 @@
 | `components/neo-shell/reference/ref-surface.tsx` | שונה | +23/-36 | b68cc5ff fab76fa6 013f0329 d7461ae1 b4f87193 |
 | `components/neo-shell/s4/s4-catalog.tsx` | שונה | +24/-16 | fab76fa6 b189c244 3b9e5583 1fe5a3a5 b4f87193 |
 | `components/neo-shell/s4/s4-data.ts` | שונה | +38/-12 | b189c244 3b9e5583 |
-| `components/neo-shell/s4/s4-view.tsx` | שונה | +94/-52 | d175dba7 db03d1d3 fab76fa6 b189c244 d7461ae1 beb3a89a … |
+| `components/neo-shell/s4/s4-view.tsx` | שונה | +111/-67 | 7795e53b d175dba7 db03d1d3 fab76fa6 b189c244 d7461ae1 … |
 | `components/neo-shell/search/build.ts` | שונה | +177/-97 | d175dba7 6b8584c0 40035346 |
 | `components/neo-shell/search/command-index.ts` | שונה | +241/-101 | 6b8584c0 40035346 1fe5a3a5 b4f87193 |
 | `components/neo-shell/search/command-surface.tsx` | שונה | +216/-165 | d175dba7 fab76fa6 6b8584c0 40035346 b4f87193 |
@@ -257,7 +257,7 @@
 |---|---|---|---|
 | `app/error.tsx` | שונה | +3/-3 | b4f87193 |
 | `app/global-error.tsx` | שונה | +2/-2 | b4f87193 |
-| `app/globals.css` | שונה | +119/-60 | d175dba7 a6a56f22 db03d1d3 fab76fa6 1c8d293b f41dfc2a … |
+| `app/globals.css` | שונה | +127/-61 | 64d36a53 7795e53b d175dba7 a6a56f22 db03d1d3 fab76fa6 … |
 | `app/layout.tsx` | שונה | +4/-4 | b4f87193 |
 | `app/loading.tsx` | שונה | +1/-1 | b4f87193 |
 | `app/manifest.ts` | שונה | +4/-4 | b4f87193 |
@@ -286,7 +286,7 @@
 |---|---|---|---|
 | `scripts/check-prod.mjs` | שונה | +14/-3 | 7a640cff |
 | `scripts/gen-legacy-redirects.mjs` | נוסף | +240/-0 | b6fc3176 b5b5b634 |
-| `scripts/qa/a11y-sample.mjs` | שונה | +3/-0 | 92a6af75 |
+| `scripts/qa/a11y-sample.mjs` | שונה | +30/-7 | 5ccbf9d8 389863af 92a6af75 |
 | `scripts/qa/astra-extra-check.mjs` | שונה | +25/-19 | 1e3a62f7 |
 | `scripts/qa/astra-reverify.mjs` | שונה | +13/-9 | b72d53bf |
 | `scripts/qa/dock-check.mjs` | שונה | +12/-3 | 1e3a62f7 |
@@ -320,37 +320,37 @@
 | `test/search-query.test.ts` | נוסף | +81/-0 | 6b8584c0 40035346 |
 | `test/status-group.test.ts` | שונה | +66/-17 | 3b9e5583 |
 
-## Documents (43)
+## Documents (44)
 
 | קובץ | מצב | +/- | commits |
 |---|---|---|---|
-| `docs/redesign-2026-09/ASTRA-CRITERIA.md` | נוסף | +85/-0 | 632fa37e b72d53bf |
+| `docs/redesign-2026-09/ASTRA-CRITERIA.md` | נוסף | +95/-0 | 3a1dba05 a50116a3 632fa37e b72d53bf |
 | `docs/redesign-2026-09/BAKEOFF.md` | נוסף | +83/-0 | 255dfec5 |
 | `docs/redesign-2026-09/BASELINE.md` | נוסף | +93/-0 | 243e2349 |
-| `docs/redesign-2026-09/BLOCKERS.md` | נוסף | +69/-0 | 25249774 32089ffb d175dba7 3989d65e 109975d2 |
+| `docs/redesign-2026-09/BLOCKERS.md` | נוסף | +70/-0 | b7d63d42 a50116a3 25249774 32089ffb d175dba7 3989d65e … |
 | `docs/redesign-2026-09/BOARD-SPEC.md` | נוסף | +51/-0 | 98bf289a 243e2349 |
-| `docs/redesign-2026-09/CHANGED-FILES.md` | נוסף | +385/-0 | 632fa37e |
+| `docs/redesign-2026-09/CHANGED-FILES.md` | נוסף | +387/-0 | 366d8b0f 632fa37e |
 | `docs/redesign-2026-09/COMPONENTS.md` | נוסף | +101/-0 | 32089ffb 3989d65e 2ab75f0e |
 | `docs/redesign-2026-09/COPY-AUDIT.md` | נוסף | +445/-0 | 1fe5a3a5 b4f87193 |
-| `docs/redesign-2026-09/DELIVERY.md` | נוסף | +47/-0 | 25249774 d175dba7 |
+| `docs/redesign-2026-09/DELIVERY.md` | נוסף | +47/-0 | b7d63d42 25249774 d175dba7 |
 | `docs/redesign-2026-09/DEPENDENCIES.md` | נוסף | +27/-0 | 32089ffb 12930a2b |
 | `docs/redesign-2026-09/DESIGN-BRIEF.md` | נוסף | +67/-0 | 243e2349 |
 | `docs/redesign-2026-09/DESIGN-SPEC.md` | נוסף | +83/-0 | d7461ae1 243e2349 |
 | `docs/redesign-2026-09/LEGAL-READINESS.md` | נוסף | +375/-0 | cd95f6c7 |
-| `docs/redesign-2026-09/MATRIX.md` | נוסף | +90/-0 | 25249774 |
-| `docs/redesign-2026-09/MERGE-PLAN.md` | נוסף | +49/-0 | 25249774 32089ffb 12930a2b |
-| `docs/redesign-2026-09/MOTION.md` | נוסף | +78/-0 | 3989d65e 109975d2 ffd0f265 |
+| `docs/redesign-2026-09/MATRIX.md` | נוסף | +90/-0 | 3a1dba05 25249774 |
+| `docs/redesign-2026-09/MERGE-PLAN.md` | נוסף | +49/-0 | 3a1dba05 a50116a3 25249774 32089ffb 12930a2b |
+| `docs/redesign-2026-09/MOTION.md` | נוסף | +80/-0 | 7795e53b 3989d65e 109975d2 ffd0f265 |
 | `docs/redesign-2026-09/NAV-LEGACY.md` | נוסף | +134/-0 | d175dba7 8c9eb5eb |
 | `docs/redesign-2026-09/PLAN.md` | נוסף | +35/-0 | 243e2349 |
-| `docs/redesign-2026-09/PROGRESS.md` | נוסף | +62/-0 | 25249774 32089ffb 63eb7549 3989d65e 188761a5 e5963a1b … |
-| `docs/redesign-2026-09/QA-REPORT.md` | נוסף | +198/-0 | 632fa37e |
-| `docs/redesign-2026-09/REVIEW-GUIDE.md` | נוסף | +66/-0 | 32089ffb 3989d65e 109975d2 |
+| `docs/redesign-2026-09/PROGRESS.md` | נוסף | +74/-0 | 3a1dba05 b7d63d42 25249774 32089ffb 63eb7549 3989d65e … |
+| `docs/redesign-2026-09/QA-REPORT.md` | נוסף | +197/-0 | 3a1dba05 632fa37e |
+| `docs/redesign-2026-09/REVIEW-GUIDE.md` | נוסף | +66/-0 | 3a1dba05 a50116a3 32089ffb 3989d65e 109975d2 |
 | `docs/redesign-2026-09/SIDE-TABS.md` | נוסף | +121/-0 | a6a56f22 109975d2 04b6025d |
 | `docs/redesign-2026-09/SYSTEM-MAP.md` | נוסף | +58/-0 | 243e2349 |
-| `docs/redesign-2026-09/TOKENS.md` | נוסף | +128/-0 | 32089ffb d175dba7 3989d65e 109975d2 98bf289a 42fa18ea |
+| `docs/redesign-2026-09/TOKENS.md` | נוסף | +128/-0 | b7d63d42 32089ffb d175dba7 3989d65e 109975d2 98bf289a … |
 | `docs/redesign-2026-09/TRACEABILITY.md` | נוסף | +171/-0 | 66c85fd9 |
 | `docs/redesign-2026-09/copy-audit-candidates.md` | נוסף | +397/-0 | cd95f6c7 |
-| `docs/redesign-2026-09/reviews/CLOSURE.md` | נוסף | +235/-0 | 25249774 37a7b3a2 |
+| `docs/redesign-2026-09/reviews/CLOSURE.md` | נוסף | +258/-0 | b7d63d42 25249774 37a7b3a2 |
 | `docs/redesign-2026-09/reviews/bakeoff-judge-eng.md` | נוסף | +139/-0 | 255dfec5 |
 | `docs/redesign-2026-09/reviews/bakeoff-judge-ux.md` | נוסף | +119/-0 | 255dfec5 |
 | `docs/redesign-2026-09/reviews/bakeoff-judge-visual.md` | נוסף | +105/-0 | 255dfec5 |
@@ -365,6 +365,7 @@
 | `docs/redesign-2026-09/reviews/gate-08-accessibility.md` | נוסף | +153/-0 | 31ae7164 |
 | `docs/redesign-2026-09/reviews/gate-09-performance.md` | נוסף | +254/-0 | 31ae7164 |
 | `docs/redesign-2026-09/reviews/gate-10-impeccable.md` | נוסף | +98/-0 | a6a56f22 |
+| `docs/redesign-2026-09/reviews/gate-11-final-ux-r2.md` | נוסף | +191/-0 | 2ef6a730 |
 | `docs/redesign-2026-09/reviews/gate-11-final-ux.md` | נוסף | +346/-0 | 37a7b3a2 |
 | `docs/redesign-2026-09/reviews/sap-correctness.md` | נוסף | +181/-0 | 3b9e5583 |
 
