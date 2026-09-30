@@ -91,7 +91,7 @@
 
 ## 8. ספרים וקריאה (לא נערכו: קבצים קפואים)
 
-`components/book-reader.tsx`, `components/chapter-reader.tsx`, `components/library/**`, `components/neo/**`. בתוך NEO נבנו סביבם: המדף (`books/book-shelf.tsx`), כרטיס הספר (`books/book-hub.tsx`) וסרגל ההתקדמות בקורא (`reader/progress-rail.tsx`, שבו סימוני הפרקים הם סימון, והמסילה מטפלת בלחיצה).
+`components/book-reader.tsx`, `components/chapter-reader.tsx`, `components/library/**`, `components/neo/**`. בתוך NEO נבנו סביבם: המדף (`books/book-shelf.tsx`), כרטיס הספר (`books/book-hub.tsx`) וסרגל ההתקדמות בקורא (`reader/progress-rail.tsx`, שבו סימוני הפרקים הם סימון, והמסילה מטפלת בלחיצה). ציטוט מעוזרי ה־AI (`?s=` ו־`?q=`, `lib/ai/links.ts`) נוחת בתת־הפרק ומסמן את המשפט עצמו (`reader/cited.ts`): אותו מתאם של הקורא הקנוני (`findQuote`), בלי להזיז את צומתי React (CSS Custom Highlight API, `::highlight(neo-cited)` ב־`app/neo/reader.css`). משפט שאינו בספר לא מסומן.
 
 ## 9. מסמכים משפטיים ו־404
 

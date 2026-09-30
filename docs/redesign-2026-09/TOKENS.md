@@ -28,6 +28,7 @@ Contrast is computed, never estimated: `neo-redesign-evidence/tools/palette-chec
 | text on brand fill | `--brand-foreground` | #ffffff | #1a0b0c | 5.13 / 6.36 |
 | link | `--link` | #1d5486 | #8fbbe3 | 6.40 / 7.53 |
 | focus ring | `--focus` | #1f5fbf | #7fb2ff | 4.95 / 7.05 (need 3) |
+| cited sentence (reader) | `::highlight(neo-cited)`, the `--warning` hue as a tint | rgb(127 84 0 / .18) | rgb(228 185 95 / .26) | body text on it 7.01 / 5.14, bold 12.76 / 7.68 (measured on the reader's paper) |
 
 Ratios are the minimum over canvas, panel, recessed and floating surfaces.
 

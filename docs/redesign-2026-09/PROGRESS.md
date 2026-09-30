@@ -34,7 +34,7 @@ Checkpoint log so an interrupted session resumes from evidence, not memory. Newe
 ## 2026-09-30
 
 - 00:30 to 06:04 Leftovers of final-run-4, each traced to its cause:
-  - `/neo/tables/` phone LCP 9,436 in two series: bimodal lab result (26 cold loads: 21 at 6.2 to 6.3 s, 5 at 9.4 s). The page content sits in the root `app/loading.tsx` Suspense boundary and is revealed by `$RC` at byte 519,087 of the HTML; the emulated link decides when that byte arrives. Same structure in production. Not style, scripts, CPU or bytes (`final-run-4/README-vitals-tables.md`).
+  - `/neo/tables/` phone LCP 9,436 in two series: bimodal lab result (27 cold loads without tracing: 22 at 6.2 to 6.3 s, 5 at 9.4 s). The page content sits in the root `app/loading.tsx` Suspense boundary and is revealed by `$RC` at byte 519,087 of the HTML; the emulated link decides when that byte arrives. Same structure in production. Not style, scripts, CPU or bytes (`final-run-4/README-vitals-tables.md`).
   - COR3: the consistency check looked for the palette field's pre-40035346 name, so the palette step was skipped and COR3 (no catalogue row, as in production) had one reading. Tool fixed: 12/12, 0 contradictions.
   - The 1280 sweep's timeout: the single-threaded `serve-out.py` stalls every request behind one idle connection (a browser preconnect; curl timed out behind one open socket). Server made threaded; lap1280 80 routes, 0 flagged.
   - Reflow 320: six of the 39 domain records overflowed by 4 to 51px (the sweep sampled one): codes and arrow chains with no break point. Fixed on the record root; 0 of 39 at 320, nothing moves at 1440.

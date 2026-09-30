@@ -15,7 +15,7 @@
 ## 2. ה־Merge
 
 1. לוודא שהענף `design/neo-experience-redesign` מעודכן מול `main` (אם `main` התקדם: merge של `main` לתוך הענף, לא rebase ולא force-push).
-2. להריץ על ה־SHA הסופי את כל השערים של `neo-redesign-evidence/final/run-final-gates.zsh`: tsc, בדיקות, evidence, academy, lint, build, sitemap, build, routes, sitemap, diag, crawl, reader, verify-reader, ו־`ZERO_CONTENT_LOSS 574/574`.
+2. להריץ על ה־SHA הסופי את כל השערים של `neo-redesign-evidence/final/run-final-gates.zsh`: tsc, בדיקות, evidence, academy, lint, build, sitemap, build, routes, sitemap, diag, crawl, reader, verify-reader, ו־`ZERO_CONTENT_LOSS 574/574`. הריצה האחרונה שלהם, על `63eb7549`, נמצאת ב־`neo-redesign-evidence/final-2/` (כל הצעדים rc=0).
 3. Merge commit אל `main`, כמו בשחרורים הקודמים (`6ba22207`, `d23be74b`): `Merge branch 'design/neo-experience-redesign' into main`. לא squash, כדי לשמור את היסטוריית השלבים והראיות.
 4. `npm run build` רגיל (עם ה־prebuild) רץ ב־Vercel. לוודא שהוא לא משנה את `data/ai-tree` או את `data/books` בענף (הם תוצרי build ולא נכנסים ל־commit).
 
@@ -24,6 +24,7 @@
 אחרי שה־deployment של `main` מוכן, ולפני שמכריזים עליו:
 
 - [ ] `sapbysali.app` מחובר ל־SHA שאושר (Vercel → Deployments).
+- [ ] הקבצים המהודרים עדכניים ולא הגיעו ממטמון בנייה ישן (`REVIEW-GUIDE.md`, בדיקה 0). אם לא: Redeploy בלי Build Cache.
 - [ ] HTTPS תקין.
 - [ ] Canonical נכון בכל סוגי העמודים.
 - [ ] הפניות root ו־`www` עקביות.
