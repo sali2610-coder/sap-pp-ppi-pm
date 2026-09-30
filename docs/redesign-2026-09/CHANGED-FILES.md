@@ -1,8 +1,8 @@
 # הקבצים ששונו · deliverable 19
 
-כל קובץ שהענף `design/neo-experience-redesign` שינה מול נקודת הפתיחה `6ba22207` (הגרסה שבייצור), עד `25249774`. נוצר מ-git (`neo-redesign-evidence/tools/changed-files.py`), לא נכתב ביד.
+כל קובץ שהענף `design/neo-experience-redesign` שינה מול נקודת הפתיחה `6ba22207` (הגרסה שבייצור), עד `632fa37e`. נוצר מ-git (`neo-redesign-evidence/tools/changed-files.py`), לא נכתב ביד.
 
-סך הכול: 322 קבצים (132 נוספו, 190 שונו, 0 נמחקו).
+סך הכול: 324 קבצים (134 נוספו, 190 שונו, 0 נמחקו).
 
 קבצים מוגנים שלא שונו: `data/books/**`, ‏`data/library/**`, ‏`data/ai-tree/**`, ‏`data/verification/**`, ‏`components/book-reader.tsx`, ‏`components/chapter-reader.tsx`, ‏`components/library/**`, ‏`components/neo/**`, ‏`app/library/**` (בדיקה: `git diff --name-only 6ba22207..HEAD` על הנתיבים האלה ריקה; ראו QA-REPORT.md).
 
@@ -320,15 +320,16 @@
 | `test/search-query.test.ts` | נוסף | +81/-0 | 6b8584c0 40035346 |
 | `test/status-group.test.ts` | שונה | +66/-17 | 3b9e5583 |
 
-## Documents (41)
+## Documents (43)
 
 | קובץ | מצב | +/- | commits |
 |---|---|---|---|
-| `docs/redesign-2026-09/ASTRA-CRITERIA.md` | נוסף | +59/-0 | b72d53bf |
+| `docs/redesign-2026-09/ASTRA-CRITERIA.md` | נוסף | +85/-0 | 632fa37e b72d53bf |
 | `docs/redesign-2026-09/BAKEOFF.md` | נוסף | +83/-0 | 255dfec5 |
 | `docs/redesign-2026-09/BASELINE.md` | נוסף | +93/-0 | 243e2349 |
 | `docs/redesign-2026-09/BLOCKERS.md` | נוסף | +69/-0 | 25249774 32089ffb d175dba7 3989d65e 109975d2 |
 | `docs/redesign-2026-09/BOARD-SPEC.md` | נוסף | +51/-0 | 98bf289a 243e2349 |
+| `docs/redesign-2026-09/CHANGED-FILES.md` | נוסף | +385/-0 | 632fa37e |
 | `docs/redesign-2026-09/COMPONENTS.md` | נוסף | +101/-0 | 32089ffb 3989d65e 2ab75f0e |
 | `docs/redesign-2026-09/COPY-AUDIT.md` | נוסף | +445/-0 | 1fe5a3a5 b4f87193 |
 | `docs/redesign-2026-09/DELIVERY.md` | נוסף | +47/-0 | 25249774 d175dba7 |
@@ -342,6 +343,7 @@
 | `docs/redesign-2026-09/NAV-LEGACY.md` | נוסף | +134/-0 | d175dba7 8c9eb5eb |
 | `docs/redesign-2026-09/PLAN.md` | נוסף | +35/-0 | 243e2349 |
 | `docs/redesign-2026-09/PROGRESS.md` | נוסף | +62/-0 | 25249774 32089ffb 63eb7549 3989d65e 188761a5 e5963a1b … |
+| `docs/redesign-2026-09/QA-REPORT.md` | נוסף | +198/-0 | 632fa37e |
 | `docs/redesign-2026-09/REVIEW-GUIDE.md` | נוסף | +66/-0 | 32089ffb 3989d65e 109975d2 |
 | `docs/redesign-2026-09/SIDE-TABS.md` | נוסף | +121/-0 | a6a56f22 109975d2 04b6025d |
 | `docs/redesign-2026-09/SYSTEM-MAP.md` | נוסף | +58/-0 | 243e2349 |
