@@ -2035,8 +2035,11 @@ html[data-theme="dark"] .nb-cov-cast {
   .nb-cov[data-size="entry"] .nb-f-front { animation: none !important; }
   .nb-cov-cast, .nb-cov-board, .nb-cov-gloss, .nb-cov-t { transition: none; }
   .nb-slab:hover .nb-cov-cast, .nb-slab:focus-visible .nb-cov-cast { transform: none; }
-  /* Neighbours stop making room, because nothing is moving toward them. */
-  .nb-card, .nb-card:has(+ .nb-card:hover), .nb-card:hover + .nb-card { transform: none !important; transition: none; }
+  /* Neighbours stop making room, because nothing is moving toward them. The
+     room is made with `translate`, an independent property (above), so it is
+     reset by name: `transform: none` alone left the 7px jump without its
+     transition (gate 11 round 2, R2-4). */
+  .nb-card, .nb-card:has(+ .nb-card:hover), .nb-card:hover + .nb-card { transform: none !important; translate: none !important; transition: none; }
   .nb-scrim { animation: none; }
   .nb-prog i { transition: none; }
   .nb-ch-body { animation: none; }

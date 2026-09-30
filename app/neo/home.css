@@ -109,6 +109,10 @@ html[data-device="phone"] .nx-app .nh-find-k { display: none; }
 .nx-app .nh-door-n { grid-area: n; font-size: var(--t-h2); font-weight: 500; color: var(--ink-1); }
 .nx-app .nh-door-sub { grid-area: sub; font-size: var(--t-xs); line-height: 1.5; color: var(--ink-2); }
 .nx-app .nh-door:hover .nh-door-name { text-decoration: underline; text-underline-offset: 3px; }
+/* A name is one word: "PP-PI" broke after its hyphen in the tables door at
+   1440 (gate 11 round 2, R2-3). The page's plain bdi hold short names only
+   (PM, PP-PI, ECC, S/4HANA, the product names); identifiers keep their class. */
+.nx-app .nh bdi:not([class]) { white-space: nowrap; }
 
 /* THE COMMAND INPUT IS THE HOME (gate 10, M2). The gate takes the page's
    column, so the search reads as the one object of the first screen; the

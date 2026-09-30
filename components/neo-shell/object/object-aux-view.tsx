@@ -97,18 +97,20 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
     ? "הרשומה מגיעה מקטלוג HR/BW של הפרויקט: טבלת SAP שאינה חלק מתיעוד המעבר של PM ו-PP-PI. היא נושאת מפתח, שדות, קשרים וטרנזקציות משלה, ואינה מופיעה במודל ה-ERD."
     : "הרשומה מגיעה מקטלוג האובייקטים המאומתים: אובייקט SAP סטנדרטי חוצה מודולים. הקטלוג אינו כולל רשימת שדות לאובייקט זה, ולכן לא קיים תיעוד שדות מאומת במאגר.";
 
-  const stats: [string, string][] = v.source === "hrbw"
+  // One takes the singular, and a zero is said in words below, as on the
+  // table record and the object page (gate 11 round 2, R2-2).
+  const stats: [number, string][] = v.source === "hrbw"
     ? [
-        [nf.format(s.fields), "שדות מתועדים"],
-        [nf.format(s.keys), "שדות מפתח"],
-        [nf.format(s.relations), "קשרים מתועדים"],
-        [nf.format(s.tcodes), "טרנזקציות"],
+        [s.fields, s.fields === 1 ? "שדה מתועד" : "שדות מתועדים"],
+        [s.keys, s.keys === 1 ? "שדה מפתח" : "שדות מפתח"],
+        [s.relations, s.relations === 1 ? "קשר מתועד" : "קשרים מתועדים"],
+        [s.tcodes, s.tcodes === 1 ? "טרנזקציה" : "טרנזקציות"],
       ]
     : [
-        [nf.format(v.modules.length), "מודולים משתמשים"],
-        [nf.format(s.related), "אובייקטים קשורים"],
-        [nf.format(s.tcodes), "טרנזקציות"],
-        [nf.format(v.aliases.length), "שמות נרדפים"],
+        [v.modules.length, v.modules.length === 1 ? "מודול משתמש" : "מודולים משתמשים"],
+        [s.related, s.related === 1 ? "אובייקט קשור" : "אובייקטים קשורים"],
+        [s.tcodes, s.tcodes === 1 ? "טרנזקציה" : "טרנזקציות"],
+        [v.aliases.length, v.aliases.length === 1 ? "שם נרדף" : "שמות נרדפים"],
       ];
 
   const nav: [string, string][] = [];
@@ -184,12 +186,19 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
           ) : null}
 
           <div className="no-stats">
-            {stats.map(([n, l]) => (
-              <span className="no-stat" key={l}>
-                <b className="nx-sap">{n}</b>
-                <em>{l}</em>
-              </span>
-            ))}
+            {stats.map(([n, l]) =>
+              n === 0 ? (
+                <span className="no-stat" key={l}>
+                  <em>{l}:</em>
+                  <em>אין במאגר</em>
+                </span>
+              ) : (
+                <span className="no-stat" key={l}>
+                  <b className="nx-sap">{nf.format(n)}</b>
+                  <em>{l}</em>
+                </span>
+              ),
+            )}
           </div>
         </div>
       </header>

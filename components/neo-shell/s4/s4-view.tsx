@@ -91,7 +91,9 @@ function Hero({
   eyebrow, icon, title, lede, stats, note,
 }: {
   eyebrow: string; icon: React.ReactNode; title: string; lede: React.ReactNode;
-  stats: [number | string, string][]; note?: React.ReactNode;
+  /** [value, label, the label for exactly one]: "1 מודול", not "1 מודולים"
+   *  (gate 11 round 2, R2-2). */
+  stats: [number | string, string, string?][]; note?: React.ReactNode;
 }) {
   return (
     <header className="ns4-hero">
@@ -103,10 +105,10 @@ function Hero({
       <h1 className="ns4-h1 nx-display">{title}</h1>
       <p className="ns4-lede">{lede}</p>
       <div className="ns4-stats">
-        {stats.map(([v, l]) => (
+        {stats.map(([v, l, one]) => (
           <span key={l} className="ns4-stat">
             <b className="nx-sap">{typeof v === "number" ? nf.format(v) : v}</b>
-            <em>{l}</em>
+            <em>{v === 1 && one ? one : l}</em>
           </span>
         ))}
       </div>
@@ -175,12 +177,12 @@ export function S4HanaCenter() {
           </>
         }
         stats={[
-          [t.total, "אובייקטים"],
+          [t.total, "אובייקטים", "אובייקט"],
           [t.byKey.replaced || 0, S4_STATUS_WORD.replaced],
           [t.byKey.not_available || 0, S4_STATUS_WORD.not_available],
           [t.byRisk.high || 0, "בסיכון גבוה"],
-          [t.abapNotes, "הערות ABAP"],
-          [t.checklistItems, "פריטי בדיקה"],
+          [t.abapNotes, "הערות ABAP", "הערת ABAP"],
+          [t.checklistItems, "פריטי בדיקה", "פריט בדיקה"],
         ]}
         note={
           <>
@@ -371,13 +373,13 @@ export function S4ReadinessCenter() {
           r.available
             ? [
                 [`${r.overall}%`, `כיסוי תיעוד למעבר · מדגם ${nf.format(r.tables)} טבלאות`],
-                [r.mods.length, "מודולים עם ציון"],
-                [r.tables, "טבלאות SAP"],
-                [r.highRisk, "מודולים בסיכון גבוה"],
-                [tt.total, "נושאי שינוי"],
+                [r.mods.length, "מודולים עם ציון", "מודול עם ציון"],
+                [r.tables, "טבלאות SAP", "טבלת SAP"],
+                [r.highRisk, "מודולים בסיכון גבוה", "מודול בסיכון גבוה"],
+                [tt.total, "נושאי שינוי", "נושא שינוי"],
                 [tt.withFioriCds, "עם Fiori או CDS"],
               ]
-            : [[tt.total, "נושאי שינוי"], [tt.withSimplification, "עם פריט Simplification"]]
+            : [[tt.total, "נושאי שינוי", "נושא שינוי"], [tt.withSimplification, "עם פריט Simplification"]]
         }
         note={
           <>הציון משקלל את שיעור הטבלאות עם יישום Fiori (30%), עם תצוגת CDS (30%) ועם הערת S/4HANA (25%), ואת שיעור הטבלאות שאינן מסומנות כמוחלפות או כמוסרות (15%). הוא מודד כיסוי תיעוד בלבד ואינו מחליף SAP Readiness Check.</>
@@ -511,12 +513,12 @@ export function MigrationCockpit() {
           </>
         }
         stats={[
-          [t.objects, "אובייקטים"],
-          [t.eccTables, "טבלאות ECC"],
-          [t.waves, "גלי טעינה"],
+          [t.objects, "אובייקטים", "אובייקט"],
+          [t.eccTables, "טבלאות ECC", "טבלת ECC"],
+          [t.waves, "גלי טעינה", "גל טעינה"],
           [t.byRisk.high || 0, "בסיכון גבוה"],
-          [t.errors, "דפוסי שגיאה"],
-          [t.checklist, "צעדי ביצוע"],
+          [t.errors, "דפוסי שגיאה", "דפוס שגיאה"],
+          [t.checklist, "צעדי ביצוע", "צעד ביצוע"],
         ]}
         note={
           <>

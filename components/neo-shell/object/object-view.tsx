@@ -103,13 +103,16 @@ export function ObjectPage({ v }: { v: ObjectView }) {
   const rowsPerMod = new Map<string, number>();
   for (const r of v.rows) rowsPerMod.set(r.mod, (rowsPerMod.get(r.mod) || 0) + 1);
 
-  const stats: [string, string][] = [
-    [nf.format(v.fields.length), "שדות מתועדים"],
-    [nf.format(s.neighbours), "טבלאות מקושרות"],
-    [nf.format(s.joins), "תנאי JOIN"],
-    [nf.format(new Set(v.tcodes.flatMap((t) => t.codes)).size), "טרנזקציות"],
-    [nf.format(v.funcs.length), "BAPI · FM · IDoc"],
-    [nf.format(v.cds.length), "תצוגות CDS"],
+  // As on the table record (tables-detail-view.tsx): one takes the singular,
+  // and a zero is said in words below (gate 11 round 2, R2-2).
+  const nTx = new Set(v.tcodes.flatMap((t) => t.codes)).size;
+  const stats: [number, string][] = [
+    [v.fields.length, v.fields.length === 1 ? "שדה מתועד" : "שדות מתועדים"],
+    [s.neighbours, s.neighbours === 1 ? "טבלה מקושרת" : "טבלאות מקושרות"],
+    [s.joins, "תנאי JOIN"],
+    [nTx, nTx === 1 ? "טרנזקציה" : "טרנזקציות"],
+    [v.funcs.length, "BAPI · FM · IDoc"],
+    [v.cds.length, v.cds.length === 1 ? "תצוגת CDS" : "תצוגות CDS"],
   ];
 
   // ONE list drives the numbering and the jump nav, so a section can never be
@@ -236,12 +239,20 @@ export function ObjectPage({ v }: { v: ObjectView }) {
           ) : null}
 
           <div className="no-stats">
-            {stats.map(([n, l]) => (
-              <span className="no-stat" key={l}>
-                <b className="nx-sap">{n}</b>
-                <em>{l}</em>
-              </span>
-            ))}
+            {stats.map(([n, l]) =>
+              // A zero is a gap in the repository, not a figure (gate 11, m9).
+              n === 0 ? (
+                <span className="no-stat" key={l}>
+                  <em>{l}:</em>
+                  <em>אין במאגר</em>
+                </span>
+              ) : (
+                <span className="no-stat" key={l}>
+                  <b className="nx-sap">{nf.format(n)}</b>
+                  <em>{l}</em>
+                </span>
+              ),
+            )}
           </div>
 
           <div className="no-cta">

@@ -194,11 +194,14 @@ html[data-theme="dark"] .ne {
 /* nowrap on purpose: the count is the line that has to give, and .ne-sub
    ellipsises. Wrapping put the title block on three rows at 1440. */
 .ne-bar-t { display: flex; flex-wrap: nowrap; align-items: baseline; gap: var(--sp-2); min-inline-size: 0; }
-/* The counts take their own full line under the title, so they can be read
-   ("220 טבלאות · 232 קשרים" was cut to "…0" at 1440; gate 11, m7). The title
-   does not wrap, so the block is two rows at most. */
+/* The counts take their own full line under the title and the mode chip, so
+   they can be read ("220 טבלאות · 232 קשרים" was cut to "…0" at 1440; gate
+   11, m7). The paragraph comes after the mode chip in the markup, so the block
+   is three rows: the eyebrow, the title with the mode, the counts. The counts
+   wrap rather than ellipsise: inside a module at 1440 their line is 270px
+   beside the toolbar, and a module's purpose from the blueprint can be longer. */
 .ne-bar-t { flex-wrap: wrap; row-gap: 0; }
-.ne-bar-t > .ne-sub { flex: 1 1 100%; }
+.ne-bar-t > .ne-sub { flex: 1 1 100%; white-space: normal; overflow: visible; }
 .ne-h1 {
   font-size: var(--t-h2);
   font-weight: 700;
@@ -1748,17 +1751,15 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
    cut mid-word here. The title never ellipsises (it read "מודל הנתונים · כל
    המו…" at 1440): it keeps its line where it fits and wraps only where the
    identity block is narrower than the title. The mode chip keeps one line.
-   The count stays the part that gives way, as designed above, because the
-   module control and the panel print the same numbers. On a narrow bar every
-   part takes its own line instead of a column one word wide (390px). */
+   The count has the full line under them (the 100% basis above); the 8rem
+   basis that was here came later in the file with the same weight and put it
+   back beside the title, where it was cut at 1280 to 1440 (gate 11 round 2,
+   R2-1). On a narrow bar every part takes its own line instead of a column
+   one word wide (390px). */
 .ne-bar-t { flex-wrap: wrap; row-gap: 2px; }
 .ne-bar-t .ne-eye { flex: 1 1 100%; margin: 0; }
 .ne-bar-t .ne-h1 { flex: 0 1 auto; white-space: normal; overflow: visible; }
 .ne-bar-t .ne-modechip { flex: none; margin: 0; white-space: nowrap; }
-/* The count keeps at least 8rem, so where the bar leaves the identity narrow
-   (1440 inside a module: 270px beside the toolbar and the table search) it
-   takes the next line rather than shrinking to an 8px sliver that read "0". */
-.ne-bar-t .ne-sub { flex: 1 1 8rem; }
 @container ne (max-width: 900px) {
   .ne-bar-t .ne-h1,
   .ne-bar-t .ne-sub,

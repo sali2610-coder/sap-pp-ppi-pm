@@ -1324,7 +1324,15 @@ html[data-theme="dark"] {
      would scroll instead of the two panes scrolling independently. */
   grid-template-rows: minmax(0, 1fr);
   block-size: 100dvh;
+  /* clip, not only hidden: a hidden box is still a scroll container. Visually
+     hidden text (.nx-sr) whose containing block is this frame sits at its
+     place deep in the canvas, below the frame, and bringing it into view (a
+     screen reader's cursor, find in page) scrolled the whole frame away: 141px
+     on a table record, 5,464px on a work method, a blank screen (gate 11 round
+     2, R2-5). A clipped box cannot scroll. `hidden` stays for a browser
+     without `clip`. */
   overflow: hidden;
+  overflow: clip;
   background: var(--background);
   /* UXSettings is not mounted on /neo, so --font-scale would otherwise be
      whatever the user last set on another route with no control to change it. */

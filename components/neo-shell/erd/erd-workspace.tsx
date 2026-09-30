@@ -1834,11 +1834,6 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               תרשים ישויות וקשרים
             </p>
             <h1 className="ne-h1">{M ? modTitle(M) : "מודל הנתונים · כל המודולים"}</h1>
-            <p className="ne-sub">
-              {M
-                ? `${nf.format(scopeCount)} טבלאות · ${nf.format(edgeCount)} קשרים${M.purpose ? ` · ${M.purpose}` : ""}`
-                : `${nf.format(data.stats.modules)} מודולים · ${nf.format(data.stats.memberships)} שיוכי טבלה · ${nf.format(data.stats.tables)} טבלאות · ${nf.format(data.stats.edges)} קשרים`}
-            </p>
             {/* Which of the three modes the reader is in, always stated (design
                 audit §7): overview, selection, or relation analysis. */}
             <p className="ne-modechip" aria-live="polite">
@@ -1850,6 +1845,13 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                     ? (lens.id !== "focus" ? `ניתוח קשרים · ${lens.he}` : "בחירה") + ` · ${sel}`
                     : `דפדוף במודול ${M?.code ?? ""}`}
               </b>
+            </p>
+            {/* After the mode, on a line of its own (erd.css): read in the order
+                it is drawn, and never cut beside the title (gate 11, m7). */}
+            <p className="ne-sub">
+              {M
+                ? `${nf.format(scopeCount)} טבלאות · ${nf.format(edgeCount)} קשרים${M.purpose ? ` · ${M.purpose}` : ""}`
+                : `${nf.format(data.stats.modules)} מודולים · ${nf.format(data.stats.memberships)} שיוכי טבלה · ${nf.format(data.stats.tables)} טבלאות · ${nf.format(data.stats.edges)} קשרים`}
             </p>
           </div>
         </div>
