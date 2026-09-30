@@ -28,12 +28,24 @@ Checkpoint log so an interrupted session resumes from evidence, not memory. Newe
 - 17:16 to 17:35 Gate 8 fixes (fab76fa6, db03d1d3): all six blockers, the majors and the minors; the first measurement pass found the exam listbox, focus under the rail's sticky headings and the section reel, keyboard scrolling of the canvas, and fixed them.
 - 18:58 Gate 10 (Impeccable, NEEDS-WORK 76) majors and minors (a6a56f22): the counts as a line, the home's command-first gate, the 12px floor, violet out of globals.css, no hover lift, the reader's type before the first paint; gate 8 phone findings (ui.css on the legal and offline pages, 44px touch rule).
 - 19:16 Found that the warm Turbopack cache had served the previous compiled globals.css to the 18:58 build. Cache moved aside (not deleted), cold build (build-a11y3.log, 5:24); every recent global rule verified in the exported CSS. The series measured on that export: `neo-redesign-evidence/final-run-3/`.
+- 20:17 to 22:02 Final-series findings and docs (3989d65e); gate 11 (FAIL: 4 blockers, 5 majors, 10 minors) and the closure table of gates 1 to 10, committed before their fixes (37a7b3a2); gate 11 blockers and majors fixed (d175dba7): the home doors' focus ring, the offline page's own assets in the service worker (neo-v3), the ERD footer at 1100px and less, reflow at 320px, "מדריך עבודה" in search, the object page and the shelf as count lines.
+- 22:09 Cold build of d175dba7; the 32-step series `final-run-4/` on it, every step rc=0 except status-consistency (rc=1, COR3).
+
+## 2026-09-30
+
+- 00:30 to 06:04 Leftovers of final-run-4, each traced to its cause:
+  - `/neo/tables/` phone LCP 9,436 in two series: bimodal lab result (26 cold loads: 21 at 6.2 to 6.3 s, 5 at 9.4 s). The page content sits in the root `app/loading.tsx` Suspense boundary and is revealed by `$RC` at byte 519,087 of the HTML; the emulated link decides when that byte arrives. Same structure in production. Not style, scripts, CPU or bytes (`final-run-4/README-vitals-tables.md`).
+  - COR3: the consistency check looked for the palette field's pre-40035346 name, so the palette step was skipped and COR3 (no catalogue row, as in production) had one reading. Tool fixed: 12/12, 0 contradictions.
+  - The 1280 sweep's timeout: the single-threaded `serve-out.py` stalls every request behind one idle connection (a browser preconnect; curl timed out behind one open socket). Server made threaded; lap1280 80 routes, 0 flagged.
+  - Reflow 320: six of the 39 domain records overflowed by 4 to 51px (the sweep sampled one): codes and arrow chains with no break point. Fixed on the record root; 0 of 39 at 320, nothing moves at 1440.
+  - The nav links' names ("…מפעל56"): the count is a separate word.
+  - 06:04 checkpoint 9dc3f2be. 06:06 final gates on a cold build of it: `neo-redesign-evidence/final/`.
 
 ## Next
 
-1. Final measurement series (final-run-3), Astra reverify, lab vitals on the final export.
-2. The accessibility statement from the final run (gate 8, M5), QA-REPORT.md, CHANGED-FILES.md, DELIVERY.md, BLOCKERS.md.
-3. Gate 11 (final auditor), fixes between waves, run-final-gates.zsh on a cold build, the report.
+1. Gate 9 P2 (Latin Plex without preload), measured against 9dc3f2be before deciding: phone LCP on the reader is +12.7% (brief metric: at most +10%).
+2. The series `final-run-5/` on the final export; the accessibility statement from it; Astra reverify in batches.
+3. QA-REPORT.md, MATRIX.md, CHANGED-FILES.md, CLOSURE (final states), DELIVERY.md, BLOCKERS.md; the report.
 
 ## Earlier plan (kept)
 
