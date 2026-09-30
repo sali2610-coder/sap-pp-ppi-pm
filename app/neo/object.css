@@ -774,7 +774,10 @@ html[data-theme="dark"] .no-key[data-k="PK"] { color: #0f0b08; }
 }
 .no-chain li b { font-family: var(--font-mono); direction: ltr; font-size: var(--t-xs); color: var(--ink-1); }
 .no-chain li em { font-size: var(--t-micro); color: var(--ink-3); font-style: normal; }
-.no-chain li[data-miss="1"] { border-style: dashed; opacity: .7; }
+/* A step outside the module's documentation: the dashed edge and its words
+   ("מחוץ לתיעוד של המודול") say it. It is not faded: opacity .7 took its text
+   to 2.8:1 (axe and a11y-sample, gate 11 round 2), below the 4.5 floor. */
+.no-chain li[data-miss="1"] { border-style: dashed; }
 .no-chain li[data-here="1"] {
   background: color-mix(in srgb, var(--m) 10%, var(--surface));
   border-color: var(--m);
