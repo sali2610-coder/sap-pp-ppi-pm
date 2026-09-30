@@ -41,11 +41,17 @@ Checkpoint log so an interrupted session resumes from evidence, not memory. Newe
   - The nav links' names ("…מפעל56"): the count is a separate word.
   - 06:04 checkpoint 9dc3f2be. 06:06 final gates on a cold build of it: `neo-redesign-evidence/final/`.
 
+- 06:06 to 08:15 The citation mark (6ab0084c: a citation opened the NEO reader without marking its sentence; verify-reader also had ten checks that could not fail); gate 9 P2 measured and kept, the search's `inert` one frame later, the reader's loading line below the opening (dfcafdb6); final gates on 63eb7549 (`final-2/`, all rc=0).
+- 08:21 to 10:14 The series `final-run-5/` on 63eb7549, stopped on purpose after 14 of its steps (`final-run-5-partial/README.md`): an independent read-only code review of the night's commits returned FAIL (3 major, 2 minor, 2 nits), and the fixes had to be in the measured build.
+- 10:14 to 10:45 The review's findings fixed (2610ef1a): the mark after a language switch, book 7 citations, two more verify-reader checks that could not fail, the phone sheet's link names, a quote across two bold terms, `inert` without re-renders; docs (32089ffb). Final gates on a cold build of 32089ffb (`final-3/`, all 17 rc=0).
+- 10:49 to 11:59 The series `final-run-6/` on 32089ffb: 34 steps, all rc=0, one server, one browser at a time; 11 sweep profiles on 80 routes with 0 flagged.
+- 12:05 to 12:25 `/neo/tables/` on the phone: 12 of 12 loads in the slow mode on the final build. An experiment without `app/loading.tsx` (not committed; the final export set aside and put back): 12 of 12 at 4.4 to 4.5 s. Recorded as an owner decision (BLOCKERS §2, MERGE-PLAN §1). The accessibility statement from final-run-6 (22186616). Astra reverify on the final export.
+
 ## Next
 
-1. Gate 9 P2 (Latin Plex without preload), measured against 9dc3f2be before deciding: phone LCP on the reader is +12.7% (brief metric: at most +10%).
-2. The series `final-run-5/` on the final export; the accessibility statement from it; Astra reverify in batches.
-3. QA-REPORT.md, MATRIX.md, CHANGED-FILES.md, CLOSURE (final states), DELIVERY.md, BLOCKERS.md; the report.
+1. Astra against production; QA-REPORT.md, CHANGED-FILES.md, CLOSURE, DELIVERY.md.
+2. Gate 11, round 2, read-only, on the final state.
+3. The report.
 
 ## Earlier plan (kept)
 

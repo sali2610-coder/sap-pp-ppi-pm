@@ -12,7 +12,8 @@
 
 - ענף: `design/neo-experience-redesign`, בעץ העבודה `/Users/salihalif/Desktop/My-Projects/neo-redesign`.
 - נקודת הפתיחה: `6ba22207` (הגרסה שבייצור).
-- ה־SHA הסופי והמדידות שנעשו עליו: `QA-REPORT.md`, סעיף 1.
+- הגרסה שנמדדה: `32089ffb` (הסדרה `neo-redesign-evidence/final-run-6/`, השערים `neo-redesign-evidence/final-3/`). אחריה נכתבו רק הצהרת הנגישות ממספרי הסדרה (`22186616`) והמסמכים. ה־SHA האחרון של הענף מופיע בדוח הסופי.
+- הפירוט: `QA-REPORT.md`, סעיף 1.
 - לא בוצע Merge ל־`main`, לא בוצעה דחיפה ולא בוצעה פריסה.
 
 ## 3. התוצרים
@@ -30,7 +31,7 @@
 | 9 | צבעי יום ולילה | `TOKENS.md` (ניגודיות מחושבת, בדיקת הסגול) |
 | 10 | Motion והפחתת תנועה | `MOTION.md` |
 | 11 | מלאי הרכיבים | `COMPONENTS.md` |
-| 12 | צילומי לפני ואחרי | לפני: `neo-redesign-evidence/before/` (479 צילומים של `6ba22207`); אחרי: `neo-redesign-evidence/final-run-4/sweep/shots/` ושל Astra (`QA-REPORT.md` §8) |
+| 12 | צילומי לפני ואחרי | לפני: `neo-redesign-evidence/before/` (479 צילומים של `6ba22207`); אחרי: `neo-redesign-evidence/final-run-6/sweep/shots/` (80 נתיבים בשבעה פרופילים), `final-run-6/g11-shots/`, ושל Astra (`QA-REPORT.md` §8) |
 | 13 | מטריצת מסכים ורוחבים | `MATRIX.md` |
 | 14 | דוח נגישות | `QA-REPORT.md` §4, `reviews/gate-08-accessibility.md`; הצהרת הנגישות: `/neo/accessibility/` |
 | 15 | דוח ביצועים | `QA-REPORT.md` §5, `reviews/gate-09-performance.md` |

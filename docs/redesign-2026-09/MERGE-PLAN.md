@@ -10,6 +10,7 @@
 | לוחות ה־Bakeoff | האם `/design/redesign-2026/*` (noindex) נשארים ב־Production. אם לא: להוציא את `app/design/redesign-2026/**` ואת גופני Assistant ו־JetBrains Mono | `DEPENDENCIES.md` |
 | קובץ ה־PWA | צילומי המסך ב־`manifest` הם של העיצוב הקודם, וארבעת קיצורי הדרך מפנים לעמודי הממשק הישן (`/academy/`, `/studio/`, `/knowledge/`, `/tables/`) ולא לעמודי NEO | `app/manifest.ts`, `public/screenshots/` |
 | תוכן הספרים | אישור הרישיון לתוכן ספרי SAP PRESS (1 עד 10) ו־ZaranTech (11) שמוגש באתר | `BLOCKERS.md` |
+| גבול הטעינה של השורש | למחוק את `app/loading.tsx` או להשאיר. בלעדיו קטלוג הטבלאות נצבע בטלפון ב־4.5 שניות במקום 9.1, ושאר הנתיבים בלי שינוי; לחיצה בתוך האתר משאירה את העמוד הנוכחי עד שהבא מוכן, בלי מסך הטעינה. אחרי מחיקה: לבנות ולהריץ שוב את השערים ואת הסדרה | `BLOCKERS.md` §2, `neo-redesign-evidence/exp-noloading/` |
 | שאר ההחלטות הפתוחות | ראו `BLOCKERS.md` | |
 
 ## 2. ה־Merge
