@@ -10,13 +10,13 @@
 | לוחות ה־Bakeoff | האם `/design/redesign-2026/*` (noindex) נשארים ב־Production. אם לא: להוציא את `app/design/redesign-2026/**` ואת גופני Assistant ו־JetBrains Mono | `DEPENDENCIES.md` |
 | קובץ ה־PWA | צילומי המסך ב־`manifest` הם של העיצוב הקודם, וארבעת קיצורי הדרך מפנים לעמודי הממשק הישן (`/academy/`, `/studio/`, `/knowledge/`, `/tables/`) ולא לעמודי NEO | `app/manifest.ts`, `public/screenshots/` |
 | תוכן הספרים | אישור הרישיון לתוכן ספרי SAP PRESS (1 עד 10) ו־ZaranTech (11) שמוגש באתר | `BLOCKERS.md` |
-| גבול הטעינה של השורש | למחוק את `app/loading.tsx` או להשאיר. בלעדיו קטלוג הטבלאות נצבע בטלפון ב־4.5 שניות במקום 9.1, ושאר הנתיבים בלי שינוי; לחיצה בתוך האתר משאירה את העמוד הנוכחי עד שהבא מוכן, בלי מסך הטעינה. אחרי מחיקה: לבנות ולהריץ שוב את השערים ואת הסדרה | `BLOCKERS.md` §2, `neo-redesign-evidence/exp-noloading/` |
+| גבול הטעינה של השורש | למחוק את `app/loading.tsx` או להשאיר. בלעדיו קטלוג הטבלאות נצבע בטלפון ב־4.5 שניות במקום 9.1. המחיר, מאותו ניסוי: שאר ששת הנתיבים איטיים ב־1.5% עד 2.3% (LCP בטלפון), ‏TBT בקטלוג הטבלאות 162ms במקום 82 (TBT רועש במכונה הזו), ולחיצה בתוך האתר משאירה את העמוד הנוכחי עד שהבא מוכן, בלי מסך הטעינה. אחרי מחיקה: לבנות ולהריץ שוב את השערים ואת הסדרה | `BLOCKERS.md` §2, `neo-redesign-evidence/exp-noloading/` |
 | שאר ההחלטות הפתוחות | ראו `BLOCKERS.md` | |
 
 ## 2. ה־Merge
 
 1. לוודא שהענף `design/neo-experience-redesign` מעודכן מול `main` (אם `main` התקדם: merge של `main` לתוך הענף, לא rebase ולא force-push).
-2. להריץ על ה־SHA הסופי את כל השערים של `neo-redesign-evidence/final/run-final-gates.zsh`: tsc, בדיקות, evidence, academy, lint, build, sitemap, build, routes, sitemap, diag, crawl, reader, verify-reader, ו־`ZERO_CONTENT_LOSS 574/574`. הריצה האחרונה שלהם, על `63eb7549`, נמצאת ב־`neo-redesign-evidence/final-2/` (כל הצעדים rc=0).
+2. להריץ על ה־SHA הסופי את כל השערים של `neo-redesign-evidence/final-4/run-final-gates.zsh`: tsc, בדיקות, evidence, academy, lint, build, sitemap, build, routes, sitemap, diag, crawl, reader, verify-reader, ו־`ZERO_CONTENT_LOSS 574/574`. הריצה האחרונה שלהם, על `7795e53b`, נמצאת ב־`neo-redesign-evidence/final-4/` (18 צעדים, כולם rc=0, בנייה קרה).
 3. Merge commit אל `main`, כמו בשחרורים הקודמים (`6ba22207`, `d23be74b`): `Merge branch 'design/neo-experience-redesign' into main`. לא squash, כדי לשמור את היסטוריית השלבים והראיות.
 4. `npm run build` רגיל (עם ה־prebuild) רץ ב־Vercel. לוודא שהוא לא משנה את `data/ai-tree` או את `data/books` בענף (הם תוצרי build ולא נכנסים ל־commit).
 
