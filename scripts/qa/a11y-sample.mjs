@@ -68,7 +68,15 @@ for (const url of ROUTES) {
       } catch { /* fall through: the node is counted as unresolved below */ }
       return null;
     };
-    const bgOf = (el) => { let e = el; while (e) { const c = parse(getComputedStyle(e).backgroundColor); if (c && c.a >= 0.99) return c.rgb; e = e.parentElement; } return [255, 255, 255]; };
+    const bgOwner = (el) => { let e = el; while (e) { const c = parse(getComputedStyle(e).backgroundColor); if (c && c.a >= 0.99) return { el: e, rgb: c.rgb }; e = e.parentElement; } return { el: null, rgb: [255, 255, 255] }; };
+    const bgOf = (el) => bgOwner(el).rgb;
+    // Opacity is inherited by what is drawn: a faded ancestor fades its text
+    // and, inside it, its background, against what lies behind it. Only the
+    // node's own opacity was read, so a list item at opacity .7 measured its
+    // text unfaded and passed, where axe measured 2.8:1 (gate 11 round 2). The
+    // fades multiply into one group at the outermost faded ancestor.
+    const fade = (el) => { let a = 1, top = null; for (let e = el; e && e !== document.documentElement; e = e.parentElement) { const o = parseFloat(getComputedStyle(e).opacity); if (o < 1) { a *= o; top = e; } } return { a, top }; };
+    const mix = (c, b, a) => c.map((v, i) => v * a + b[i] * (1 - a));
     const ratio = (f, b) => { const l1 = lum(f), l2 = lum(b); return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05); };
     const contrast = []; let checked = 0; let unresolved = 0;
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
@@ -79,13 +87,20 @@ for (const url of ROUTES) {
       const el = n.parentElement; if (!el || seen.has(el)) continue; seen.add(el);
       // decorative / hidden-from-AT text and skipped (closed <details>) subtrees are not judged
       if (el.closest('[aria-hidden="true"], details:not([open]) > :not(summary)')) continue;
-      const cs = getComputedStyle(el); if (cs.visibility === "hidden" || cs.display === "none" || parseFloat(cs.opacity) < 0.5) continue;
+      const cs = getComputedStyle(el); if (cs.visibility === "hidden" || cs.display === "none") continue;
+      // Only text that cannot be seen is skipped; faded text is judged faded.
+      const f = fade(el); if (f.a < 0.05) continue;
       const box = el.getBoundingClientRect(); if (box.width === 0 || box.height === 0) continue;
       const fg = parse(cs.color); if (!fg) { unresolved++; continue; } if (fg.a < 0.99) continue;
-      const bg = bgOf(el);
+      let bg = bgOf(el), fgRgb = fg.rgb;
+      if (f.top) {
+        const behind = bgOf(f.top.parentElement), own = bgOwner(el);
+        fgRgb = mix(fg.rgb, behind, f.a);
+        if (own.el && f.top.contains(own.el)) bg = mix(own.rgb, behind, f.a);
+      }
       const size = parseFloat(cs.fontSize); const bold = parseInt(cs.fontWeight, 10) >= 700;
       const large = size >= 24 || (size >= 18.66 && bold);
-      const need = large ? 3 : 4.5; const r = ratio(fg.rgb, bg); checked++;
+      const need = large ? 3 : 4.5; const r = ratio(fgRgb, bg); checked++;
       if (r < need) contrast.push({ text: t.slice(0, 40), ratio: +r.toFixed(2), need, size: +size.toFixed(1), cls: (typeof el.className === "string" ? el.className : "").split(" ").slice(0, 2).join(".") });
     }
     const small = [];
