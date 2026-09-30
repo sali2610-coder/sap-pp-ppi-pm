@@ -47,10 +47,20 @@ Checkpoint log so an interrupted session resumes from evidence, not memory. Newe
 - 10:49 to 11:59 The series `final-run-6/` on 32089ffb: 34 steps, all rc=0, one server, one browser at a time; 11 sweep profiles on 80 routes with 0 flagged.
 - 12:05 to 12:25 `/neo/tables/` on the phone: 12 of 12 loads in the slow mode on the final build. An experiment without `app/loading.tsx` (not committed; the final export set aside and put back): 12 of 12 at 4.4 to 4.5 s. Recorded as an owner decision (BLOCKERS §2, MERGE-PLAN §1). The accessibility statement from final-run-6 (22186616). Astra reverify on the final export.
 
+- 12:25 to 17:38 Astra on the export of 32089ffb: the first full run 74 PASS, 41 FAIL; every failure traced (ASTRA-CRITERIA.md): five checks followed structure that changed on purpose (1e3a62f7), two real defects fixed in code (b68cc5ff: an exact code finds its record alone; the empty shelf is one 39px row), one navigation timeout passed on the rerun. Final table 115 PASS, 0 FAIL, 25 not measurable, against 114, 1, 25 in production.
+- 17:38 to 18:13 The closure table's final states, MATRIX.md, QA-REPORT.md, CHANGED-FILES.md (25249774, 632fa37e, 366d8b0f).
+- 18:14 to 19:10 Gate 11, round 2, read-only, on 366d8b0f: PASS, 0 blockers, 0 majors, 11 minors (reviews/gate-11-final-ux-r2.md, 2ef6a730).
+- 19:10 to 19:35 The eleven minors (7795e53b). Measurement 13 (R2-5): the frame's overflow was 1px hidden text only, but bringing that text into view scrolled the whole frame away (141 px on a table record, 5,464 px on a work method); `.nx-app` is `overflow: clip`. The ERD counts (R2-1): three layouts measured on the export before choosing one.
+- 19:35 to 19:44 Gates on a cold build of 7795e53b (final-4/: 18 steps, rc=0).
+- 19:44 to 20:57 The series final-run-7/ on 7795e53b: the 34 steps of final-run-6 and seven round 2 probes, all rc=0.
+- 20:58 to 21:05 Astra started on that export and was stopped on purpose: axe in final-run-7 had found 12 colour-contrast nodes on /neo/object/MARA/ (a process-chain step at opacity .7, 2.8:1). They were new because axe-core counts an ancestor as clipping only when its overflow is exactly `hidden`: with the frame `hidden`, everything below the canvas's first screen had been skipped by the visibility-dependent rules. Fixed (bb8a7204), and a11y-sample now reads inherited opacity (389863af). 64d36a53 removed the frame's dead `overflow: hidden` line (30 of 31 compiled CSS files byte-identical across the two exports).
+- 21:06 to 21:14 Gates on a cold build of a50116a3 (final-5/: 18 steps, rc=0).
+- 21:14 to 21:37 The re-check final-run-7b/ on a50116a3: gate8-measure in five profiles (axe in four), the sampler in both themes, three sweeps with shots, the static sweep; all rc=0. axe: 0 violations in 222 page scans and 39 open states. The sampler, now reading inherited opacity, flagged the reader's disabled "previous" button at the start of a book (2.0 and 2.93:1); WCAG 1.4.3 exempts inactive controls, so such text is now listed apart (5ccbf9d8) and the sampler was run again in both themes: 0 failures, 2 exempt.
+
 ## Next
 
-1. Astra against production; QA-REPORT.md, CHANGED-FILES.md, CLOSURE, DELIVERY.md.
-2. Gate 11, round 2, read-only, on the final state.
+1. The accessibility statement from the final numbers; gates on the final code; one full Astra run on the final export.
+2. QA-REPORT.md, CLOSURE, DELIVERY.md, MATRIX.md and CHANGED-FILES.md from those runs.
 3. The report.
 
 ## Earlier plan (kept)

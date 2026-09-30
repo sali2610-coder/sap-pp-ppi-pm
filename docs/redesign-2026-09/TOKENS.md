@@ -28,7 +28,7 @@ Contrast is computed, never estimated: `neo-redesign-evidence/tools/palette-chec
 | text on brand fill | `--brand-foreground` | #ffffff | #1a0b0c | 5.13 / 6.36 |
 | link | `--link` | #1d5486 | #8fbbe3 | 6.40 / 7.53 |
 | focus ring | `--focus` | #1f5fbf | #7fb2ff | 4.95 / 7.05 (need 3) |
-| cited sentence (reader) | `::highlight(neo-cited)`, the `--warning` hue as a tint | rgb(127 84 0 / .18) | rgb(228 185 95 / .26) | body text on it 7.01 / 5.14, bold 12.76 / 7.68 (measured on the reader's paper) |
+| cited sentence (reader) | `::highlight(neo-cited)`, the `--warning` hue as a tint | rgb(127 84 0 / .18) | rgb(228 185 95 / .26) | body text on it 7.01 / 5.14, bold 12.76 / 7.68 (measured on the reader's paper, `neo-redesign-evidence/final-run-7/cited-contrast.log`) |
 
 Ratios are the minimum over canvas, panel, recessed and floating surfaces.
 
@@ -109,7 +109,7 @@ Book cloths (`books-data.ts` CLOTH, mirrored on the home spines): slot 5 slate v
 | `--t-ui` | 0.9375rem | UI body |
 | `--t-sm` | 0.875rem | dense UI, tables |
 | `--t-xs` | 0.8125rem | secondary |
-| `--t-micro` | 0.75rem | the floor: nothing smaller. After gate 10 (M3) no sheet under `app/neo` or `components/neo-shell` declares a smaller fixed size, the ERD and Studio labels included. Two recorded exceptions (`BLOCKERS.md` §5): the text drawn on the book covers scales with the cover (`books.css`, `clamp`, 5 to 11px; the title is also text at full size in the card, the hub and the reader), and a zoomable canvas renders its labels smaller than declared when zoomed out (the ERD overview opens at a fit, 49% at 1440) |
+| `--t-micro` | 0.75rem | the floor: nothing smaller. After gate 10 (M3) no sheet under `app/neo` or `components/neo-shell` declares a smaller fixed size, the ERD and Studio labels included. Two recorded exceptions (`BLOCKERS.md` §5): the text drawn on the book covers scales with the cover (`books.css`, `clamp`, 5 to 11px; the title is also text at full size in the card, the hub and the reader), and a zoomable canvas renders its labels smaller than declared when zoomed out (the ERD overview opens at a fit: 46% at 1440, where 99 labels render at 5.5 to 7.4px; `final-run-7/g11-probes.json`) |
 
 Families: `--font-sans` IBM Plex Sans Hebrew (Hebrew and Latin instances, 400/500/600), `--font-mono` IBM Plex Mono (every SAP identifier), `--font-display` Frank Ruhl Libre (class `.nx-display`, gateway and reading titles only). All self-hosted, OFL, one module per family (`app/fonts/plex.ts`, `frank.ts`). Tracking on Hebrew headings is 0. Weights 400, 500, 600; a 700 request renders the 600 face.
 
