@@ -16,7 +16,7 @@
 ## 2. ה־Merge
 
 1. לוודא שהענף `design/neo-experience-redesign` מעודכן מול `main` (אם `main` התקדם: merge של `main` לתוך הענף, לא rebase ולא force-push).
-2. להריץ על ה־SHA הסופי את כל השערים של `neo-redesign-evidence/final-4/run-final-gates.zsh`: tsc, בדיקות, evidence, academy, lint, build, sitemap, build, routes, sitemap, diag, crawl, reader, verify-reader, ו־`ZERO_CONTENT_LOSS 574/574`. הריצה האחרונה שלהם, על `7795e53b`, נמצאת ב־`neo-redesign-evidence/final-4/` (18 צעדים, כולם rc=0, בנייה קרה).
+2. להריץ על ה־SHA הסופי את כל השערים של `neo-redesign-evidence/final-6/run-final-gates.zsh`: tsc, בדיקות, evidence, academy, lint, build, sitemap, build, routes, sitemap, diag, crawl, reader, verify-reader, ו־`ZERO_CONTENT_LOSS 574/574`. הריצה האחרונה שלהם, על `b7d63d42` (הקוד הסופי; אחריו השתנו רק מסמכים), נמצאת ב־`neo-redesign-evidence/final-6/` (18 צעדים, כולם rc=0, בנייה קרה).
 3. Merge commit אל `main`, כמו בשחרורים הקודמים (`6ba22207`, `d23be74b`): `Merge branch 'design/neo-experience-redesign' into main`. לא squash, כדי לשמור את היסטוריית השלבים והראיות.
 4. `npm run build` רגיל (עם ה־prebuild) רץ ב־Vercel. לוודא שהוא לא משנה את `data/ai-tree` או את `data/books` בענף (הם תוצרי build ולא נכנסים ל־commit).
 

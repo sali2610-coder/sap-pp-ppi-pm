@@ -57,11 +57,13 @@ Checkpoint log so an interrupted session resumes from evidence, not memory. Newe
 - 21:06 to 21:14 Gates on a cold build of a50116a3 (final-5/: 18 steps, rc=0).
 - 21:14 to 21:37 The re-check final-run-7b/ on a50116a3: gate8-measure in five profiles (axe in four), the sampler in both themes, three sweeps with shots, the static sweep; all rc=0. axe: 0 violations in 222 page scans and 39 open states. The sampler, now reading inherited opacity, flagged the reader's disabled "previous" button at the start of a book (2.0 and 2.93:1); WCAG 1.4.3 exempts inactive controls, so such text is now listed apart (5ccbf9d8) and the sampler was run again in both themes: 0 failures, 2 exempt.
 
+- 21:37 to 21:52 The accessibility statement from the final runs (19e1a4f9); docs (b7d63d42); gates on a cold build of b7d63d42, the final code (final-6/: 18 steps, rc=0; its 31 compiled CSS files byte-identical to a50116a3's).
+- 21:53 to 22:27 One full Astra run on that export (final-run-8/astra/): 115 PASS, 0 FAIL, 25 not measurable, 0 non-zero exits; against production only S5-1 changed, FAIL to PASS.
+- 22:27 onward QA-REPORT.md, ASTRA-CRITERIA.md, MATRIX.md, MERGE-PLAN.md and REVIEW-GUIDE.md from these runs; CHANGED-FILES.md regenerated last.
+
 ## Next
 
-1. The accessibility statement from the final numbers; gates on the final code; one full Astra run on the final export.
-2. QA-REPORT.md, CLOSURE, DELIVERY.md, MATRIX.md and CHANGED-FILES.md from those runs.
-3. The report.
+Nothing in this plan is left to run locally. What remains is the owner's: the push that lets Vercel build the Preview, the checks on the Preview (REVIEW-GUIDE.md), the decisions in BLOCKERS.md §2, and then MERGE-PLAN.md.
 
 ## Earlier plan (kept)
 

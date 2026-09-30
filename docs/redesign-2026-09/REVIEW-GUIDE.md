@@ -12,7 +12,7 @@
 ### 0. שהבנייה עדכנית
 בנייה אחת מקומית קיבלה ממטמון הבנייה גרסה קודמת של `globals.css` (`BLOCKERS.md` §1). ב־Preview:
 - בעין: בבית, שבע הכניסות הן רשימה צפופה של שורות ולא אריחים, ובקטלוג הטבלאות המספרים הם שורת טקסט אחת ולא רצועה של מספרים גדולים.
-- בפקודה: `curl -s <כתובת>/neo/ | grep -o '/_next/static/chunks/[^"]*\.css' | sort -u` ואחר כך לחפש בקבצים את `scroll-padding-block-start:2.25rem` ואת `.nx-canvas>*{min-inline-size:0}` (הכלל הגלובלי האחרון). אם אחד מהם חסר, לבנות מחדש בלי מטמון.
+- בפקודה: `curl -s <כתובת>/neo/ | grep -o '/_next/static/chunks/[^"]*\.css' | sort -u` ואחר כך לחפש בקבצים את `scroll-padding-block-start:2.25rem`, את `.nx-canvas>*{min-inline-size:0}`, ואת `overflow:clip` בתוך הכלל `.nx-app{…}` (`grep -o '\.nx-app{[^}]*overflow:clip}'`, מ־`7795e53b`, השינוי הגלובלי האחרון). אם אחד מהם חסר, לבנות מחדש בלי מטמון.
 
 ### 1. הבית `/neo/`
 - שדה החיפוש ברוחב העמודה הוא הדבר הראשון בעמוד, ופותח את חלון החיפוש (גם ⌘K או Ctrl+K). מתחתיו שלוש דוגמאות אמיתיות: AFKO, ‏IW31, ‏BAPI_ALM_ORDER_MAINTAIN.
