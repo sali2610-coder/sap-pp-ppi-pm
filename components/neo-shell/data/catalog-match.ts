@@ -17,6 +17,9 @@
               them MATMAS (gate 6, minor 22).
      24       it is one edit from the technical name (IW3I → IW31, AFK0 →
               AFKO), the typo the subsequence tier used to catch by accident.
+              A fallback only: over a list (catalogSearch), a record that
+              needs it is dropped when another record matches without it, so
+              "MARA" finds MARA alone and not MARC, MARD and MARM (Astra S11-1).
 
    Pure; test/content-catalog-match.test.ts holds it to those cases.
    ========================================================================== */
@@ -78,16 +81,41 @@ function wordScore(hay: string, code: string, word: string): number {
   return word.length >= 4 && within(code, word, 1) ? 24 : 0;
 }
 
-/** The score of a record for a query, 0 when any word misses. `hay` is the
- *  record's lower-cased text, `code` its lower-cased technical name. */
-export function catalogScore(hay: string, code: string, query: string): number {
+/** The one-edit tier's score; no other tier scores 24. */
+const TYPO = 24;
+
+/** A record's score for a query, 0 when any word misses, and whether a word
+ *  landed only through the one-edit tier. `hay` is the record's lower-cased
+ *  text, `code` its lower-cased technical name. */
+export function catalogMatch(hay: string, code: string, query: string): { score: number; typo: boolean } {
   let total = 0;
+  let typo = false;
   for (const w of query.toLowerCase().split(/\s+/).filter(Boolean)) {
     const s = wordScore(hay, code, w);
-    if (s === 0) return 0;
+    if (s === 0) return { score: 0, typo: false };
+    if (s === TYPO) typo = true;
     total += s;
   }
-  return total;
+  return { score: total, typo };
+}
+
+/** The score of a record for a query, 0 when any word misses. */
+export function catalogScore(hay: string, code: string, query: string): number {
+  return catalogMatch(hay, code, query).score;
+}
+
+/** The records of a list that match a query, with their scores, in list order.
+ *  The one-edit tier is a fallback: when any record matches without a typo,
+ *  the records that needed one are left out. */
+export function catalogSearch<T>(rows: readonly T[], query: string, key: (row: T) => { hay: string; code: string }): { row: T; score: number }[] {
+  const hits: { row: T; score: number; typo: boolean }[] = [];
+  for (const row of rows) {
+    const k = key(row);
+    const m = catalogMatch(k.hay, k.code, query);
+    if (m.score > 0) hits.push({ row, score: m.score, typo: m.typo });
+  }
+  const exact = hits.some((h) => !h.typo);
+  return (exact ? hits.filter((h) => !h.typo) : hits).map(({ row, score }) => ({ row, score }));
 }
 
 /** A transaction's searchable text: code, area, Hebrew and English names and

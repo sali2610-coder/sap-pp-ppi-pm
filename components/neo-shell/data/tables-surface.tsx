@@ -39,7 +39,7 @@ import {
 import { MOD_HE, modVar } from "../mod-var";
 import { CAPS, capMatch, type Cap } from "./table-caps";
 import { ActiveFilters, FacetSheet, FacetToggle } from "./facet-sheet";
-import { catalogScore } from "./catalog-match";
+import { catalogSearch } from "./catalog-match";
 import type { NeoTableRow, NeoTablesData } from "./types";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -254,12 +254,12 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
     let out = data.rows.filter((r) => {
       if (mods.length && !mods.some((m) => r.mods.includes(m))) return false;
       if (zones.length && !zones.includes(r.zone)) return false;
-      if (!caps.every((c) => capMatch(r, c))) return false;
-      // Every word, in any order, with the Hebrew forms and the code's typos
-      // (catalog-match.ts): "כותרת פקודה" found no table as one phrase, AFKO's
-      // text says "כותרת פקודת" (gate 6, major 10).
-      return !needle || catalogScore(r.hay, r.name.toLowerCase(), needle) > 0;
+      return caps.every((c) => capMatch(r, c));
     });
+    // Every word, in any order, with the Hebrew forms, and the code's typos when
+    // nothing matches without one (catalog-match.ts): "כותרת פקודה" found no
+    // table as one phrase, AFKO's text says "כותרת פקודת" (gate 6, major 10).
+    if (needle) out = catalogSearch(out, needle, (r) => ({ hay: r.hay, code: r.name.toLowerCase() })).map((h) => h.row);
     out = [...out].sort((a, b) => {
       if (sort === "fields") return b.fields - a.fields || a.name.localeCompare(b.name);
       if (sort === "rels") return b.rels.length - a.rels.length || a.name.localeCompare(b.name);

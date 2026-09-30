@@ -652,11 +652,12 @@ html[data-theme="dark"] .nx-app .nxc-chip[aria-pressed="true"] b { color: var(--
 .nx-app .nx-shelf[data-empty="1"] .nx-shelf-panes { display: none; }
 /* Two lines, always: at 17.5rem the two phrases are 295px and were cut
    (gate 4, minor 13), and a line that wraps only in the fallback font moved
-   the rail when the web font arrived. */
+   the rail when the web font arrived. Tight, so the empty shelf stays one
+   compact row of the rail (Astra S3-2: 40px at most; it was 55). */
 .nx-app .nx-shelf-empty {
-  display: grid; justify-items: start; gap: 2px;
-  inline-size: 100%; margin: 0; padding: var(--sp-2) var(--sp-3);
-  font-size: var(--t-micro); color: var(--ink-2); line-height: 1.5; text-align: start;
+  display: grid; justify-items: start; gap: 0;
+  inline-size: 100%; margin: 0; padding: 3px var(--sp-3);
+  font-size: var(--t-micro); color: var(--ink-2); line-height: 1.35; text-align: start;
   background: transparent; border: 0; cursor: pointer;
 }
 .nx-app .nx-shelf-empty:hover { color: var(--ink-1); }

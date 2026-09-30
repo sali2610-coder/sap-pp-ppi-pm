@@ -7,7 +7,7 @@ import "./app-modules.mjs";
 import test from "node:test";
 import assert from "node:assert/strict";
 
-const { catalogScore, hebrewForms, txHay } = await import("../components/neo-shell/data/catalog-match.ts");
+const { catalogScore, catalogSearch, hebrewForms, txHay } = await import("../components/neo-shell/data/catalog-match.ts");
 const { txRegistry } = await import("../lib/tx-registry.ts");
 const { tablesData } = await import("../components/neo-shell/data/tables-data.ts");
 const { bapiDir } = await import("../components/neo-shell/reference/bapi-data.ts");
@@ -53,6 +53,15 @@ test("a one-letter typo of a code still finds it", () => {
   assert.equal(rankTx("IW3I")[0]?.code, "IW31");
   const rows = tablesData().rows;
   assert.ok(rows.some((r) => r.name === "AFKO" && catalogScore(r.hay, "afko", "afk0") > 0));
+});
+
+test("an exact code finds that record alone; a typo still finds it", () => {
+  // Astra S11-1: "MARA" found MARA and, one edit away, MARC, MARD and MARM.
+  const rows = tablesData().rows;
+  const key = (r: { hay: string; name: string }) => ({ hay: r.hay, code: r.name.toLowerCase() });
+  assert.deepEqual(catalogSearch(rows, "mara", key).map((h) => h.row.name), ["MARA"]);
+  // With nothing matching without a typo, the one-edit tier still answers.
+  assert.ok(catalogSearch(rows, "afk0", key).some((h) => h.row.name === "AFKO"));
 });
 
 test("the subsequence stays in the technical name", () => {

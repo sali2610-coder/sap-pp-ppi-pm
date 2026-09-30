@@ -45,7 +45,7 @@ import {
 } from "@/components/neo-shell/nav-context";
 import { MOD_HE, modVar } from "../mod-var";
 import { Glyph } from "./icons";
-import { catalogScore } from "../data/catalog-match";
+import { catalogSearch } from "../data/catalog-match";
 import type { RefDir, RefRow } from "./types";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -188,11 +188,9 @@ export function RefSurface({ dir, children }: { dir: RefDir; children?: React.Re
       return true;
     });
     if (needle) {
-      return base
-        .map((r) => ({ r, sc: catalogScore(r.hay, r.name.toLowerCase(), needle) }))
-        .filter((x) => x.sc > 0)
-        .sort((a, b) => b.sc - a.sc || a.r.name.localeCompare(b.r.name))
-        .map((x) => x.r);
+      return catalogSearch(base, needle, (r) => ({ hay: r.hay, code: r.name.toLowerCase() }))
+        .sort((a, b) => b.score - a.score || a.row.name.localeCompare(b.row.name))
+        .map((x) => x.row);
     }
     return [...base].sort((a, b) => {
       if (sort === "rank") return b.rank - a.rank || a.name.localeCompare(b.name);

@@ -52,7 +52,7 @@ import { SmartReturn, consumeReturn, rememberOrigin, useReturnPacket } from "@/c
 import { MOD_HE, modVar } from "../mod-var";
 import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 import { ActiveFilters, FacetSheet, FacetToggle } from "./facet-sheet";
-import { catalogScore, txHay } from "./catalog-match";
+import { catalogSearch, txHay } from "./catalog-match";
 
 const nf = new Intl.NumberFormat("he-IL");
 const PAGE = 120;
@@ -245,11 +245,9 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
 
     const s = q.trim().toLowerCase();
     if (s) {
-      rows = rows
-        .map((t) => ({ t, sc: catalogScore(txHay(t), t.code.toLowerCase(), s) }))
-        .filter((x) => x.sc > 0)
-        .sort((a, b) => b.sc - a.sc || txPopularity(b.t.code) - txPopularity(a.t.code))
-        .map((x) => x.t);
+      rows = catalogSearch(rows, s, (t) => ({ hay: txHay(t), code: t.code.toLowerCase() }))
+        .sort((a, b) => b.score - a.score || txPopularity(b.row.code) - txPopularity(a.row.code))
+        .map((x) => x.row);
     } else if (view === "all" || view === "deep") {
       rows = [...rows].sort(
         (a, b) =>
