@@ -138,6 +138,19 @@ html[data-device="phone"] .nx-app .nh-find-k { display: none; }
 .nx-app .nh-doors ul { gap: 0 var(--sp-6); }
 @container (min-width: 60rem) { .nx-app .nh-doors ul { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @container (min-width: 100rem) { .nx-app .nh-doors ul { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+/* SEVEN DOORS, NO EMPTY CELL (gate 10, round 3, minor 7). Four columns left
+   the second row's fourth cell empty, and two columns left the last row half
+   empty. From 60rem the list is a 12-track grid: the first four doors take
+   three tracks and the last three take four, so the rows are 4 + 3 and both
+   are full. At two columns an odd last door takes the whole row. */
+@container (min-width: 34rem) and (max-width: 59.99rem) {
+  .nx-app .nh-doors li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
+@container (min-width: 60rem) {
+  .nx-app .nh-doors ul { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .nx-app .nh-doors li { grid-column: span 3; }
+  .nx-app .nh-doors li:nth-child(n+5) { grid-column: span 4; }
+}
 .nx-app .nh-doors .nh-door {
   gap: 2px var(--sp-2);
   padding: var(--sp-3) 0;
