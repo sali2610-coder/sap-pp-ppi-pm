@@ -134,7 +134,8 @@
   --background: #fbf8f1; /* paper: the canvas */
   --background-2: #f4eee2;
   --surface: #ffffff; /* white panels on the paper ground (art direction r3) */
-  --surface-2: #f4eee3; /* recessed: table heads, code wells */
+  --surface-2: #f2f1ee; /* recessed: table heads, code wells. Near-neutral, below the ground's
+     chroma, so a well reads as a recess and not as beige (gate 10, round 3) */
   --surface-raised: #ffffff; /* floating layers */
   --surface-sunken: #f4eee2;
   --hairline: #e8e0d2; /* dividers */
