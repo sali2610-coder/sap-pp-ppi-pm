@@ -59,6 +59,7 @@
 - `CONVERSION_EXIT_MATN1_INPUT` (`LOMCVU01`): **אותו בלוק בדיוק** (`LENGTH_ERROR = 3`, `IF sy-subrc EQ 3` → `MESSAGE ID sy-msgid ...`, note 2121667), מוזז 3 שורות (נוסף `DATA lv_numeric TYPE xfeld`). שוני נוסף שנראה: `IF g_badi_matn1_new IS BOUND` (ש' 50) — לא קיים בקטע המקביל ב-ECC.
 - **מסקנה ביניים:** הבלוק של note 2121667 **אינו** ההבדל. ההודעה מוצגת ב-S4Q **אחרי** חזרת ה-Exit, במקום אחר (המשך `MATN1` ב-S/4 — BAdI חדש — או קוד המסך `SAPLCMDI`). השערת "MATN1 נכתב מחדש" לא נתמכת בקטע שנבדק.
 - הבא: Breakpoint at Statement `MESSAGE` ב-S4Q כדי לתפוס את פקודת ההודעה שמציגה את `LF014`.
+- **ממצא: קריאה שנייה ל-`GET_MATERIAL_ID` ב-S4Q, ממסלול אחר** (נבדק בפועל): `SAPLCMDI` מודול PAI `RIHSTPX-IDNRK_NEW` → `FREIE_ZUORDNUNG` → `CI_04_NEW_ITEM` (`SAPLCI04`) → `CS_BOM_CALL_DIALOG...` → `SAPLCSDI` מסך 0825 PBO → `RFC_RC29B_INIT` → `RFC_FIELD_CONVERT` → `RS_CONV_EX_2_IN` (`SAPLRSCONVERT`) → `CONVERT_EX_2_IN` (`RSDYNSS0`) → `CONVERSION_EXIT_MATN1_INPUT` → `EXIT_SAPLOMCV_001` → `GET_MATERIAL_ID`. כלומר אחרי ההמרה הראשונה, מסך הרכיבים פותח ברקע דיאלוג פריט BOM שממיר את המק"ט שוב. **מועמד מוביל למקור `LF014`** (השערה). לבדוק: (א) MESSAGE breakpoint במסלול הזה ב-S4Q; (ב) האם ECC נכנס בכלל ל-`CS_BOM_CALL_DIALOG`/`RFC_FIELD_CONVERT`.
 
 ## הופרכו בדרך
 - פורמט מק"ט (`OMSL`) שונה — זהה.
