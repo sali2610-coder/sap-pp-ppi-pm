@@ -11,8 +11,9 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "SAP by Sali · Project NEO",
     short_name: "SAP by Sali",
     description: "מאגר ידע מקצועי בעברית ל-SAP PM ו-PP-PI: טבלאות, טרנזקציות, תהליכים עסקיים, ERD, ספרים והמעבר מ-ECC ל-S/4HANA.",
+    // id stays "/" so an installed app keeps its identity; it opens in NEO.
     id: "/",
-    start_url: "/",
+    start_url: "/neo/",
     scope: "/",
     display: "standalone",
     display_override: ["standalone", "minimal-ui"],
@@ -33,10 +34,11 @@ export default function manifest(): MetadataRoute.Manifest {
       { src: "/icon-monochrome.png", sizes: "512x512", type: "image/png", purpose: "monochrome" },
     ],
     shortcuts: [
-      { name: "SAP Academy", short_name: "Academy", description: "מסלולי לימוד מובנים ל-SAP", url: "/academy/", icons: [{ src: "/icon-192.png", sizes: "192x192" }] },
-      { name: "Architecture Studio", short_name: "Studio", description: "מפת קשרים אינטראקטיבית", url: "/studio/", icons: [{ src: "/icon-192.png", sizes: "192x192" }] },
-      { name: "מרכז הידע", short_name: "ידע", description: "כל מרכזי הידע והעיון", url: "/knowledge/", icons: [{ src: "/icon-192.png", sizes: "192x192" }] },
-      { name: "חוקר טבלאות", short_name: "טבלאות", description: "טבלאות SAP של הפרויקט", url: "/tables/", icons: [{ src: "/icon-192.png", sizes: "192x192" }] },
+      // The canonical NEO addresses: the pre-NEO ones only redirect here.
+      { name: "SAP Academy", short_name: "Academy", description: "קורסים ושיעורים מתוך ספרי SAP", url: "/neo/academy/", icons: [{ src: "/icon-192.png", sizes: "192x192" }] },
+      { name: "Architecture Studio", short_name: "Studio", description: "מפת הארכיטקטורה של המודולים", url: "/neo/studio/", icons: [{ src: "/icon-192.png", sizes: "192x192" }] },
+      { name: "מרכז הידע", short_name: "ידע", description: "מושגים, מדריכים והסברים", url: "/neo/knowledge/", icons: [{ src: "/icon-192.png", sizes: "192x192" }] },
+      { name: "טבלאות SAP", short_name: "טבלאות", description: "טבלאות SAP מתיעוד PM ו-PP-PI", url: "/neo/tables/", icons: [{ src: "/icon-192.png", sizes: "192x192" }] },
     ],
     screenshots: [
       { src: "/screenshots/phone-home.png", sizes: "1080x1920", type: "image/png", form_factor: "narrow", label: "מסך הבית · קוקפיט NEO" },
