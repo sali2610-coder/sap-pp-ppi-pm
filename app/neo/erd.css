@@ -699,7 +699,9 @@ html[data-theme="dark"] .ne {
 /* OBJECT class marker. MODULE line on the inline-start edge — a line, per the
    form rule, never a dot. */
 .ne-node-cls { fill: var(--o); }
-.ne-node-mb { fill: var(--m); }
+/* The node's module bar sat beside the node's own written module code: a bar
+   that repeats a word, not drawn (gate 10, round 3; SIDE-TABS.md). */
+.ne-node-mb { display: none; }
 .ne-node-n {
   font-family: var(--font-mono);
   font-size: 16px;
@@ -1154,18 +1156,14 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 .ne-det-act { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
 .ne-det-act > * { flex: 1 1 auto; }
 
-.ne-det-n { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-2); }
-.ne-det-n > div {
-  display: grid;
-  gap: 2px;
-  padding: var(--sp-2);
-  border: 1px solid var(--hairline);
-  border-radius: var(--r-xs);
-  background: var(--surface-2);
-  text-align: center;
-}
-.ne-det-n dt { font-size: var(--t-micro); color: var(--ink-3); }
-.ne-det-n dd { font-family: var(--font-mono); font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); font-variant-numeric: tabular-nums; }
+/* The counts are one line of text, number first, as on the record and the
+   module page; three tiles of large figures were the dashboard pattern the
+   module page dropped (gate 10, round 3). The dl stays: a screen reader still
+   hears each label with its number. */
+.ne-det-n { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-1) var(--sp-4); margin: 0; }
+.ne-det-n > div { display: inline-flex; align-items: baseline; gap: var(--sp-1); }
+.ne-det-n dt { font-size: var(--t-sm); color: var(--ink-2); }
+.ne-det-n dd { order: -1; margin: 0; font-family: var(--font-mono); font-size: var(--t-sm); font-weight: 600; color: var(--ink-1); font-variant-numeric: tabular-nums; }
 
 .ne-det-mods { display: grid; gap: var(--sp-2); }
 /* The module cards write their code and name, so they carry no colour bar and no
@@ -1175,10 +1173,13 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
   grid-template-columns: 1fr;
   align-items: center;
   column-gap: var(--sp-2);
-  padding: var(--sp-2);
-  border: 1px solid var(--hairline);
-  border-radius: var(--r-xs);
-  background: var(--surface);
+  /* A plain list, a hairline between rows: boxes around two words each were
+     mostly empty space at 1728 (gate 10, round 3). */
+  padding: var(--sp-1) 0;
+  border: 0;
+  border-block-end: 1px solid var(--hairline);
+  border-radius: 0;
+  background: none;
 }
 .ne-det-mods li i { display: none; }
 .ne-det-mods li b { font-size: var(--t-xs); color: var(--ink-1); }
@@ -1186,7 +1187,7 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 .ne-det-cls {
   grid-template-columns: 1fr !important;
   border-color: var(--hairline) !important;
-  background: var(--surface-2) !important;
+  background: none !important;
   font-size: var(--t-micro);
   color: var(--ink-2);
 }
