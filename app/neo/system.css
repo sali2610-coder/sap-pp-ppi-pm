@@ -252,7 +252,13 @@
 
   /* ---- type --------------------------------------------------------------- */
   --font-sans: var(--f-plex-he), "NEO Hebrew Fallback", var(--f-plex-lat), "NEO Latin Fallback", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
-  --font-mono: var(--f-plex-mono), "NEO Mono Fallback", "Cascadia Code", Consolas, "SF Mono", ui-monospace, monospace;
+  /* Hebrew inside a mono run (a Fiori app's name where the row leads with it,
+     "(זהה)" inside a table's S/4HANA note) has no glyphs in Plex Mono, and
+     "NEO Mono Fallback" is Courier New with no unicode-range, so it was set in
+     Courier New's monospaced Hebrew, letter-spaced like a typewriter. The
+     Hebrew faces come second: their unicode-range is Hebrew only, so Latin
+     still reaches Plex Mono and its fallback, and every code keeps its width. */
+  --font-mono: var(--f-plex-mono), var(--f-plex-he), "NEO Hebrew Fallback", "NEO Mono Fallback", "Cascadia Code", Consolas, "SF Mono", ui-monospace, monospace;
   --font-display: var(--f-frank-he), "NEO Display Hebrew Fallback", var(--f-frank-lat), "NEO Display Latin Fallback", var(--font-sans);
   --t-micro: 0.75rem;     /* 12px, the floor */
   --t-xs: 0.8125rem;      /* 13px */

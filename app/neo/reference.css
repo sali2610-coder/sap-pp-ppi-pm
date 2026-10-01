@@ -270,6 +270,8 @@ html[data-theme="dark"] .nx-app .nxr-st-i {
 
 /* CAT-6 · a row that leads with the business action (Fiori). */
 .nx-app .nxd-id[data-lead="name"] .nxd-lead {
+  /* A business name, not a code: .nxd-id > b sets the code's mono face. */
+  font-family: var(--font-sans);
   font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); line-height: 1.35;
   overflow-wrap: anywhere;
 }
