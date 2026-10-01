@@ -1237,12 +1237,15 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
 .nol-ctx-idle { font-size: var(--t-xs); color: var(--ink-3); }
 .nol-open { font-size: var(--t-micro); padding: .3rem .7rem; margin-inline-start: auto; }
 
-.nol-n rect:first-of-type { transition: stroke-width 160ms var(--ease-out-expo); }
+/* The card, not the first rect: since the 50-unit hit rect leads each node,
+   rect:first-of-type drew the focus ring on the invisible hit area, 6-7 units
+   outside the card (gate 8, round 3, N1). */
+.nol-n .nol-card { transition: stroke-width 160ms var(--ease-out-expo); }
 .nol-n, .nol-e { transition: opacity 200ms var(--ease-out-expo); }
 .nol-n:focus-visible { outline: none; }
 /* The focus colour, not the selection red (gate 3, minor 18). An SVG node has
    no box-shadow, so the ring is the node's own stroke. */
-.nol-n:focus-visible rect:first-of-type { stroke: var(--focus); stroke-width: 2.6; }
+.nol-n:focus-visible .nol-card { stroke: var(--focus); stroke-width: 2.6; }
 
 .nol-foot {
   display: flex; flex-wrap: wrap; align-items: center;
@@ -1256,7 +1259,7 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
 /* Motion off: the graph is a measurement instrument first. The strokes change
    state at once; nothing about the composition depends on the transitions. */
 @media (prefers-reduced-motion: reduce) {
-  .nol-n, .nol-e, .nol-n rect:first-of-type { transition: none; }
+  .nol-n, .nol-e, .nol-n .nol-card { transition: none; }
 }
 
 /* ==========================================================================
