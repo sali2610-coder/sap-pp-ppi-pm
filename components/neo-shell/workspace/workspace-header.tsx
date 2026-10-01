@@ -17,6 +17,7 @@
 //   STATUS hue → does not appear in this file at all.
 //   OBJECT hue → the entry object's class marker.
 
+import { Fragment } from "react";
 import Link from "next/link";
 import { ArrowLeft, GitBranch } from "lucide-react";
 import { OriginLink } from "@/components/neo-shell/nav-context";
@@ -30,11 +31,14 @@ export function WorkspaceHero({ d }: { d: WsData }) {
 
   // Every figure is read straight off the server-built object. The four
   // "second numbers" sit next to their headline rather than instead of it,
-  // because the dictionary genuinely holds two different counts.
-  const stats: { n: number; l: string; sub?: string }[] = [
+  // because the dictionary genuinely holds two different counts. Each part is
+  // its own isolate: as one run, "106 PK · 85 FK" inside the Hebrew line
+  // reordered to "(PK · 85 FK 106)" and swapped the two counts (gate 3,
+  // round 3, blocker 1).
+  const stats: { n: number; l: string; sub?: string[] }[] = [
     { n: d.counts.topics, l: "נושאים" },
-    { n: d.counts.rows, l: "רשומות תיעוד", sub: `${nf.format(d.counts.tables)} טבלאות שונות` },
-    { n: d.counts.fields, l: "שדות מתועדים", sub: `${nf.format(d.counts.pk)} PK · ${nf.format(d.counts.fk)} FK` },
+    { n: d.counts.rows, l: "רשומות תיעוד", sub: [`${nf.format(d.counts.tables)} טבלאות שונות`] },
+    { n: d.counts.fields, l: "שדות מתועדים", sub: [`${nf.format(d.counts.pk)} PK`, `${nf.format(d.counts.fk)} FK`] },
     {
       n: d.counts.funcEntries,
       l: "רשומות ממשק",
@@ -48,9 +52,7 @@ export function WorkspaceHero({ d }: { d: WsData }) {
         d.counts.bapis ? `${nf.format(d.counts.bapis)} BAPI` : null,
         d.counts.fms ? `${nf.format(d.counts.fms)} FM` : null,
         d.counts.idocs ? `${nf.format(d.counts.idocs)} IDoc` : null,
-      ]
-        .filter(Boolean)
-        .join(" · "),
+      ].filter((x): x is string => !!x),
     },
     { n: d.counts.tcodes, l: "טרנזקציות" },
     { n: d.counts.edges, l: "קשרים ממודלים" },
@@ -119,7 +121,18 @@ export function WorkspaceHero({ d }: { d: WsData }) {
             <span key={s.l} className="nw-fig">
               <b className="nw-sap">{nf.format(s.n)}</b>
               <span>{s.l}</span>
-              {s.sub ? <em>({s.sub})</em> : null}
+              {s.sub?.length ? (
+                <em>
+                  (
+                  {s.sub.map((part, i) => (
+                    <Fragment key={part}>
+                      {i ? " · " : null}
+                      <bdi>{part}</bdi>
+                    </Fragment>
+                  ))}
+                  )
+                </em>
+              ) : null}
             </span>
           ),
         )}
