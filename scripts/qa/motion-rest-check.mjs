@@ -75,7 +75,11 @@ for (const [name, opts, rm] of PROFILES) {
     if (pal.anim !== want) fails.push(`animation ${pal.anim}, expected ${want}`);
     if (rm === "reduce" ? early.length : !early.length) fails.push(`entrance on open: [${early.join(", ")}]`);
     if (pal.running.length) fails.push(`still running: ${pal.running.join(", ")}`);
-    if (pal.opacity !== "1" || pal.transform !== "none") fails.push(`at rest opacity ${pal.opacity}, transform ${pal.transform}`);
+    // A finished entrance with fill-mode "both" keeps its last keyframe, and
+    // Chrome reports the interpolated `none` as the identity matrix: no
+    // visible transform, so it counts as none.
+    const still = pal.transform === "none" || /^matrix\(1, 0, 0, 1, 0, 0\)$/.test(pal.transform);
+    if (pal.opacity !== "1" || !still) fails.push(`at rest opacity ${pal.opacity}, transform ${pal.transform}`);
     if (!closed) fails.push("Escape left the panel open");
     rows.push({ profile: name, route: "palette (Ctrl+K on /neo/)", palette: { early, ...pal, closed }, running: fails.map((f) => ({ name: f, who: "div.nxc-panel" })), scrollLinked: [] });
     console.log(`${name.padEnd(16)} ${"palette (Ctrl+K)".padEnd(28)} ${fails.length ? fails.join("; ") : `entrance [${early.join(", ") || "none"}] → still, opacity 1, no transform; Escape closes`}`);
