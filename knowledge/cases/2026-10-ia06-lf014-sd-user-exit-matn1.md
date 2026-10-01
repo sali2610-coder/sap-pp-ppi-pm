@@ -137,6 +137,7 @@
 - **Prerequisite: Note 3479804 "IA05/06: Components in task list duplicated when an error is raised"** (S4CORE 107–108) → מסביר את השער `IF sy-msgty <> 'E'`: SAP מנעה שכפול רכיבים כשעיבוד ה-BOM נכשל, וזיהתה כישלון לפי `sy-msgty`.
 - Support Packages (חלקי): SAPK-10217INS4CORE, 10315, 10413, 10511, 10609 (S4CORE 102–106)...
 - **השלכה:** הנוט חל גם על SAP_APPL של ECC — ב-ECC שלנו הוא לא מותקן (SP נמוך / לא יושם). אם יותקן ב-ECC — אותה תקלה תופיע שם.
+- **Note 3479804 — אומת מצילום:** "IA05/06: Components in task list duplicated when an error is raised", Version 3, Released 22.04.2025, PM-PRM-TL, Program error, medium priority. Symptom: "You are trying to add a material in Component Overview screen for an operation in task list. If you encounter an error, the previous component in the list is duplicated." Other terms: IA01/IA02/IA05/IA06/IA11/IA12, 29 120, 29 770. Prerequisite: 3450441 "Lean Service component shows up on the material tab" (S4CORE 107/108). → השער `sy-msgty <> 'E'` הוא תיקון לגיטימי של SAP לבאג שכפול; לא מסירים אותו. התיקון נשאר ב-Exit.
 - הבא: לפתוח **3637601** (Side effect) ו-3794756; ב-S4Q: System → Status → רכיב S4CORE (release + SP), ו-`SNOTE` לסטטוס 3637601.
 
 ### Note 3603616 — כותרת (לפי צילומי SAP for Me שהמשתמש הציג ל-Gemini; לא נראו כאן ישירות)
