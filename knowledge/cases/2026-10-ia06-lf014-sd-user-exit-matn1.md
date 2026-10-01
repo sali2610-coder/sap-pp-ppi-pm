@@ -128,6 +128,12 @@
 | סדר PAI שונה ב-S/4 | ללא ראיה |
 | תיקון ה-Exit יפתור | **מסכים** — אבל מהסיבה שהוכחה (אין `E` בזיכרון → השער של 3479804 פתוח) |
 
+### Note 3603616 — **אומת מצילום SAP for Me** (01.10.2026)
+- "...added with different item category - 3603616", SAP Note **Version 8, Released 28.07.2025**, רכיב **PM-PRM-TL**, Software Component **SAP_APPL**.
+- Symptom: "...is added error CI053 'Component ****** already assigned to current operation'". Other Terms: Bill of Material, IA11, IA12, IA01, IA02, IA06, IA05, plmz, IDNRK, Text material, STPO, Standard BOM, **LCMDIIPM, rihstpx-idnrk_new**, CI 053, postp, **CI 100**. Reason: program error. Solution: implement correction instructions.
+- Referenced by: **3794756** (PM-PRM-TL, "...number but different item category is added"). **Causing side effects:** **3637601** "DIMP: Follow up note 3603616".
+- הבא: לשונית Correction של 3603616 (לאשר שה-`ELSE` + `MESSAGE ID sy-msgid` נוסף בה); לפתוח 3637601 ו-3794756.
+
 ### Note 3603616 — כותרת (לפי צילומי SAP for Me שהמשתמש הציג ל-Gemini; לא נראו כאן ישירות)
 - כותרת: **"CI053: Error when two materials are added with different item category"**. Prerequisite: 3479804. Follow-up: **3637601** "DIMP: Follow up note 3603616".
 - **תואם לקוד S4Q:** 3603616 הוסיף `AND postp = rihstpx-postp "N3603616` ללולאות `g_stpo_tab`/`g_free_stpo_tab`/`planmz_pm`, ו-`i053(ci)` היא הודעת "כבר משויך". כלומר הנוט נועד ל-CI053; את ה-`ELSE` שמציג את ההודעה שבזיכרון הוא הוסיף כחלק מאותו שינוי.
