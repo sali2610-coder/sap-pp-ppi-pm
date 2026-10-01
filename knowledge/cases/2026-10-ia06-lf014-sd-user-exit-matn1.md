@@ -36,6 +36,26 @@
 | `MATNR`/`XI_EAN` בדיבאגר | `9000013206`, (18)C | `9000013206`, (40)C |
 | תוצאה סופית | **השורה נקלטת, בלי הודעה** | **LF014 + CI100, השורה נדחית** |
 
+### ECC — המשך דיבאג (01.10.2026, נבדק בפועל, `QE6`)
+- אחרי `GET_MATERIAL_ID` (F7, חזרה ל-`ZXMG0U08` ש' 61 `IF SY-SUBRC = 0`): **`SY-SUBRC = 2`** (`EAN_NOT_FOUND`). הפונקציה **נכשלת גם ב-ECC**; החריגה נתפסת ב-`EXCEPTIONS`, לכן ההודעה לא מוצגת.
+- אחרי חזרה ל-`CONVERSION_EXIT_MATN1_INPUT` (`SAPLOMCV`): **`SY-SUBRC = 0`** — ה-Exit לא העביר את הכישלון החוצה.
+- קוד SAP ב-ECC אחרי הקריאה ל-Exit (ש' 32-48):
+  ```abap
+  SY-SUBRC = 0.
+  CALL CUSTOMER-FUNCTION '001'
+    CHANGING  MATNR = INPUT
+    EXCEPTIONS IGNORE_REST = 1
+               LENGTH_ERROR = 3   "note 2121667
+               OTHERS = 2.
+  IF SY-SUBRC EQ 3.               "v note 2121667
+    MESSAGE ID SY-MSGID TYPE SY-MSGTY NUMBER SY-MSGNO
+      WITH SY-MSGV1 SY-MSGV2 SY-MSGV3 SY-MSGV4 RAISING LENGTH_ERROR.
+  ENDIF.                          "^ note 2121667
+  IF SY-SUBRC EQ 1. OUTPUT = INPUT. EXIT. ENDIF.
+  ```
+- **משמעות:** ב-ECC ההודעה שה-Exit השאיר בזיכרון מוצגת **רק** אם ה-Exit מעלה במפורש `LENGTH_ERROR` (3). `ZXMG0U08` לא מעלה → `SY-SUBRC = 0` → שקט. **הבליעה ב-ECC מוכחת.**
+- הבא: אותה נקודה ב-S4Q (קריאת ה-Exit שם בשורה 30, לא 33) — לבדוק את התנאי ואת `SY-SUBRC`.
+
 ## הופרכו בדרך
 - פורמט מק"ט (`OMSL`) שונה — זהה.
 - חומר לא מורחב לאתר — קיים ב-`MARC`.
