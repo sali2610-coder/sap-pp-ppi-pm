@@ -138,7 +138,8 @@
 - Support Packages (חלקי): SAPK-10217INS4CORE, 10315, 10413, 10511, 10609 (S4CORE 102–106)...
 - **השלכה:** הנוט חל גם על SAP_APPL של ECC — ב-ECC שלנו הוא לא מותקן (SP נמוך / לא יושם). אם יותקן ב-ECC — אותה תקלה תופיע שם.
 - **Note 3479804 — אומת מצילום:** "IA05/06: Components in task list duplicated when an error is raised", Version 3, Released 22.04.2025, PM-PRM-TL, Program error, medium priority. Symptom: "You are trying to add a material in Component Overview screen for an operation in task list. If you encounter an error, the previous component in the list is duplicated." Other terms: IA01/IA02/IA05/IA06/IA11/IA12, 29 120, 29 770. Prerequisite: 3450441 "Lean Service component shows up on the material tab" (S4CORE 107/108). → השער `sy-msgty <> 'E'` הוא תיקון לגיטימי של SAP לבאג שכפול; לא מסירים אותו. התיקון נשאר ב-Exit.
-- הבא: לפתוח **3637601** (Side effect) ו-3794756; ב-S4Q: System → Status → רכיב S4CORE (release + SP), ו-`SNOTE` לסטטוס 3637601.
+- **Note 3637601 — אומת מצילום:** "DIMP: Follow up note 3603616", Version 2, Released 08.08.2025, רכיב **IS-ADEC-SSP** (Industry: Aerospace&Defense / E&C — DIMP). Symptom: לקוח שמיישם 3603616 צריך לבדוק תופעות לוואי בקוד DIMP. Solution: ליישם יחד עם 3603616 "to achieve consistent system behavior". Other terms: ERP2005, Enhancement Framework. **לא נוגע לשער `sy-msgty` / לענף ה-ELSE** — רלוונטי רק להרחבות DIMP (כנראה ה-ENHO `ADSUB_LCMDIIPM IS-AD-SUC` שבקוד). **ממצא הנוטים סגור: אין תיקון SAP לבעיה שלנו; התיקון ב-Exit.**
+- (היסטורי) הבא: לפתוח **3637601** (Side effect) ו-3794756; ב-S4Q: System → Status → רכיב S4CORE (release + SP), ו-`SNOTE` לסטטוס 3637601.
 
 ### Note 3603616 — כותרת (לפי צילומי SAP for Me שהמשתמש הציג ל-Gemini; לא נראו כאן ישירות)
 - כותרת: **"CI053: Error when two materials are added with different item category"**. Prerequisite: 3479804. Follow-up: **3637601** "DIMP: Follow up note 3603616".
