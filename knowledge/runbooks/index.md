@@ -23,6 +23,7 @@
 | איטי, TIME_OUT, dump, נעילה, job ארוך, ST22/ST05/SM50 | `performance-slow.md` | Performance |
 | הדפסות מיותרות מ-JobUser, ספול מול פלט, SP01/SM37/TBTCP, תור מאובטח, LOCL | `jobuser-unnecessary-spool-prints.md` | Cross/Basis |
 | "עבד ב-ECC נכשל ב-S/4", simplification, obsolete tcode | `migration-ecc-to-s4.md` | Migration |
+| מק"ט לא נקלט בשדה חומר ב-S/4 לכל מק"ט, LF014 / CI100, EXIT_SAPLOMCV_001, MGA00003, ZXMG0U08, BADI_MATN1 | `material-input-blocked-user-exit-matn1.md` | Cross/PM/SD |
 
 ## כיסוי ידוע (שקיפות)
 - **חזק:** PM · PP · PP-PI · Integration (IDoc/RFC) · Authorization · Migration.
