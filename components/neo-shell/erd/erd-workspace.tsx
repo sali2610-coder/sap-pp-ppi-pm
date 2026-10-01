@@ -896,19 +896,19 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     const raw = Math.min((st.clientWidth - PAD * 2) / b.w, (st.clientHeight - PAD * 2) / b.h);
     if (raw >= ENTRY_MIN_K) { fitTo(b); return; }
     // A deep link (/neo/erd/#AUFK) or a restored selection names the table the
-    // reader came for: arrival frames it and its first-degree neighbours above
-    // the minimap whenever that keeps a table code readable (NODE_MIN_K, the
-    // selection fit's floor), and centres on the table when not. At the module
-    // floor (1.05) the ring never fitted and its outer tables were cut at the
-    // stage edge (gates 7 and 10, round 3); names come back with the zoom, and
-    // the inspector prints them in full.
+    // reader came for. When the table and its first-degree neighbours fit above
+    // the minimap with a table code still at 12px (NODE_MIN_K, the selection
+    // fit's floor), arrival frames them whole (gates 7 and 10, round 3). When
+    // they do not, the table is centred at the module floor (1.05), where its
+    // name and its neighbours' names are drawn: centring at 0.75 instead drew
+    // codes only and still cut the ring (r3/final7). The list and the minimap
+    // hold the rest of the ring.
     if (sel && pos.has(sel)) {
       const ring = bboxOf(pos, sizeMap, new Set([sel, ...(adj.get(sel) || [])]));
       const fitK = Math.min((st.clientWidth - PAD * 2) / ring.w, (st.clientHeight - PAD * 2 - miniH) / ring.h);
-      const k = clampK(Math.min(1.35, Math.max(fitK, NODE_MIN_K)));
       const p = pos.get(sel)!;
-      if (fitK >= NODE_MIN_K) aim(ring.x + ring.w / 2, ring.y + ring.h / 2, k);
-      else aim(p.x, p.y, k);
+      if (fitK >= NODE_MIN_K) aim(ring.x + ring.w / 2, ring.y + ring.h / 2, clampK(Math.min(1.35, fitK)));
+      else aim(p.x, p.y, clampK(ENTRY_MIN_K));
       return;
     }
     let hub = "";

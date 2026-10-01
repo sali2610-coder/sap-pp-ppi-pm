@@ -184,14 +184,16 @@ export function StudioView() {
     // PRESENTATION (design audit S6-3): a fit never lands below 0.962, the zoom
     // where the smallest presentation label (12.48px) reads at 12px, so the
     // labels are drawn and legible from across a room (it was 0.9, which drew
-    // them at 11.2px; gate 7, round 3, major 2); the presenter pans to the rest.
+    // them at 11.2px; gate 7, round 3, major 2), and never below the 44px
+    // target floor either (at 682x468, 0.962 left 42px nodes); the presenter
+    // pans to the rest.
     // Otherwise a fit never shrinks the smallest node below a 44px target (the
     // brief's touch target; WCAG 2.5.8 asks 24): measured, a 390px canvas
     // fitted 44px nodes to 15px, and 24px still set their 12.5px labels at
     // 6.8px. At the floor the labels read at 12px or more. On a narrow canvas
     // the reader pans instead; wide screens fit above the floor.
     const floor = 44 / Math.min(...laid.nodes.map((n) => n.h));
-    const k = present ? Math.max(raw, PRESENT_LOD_K) : Math.max(raw, floor);
+    const k = present ? Math.max(raw, PRESENT_LOD_K, floor) : Math.max(raw, floor);
     setCam({ k, x: (el.clientWidth - maxX * k) / 2, y: (el.clientHeight - maxY * k) / 2 });
   }, [laid.nodes, present]);
 
