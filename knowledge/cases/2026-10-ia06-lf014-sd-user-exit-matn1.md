@@ -132,7 +132,12 @@
 - "...added with different item category - 3603616", SAP Note **Version 8, Released 28.07.2025**, רכיב **PM-PRM-TL**, Software Component **SAP_APPL**.
 - Symptom: "...is added error CI053 'Component ****** already assigned to current operation'". Other Terms: Bill of Material, IA11, IA12, IA01, IA02, IA06, IA05, plmz, IDNRK, Text material, STPO, Standard BOM, **LCMDIIPM, rihstpx-idnrk_new**, CI 053, postp, **CI 100**. Reason: program error. Solution: implement correction instructions.
 - Referenced by: **3794756** (PM-PRM-TL, "...number but different item category is added"). **Causing side effects:** **3637601** "DIMP: Follow up note 3603616".
-- הבא: לשונית Correction של 3603616 (לאשר שה-`ELSE` + `MESSAGE ID sy-msgid` נוסף בה); לפתוח 3637601 ו-3794756.
+- כותרת מלאה: **"CI053: Error when two materials are added with different item category"**. Symptom מלא: "In IA06/IA12/IA02 transactions when material is added directly (Standard BOM). After which same material with different item category is added error CI053...".
+- Software Components: **SAP_APPL 606, 617, 618** (גם ECC EHP6/7/8!) · **S4CORE 102–109**. Correction Instructions: SAP_APPL 1, S4CORE 2.
+- **Prerequisite: Note 3479804 "IA05/06: Components in task list duplicated when an error is raised"** (S4CORE 107–108) → מסביר את השער `IF sy-msgty <> 'E'`: SAP מנעה שכפול רכיבים כשעיבוד ה-BOM נכשל, וזיהתה כישלון לפי `sy-msgty`.
+- Support Packages (חלקי): SAPK-10217INS4CORE, 10315, 10413, 10511, 10609 (S4CORE 102–106)...
+- **השלכה:** הנוט חל גם על SAP_APPL של ECC — ב-ECC שלנו הוא לא מותקן (SP נמוך / לא יושם). אם יותקן ב-ECC — אותה תקלה תופיע שם.
+- הבא: לפתוח **3637601** (Side effect) ו-3794756; ב-S4Q: System → Status → רכיב S4CORE (release + SP), ו-`SNOTE` לסטטוס 3637601.
 
 ### Note 3603616 — כותרת (לפי צילומי SAP for Me שהמשתמש הציג ל-Gemini; לא נראו כאן ישירות)
 - כותרת: **"CI053: Error when two materials are added with different item category"**. Prerequisite: 3479804. Follow-up: **3637601** "DIMP: Follow up note 3603616".
