@@ -871,6 +871,23 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     if (!st || isMap || present || live.ego) { fitTo(b, isMap && !present && !live.ego ? MAP_MIN_K : 0); return; }
     const raw = Math.min((st.clientWidth - PAD * 2) / b.w, (st.clientHeight - PAD * 2) / b.h);
     if (raw >= ENTRY_MIN_K) { fitTo(b); return; }
+    // A deep link (/neo/erd/#AUFK) or a restored selection names the table the
+    // reader came for, so arrival frames that table and its neighbours, above
+    // the minimap. Centring on the busiest table instead left AUFK below the
+    // stage with 3 of 20 tables in view (gate 10, round 3).
+    if (sel && live.pos.has(sel)) {
+      const ring = bboxOf(live.pos, sizeMap, new Set([sel, ...(adj.get(sel) || [])]));
+      const miniEl = mini ? document.querySelector<HTMLElement>(".ne .ne-mini") : null;
+      const miniH = miniEl ? miniEl.getBoundingClientRect().height + 12 : 0;
+      const fitK = Math.min((st.clientWidth - PAD * 2) / ring.w, (st.clientHeight - PAD * 2 - miniH) / ring.h);
+      const k = clampK(Math.min(1.35, Math.max(fitK, ENTRY_MIN_K)));
+      const p = live.pos.get(sel)!;
+      // The ring when it fits at a readable zoom, the table itself when not.
+      const [cx, cy] = fitK >= ENTRY_MIN_K ? [ring.x + ring.w / 2, ring.y + ring.h / 2] : [p.x, p.y];
+      autoBox.current = null;
+      glide({ k, x: st.clientWidth / 2 - cx * k, y: (st.clientHeight - miniH) / 2 - cy * k });
+      return;
+    }
     let hub = "";
     let best = -1;
     for (const n of live.pos.keys()) {
@@ -879,7 +896,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     }
     if (hub) centre(hub, ENTRY_MIN_K);
     else fitTo(b);
-  }, [fitTo, centre, isMap, present, live.ego, live.pos, tByName]);
+  }, [fitTo, centre, glide, isMap, present, live.ego, live.pos, tByName, sel, adj, sizeMap, mini]);
 
   /** Cinematic zoom INTO a table. The studio's zoomInto, same numbers. */
   const zoomInto = useCallback(
@@ -1909,9 +1926,10 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                         pick(n.n);
                       }}
                     >
-                      <i className="ne-row-bar" aria-hidden="true" />
                       <b className="nx-sap">{n.n}</b>
-                      <em>{n.he || n.en || "–"}</em>
+                      {/* The module in words: a search hit can come from any
+                          module, and a colour bar was the only channel (gate 10). */}
+                      <em><span className="ne-row-m nx-sap">{n.m}</span>{n.he || n.en || "–"}</em>
                       <span className="nx-sap">{degOf(n.n)}</span>
                     </button>
                   </li>
@@ -2138,7 +2156,6 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                   setPop(null);
                 }}
               >
-                <i className="ne-row-bar" aria-hidden="true" />
                 <b>סקירה</b>
                 <em>מפת כל המודולים והקשרים ביניהם</em>
                 <span className="nx-sap">{data.stats.modules}</span>
@@ -2156,7 +2173,6 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                     setPop(null);
                   }}
                 >
-                  <i className="ne-row-bar" aria-hidden="true" />
                   <b className="nx-sap">{m.code}</b>
                   <em>{m.he !== m.code ? m.he : ""}</em>
                   <span className="nx-sap">{m.core.length}</span>

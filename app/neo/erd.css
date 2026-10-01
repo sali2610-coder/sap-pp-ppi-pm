@@ -1103,7 +1103,7 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
    colour, hover, focus and disabled language; this only reshapes the box. */
 .ne-row {
   display: grid !important;
-  grid-template-columns: 3px minmax(4.25rem, auto) minmax(0, 1fr) auto;
+  grid-template-columns: minmax(4.25rem, auto) minmax(0, 1fr) auto;
   align-items: center;
   gap: var(--sp-2);
   inline-size: 100%;
@@ -1112,12 +1112,15 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
   border-radius: var(--r-xs);
   text-align: start;
 }
+/* One selection language: the selection ground and its line (gate 10, round 3). */
 .ne-row[aria-pressed="true"] {
-  background: color-mix(in srgb, var(--ms, var(--brand)) 10%, var(--surface-2));
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ms, var(--brand)) 34%, var(--hairline));
+  background: var(--select-bg);
+  box-shadow: inset 0 0 0 1px var(--select-line);
 }
-/* MODULE identity in a list — a line, never a dot. */
-.ne-row-bar { inline-size: 3px; block-size: 1.1rem; border-radius: 2px; background: var(--ms); }
+/* The module of a row is written, not painted: a code before the name. The
+   3px colour bar that stood here repeated a code or carried the module by
+   colour alone (gate 10, round 3). */
+.ne-row-m { margin-inline-end: var(--sp-2); font-family: var(--font-mono); font-style: normal; font-size: var(--t-micro); color: var(--ink-3); direction: ltr; unicode-bidi: isolate; }
 .ne-row b { font-family: var(--font-mono); direction: ltr; font-size: var(--t-xs); color: var(--ink-1); }
 .ne-row em {
   font-style: normal;

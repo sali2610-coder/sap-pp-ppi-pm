@@ -80,9 +80,9 @@ export function ErdInspector({
                   style={{ "--ms": modVar(n.m), "--o": n.o } as React.CSSProperties}
                   onClick={() => onPick(n.n)}
                 >
-                  <i className="ne-row-bar" aria-hidden="true" />
                   <b className="nx-sap">{n.n}</b>
-                  <em>{n.he || n.en || "–"}</em>
+                  {/* A table from another module says so in words (gate 10). */}
+                  <em>{n.m !== M?.code ? <span className="ne-row-m nx-sap">{n.m}</span> : null}{n.he || n.en || "–"}</em>
                   <span className="nx-sap">{degOf(n.n)}</span>
                 </button>
               </li>
@@ -425,7 +425,6 @@ export function ErdInspector({
                 return (
                   <li key={code} style={{ "--ms": modVar(code) } as React.CSSProperties}>
                     <button type="button" className="nu-ghost ne-row" onClick={() => onModule(code)}>
-                      <i className="ne-row-bar" aria-hidden="true" />
                       <b className="nx-sap">{code}</b>
                       <em>{m.he}</em>
                       <span className="nx-sap">{m.core.length}</span>
