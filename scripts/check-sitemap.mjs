@@ -77,3 +77,13 @@ if (dead.length) {
 }
 
 console.log(`check-sitemap: OK — ${locs.size} URLs, covers all ${indexable.length} indexable pages, 0 dead entries.`);
+
+// 5. Reported, not failed: entries the host answers with a redirect
+// (vercel.json), so "OK" above is not read as "the sitemap lists canonical
+// pages" (gate 2, round 3). While NEO pages are noindex (OWNER-QUESTIONS.md
+// 8.1) the indexable pages are the legacy addresses, which all redirect.
+// The pattern subset vercel.json uses: literal segments, :name, :name(regex).
+const toRe = (src) => new RegExp("^" + src.replace(/:[A-Za-z]+(\(((?:[^()\\]|\\.)+)\))?|[^:]+/g, (m, g, rx) => (m[0] === ":" ? `(?:${rx || "[^/]+"})` : m.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))) + "$");
+const redirectRes = JSON.parse(readFileSync("vercel.json", "utf8")).redirects.filter((r) => !r.has).map((r) => toRe(r.source));
+const redirected = [...locs].filter((l) => { const p = new URL(l, "https://x").pathname; return redirectRes.some((re) => re.test(p)); });
+console.log(`check-sitemap: note — ${redirected.length} of ${locs.size} entries are redirect sources on the host (vercel.json); NEO pages are noindex, an owner decision (OWNER-QUESTIONS.md 8.1).`);
