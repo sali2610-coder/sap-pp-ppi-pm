@@ -56,11 +56,11 @@
 
 | סוג יעד | עמודים | משמעות |
 |---|---|---|
-| זהה | 4,001 | אותה רשומה ב־NEO: טרנזקציה, טבלה, אובייקט, שיעור, תקלה, מושג |
+| זהה | 4,002 | אותה רשומה ב־NEO: טרנזקציה, טבלה, אובייקט, שיעור, תקלה, מושג |
 | מקביל | 176 | אותו דבר בצורה של NEO: ספר בקורא NEO, ספר לימוד בקורס, מסך כלי במקבילו |
-| מדור | 466 | אין עמוד NEO לרשומה. המעבר הוא למדור הקרוב, והרשימה המלאה בהמשך |
+| מדור | 465 | אין עמוד NEO לרשומה. המעבר הוא למדור הקרוב, והרשימה המלאה בהמשך |
 
-סך הכול 4,643 עמודים ב־457 כללים: 50 תבניות ו־405 כללים מפורשים.
+סך הכול 4,643 עמודים ב־465 כללים: 50 תבניות ו־413 כללים מפורשים (סבב 3: עמוד SAP Note שיש לו תקלה באותו שם ב־NEO מגיע אליה, ושבעה עמודים מגיעים למדור שרמה אחת מתחת: הקורס של המודול, או מרכז באותו שם).
 
 שני סוגי עמודים נשארו בלי הפניה, כי הם לא מעטפת ישנה: מסגרות ה־404, שמציגות את מסגרת NEO, ולוחות הכיוונים של העיצוב תחת `/design/redesign-2026/`.
 
@@ -96,7 +96,7 @@
 
 ## חריגות שנותרו: תוכן ישן בלי עמוד ב־NEO
 
-466 עמודים ישנים מופנים למדור ולא לרשומה, כי ל־NEO עוד אין להם עמוד. אף עמוד ישן לא מוצג, אבל התוכן שלהם עוד לא הועבר ל־NEO. הנתונים נשארו במאגר ולא נמחקו.
+465 עמודים ישנים מופנים למדור ולא לרשומה, כי ל־NEO עוד אין להם עמוד. אף עמוד ישן לא מוצג, אבל התוכן שלהם עוד לא הועבר ל־NEO. הנתונים נשארו במאגר ולא נמחקו.
 
 להחלטת בעל האתר: להעביר את התוכן ל־NEO, או לקבל את ההפניה למדור.
 
@@ -106,20 +106,20 @@
 | דוחות איכות ועמודי מקור של ספרי הלימוד | 17 | הקורס של הספר, או `/neo/fiori-apps/` |
 | `/tcode/<קוד>/`, קודי בלופרינט בלי עמוד (בחיפוש של NEO הם מסומנים "אין עמוד") | 32 | `/neo/transactions/` |
 | `/exits/` | 28 | `/neo/enhancements/` |
-| `/sap-notes/` | 23 | `/neo/incidents/` |
+| `/sap-notes/` | 22 | `/neo/incidents/` |
 | `/process/` | 19 | `/neo/domain-model/` |
-| `/learn/` | 18 | `/neo/academy/` |
+| `/learn/` | 18 | `/neo/academy/`, והקורס של המודול (`/neo/academy/pm/`, ‏`/neo/academy/pp-pi/`) לשבעה מהם |
 | `/pm/…` ו־`/pp-pi/…` (תת־עמודי מודול) | 30 | `/neo/pm/`, `/neo/pp-pi/` |
 | `/solutions/` | 15 | `/neo/best-practices/` |
 | `/ecc-s4/` | 13 | `/neo/s4-readiness/` |
 | `/oic/` | 13 | `/neo/knowledge/` |
-| `/qa-testing/`, `/workbench/`, `/guides/` | 18 | `/neo/centers/` |
+| `/qa-testing/`, `/workbench/`, `/guides/` | 18 | `/neo/centers/`, ו־`/workbench/debugging/` אל `/neo/centers/debugging/` |
 | `/security/` | 7 | `/neo/centers/process-auth/` |
 | `/process-explorer/`, `/story/` | 7 | `/neo/domain-model/` |
 | `/design/` (קונספט D הישן) | 4 | `/neo/` |
 | עמודים בודדים: `/alm/`, `/connector/`, `/evolution/`, `/import/`, `/sap-infrastructure/`, `/graph/`, `/lineage/`, `/notes-graph/`, `/onboarding/`, `/quality-audit/`, `/verification/`, `/delivery/`, `/knowledge/coverage/`, `/academy/dashboard/` | 14 | המדור הקרוב (הפירוט ב־`redirect-report.json`) |
 
-המיפוי המלא, עמוד אחרי עמוד, נמצא ב־`neo-redesign-evidence/legacy-links/redirect-report.json`.
+המיפוי המלא, עמוד אחרי עמוד, נמצא ב־`neo-redesign-evidence/legacy-links/redirect-report.r3.json` (סבב 3; הקודם: `redirect-report.json`).
 
 ## תחזוקה
 

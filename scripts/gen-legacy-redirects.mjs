@@ -113,7 +113,9 @@ function resolve(p) {
     return ["/neo/books/", "hub"];
   }
   if ((fam === "tcode" || fam === "apps") && seg[1]) { const r = recordOf(seg[1]); if (r) return [r, "exact"]; }
-  if ((fam === "resolution" || fam === "troubleshooting") && has(`/neo/incidents/${seg[1]}/`)) return [`/neo/incidents/${seg[1]}/`, "exact"];
+  // A legacy SAP-note page whose incident NEO builds under the same slug is that
+  // incident (gate 2, round 3: /sap-notes/mrp-no-planned-orders/ went to the hub).
+  if ((fam === "resolution" || fam === "troubleshooting" || fam === "sap-notes") && has(`/neo/incidents/${seg[1]}/`)) return [`/neo/incidents/${seg[1]}/`, "exact"];
   if (fam === "impact" && seg[1]) { const r = recordOf(seg[1]); if (r) return [r, "exact"]; }
   if (fam === "concepts" && seg[1]) {
     for (const f of ["knowledge", "enhancements"]) if (has(`/neo/${f}/${seg[1]}/`)) return [`/neo/${f}/${seg[1]}/`, "exact"];
@@ -127,6 +129,12 @@ function resolve(p) {
   // a knowledge page with the same slug in another NEO family
   if (seg[1] && ["guides", "authorizations", "ecc-s4", "learn", "workbench", "qa-testing", "pm", "pp-pi", "debugging", "fiori", "migration"].includes(fam) && centers.has(seg[1])) return [centers.get(seg[1]), "exact"];
   if (seg[1] && ["oic", "solutions"].includes(fam) && has(`/neo/knowledge/${seg[1]}/`)) return [`/neo/knowledge/${seg[1]}/`, "exact"];
+  // The closest section, one level below the hub when it exists, and only after
+  // every exact rule above (gate 2, round 3): a module's learning page goes to
+  // that module's course, a workbench tool to the center of the same name.
+  // Both are still hubs, not records.
+  if (fam === "learn" && seg[1]) { const m = seg[1].match(/^(pm|pp-pi)(?:-|$)/); if (m && has(`/neo/academy/${m[1]}/`)) return [`/neo/academy/${m[1]}/`, "hub"]; }
+  if (fam === "workbench" && seg[1] && has(`/neo/centers/${seg[1]}/`)) return [`/neo/centers/${seg[1]}/`, "hub"];
   if (fam === "security" && seg[1]) { const r = recordOf(seg[1].toUpperCase()); if (r) return [r, "exact"]; }
   if (fam === "knowledge") return ["/neo/knowledge/", "hub"];
   if (HUB[fam] && has(HUB[fam])) return [HUB[fam], seg.length === 1 ? "equivalent" : "hub"];

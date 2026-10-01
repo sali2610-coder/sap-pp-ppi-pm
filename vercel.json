@@ -299,8 +299,38 @@
       "permanent": false
     },
     {
+      "source": "/learn/pm-ecc-s4/",
+      "destination": "/neo/academy/pm/",
+      "permanent": false
+    },
+    {
+      "source": "/learn/pm-execution/",
+      "destination": "/neo/academy/pm/",
+      "permanent": false
+    },
+    {
+      "source": "/learn/pm-fundamentals/",
+      "destination": "/neo/academy/pm/",
+      "permanent": false
+    },
+    {
+      "source": "/learn/pm-planning/",
+      "destination": "/neo/academy/pm/",
+      "permanent": false
+    },
+    {
       "source": "/learn/pm-preventive/",
       "destination": "/neo/centers/blueprints/pm-preventive/",
+      "permanent": false
+    },
+    {
+      "source": "/learn/pm-troubleshooting/",
+      "destination": "/neo/academy/pm/",
+      "permanent": false
+    },
+    {
+      "source": "/learn/pp-pi/",
+      "destination": "/neo/academy/pp-pi/",
       "permanent": false
     },
     {
@@ -1774,6 +1804,11 @@
       "permanent": false
     },
     {
+      "source": "/sap-notes/mrp-no-planned-orders/",
+      "destination": "/neo/incidents/mrp-no-planned-orders/",
+      "permanent": false
+    },
+    {
       "source": "/security/",
       "destination": "/neo/centers/process-auth/",
       "permanent": false
@@ -2041,6 +2076,11 @@
     {
       "source": "/workbench/",
       "destination": "/neo/centers/",
+      "permanent": false
+    },
+    {
+      "source": "/workbench/debugging/",
+      "destination": "/neo/centers/debugging/",
       "permanent": false
     },
     {
