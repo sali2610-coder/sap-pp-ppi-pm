@@ -897,6 +897,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   border-inline-start: 1px solid var(--hairline);
 }
 .nw-det > section { display: grid; gap: var(--sp-2); align-content: start; justify-items: start; min-inline-size: 0; }
+.nw-det-he { grid-column: 1 / -1; margin: 0; font-size: var(--t-sm); line-height: var(--lh-he); color: var(--ink-1); max-inline-size: var(--measure); }
 .nw-det h3 {
   inline-size: 100%;
   font-size: var(--t-micro);

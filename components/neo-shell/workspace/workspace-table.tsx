@@ -225,6 +225,11 @@ export function WorkspaceTable({
                   <tr className="nw-detrow">
                     <td colSpan={COLS.length + 1}>
                       <div className="nw-det" id={`nw-d-${r.tp}-${r.n}`} style={{ "--o": r.obj } as React.CSSProperties}>
+                        {/* The row's description in full: in the row it is one
+                            line with an ellipsis, and the module's wording is not
+                            always the record page's, so opening the row is the
+                            way to the rest of it (clip check, 2026-10-01). */}
+                        {r.he ? <p className="nw-det-he">{r.he}</p> : null}
                         <section>
                           <h3>שדות מפתח</h3>
                           {r.keys.length ? (
