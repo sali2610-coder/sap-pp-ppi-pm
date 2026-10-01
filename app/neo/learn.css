@@ -269,7 +269,10 @@
   display: grid;
   align-items: start;
   gap: var(--sp-2) var(--sp-3);
-  grid-template-columns: 3px minmax(0, 1fr) minmax(0, 18rem) auto;
+  /* 22rem, not 18rem: the side note carries SAP identifiers
+     ("I_ProductionOrder/I_ManufacturingOrder") that broke an 18rem column into
+     three lines of one token each (text-layout check, 2026-10-01). */
+  grid-template-columns: 3px minmax(0, 1fr) minmax(0, 22rem) auto;
   grid-template-areas: "mark body side go";
   padding: var(--sp-4) var(--sp-3);
   border-radius: var(--r-md);

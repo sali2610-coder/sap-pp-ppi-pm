@@ -79,6 +79,9 @@
    a fact that carries prose AND a list keeps them apart. */
 .nx-app .nxr-text {
   display: block;
+  /* Every fact's prose, not only the reference sections' (a full-width fact on
+     a Fiori record ran 99 to 110 characters a line). */
+  max-inline-size: var(--measure);
   font-size: var(--t-body);
   line-height: var(--lh-he);
   color: var(--ink-1);

@@ -1417,6 +1417,9 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
   font-size: var(--t-sm); line-height: 1.75; color: var(--ink-2);
   background: color-mix(in srgb, var(--o, var(--brand)) 5%, var(--surface-2));
   border-inline-start: 1px solid var(--hairline);
+  /* The reading measure plus the box's own padding: across the full record it
+     ran 103 characters a line (text-layout check, 2026-10-01). */
+  max-inline-size: calc(var(--measure, 32em) + 2rem);
 }
 
 .nod-b { display: grid; gap: var(--sp-2); }

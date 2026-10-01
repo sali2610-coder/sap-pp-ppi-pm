@@ -32,7 +32,7 @@
      ACCENT  brand red marks ONE condition: tone === "changed".
    ========================================================================== */
 
-import { enLang } from "../lang";
+import { enLang, slashBreaks } from "../lang";
 import Link from "next/link";
 import { ArrowLeft, ShieldCheck } from "lucide-react";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
@@ -69,7 +69,7 @@ function Fact({ f }: { f: RefFact }) {
       <dt className="nxt-l">{f.label}</dt>
       <dd className="nxt-v">
         {empty ? <span className="nxt-absent">{f.absent || NONE}</span> : null}
-        {f.text ? <span className="nxr-text">{f.text}</span> : null}
+        {f.text ? <span className="nxr-text">{slashBreaks(f.text)}</span> : null}
         {f.bullets?.length ? (
           <ul className="nxt-ul">{f.bullets.map((x, i) => <li key={`${i}-${x.slice(0, 24)}`} lang={enLang(x)}>{x}</li>)}</ul>
         ) : null}

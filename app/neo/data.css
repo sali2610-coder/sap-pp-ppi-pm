@@ -751,7 +751,11 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
 .nx-app .nxt-s4-why { font-size: var(--t-micro); color: var(--ink-3); line-height: var(--lh-he); }
 .nx-app .nxt-s4-why .nx-sap { font-family: var(--font-mono); }
 
-.nx-app .nxt-s4-facts { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
+/* 21rem and 22rem tracks (were 17rem and 18rem): three facts of prose in a
+   900px record were 290px each, 26 characters a line, and 349px at 1440
+   (text-layout check, 2026-10-01); now a record of that width sets two to a
+   row. */
+.nx-app .nxt-s4-facts { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr)); }
 .nx-app .nxt-s4-warn {
   font-size: var(--t-xs); color: var(--ink-2); line-height: var(--lh-he);
   padding: var(--sp-3) var(--sp-4);
@@ -799,7 +803,7 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
 
 /* ----------------------------------------------------- 12.4 NAMED FACTS */
 
-.nx-app .nxt-grid { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
+.nx-app .nxt-grid { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
 .nx-app .nxt-fact { display: grid; gap: 4px; align-content: start; min-inline-size: 0; }
 .nx-app .nxt-l {
   font-size: var(--t-micro); font-weight: 700; letter-spacing: 0;
@@ -912,6 +916,10 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
    widening the page (the 400% reflow measured 6px on a Fiori app record). */
 .nx-app .nxt-src { display: flex; align-items: flex-start; gap: var(--sp-2); overflow-wrap: anywhere; min-inline-size: 0; }
 .nx-app .nxt-src > svg { flex: none; margin-block-start: 2px; }
+/* A source line is read, so it keeps the reading measure: across a 1080px
+   record a source note ran 102 to 180 characters a line (text-layout check,
+   2026-10-01). */
+.nx-app .nxt-foot > p { max-inline-size: calc(var(--measure) + 1.5rem); }
 
 /* ------------------------------------------------- 12.9 RESPONSIVE 390→ */
 

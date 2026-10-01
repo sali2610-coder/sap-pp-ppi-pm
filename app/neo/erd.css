@@ -382,7 +382,7 @@ html[data-theme="dark"] .ne {
 .ne-crumbs .ne-crumb-now { color: var(--ink-1); font-weight: 700; }
 
 .ne-ftopic { max-inline-size: 15rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ne-fhint { font-size: var(--t-xs); color: var(--ink-3); line-height: var(--lh-he); }
+.ne-fhint { font-size: var(--t-xs); color: var(--ink-3); line-height: var(--lh-he); max-inline-size: var(--measure, 32em); }
 
 /* ==========================================================================
    THE DISCLOSURES — how 51 chips became reachable

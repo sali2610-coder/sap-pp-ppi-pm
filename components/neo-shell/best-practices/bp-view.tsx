@@ -14,7 +14,7 @@
    gets «אין תיעוד מאומת במאגר» in that list's own place.
    ========================================================================== */
 
-import { enLang } from "../lang";
+import { enLang, slashBreaks } from "../lang";
 import Link from "next/link";
 import {
   AlertTriangle, ArrowLeft, BookOpen, ClipboardCheck, Info, LayoutList, Link2, ListChecks, ShieldCheck,
@@ -214,7 +214,7 @@ function SecHead({ id, icon, title, note }: { id: string; icon: React.ReactNode;
 function Line({ l, label }: { l: BpLineV; label: string }) {
   return (
     <li>
-      <span className="nxr-text">{l.he}</span>
+      <span className="nxr-text">{slashBreaks(l.he)}</span>
       {l.xrefs.length ? (
         <ul className="nxt-codes nxr-codes nbp-refs" aria-label={`הפניות · ${label}`}>
           {l.xrefs.map((r) => <Ref key={r.id} r={r} />)}
@@ -360,7 +360,7 @@ export function BpDetailView({ d }: { d: BpDetail }) {
           <ol className="nxt-ol nbp-steps">
             {d.steps.map((s) => (
               <li key={s.n}>
-                <span className="nxr-text">{s.he}</span>
+                <span className="nxr-text">{slashBreaks(s.he)}</span>
                 {s.xrefs.length ? (
                   <ul className="nxt-codes nxr-codes nbp-refs" aria-label={`הפניות לצעד ${s.n}`}>
                     {s.xrefs.map((r) => <Ref key={r.id} r={r} />)}
