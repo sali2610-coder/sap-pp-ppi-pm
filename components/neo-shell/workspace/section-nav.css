@@ -175,12 +175,11 @@ html .nx-app .nx-canvas:has(> .nw) .nxs { --nxs-pad: 0px; }
   padding-inline-start: calc(var(--sp-3) + 4px);
   color: var(--ink-1);
   font-weight: 700;
-  /* 12% read as a real fill against the dark ground but sat below the
-     perceptual floor against the light one, which left a 1px border colour as
-     the only carrier of "you are here". 20% clears it in both. Module hue as a
-     surface tint is what the form rule allows a chip to take. */
-  background-color: color-mix(in oklab, var(--nxs-on) 20%, var(--surface));
-  border-color: color-mix(in oklab, var(--nxs-on) 46%, var(--hairline));
+  /* The selection is drawn one way across NEO: the selection ground and its
+     red line, as in the rail and on a record. The module-tinted fill made the
+     same state a third colour on a module page (gate 10, round 3). */
+  background-color: var(--select-bg);
+  border-color: var(--select-line);
 }
 
 .nx-app .nxs-n {
@@ -196,25 +195,15 @@ html .nx-app .nx-canvas:has(> .nw) .nxs { --nxs-pad: 0px; }
    chip's fill (gate 3, blocker 2); in ink-1 it is the chip's own text colour. */
 .nx-app .nxs-i[data-on="1"] .nxs-n { color: var(--ink-1); }
 
-/* THE SECTION THIS PAGE MOST WANTS READ. A short BAR before the number and the
-   chip's heavier ink: a shape, not a colour, since brand red is kept for the
-   action and the selection. It is deliberately not a small filled circle: that
-   shape belongs to status, and to status only.
+/* THE SECTION THIS PAGE MOST WANTS READ. Heavier ink and weight, no colour:
+   brand red is kept for the action and the selection. The short bar that used
+   to stand before the number read as a stray "|" with nothing to explain it
+   (gate 10, round 3).
    :not([data-on]) so that reaching the section never makes it quieter than the
    other chips: once it is active it is drawn like any other active chip. */
-.nx-app .nxs-i[data-key="1"]:not([data-on="1"]) { color: var(--ink-2); }
+.nx-app .nxs-i[data-key="1"]:not([data-on="1"]) { color: var(--ink-1); font-weight: 600; }
 .nx-app .nxs-i[data-key="1"]:not([data-on="1"]) .nxs-n {
   color: var(--ink-2);
-}
-.nx-app .nxs-i[data-key="1"] .nxs-n::before {
-  content: "";
-  display: inline-block;
-  inline-size: 2px;
-  block-size: .8em;
-  margin-inline-end: 5px;
-  border-radius: 1px;
-  vertical-align: -1px;
-  background: var(--ink-3);
 }
 
 /* --------------------------------------------------------------------------
