@@ -664,3 +664,22 @@ html[data-theme="dark"] .nx-app .nxc-chip[aria-pressed="true"] b { color: var(--
 .nx-app .nx-shelf-empty-a { color: var(--ink-2); font-weight: 600; }
 
 .nx-app .nx-srch-input { block-size: 1.75rem; min-block-size: 1.75rem; } /* the rail field sits under a 0.9 scale; 28px renders as 25px */
+
+/* THE PALETTE ARRIVES PRECISELY (interactive moments, 2026-10-01). Shorter and
+   tighter than the panel default: 8px of travel and 2% of scale on the
+   decelerating curve, the size a command surface reads as "here" rather than
+   "flying in" (research-log-2, P1). The sheet keeps its rise from below, and
+   reduced motion keeps no entrance at all (§15 above). */
+.nx-app .nxc-panel {
+  animation: nxc-in var(--dur-base) var(--ease-out-expo, cubic-bezier(.16, 1, .3, 1)) both;
+  transform-origin: 50% 0;
+}
+@keyframes nxc-in {
+  from { opacity: 0; transform: translateY(-8px) scale(.98); }
+  to { opacity: 1; transform: none; }
+}
+/* Stated again after the rule above: same specificity, so order decides, and
+   reduced motion has to keep the last word. */
+@media (prefers-reduced-motion: reduce) {
+  .nx-app .nxc-panel { animation: none; opacity: 1; transform: none; }
+}
