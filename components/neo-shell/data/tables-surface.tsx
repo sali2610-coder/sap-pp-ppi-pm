@@ -145,10 +145,20 @@ function Row({ r, q, makeOrigin, landed }: { r: NeoTableRow; q: string; makeOrig
             is carried for the screen reader so a bare number is never read out
             on its own. */}
         <span className="nxd-nums">
-          <span className="nu-chip"><Database size={11} strokeWidth={1.75} /><span className="nx-sr">שדות </span>{nf.format(r.fields)}</span>
-          <span className="nu-chip"><KeyRound size={11} strokeWidth={1.75} /><span className="nx-sr">שדות מפתח </span>{nf.format(r.keys)}</span>
-          <span className="nu-chip"><GitBranch size={11} strokeWidth={1.75} /><span className="nx-sr">קשרי ER </span>{nf.format(r.rels.length)}</span>
-          <span className="nu-chip"><Terminal size={11} strokeWidth={1.75} /><span className="nx-sr">טרנזקציות </span>{nf.format(r.tcodes.length)}</span>
+          {/* Each count says its unit on screen, and a zero is a gap said in
+              words, as on the record page (gate 10, round 3). */}
+          {([
+            [Database, r.fields, "שדה", "שדות"],
+            [KeyRound, r.keys, "שדה מפתח", "שדות מפתח"],
+            [GitBranch, r.rels.length, "קשר ER", "קשרי ER"],
+            [Terminal, r.tcodes.length, "טרנזקציה", "טרנזקציות"],
+          ] as const).map(([Icon, n, one, many]) =>
+            n === 0 ? (
+              <span key={many} className="nu-chip nxd-num0"><Icon size={11} strokeWidth={1.75} />{many}: אין במאגר</span>
+            ) : (
+              <span key={many} className="nu-chip"><Icon size={11} strokeWidth={1.75} />{nf.format(n)} {n === 1 ? one : many}</span>
+            ),
+          )}
           {r.cds.length ? (
             <span className="nu-chip is-sap"><Sigma size={11} strokeWidth={1.75} /><span className="nx-sr">תצוגת CDS </span>{r.cds[0]}</span>
           ) : null}

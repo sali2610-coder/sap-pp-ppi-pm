@@ -459,3 +459,8 @@ html .nx-app[data-scene] {
    family outside app/neo (gate 3, minor 17). One rule, the system's last word. */
 .nx-app :is(h1, h2, h3),
 .nx-app .nx-eyebrow { letter-spacing: 0; }
+
+/* The short module rule above a page's eyebrow (globals.css .nx-modbar) repeats
+   the module the page already names in words: decorative, so not drawn in NEO
+   (gate 10, round 3; SIDE-TABS.md). */
+.nx-app .nx-modbar { display: none; }
