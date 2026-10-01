@@ -100,6 +100,10 @@ html[data-device="phone"] .nx-app .nh-find-k { display: none; }
   grid-template-columns: auto minmax(0, 1fr) auto;
   grid-template-areas: "i name n" "sub sub sub";
   align-items: center;
+  /* Rows keep their own height when a sibling's subline wraps: stretched, the
+     name row of the short doors grew and their titles sat 5px lower than the
+     door with two lines (gate 10, round 3). */
+  align-content: start;
   gap: 6px 10px;
   block-size: 100%;
   padding: var(--sp-4);
@@ -127,6 +131,10 @@ html[data-device="phone"] .nx-app .nh-find-k { display: none; }
   display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-1) var(--sp-3);
   margin: 0; font-size: var(--t-sm); color: var(--ink-2);
 }
+/* On a phone the label takes its own line and the three codes keep one line
+   together (286px of 326): wrapping left BAPI_ALM_ORDER_MAINTAIN alone on a
+   second line, a 44px tap row below the other two (gate 10, round 3). */
+@media (max-width: 30rem) { .nx-app .nh-find-eg > span:first-child { flex-basis: 100%; } }
 .nx-app .nh-doors ul { gap: 0 var(--sp-6); }
 @container (min-width: 60rem) { .nx-app .nh-doors ul { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @container (min-width: 100rem) { .nx-app .nh-doors ul { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
