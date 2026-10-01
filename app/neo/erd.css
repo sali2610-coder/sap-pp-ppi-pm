@@ -1120,7 +1120,7 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 /* The module of a row is written, not painted: a code before the name. The
    3px colour bar that stood here repeated a code or carried the module by
    colour alone (gate 10, round 3). */
-.ne-row-m { margin-inline-end: var(--sp-2); font-family: var(--font-mono); font-style: normal; font-size: var(--t-micro); color: var(--ink-3); direction: ltr; unicode-bidi: isolate; }
+.ne-row-m { margin-inline-end: var(--sp-1); font-family: var(--font-mono); font-style: normal; font-size: var(--t-micro); color: var(--ink-3); direction: ltr; unicode-bidi: isolate; }
 .ne-row b { font-family: var(--font-mono); direction: ltr; font-size: var(--t-xs); color: var(--ink-1); }
 .ne-row em {
   font-style: normal;

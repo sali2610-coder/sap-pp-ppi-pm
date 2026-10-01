@@ -63,7 +63,7 @@ export function ErdInspector({
         <div className="ne-find">
           <p className="ne-find-n">
             {/* Announced as it changes (gate 6, blocker 6: the count was silent). */}
-            <span role="status">{nf.format(hits.length)} טבלאות ברשימה</span>
+            <span role="status">{hits.length === 1 ? "טבלה אחת ברשימה" : `${nf.format(hits.length)} טבלאות ברשימה`}</span>
             {q ? (
               <button type="button" className="nu-ghost" onClick={onClearQ}>
                 מסונן לפי &quot;{q}&quot; · ניקוי
@@ -82,7 +82,7 @@ export function ErdInspector({
                 >
                   <b className="nx-sap">{n.n}</b>
                   {/* A table from another module says so in words (gate 10). */}
-                  <em>{n.m !== M?.code ? <span className="ne-row-m nx-sap">{n.m}</span> : null}{n.he || n.en || "–"}</em>
+                  <em>{n.m !== M?.code ? <><span className="ne-row-m nx-sap">{n.m}</span>{" "}</> : null}{n.he || n.en || "–"}</em>
                   <span className="nx-sap">{degOf(n.n)}</span>
                 </button>
               </li>

@@ -1937,7 +1937,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                       <b className="nx-sap">{n.n}</b>
                       {/* The module in words: a search hit can come from any
                           module, and a colour bar was the only channel (gate 10). */}
-                      <em><span className="ne-row-m nx-sap">{n.m}</span>{n.he || n.en || "–"}</em>
+                      <em><span className="ne-row-m nx-sap">{n.m}</span>{" "}{n.he || n.en || "–"}</em>
                       <span className="nx-sap">{degOf(n.n)}</span>
                     </button>
                   </li>
