@@ -121,7 +121,7 @@
 ### ניתוח Gemini שני (01.10.2026) — נבדק מול הראיות
 | טענה | בדיקה |
 |---|---|
-| KBA 3695113 "Message No. CI100 raised within Task List transactions when adding a Material to an Operation the 1st time" | **לא אומת.** לא נמצא בחיפוש; גישה ל-support.sap.com חסומה מכאן. לפתוח ב-SAP for Me. גם אם קיים — עוסק ב-`CI100` (התוצאה), לא ב-`LF014` |
+| KBA 3695113 "Message No. CI100 raised within Task List transactions when adding a Material to an Operation the 1st time" | **אומת — קיים** (צילום Preview מהמשתמש). Symptom: "'Invalid Selection' is shown when adding a Material to a Task List the 1st time. When trying a 2nd time, the Material is added successfully". Keywords: IA01, IA02, IA06, IA11, IA12, **LCMDIIPM**, PM-PRM-TL. Cause/Resolution — מאחורי Login, **לא נקראו**. קשור לאותו קוד; האם הסיבה זהה לשלנו — פתוח. השערה (לא נבדקה): בפעם הראשונה `freie_zuordnung` יוצר פריט BOM ברקע, ובפעם השנייה המסלול עובר דרך `g_free_stpo_tab` (`datentransfer_freie_schon_da`) — ענף **ללא** השער של 3479804 |
 | `CI100` נוצרת ב-`MODULE rc27x-flg_sel` | **סותר את הדיבאגר:** `CI100` נעצרה ב-`LCMDIFPM` 4614 (`RIHSTPX-RECIPIENTLOCATIONCODE`) וב-`ADSUB_UPDATE_BEIKZ` 109 |
 | ה-Exit "הקפיץ" `LF014` וזה קטע את המסך | **סותר:** ה-Exit לא הציג כלום (`MESSAGE ... RAISING` נתפס, `SY-SUBRC=2`). `LF014` הוצגה ע"י קוד SAP (Note 3603616) אחרי השער של Note 3479804 |
 | ההבדל בין המערכות הוא `/CWM/` | **סותר:** ההרחבה `/CWM/APPL_PM_SAPLCMDI` פעילה גם ב-ECC ("active version"), והיא במודול `rihstpx-rgekz` — לא במסלול שלנו |
