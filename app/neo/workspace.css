@@ -476,9 +476,6 @@ html .nx-app .nx-canvas:has(> .nw) {
 }
 .nw-ch-s b { color: var(--ink-1); font-variant-numeric: tabular-nums; }
 .nw-ch-go { display: flex; gap: var(--sp-4); flex-wrap: wrap; margin-block-start: var(--sp-2); }
-/* a collapsed chapter's lead, outside its <summary>: the number is a spacer only */
-.nw-ch-h--lead > .nw-ch-n { visibility: hidden; block-size: 0; overflow: hidden; }
-.nw-ch-h--lead > .nw-ch-go { margin-block-start: 0; }
 .nw-ch-body { display: grid; gap: var(--sp-8); align-content: start; }
 .nw-ch-body > * { min-inline-size: 0; }
 
@@ -1344,7 +1341,6 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
   .nw-ch-body { gap: var(--sp-6); }
   .nw-ch-h { grid-template-columns: minmax(0, 1fr); gap: var(--sp-2); }
   .nw-ch-n { grid-row: auto; font-size: 2rem; }
-  .nw-ch-h--lead > .nw-ch-n { display: none; }
   .nw-ch-s { font-size: var(--t-body); }
   .nw-ch-go { flex-direction: column; align-items: stretch; gap: var(--sp-2); }
   .nw-ch-go > .nu-btn, .nw-ch-go > .nu-btn2 { inline-size: 100%; }
@@ -1605,3 +1601,68 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
 .nw-light { display: none; }
 .nw > section.nw-ch:nth-of-type(odd)::before,
 html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before { background: none; }
+
+/* ==========================================================================
+   THE CHAPTER HEAD, PLACED (2026-10-01). Every part of the head has a named
+   area, so nothing in it is auto-placed. When the number became a small label
+   (grid-row: auto, above) the grid moved the TITLE into the number's
+   auto-width column, and the sentence was left a 140px column at 1440: two or
+   three words a line, half the chapter empty beside it, on PM and PP-PI alike
+   (scripts/qa/text-layout-check.mjs). The number now sits in the kicker line.
+   Narrow canvas: one column in reading order. Wide canvas: the title and the
+   sentence on the start side, the chapter's count as its data on the end side,
+   the action under both.
+   ========================================================================== */
+.nw-ch-h {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "k" "t" "s" "stat" "go";
+  gap: var(--sp-2);
+  max-inline-size: none;
+}
+.nw-ch-k { grid-area: k; }
+.nw-ch-k .nw-ch-n { font-size: var(--t-xs); line-height: 1; color: var(--ink-3); }
+.nw-ch-t { grid-area: t; }
+.nw-ch-s { grid-area: s; max-inline-size: var(--measure); }
+.nw-ch-h > .nw-ch-go,
+.nw-ch-h > .nw-ch-toggle { grid-area: go; justify-self: start; }
+.nw-ch-stat {
+  grid-area: stat;
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  margin: var(--sp-1) 0 0;
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+}
+.nw-ch-stat b {
+  font-size: var(--t-h1);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--ink-1);
+  font-variant-numeric: tabular-nums;
+}
+/* A collapsed chapter's action sits right under its head (the toggle), not a
+   chapter gap below it: 12px, where the chapter's 24px gap left it detached. */
+.nw-ch[data-collapsed] { row-gap: var(--sp-3); }
+.nw-ch-lead { margin-block-start: 0; }
+@container nw (min-width: 52rem) {
+  .nw-ch-h {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "k k" "t stat" "s stat" "go go";
+    column-gap: var(--sp-12);
+  }
+  .nw-ch-stat {
+    flex-direction: column;
+    align-items: flex-end;
+    align-self: center;
+    gap: var(--sp-1);
+    margin: 0;
+    padding-inline-start: var(--sp-8);
+    border-inline-start: 1px solid var(--hairline);
+    text-align: end;
+  }
+  .nw-ch-stat b { font-size: clamp(2rem, 1.4rem + 1.6vw, var(--t-display)); }
+}
+/* A configuration sheet's description is reading text: 62 to 74 characters a
+   line (--measure), not 110 across the canvas. */
+.nw-sheet-kv dd { max-inline-size: var(--measure); }

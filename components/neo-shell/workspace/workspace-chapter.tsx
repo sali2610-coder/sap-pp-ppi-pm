@@ -48,6 +48,8 @@
 
 import { useEffect, useState, type ReactNode } from "react";
 
+const nf = new Intl.NumberFormat("he-IL");
+
 export interface ChapterMeta {
   /** Anchor id. The page index jumps to it, so it is also the scroll target. */
   id: string;
@@ -103,10 +105,17 @@ export function Chapter({
   wide?: boolean;
 }) {
   const [open, setOpen] = useHashOpen(meta.id, meta.collapsed);
+  // EVERY PART OF THE HEAD HAS A NAMED PLACE (workspace.css, "the chapter head,
+  // placed"). The number used to be auto-placed beside the kicker; when it
+  // stopped spanning the head's rows, the grid put the TITLE into the number's
+  // auto-width column and left the sentence a 140px column at 1440. The number
+  // now sits inside the kicker line, and the head carries the chapter's count as
+  // its data, beside the title on a wide canvas and under the sentence on a
+  // narrow one.
   const header = (
       <header className="nw-ch-h">
-        <span className="nw-ch-n nm-par-slow" aria-hidden="true">{String(meta.n).padStart(2, "0")}</span>
         <p className="nw-ch-k nm-fade">
+          <span className="nw-ch-n" aria-hidden="true">{String(meta.n).padStart(2, "0")}</span>
           <span className="nw-ch-ico" aria-hidden="true">{icon}</span>
           {meta.kicker}
         </p>
@@ -114,6 +123,16 @@ export function Chapter({
             outer one is the mask the line rises out of. */}
         <h2 className="nw-ch-t nm-kin" id={`${meta.id}-h`}><span><span>{meta.title}</span></span></h2>
         <p className="nw-ch-s nm-rise">{lede}</p>
+        {/* Only a collapsed chapter carries its count in the head: its body is
+            closed, so the head is where the data is. An open chapter's body
+            leads with its own figures, and a second copy above them repeated
+            "8 טבלאות משתנות" over the S/4HANA chapter's own 8. */}
+        {meta.collapsed ? (
+          <p className="nw-ch-stat">
+            <b className="nw-sap">{nf.format(meta.count)}</b>
+            <span>{meta.countLabel}</span>
+          </p>
+        ) : null}
         {/* A collapsed chapter's header is a <summary>, i.e. a button: its lead is
             rendered after the <details> instead, so no link sits inside a button. */}
         {lead && !meta.collapsed ? <p className="nw-ch-go nm-rise">{lead}</p> : null}
@@ -137,14 +156,9 @@ export function Chapter({
           <summary className="nw-ch-sum">{header}</summary>
           <div className="nw-ch-body">{children}</div>
         </details>
-        {/* Same grid as the header, with an invisible copy of the number, so the
-            lead lines up with the header's text column at every width. */}
-        {lead ? (
-          <div className="nw-ch-h nw-ch-h--lead">
-            <span className="nw-ch-n" aria-hidden="true">{String(meta.n).padStart(2, "0")}</span>
-            <p className="nw-ch-go">{lead}</p>
-          </div>
-        ) : null}
+        {/* The head's text starts at the chapter's start edge now, so the lead
+            needs no spacer to line up with it. */}
+        {lead ? <p className="nw-ch-go nw-ch-lead">{lead}</p> : null}
         </>
       ) : (
         <>

@@ -273,8 +273,11 @@
   /* The Hebrew reading column. `ch` is the width of "0", wider than an average
      Hebrew letter, so 72ch to 78ch set 86 to 96 characters a line (gate 3, major
      11). Plex Sans Hebrew runs about 0.46em a character, spaces included
-     (measured: 35em set 70 to 79), so 31em holds 60 to 72 at any size. */
-  --measure: 31em;
+     (measured: 35em set 70 to 79), so 31em held 60 to 72 at any size. 32em: at
+     body size that is 32rem, the floor for a body column on a desktop
+     (2026-10-01, after the module chapters' sentences collapsed), and still 62
+     to 74 characters a line. */
+  --measure: 32em;
 
   /* ---- shape -------------------------------------------------------------- */
   --radius: 4px;
