@@ -2046,551 +2046,251 @@
     {
       "source": "/academy/lesson/:slug(pmu-[^/]+)/",
       "destination": "/neo/academy/pm-user/:slug/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/academy/lesson/:slug(mm-[^/]+)/",
       "destination": "/neo/academy/mm/:slug/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/academy/lesson/:slug(wm-[^/]+)/",
       "destination": "/neo/academy/wm/:slug/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/academy/lesson/:slug(ppds-[^/]+)/",
       "destination": "/neo/academy/pp-ds/:slug/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/academy/lesson/:slug(sop-[^/]+)/",
       "destination": "/neo/academy/sop/:slug/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/academy/lesson/:slug(pm-[^/]+)/",
       "destination": "/neo/academy/pm/:slug/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/academy/lesson/:slug(pp-[^/]+)/",
       "destination": "/neo/academy/pp-pi/:slug/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/academy/lesson/:slug(qm-[^/]+)/",
       "destination": "/neo/academy/qm/:slug/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/academy/path/:id/",
       "destination": "/neo/academy/:id/",
-      "_c": {
-        "re": {},
-        "names": [
-          "id"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/tcode/:code/",
       "destination": "/neo/transactions/:code/",
-      "_c": {
-        "re": {},
-        "names": [
-          "code"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/apps/:code/",
       "destination": "/neo/transactions/:code/",
-      "_c": {
-        "re": {},
-        "names": [
-          "code"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/resolution/:slug/",
       "destination": "/neo/incidents/:slug/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/troubleshooting/:slug/",
       "destination": "/neo/incidents/:slug/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/impact/:code/",
       "destination": "/neo/tables/:code/",
-      "_c": {
-        "re": {},
-        "names": [
-          "code"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/concepts/:slug/",
       "destination": "/neo/knowledge/:slug/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/library/:book(book\\d+)/",
       "destination": "/neo/read/:book/",
-      "_c": {
-        "re": {},
-        "names": [
-          "book"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/library/v2/:book(book\\d+)/",
       "destination": "/neo/read/:book/",
-      "_c": {
-        "re": {},
-        "names": [
-          "book"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/library/pp/object/:code/",
       "destination": "/neo/academy/pp-pi/",
-      "_c": {
-        "re": {},
-        "names": [
-          "code"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/object/:id/",
       "destination": "/neo/object/:id/",
-      "_c": {
-        "re": {},
-        "names": [
-          "id"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/cds/:id/",
       "destination": "/neo/cds/:id/",
-      "_c": {
-        "re": {},
-        "names": [
-          "id"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/domain/:id/",
       "destination": "/neo/domain/:id/",
-      "_c": {
-        "re": {},
-        "names": [
-          "id"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/fiori-apps/:id/",
       "destination": "/neo/fiori-apps/:id/",
-      "_c": {
-        "re": {},
-        "names": [
-          "id"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/enhancements/:id/",
       "destination": "/neo/enhancements/:id/",
-      "_c": {
-        "re": {},
-        "names": [
-          "id"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/idoc/:id/",
       "destination": "/neo/idoc/:id/",
-      "_c": {
-        "re": {},
-        "names": [
-          "id"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/bapi/:id/",
       "destination": "/neo/bapi/:id/",
-      "_c": {
-        "re": {},
-        "names": [
-          "id"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/abap/:slug/",
       "destination": "/neo/centers/abap/:slug/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/blueprints/:slug/",
       "destination": "/neo/centers/blueprints/:slug/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/config/:slug/",
       "destination": "/neo/centers/config/:slug/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/debugging/:slug/",
       "destination": "/neo/centers/debugging/:slug/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/fiori/:slug/",
       "destination": "/neo/centers/fiori/:slug/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/integration/:slug/",
       "destination": "/neo/centers/integration/:slug/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/manufacturing/:slug/",
       "destination": "/neo/centers/manufacturing/:slug/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/migration/:slug/",
       "destination": "/neo/centers/migration/:slug/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/playbooks/:slug/",
       "destination": "/neo/centers/playbooks/:slug/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/toolkit/:slug/",
       "destination": "/neo/centers/toolkit/:slug/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/exits/:slug/",
       "destination": "/neo/enhancements/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/sap-notes/:slug/",
       "destination": "/neo/incidents/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/learn/:slug/",
       "destination": "/neo/academy/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/process/:slug/",
       "destination": "/neo/domain-model/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/oic/:slug/",
       "destination": "/neo/knowledge/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/solutions/:slug/",
       "destination": "/neo/best-practices/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/pm/:slug/",
       "destination": "/neo/pm/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/pp-pi/:slug/",
       "destination": "/neo/pp-pi/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/security/:slug/",
       "destination": "/neo/centers/process-auth/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/qa-testing/:slug/",
       "destination": "/neo/centers/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/process-explorer/:slug/",
       "destination": "/neo/domain-model/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/workbench/:slug/",
       "destination": "/neo/centers/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/design/:slug/",
       "destination": "/neo/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/ecc-s4/:slug/",
       "destination": "/neo/s4-readiness/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     },
     {
       "source": "/guides/:slug/",
       "destination": "/neo/centers/",
-      "_c": {
-        "re": {},
-        "names": [
-          "slug"
-        ]
-      },
       "permanent": false
     }
   ],

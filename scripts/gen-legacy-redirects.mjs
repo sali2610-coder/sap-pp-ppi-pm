@@ -173,9 +173,15 @@ export function compile(source) {
   });
   return { re: new RegExp(`^${re}$`), names };
 }
+// The compiled pattern is cached beside the rule, never on it: the rule objects
+// are what vercel.json is written from, and Vercel rejects a redirect with any
+// property it does not know. A cached `_c` on 50 pattern rules failed the
+// Preview deployment before it built (2026-10-01).
+const COMPILED = new WeakMap();
 export function apply(rules, p) {
   for (const r of rules) {
-    const c = r._c || (r._c = compile(r.source));
+    let c = COMPILED.get(r);
+    if (!c) { c = compile(r.source); COMPILED.set(r, c); }
     const m = p.match(c.re);
     if (!m) continue;
     let d = r.destination;
@@ -228,12 +234,19 @@ for (const r of RESOLVED) {
 }
 const summary = { legacyPages: LEGACY.length, kept: "404 frames and /design/redesign-2026/ boards", byKind, rules: generated.length + head.length, explicit: explicit.length, patterns: generated.length - explicit.length, misses: misses.length, byFamily };
 
+// The fields Vercel accepts on a redirect. Anything else fails the deployment at
+// creation, before the build, so the check rejects it here.
+const REDIRECT_KEYS = new Set(["source", "destination", "permanent", "statusCode", "has", "missing"]);
+const badKeys = (list) => list.flatMap((r, i) => Object.keys(r).filter((k) => !REDIRECT_KEYS.has(k)).map((k) => `redirects[${i}].${k}`));
+
 if (CHECK) {
   const current = vercel.redirects || [];
   const same = JSON.stringify(current) === JSON.stringify(next.redirects);
-  console.log(JSON.stringify({ upToDate: same, misses: misses.slice(0, 10), ...summary }, null, 1));
-  process.exit(same && !misses.length ? 0 : 1);
+  const invalid = badKeys(current);
+  console.log(JSON.stringify({ upToDate: same, invalidFields: invalid.slice(0, 10), misses: misses.slice(0, 10), ...summary }, null, 1));
+  process.exit(same && !misses.length && !invalid.length ? 0 : 1);
 }
+if (badKeys(next.redirects).length) { console.error("invalid redirect fields:", badKeys(next.redirects).slice(0, 10)); process.exit(1); }
 if (misses.length) { console.error("unresolved:", misses.slice(0, 10)); process.exit(1); }
 writeFileSync(VERCEL, JSON.stringify(next, null, 2) + "\n");
 if (process.env.REPORT) writeFileSync(process.env.REPORT, JSON.stringify({ summary, pages: RESOLVED }, null, 1));
