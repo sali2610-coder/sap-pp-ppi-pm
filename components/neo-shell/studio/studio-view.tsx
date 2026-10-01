@@ -53,6 +53,10 @@ import { S4_STATUS_DOT, S4_STATUS_WORD } from "@/lib/evidence/types";
 
 type Mod = "PM" | "PP-PI";
 const MODULES: Mod[] = ["PM", "PP-PI"];
+/** The zoom where the smallest presentation label (.78rem, 12.48px) reads at
+ *  12px: 12 / 12.48, rounded up. Both the presentation fit floor and the level
+ *  of detail use it, so a presentation never arrives with its labels hidden. */
+const PRESENT_LOD_K = 0.962;
 
 /** The first layer of a module: the first zone (in ZONES order) that has at
  *  least one table in the module's graph. The studio opens on it (design
@@ -177,15 +181,17 @@ export function StudioView() {
     if (!maxX || !maxY) return;
     const PAD = 48;
     const raw = Math.min((el.clientWidth - PAD) / maxX, (el.clientHeight - PAD) / maxY, 1.4);
-    // PRESENTATION (design audit S6-3): a fit never lands below 90%, so the
-    // labels stay legible from across a room; the presenter pans to the rest.
+    // PRESENTATION (design audit S6-3): a fit never lands below 0.962, the zoom
+    // where the smallest presentation label (12.48px) reads at 12px, so the
+    // labels are drawn and legible from across a room (it was 0.9, which drew
+    // them at 11.2px; gate 7, round 3, major 2); the presenter pans to the rest.
     // Otherwise a fit never shrinks the smallest node below a 44px target (the
     // brief's touch target; WCAG 2.5.8 asks 24): measured, a 390px canvas
     // fitted 44px nodes to 15px, and 24px still set their 12.5px labels at
     // 6.8px. At the floor the labels read at 12px or more. On a narrow canvas
     // the reader pans instead; wide screens fit above the floor.
     const floor = 44 / Math.min(...laid.nodes.map((n) => n.h));
-    const k = present ? Math.max(raw, 0.9) : Math.max(raw, floor);
+    const k = present ? Math.max(raw, PRESENT_LOD_K) : Math.max(raw, floor);
     setCam({ k, x: (el.clientWidth - maxX * k) / 2, y: (el.clientHeight - maxY * k) / 2 });
   }, [laid.nodes, present]);
 
@@ -193,8 +199,8 @@ export function StudioView() {
     const el = wrapRef.current;
     const n = laid.nodes.find((x) => x.id === id);
     if (!el || !n) return;
-    // 1, not 0.9: below 0.96 the node labels (12 to 12.8px) fall under 12px
-    // and the level of detail stops drawing them (studio.css).
+    // 1, not 0.9: below 1 the smallest node label (12px) falls under 12px and
+    // the level of detail stops drawing it (studio.css).
     const k = Math.max(cam.k, 1);
     setCam({ k, x: el.clientWidth / 2 - (n.x + n.w / 2) * k, y: el.clientHeight / 2 - (n.y + n.h / 2) * k });
   }, [laid.nodes, cam.k]);
@@ -467,11 +473,13 @@ export function StudioView() {
           onPointerUp={() => { drag.current = null; }}
           onWheel={(e) => { if (e.ctrlKey || e.metaKey) { e.preventDefault(); zoom(e.deltaY < 0 ? 1.1 : 1 / 1.1); } }}
         >
-          {/* data-lod: whether the node labels read at 12px at this zoom
-              (studio.css, "level of detail"). Presentation sets them 14px. */}
+          {/* data-lod: whether the SMALLEST node label reads at 12px at this
+              zoom (studio.css, "level of detail"): the 12px second line, or
+              12.48px when presenting. The thresholds came from the larger
+              label and drew the second line at 11.5px (gate 7, round 3). */}
           <div
             className="nst-stage"
-            data-lod={cam.k >= (present ? 0.86 : 0.96) ? "1" : "0"}
+            data-lod={cam.k >= (present ? PRESENT_LOD_K : 1) ? "1" : "0"}
             style={{ transform: `translate(${cam.x}px, ${cam.y}px) scale(${cam.k})` }}
           >
             <svg className="nst-edges" width={laid.width || 1} height={laid.height || 1} aria-hidden="true">

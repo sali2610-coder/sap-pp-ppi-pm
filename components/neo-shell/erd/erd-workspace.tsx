@@ -868,30 +868,46 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   const fitOnEnter = useCallback(() => {
     const st = stage.current;
     const b = bboxRef.current;
-    if (!st || isMap || present || live.ego) { fitTo(b, isMap && !present && !live.ego ? MAP_MIN_K : 0); return; }
-    const raw = Math.min((st.clientWidth - PAD * 2) / b.w, (st.clientHeight - PAD * 2) / b.h);
-    if (raw >= ENTRY_MIN_K) { fitTo(b); return; }
+    if (!st) return;
     // Positions come from `target`, the picture being arrived at. `live` is
     // committed by the tween effect one render later, so when this runs it can
     // still hold the previous picture (the module map), and aiming at it put
     // the camera on a module card's coordinates inside the new module: AUFK
     // below the stage with 3 of 20 tables in view (gate 10, round 3).
     const pos = target.pos;
-    const miniEl = mini ? document.querySelector<HTMLElement>(".ne .ne-mini") : null;
+    const miniEl = mini && !present ? document.querySelector<HTMLElement>(".ne .ne-mini") : null;
     const miniH = miniEl ? miniEl.getBoundingClientRect().height + 12 : 0;
     const aim = (x: number, y: number, k: number) => {
       autoBox.current = null;
       glide({ k, x: st.clientWidth / 2 - x * k, y: (st.clientHeight - miniH) / 2 - y * k });
     };
+    // FOCUS MODE keeps the selection fit's floor (gate 7, round 3, major 1): the
+    // neighbourhood is framed whole when that leaves a table code readable
+    // (NODE_MIN_K), and otherwise the focused table is centred at that floor.
+    // A true fit put AUFK's two rings at 0.34, where no label is drawn.
+    if (live.ego && !isMap && !present) {
+      const fitK = Math.min((st.clientWidth - PAD * 2) / b.w, (st.clientHeight - PAD * 2 - miniH) / b.h);
+      const p = sel ? pos.get(sel) : undefined;
+      if (fitK < NODE_MIN_K && p) aim(p.x, p.y, clampK(NODE_MIN_K));
+      else fitTo(b);
+      return;
+    }
+    if (isMap || present || live.ego) { fitTo(b, isMap && !present && !live.ego ? MAP_MIN_K : 0); return; }
+    const raw = Math.min((st.clientWidth - PAD * 2) / b.w, (st.clientHeight - PAD * 2) / b.h);
+    if (raw >= ENTRY_MIN_K) { fitTo(b); return; }
     // A deep link (/neo/erd/#AUFK) or a restored selection names the table the
-    // reader came for: arrival frames it and its neighbours above the minimap
-    // when they fit at a readable zoom, and centres on the table when not.
+    // reader came for: arrival frames it and its first-degree neighbours above
+    // the minimap whenever that keeps a table code readable (NODE_MIN_K, the
+    // selection fit's floor), and centres on the table when not. At the module
+    // floor (1.05) the ring never fitted and its outer tables were cut at the
+    // stage edge (gates 7 and 10, round 3); names come back with the zoom, and
+    // the inspector prints them in full.
     if (sel && pos.has(sel)) {
       const ring = bboxOf(pos, sizeMap, new Set([sel, ...(adj.get(sel) || [])]));
       const fitK = Math.min((st.clientWidth - PAD * 2) / ring.w, (st.clientHeight - PAD * 2 - miniH) / ring.h);
-      const k = clampK(Math.min(1.35, Math.max(fitK, ENTRY_MIN_K)));
+      const k = clampK(Math.min(1.35, Math.max(fitK, NODE_MIN_K)));
       const p = pos.get(sel)!;
-      if (fitK >= ENTRY_MIN_K) aim(ring.x + ring.w / 2, ring.y + ring.h / 2, k);
+      if (fitK >= NODE_MIN_K) aim(ring.x + ring.w / 2, ring.y + ring.h / 2, k);
       else aim(p.x, p.y, k);
       return;
     }
@@ -1351,8 +1367,18 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       const want = decodeURIComponent((window.location.hash || "").slice(1)).toUpperCase();
       const t = want ? data.tables.find((x) => x.n.toUpperCase() === want) : undefined;
       if (!t) return;
-      setMod(t.ms[0] ?? t.m);
+      // The table's main module, the one its rows and the inspector name, when
+      // it is one of its pictures; #AUFK opened PP, the first membership, while
+      // every label said PM (gate 7, round 3, minor 4).
+      setMod(t.ms.includes(t.m) ? t.m : (t.ms[0] ?? t.m));
       setSel(t.n);
+      // On a phone the stage is a bounded box under the page header, so the
+      // linked table is brought into view with it, as opening a table does
+      // (gate 7, round 3, minor 3: AUFK arrived 79px below the fold).
+      if (window.matchMedia("(max-width: 640px)").matches) {
+        const r = st.getBoundingClientRect();
+        if (r.top < 0 || r.bottom > window.innerHeight) st.scrollIntoView({ block: "center" });
+      }
     });
     let refit = 0;
     const ro = new ResizeObserver(() => {
@@ -2439,7 +2465,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
           </>
         ) : (
           <p className="ne-fhint">
-            בחירת מודול פותחת את מודל הנתונים שלו. המספר על קו הוא כמה קשרי טבלאות מחברים בין שתי
+            בחירת מודול פותחת את מודל הנתונים שלו. המספר על קו, שמוצג מזום של 100% ובריחוף מעל הקו, הוא כמה קשרי טבלאות מחברים בין שתי
             התמונות: קצה אחד בתמונה של מודול אחד והקצה השני בתמונה של השני. טבלה יכולה להופיע בכמה
             תמונות, ולכן קשר אחד נספר בכמה זוגות. מוצגים קווים של 4 קשרים ומעלה.
           </p>

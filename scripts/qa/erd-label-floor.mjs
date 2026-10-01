@@ -57,6 +57,7 @@ const probe = () => {
     }
     for (const g of erd.querySelectorAll(".ne-node .ne-node-r")) {
       const r = g.getBoundingClientRect(); const sr = st.getBoundingClientRect();
+      if (!r.width || !r.height || !sr.width || !sr.height) continue; // a hidden canvas has no targets
       if (r.bottom < sr.top || r.top > sr.bottom || r.right < sr.left || r.left > sr.right) continue;
       out.targets.n++; const h = Math.min(r.height, r.width);
       out.targets.minH = out.targets.minH === null ? h : Math.min(out.targets.minH, h);
@@ -96,6 +97,7 @@ const probe = () => {
     }
     for (const b of stage.querySelectorAll(".nst-node")) {
       const r = b.getBoundingClientRect();
+      if (!r.width || !r.height) continue;
       if (r.bottom < wrap.top || r.top > wrap.bottom || r.right < wrap.left || r.left > wrap.right) continue;
       out.targets.n++; const h = Math.min(r.height, r.width);
       out.targets.minH = out.targets.minH === null ? h : Math.min(out.targets.minH, h);
@@ -123,6 +125,18 @@ for (const [name, opts] of PROFILES) {
       const m = await page.evaluate(probe);
       rows.push({ profile: name, route, ...m });
       console.log(`${name.padEnd(10)} ${route.padEnd(14)} k=${m.k} lod=${m.lod} drawn ${m.drawn} hidden ${m.hidden} under12 ${m.under12} min ${m.min}px · targets ${m.targets?.n} min ${m.targets?.minH}px under44 ${m.targets?.under44}`);
+      // Beyond arrival (gate 7, round 3): focus mode on the deep link and the
+      // studio presenting, the two states the arrival-only check missed.
+      const state = name === "390-phone" ? null
+        : route === "/neo/erd/#AUFK" ? ["focus", "סידור סביב הנבחרת"]
+        : route === "/neo/studio/" ? ["present", /^מצב הצגה/] : null;
+      if (state) {
+        await page.getByRole("button", { name: state[1] }).first().click();
+        await page.waitForTimeout(2200);
+        const f = await page.evaluate(probe);
+        rows.push({ profile: name, route: `${route} + ${state[0]}`, ...f });
+        console.log(`${name.padEnd(10)} ${(route + " +" + state[0]).padEnd(14)} k=${f.k} lod=${f.lod} drawn ${f.drawn} hidden ${f.hidden} under12 ${f.under12} min ${f.min}px · targets ${f.targets?.n} min ${f.targets?.minH}px under44 ${f.targets?.under44}`);
+      }
     } catch (e) {
       rows.push({ profile: name, route, fatal: String(e).slice(0, 160) });
       console.log(`${name} ${route} FATAL ${String(e).slice(0, 120)}`);
@@ -131,7 +145,8 @@ for (const [name, opts] of PROFILES) {
   await ctx.close();
 }
 await browser.close();
-const fail = rows.filter((r) => r.fatal || r.under12 > 0).length;
+// A drawn label under 12px or a drawn target under 44px fails the run.
+const fail = rows.filter((r) => r.fatal || r.under12 > 0 || (r.targets?.under44 || 0) > 0).length;
 fs.writeFileSync(OUT, JSON.stringify({ base: BASE, at: new Date().toISOString(), rows }, null, 1));
-console.log(`profiles with a drawn label under 12px: ${fail}`);
+console.log(`states with a drawn label under 12px or a target under 44px: ${fail}`);
 process.exit(fail ? 1 : 0);
