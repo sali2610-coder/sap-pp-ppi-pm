@@ -696,7 +696,7 @@ html[data-theme="dark"] ::highlight(neo-cited) {
    What decides whether two columns are readable is how wide the READING SHEET
    is, and that is not a function of the window: the rail, the shell navigation
    and the reader's own measure setting all take a share first. So the spread
-   asks the sheet. Under 42rem of sheet the same pairs STACK — Hebrew, then its
+   asks the sheet. Under 54rem of sheet the same pairs STACK — Hebrew, then its
    English, then the next pair — which keeps the facing-paragraph relationship
    intact on a 390px phone instead of squeezing two columns into 170px each.
    There is no third layout, and no language is dropped at any width.
@@ -705,8 +705,20 @@ html[data-theme="dark"] ::highlight(neo-cited) {
    measure split in half: `--nr-measure` still governs each column, and the block
    is allowed twice it plus the gutter.
    ========================================================================== */
+/* THE SPREAD OPENS ONLY WHERE A COLUMN CAN BE READ (text-layout check,
+   2026-10-01). From 42rem of sheet the spread set Hebrew and English in two
+   333-366px columns at 1440, about 40 characters a line, against a reading
+   target of 45 to 75. It now opens at 54rem: two columns of the narrow
+   measure (26em) and the gutter. Stacked, the pair keeps ONE measure (plus the
+   English cell's indent), and the sheet narrows to the single-language width
+   while its column cannot hold a spread (container nrcol), so a stacked page
+   is not a measure-wide text beside an empty half sheet. */
 .nr-prose[data-bi="1"] {
-  max-inline-size: min(100%, calc(var(--nr-measure) * 2 + var(--sp-8)));
+  max-inline-size: min(100%, calc(var(--nr-measure) + 1rem));
+}
+.nr-col { container: nrcol / inline-size; }
+@container nrcol (max-width: 58rem) {
+  .nr[data-lang="both"] .nr-sheet { max-inline-size: calc(var(--nr-measure) + 10rem); }
 }
 .nr-bi { display: grid; gap: var(--sp-5); }
 .nr-bi-row {
@@ -749,7 +761,10 @@ html[data-theme="dark"] ::highlight(neo-cited) {
   border-inline-start: 2px solid var(--line-strong);
 }
 
-@container nrsheet (min-width: 42rem) {
+@container nrsheet (min-width: 54rem) {
+  .nr-prose[data-bi="1"] {
+    max-inline-size: min(100%, calc(var(--nr-measure) * 2 + var(--sp-8)));
+  }
   .nr-bi-row {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: var(--sp-8);
@@ -893,7 +908,16 @@ html[data-theme="dark"] ::highlight(neo-cited) {
   .nr-meter-t { justify-self: start; }
   .nr-meter-n { justify-self: end; }
 }
-@media (min-width: 1800px) { .nr { --nr-rail-w: 17rem; } }
+/* THE RAIL'S TITLES, MEASURED (text-layout check, 2026-10-01). In a 14.5rem
+   rail the track, the fold, the section number and the button's padding left
+   a section title 96px at 1280 and 1440: "Implementati / on Strategy", two
+   words a line, most titles cut at their second line. The rail grows with the
+   canvas instead: 16rem from 1280px and 18.5rem from 1400px, where the sheet
+   keeps a 698px content box; 20rem from 1800px. Below 1280px it stays 14.5rem, so a
+   narrow window does not take reading width for the navigator. */
+@media (min-width: 1280px) { .nr { --nr-rail-w: 16rem; } }
+@media (min-width: 1400px) { .nr { --nr-rail-w: 18.5rem; } }
+@media (min-width: 1800px) { .nr { --nr-rail-w: 20rem; } }
 
 /* --- the rail's table of contents ---------------------------------------- */
 .nr-rtoc {
