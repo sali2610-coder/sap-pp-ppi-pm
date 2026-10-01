@@ -44,7 +44,7 @@
        brand red (globals.css: brand is never a module colour).
    ========================================================================== */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { kgraph, tableByName } from "@/lib/knowledge-graph";
 
@@ -70,7 +70,9 @@ const W = 760;
 const NW = 148;
 const NH = 36;
 const ROW_H = 50;
-const PAD_Y = 38;
+// The first row starts below the lane headings (y 20): at 38 the first node's
+// box began at y 20 and covered half of "מעלה הזרם" (gates 7 and 10, round 3).
+const PAD_Y = 52;
 const CAP = 8;
 
 const descOf = (n: string) => {
@@ -95,6 +97,7 @@ function LaneNode({
       transform={`translate(${x - NW / 2},${y - NH / 2})`}
       className="nol-n"
       data-on={on ? "1" : "0"}
+      data-center={center ? "1" : undefined}
       style={{ opacity: center ? 1 : dimVal, cursor: exists && !center ? "pointer" : "default" }}
       onMouseEnter={() => !center && setHot(label)}
       onMouseLeave={() => setHot(null)}
@@ -155,6 +158,9 @@ function LaneEdge({
   d: string; mx: number; my: number; col: string; card: string | undefined; other: string;
   arrow: string; on: boolean; dimVal: number; setHot: (n: string | null) => void;
 }) {
+  // An empty string in the dictionary is no cardinality, the same as a missing
+  // one: it drew an empty dashed pill instead of "–" (gate 10, round 3).
+  card = card?.trim() || undefined;
   return (
     <g className="nol-e" data-on={on ? "1" : "0"} data-card={card ? "stated" : "unstated"}
       style={{ opacity: dimVal }}
@@ -192,6 +198,20 @@ export function ObjectLanes({ name }: { name: string }) {
   const [hot, setHot] = useState<string | null>(null);
   /** Click target. Sticky until dismissed, and what the strip reports. */
   const [sel, setSel] = useState<string | null>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  /* A canvas narrower than the diagram pans (the 760px floor), and it opened on
+     its start edge: at 390 the current object was a sliver at the far edge and
+     one lane was all there was to see (gate 10, round 3). It now opens with the
+     current object in the middle. scrollLeft += the offset moves the view the
+     same way in either direction. */
+  useEffect(() => {
+    const el = stageRef.current;
+    const hub = el?.querySelector<SVGGElement>("[data-center='1']");
+    if (!el || !hub || el.scrollWidth <= el.clientWidth) return;
+    const r = hub.getBoundingClientRect();
+    const c = el.getBoundingClientRect();
+    el.scrollLeft += r.left + r.width / 2 - (c.left + c.width / 2);
+  }, [name, exp]);
 
   if (!g) return null;
 
@@ -257,7 +277,7 @@ export function ObjectLanes({ name }: { name: string }) {
 
   return (
     <div className="nol">
-      <div className="nol-stage">
+      <div className="nol-stage" ref={stageRef}>
         <svg
           viewBox={`0 0 ${VW} ${H}`}
           width="100%"

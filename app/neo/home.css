@@ -97,8 +97,11 @@ html[data-device="phone"] .nx-app .nh-find-k { display: none; }
 @container (min-width: 100rem) { .nx-app .nh-doors ul { grid-template-columns: repeat(7, minmax(0, 1fr)); } }
 .nx-app .nh-door {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  grid-template-areas: "i name n" "sub sub sub";
+  /* The count stands beside its own title, not at the far end of the cell:
+     there it sat 24px from the next door's icon and up to 230px from its own
+     title, and "11" read as part of the next door (gate 3, round 3, major 1). */
+  grid-template-columns: auto minmax(0, max-content) auto 1fr;
+  grid-template-areas: "i name n ." "sub sub sub sub";
   align-items: center;
   /* Rows keep their own height when a sibling's subline wraps: stretched, the
      name row of the short doors grew and their titles sat 5px lower than the
