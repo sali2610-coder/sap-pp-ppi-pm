@@ -10,8 +10,11 @@
 // forced (line height 1.5, letter spacing .12em, word spacing .16em), because
 // the spacing is what clips most summaries. For every element whose visible
 // text no longer fits its clipping box it records the path:
-//   link      inside a[href]; the target page is fetched and must contain the
-//             element's full text (tags stripped, whitespace folded)
+//   link      inside a[href], or in the same row as one (a table row, a list
+//             item); the target page is fetched and must contain every text
+//             segment of the element (tags stripped, whitespace folded)
+//   control   inside a button: the button is pressed, and the full text must
+//             then be printed unclipped (on the page or the page it opened)
 //   in-page   the same page prints the full text in an element that is not
 //             clipped (a breadcrumb's current step is the page's own title)
 //   expand    inside a <summary>, or an [aria-expanded] control
@@ -98,7 +101,20 @@ const collect = () => {
     if (t.length >= 4 && t.length <= 4000) pool.push([o, t]);
   }
   for (const { el, id, text, c } of hits) {
-    const a = el.closest("a[href]");
+    // the row's own link when the clipped cell is not inside it
+    const row = el.closest("tr, li, [role=row], .nxd-item, .nw-row");
+    const a = el.closest("a[href]") || (row ? row.querySelector("a[href]") : null);
+    // the text as its segments (a composed label: "תפקיד: " + roles)
+    const segs = [];
+    const walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    // …and each text node as its sentences: a summary that joins the S/4HANA
+    // note and the QA line is printed on its record as two blocks
+    for (let n = walk.nextNode(); n; n = walk.nextNode()) {
+      for (const sentence of (n.textContent || "").split(/(?<=[.!?;])\s+/)) {
+        const t = sentence.replace(/\s+/g, "");
+        if (t.length >= 6) segs.push(t);
+      }
+    }
     const sum = el.closest("summary");
     const exp = el.closest("[aria-expanded]");
     const btn = el.closest("button");
@@ -117,7 +133,7 @@ const collect = () => {
       }
     }
     out.push({ id, cls: `${el.tagName.toLowerCase()}.${String(el.className || "").split(" ")[0]}`, text, ...c,
-      href: a ? a.getAttribute("href") : null, summary: !!sum, expanded: !!exp, button: !!btn, inPage, title: !!(el.getAttribute("title") || el.closest("[title]")) });
+      href: a ? a.getAttribute("href") : null, segs, summary: !!sum, expanded: !!exp, button: !!btn, inPage, title: !!(el.getAttribute("title") || el.closest("[title]")) });
   }
   return out;
 };
@@ -137,10 +153,39 @@ for (const route of ROUTES) {
         let path = "none";
         if (f.href) {
           const t = await textOf(f.href);
-          path = t && t.includes(fold(f.text)) ? "link" : (t ? "link-missing" : "link-unreadable");
+          const segs = f.segs.length ? f.segs : [fold(f.text)];
+          path = t && (t.includes(fold(f.text)) || segs.every((g) => t.includes(g))) ? "link" : (t ? "link-missing" : "link-unreadable");
         }
         if (path !== "link" && f.inPage) path = "in-page";
         if (path !== "link" && path !== "in-page" && (f.summary || f.expanded)) path = "expand";
+        if (path !== "link" && path !== "in-page" && path !== "expand" && f.button) {
+          // press the button and look for the text, unclipped, where it lands
+          try {
+            const pg = await ctx.newPage();
+            await pg.goto(BASE + route, { waitUntil: "networkidle", timeout: 90000 });
+            await pg.waitForTimeout(400);
+            if (mode === "spacing") { await pg.addStyleTag({ content: SPACING }); await pg.waitForTimeout(300); }
+            await pg.evaluate(collect);
+            const btn = pg.locator(`[data-cr="${f.id}"]`).locator("xpath=ancestor-or-self::button[1]");
+            await btn.click({ timeout: 4000 });
+            await pg.waitForTimeout(1200);
+            const seen = await pg.evaluate((want) => {
+              const f2 = (s) => String(s).replace(/\s+/g, "");
+              for (const e of document.querySelectorAll("h1, h2, h3, p, span, a, b, li, dd, td, div")) {
+                if (e.closest("[aria-hidden='true'], [hidden]")) continue;
+                const t = f2(e.textContent || "");
+                if (t.length < want.length || t.length > want.length * 3 + 40 || !t.includes(want)) continue;
+                const r = e.getBoundingClientRect(); if (r.width < 4 || r.height < 4) continue;
+                const cs = getComputedStyle(e);
+                const clipped = (/hidden|clip/.test(cs.overflowX) && e.scrollWidth > e.clientWidth + 1) || ((/hidden|clip/.test(cs.overflowY) || (cs.webkitLineClamp && cs.webkitLineClamp !== "none")) && e.scrollHeight > e.clientHeight + 1);
+                if (!clipped) return true;
+              }
+              return false;
+            }, fold(f.text).replace(/^פרק\d+·?/, ""));
+            await pg.close();
+            if (seen) path = "control";
+          } catch { /* the press failed: the path stays unproven */ }
+        }
         if (path === "none" && f.title) path = "title";
         // the accessibility tree: the element's accessible text still carries
         // the whole string (a clamp hides pixels, not text)
@@ -151,7 +196,7 @@ for (const route of ROUTES) {
         } catch { ax = null; }
         rows.push({ route, mode, path, ax, cls: f.cls, text: f.text.slice(0, 80), href: f.href, dx: f.dx, dy: f.dy, ellipsis: f.ellipsis, clamp: f.clamp, title: f.title });
       }
-      const fails = rows.filter((r) => r.route === route && r.mode === mode && !["link", "in-page", "expand"].includes(r.path)).length;
+      const fails = rows.filter((r) => r.route === route && r.mode === mode && !["link", "in-page", "expand", "control"].includes(r.path)).length;
       console.log(`${PROFILE} ${mode.padEnd(7)} ${route.padEnd(52)} clipped ${found.length} · no path ${fails}`);
     } catch (e) {
       rows.push({ route, mode, fatal: String(e).slice(0, 160) });
@@ -162,7 +207,7 @@ for (const route of ROUTES) {
 await browser.close();
 const byPath = {};
 for (const r of rows) if (r.path) byPath[r.path] = (byPath[r.path] || 0) + 1;
-const failing = rows.filter((r) => r.path && !["link", "in-page", "expand"].includes(r.path));
+const failing = rows.filter((r) => r.path && !["link", "in-page", "expand", "control"].includes(r.path));
 const axMissing = rows.filter((r) => r.ax === false);
 const byCls = {};
 for (const r of failing) byCls[r.cls] = (byCls[r.cls] || 0) + 1;
