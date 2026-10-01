@@ -1981,3 +1981,68 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
 .nx-app .nxd-stats .nxd-stat > span:last-child, .nx-app .nxb-stats .nxb-stat em {
   font-size: var(--t-sm); color: var(--ink-2);
 }
+
+/* ============================================================================
+   THE CATALOGUE ROW ASKS ITS OWN WIDTH (text-layout check, 2026-10-01)
+   ----------------------------------------------------------------------------
+   The six-track row (code · name · counters · S/4HANA · arrow) was chosen by
+   the VIEWPORT, from 1381px. The row's real width is the canvas's, and the
+   sidebar takes 300px of it: at 1440 the Hebrew name was left 98-164px and
+   broke into four and five lines of one or two words (scripts/qa/
+   text-layout-check.mjs, 164 P0 blocks on /neo/bapi/ alone). Between the
+   tablet and the ultrawide list the LIST's width now decides: below 78rem the
+   row takes two lines in two columns (code over counters, name over the
+   S/4HANA note); from 78rem it keeps one line and the note's column grows
+   from 13rem to 16rem.
+   Two older faults go with it. The two-line row named no place for the arrow,
+   so the grid put it in an implicit third row and fifth column of its own
+   (an empty line under every row at 1280); it now spans both lines at the
+   end. And the 6.5rem the row reserves for a second action is released on
+   rows that have none (BAPI, CDS, Fiori, IDoc, enhancements).
+   ========================================================================== */
+.nx-app .nxd-list { container: nxd-list / inline-size; }
+.nx-app .nxd-item:not(:has(> .nxd-ctx)) > .nxd-row { padding-inline-end: var(--sp-3); }
+@media (min-width: 1025px) and (max-width: 2199px) {
+  .nx-app .nxd-row:not(.nxd-row--tx) {
+    grid-template-columns: 3px minmax(7rem, auto) minmax(0, 1fr) auto auto auto;
+    grid-template-areas: "mark id body nums s4 go";
+  }
+  .nx-app .nxd-row--tx {
+    grid-template-columns: 3px minmax(6.5rem, auto) minmax(0, 1fr) auto auto;
+    grid-template-areas: "mark id body nums go";
+  }
+  .nx-app .nxd-s4 { inline-size: 16rem; grid-template-columns: minmax(0, 1fr); align-items: start; gap: 3px; }
+  /* Two lines, two columns: the code and its counters on the inline start,
+     the name and the S/4HANA note beside them. Counters beside the name (the
+     tablet composition) left a table's topics 178px at 1280, where five
+     counters and a CDS view name took 380px of the line; counters beside the
+     note left the note 178px. Under the code they take the code's column,
+     at most 22rem, and both lines of prose keep the rest. */
+  @container nxd-list (max-width: 78rem) {
+    .nx-app .nxd-row:not(.nxd-row--tx) {
+      grid-template-columns: 3px minmax(7rem, auto) minmax(0, 1fr) auto;
+      grid-template-areas:
+        "mark id   body go"
+        "mark nums s4   go";
+      align-items: start;
+    }
+    .nx-app .nxd-s4 { inline-size: auto; grid-template-columns: minmax(0, 1fr); align-items: start; gap: 3px; }
+    .nx-app .nxd-row:not(.nxd-row--tx) .nxd-go { align-self: center; }
+  }
+}
+/* Phone: the note goes UNDER its status. Beside it, the status took a third
+   of a 330px row and the note was left 202px, 20 characters a line. */
+@media (max-width: 720px) {
+  .nx-app .nxd-s4 { grid-template-columns: minmax(0, 1fr); align-items: start; gap: 3px; }
+}
+
+/* A dictionary row with no page of its own (.is-flat) has no detail view to
+   carry the rest of a clamped line, so it is not clamped: the name and the
+   S/4HANA note print in full (P0, clipped text needs a way to the rest that is
+   not a hover; 2026-10-01). */
+.nx-app .nxd-row.is-flat :is(.nxd-he, .nxd-s4-t) {
+  display: block;
+  -webkit-line-clamp: unset;
+  line-clamp: none;
+  overflow: visible;
+}

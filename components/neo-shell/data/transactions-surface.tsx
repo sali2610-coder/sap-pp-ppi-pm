@@ -36,7 +36,7 @@
 //               "showing the first 300" note.
 
 import { rovingKeys } from "../focus";
-import { enLang } from "../lang";
+import { enLang, slashBreaks } from "../lang";
 import Link from "next/link";
 import { useCallback, useEffect, useId, useMemo, useState, ViewTransition } from "react";
 import {
@@ -156,9 +156,9 @@ function Row({ t, fav, onOpen, landed, st }: { t: RegistryTx; fav: boolean; onOp
         </span>
 
         <span className="nxd-body">
-          <span className="nxd-he">{t.he || t.en || "אין כותרת במאגר"}</span>
+          <span className="nxd-he">{slashBreaks(t.he || t.en) || "אין כותרת במאגר"}</span>
           <span className="nxd-sub">
-            {t.en ? <span dir="ltr" className="nxd-en" lang={enLang(t.en)}>{t.en}</span> : null}
+            {t.en ? <span dir="ltr" className="nxd-en" lang={enLang(t.en)}>{slashBreaks(t.en)}</span> : null}
             {t.en && t.area ? <span className="nxd-dot" aria-hidden="true">·</span> : null}
             {t.area ? <span>{t.area}</span> : null}
           </span>

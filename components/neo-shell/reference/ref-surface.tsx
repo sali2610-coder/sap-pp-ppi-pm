@@ -35,7 +35,7 @@
    ========================================================================== */
 
 import { rovingKeys } from "../focus";
-import { enLang } from "../lang";
+import { enLang, slashBreaks } from "../lang";
 import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -118,10 +118,10 @@ function Row({ r, onOpen }: { r: RefRow; onOpen: (id: string) => void }) {
           <span className="nxd-he">
             {r.lead === "name"
               ? (r.group ? `תפקיד: ${r.group}` : "לא צוין תפקיד עסקי במאגר")
-              : (r.he || "אין תיעוד מאומת במאגר")}
+              : (slashBreaks(r.he) || "אין תיעוד מאומת במאגר")}
           </span>
           <span className="nxd-sub">
-            {r.en ? <span className="nxd-en" dir="ltr" lang={enLang(r.en)}>{r.en}</span> : null}
+            {r.en ? <span className="nxd-en" dir="ltr" lang={enLang(r.en)}>{slashBreaks(r.en)}</span> : null}
             {r.en && r.group ? <span className="nxd-dot" aria-hidden="true">·</span> : null}
             {r.group ? <span>{r.group}</span> : null}
           </span>
@@ -141,7 +141,7 @@ function Row({ r, onOpen }: { r: RefRow; onOpen: (id: string) => void }) {
 
         <span className="nxd-s4">
           <StatusPill status={r.s4.status.key} label={r.s4.status.he} dot={r.s4.status.color} />
-          <span className="nxd-s4-t">{r.s4.text || "לא קיים תיעוד S/4HANA מאומת לרשומה זו"}</span>
+          <span className="nxd-s4-t">{slashBreaks(r.s4.text) || "לא קיים תיעוד S/4HANA מאומת לרשומה זו"}</span>
         </span>
 
         <span className="nxd-go" aria-hidden="true"><ArrowLeft size={15} strokeWidth={2} /></span>

@@ -37,6 +37,7 @@ import {
   OriginLink, SmartReturn, consumeReturn, restoreScroll, scrollOffset, useReturnPacket,
 } from "@/components/neo-shell/nav-context";
 import { MOD_HE, modVar } from "../mod-var";
+import { slashBreaks } from "../lang";
 import { CAPS, capMatch, type Cap } from "./table-caps";
 import { ActiveFilters, FacetSheet, FacetToggle } from "./facet-sheet";
 import { catalogSearch } from "./catalog-match";
@@ -132,7 +133,7 @@ function Row({ r, q, makeOrigin, landed }: { r: NeoTableRow; q: string; makeOrig
         </span>
 
         <span className="nxd-body">
-          <span className="nxd-he">{r.he || "לא קיים תיאור מאומת בתיעוד המקור"}</span>
+          <span className="nxd-he">{slashBreaks(r.he) || "לא קיים תיאור מאומת בתיעוד המקור"}</span>
           <span className="nxd-sub">
             <span className="nxd-zone"><i aria-hidden="true" />{r.zoneHe}</span>
             <span className="nxd-dot" aria-hidden="true">·</span>
@@ -161,7 +162,7 @@ function Row({ r, q, makeOrigin, landed }: { r: NeoTableRow; q: string; makeOrig
             {/* The alternative and the note were printed with nothing between
                 them ("SAP ILMללא שינוי"): a separator, as everywhere else. */}
             {r.s4Alt && r.s4 ? " · " : null}
-            {r.s4 || (r.s4Alt ? "" : "תיעוד המקור אינו מציין הערת S/4HANA לטבלה זו")}
+            {slashBreaks(r.s4) || (r.s4Alt ? "" : "תיעוד המקור אינו מציין הערת S/4HANA לטבלה זו")}
           </span>
         </span>
 
