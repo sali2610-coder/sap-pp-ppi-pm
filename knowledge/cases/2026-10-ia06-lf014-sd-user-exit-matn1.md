@@ -118,6 +118,16 @@
 - **`CI100` — תוצאת המשך (נבדק בפועל):** אחרי סגירת `LF014`, עצירה ב-`SAPLCMDI`/`LCMDIFPM` ש' 4614, FORM `RIHSTPX-RECIPIENTLOCATIONCODE` (מודול PAI באותו מסך 3500): `READ TABLE planmz_pm INDEX inxp-tabpt` → **`SY-SUBRC = 4`** → `MESSAGE i100(ci)`, `CLEAR rihstpx`, `RETURN`. הרכיב לא נמצא בטבלה כי ענף ה-`ELSE` דילג על `APPEND planmz_pm`. כלומר `CI100` היא **השלכה** של אותו שורש, לא תקלה נפרדת. `CI100` נוספת ממודול `ADSUB_BEIKZ` (FORM `ADSUB_UPDATE_BEIKZ`, ש' 109), אותו דפוס. מצב סופי: שורת הרכיב ריקה (בדיקה זו בוצעה על קבוצה 100815, פעולה 0005 — מאשר "לכל מק"ט / כל קבוצה").
 - **היסטורי (נסגר):** מה התנאי שמוביל ל-`ELSE` (השורות מעל 671). אם הענף נובע מכישלון אחר — `LF014` היא רק "הודעה ישנה" שמסתירה את הסיבה האמיתית, והתיקון ב-`ZXMG0U08` יחליף את ההודעה אך לא בהכרח יפתור. לבדוק: (א) התנאי; (ב) `SY-MSGID/MSGNO/MSGV1` בנקודה זו; (ג) ב-ECC: האם `LCMDIIPM` מכיל את Note 3603616.
 
+### ניתוח Gemini שני (01.10.2026) — נבדק מול הראיות
+| טענה | בדיקה |
+|---|---|
+| KBA 3695113 "Message No. CI100 raised within Task List transactions when adding a Material to an Operation the 1st time" | **לא אומת.** לא נמצא בחיפוש; גישה ל-support.sap.com חסומה מכאן. לפתוח ב-SAP for Me. גם אם קיים — עוסק ב-`CI100` (התוצאה), לא ב-`LF014` |
+| `CI100` נוצרת ב-`MODULE rc27x-flg_sel` | **סותר את הדיבאגר:** `CI100` נעצרה ב-`LCMDIFPM` 4614 (`RIHSTPX-RECIPIENTLOCATIONCODE`) וב-`ADSUB_UPDATE_BEIKZ` 109 |
+| ה-Exit "הקפיץ" `LF014` וזה קטע את המסך | **סותר:** ה-Exit לא הציג כלום (`MESSAGE ... RAISING` נתפס, `SY-SUBRC=2`). `LF014` הוצגה ע"י קוד SAP (Note 3603616) אחרי השער של Note 3479804 |
+| ההבדל בין המערכות הוא `/CWM/` | **סותר:** ההרחבה `/CWM/APPL_PM_SAPLCMDI` פעילה גם ב-ECC ("active version"), והיא במודול `rihstpx-rgekz` — לא במסלול שלנו |
+| סדר PAI שונה ב-S/4 | ללא ראיה |
+| תיקון ה-Exit יפתור | **מסכים** — אבל מהסיבה שהוכחה (אין `E` בזיכרון → השער של 3479804 פתוח) |
+
 ## הופרכו בדרך
 - פורמט מק"ט (`OMSL`) שונה — זהה.
 - חומר לא מורחב לאתר — קיים ב-`MARC`.
