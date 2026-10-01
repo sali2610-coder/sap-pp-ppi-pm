@@ -50,6 +50,39 @@ for (const [name, opts, rm] of PROFILES) {
       console.log(`${name} ${route} FATAL ${String(e).slice(0, 100)}`);
     }
   }
+  // THE PALETTE, where its entrance runs (gate 6, round 3, R3-3): opened with
+  // Ctrl+K on the home page. Right after the key the entrance is recorded (it
+  // must run, except under reduced motion); 600ms later, well past --dur-base,
+  // nothing may still run on the panel and it must be fully opaque and
+  // untransformed. The phone's panel is the sheet (nxc-in-up). Escape closes it.
+  try {
+    await page.goto(BASE + "/neo/", { waitUntil: "networkidle", timeout: 90000 });
+    await page.waitForTimeout(500);
+    await page.keyboard.press("Control+KeyK");
+    await page.waitForSelector(".nxc-panel", { timeout: 5000 });
+    const early = await page.evaluate(() => [...document.querySelector(".nxc-panel").getAnimations()].map((a) => a.animationName));
+    await page.waitForTimeout(600);
+    const pal = await page.evaluate(() => {
+      const p = document.querySelector(".nxc-panel");
+      const cs = getComputedStyle(p);
+      return { anim: cs.animationName, running: p.getAnimations().filter((a) => a.playState === "running").map((a) => a.animationName), opacity: cs.opacity, transform: cs.transform };
+    });
+    await page.keyboard.press("Escape");
+    await page.waitForTimeout(100);
+    const closed = await page.evaluate(() => !document.querySelector(".nxc-panel"));
+    const want = rm === "reduce" ? "none" : name === "phone" ? "nxc-in-up" : "nxc-in";
+    const fails = [];
+    if (pal.anim !== want) fails.push(`animation ${pal.anim}, expected ${want}`);
+    if (rm === "reduce" ? early.length : !early.length) fails.push(`entrance on open: [${early.join(", ")}]`);
+    if (pal.running.length) fails.push(`still running: ${pal.running.join(", ")}`);
+    if (pal.opacity !== "1" || pal.transform !== "none") fails.push(`at rest opacity ${pal.opacity}, transform ${pal.transform}`);
+    if (!closed) fails.push("Escape left the panel open");
+    rows.push({ profile: name, route: "palette (Ctrl+K on /neo/)", palette: { early, ...pal, closed }, running: fails.map((f) => ({ name: f, who: "div.nxc-panel" })), scrollLinked: [] });
+    console.log(`${name.padEnd(16)} ${"palette (Ctrl+K)".padEnd(28)} ${fails.length ? fails.join("; ") : `entrance [${early.join(", ") || "none"}] → still, opacity 1, no transform; Escape closes`}`);
+  } catch (e) {
+    rows.push({ profile: name, route: "palette (Ctrl+K on /neo/)", fatal: String(e).slice(0, 160) });
+    console.log(`${name} palette FATAL ${String(e).slice(0, 100)}`);
+  }
   await ctx.close();
 }
 await browser.close();
