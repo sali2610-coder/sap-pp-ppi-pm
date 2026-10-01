@@ -18,7 +18,7 @@ export default function manifest(): MetadataRoute.Manifest {
     display: "standalone",
     display_override: ["standalone", "minimal-ui"],
     orientation: "any",
-    background_color: "#fcfcfd",
+    background_color: "#fbf8f1", // the NEO paper ground (art direction r3), so the splash matches the first paint
     theme_color: "#d62027",
     lang: "he",
     dir: "rtl",
@@ -40,12 +40,15 @@ export default function manifest(): MetadataRoute.Manifest {
       { name: "מרכז הידע", short_name: "ידע", description: "מושגים, מדריכים והסברים", url: "/neo/knowledge/", icons: [{ src: "/icon-192.png", sizes: "192x192" }] },
       { name: "טבלאות SAP", short_name: "טבלאות", description: "טבלאות SAP מתיעוד PM ו-PP-PI", url: "/neo/tables/", icons: [{ src: "/icon-192.png", sizes: "192x192" }] },
     ],
+    // The current NEO, day and night, phone and wide (art direction r3). The
+    // earlier shots of the previous design stay in public/screenshots/ unused.
     screenshots: [
-      { src: "/screenshots/phone-home.png", sizes: "1080x1920", type: "image/png", form_factor: "narrow", label: "מסך הבית · קוקפיט NEO" },
-      { src: "/screenshots/phone-knowledge.png", sizes: "1080x1920", type: "image/png", form_factor: "narrow", label: "מרכז הידע" },
-      { src: "/screenshots/phone-academy.png", sizes: "1080x1920", type: "image/png", form_factor: "narrow", label: "SAP Academy" },
-      { src: "/screenshots/wide-studio.png", sizes: "1920x1080", type: "image/png", form_factor: "wide", label: "Architecture Studio" },
-      { src: "/screenshots/wide-tables.png", sizes: "1920x1080", type: "image/png", form_factor: "wide", label: "חוקר טבלאות" },
+      { src: "/screenshots/neo-phone-home-day.png", sizes: "1080x1920", type: "image/png", form_factor: "narrow", label: "מסך הבית · Project NEO" },
+      { src: "/screenshots/neo-phone-tables-night.png", sizes: "1080x1920", type: "image/png", form_factor: "narrow", label: "טבלאות SAP · תצוגת לילה" },
+      { src: "/screenshots/neo-phone-academy-day.png", sizes: "1080x1920", type: "image/png", form_factor: "narrow", label: "SAP Academy" },
+      { src: "/screenshots/neo-wide-home-day.png", sizes: "1920x1080", type: "image/png", form_factor: "wide", label: "מסך הבית" },
+      { src: "/screenshots/neo-wide-erd-night.png", sizes: "1920x1080", type: "image/png", form_factor: "wide", label: "מודל הנתונים · ERD · תצוגת לילה" },
+      { src: "/screenshots/neo-wide-reader-day.png", sizes: "1920x1080", type: "image/png", form_factor: "wide", label: "קורא הספרים" },
     ],
   };
 }
