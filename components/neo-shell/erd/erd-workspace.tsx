@@ -871,32 +871,40 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     if (!st || isMap || present || live.ego) { fitTo(b, isMap && !present && !live.ego ? MAP_MIN_K : 0); return; }
     const raw = Math.min((st.clientWidth - PAD * 2) / b.w, (st.clientHeight - PAD * 2) / b.h);
     if (raw >= ENTRY_MIN_K) { fitTo(b); return; }
+    // Positions come from `target`, the picture being arrived at. `live` is
+    // committed by the tween effect one render later, so when this runs it can
+    // still hold the previous picture (the module map), and aiming at it put
+    // the camera on a module card's coordinates inside the new module: AUFK
+    // below the stage with 3 of 20 tables in view (gate 10, round 3).
+    const pos = target.pos;
+    const miniEl = mini ? document.querySelector<HTMLElement>(".ne .ne-mini") : null;
+    const miniH = miniEl ? miniEl.getBoundingClientRect().height + 12 : 0;
+    const aim = (x: number, y: number, k: number) => {
+      autoBox.current = null;
+      glide({ k, x: st.clientWidth / 2 - x * k, y: (st.clientHeight - miniH) / 2 - y * k });
+    };
     // A deep link (/neo/erd/#AUFK) or a restored selection names the table the
-    // reader came for, so arrival frames that table and its neighbours, above
-    // the minimap. Centring on the busiest table instead left AUFK below the
-    // stage with 3 of 20 tables in view (gate 10, round 3).
-    if (sel && live.pos.has(sel)) {
-      const ring = bboxOf(live.pos, sizeMap, new Set([sel, ...(adj.get(sel) || [])]));
-      const miniEl = mini ? document.querySelector<HTMLElement>(".ne .ne-mini") : null;
-      const miniH = miniEl ? miniEl.getBoundingClientRect().height + 12 : 0;
+    // reader came for: arrival frames it and its neighbours above the minimap
+    // when they fit at a readable zoom, and centres on the table when not.
+    if (sel && pos.has(sel)) {
+      const ring = bboxOf(pos, sizeMap, new Set([sel, ...(adj.get(sel) || [])]));
       const fitK = Math.min((st.clientWidth - PAD * 2) / ring.w, (st.clientHeight - PAD * 2 - miniH) / ring.h);
       const k = clampK(Math.min(1.35, Math.max(fitK, ENTRY_MIN_K)));
-      const p = live.pos.get(sel)!;
-      // The ring when it fits at a readable zoom, the table itself when not.
-      const [cx, cy] = fitK >= ENTRY_MIN_K ? [ring.x + ring.w / 2, ring.y + ring.h / 2] : [p.x, p.y];
-      autoBox.current = null;
-      glide({ k, x: st.clientWidth / 2 - cx * k, y: (st.clientHeight - miniH) / 2 - cy * k });
+      const p = pos.get(sel)!;
+      if (fitK >= ENTRY_MIN_K) aim(ring.x + ring.w / 2, ring.y + ring.h / 2, k);
+      else aim(p.x, p.y, k);
       return;
     }
     let hub = "";
     let best = -1;
-    for (const n of live.pos.keys()) {
+    for (const n of pos.keys()) {
       const d = tByName.get(n)?.d ?? 0;
       if (d > best) { best = d; hub = n; }
     }
-    if (hub) centre(hub, ENTRY_MIN_K);
+    const h = hub ? pos.get(hub) : undefined;
+    if (h) aim(h.x, h.y, clampK(ENTRY_MIN_K));
     else fitTo(b);
-  }, [fitTo, centre, glide, isMap, present, live.ego, live.pos, tByName, sel, adj, sizeMap, mini]);
+  }, [fitTo, glide, isMap, present, live.ego, target.pos, tByName, sel, adj, sizeMap, mini]);
 
   /** Cinematic zoom INTO a table. The studio's zoomInto, same numbers. */
   const zoomInto = useCallback(
