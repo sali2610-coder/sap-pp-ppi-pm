@@ -61,6 +61,23 @@
 - הבא: Breakpoint at Statement `MESSAGE` ב-S4Q כדי לתפוס את פקודת ההודעה שמציגה את `LF014`.
 - **ממצא: קריאה שנייה ל-`GET_MATERIAL_ID` ב-S4Q, ממסלול אחר** (נבדק בפועל): `SAPLCMDI` מודול PAI `RIHSTPX-IDNRK_NEW` → `FREIE_ZUORDNUNG` → `CI_04_NEW_ITEM` (`SAPLCI04`) → `CS_BOM_CALL_DIALOG...` → `SAPLCSDI` מסך 0825 PBO → `RFC_RC29B_INIT` → `RFC_FIELD_CONVERT` → `RS_CONV_EX_2_IN` (`SAPLRSCONVERT`) → `CONVERT_EX_2_IN` (`RSDYNSS0`) → `CONVERSION_EXIT_MATN1_INPUT` → `EXIT_SAPLOMCV_001` → `GET_MATERIAL_ID`. כלומר אחרי ההמרה הראשונה, מסך הרכיבים פותח ברקע דיאלוג פריט BOM שממיר את המק"ט שוב. **מועמד מוביל למקור `LF014`** (השערה). לבדוק: (א) MESSAGE breakpoint במסלול הזה ב-S4Q; (ב) האם ECC נכנס בכלל ל-`CS_BOM_CALL_DIALOG`/`RFC_FIELD_CONVERT`.
 
+### S4Q — נמצאה הפקודה שמציגה את ההודעה (01.10.2026, נבדק בפועל)
+- MESSAGE breakpoint, אחרי 4 קריאות "שקטות" ל-`GET_MATERIAL_ID` (מסך הרכיבים 3500 + דיאלוג BOM ב-`SAPLCSDI` מסכים 0825/0130/0830), עצירה ב:
+  **`SAPLCMDI` / include `LCMDIIPM` / מודול PAI `RIHSTPX-IDNRK_NEW`, שורה 686**:
+  ```abap
+        CALL FUNCTION 'CM_BT_PLMZ_APPEND' ... APPEND planmz_pm.
+  *StartNote 3603616
+      ENDIF.
+    ELSE.
+      CLEAR rihstpx.
+      MESSAGE ID sy-msgid TYPE 'I' NUMBER sy-msgno
+        WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+  *EndNote 3603616
+    ENDIF.                                  "N3479804
+  ```
+- **משמעות:** קוד שנוסף ב-**SAP Note 3603616** (מספר מהערת הקוד; כותרת ותוכן לא נבדקו) — בענף ה-`ELSE` **מנקה את שורת הרכיב** (`CLEAR rihstpx`) ומציג כהודעת מידע את **מה שנשאר ב-`sy-msg*`**. שם נשאר `LF014` מה-`MESSAGE ... RAISING` ה"שקט" של `GET_MATERIAL_ID` (קריאת ה-Exit שלנו). זה מסביר: הודעה מסוג I (חלון), השורה נמחקת.
+- **פתוח (קריטי):** מה התנאי שמוביל ל-`ELSE` (השורות מעל 671). אם הענף נובע מכישלון אחר — `LF014` היא רק "הודעה ישנה" שמסתירה את הסיבה האמיתית, והתיקון ב-`ZXMG0U08` יחליף את ההודעה אך לא בהכרח יפתור. לבדוק: (א) התנאי; (ב) `SY-MSGID/MSGNO/MSGV1` בנקודה זו; (ג) ב-ECC: האם `LCMDIIPM` מכיל את Note 3603616.
+
 ## הופרכו בדרך
 - פורמט מק"ט (`OMSL`) שונה — זהה.
 - חומר לא מורחב לאתר — קיים ב-`MARC`.
