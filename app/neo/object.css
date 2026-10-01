@@ -586,11 +586,14 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
   border: 1px solid var(--hairline);
   border-radius: var(--r-xs);
   padding: 3px 6px;
-  overflow-x: auto;
-  white-space: pre;
+  /* Wraps instead of scrolling, at every width: a scroller that cannot take
+     focus is unreachable by keyboard (axe scrollable-region-focusable). The
+     phone had this already; AUFK's 15th join overflowed at 1440 too
+     (2026-10-01). pre-wrap keeps the join's own line breaks. */
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  overflow-x: visible;
 }
-/* a phone wraps the join instead of scrolling it: a scroller that cannot take focus is unreachable by keyboard (axe) */
-@media (max-width: 720px) { .no-join { white-space: pre-wrap; overflow-wrap: anywhere; overflow-x: visible; } }
 
 .no-dangle { display: grid; gap: var(--sp-3); }
 .no-dangle-l { display: grid; gap: var(--sp-2); }

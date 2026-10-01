@@ -279,6 +279,15 @@ html[data-theme="dark"] .nx-app .nxr-st-i {
   overflow-wrap: anywhere;
 }
 .nx-app .nxr-title[data-lead="name"] { display: grid; gap: var(--sp-2); }
+/* A Fiori row's first body line is the app's business roles, and its record
+   names only the leading role: the row prints the whole list, unclamped, since
+   no detail view carries the rest (clip check, 2026-10-01). */
+.nx-app .nxd-row:has(.nxd-id[data-lead="name"]) .nxd-he {
+  display: block;
+  -webkit-line-clamp: unset;
+  line-clamp: none;
+  overflow: visible;
+}
 .nx-app .nxt-lead {
   margin: 0;
   font-size: clamp(1.6rem, 1.15rem + 1.4vw, 2.25rem);
