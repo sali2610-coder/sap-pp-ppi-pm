@@ -161,6 +161,12 @@
 - "ב-ECC ה-Exit לא רץ" — הדיבאגר עצר בו גם ב-ECC.
 - ניתוח AI חיצוני (Gemini): BAdI `EAM_TASKLIST_REUSE_COMP_S`, "Fast Entry", מק"ט 40 פעיל, KBA 3420207 — לא נמצא מקור / סתירה לראיות. KBA 3420207 עוסק בהודעה 00151.
 
+## תוכן ה-Exit (מקוד `ZXMG0U08`, נבדק בפועל)
+- **חלק 1 (2009, עודכן 05/06/2018):** ב-VA01/VA02 בלבד (לא רקע/BDC, לא משתמשים TARAPROD/MOBILE/FUKS/XIAPPLUSER), ורק אם `GET_MATERIAL_ID` הצליח: ברקוד שהוקלד בשדה המק"ט מוחלף במק"ט מכירה (`MVKE`+`MARA` לפי `EAN11`, VKORG/VTWEG מההזמנה, `/CBC/SD_PARAM` ORDERS_EMP/ITEM CATEG, SALE_STATUS).
+- **חלק 2 (Meital 08/2021):** VA01 בלבד, סוג הזמנה ב-`AUART_MILK_STORE`: עובד יוצר (`PA0105`→לקוח→`KNVV-VWERK`) → איתור מק"ט יין לפי ברקוד (WINE_WORKERS_SPART, WERKS_WINE, MATKL_WINE/MATKL_WINE_EXC_0040). משמעות עסקית — לאשר מול SD.
+- **מחוץ ל-VA01/VA02** הקוד מבצע רק `ALPHA_OUTPUT` על `MATNR` ו-`GET_MATERIAL_ID` — בלי תועלת, ומשאיר `sy-msgty='E'`.
+- **תיקון מדויק:** בראש הקוד `IF sy-tcode <> 'VA01' AND sy-tcode <> 'VA02'. RETURN. ENDIF.` + הסרת `break nadiash`; המלצה: שמירה/שחזור `sy-msg*` סביב `GET_MATERIAL_ID` ב-VA01/VA02. לאשר מול SD שאין טרנזקציה/ממשק אחר שנשען על המרת ברקוד.
+
 ## Resolution (מומלץ, בבעלות SD + פיתוח)
 1. ב-`ZXMG0U08`: להעביר את בדיקת `sy-tcode` (`VA01`/`VA02`) **לפני** `CONVERSION_EXIT_ALPHA_OUTPUT` ו-`GET_MATERIAL_ID`; מחוץ למכירות לצאת מיד בלי לגעת ב-`MATNR`.
 2. להסיר `break nadiash` שנשכח בקוד.
