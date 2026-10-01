@@ -4,8 +4,8 @@
 
 ## 1. ה־Preview
 
-- **Preview ב־Vercel:** `EXTERNAL_BLOCKER`. מערכת ההרשאות של Claude Code סירבה לדחיפת הענף ל־GitHub, ובלי דחיפה Vercel לא בונה Preview. הפקודה היחידה שנדרשת, להרצה על ידי בעל האתר: `git -C /Users/salihalif/Desktop/My-Projects/neo-redesign push -u origin design/neo-experience-redesign:design/neo-experience-redesign`. אחרי הדחיפה Vercel בונה Preview לענף הזה בלבד; שום דבר לא מגיע ל־Production.
-- **כתובת מקומית (עד שיהיה Preview):** `http://localhost:4300/neo/`, מהייצוא הסופי: `./node_modules/.bin/next build`, ואחריו `PORT=4300 python3 scripts/serve-out.py` בתיקיית הענף. השרת מיישם את כללי ההפניה של `vercel.json` כמו שרת האירוח.
+- **Preview ב־Vercel (סבב 3):** הענף נדחף, ו־Vercel בנה Preview ל־db031179: `https://sap-pp-ppi-8lv47u8fa-sali2610-coders-projects.vercel.app`. הוא מוגן ב־Vercel Authentication. מחבר Vercel של הסשן לא רואה את הפרויקט, ולכן הבדיקות ב־Preview חסומות (`BLOCKERS.md` §1). אחרי הדחיפה של סוף הסבב Vercel בונה Preview חדש לאותו ענף. שום דבר לא מגיע ל־Production.
+- **כתובת מקומית:** `http://localhost:4300/neo/`, לפי `RUN-LOCAL.md`: ‏`./node_modules/.bin/next build`, ואחריו `PORT=4300 python3 scripts/serve-out.py` בתיקיית הענף. כדי למדוד כמו המארח מוסיפים `COMPRESS=1`.
 - **הבדיקה הראשונה ב־Preview:** `REVIEW-GUIDE.md`, בדיקה 0 (שהקובץ המהודר של `globals.css` עדכני).
 
 ## 2. הענף וה־SHA
@@ -14,7 +14,8 @@
 - נקודת הפתיחה: `6ba22207` (הגרסה שבייצור).
 - הגרסה שנמדדה: `7795e53b`, הקוד אחרי תיקוני שער 11 בסבב השני (הסדרה המלאה `neo-redesign-evidence/final-run-7/`, השערים `final-4/`). אחריה בקוד: `64d36a53` (שורה מתה והערה, ה־CSS המהודר זהה), `bb8a7204` (ניגודיות של צעד בשרשרת בעמוד אובייקט) ו־`389863af` (בודק הניגודיות). מה שהם יכולים לשנות נבדק שוב על `a50116a3` (`final-run-7b/`, השערים `final-5/`), והצהרת הנגישות נכתבה מהמספרים האלה (`19e1a4f9`). Astra רץ במלואו על הייצוא הסופי (`final-run-8/astra/`). הסדרה הקודמת, `final-run-6/` על `32089ffb`, נשמרת. ה־SHA האחרון של הענף מופיע בדוח הסופי.
 - הפירוט: `QA-REPORT.md`, סעיף 1.
-- לא בוצע Merge ל־`main`, לא בוצעה דחיפה ולא בוצעה פריסה.
+- **סבב 3:** תיקוני השערים הם `b0914b8e` עד `dfa053bd`. כל קבוצת תיקונים נבנתה ונמדדה: `neo-redesign-evidence/r3/final4/` (`e226fb17`, בנייה קרה), ‏`final5/` (`60d51801`), ‏`final6/` (`7a290be7`), ‏`final7/` (`a9ab94a2`) ו־`final8/` (`dfa053bd`, הקוד האחרון). המדידות: `QA-R3.md`.
+- נדחף רק הענף `design/neo-experience-redesign`. לא בוצע Merge ל־`main`, ולא בוצעה פריסה ל־Production.
 
 ## 3. התוצרים
 
@@ -43,5 +44,17 @@
 | 21 | חסמים ומה שלא נבדק | `BLOCKERS.md` |
 | 22 | הוראות סקירה | `REVIEW-GUIDE.md` |
 | 23 | תוכנית Merge ו־Production | `MERGE-PLAN.md` (לא בוצעה) |
+
+### תוצרי סבב 3 (1 באוקטובר 2026)
+
+| תוצר | איפה |
+|---|---|
+| דוח הבדיקות של הסבב | `QA-R3.md` |
+| כיוון הצבע: שלוש הצעות, שיפוט עיוור, החלטה | `ART-DIRECTION.md` |
+| 465 הכתובות הישנות בלי עמוד מדויק | `LEGACY-REGISTER.md`, `legacy-register.csv` |
+| שאלון לבעל האתר | `OWNER-QUESTIONS.md` |
+| נספח המקורות | `SOURCES.md` |
+| הרצה מקומית ושרתים פתוחים | `RUN-LOCAL.md` |
+| בדיקות חדשות | `scripts/qa/text-layout-check.mjs`, ‏`clip-reach.mjs`, ‏`erd-label-floor.mjs`, ‏`motion-rest-check.mjs`; `test/canvas-lod.test.ts`, ‏`test/vercel-config.test.ts` |
 
 שערי הביקורת: `reviews/gate-01` עד `gate-11`, וטבלת הסגירה של כל BLOCKER ו־MAJOR: `reviews/CLOSURE.md`.
