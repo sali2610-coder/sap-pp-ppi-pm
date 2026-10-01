@@ -4,7 +4,7 @@ Static export means `out/` IS the product, so this is the only faithful way to
 check the reader outside production. Mirrors the host's trailing-slash routing:
 /a/b/ resolves to out/a/b/index.html.
 """
-import http.server, json, os, re, socketserver
+import gzip, http.server, json, mimetypes, os, re, socketserver
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
@@ -44,6 +44,15 @@ def redirect_for(raw_path):
 
 os.chdir(os.path.join(HERE, "..", "out"))
 
+# COMPRESS=1: gzip text responses for clients that accept it, as the host does
+# (Vercel sends brotli or gzip). Without it a phone measurement here downloads
+# every page uncompressed: /neo/tables/ is 1,033,229 bytes of HTML whose first
+# 535,795 (the part before the content is revealed) gzip to 27,031. Brotli is a
+# little smaller again, so this is a conservative stand-in, not the host.
+COMPRESS = os.environ.get("COMPRESS") == "1"
+ZIPPABLE = (".html", ".css", ".js", ".json", ".svg", ".txt", ".xml", ".webmanifest", ".map")
+_gz = {}
+
 class H(http.server.SimpleHTTPRequestHandler):
     def _redirect(self):
         raw, _, query = self.path.partition("?")
@@ -63,8 +72,32 @@ class H(http.server.SimpleHTTPRequestHandler):
         self.end_headers()
         return True
     def do_GET(self):
-        if not self._redirect():
-            super().do_GET()
+        if self._redirect():
+            return
+        if COMPRESS and "gzip" in self.headers.get("Accept-Encoding", "") and self._gzip():
+            return
+        super().do_GET()
+    def _gzip(self):
+        p = self.translate_path(self.path)
+        if not os.path.isfile(p) or not p.endswith(ZIPPABLE):
+            return False
+        key = (p, os.path.getmtime(p))
+        body = _gz.get(key)
+        if body is None:
+            with open(p, "rb") as f:
+                body = gzip.compress(f.read(), 6)
+            _gz[key] = body
+        ctype = mimetypes.guess_type(p)[0] or "application/octet-stream"
+        if ctype.startswith("text/") or ctype in ("application/javascript", "application/json"):
+            ctype += "; charset=utf-8"
+        self.send_response(200)
+        self.send_header("Content-Type", ctype)
+        self.send_header("Content-Encoding", "gzip")
+        self.send_header("Vary", "Accept-Encoding")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+        return True
     def do_HEAD(self):
         if not self._redirect():
             super().do_HEAD()
