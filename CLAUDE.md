@@ -36,5 +36,8 @@ and `.claude/commands/hq.md`; runtime data lives in `SAP-HQ/`. Rules for anyone 
 - **Never guess SAP data.** Use Never-Guess + evidence-based analysis; ask for the exact missing evidence.
 - **Separate knowledge from a live check.** Label each conclusion: נבדק בפועל / מבוסס על קובץ / צילום מסך / ידע /
   דורש אימות במערכת SAP. Never claim a live SAP check that did not happen; never invent a SAP Note/KBA number.
+- **Emails for Sali (always):** every email text goes through the `anthropic-skills:ben-adam` skill (rewrite, Hebrew,
+  no AI tells, zero long dashes, technical terms kept in English), written in first person as Sali. Hebrew documents
+  (PDF/DOCX) go through `anthropic-skills:hebrew-doc-studio`.
 - Works **with or without** a local SAP MCP (cloud/phone safe): degrades to project files, docs, pasted evidence,
   screenshots, and web search. This is orchestration only — it does not touch the NEO Cockpit business code.
