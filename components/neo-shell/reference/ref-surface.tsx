@@ -484,22 +484,27 @@ export function RefSurface({ dir, children }: { dir: RefDir; children?: React.Re
             <span>{dir.compare.title}</span>
             <em>{dir.compare.lede}</em>
           </summary>
+          {/* Below 72rem the table is drawn as one card per technique
+              (app/neo/reference.css, "the comparison, measured"). The roles
+              are stated because a table whose display changes can lose its
+              table semantics in some browsers; data-label is the column a
+              cell's card line names. */}
           <div className="nxr-compare-w">
-            <table className="nxr-compare-t">
-              <thead>
-                <tr>{dir.compare.columns.map((c) => <th key={c} scope="col">{c}</th>)}</tr>
+            <table className="nxr-compare-t" role="table">
+              <thead role="rowgroup">
+                <tr role="row">{dir.compare.columns.map((c) => <th key={c} scope="col" role="columnheader">{c}</th>)}</tr>
               </thead>
-              <tbody>
+              <tbody role="rowgroup">
                 {dir.compare.rows.map((row) => (
-                  <tr key={row.href}>
-                    <th scope="row">
+                  <tr key={row.href} role="row">
+                    <th scope="row" role="rowheader">
                       <Link href={row.href} prefetch={false}>
                         <b className="nx-sap">{row.code}</b>
                         {row.he ? <span>{row.he}</span> : null}
                       </Link>
                     </th>
                     {row.cells.map((c, i) => (
-                      <td key={i}>
+                      <td key={i} role="cell" data-label={dir.compare!.columns[i + 1]}>
                         {typeof c === "string"
                           ? c
                           : <StatusPill status={c.status.key} label={c.status.he} dot={c.status.color} />}

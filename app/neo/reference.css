@@ -353,5 +353,49 @@ html[data-theme="dark"] .nx-app .nxr-st-i {
 .nx-app .nxr-compare-t tbody th a:hover b { text-decoration: underline; }
 .nx-app .nxr-compare-t tbody th a:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .nx-app .nxr-compare-t td { color: var(--ink-2); max-inline-size: 26rem; }
+/* THE COMPARISON, MEASURED (text-layout check, 2026-10-01). Six auto columns
+   left the two prose columns, "what it is for" and "reservations", 223-262px
+   at 1280 and 1440, and on a phone the 56rem table scrolled sideways with
+   26-character cells. Wide, the columns are fixed and the two prose columns
+   take 56% of the row. Below 72rem (at 1440 the two prose columns were still
+   303px, ten lines of 29 characters) the table is one card per technique: the
+   technique on its own line, then each column as a labelled line, the label
+   beside its value, and above it on a phone. */
+.nx-app .nxr-compare-w { container: nxr-cmp / inline-size; }
+.nx-app .nxr-compare-t { table-layout: fixed; min-inline-size: 0; }
+.nx-app .nxr-compare-t thead th:nth-child(1) { inline-size: 14%; }
+.nx-app .nxr-compare-t thead th:nth-child(2) { inline-size: 8%; }
+.nx-app .nxr-compare-t thead th:nth-child(3) { inline-size: 27%; }
+.nx-app .nxr-compare-t thead th:nth-child(4) { inline-size: 29%; }
+.nx-app .nxr-compare-t thead th:nth-child(5) { inline-size: 12%; }
+.nx-app .nxr-compare-t thead th:nth-child(6) { inline-size: 10%; }
+.nx-app .nxr-compare-t td { max-inline-size: none; }
+@container nxr-cmp (max-width: 72rem) {
+  .nx-app .nxr-compare-t,
+  .nx-app .nxr-compare-t tbody { display: block; }
+  .nx-app .nxr-compare-t thead { display: none; }
+  .nx-app .nxr-compare-t tbody tr {
+    display: grid; gap: var(--sp-2);
+    padding-block: var(--sp-3);
+    border-block-end: 1px solid var(--hairline);
+  }
+  .nx-app .nxr-compare-t tbody th,
+  .nx-app .nxr-compare-t tbody td { padding: 0; border: 0; }
+  .nx-app .nxr-compare-t tbody th a { min-inline-size: 0; }
+  .nx-app .nxr-compare-t tbody th b { font-size: var(--t-sm); }
+  .nx-app .nxr-compare-t tbody td {
+    display: grid; align-items: baseline;
+    grid-template-columns: 8.5rem minmax(0, var(--measure));
+    gap: var(--sp-1) var(--sp-4);
+    font-size: var(--t-sm);
+  }
+  .nx-app .nxr-compare-t tbody td::before {
+    content: attr(data-label);
+    font-size: var(--t-micro); font-weight: 700; color: var(--ink-3);
+  }
+}
+@container nxr-cmp (max-width: 30rem) {
+  .nx-app .nxr-compare-t tbody td { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+}
 
 
