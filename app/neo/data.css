@@ -2000,8 +2000,8 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
    text-layout-check.mjs, 164 P0 blocks on /neo/bapi/ alone). Between the
    tablet and the ultrawide list the LIST's width now decides: below 78rem the
    row takes two lines in two columns (code over counters, name over the
-   S/4HANA note); from 78rem it keeps one line and the note's column grows
-   from 13rem to 16rem.
+   S/4HANA note); from 78rem, three columns on two lines (code over counters,
+   the name, the note).
    Two older faults go with it. The two-line row named no place for the arrow,
    so the grid put it in an implicit third row and fifth column of its own
    (an empty line under every row at 1280); it now spans both lines at the
@@ -2011,15 +2011,23 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
 .nx-app .nxd-list { container: nxd-list / inline-size; }
 .nx-app .nxd-item:not(:has(> .nxd-ctx)) > .nxd-row { padding-inline-end: var(--sp-3); }
 @media (min-width: 1025px) and (max-width: 2199px) {
+  /* Wide: three columns on two lines, code over counters, then the name, then
+     the S/4HANA note, the two prose columns sharing the room 1.2 : 1. The
+     six-track single line this replaces kept the note in a 16rem column, three
+     to five lines of a long note at 1728 (text-layout matrix, 2026-10-01). */
   .nx-app .nxd-row:not(.nxd-row--tx) {
-    grid-template-columns: 3px minmax(7rem, auto) minmax(0, 1fr) auto auto auto;
-    grid-template-areas: "mark id body nums s4 go";
+    grid-template-columns: 3px minmax(7rem, auto) minmax(0, 1.2fr) minmax(0, 1fr) auto;
+    grid-template-areas:
+      "mark id   body s4 go"
+      "mark nums body s4 go";
+    align-items: start;
   }
+  .nx-app .nxd-row:not(.nxd-row--tx) .nxd-go { align-self: center; }
   .nx-app .nxd-row--tx {
     grid-template-columns: 3px minmax(6.5rem, auto) minmax(0, 1fr) auto auto;
     grid-template-areas: "mark id body nums go";
   }
-  .nx-app .nxd-s4 { inline-size: 16rem; grid-template-columns: minmax(0, 1fr); align-items: start; gap: 3px; }
+  .nx-app .nxd-s4 { inline-size: auto; grid-template-columns: minmax(0, 1fr); align-items: start; gap: 3px; }
   /* Two lines, two columns: the code and its counters on the inline start,
      the name and the S/4HANA note beside them. Counters beside the name (the
      tablet composition) left a table's topics 178px at 1280, where five
