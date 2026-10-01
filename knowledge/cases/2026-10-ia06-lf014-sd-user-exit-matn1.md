@@ -54,7 +54,11 @@
   IF SY-SUBRC EQ 1. OUTPUT = INPUT. EXIT. ENDIF.
   ```
 - **משמעות:** ב-ECC ההודעה שה-Exit השאיר בזיכרון מוצגת **רק** אם ה-Exit מעלה במפורש `LENGTH_ERROR` (3). `ZXMG0U08` לא מעלה → `SY-SUBRC = 0` → שקט. **הבליעה ב-ECC מוכחת.**
-- הבא: אותה נקודה ב-S4Q (קריאת ה-Exit שם בשורה 30, לא 33) — לבדוק את התנאי ואת `SY-SUBRC`.
+### S4Q — אותו דיבאג (01.10.2026, נבדק בפועל)
+- אחרי `GET_MATERIAL_ID`: **`SY-SUBRC = 2`**, בלי הודעה בזמן F7 — זהה ל-ECC.
+- `CONVERSION_EXIT_MATN1_INPUT` (`LOMCVU01`): **אותו בלוק בדיוק** (`LENGTH_ERROR = 3`, `IF sy-subrc EQ 3` → `MESSAGE ID sy-msgid ...`, note 2121667), מוזז 3 שורות (נוסף `DATA lv_numeric TYPE xfeld`). שוני נוסף שנראה: `IF g_badi_matn1_new IS BOUND` (ש' 50) — לא קיים בקטע המקביל ב-ECC.
+- **מסקנה ביניים:** הבלוק של note 2121667 **אינו** ההבדל. ההודעה מוצגת ב-S4Q **אחרי** חזרת ה-Exit, במקום אחר (המשך `MATN1` ב-S/4 — BAdI חדש — או קוד המסך `SAPLCMDI`). השערת "MATN1 נכתב מחדש" לא נתמכת בקטע שנבדק.
+- הבא: Breakpoint at Statement `MESSAGE` ב-S4Q כדי לתפוס את פקודת ההודעה שמציגה את `LF014`.
 
 ## הופרכו בדרך
 - פורמט מק"ט (`OMSL`) שונה — זהה.
