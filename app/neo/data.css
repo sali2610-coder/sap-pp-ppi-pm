@@ -2079,3 +2079,8 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
 .nx-app .nxd-zone > i { display: none; }
 .nx-app .nxb-mods > li,
 .nx-app .nxb-mods-cls { border-color: var(--hairline); background: var(--surface); }
+/* The 2-3px gradient rules at the top of the count line and the S/4HANA plate
+   repeated the module in colour, and they were the round's last gradients
+   (gate 3, round 3, m11). */
+.nx-app .nxd-stats::before,
+.nx-app .nxt-s4::before { content: none; }

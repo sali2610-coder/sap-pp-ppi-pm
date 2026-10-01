@@ -453,14 +453,9 @@ html .nx-app .nx-canvas:has(> .nw) {
   border: 1px solid color-mix(in srgb, var(--m) 24%, var(--hairline));
   flex: none;
 }
-.nw-ch-k::after {
-  content: '';
-  flex: 0 0 2.5rem;
-  block-size: 2px;
-  border-radius: var(--r-pill);
-  /* MODULE as a section marker. */
-  background: color-mix(in srgb, var(--m) 55%, transparent);
-}
+/* The short module rule after the chapter's kicker repeated the module the
+   page names in its title (gate 10, round 3; SIDE-TABS.md, decorative). */
+.nw-ch-k::after { content: none; }
 .nw-ch-t {
   font-size: clamp(1.5rem, 3cqi, 2.5rem);
   font-weight: 700;
