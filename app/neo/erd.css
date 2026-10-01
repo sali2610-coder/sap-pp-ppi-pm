@@ -1045,10 +1045,13 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 }
 .ne-mini svg { inline-size: 100%; block-size: 100%; display: block; cursor: crosshair; }
 .ne-mini-e { stroke: var(--ink-3); stroke-width: 3; opacity: .18; }
-.ne-mini-n { fill: var(--ms); opacity: .55; }
-.ne-mini-n[data-off="1"] { opacity: .1; }
-.ne-mini-n[data-on="1"] { opacity: 1; }
-.ne-mini-v { fill: color-mix(in srgb, var(--brand) 12%, transparent); stroke: var(--brand); stroke-width: 8; }
+.ne-mini-n { fill: color-mix(in oklab, var(--ms) 55%, var(--ne-stage, var(--surface))); }
+.ne-mini-n[data-off="1"] { fill: color-mix(in oklab, var(--ms) 12%, var(--ne-stage, var(--surface))); }
+.ne-mini-n[data-on="1"] { fill: var(--ms); }
+/* The viewport is a red OUTLINE (art direction r3). As a 12% red fill laid over
+   the PP-PI blocks it mixed to violet (OKLCH h 283-286), and the blocks, as
+   55% opacity over the stage, mixed to periwinkle; both now mix in OKLab. */
+.ne-mini-v { fill: none; stroke: var(--brand); stroke-width: 8; }
 
 .ne-hint {
   position: absolute;

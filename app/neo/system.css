@@ -131,18 +131,18 @@
 
 .nx-app {
   /* ---- ground ------------------------------------------------------------ */
-  --background: #f3f0ea;          /* paper: the canvas */
-  --background-2: #ece7df;
-  --surface: #fbf9f5;             /* panels and cards, off-white, never glaring */
-  --surface-2: #ece7df;           /* recessed: table heads, code wells */
-  --surface-raised: #fffefb;      /* floating layers */
-  --surface-sunken: #ece7df;
-  --hairline: #e1dbd1;            /* dividers */
-  --line-1: #e1dbd1;
-  --line-strong: #867e72;         /* input and control boundaries, 3.26:1 */
-  --ink-1: #1c1915;
-  --ink-2: #4a443c;
-  --ink-3: #655e54;               /* 5.20:1 at worst */
+  --background: #fbf8f1; /* paper: the canvas */
+  --background-2: #f4eee2;
+  --surface: #ffffff; /* white panels on the paper ground (art direction r3) */
+  --surface-2: #f4eee3; /* recessed: table heads, code wells */
+  --surface-raised: #ffffff; /* floating layers */
+  --surface-sunken: #f4eee2;
+  --hairline: #e8e0d2; /* dividers */
+  --line-1: #e8e0d2;
+  --line-strong: #82786a;  /* 4.09:1 at worst */
+  --ink-1: #19160f;
+  --ink-2: #453e33;
+  --ink-3: #5f564a;  /* 6.24:1 at worst */
   --foreground: var(--ink-1);
   --card: var(--surface);
   --card-foreground: var(--ink-1);
@@ -152,44 +152,44 @@
   --input: var(--line-strong);
 
   /* the immutable ground aliases the scene system derives from (ground.css) */
-  --g-ground: #f3f0ea;
-  --g-raised: #fbf9f5;
-  --g-ink-1: #1c1915;
-  --g-ink-2: #4a443c;
-  --g-ink-3: #655e54;
-  --g-hair: #e1dbd1;
+  --g-ground: #fbf8f1;
+  --g-raised: #ffffff;
+  --g-ink-1: #19160f;
+  --g-ink-2: #453e33;
+  --g-ink-3: #5f564a;
+  --g-hair: #e8e0d2;
 
   /* ---- action, link, focus, selection ----------------------------------- */
-  --brand: #d62027;               /* marks and fills; 4.51:1 on paper */
-  --brand-ink: #b5202a;           /* brand as text, 5.32:1 at worst */
-  --brand-dark: #a3171c;
-  --brand-foreground: #ffffff;    /* on brand fill, 5.13:1 */
-  --brand-soft: #fbe9e6;
-  --link: #1d5486;                /* 6.40:1 at worst; underlined in running text */
-  --focus: #1f5fbf;               /* focus is blue so it never reads as selection */
+  --brand: #d62027;  /* 4.83:1 as a mark */
+  --brand-ink: #b4141c;  /* brand as text, 5.95:1 at worst */
+  --brand-dark: #9e1219;
+  --brand-foreground: #ffffff;  /* on the brand fill, 5.13:1 */
+  --brand-soft: #fbe8e5;
+  --link: #00579a;  /* 6.43:1 at worst; underlined in running text */
+  --focus: #2346d6; /* focus is blue so it never reads as selection */
   --focus-ring: 0 0 0 2px var(--surface), 0 0 0 4px var(--focus);
   /* selection: a brand-tinted fill and the brand line (the fill alone is
      ~1.05:1 against the panel, so the line carries the state) */
   --select-bg: var(--brand-soft);
   --select-line: var(--brand);
-  --sel-bg: #fbe9e6;
+  --sel-bg: #fbe8e5;
   --sel-bar: var(--brand);
 
   /* ---- feedback ----------------------------------------------------------- */
-  --info: #1f5fbf;    --info-bg: #e9f0fb;
-  --success: #1a7045; --success-bg: #e6f2eb;
-  --warning: #7f5400; --warning-bg: #f7eedb;
-  --danger: #b5202a;  --danger-bg: #fbe9e6;
+  --info: #0a6b8c;    --info-bg: #dff2f8;
+  --success: #10744a; --success-bg: #dcf3e6;
+  --warning: #885400; --warning-bg: #ffeec2;
+  --danger: #b4141c;  --danger-bg: #fde4df;
 
   /* ---- S/4HANA status families (always with an icon and a word) ---------- */
-  --s4-keep: #1a7045;
-  --s4-change: #7f5400;
-  --s4-replace: #0d6771;
-  --s4-not-strategic: #8f4a00;
-  --s4-removed: #8a3b22;          /* brick, never the brand red of selection */
-  --s4-new: #0a638f;
-  --s4-ecc-only: #556170;
-  --s4-verify: #5d574f;
+  --s4-keep: #10744a;
+  --s4-change: #885400;
+  --s4-replace: #056c74;
+  --s4-not-strategic: #914700;
+  --s4-removed: #8e3a20; /* brick, never the brand red of selection */
+  --s4-new: #0a5f92;
+  --s4-ecc-only: #536070;
+  --s4-verify: #5f564a;
 
   /* the legacy migration-status tokens, re-valued without violet */
   --status-done: #1a7045;
@@ -204,8 +204,8 @@
   --status-blocked: var(--danger);
 
   /* ---- modules: identity only, each always carries its code in text ------ */
-  --mod-pm: #0d6c64;
-  --mod-pppi: #004cd6;   /* #1d4ed8 tinted to periwinkle on warm paper (OKLCH 272-276 at 14-36%) */
+  --mod-pm: #00756a;
+  --mod-pppi: #2346d6; /* PP-PI's identity blue (OKLCH h 266); links take their own steel blue, --link */
   --mod-pp: #436c0d;
   --mod-ppds: #8a5a12;
   --mod-mm: #0c6a84;
@@ -234,12 +234,12 @@
   --sec-fiori: var(--mod-fiori);       /* was blue-violet: the Fiori module's own slate */
   --sec-academy: var(--sec-knowledge); /* was indigo: learning shares the knowledge blue, as the centers do */
   --sec-centers: var(--sec-knowledge);
-  --sec-tables: #975600;
-  --sec-idoc: #a35005;
-  --sec-cds: #0e717c;
-  --sec-enh: #2a7539;
-  --sec-knowledge: #1969b2;
-  --sec-incidents: #b83b04;
+  --sec-tables: #9a5600;
+  --sec-idoc: #a84d00;
+  --sec-cds: #00707a;
+  --sec-enh: #18763a;
+  --sec-knowledge: #1f5fc4;
+  --sec-incidents: #b53900;
   --sec-cert: #82620a;
   --sec-neo: var(--brand-ink);
   /* Declared in globals.css only and undocumented (gate 3, minor 28); stated
@@ -247,8 +247,8 @@
      tint it re-values: cobalt for the executable surface, navy-cyan for the
      studio (and, through --sec-erd, the data model). Both clear 4.5:1 on the
      four surfaces. */
-  --sec-transactions: #1d5fd0;
-  --sec-studio: #1f5f8a;
+  --sec-transactions: #2346d6;
+  --sec-studio: #14648a;
 
   /* ---- type --------------------------------------------------------------- */
   --font-sans: var(--f-plex-he), "NEO Hebrew Fallback", var(--f-plex-lat), "NEO Latin Fallback", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
@@ -329,48 +329,62 @@
 }
 
 html[data-theme="dark"] .nx-app {
-  --background: #171512;          /* warm charcoal, not black */
-  --background-2: #13110e;
-  --surface: #1f1c18;
-  --surface-2: #13110e;           /* recessed is darker at night */
-  --surface-raised: #29251f;
-  --surface-sunken: #13110e;
-  --hairline: #35302a;
-  --line-1: #35302a;
-  --line-strong: #7a7266;         /* 3.21:1 at worst */
-  --ink-1: #eee8de;
-  --ink-2: #c7bfb3;
-  --ink-3: #a39a8d;               /* 5.49:1 at worst */
+  --background: #0c181d; /* petrol night, OKLCH L .20 C .02 h 230: hued, not black, not grey (art direction r3) */
+  --background-2: #071116;
+  --surface: #142026;
+  --surface-2: #071116; /* recessed is darker at night */
+  --surface-raised: #1b292f;
+  --surface-sunken: #071116;
+  --hairline: #2a383f;
+  --line-1: #2a383f;
+  --line-strong: #72838c;  /* 4.22:1 at worst */
+  --ink-1: #ebeff2;
+  --ink-2: #c7cfd3;
+  --ink-3: #a4aeb4;  /* 7.35:1 at worst */
+  /* ground.css states these at night as warm literals (#17120d, #3a3027, a warm
+     top-edge light); it loads first, so without this they stayed warm on the
+     petrol ground. Tied to the night tokens instead (art direction r3). */
+  --foreground: var(--ink-1);
+  --card: var(--surface);
+  --card-foreground: var(--ink-1);
+  --muted: var(--surface-2);
+  --muted-foreground: var(--ink-3);
+  --border: var(--hairline);
+  --input: var(--line-strong);
+  --glass-bg: var(--surface-raised);
+  --glass-border: var(--hairline);
+  --elev-1: 0 1px 0 0 rgba(220, 236, 246, .04);
+  --elev-2: 0 1px 0 0 rgba(220, 236, 246, .05), 0 4px 14px -6px rgba(0, 0, 0, .55);
 
-  --g-ground: #171512;
-  --g-raised: #1f1c18;
-  --g-ink-1: #eee8de;
-  --g-ink-2: #c7bfb3;
-  --g-ink-3: #a39a8d;
-  --g-hair: #35302a;
+  --g-ground: #0c181d;
+  --g-raised: #142026;
+  --g-ink-1: #ebeff2;
+  --g-ink-2: #c7cfd3;
+  --g-ink-3: #a4aeb4;
+  --g-hair: #2a383f;
 
-  --brand: #f06a6b;               /* coral at night; dark text on it */
-  --brand-ink: #f58a8a;
-  --brand-dark: #d8474b;
-  --brand-foreground: #1a0b0c;    /* 6.36:1 on the coral fill */
-  --brand-soft: #3a1d1b;
-  --link: #8fbbe3;
-  --focus: #7fb2ff;
-  --sel-bg: #3a1d1b;
+  --brand: #ff645d;  /* 5.72:1 as a mark */
+  --brand-ink: #ff8f85;  /* brand as text, 7.53:1 at worst */
+  --brand-dark: #ed4a46;
+  --brand-foreground: #1a0705;  /* on the brand fill, 6.72:1 */
+  --brand-soft: #4a2321;
+  --link: #97c2f0;  /* 8.93:1 at worst; underlined in running text */
+  --focus: #88c1ff;
+  --sel-bg: #4a2321;
 
-  --info: #7fb2ff;    --info-bg: #182536;
-  --success: #79d39f; --success-bg: #15281d;
-  --warning: #e4b95f; --warning-bg: #2c2412;
-  --danger: #f58a8a;  --danger-bg: #3a1d1b;
+  --info: #70ccee;    --info-bg: #10283a;
+  --success: #72e1aa; --success-bg: #0f2c22;
+  --warning: #fac463; --warning-bg: #2c2612;
+  --danger: #fa8880;  --danger-bg: #4a2321;
 
-  --s4-keep: #79d39f;
-  --s4-change: #e4b95f;
-  --s4-replace: #6fcfd6;
-  --s4-not-strategic: #f2a863;
-  --s4-removed: #eb9a80;
-  --s4-new: #78c6f0;
-  --s4-ecc-only: #aab4c0;
-  --s4-verify: #b9b0a3;
+  --s4-keep: #72e1aa;
+  --s4-change: #fac463;
+  --s4-replace: #5ad6d6;
+  --s4-not-strategic: #ffab5e;
+  --s4-removed: #f39c80;
+  --s4-new: #70ccee;
+  --s4-ecc-only: #a9b4bd;
+  --s4-verify: #b4bec5;
 
   --status-done: #79d39f;
   --status-in-analysis: #e4b95f;
@@ -379,9 +393,9 @@ html[data-theme="dark"] .nx-app {
   --status-not-started: #a39a8d;
   --status-removed: #eb9a80;
 
-  --mod-pm: #5eead4;
-  --mod-pppi: #7dd3fc;
-  --mod-pp: #bef264;
+  --mod-pm: #5cddc4;
+  --mod-pppi: #95b6ff;
+  --mod-pp: #b1d680;               /* was #bef264, a highlighter lime (C .18) on the night ERD; C .12 now (art direction r3) */
   --mod-ppds: #f2c96b;
   --mod-mm: #67e8f9;
   --mod-qm: #f4a5b5;
@@ -408,12 +422,12 @@ html[data-theme="dark"] .nx-app {
   --sec-academy: var(--sec-knowledge);
   --sec-centers: var(--sec-knowledge);
   --sec-neo: var(--brand-ink);
-  --sec-transactions: #6da3ff;
-  --sec-studio: #6fb0d8;
+  --sec-transactions: #95b6ff;
+  --sec-studio: #74cbe6;
 
   /* at night a shadow is invisible; floating layers get a lighter edge and a deep drop */
-  --elev-3: 0 1px 0 rgba(255, 240, 220, .06), 0 14px 32px -14px rgba(0, 0, 0, .7);
-  --elev-4: 0 1px 0 rgba(255, 240, 220, .08), 0 24px 56px -20px rgba(0, 0, 0, .8);
+  --elev-3: 0 1px 0 rgba(220, 236, 246, .06), 0 14px 32px -14px rgba(0, 0, 0, .7);
+  --elev-4: 0 1px 0 rgba(220, 236, 246, .08), 0 24px 56px -20px rgba(0, 0, 0, .8);
 }
 
 /* The section "scenes" of ground.css tinted whole sections (a blue S/4 centre, a

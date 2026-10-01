@@ -198,44 +198,44 @@ html[data-theme="dark"] .nx-app {
    it had.
    -------------------------------------------------------------------------- */
 [data-scene="deep"] {
-  --scene-ground: #efe7da;
-  --scene-raised: #fffdf9;
-  --scene-ink: #171310;
-  --scene-ink-2: #463e38;
-  --scene-ink-3: #554b41;   /* #665c52 measured 4.09:1 at 12px on the Day ground */
-  --scene-hair: #d8cbba;
+  --scene-ground: #f4eee2;
+  --scene-raised: #ffffff;
+  --scene-ink: #19160f;
+  --scene-ink-2: #453e33;
+  --scene-ink-3: #5f564a;
+  --scene-hair: #e8e0d2;
   --scene-accent: var(--brand);
 }
 
 /* Night keeps every value this scene had before it gained a Day palette. */
 html[data-theme="dark"] [data-scene="deep"] {
-  --scene-ground: #0f0b08;
-  --scene-raised: #1c1610;
-  --scene-ink: #f6f1ea;
-  --scene-ink-2: #cfc5b8;
+  --scene-ground: #071116;
+  --scene-raised: #1b292f;
+  --scene-ink: #ebeff2;
+  --scene-ink-2: #c7cfd3;
   /* The hero's stat LABELS sit on this tier at 12px and measured 4.23:1 —
      an AA miss on the first thing anyone reads. Lifted until they clear. */
-  --scene-ink-3: #b0a496;
-  --scene-hair: #3a3027;
+  --scene-ink-3: #a4aeb4;
+  --scene-hair: #2a383f;
   --scene-accent: #ff6b63;   /* brand lifted for AA on the dark ground */
 }
 
 /* cream — calm. Reading, prose, anything that wants to be paper. */
 [data-scene="cream"] {
-  --scene-ground: #f1ece5;
-  --scene-raised: #fffdfa;
-  --scene-ink: #171310;
-  --scene-ink-2: #463e38;
-  --scene-ink-3: #6e645b;
-  --scene-hair: #dacebf;
+  --scene-ground: #f4eee2;
+  --scene-raised: #ffffff;
+  --scene-ink: #19160f;
+  --scene-ink-2: #453e33;
+  --scene-ink-3: #5f564a;
+  --scene-hair: #e8e0d2;
 }
 html[data-theme="dark"] [data-scene="cream"] {
-  --scene-ground: #17120d;
-  --scene-raised: #201911;
-  --scene-ink: #f6f1ea;
-  --scene-ink-2: #cfc5b8;
-  --scene-ink-3: #9e9285;
-  --scene-hair: #3a3027;
+  --scene-ground: #071116;
+  --scene-raised: #1b292f;
+  --scene-ink: #ebeff2;
+  --scene-ink-2: #c7cfd3;
+  --scene-ink-3: #a4aeb4;
+  --scene-hair: #2a383f;
 }
 
 /* pm / pppi — module identity as a ground wash. The tint is deliberately weak
@@ -248,12 +248,16 @@ html[data-theme="dark"] [data-scene="cream"] {
   --scene-ink-2: var(--g-ink-2);
   --scene-ink-3: var(--g-ink-3);
 }
-[data-scene="pm"]   { --scene-ground: color-mix(in oklab, var(--mod-pm) 6%, var(--g-ground)); }
-[data-scene="pppi"] { --scene-ground: color-mix(in oklab, var(--mod-pppi) 6%, var(--g-ground)); }
+/* Art direction r3 ("Modern SAP Knowledge Playground"): by day the module
+   commits a stronger wash, 11% and 10% (were 6%), so the room says PM or PP-PI
+   before a word is read. By night the floor takes no module tint at all: on
+   the petrol ground a teal lift made the floor lighter than its own cards. */
+[data-scene="pm"]   { --scene-ground: color-mix(in oklab, var(--mod-pm) 11%, var(--g-ground)); }
+[data-scene="pppi"] { --scene-ground: color-mix(in oklab, var(--mod-pppi) 10%, var(--g-ground)); }
 [data-scene="pm"]   { --scene-hair: color-mix(in oklab, var(--mod-pm) 22%, var(--g-hair)); }
 [data-scene="pppi"] { --scene-hair: color-mix(in oklab, var(--mod-pppi) 22%, var(--g-hair)); }
-html[data-theme="dark"] [data-scene="pm"]   { --scene-ground: color-mix(in oklab, var(--mod-pm) 5%, var(--g-ground)); }
-html[data-theme="dark"] [data-scene="pppi"] { --scene-ground: color-mix(in oklab, var(--mod-pppi) 5%, var(--g-ground)); }
+html[data-theme="dark"] [data-scene="pm"],
+html[data-theme="dark"] [data-scene="pppi"] { --scene-ground: var(--g-ground); }
 
 /* --------------------------------------------------------------------------
    2b. THE STATEMENT SCENES
