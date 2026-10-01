@@ -105,17 +105,19 @@ export function Chapter({
   wide?: boolean;
 }) {
   const [open, setOpen] = useHashOpen(meta.id, meta.collapsed);
-  // EVERY PART OF THE HEAD HAS A NAMED PLACE (workspace.css, "the chapter head,
-  // placed"). The number used to be auto-placed beside the kicker; when it
-  // stopped spanning the head's rows, the grid put the TITLE into the number's
-  // auto-width column and left the sentence a 140px column at 1440. The number
-  // now sits inside the kicker line, and the head carries the chapter's count as
-  // its data, beside the title on a wide canvas and under the sentence on a
-  // narrow one.
+  // EVERY PART OF THE HEAD HAS AN EXPLICIT ROW AND COLUMN (workspace.css, "the
+  // chapter head, placed"). The number used to be auto-placed beside the
+  // kicker; when it stopped spanning the head's rows, the grid put the TITLE
+  // into the number's auto-width column and left the sentence a 140px column
+  // at 1440. The head carries the chapter's count as its data, beside the
+  // title on a wide canvas and under the sentence on a narrow one.
   const header = (
       <header className="nw-ch-h">
+        {/* The number is a grid item of its own, on an explicit row and
+            column (workspace.css, "the chapter head, placed"); inside the
+            kicker it had no place of its own to be given. */}
+        <span className="nw-ch-n" aria-hidden="true">{String(meta.n).padStart(2, "0")}</span>
         <p className="nw-ch-k nm-fade">
-          <span className="nw-ch-n" aria-hidden="true">{String(meta.n).padStart(2, "0")}</span>
           <span className="nw-ch-ico" aria-hidden="true">{icon}</span>
           {meta.kicker}
         </p>
