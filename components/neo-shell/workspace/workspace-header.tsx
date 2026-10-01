@@ -18,7 +18,7 @@
 //   OBJECT hue → the entry object's class marker.
 
 import Link from "next/link";
-import { ArrowLeft, FlaskConical, GitBranch, Wrench } from "lucide-react";
+import { ArrowLeft, GitBranch } from "lucide-react";
 import { OriginLink } from "@/components/neo-shell/nav-context";
 import type { WsData } from "./workspace-data";
 import { useWsOrigin } from "./workspace-origin";
@@ -64,11 +64,10 @@ export function WorkspaceHero({ d }: { d: WsData }) {
         סביבת עבודה · מודול
       </p>
 
+      {/* The module is named once in type: the title, its code chip and the
+          English name. The outlined code square and the icon box said "PM" a
+          third and fourth time and carried nothing else (gate 10, round 3). */}
       <div className="nw-id">
-        {/* The outlined module code is the one thing in the hero carrying no
-            information the reader has to hold, so it is the one thing allowed to
-            drift against the scroll. At L3 that is 6px and 0 on touch. */}
-        <span className="nw-mark nw-sap nm-par-slow" aria-hidden="true">{d.code}</span>
         <div className="nw-idtext">
           <h1 className="nw-title nx-display">
             {d.he}
@@ -76,9 +75,6 @@ export function WorkspaceHero({ d }: { d: WsData }) {
           </h1>
           <p className="nw-en nw-sap">{d.en}</p>
         </div>
-        <span className="nw-idicon" aria-hidden="true">
-          {d.key === "PM" ? <Wrench size={22} strokeWidth={1.5} /> : <FlaskConical size={22} strokeWidth={1.5} />}
-        </span>
       </div>
 
       <p className="nw-lede nm-rise">{d.lede}</p>
@@ -90,7 +86,6 @@ export function WorkspaceHero({ d }: { d: WsData }) {
       <nav className="nw-go nm-rise" aria-label="נקודות כניסה למודול">
         {d.entry ? (
           <OriginLink className="nu-btn" href={d.entry.href} origin={() => origin(d.entry!.n)}>
-            <i className="nw-cls" style={{ "--o": d.entry.obj } as React.CSSProperties} aria-hidden="true" />
             התחלה מ-<span className="nw-sap">{d.entry.n}</span>
             <ArrowLeft className="nu-arw" size={15} strokeWidth={2} aria-hidden="true" />
           </OriginLink>
@@ -110,19 +105,25 @@ export function WorkspaceHero({ d }: { d: WsData }) {
         ) : null}
       </nav>
 
-      {/* The counts arrive as a sequence rather than as a wall. .nm-seq spends
-          the stagger as a staggered scroll RANGE, so there is no timer. */}
-      <dl className="nw-figs nm-seq">
-        {stats.map((s) => (
-          <div key={s.l} className="nw-fig nm-rise">
-            <dt>{s.l}</dt>
-            <dd>
+      {/* The counts are one line of text, as on a record page ("8 שדות
+          מתועדים · …"): every number stays, the strip of large figures goes
+          (gate 10, round 2 M1 and round 3). A zero is a gap, said in words. */}
+      <p className="nw-figs">
+        {stats.map((s) =>
+          s.n === 0 ? (
+            <span key={s.l} className="nw-fig">
+              <span>{s.l}:</span>
+              <em>אין במאגר</em>
+            </span>
+          ) : (
+            <span key={s.l} className="nw-fig">
               <b className="nw-sap">{nf.format(s.n)}</b>
-              {s.sub ? <em>{s.sub}</em> : null}
-            </dd>
-          </div>
-        ))}
-      </dl>
+              <span>{s.l}</span>
+              {s.sub ? <em>({s.sub})</em> : null}
+            </span>
+          ),
+        )}
+      </p>
     </header>
   );
 }
