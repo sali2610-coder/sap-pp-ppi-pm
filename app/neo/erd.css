@@ -203,7 +203,10 @@ html[data-theme="dark"] .ne {
 .ne-bar-t { flex-wrap: wrap; row-gap: 0; }
 .ne-bar-t > .ne-sub { flex: 1 1 100%; white-space: normal; overflow: visible; }
 .ne-h1 {
-  font-size: var(--t-h2);
+  /* --t-h1 like every other surface's title (P0, 2026-10-01): at 20px the
+     canvas tool's title read as a panel heading (gate 3 #15, gate 11 M3). */
+  font-size: var(--t-h1);
+  line-height: 1.2;
   font-weight: 700;
   letter-spacing: 0;
   color: var(--ink-1);
@@ -1806,3 +1809,24 @@ html .nx-app .nx-canvas:has(> .ne) > .nx-foot { flex: none; margin: 0; padding: 
    brief §16: no perpetual loops). Two passes show the direction, parent to
    child; the last keyframe (opacity 0) is kept, so no dot is left behind. */
 .ne-pulse { animation-iteration-count: 2; animation-fill-mode: forwards; }
+
+/* ==========================================================================
+   LEVEL OF DETAIL (P0, 2026-10-01)
+   A label is drawn only at a zoom where it reads at 12px or more: its size in
+   the picture times the camera's zoom. paint() writes the band to the stage as
+   data-lod: 0 below 0.375, 1 from 0.375, 2 from 0.75, 3 from 0.8, 4 from 1.
+   Labels set at 12px (names under the code, counts, keys, zone words, edge
+   badges, the open card) need 4; the module count (15px) needs 3; a module's
+   Hebrew name and a table's code (16px) need 2; a module code (32px) needs 1.
+   At the module map's fit (46% at 1440) that leaves the fifteen codes at
+   14.7px and stops drawing 99 labels of 5.5 to 7.4px; zooming in brings each
+   tier back as it reaches 12px. Nothing moves: geometry, edges and cards are
+   the same at every band. Every label the canvas stops drawing is still in
+   the node's <title>, in the "מודול והיקף" list and in the inspector, in
+   full text (BLOCKERS §5, gate 11 M2).
+   ========================================================================== */
+.ne-stage:not([data-lod="4"]) .ne-world text,
+.ne-stage:not([data-lod="4"]) .ne-badge { visibility: hidden; }
+.ne-stage[data-lod="3"] .ne-world :is(.ne-mod-c, .ne-mod-he, .ne-mod-n, .ne-node-n),
+.ne-stage[data-lod="2"] .ne-world :is(.ne-mod-c, .ne-mod-he, .ne-node-n),
+.ne-stage[data-lod="1"] .ne-world .ne-mod-c { visibility: visible; }

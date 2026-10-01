@@ -69,7 +69,7 @@ import { ErdInspector } from "./erd-inspector";
 import { ErdSheet } from "./erd-sheet";
 import {
   adjacency, bboxOf, capTransform, clampK, clampView, computeGeom, ease, egoPositions,
-  compact, lerp, mapPositions, neighbourLevels, pathD, reach,
+  compact, lerp, lodBand, mapPositions, neighbourLevels, pathD, reach,
   type EdgeGeom, type GEdge, type GeomMap, type PosMap, type View,
 } from "./graph";
 
@@ -88,6 +88,20 @@ const PRESENT_TABLE_MIN_K = 1.25;
  *  Hebrew name (11.5px) reads at 12px and its code at 16.8px (gate 7, major 9:
  *  PM opened at 37%, names at 4.3px). */
 const ENTRY_MIN_K = 1.05;
+/** THE MODULE MAP ARRIVES READABLE (P0, 2026-10-01). Labels are drawn only
+ *  where they reach 12px (erd.css, level of detail), and a module code is 32px
+ *  in the picture, so below 0.375 the map is fifteen boxes with no name: at
+ *  1280x800 the true fit was 0.27 and at a 200% zoom (682x468) 0.14. The map
+ *  therefore arrives no smaller than this and the reader pans to the rest
+ *  (the minimap shows where). The toolbar's fit and "0" stay a true fit: the
+ *  whole map, unlabelled, is a view the reader asks for. 0.38 rather than
+ *  0.375: a module card is 116 units tall, and at 0.38 it is a 44px target. */
+const MAP_MIN_K = 0.38;
+/** …and a table's neighbourhood (a selection, a sub-process) is framed no
+ *  smaller than the zoom where a table code (16px) reads at 12px. On a phone
+ *  the true fit of AUFK's neighbours was 0.30, a picture with no label left
+ *  to draw; there the camera centres on the table and the reader pans. */
+const NODE_MIN_K = 0.75;
 
 /** PHONE. The workspace on a ≤640px viewport — the same breakpoint erd.css
  *  uses for its phone rules. Read through an external store so the server
@@ -722,6 +736,10 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     const { x, y, k } = view.current;
     world.current?.setAttribute("transform", `translate(${x} ${y}) scale(${k})`);
     const st = stage.current;
+    // LEVEL OF DETAIL (graph.ts lodBand), written only when the band changes:
+    // paint() runs every frame of a glide.
+    const lod = lodBand(k);
+    if (st && st.dataset.lod !== lod) st.dataset.lod = lod;
     const mv = miniBox.current;
     if (st && mv) {
       mv.setAttribute("x", String(-x / k));
@@ -787,10 +805,10 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   /** The box the last AUTOMATIC fit framed, or null once the reader has moved
    *  the camera themselves. The stage's ResizeObserver re-frames this box when
    *  a panel opens or closes, and leaves a hand-placed camera alone. */
-  const autoBox = useRef<{ x: number; y: number; w: number; h: number } | null>(null);
+  const autoBox = useRef<{ x: number; y: number; w: number; h: number; minK?: number } | null>(null);
 
   const fitTo = useCallback(
-    (b: { x: number; y: number; w: number; h: number }) => {
+    (b: { x: number; y: number; w: number; h: number }, minK = 0) => {
       const st = stage.current;
       if (!st) return;
       // The fit frames the space above the minimap when it is shown, so no
@@ -798,8 +816,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       const miniEl = mini && !present ? document.querySelector<HTMLElement>(".ne .ne-mini") : null;
       const miniH = miniEl ? miniEl.getBoundingClientRect().height + 12 : 0;
       const raw = Math.min((st.clientWidth - PAD * 2) / b.w, (st.clientHeight - PAD * 2 - miniH) / b.h);
-      autoBox.current = b;
-      const floor = present ? (isMap ? PRESENT_MIN_K : PRESENT_TABLE_MIN_K) : 0;
+      autoBox.current = { ...b, minK };
+      const floor = present ? (isMap ? PRESENT_MIN_K : PRESENT_TABLE_MIN_K) : minK;
       const k = clampK(Math.max(raw, floor));
       glide({
         k,
@@ -850,7 +868,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   const fitOnEnter = useCallback(() => {
     const st = stage.current;
     const b = bboxRef.current;
-    if (!st || isMap || present || live.ego) { fitTo(b); return; }
+    if (!st || isMap || present || live.ego) { fitTo(b, isMap && !present && !live.ego ? MAP_MIN_K : 0); return; }
     const raw = Math.min((st.clientWidth - PAD * 2) / b.w, (st.clientHeight - PAD * 2) / b.h);
     if (raw >= ENTRY_MIN_K) { fitTo(b); return; }
     let hub = "";
@@ -936,14 +954,18 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   const fitSelection = useCallback(() => {
     if (!sel) return;
     const only = new Set<string>([sel, ...(adj.get(sel) || [])]);
-    fitTo(bboxOf(live.pos, sizeMap, only));
-  }, [sel, adj, live.pos, sizeMap, fitTo]);
+    const b = bboxOf(live.pos, sizeMap, only);
+    const st = stage.current;
+    const raw = st ? Math.min((st.clientWidth - PAD * 2) / b.w, (st.clientHeight - PAD * 2) / b.h) : 1;
+    if (raw < NODE_MIN_K) { centre(sel, NODE_MIN_K); return; }
+    fitTo(b);
+  }, [sel, adj, live.pos, sizeMap, fitTo, centre]);
 
   /** Frame the sub-process: the group's tables plus their one-step ring, which
    *  is exactly what the group filter leaves on the picture. */
   const fitGroup = useCallback(() => {
     if (!groupRing || !groupRing.size) return;
-    fitTo(bboxOf(live.pos, sizeMap, groupRing));
+    fitTo(bboxOf(live.pos, sizeMap, groupRing), NODE_MIN_K);
   }, [groupRing, live.pos, sizeMap, fitTo]);
 
   /* PHONE FOCUS (design audit S6-4). On a phone the picture is never shrunk
@@ -1317,7 +1339,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       const box = autoBox.current;
       if (!box) return;
       window.clearTimeout(refit);
-      refit = window.setTimeout(() => { if (autoBox.current === box) fitTo(box); }, 90);
+      refit = window.setTimeout(() => { if (autoBox.current === box) fitTo(box, box.minK); }, 90);
     });
     ro.observe(st);
     window.addEventListener("orientationchange", paint);

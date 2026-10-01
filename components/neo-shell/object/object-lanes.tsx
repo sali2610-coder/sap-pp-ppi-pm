@@ -114,6 +114,13 @@ function LaneNode({
           tinted FILL where the others are plain surface, a heavier ring, and
           a soft halo that takes the colour of whichever relationship is
           currently live. */}
+      {/* The target is the node's whole row, not its 36-unit card: 50 units,
+          which the diagram's 760px floor (below) keeps at 50px or more, where
+          the card alone measured 29px on a phone (P0, 2026-10-01; BLOCKERS
+          §5 M8). Transparent, so the picture does not change. */}
+      {exists && !center ? (
+        <rect className="nol-hit" x={-6} y={(NH - ROW_H) / 2} width={NW + 12} height={ROW_H} fill="transparent" />
+      ) : null}
       {center ? (
         <rect
           x={-5} y={-5} width={NW + 10} height={NH + 10} rx={15}
@@ -135,7 +142,7 @@ function LaneNode({
       <text x={NW / 2 + 3} y={15} textAnchor="middle"
         style={{ font: `${center ? 800 : 700} 14px ui-monospace, monospace`, fill: "var(--ink-1)" }}>{label}</text>
       <text x={NW / 2 + 3} y={29} textAnchor="middle"
-        style={{ font: "700 10px sans-serif", fill: col, letterSpacing: ".05em" }}>
+        style={{ font: "700 12px sans-serif", fill: col, letterSpacing: ".05em" }}>
         {center ? "האובייקט הנוכחי" : module}
       </text>
     </g>
@@ -170,7 +177,7 @@ function LaneEdge({
         strokeDasharray={card ? undefined : "3 3"} />
       <text x={mx} y={my + 4} textAnchor="middle"
         style={{
-          font: "700 11px ui-monospace, monospace",
+          font: "700 12px ui-monospace, monospace",
           fill: card ? (on ? "var(--surface)" : "var(--ink-2)") : "var(--ink-3)",
         }}>{card ?? "–"}</text>
     </g>
@@ -256,7 +263,11 @@ export function ObjectLanes({ name }: { name: string }) {
           width="100%"
           role="group" /* not "img": the nodes inside are focusable controls (axe nested-interactive) */
           aria-label={`תרשים קשרי ${g.center.tableName}: ${g.upstream.length} טבלאות במעלה הזרם, ${g.downstream.length} במורד הזרם`}
-          style={{ minWidth: 620 }}
+          /* 760px, the viewBox's own width: the diagram never draws below 1:1,
+             so every label (12 to 14 units) reads at 12px or more and every
+             node row is a 50px target. Narrower canvases pan, as they did at
+             the old 620px floor (P0, 2026-10-01). */
+          style={{ minWidth: 760 }}
           onMouseLeave={() => setHot(null)}
         >
           {hasUp ? <text x={colX.up} y={20} textAnchor="middle" className="nol-lane">מעלה הזרם</text> : null}

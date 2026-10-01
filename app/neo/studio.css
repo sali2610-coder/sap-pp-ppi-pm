@@ -31,7 +31,7 @@
   background: var(--surface);
   flex: none;
 }
-.nst-h1 { margin: 0; font-size: var(--t-h2); font-weight: 700; letter-spacing: 0; } /* the ERD's instrument-title size (gate 3, finding 15; BLOCKERS §5) */
+.nst-h1 { margin: 0; font-size: var(--t-h1); font-weight: 700; letter-spacing: 0; line-height: 1.2; } /* the page title: --t-h1 like every other surface; 20px read as a panel heading (P0, 2026-10-01; gate 3 finding 15) */
 .nst-sub { margin: 0; font-size: var(--t-micro); color: var(--ink-3); }
 /* The studio's role next to the ERD's, one line (design audit S7-STU-1). */
 .nst-role { margin: .2rem 0 0; font-size: var(--t-xs); line-height: 1.5; color: var(--ink-3); max-inline-size: min(60ch, 100%); overflow-wrap: anywhere; }
@@ -291,3 +291,12 @@ html[data-theme="dark"] .nst-mode[data-on="1"] { background: var(--select-bg); c
   .nst-grp button, .nst-mod, .nst-mode, .nst-zone, .nst-x { min-block-size: 2.75rem; min-inline-size: 2.75rem; }
 }
 
+/* LEVEL OF DETAIL (P0, 2026-10-01). A node label is 12 to 12.8px in the
+   picture (14px in presentation), so below 96% zoom (86% presenting) it would
+   reach the screen under 12px. There it fades out until the camera comes
+   back; the node keeps its colour edge, its place and its target. Opacity,
+   not visibility: the button's accessible name is its text, and it stays. The
+   fit never lands below 100% for a 44px node (studio-view.tsx), so only a
+   reader who zooms out sees a map without labels, and the side panel lists
+   every node in full text. */
+.nst-stage[data-lod="0"] .nst-node :is(b, span) { opacity: 0; }

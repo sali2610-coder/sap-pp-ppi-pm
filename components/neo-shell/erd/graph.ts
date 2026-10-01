@@ -350,6 +350,13 @@ export interface View {
 
 export const MIN_K = 0.14;
 export const MAX_K = 2.6;
+/** LEVEL OF DETAIL: the band of zoom a camera is in, so erd.css draws a label
+ *  only where it reads at 12px or more (its size in the picture times k).
+ *  12px labels need band 4 (k >= 1), the 15px module count 3 (k >= 0.8), a
+ *  16px name or code 2 (k >= 0.75), a 32px module code 1 (k >= 0.375). */
+export const lodBand = (k: number): "0" | "1" | "2" | "3" | "4" =>
+  k >= 1 ? "4" : k >= 0.8 ? "3" : k >= 0.75 ? "2" : k >= 0.375 ? "1" : "0";
+
 export const clampK = (k: number) => Math.min(MAX_K, Math.max(MIN_K, Number.isFinite(k) && k > 0 ? k : 1));
 
 /** Tight bounding box of the node region for a position map. */
