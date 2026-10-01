@@ -1168,27 +1168,29 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 .ne-det-n dd { font-family: var(--font-mono); font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); font-variant-numeric: tabular-nums; }
 
 .ne-det-mods { display: grid; gap: var(--sp-2); }
+/* The module cards write their code and name, so they carry no colour bar and no
+   module tint: a hairline, like the record's chips (gate 10, round 3, minor 4). */
 .ne-det-mods li {
   display: grid;
-  grid-template-columns: 3px 1fr;
+  grid-template-columns: 1fr;
   align-items: center;
   column-gap: var(--sp-2);
   padding: var(--sp-2);
-  border: 1px solid color-mix(in srgb, var(--m) 30%, var(--hairline));
+  border: 1px solid var(--hairline);
   border-radius: var(--r-xs);
-  background: color-mix(in srgb, var(--m) 5%, transparent);
+  background: var(--surface);
 }
-.ne-det-mods li i { grid-row: 1 / span 2; inline-size: 3px; block-size: 100%; min-block-size: 1.6rem; border-radius: 2px; background: var(--m); }
+.ne-det-mods li i { display: none; }
 .ne-det-mods li b { font-size: var(--t-xs); color: var(--ink-1); }
-.ne-det-mods li em { grid-column: 2; font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
+.ne-det-mods li em { grid-column: 1; font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
 .ne-det-cls {
-  grid-template-columns: auto 1fr !important;
+  grid-template-columns: 1fr !important;
   border-color: var(--hairline) !important;
   background: var(--surface-2) !important;
   font-size: var(--t-micro);
   color: var(--ink-2);
 }
-.ne-det-cls span { inline-size: 8px; block-size: 8px; border-radius: 2px; background: var(--o); }
+.ne-det-cls span { display: none; } /* the class is written beside it */
 
 .ne-keys { display: grid; gap: var(--sp-3); grid-template-columns: 1fr 1fr; }
 .ne-keys h3, .ne-blk h3 {
