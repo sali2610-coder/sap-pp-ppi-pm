@@ -114,7 +114,7 @@ const collect = () => {
     // …and each text node as its sentences: a summary that joins the S/4HANA
     // note and the QA line is printed on its record as two blocks
     for (let n = walk.nextNode(); n; n = walk.nextNode()) {
-      for (const sentence of (n.textContent || "").split(/(?<=[.!?;])\s+/)) {
+      for (const sentence of (n.textContent || "").split(/(?<=[.!?;])\s+|\s+·\s+/)) {
         const t = sentence.replace(/\s+/g, "");
         if (t.length >= 6) segs.push(t);
       }
@@ -122,9 +122,15 @@ const collect = () => {
     const sum = el.closest("summary");
     const exp = el.closest("[aria-expanded]");
     const btn = el.closest("button");
+    // a row's own disclosure ("open the details") when the cell is not inside it
+    const rowExp = !btn && row ? row.querySelector("button[aria-expanded]") : null;
+    if (rowExp) rowExp.setAttribute("data-cr-x", `${rowExp.getAttribute("data-cr-x") || ""} ${id}`.trim());
     // in-page: the same text printed in full somewhere that is not clipped
     const folded = text.replace(/\s+/g, "");
     let inPage = false;
+    const unclippedHas = (want) => pool.some(([o, ot]) => ot.length >= want.length && ot.length <= want.length * 4 + 40 && ot.includes(want)
+      && !(o === el || el.contains(o) || o.contains(el)) && !o.closest("[aria-hidden='true'], [hidden], [data-cr]")
+      && o.getBoundingClientRect().width >= 4 && !clippedBox(o));
     if (folded.length >= 4) {
       for (const [o, ot] of pool) {
         if (ot.length < folded.length || ot.length > folded.length * 4 + 40 || !ot.includes(folded)) continue;
@@ -135,9 +141,11 @@ const collect = () => {
         if (clippedBox(o)) continue;
         inPage = true; break;
       }
+      // a composed label ("PM · תחזוקת מפעל") whose parts the page prints apart
+      if (!inPage && segs.length > 1 && segs.every(unclippedHas)) inPage = true;
     }
     out.push({ id, cls: `${el.tagName.toLowerCase()}.${String(el.className || "").split(" ")[0]}`, text, ...c,
-      href: a ? a.getAttribute("href") : null, segs, summary: !!sum, expanded: !!exp, button: !!btn, inPage, title: !!(el.getAttribute("title") || el.closest("[title]")) });
+      href: a ? a.getAttribute("href") : null, segs, summary: !!sum, expanded: !!exp, button: !!btn || !!rowExp, rowExp: !!rowExp, inPage, title: !!(el.getAttribute("title") || el.closest("[title]")) });
   }
   return out;
 };
@@ -167,13 +175,16 @@ for (const route of ROUTES) {
           try {
             // a fresh context per press: the reader resumes at the chapter the
             // previous press opened, and the page would no longer match
-            const pctx = await browser.newContext({ ...CTX, locale: "he-IL", serviceWorkers: "block", reducedMotion: "reduce" });
+            // the main page's storage (its recent items, the reader's position),
+            // copied so the press page is the same page; separate, so one press
+            // cannot move the next one's page
+            const pctx = await browser.newContext({ ...CTX, locale: "he-IL", serviceWorkers: "block", reducedMotion: "reduce", storageState: await ctx.storageState() });
             const pg = await pctx.newPage();
             await pg.goto(BASE + route, { waitUntil: "networkidle", timeout: 90000 });
             await pg.waitForTimeout(400);
             if (mode === "spacing") { await pg.addStyleTag({ content: SPACING }); await pg.waitForTimeout(300); }
             await pg.evaluate(collect);
-            const btn = pg.locator(`[data-cr="${f.id}"]`).locator("xpath=ancestor-or-self::button[1]");
+            const btn = f.rowExp ? pg.locator(`[data-cr-x~="${f.id}"]`) : pg.locator(`[data-cr="${f.id}"]`).locator("xpath=ancestor-or-self::button[1]");
             await btn.click({ timeout: 4000 });
             await pg.waitForTimeout(1200);
             const seen = await pg.evaluate((want) => {
@@ -201,7 +212,7 @@ for (const route of ROUTES) {
           const snap = await page.locator(`[data-cr="${f.id}"]`).ariaSnapshot({ timeout: 3000 });
           // the snapshot is YAML-ish ("- text: …" per text run; a <wbr> splits a
           // run): strip the markers before comparing
-          const flat = fold(snap.replace(/^\s*-\s*(text:\s*)?/gm, "").replace(/^\s*\/[a-z]+:.*$/gm, "").replace(/["']/g, ""));
+          const flat = fold(snap.replace(/^\s*-\s*(text:\s*)?/gm, "").replace(/^\s*\/[a-z]+:.*$/gm, "").replace(/\\/g, "").replace(/["']/g, ""));
           ax = flat.includes(fold(f.text).replace(/["']/g, "").slice(0, Math.min(60, fold(f.text).length)));
         } catch { ax = null; }
         rows.push({ route, mode, path, ax, cls: f.cls, text: f.text.slice(0, 80), href: f.href, dx: f.dx, dy: f.dy, ellipsis: f.ellipsis, clamp: f.clamp, title: f.title });
