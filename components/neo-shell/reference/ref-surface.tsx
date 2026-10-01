@@ -127,16 +127,36 @@ function Row({ r, onOpen }: { r: RefRow; onOpen: (id: string) => void }) {
           </span>
         </span>
 
-        {/* Values, not controls: .nu-chip has no hover and no pointer. The unit
-            travels with the number so a bare figure is never read out alone. */}
+        {/* Values, not controls: .nu-chip has no hover and no pointer. A count
+            says its unit on screen, one takes the singular, and a zero is a gap
+            said in words, as on /neo/tables/ (gate 10, round 3). A value that
+            is already a word ("דורש COMMIT", "יש") keeps its label for screen
+            readers only. */}
         <span className="nxd-nums">
-          {r.nums.map((n) => (
-            <span key={n.sr} className="nu-chip">
-              <Glyph i={n.i} size={11} />
-              <span className="nx-sr">{n.sr}</span>
-              {n.v}
-            </span>
-          ))}
+          {r.nums.map((n) => {
+            const unit = n.sr.trim();
+            const count = unit && /^[\d,]+$/.test(n.v) ? Number(n.v.replace(/,/g, "")) : null;
+            if (count === null) {
+              return (
+                <span key={n.sr || n.v} className="nu-chip">
+                  <Glyph i={n.i} size={11} />
+                  <span className="nx-sr">{n.sr}</span>
+                  {n.v}
+                </span>
+              );
+            }
+            return count === 0 ? (
+              <span key={n.sr} className="nu-chip nxd-num0">
+                <Glyph i={n.i} size={11} />
+                {unit}: אין במאגר
+              </span>
+            ) : (
+              <span key={n.sr} className="nu-chip">
+                <Glyph i={n.i} size={11} />
+                {n.v} {count === 1 ? (ONE_OF[unit] ?? unit) : unit}
+              </span>
+            );
+          })}
         </span>
 
         <span className="nxd-s4">
@@ -151,6 +171,18 @@ function Row({ r, onOpen }: { r: RefRow; onOpen: (id: string) => void }) {
 }
 
 /* ---------------------------------------------------------------- surface */
+
+/** The singular of each counter unit the reference catalogues print. */
+const ONE_OF: Record<string, string> = {
+  "טרנזקציות": "טרנזקציה",
+  "טרנזקציות GUI": "טרנזקציית GUI",
+  "טבלאות": "טבלה",
+  "טבלאות מקושרות": "טבלה מקושרת",
+  "טבלאות קלאסיות": "טבלה קלאסית",
+  "אסוציאציות": "אסוציאציה",
+  "יישומי Fiori": "יישום Fiori",
+  "הרחבות בשם במאגר": "הרחבה בשם במאגר",
+};
 
 export function RefSurface({ dir, children }: { dir: RefDir; children?: React.ReactNode }) {
   const [q, setQ] = useState("");
@@ -500,7 +532,9 @@ export function RefSurface({ dir, children }: { dir: RefDir; children?: React.Re
                     <th scope="row" role="rowheader">
                       <Link href={row.href} prefetch={false}>
                         <b className="nx-sap">{row.code}</b>
-                        {row.he ? <span>{row.he}</span> : null}
+                        {/* The Hebrew name only when it says something the code
+                            does not: "User Exit" was printed twice (gate 3). */}
+                        {row.he && row.he.trim() !== row.code.trim() ? <span>{row.he}</span> : null}
                       </Link>
                     </th>
                     {row.cells.map((c, i) => (
