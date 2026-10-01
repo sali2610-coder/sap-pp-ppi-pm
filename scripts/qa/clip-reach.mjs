@@ -89,6 +89,10 @@ const collect = () => {
     if (el.matches(".nx-app, .nx-main, .nx-canvas")) continue;
     const text = (el.textContent || "").replace(/\s+/g, " ").trim();
     if (!text) continue;
+    // a page or section container that clips a bleed is not a clipped summary:
+    // most of its text belongs to block children
+    const own = [...el.childNodes].filter((n) => n.nodeType === 3 || (n.nodeType === 1 && getComputedStyle(n).display.startsWith("inline"))).map((n) => n.textContent || "").join("").replace(/\s+/g, "");
+    if (own.length < text.replace(/\s+/g, "").length * 0.5) continue;
     const c = clippedBox(el);
     if (!c) continue;
     const id = `cr-${i++}`; el.setAttribute("data-cr", id);
@@ -161,7 +165,10 @@ for (const route of ROUTES) {
         if (path !== "link" && path !== "in-page" && path !== "expand" && f.button) {
           // press the button and look for the text, unclipped, where it lands
           try {
-            const pg = await ctx.newPage();
+            // a fresh context per press: the reader resumes at the chapter the
+            // previous press opened, and the page would no longer match
+            const pctx = await browser.newContext({ ...CTX, locale: "he-IL", serviceWorkers: "block", reducedMotion: "reduce" });
+            const pg = await pctx.newPage();
             await pg.goto(BASE + route, { waitUntil: "networkidle", timeout: 90000 });
             await pg.waitForTimeout(400);
             if (mode === "spacing") { await pg.addStyleTag({ content: SPACING }); await pg.waitForTimeout(300); }
@@ -182,7 +189,7 @@ for (const route of ROUTES) {
               }
               return false;
             }, fold(f.text).replace(/^פרק\d+·?/, ""));
-            await pg.close();
+            await pctx.close();
             if (seen) path = "control";
           } catch { /* the press failed: the path stays unproven */ }
         }
@@ -192,7 +199,10 @@ for (const route of ROUTES) {
         let ax = null;
         try {
           const snap = await page.locator(`[data-cr="${f.id}"]`).ariaSnapshot({ timeout: 3000 });
-          ax = fold(snap).includes(fold(f.text).slice(0, Math.min(60, fold(f.text).length)));
+          // the snapshot is YAML-ish ("- text: …" per text run; a <wbr> splits a
+          // run): strip the markers before comparing
+          const flat = fold(snap.replace(/^\s*-\s*(text:\s*)?/gm, "").replace(/^\s*\/[a-z]+:.*$/gm, "").replace(/["']/g, ""));
+          ax = flat.includes(fold(f.text).replace(/["']/g, "").slice(0, Math.min(60, fold(f.text).length)));
         } catch { ax = null; }
         rows.push({ route, mode, path, ax, cls: f.cls, text: f.text.slice(0, 80), href: f.href, dx: f.dx, dy: f.dy, ellipsis: f.ellipsis, clamp: f.clamp, title: f.title });
       }

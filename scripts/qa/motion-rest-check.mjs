@@ -3,7 +3,10 @@
 // with infinite iterations, per route, day theme, desktop and phone, and the
 // same with prefers-reduced-motion (where nothing may run at all, finite or
 // not, once the entrance is over). A loading indicator during real work is
-// not "at rest" and is not on these routes.
+// not "at rest" and is not on these routes. A scroll-driven animation (a
+// reading-progress bar on a scroll timeline) moves only while the reader
+// scrolls and reports position; it is listed apart as "scroll-linked", not as
+// motion at rest.
 //   NEO_BASE=http://localhost:4300 OUT=<json> [ROUTES=/a/,/b/] node scripts/qa/motion-rest-check.mjs
 import { chromium } from "playwright-core";
 import fs from "node:fs";
@@ -31,15 +34,17 @@ for (const [name, opts, rm] of PROFILES) {
           if (a.playState !== "running") continue;
           const t = a.effect?.getComputedTiming?.();
           const forever = t && t.iterations === Infinity;
+          const scrollLinked = !!a.timeline && /Scroll|View/.test(a.timeline.constructor?.name || "");
           if (!forever && !reduced) continue;
           const el = a.effect?.target;
           const who = el ? `${el.tagName?.toLowerCase()}.${String(el.className?.baseVal ?? el.className ?? "").split(" ")[0]}` : "?";
-          out.push({ name: a.animationName || a.transitionProperty || a.constructor.name, who, forever: !!forever });
+          out.push({ name: a.animationName || a.transitionProperty || a.constructor.name, who, forever: !!forever, scrollLinked });
         }
         return out;
       }, rm === "reduce");
-      rows.push({ profile: name, route, running: m });
-      console.log(`${name.padEnd(16)} ${route.padEnd(28)} ${m.length ? m.map((x) => `${x.name}@${x.who}${x.forever ? "∞" : ""}`).join(", ") : "still"}`);
+      const moving = m.filter((x) => !x.scrollLinked), linked = m.filter((x) => x.scrollLinked);
+      rows.push({ profile: name, route, running: moving, scrollLinked: linked });
+      console.log(`${name.padEnd(16)} ${route.padEnd(28)} ${moving.length ? moving.map((x) => `${x.name}@${x.who}${x.forever ? "∞" : ""}`).join(", ") : "still"}${linked.length ? ` · scroll-linked: ${linked.map((x) => x.name).join(", ")}` : ""}`);
     } catch (e) {
       rows.push({ profile: name, route, fatal: String(e).slice(0, 160) });
       console.log(`${name} ${route} FATAL ${String(e).slice(0, 100)}`);
