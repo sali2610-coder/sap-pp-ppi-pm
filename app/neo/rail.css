@@ -593,6 +593,11 @@ html[data-device="phone"] .nx-app .nx-mtop,
 html[data-device="tablet"] .nx-app .nx-mtop { display: flex !important; align-items: center; gap: var(--sp-2); }
 .nx-app .nx-mtop-in { display: flex; align-items: center; gap: var(--sp-2); block-size: 100%; flex: 1 1 auto; min-inline-size: 0; }
 .nx-app .nx-mtop-in b { font-size: var(--t-sm); font-weight: 600; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* The title takes a second line instead of losing its end. With the WCAG 1.4.12
+   spacing a phone cut "מודל הנתונים · ERD" and "שיחה כללית · NEO AI" 8 to 30px
+   short, and neither page's H1 repeats "ERD" or "NEO AI" (clip-reach, round 3).
+   Two lines of 14px at 1.5 are 42px, inside the 48px bar. */
+.nx-app .nx-mtop-in b { white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-height: 1.25; overflow-wrap: anywhere; }
 .nx-app .nx-mtabs { box-shadow: none; border-block-start: 1px solid var(--hairline); }
 /* The current tab: brand as TEXT is --brand-ink (5.32:1), the line is the
    selection line; weight makes it readable without colour. */
