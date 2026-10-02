@@ -800,8 +800,8 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw-c-n { inline-size: 12.5rem; }
 .nw-c-he { inline-size: auto; }
 .nw-c-tp { inline-size: 9rem; }
-.nw-c-f { inline-size: 6rem; }
-.nw-c-tc { inline-size: 10rem; }
+.nw-c-f { inline-size: 7rem; }      /* "1 PK · 4 FK" on one line at a 14px floor and an 18px root */
+.nw-c-tc { inline-size: 9rem; }
 .nw-c-fn { inline-size: 5rem; }
 .nw-c-rel { inline-size: 5rem; }
 .nw-c-cv { inline-size: 6rem; }
@@ -819,12 +819,17 @@ html .nx-app .nx-canvas:has(> .nw) {
    1728) makes the rem columns 1130px, so the band reaches 1399px; from 1400px
    the widths above leave the description at least 18rem; under 900px the rows
    are cards. */
+@container nw (min-width: 900px) and (max-width: 1099px) {
+  /* 148px of description at a 1000px canvas: a long one runs to three lines
+     rather than clipping its third (responsive QA C16, 2 of 58 rows at 1280) */
+  .nw-c-he span { -webkit-line-clamp: 3; }
+}
 @container nw (min-width: 900px) and (max-width: 1399px) {
   .nw-row > td, .nw-tbl thead th { padding-inline: 6px; }
   .nw-c-n { inline-size: 7rem; }      /* a code is six letters; its chip sits under it */
   .nw-c-tp { inline-size: 6.5rem; }
-  .nw-c-f { inline-size: 6rem; }      /* "1 PK · 4 FK" on one line (after6: three lines at 4.5rem) */
-  .nw-c-tc { inline-size: 7rem; }
+  .nw-c-f { inline-size: 7rem; }      /* "1 PK · 4 FK" on one line (after6: three lines at 4.5rem) */
+  .nw-c-tc { inline-size: 6rem; }
   .nw-c-fn { inline-size: 5rem; }    /* the "ממשקים" sort label, whole */
   .nw-c-rel { inline-size: 4.5rem; }
   .nw-c-cv { inline-size: 5rem; }
@@ -861,7 +866,7 @@ html .nx-app .nx-canvas:has(> .nw) {
 /* The key line ("1 PK · 4 FK") is its own line under the count. Inline next to
    it, it wrapped at 6rem and its second line printed over the count: "46 FK"
    read as a fact (adaptive-ui reviewer, 2026-10-02). */
-.nw-c-f em { display: block; font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
+.nw-c-f em { display: block; font-style: normal; font-size: var(--t-micro); color: var(--ink-3); white-space: nowrap; }
 .nw-c-tc .nu-chip { margin-inline-end: 3px; }
 .nw-c-tc em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
 .nw-c-cv .nw-sap { font-variant-numeric: tabular-nums; color: var(--ink-1); }
@@ -1429,7 +1434,8 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
     text-transform: none;
     color: var(--ink-3);
   }
-  .nw-tp-t { display: none; }
+  /* the name stays with its ordinal: "נושא 07" alone read as a count (responsive QA, 2026-10-02) */
+  .nw-tp-t { display: inline; max-inline-size: none; white-space: normal; margin-inline-start: 4px; }
   .nw-c-he span { white-space: normal; }
   /* Touch has no hover, so the affordance cannot be hidden behind one. */
   .nw-name .nu-arw { opacity: 1; }

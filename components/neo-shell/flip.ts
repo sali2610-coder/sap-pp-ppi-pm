@@ -24,10 +24,12 @@
 // starts from where the pixels actually are, not from where they were supposed
 // to end up.
 
-export const SPRING = "cubic-bezier(0.22, 1.2, 0.36, 1)";
+// No overshoot anywhere (owner's brief, 2026-10: micro 120-240ms, complex
+// ≤ 480ms, no spring); the one curve is the expo ease-out.
+export const SPRING = "cubic-bezier(0.16, 1, 0.3, 1)";
 export const EASE_OUT_EXPO = "cubic-bezier(0.16, 1, 0.3, 1)";
 
-export const RAIL_MS = 520;
+export const RAIL_MS = 480;
 export const GROUP_MS = 460;
 export const ENTER_MS = 300;
 

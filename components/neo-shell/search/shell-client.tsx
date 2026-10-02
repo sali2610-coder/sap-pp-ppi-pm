@@ -953,6 +953,7 @@ export function NeoShellClient({
       // the owner approves a rollout: home, the PM module, the tables
       // catalogue, the ERD and one book in the reader.
       data-pilot={PILOT_ROUTES.test(path) ? "editorial" : undefined}
+      data-route={pilot ? (path === "/neo/" ? "home" : path.startsWith("/neo/pm/") ? "module" : path.startsWith("/neo/tables/") ? "tables" : path.startsWith("/neo/erd/") ? "erd" : "reader") : undefined}
       data-searching={searching ? "1" : "0"}
       data-sheet={railHidden ? "1" : undefined}
       data-typed={q ? "1" : "0"}
@@ -1126,7 +1127,14 @@ export function NeoShellClient({
                             onBlur={hidePreview}
                           >
                             <span className="nx-navitem-i"><Ico name={it.icon} size={16} /></span>
-                            <span className="nx-navitem-l">{it.label}</span>
+                            <span className="nx-navitem-l">
+                              {/* "PM · תחזוקת מפעל": the code is its own span so a
+                                  surface can set it as a plate instead of a dotted
+                                  string (brand review, 2026-10-02) */}
+                              {it.mod && it.label.includes(" · ")
+                                ? (<><b className="nx-navitem-code">{it.label.split(" · ")[0]}</b>{" "}<span>{it.label.split(" · ").slice(1).join(" · ")}</span></>)
+                                : it.label}
+                            </span>
                             {/* The space keeps the count a separate word in the link's
                                 name ("…מפעל 56", not "…מפעל56"); a flex item gap is not text. */}
                             {" "}

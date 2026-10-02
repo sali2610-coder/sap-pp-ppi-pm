@@ -15,7 +15,7 @@ In one sentence: a precise technical journal. Ink on ivory, one reading column, 
 | Ink 1 / 2 / 3 | `#16130e` / `#433c33` / `#5d554a` (ink-3 6.57 on ground, 7.21 on panel) | `#eef1f6` / `#c4cbd9` / `#9ba5b9` (7.29 / 6.81) |
 | Brand (action) | `#d62027` fill, white label 5.13; as text `#b4141c` 6.15 | `#ff5a52` fill, label `#1a0705` 6.35; as text `#ff8f85` 8.34 |
 | Link | steel `#00579a` 6.65 | `#8fb5ff` 8.95 |
-| Selection | sand `#efe4cf` + 3px ink bar `#16130e` (14.70) | raised `#223050` + 3px ivory bar; no red tint anywhere |
+| Selection | sand `#efe4cf` + 3px ink bar `#16130e` (14.70) | raised `#273144` (was `#223050`, C .061 inside the purple band; replaced after the pilot's visual QA, same L/hue, C .037, contrasts unchanged) + 3px ivory bar; no red tint anywhere |
 | PM | `#0a6a60` text 5.80; plate with white 6.47 | `#4fd6c4` text 10.29; plate with ground ink 10.29 |
 | PP-PI | `#1f49c7` text 6.63; plate with white 7.40 | `#9db8ff` 9.40 |
 | Amber | ink `#7a4a00` on `#ffe9b8` 6.27 | `#f5c76a` on `#2a2210` 9.93 |
@@ -73,7 +73,7 @@ NOT VERIFIED: Plex Sans Hebrew 700 is not bundled (`app/fonts/plex-sans-hebrew` 
 Depth: flat. `--elev-1/2` paint nothing; the command palette keeps `--elev-4` as the one raised layer. No card shadows, no gradient (the odd-chapter tint gradient is removed), no glow, no glass.
 
 ## 4. Selection rule
-Selection = sand `#efe4cf` + 3px ink bar (night `#223050` + ivory bar). Applied through `--select-bg/--select-line/--sel-bg/--sel-bar` so the rail, the section bar, the tabs underline, the catalogue filters, the reader TOC and the ERD list all speak one language. Never red. `::selection` is sand too. Pressed filter = sand + ink line (the ink block is gone). Hover = sand (rows), a 55% sand on table cells so hover and selection differ.
+Selection = sand `#efe4cf` + 3px ink bar (night `#273144` + ivory bar). Applied through `--select-bg/--select-line/--sel-bg/--sel-bar` so the rail, the section bar, the tabs underline, the catalogue filters, the reader TOC and the ERD list all speak one language. Never red. `::selection` is sand too. Pressed filter = sand + ink line (the ink block is gone). Hover = sand (rows), a 55% sand on table cells so hover and selection differ.
 
 ## 5. Where the strongest colour owns a region
 - Home: the 96px ink masthead (title, lede, the search field in ivory, the example codes) with the brand as a 4px rule under it. Night: the same band in ivory on navy, the only inverted region in the product.

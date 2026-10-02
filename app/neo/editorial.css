@@ -118,7 +118,7 @@ html[data-theme="dark"] .nx-app[data-pilot="editorial"] {
 
   --ed-mast: #eef1f6;               /* the ivory masthead on navy: night-only region */
   --ed-mast-ink: #0e1721;           /* 16.24:1 */
-  --ed-sand: #223050;               /* raised selection */
+  --ed-sand: #273144;               /* raised selection: L .313 C .037 h263, under the purple band's C .04 (visual QA A6, 2026-10-02; was #273144 at C .061) */
   --ed-on-fill: #1a0705;            /* label on a night module fill (a11y 08) */
 
   --brand: #ff5a52;                 /* fill: label #1a0705 6.35:1 */
@@ -129,9 +129,9 @@ html[data-theme="dark"] .nx-app[data-pilot="editorial"] {
   --link: #8fb5ff;                  /* 8.95:1 */
   --focus: #88c1ff;
 
-  --select-bg: #223050;
+  --select-bg: #273144;
   --select-line: #eef1f6;
-  --sel-bg: #223050;
+  --sel-bg: #273144;
   --sel-bar: #eef1f6;
 
   --warning: #f5c76a; --warning-bg: #2a2210;   /* 9.93:1 */
@@ -739,3 +739,51 @@ html .nx-app[data-pilot="editorial"] .nxd[data-surface] .nxd-nums {
 @media (max-width: 75rem) { .nx-app[data-pilot="editorial"] .ne-bar { flex-wrap: wrap; } .nx-app[data-pilot="editorial"] .ne-view { flex-wrap: wrap; } .nx-app[data-pilot="editorial"] .ne-bar-t > .ne-h1 { white-space: normal; } }
 /* the title's module rule: the ERD scopes its hue as --ms on the selection; ink when no module is in scope */
 .nx-app[data-pilot="editorial"] .ne-bar-t { border-inline-start: 3px solid var(--ms, var(--m, var(--ink-1))); padding-inline-start: var(--sp-3); }
+
+/* ---------- pilot QA, visual minors (2026-10-02) ---------------------------- */
+/* All radii 0 reaches the ERD canvas and its node rects (SVG rx is a
+   presentation attribute, so the stylesheet can set it). */
+.nx-app[data-pilot="editorial"] .ne-canvas,
+.nx-app[data-pilot="editorial"] .ne-stage,
+.nx-app[data-pilot="editorial"] .ne-mini { border-radius: 0; }
+.nx-app[data-pilot="editorial"] .ne-node-r,
+.nx-app[data-pilot="editorial"] .ne-node-h,
+.nx-app[data-pilot="editorial"] .ne-badge rect,
+.nx-app[data-pilot="editorial"] .ne-node-go rect { rx: 0; ry: 0; }
+/* Chapter titles balance their lines too (a two-word last line at 390). */
+.nx-app[data-pilot="editorial"] .nw-ch-t,
+.nx-app[data-pilot="editorial"] .nw-title,
+.nx-app[data-pilot="editorial"] .nh-h1 { text-wrap: balance; }
+
+/* ---------- pilot QA, brand (2026-10-02) ------------------------------------ */
+/* The product is signed: the wordmark at 20px in the display face, the glyph at
+   24px, the colophon a sentence (site-footer.tsx) under a 2px rule. */
+.nx-app[data-pilot="editorial"] .nx-lock b { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; line-height: 1.1; letter-spacing: 0; }
+.nx-app[data-pilot="editorial"] .nx-lock span { font-size: var(--t-micro); color: var(--ink-3); }
+.nx-app[data-pilot="editorial"] .nx-glyph { inline-size: 24px; block-size: 24px; padding: 0; }
+.nx-app[data-pilot="editorial"] .nx-glyph i { background: var(--brand); }
+/* The rail item: the module code is a small plate, the name beside it. */
+.nx-app[data-pilot="editorial"] .nx-navitem-code { display: inline-block; font-family: var(--font-mono); font-size: var(--t-micro); font-weight: 600; line-height: 1.3; padding: 0 4px; margin-inline-end: 4px; background: var(--m, var(--ink-1)); color: var(--ed-on-fill, #fff); direction: ltr; }
+/* The index summary's marker is a rule, not a glyph that reads as a dangling dot. */
+.nx-app[data-pilot="editorial"] .nw-idx-d > summary .nw-idx-k::after { content: ""; display: inline-block; inline-size: 1.25rem; block-size: 2px; background: var(--ink-1); margin-inline-start: var(--sp-2); vertical-align: middle; }
+.nx-app[data-pilot="editorial"] .nw-idx-d[open] > summary .nw-idx-k::after { content: ""; }
+
+/* NIGHT IS ITS OWN COMPOSITION (Color Director 02 §4.1: "the masthead inverts to
+   an ivory rule on navy"). By day the home carries the ink masthead band; at
+   night there is no band: the gate sits on the navy ground under an 8px ivory
+   rule, and the module's figure grid stands on the raised surface that exists
+   at night only. */
+html[data-theme="dark"] .nx-app[data-pilot="editorial"] { --ed-mast: var(--background); --ed-mast-ink: var(--ink-1); }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nh-gate { box-shadow: none; border-block-start: 8px solid #eef1f6; padding-block-start: var(--sp-6); }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nh-gate::after { content: none; }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nh-find-f { background: var(--surface); color: var(--ink-1); border: 1px solid var(--line-strong); }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nh-find:focus-visible .nh-find-f { box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--focus); }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nw-figs { background: var(--surface-raised); padding-inline: var(--sp-3); }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nr-sheet { background: var(--surface-raised); }
+/* At night red stays on the CTA only: the pencil rule under the gate is ivory. */
+html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nh-gate { border-block-end-color: #eef1f6; }
+/* ONE SEARCH PER VIEWPORT (UX director A4): the rail's field is hidden at rest on
+   the pilot routes (it returns with the rail's search mode); on the home the
+   gate is the search, so the top bar's field goes too. */
+.nx-app[data-pilot="editorial"]:not([data-nav="search"]) .nx-railsrch { display: none; }
+.nx-app[data-pilot="editorial"][data-route="home"] .nx-topbar .nx-cmdbar { display: none; }
