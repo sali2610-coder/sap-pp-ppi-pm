@@ -17,7 +17,9 @@ real export by `render-direction.mjs` (five routes, day and night, 1440 and
   first viewport; deep teal = PM; cobalt = PP-PI and data; amber = warnings
   and migration; controlled green = success. Status always carries icon + word.
 - Forbidden (a breach is a BLOCKER): random rainbow, generic gradient, purple
-  or violet anywhere (OKLCH hue 240–330 with C > 0.04), neon, glow,
+  or violet anywhere (OKLCH hue 240–330 with C > 0.04; amendment after round
+  1, judge 1: the brief's own named cobalt `#2346d6`, h≈266, is allowed on
+  marks, chips, text and a selected row, never as a large ground), neon, glow,
   glassmorphism beyond a bounded backdrop on a fixed element, pill overload,
   texture or animation that hurts reading, night = day inverted, infinite
   animation, fake typing, tilt, decorative parallax.
