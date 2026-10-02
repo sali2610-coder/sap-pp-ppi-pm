@@ -213,10 +213,19 @@ export function NeoShellClient({
   const layout = useLayout();
   const narrow = useSyncExternalStore(subscribeNarrow, isNarrow, () => false);
   const device = useSyncExternalStore(noSubscribe, currentDeviceClass, () => "desktop" as const);
-  const mode: RailMode = layout.mode ?? (narrow ? "peek" : "expanded");
-  // a stored column mode (compact, context) looks closed under 40rem, so the
-  // top-bar toggle opens the drawer from it
-  const railClosed = mode === "hidden" || mode === "peek" || (narrow && (mode === "compact" || mode === "context"));
+  // Under 40rem in a desktop window the rail is a drawer for this visit only
+  // (globals.css): it opens from the top-bar toggle or the peek strip, holds
+  // the focus while open, and closes on Escape, its own button, a navigation
+  // or a wider window. A mode stored from a wide window never reopens it, and
+  // toggling it here never overwrites that mode (accessibility QA round 5, N4).
+  const narrowDesk = narrow && device === "desktop";
+  const [drawerAt, setDrawerAt] = useState<string | null>(null);
+  const drawer = narrowDesk && drawerAt === path;
+  const mode: RailMode =
+    narrowDesk && layout.mode !== "search"
+      ? drawer ? "expanded" : layout.mode === "hidden" ? "hidden" : "peek"
+      : layout.mode ?? (narrow ? "peek" : "expanded");
+  const railClosed = mode === "hidden" || mode === "peek";
   const open = layout.open;
   const setMode = useCallback((m: RailMode) => setLayout({ mode: m }), []);
   /** The surface is a full-screen dialog rather than a panel beside the rail. */
@@ -246,6 +255,20 @@ export function NeoShellClient({
   /* -------------------------------------------------------------- refs */
   const appRef = useRef<HTMLDivElement>(null);
   const railRef = useRef<HTMLElement>(null);
+  const navToggle = useRef<HTMLButtonElement>(null);
+  const closeDrawer = useCallback(() => {
+    setDrawerAt(null);
+    // the page is inert until the close commits: focus returns to the toggle after it
+    requestAnimationFrame(() => navToggle.current?.focus());
+  }, []);
+  useEffect(() => {
+    if (!drawer) return;
+    // focus moves into the drawer, and Escape closes it
+    railRef.current?.querySelector<HTMLElement>(".nx-collapse")?.focus();
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape" && !e.defaultPrevented) closeDrawer(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [drawer, closeDrawer]);
   const mainRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLSpanElement>(null);
   const edgeRef = useRef<HTMLSpanElement>(null);
@@ -962,7 +985,7 @@ export function NeoShellClient({
       data-pilot={PILOT_ROUTES.test(path) ? "editorial" : undefined}
       // the user chose this rail mode (globals.css paints the narrow default
       // from the first frame only while no choice exists)
-      data-nav-user={layout.mode ? "1" : undefined}
+      data-nav-user={layout.mode || drawer ? "1" : undefined}
       data-route={pilot ? (path === "/neo/" ? "home" : path.startsWith("/neo/pm/") ? "module" : path.startsWith("/neo/tables/") ? "tables" : path.startsWith("/neo/erd/") ? "erd" : "reader") : undefined}
       data-searching={searching ? "1" : "0"}
       data-sheet={railHidden ? "1" : undefined}
@@ -972,7 +995,7 @@ export function NeoShellClient({
       data-live={searching && live ? "1" : "0"}
       style={searching && searchMod ? ({ "--sm": modVar(searchMod) } as React.CSSProperties) : undefined}
     >
-      <a href="#main" className="nx-skip" inert={railHidden || undefined}>מעבר לתוכן הראשי</a>
+      <a href="#main" className="nx-skip" inert={railHidden || drawer || undefined}>מעבר לתוכן הראשי</a>
 
       {/* ------------------------------------------------------- the rail */}
       <aside
@@ -1000,9 +1023,9 @@ export function NeoShellClient({
             className="nx-iconbtn nx-collapse"
             // under 40rem the rail is a drawer (globals.css): its own button
             // closes it instead of leaving a compact column beside the page
-            aria-label={narrow ? "הסתרת הניווט" : mode === "compact" ? "הרחבת הניווט" : "כיווץ הניווט"}
-            aria-pressed={narrow ? undefined : mode === "compact"}
-            onClick={() => changeMode(narrow ? "hidden" : mode === "compact" ? "expanded" : "compact")}
+            aria-label={narrowDesk ? "הסתרת הניווט" : mode === "compact" ? "הרחבת הניווט" : "כיווץ הניווט"}
+            aria-pressed={narrowDesk ? undefined : mode === "compact"}
+            onClick={() => (narrowDesk ? closeDrawer() : changeMode(mode === "compact" ? "expanded" : "compact"))}
           >
             {mode === "compact"
               ? <PanelRightOpen size={16} strokeWidth={1.75} aria-hidden="true" />
@@ -1210,20 +1233,22 @@ export function NeoShellClient({
         aria-label="הצגת הניווט"
         tabIndex={mode === "peek" ? 0 : -1}
         inert={railHidden || undefined}
-        onClick={() => changeMode("expanded")}
+        onClick={() => (narrowDesk ? setDrawerAt(path) : changeMode("expanded"))}
       >
         <i aria-hidden="true" />
       </button>
 
       {/* -------------------------------------------------------- the main */}
-      <div className="nx-main" ref={mainRef}>
+      {/* the page is out of reach while the narrow drawer is open */}
+      <div className="nx-main" ref={mainRef} inert={drawer || undefined}>
         <header className="nx-topbar" data-shell="desktop-only">
           <button
             type="button"
             className="nx-iconbtn"
             aria-label="הצגה או הסתרה של הניווט"
-            aria-expanded={!railClosed}
-            onClick={() => changeMode(railClosed ? "expanded" : "hidden")}
+            ref={navToggle}
+            aria-expanded={narrowDesk ? drawer : !railClosed}
+            onClick={() => (narrowDesk ? (drawer ? closeDrawer() : setDrawerAt(path)) : changeMode(railClosed ? "expanded" : "hidden"))}
           >
             <Menu size={16} strokeWidth={1.75} aria-hidden="true" />
           </button>
