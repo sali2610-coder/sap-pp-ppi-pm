@@ -7,9 +7,12 @@
   var root = document.querySelector(".nx-app");
   if (!root || root.querySelector(".ed-fn")) return;
 
-  var CODE = ".nw-sap, .nx-sap, .nh-sap, .nxd-id > b, .nu-chip.is-sap, .fm-code, .nr-sec-n";
+  var CODE = ".nw-sap, .nx-sap, .nh-sap, .nxd-id > b, .nu-chip.is-sap, .fm-code, .nr-sec-n, .ne-node-n";
+  var HOSTSEL = ".nxd-row, .nw-row, .nw-rankrow, .fm-node, .nw-idx-i, .ne-node, .nw-fig, .nw-id";
   // where the footnote's text lives, per host row: [host selector, description, mark]
   var HOSTS = [
+    [".ne-node", ".ne-node-he", ".ne-node-k, .ne-node-fk"],
+    [".nw-id", ".nw-en", null],
     [".nxd-row", ".nxd-he", ".nxd-s4-t"],
     [".nw-row", ".nw-c-he", ".nw-c-s4"],
     [".nw-rankrow", ".nw-rank-t", ".nw-rank-n"],
@@ -46,7 +49,10 @@
       if (!desc && !mark) return null;
       return { code: codeText, desc: desc.slice(0, 180), mark: mark.slice(0, 120) };
     }
-    return null;
+    var blk = code.closest("li, td, p, dd, dt, h1, h2, h3, a, button, span");
+    var near = blk && blk !== code ? text(blk).replace(codeText, "").replace(/\s+/g, " ").trim() : "";
+    if (!near) return null;
+    return { code: codeText, desc: near.slice(0, 180), mark: "" };
   }
 
   function place(el) {
@@ -98,11 +104,20 @@
   root.addEventListener("focusin", function (e) {
     var t = e.target;
     var code = (t.matches && t.matches(CODE)) ? t : (t.querySelector ? t.querySelector(CODE) : null);
-    if (!code) { var host = t.closest && t.closest(".nxd-row, .nw-row, .nw-rankrow, .fm-node, .nw-idx-i"); code = host && host.querySelector(CODE); }
+    if (!code) { var host = t.closest && t.closest(HOSTSEL); code = host && (host.querySelector(".ne-node-n, .nxd-id > b") || host.querySelector(CODE)); }
     if (code) show(code); else hide();
   });
-  root.addEventListener("focusout", function () { setTimeout(function () { if (!root.contains(document.activeElement) || !document.activeElement.closest(CODE + ", .nxd-row, .nw-row, .nw-rankrow, .fm-node, .nw-idx-i")) hide(); }, 0); });
+  root.addEventListener("focusout", function () { setTimeout(function () { if (!root.contains(document.activeElement) || !document.activeElement.closest(CODE + ", " + HOSTSEL)) hide(); }, 0); });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") hide(); });
+
+  // ERD: the title's rule takes the focused table's own module hue (read from its node, never guessed)
+  function erdRule() {
+    var bar = root.querySelector(".ne-bar-t"), node = root.querySelector(".ne-node[data-lvl='0']");
+    if (!bar) return;
+    var ms = node ? getComputedStyle(node).getPropertyValue("--ms").trim() : "";
+    if (ms) bar.style.setProperty("--ms", ms); else bar.style.removeProperty("--ms");
+  }
+  if (root.querySelector(".ne")) { setTimeout(erdRule, 300); setTimeout(erdRule, 1500); root.addEventListener("click", function () { setTimeout(erdRule, 600); }); }
   window.addEventListener("scroll", function () { if (current) place(current); }, { passive: true });
   window.addEventListener("resize", function () { if (current) place(current); });
 })();
