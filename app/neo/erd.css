@@ -774,6 +774,7 @@ html[data-theme="dark"] .ne {
    keyboard focus reveals it too, so focus never lands on an invisible control. */
 .ne-node-go { opacity: 0; pointer-events: none; transition: opacity var(--dur-fast) linear; cursor: pointer; }
 .ne-node-go rect { fill: color-mix(in srgb, var(--ms) 16%, var(--surface)); stroke: var(--ms); stroke-width: 1; }
+.ne-node-go rect.ne-node-go-hit { fill: transparent; stroke: none; }
 .ne-node-go path { fill: none; stroke: var(--ms); stroke-width: 1.6; stroke-linecap: round; }
 .ne-node:hover .ne-node-go,
 .ne-node[data-lvl="0"] .ne-node-go,

@@ -73,6 +73,10 @@ export interface ChapterMeta {
    *  until the reader opens it or navigates to the chapter's anchor. Nothing is
    *  removed; the page stops being 17,000px of everything at once. */
   collapsed?: boolean;
+  /** What a closed chapter shows before the click: three or more items taken
+   *  from its own body (the UX director's "closed chapter becomes a teaser",
+   *  2026-10-02). Real data from WsData; nothing is written for it. */
+  teaser?: ReactNode;
 }
 
 function useHashOpen(id: string, collapsed: boolean | undefined): [boolean, (v: boolean) => void] {
@@ -135,14 +139,20 @@ export function Chapter({
             <span>{meta.countLabel}</span>
           </p>
         ) : null}
-        {/* A collapsed chapter's header is a <summary>, i.e. a button: its lead is
-            rendered after the <details> instead, so no link sits inside a button. */}
-        {lead && !meta.collapsed ? <p className="nw-ch-go nm-rise">{lead}</p> : null}
-        {meta.collapsed ? (
-          <span className="nw-ch-toggle" aria-hidden="true">{open ? "צמצום הפרק" : "הצגת הפרק"}</span>
-        ) : null}
+        {lead ? <p className="nw-ch-go nm-rise">{lead}</p> : null}
       </header>
   );
+  // The closed chapter's control. It used to wrap the whole head: an accessible
+  // name of 20 to 40 words, the h2 flattened inside a button (accessibility
+  // seats 08 and 14, 2026-10-02). Now the summary is one visible row named by
+  // the state word and the chapter's kicker and count, the head stays outside
+  // it with its heading, and the teaser shows what is behind the fold.
+  const control = meta.collapsed ? (
+    <summary className="nw-ch-sum">
+      <span className="nw-ch-toggle">{open ? "צמצום הפרק" : "הצגת הפרק"}</span>
+      <span className="nw-ch-sum-t">{meta.kicker} · {nf.format(meta.count)} {meta.countLabel}</span>
+    </summary>
+  ) : null;
   return (
     <section
       className={`nw-ch${wide ? " nw-ch--wide" : ""}`}
@@ -154,13 +164,12 @@ export function Chapter({
     >
       {meta.collapsed ? (
         <>
+        {header}
+        {meta.teaser && !open ? <div className="nw-ch-teaser">{meta.teaser}</div> : null}
         <details className="nw-ch-d" open={open} onToggle={(e) => setOpen((e.currentTarget as HTMLDetailsElement).open)}>
-          <summary className="nw-ch-sum">{header}</summary>
+          {control}
           <div className="nw-ch-body">{children}</div>
         </details>
-        {/* The head's text starts at the chapter's start edge now, so the lead
-            needs no spacer to line up with it. */}
-        {lead ? <p className="nw-ch-go nw-ch-lead">{lead}</p> : null}
         </>
       ) : (
         <>

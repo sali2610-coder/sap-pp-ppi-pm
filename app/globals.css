@@ -1003,6 +1003,9 @@ html[data-device="desktop"] [data-shell="desktop-only"] { display: flex !importa
    browser reports itself (an iPad in landscape is still a tablet). */
 html[data-device="tablet"] [data-shell="desktop-only"],
 html[data-device="phone"]  [data-shell="desktop-only"] { display: none !important; }
+/* A desktop window narrowed to a phone width has no room for the rail toggle
+   either (axe target-size at 390 without a phone UA, 2026-10-02). */
+@media (max-width: 30rem) { [data-shell="desktop-only"] { display: none !important; } }
 html[data-device="tablet"] [data-shell="mobile-only"],
 html[data-device="phone"]  [data-shell="mobile-only"] { display: block !important; }
 

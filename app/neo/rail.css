@@ -151,13 +151,28 @@
   background: var(--select-bg);
   box-shadow: none;
   transform: translateY(var(--y, 0));
-  transition: transform var(--dur-base) var(--ease-out), block-size var(--dur-base) var(--ease-out), opacity var(--dur-fast);
+  /* transform and opacity only: the block-size tween was a layout per frame
+     (performance reviewer P3, 2026-10-02); the row height is set, not tweened */
+  transition: transform var(--dur-base) var(--ease-out), opacity var(--dur-fast);
 }
 .nx-app .nx-ind::before {
   inline-size: 3px; inset-block: 5px; border-radius: 0;
   background: var(--select-line); box-shadow: none;
 }
-.nx-app .nx-ind::after { content: none; }
+/* The trail (old NEO #15, adapted): drawn on the side the pill travelled FROM
+   while data-dir is set, so a long trip reads as movement, not a blink.
+   Opacity and transform only, no gradient, no spring. */
+.nx-app .nx-ind::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: var(--select-line);
+  opacity: 0; transform: scaleY(.5);
+  transition: opacity var(--dur-fast) linear, transform var(--dur-base) var(--ease-out);
+  pointer-events: none;
+}
+.nx-app .nx-ind[data-dir="down"]::after { opacity: .18; transform: translateY(-55%) scaleY(.8); }
+.nx-app .nx-ind[data-dir="up"]::after   { opacity: .18; transform: translateY(55%) scaleY(.8); }
+@media (prefers-reduced-motion: reduce) { .nx-app .nx-ind::after { content: none; } }
 
 /* ---------------------------------------------------- 6. SECTION RHYTHM */
 

@@ -261,7 +261,9 @@ function RelList({
                     <i aria-hidden="true" />
                     {j.m}
                   </span>
-                  <code>{j.j}</code>
+                  {/* the condition scrolls sideways when long, so it is a focus
+                      stop with a name (WCAG 2.1.1; axe scrollable-region-focusable) */}
+                  <code tabIndex={0} aria-label={`תנאי JOIN ${j.m}`}>{j.j}</code>
                 </div>
               ) : null,
             )}

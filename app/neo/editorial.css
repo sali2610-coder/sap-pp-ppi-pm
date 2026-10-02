@@ -1,0 +1,741 @@
+/* ==========================================================================
+   Editorial Technology · the pilot (2026-10-02)
+   The art direction that passed the blind judging (ROUND-2-TALLY.md), ported
+   from design/directions/editorial/direction.css and scoped to the five pilot
+   routes through [data-pilot="editorial"] on .nx-app (shell-client.tsx), so
+   nothing outside the pilot changes. Spec: docs/redesign-2026-09/DESIGN-SPEC-EDITORIAL.md.
+   A precise technical journal: ink on ivory, one reading column, rules instead
+   of boxes, SAP codes as marginal notes, red as the editor's pencil.
+   ========================================================================== */
+
+
+/* ---------- 0. tokens · day ---------------------------------------------- */
+.nx-app[data-pilot="editorial"] {
+  --background: #f6f2ea;            /* ground: ivory */
+  --background-2: #efe9dd;
+  --surface: #fffdf8;               /* panel */
+  --surface-2: #ede8dc;             /* recess (table heads, code wells) */
+  --surface-raised: #fffdf8;
+  --surface-sunken: #ede8dc;
+  --hairline: #d8d0c2;
+  --line-1: #d8d0c2;
+  --line-strong: #7f766a;           /* control line 4.00:1 */
+  --ink-1: #16130e;
+  --ink-2: #433c33;
+  --ink-3: #5d554a;                 /* 6.57:1 on ground, 7.21:1 on panel */
+  --g-ground: #f6f2ea;
+  --g-raised: #fffdf8;
+  --g-ink-1: #16130e;
+  --g-ink-2: #433c33;
+  --g-ink-3: #5d554a;
+  --g-hair: #d8d0c2;
+
+  --ed-mast: #16130e;               /* accented surface: the ink masthead */
+  --ed-mast-ink: #eef1f6;           /* ivory type on the masthead 16.59:1 */
+  --ed-sand: #efe4cf;               /* selection fill */
+  --ed-on-fill: #ffffff;            /* label on a day module fill */
+
+  --brand: #d62027;                 /* fill: white label 5.13:1 */
+  --brand-ink: #b4141c;             /* brand as text 6.15:1 */
+  --brand-dark: #9e1219;
+  --brand-foreground: #ffffff;
+  --link: #00579a;                  /* 6.65:1 */
+  --focus: #2346d6;
+  --focus-ring: 0 0 0 2px var(--background), 0 0 0 4px var(--focus);
+
+  --select-bg: #efe4cf;             /* sand + 3px ink bar, never red */
+  --select-line: #16130e;
+  --sel-bg: #efe4cf;
+  --sel-bar: #16130e;
+
+  --warning: #7a4a00; --warning-bg: #ffe9b8;   /* 6.27:1 */
+  --success: #136d44; --success-bg: #d9f2e3;   /* 5.38:1 */
+  --danger: #8e3a20;  --danger-bg: #fbe3da;    /* brick */
+
+  --s4-keep: #136d44;
+  --s4-change: #7a4a00;
+  --s4-replace: #056c74;
+  --s4-removed: #8e3a20;
+  --s4-new: #00579a;
+  --s4-ecc-only: #5d554a;
+  --s4-verify: #5d554a;
+
+  --mod-pm: #0a6a60;                /* text 5.80:1; plate with white 6.47:1 */
+  --mod-pppi: #1f49c7;              /* text 6.63:1; plate with white 7.40:1 */
+
+  /* shape: the journal has corners */
+  --radius: 0; --r-xs: 0; --r-sm: 0; --r-md: 0; --r-lg: 0; --r-xl: 0; --r-2xl: 0; --r-pill: 0;
+
+  /* depth: flat ink on paper; the command palette is the one raised layer */
+  --elev-1: 0 0 0 0 transparent;
+  --elev-2: 0 0 0 0 transparent;
+  --shadow-card: none;
+
+  /* type roles (root ramp below): body 17 · lead 19 · h2 22 · h1 32 · display 44 */
+  --t-micro: max(14px, 0.8235rem);  /* 14px floor at every root size; chrome takes the floor too */
+  --t-xs: max(14px, 0.8235rem);
+  --t-sm: max(14px, 0.8235rem);
+  --t-ui: max(15px, 0.8824rem);     /* 15px */
+  --t-body: 1rem;                   /* 17px at ≥ 1440 */
+  --t-body-lh: 1.7;
+  --t-lead: 1.1176rem;              /* 19px */
+  --t-h2: 1.2941rem;                /* 22px */
+  --t-h2-lh: 1.35;
+  --t-h1: 1.8824rem;                /* 32px */
+  --t-h1-lh: 1.2;
+  --t-display: 2.5882rem;           /* 44px */
+  --t-display-lh: 1.1;
+  --measure: 30em;
+
+  --dur-micro: 120ms;
+  --dur-fast: 160ms;
+  --dur-base: 220ms;
+  --dur-slow: 400ms;
+  --dur-signature: 480ms;
+  --ease-spring: var(--ease-emphasis);
+}
+
+/* ---------- 0. tokens · night (a lit desk, not an inversion) ------------- */
+html[data-theme="dark"] .nx-app[data-pilot="editorial"] {
+  --background: #0e1721;            /* ink-navy, h252 */
+  --background-2: #0a111a;
+  --surface: #151f2b;
+  --surface-2: #0a111a;
+  --surface-raised: #1a2634;
+  --surface-sunken: #0a111a;
+  --hairline: #27333f;
+  --line-1: #27333f;
+  --line-strong: #6f7b91;           /* 4.31:1 */
+  --ink-1: #eef1f6;
+  --ink-2: #c4cbd9;
+  --ink-3: #9ba5b9;                 /* 7.29:1 / 6.81:1 */
+  --g-ground: #0e1721;
+  --g-raised: #151f2b;
+  --g-ink-1: #eef1f6;
+  --g-ink-2: #c4cbd9;
+  --g-ink-3: #9ba5b9;
+  --g-hair: #27333f;
+
+  --ed-mast: #eef1f6;               /* the ivory masthead on navy: night-only region */
+  --ed-mast-ink: #0e1721;           /* 16.24:1 */
+  --ed-sand: #223050;               /* raised selection */
+  --ed-on-fill: #1a0705;            /* label on a night module fill (a11y 08) */
+
+  --brand: #ff5a52;                 /* fill: label #1a0705 6.35:1 */
+  --brand-ink: #ff8f85;             /* text 8.34:1 */
+  --brand-dark: #ed4a46;
+  --brand-foreground: #1a0705;
+  --brand-soft: #3a1a18;
+  --link: #8fb5ff;                  /* 8.95:1 */
+  --focus: #88c1ff;
+
+  --select-bg: #223050;
+  --select-line: #eef1f6;
+  --sel-bg: #223050;
+  --sel-bar: #eef1f6;
+
+  --warning: #f5c76a; --warning-bg: #2a2210;   /* 9.93:1 */
+  --success: #7ddba8; --success-bg: #0f2a1f;   /* 9.17:1 */
+  --danger: #f39c80;  --danger-bg: #3a1a18;
+
+  --mod-pm: #4fd6c4;                /* text 10.29:1; plate with ground ink 10.29:1 */
+  --mod-pppi: #9db8ff;              /* 9.40:1 */
+
+  --elev-1: 0 0 0 0 transparent;
+  --elev-2: 0 0 0 0 transparent;
+  --elev-3: 0 0 0 1px #27333f, 0 14px 32px -14px rgba(0, 0, 0, .7);
+  --elev-4: 0 0 0 1px #27333f, 0 24px 56px -20px rgba(0, 0, 0, .8);
+}
+
+/* the scene system reads the ground through these aliases */
+html .nx-app[data-pilot="editorial"] [data-scene],
+html .nx-app[data-pilot="editorial"][data-scene] {
+  --scene-ground: var(--g-ground);
+  --scene-raised: var(--g-raised);
+  --scene-ink: var(--g-ink-1);
+  --scene-ink-2: var(--g-ink-2);
+  --scene-ink-3: var(--g-ink-3);
+  --scene-hair: var(--g-hair);
+}
+
+/* ---------- 1. type base ------------------------------------------------- */
+/* body 16 → 17 at 1440 → 18 at 1728 (Typography 04 §6, common base) */
+@media (min-width: 1440px) { html:has(.nx-app[data-pilot="editorial"]) { font-size: clamp(16px, 12px + .347vw, 18px); } }
+
+.nx-app[data-pilot="editorial"] { font-variant-numeric: tabular-nums lining-nums; }
+.nx-app[data-pilot="editorial"] ::selection { background: var(--ed-sand); color: inherit; }
+.nx-app[data-pilot="editorial"] .nx-display { font-family: var(--font-display); font-weight: 700; letter-spacing: 0; }
+.nx-app[data-pilot="editorial"] :is(h1, h2, h3) { font-style: normal; letter-spacing: 0; text-transform: none; }
+.nx-app[data-pilot="editorial"] :is(em, i):not(.lucide) { font-style: normal; }
+.nx-app[data-pilot="editorial"] :is(.nw-sap, .nx-sap, .nh-sap, .nu-chip.is-sap, .nxd-id > b) { font-variant-numeric: tabular-nums lining-nums; }
+
+/* ---------- 2. template tells stripped ----------------------------------- */
+.nx-app[data-pilot="editorial"] .nx-railq kbd { display: none; }                    /* duplicate ⌘K hint (the gate / top bar keeps its own) */
+.nx-app[data-pilot="editorial"] .nx-eyebrow, .nx-app[data-pilot="editorial"] .nh-eye, .nx-app[data-pilot="editorial"] .ne-eye, .nx-app[data-pilot="editorial"] .nw-ch-k { display: none; }
+.nx-app[data-pilot="editorial"] .nu-link > svg, .nx-app[data-pilot="editorial"] .nu-link .nu-arw { display: none; }   /* no arrows on inline links; the CTA keeps its own */
+.nx-app[data-pilot="editorial"] .nxr-link > svg { display: none; }
+
+/* ---------- 3. primitives: rules instead of boxes ------------------------ */
+.nx-app[data-pilot="editorial"] .nu-card { border: 0; border-radius: 0; background: none; box-shadow: none; }
+.nx-app[data-pilot="editorial"] .nu-card[aria-current="true"], .nx-app[data-pilot="editorial"] .nu-card[data-on="1"] {
+  background: var(--select-bg);
+  box-shadow: inset 3px 0 0 0 var(--select-line);
+  border: 0;
+}
+[dir="ltr"] .nx-app[data-pilot="editorial"] .nu-card[aria-current="true"], [dir="ltr"] .nx-app[data-pilot="editorial"] .nu-card[data-on="1"] { box-shadow: inset -3px 0 0 0 var(--select-line); }
+
+.nx-app[data-pilot="editorial"] .nu-btn { border-radius: 0; font-weight: 600; min-block-size: 2.75rem; padding-inline: 1.1rem; }
+.nx-app[data-pilot="editorial"] .nu-btn:focus-visible { outline: 2px solid transparent; box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nu-btn2 { background: transparent; color: var(--ink-1); border: 1px solid var(--ink-1); border-radius: 0; min-block-size: 2.75rem; }
+.nx-app[data-pilot="editorial"] .nu-btn2:hover { background: var(--select-bg); }
+.nx-app[data-pilot="editorial"] .nu-ghost { border-radius: 0; }
+
+.nx-app[data-pilot="editorial"] .nu-tab { font-size: var(--t-ui); }
+.nx-app[data-pilot="editorial"] .nu-tab::after { background: var(--ink-1); block-size: 2px; }
+
+/* pressed filter = sand + ink line, never an ink block */
+.nx-app[data-pilot="editorial"] .nu-filter { border-radius: 0; background: transparent; font-size: var(--t-sm); min-block-size: 2.25rem; }
+.nx-app[data-pilot="editorial"] .nu-filter[aria-pressed="true"], .nx-app[data-pilot="editorial"] .nu-filter[data-on="1"] {
+  background: var(--select-bg);
+  border-color: var(--ink-1);
+  color: var(--ink-1);
+  box-shadow: inset 3px 0 0 0 var(--ink-1);
+}
+html .nx-app[data-pilot="editorial"] .nu-filter:is([aria-pressed="true"], [data-on="1"]) :is(b, em, span) { color: var(--ink-2); }
+
+/* chip: ink-outlined value, mono code, the module as a 3px start rule */
+.nx-app[data-pilot="editorial"] .nu-chip {
+  border-radius: 0;
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  color: var(--ink-1);
+  font-size: var(--t-sm);
+  padding: .1rem .5rem;
+}
+.nx-app[data-pilot="editorial"] .nu-chip[data-mod], .nx-app[data-pilot="editorial"] .nxd-mod { border-inline-start: 3px solid var(--m, var(--line-strong)); }
+
+/* status: glyph + word in the family ink, no dot-only state */
+.nx-app[data-pilot="editorial"] .nu-status { font-size: var(--t-sm); color: var(--s, var(--ink-2)); }
+
+/* two-tone focus on every control (a11y 08) */
+.nx-app[data-pilot="editorial"] :is(.nu-btn2, .nu-ghost, .nu-tab, .nu-link, .nu-filter, .nu-card, .nh-door, .nxs-i, .nr-rtoc-t, .nr-rtoc-sec):focus-visible {
+  outline: 2px solid transparent;
+  box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--focus);
+}
+
+/* rail: current row = sand + ink bar; module entries carry their rule as a glyph colour */
+.nx-app[data-pilot="editorial"] .nx-rail-bg { background: var(--background); }
+.nx-app[data-pilot="editorial"] .nx-ind { background: var(--select-bg); }
+.nx-app[data-pilot="editorial"] .nx-ind::before { background: var(--select-line); }
+.nx-app[data-pilot="editorial"] .nx-railq { background: var(--surface); border-color: var(--line-strong); border-radius: 0; }
+.nx-app[data-pilot="editorial"] .nx-navitem { font-size: var(--t-sm); }
+
+/* the one raised layer: the command palette */
+.nx-app[data-pilot="editorial"] :is(.nxc, .nx-cmd, .nx-palette, [data-palette], .nxc-panel) { box-shadow: var(--elev-4); border-radius: 0; }
+
+/* the running footer as a colophon */
+.nx-app[data-pilot="editorial"] .nx-foot { border-block-start: 2px solid var(--ink-1); }
+
+/* ==========================================================================
+   HOME · /neo/ — the masthead, the doors as a journal grid, the map as a rule
+   ========================================================================== */
+.nx-app[data-pilot="editorial"] .nh-gate {
+  position: relative;
+  max-inline-size: none;
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(18rem, 1fr);
+  grid-template-areas: "title find" "lede find" "eg eg";
+  align-items: center;
+  column-gap: var(--sp-8);
+  row-gap: var(--sp-2);
+  min-block-size: 96px;
+  padding: var(--sp-5) var(--sp-6) var(--sp-4);
+  background: var(--ed-mast);
+  color: var(--ed-mast-ink);
+  /* full bleed inside the canvas without knowing its gutter */
+  box-shadow: 0 0 0 100vmax var(--ed-mast);
+  clip-path: inset(0 -100vmax);
+  border-block-end: 4px solid var(--brand);   /* the editor's pencil */
+}
+.nx-app[data-pilot="editorial"] .nh-h1 { grid-area: title; max-inline-size: none; color: var(--ed-mast-ink); font-size: var(--t-display); line-height: 1.1; font-weight: 700; }
+.nx-app[data-pilot="editorial"] .nh-lede { grid-area: lede; color: var(--ed-mast-ink); opacity: .86; max-inline-size: 60ch; font-size: var(--t-lead); }
+.nx-app[data-pilot="editorial"] .nh-find { grid-area: find; margin: 0; align-self: center; }
+.nx-app[data-pilot="editorial"] .nh-find-l { color: var(--ed-mast-ink); font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nh-find-f {
+  background: var(--background);
+  color: var(--ink-1);
+  border: 1px solid var(--background);
+  border-radius: 0;
+  min-block-size: 3rem;
+}
+.nx-app[data-pilot="editorial"] .nh-find:hover .nh-find-f { border-color: var(--brand); }
+.nx-app[data-pilot="editorial"] .nh-find:focus-visible .nh-find-f { box-shadow: 0 0 0 2px var(--ed-mast), 0 0 0 4px var(--background); }
+.nx-app[data-pilot="editorial"] .nh-find-ph { color: var(--ink-2); }
+.nx-app[data-pilot="editorial"] .nh-find-k { background: transparent; border-color: var(--line-strong); color: var(--ink-2); border-radius: 0; }
+.nx-app[data-pilot="editorial"] .nh-find-eg { grid-area: eg; color: var(--ed-mast-ink); opacity: .86; font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nh-find-eg .nu-link { color: var(--ed-mast-ink); text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 52rem) {
+  .nx-app[data-pilot="editorial"] .nh-gate { grid-template-columns: minmax(0, 1fr); grid-template-areas: "title" "lede" "find" "eg"; }
+}
+
+/* doors: a journal grid with vertical rules */
+.nx-app[data-pilot="editorial"] .nh-doors ul { gap: 0; }
+.nx-app[data-pilot="editorial"] .nh-doors li { border-inline-start: 1px solid var(--hairline); }
+.nx-app[data-pilot="editorial"] .nh-doors .nh-door { padding: var(--sp-4) var(--sp-4) var(--sp-4); border-block-end: 1px solid var(--hairline); }
+.nx-app[data-pilot="editorial"] .nh-doors .nh-door:hover { background: var(--select-bg); border-block-end-color: var(--hairline); }
+.nx-app[data-pilot="editorial"] .nh-door-i { color: var(--ink-3); }
+.nx-app[data-pilot="editorial"] .nh-door-name { font-size: var(--t-body); font-weight: 600; }
+.nx-app[data-pilot="editorial"] .nh-doors .nh-door-n { font-family: var(--font-mono); font-size: var(--t-h2); font-weight: 600; color: var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nh-door-sub { font-size: var(--t-sm); color: var(--ink-2); }
+
+/* sections: rules of three weights */
+.nx-app[data-pilot="editorial"] .nh-sec { padding-block-start: var(--sp-4); border-block-start: 8px solid var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nh-sec-head { max-inline-size: var(--measure); padding-block-end: var(--sp-2); border-block-end: 1px solid var(--hairline); }
+.nx-app[data-pilot="editorial"] .nh-h2 { font-size: var(--t-h2); font-weight: 600; }
+.nx-app[data-pilot="editorial"] .nh-sec-lede { font-size: var(--t-body); color: var(--ink-2); }
+
+/* the process map as a rule: a lane title with a 2px rule, nodes on the rule */
+.nx-app[data-pilot="editorial"] .fm-chain { padding: 0; border: 0; background: none; }
+.nx-app[data-pilot="editorial"] .fm-title { position: relative; padding-block-end: var(--sp-2); margin-block-end: var(--sp-4); font-size: var(--t-ui); }
+.nx-app[data-pilot="editorial"] .fm-title::after {
+  content: ""; position: absolute; inset-inline: 0; inset-block-end: 0;
+  block-size: 2px; background: var(--mod, var(--ink-1));
+  transform-origin: 100% 50%;
+}
+[dir="ltr"] .nx-app[data-pilot="editorial"] .fm-title::after { transform-origin: 0 50%; }
+.nx-app[data-pilot="editorial"] .fm-node { border: 0; border-block-end: 2px solid var(--mod, var(--ink-1)); border-radius: 0; background: none; padding: 6px 2px 8px; min-inline-size: 6.5rem; }
+.nx-app[data-pilot="editorial"] a.fm-node:hover { background: var(--select-bg); border-block-end-color: var(--ink-1); }
+.nx-app[data-pilot="editorial"] .fm-code { font-size: var(--t-body); }
+.nx-app[data-pilot="editorial"] .fm-label { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .fm-line { border-block-start-width: 1px; }
+.nx-app[data-pilot="editorial"] .fm-card, .nx-app[data-pilot="editorial"] .fm-via { background: var(--background); font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .fm-legend { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .fm-node--missing { border-block-end-style: dashed; }
+
+/* SIGNATURE (home): the lane rule draws itself once on entry, inline start → end */
+@media (prefers-reduced-motion: no-preference) {
+  .nx-app[data-pilot="editorial"] .fm-title::after { animation: ed-rule 480ms var(--ease-emphasis) both; }
+  .nx-app[data-pilot="editorial"] .fm-chain:nth-child(2) .fm-title::after { animation-delay: 160ms; }
+}
+@keyframes ed-rule { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) { .nx-app[data-pilot="editorial"] .fm-title::after { animation: none; transform: none; } }
+
+/* module figures and the S/4 list as ruled rows */
+.nx-app[data-pilot="editorial"] .nh-mods > * { border: 0; border-block-start: 2px solid var(--ink-1); border-radius: 0; background: none; padding-inline: 0; }
+.nx-app[data-pilot="editorial"] .nh-mod-nums dd { font-weight: 600; }
+.nx-app[data-pilot="editorial"] .nh-imp li { border-block-end: 1px solid var(--hairline); }
+.nx-app[data-pilot="editorial"] .nh-bar { background: var(--surface-2); }
+
+/* ==========================================================================
+   MODULE · /neo/pm/ — the module column, the fold, the margin
+   ========================================================================== */
+.nx-app[data-pilot="editorial"] .nw-hero { border-inline-start: 0; padding-block-start: var(--sp-6); }
+/* the eyebrow becomes a rule in the module colour */
+.nx-app[data-pilot="editorial"] .nw-eye {
+  display: block; inline-size: 4.5rem; block-size: 3px; margin: 0;
+  background: var(--m); color: transparent; overflow: hidden; font-size: 1px; line-height: 1;
+}
+.nx-app[data-pilot="editorial"] .nw-eye i { display: none; }
+.nx-app[data-pilot="editorial"] .nw-title { font-family: var(--font-display); font-weight: 700; font-size: var(--t-display); line-height: 1.1; }
+.nx-app[data-pilot="editorial"] .nw-code { font-family: var(--font-mono); font-weight: 600; font-size: var(--t-h2); color: var(--ink-3); }
+.nx-app[data-pilot="editorial"] .nw-en { font-size: var(--t-sm); color: var(--ink-3); }
+.nx-app[data-pilot="editorial"] .nw-lede { font-size: var(--t-lead); line-height: 1.6; max-inline-size: var(--measure); }
+.nx-app[data-pilot="editorial"] .nw-figs { font-size: var(--t-sm); gap: var(--sp-2) var(--sp-4); padding-block: var(--sp-3); border-block: 1px solid var(--hairline); }
+.nx-app[data-pilot="editorial"] .nw-fig b { font-family: var(--font-mono); font-size: var(--t-body); }
+.nx-app[data-pilot="editorial"] .nw-fig em { font-style: normal; color: var(--ink-2); }
+.nx-app[data-pilot="editorial"] .nw-go-why { font-size: var(--t-sm); color: var(--ink-2); }
+
+/* the index: ruled columns, numerals in ink */
+.nx-app[data-pilot="editorial"] .nw-idx { border-block-start: 8px solid var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nw-idx-k { font-size: var(--t-sm); color: var(--ink-2); }
+.nx-app[data-pilot="editorial"] .nw-idx-s { font-size: var(--t-body); }
+.nx-app[data-pilot="editorial"] .nw-idx-l { gap: 0; }
+.nx-app[data-pilot="editorial"] .nw-idx-i { border: 0; border-inline-start: 1px solid var(--hairline); border-block-end: 1px solid var(--hairline); padding: var(--sp-3) var(--sp-4); background: none; border-radius: 0; }
+.nx-app[data-pilot="editorial"] .nw-idx-i:hover { background: var(--select-bg); }
+.nx-app[data-pilot="editorial"] .nw-idx-n { font-family: var(--font-mono); color: var(--ink-1); font-size: var(--t-h2); font-weight: 600; }
+.nx-app[data-pilot="editorial"] .nw-idx-i[data-key="1"] .nw-idx-n { color: var(--m); }
+.nx-app[data-pilot="editorial"] .nw-idx-t { font-size: var(--t-ui); }
+.nx-app[data-pilot="editorial"] .nw-idx-c { font-size: var(--t-sm); color: var(--ink-2); }
+
+/* the running section bar: the folio "01 / 08" is the only red besides the CTA */
+.nx-app[data-pilot="editorial"] .nw .nxs { --nxs-on: var(--ink-1); border-block-end: 1px solid var(--hairline); }
+.nx-app[data-pilot="editorial"] .nxs-at { font-family: var(--font-mono); font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nxs-at b { color: var(--brand-ink); font-weight: 700; }
+.nx-app[data-pilot="editorial"] .nxs-i { border-radius: 0; }
+.nx-app[data-pilot="editorial"] .nxs-i[data-on="1"] { background-color: var(--select-bg); border-color: transparent; box-shadow: inset 3px 0 0 0 var(--select-line); }
+.nx-app[data-pilot="editorial"] .nxs-n { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nxs-next { border-radius: 0; }
+
+/* chapters: a 2px rule between, no tint, no card */
+.nx-app[data-pilot="editorial"] .nw-ch { border-block-start: 2px solid var(--ink-1); padding-block: var(--sp-8) var(--sp-10); }
+.nx-app[data-pilot="editorial"] .nw > section.nw-ch:nth-of-type(odd)::before { display: none; }
+
+/* THE CHAPTER HEAD: a 56px module column with a white numeral beside the head */
+.nx-app[data-pilot="editorial"] .nw-ch-h { grid-template-columns: 56px minmax(0, 1fr); column-gap: var(--sp-5); }
+.nx-app[data-pilot="editorial"] .nw-ch-h > .nw-ch-n {
+  grid-row: 1 / 6; grid-column: 1; align-self: stretch; justify-self: stretch;
+  display: grid; place-items: start center;
+  min-block-size: 56px; inline-size: 56px; padding-block-start: 10px;
+  background: var(--m);
+  color: var(--ed-on-fill);
+  font-family: var(--font-mono); font-size: 1.4rem; font-weight: 600; line-height: 1;
+}
+.nx-app[data-pilot="editorial"] .nw-ch-h > .nw-ch-t, .nx-app[data-pilot="editorial"] .nw-ch-s, .nx-app[data-pilot="editorial"] .nw-ch-h > .nw-ch-go, .nx-app[data-pilot="editorial"] .nw-ch-h > .nw-ch-toggle, .nx-app[data-pilot="editorial"] .nw-ch-stat { grid-column: 2; }
+.nx-app[data-pilot="editorial"] .nw-ch-h > .nw-ch-t { grid-row: 1; }
+.nx-app[data-pilot="editorial"] .nw-ch-s { grid-row: 2; font-size: var(--t-body); }
+.nx-app[data-pilot="editorial"] .nw-ch-stat { grid-row: 3; }
+.nx-app[data-pilot="editorial"] .nw-ch-h > .nw-ch-go, .nx-app[data-pilot="editorial"] .nw-ch-h > .nw-ch-toggle { grid-row: 4; }
+.nx-app[data-pilot="editorial"] .nw-ch-t { font-family: var(--font-display); font-weight: 700; font-size: var(--t-h1); line-height: 1.2; }
+@container nw (min-width: 52rem) {
+  .nx-app[data-pilot="editorial"] .nw-ch-h { grid-template-columns: 56px minmax(0, 68ch) minmax(9rem, auto); grid-template-rows: auto auto auto auto; }
+  .nx-app[data-pilot="editorial"] .nw-ch-h > .nw-ch-n { grid-row: 1 / 5; }
+  .nx-app[data-pilot="editorial"] .nw-ch-h > .nw-ch-t { grid-row: 1; grid-column: 2; }
+  .nx-app[data-pilot="editorial"] .nw-ch-s { grid-row: 2; grid-column: 2; }
+  .nx-app[data-pilot="editorial"] .nw-ch-h > .nw-ch-go, .nx-app[data-pilot="editorial"] .nw-ch-h > .nw-ch-toggle { grid-row: 3; grid-column: 2; }
+  /* counts in the margin, ruled from the column */
+  .nx-app[data-pilot="editorial"] .nw-ch-stat { grid-row: 1 / 4; grid-column: 3; margin-inline-start: var(--sp-6); padding-inline-start: var(--sp-4); border-inline-start: 1px solid var(--hairline); align-self: start; }
+}
+.nx-app[data-pilot="editorial"] .nw-ch-stat { font-size: var(--t-sm); color: var(--ink-2); }
+.nx-app[data-pilot="editorial"] .nw-ch-stat b { font-family: var(--font-mono); font-weight: 600; color: var(--ink-1); }
+
+/* the collapsed chapter as a "continued" fold: the whole band is one ≥ 44px target */
+.nx-app[data-pilot="editorial"] .nw-ch[data-collapsed] { border-block-start-style: dashed; border-block-start-width: 2px; padding-block: var(--sp-6); }
+.nx-app[data-pilot="editorial"] .nw-ch-d > summary { min-block-size: 44px; }
+.nx-app[data-pilot="editorial"] .nw-ch-d > summary:hover { background: var(--select-bg); }
+.nx-app[data-pilot="editorial"] .nw-ch-d > summary:focus-visible { outline: 2px solid transparent; box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--focus); border-radius: 0; }
+.nx-app[data-pilot="editorial"] .nw-ch-toggle {
+  display: inline-flex; align-items: center; min-block-size: 44px; padding-inline: var(--sp-3);
+  margin-block-start: var(--sp-2);
+  border: 1px solid var(--ink-1);
+  font-size: var(--t-sm); font-weight: 600; color: var(--ink-1);
+}
+.nx-app[data-pilot="editorial"] .nw-ch-toggle::after { content: ""; display: inline-block; inline-size: 1.25rem; block-size: 2px; background: var(--ink-1); margin-inline-start: var(--sp-2); }
+.nx-app[data-pilot="editorial"] .nw-ch[data-collapsed="open"] .nw-ch-toggle::after { content: ""; }
+
+/* chapter body: tabs underline ink, rank rows ruled, tables ruled */
+.nx-app[data-pilot="editorial"] .nw-tabs { border-block-end: 1px solid var(--hairline); }
+.nx-app[data-pilot="editorial"] .nw-tabs .nu-tab { font-size: var(--t-ui); }
+.nx-app[data-pilot="editorial"] .nw-rankrow { border: 0; border-block-end: 1px solid var(--hairline); border-radius: 0; background: none; }
+.nx-app[data-pilot="editorial"] .nw-rankrow:hover { background: var(--select-bg); }
+.nx-app[data-pilot="editorial"] .nw-rank-i { font-size: var(--t-sm); font-family: var(--font-mono); }
+.nx-app[data-pilot="editorial"] .nw-rank-t { font-size: var(--t-ui); }
+.nx-app[data-pilot="editorial"] .nw-rank-n { font-size: var(--t-sm); font-family: var(--font-mono); }
+.nx-app[data-pilot="editorial"] .nw-bar { background: var(--surface-2); }
+.nx-app[data-pilot="editorial"] .nw-fine { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nw-tbl thead th { font-size: var(--t-sm); color: var(--ink-1); border-block-end: 2px solid var(--ink-1); background: none; }
+.nx-app[data-pilot="editorial"] .nw-row > td { font-size: var(--t-sm); border-block-end: 1px solid var(--hairline); }
+.nx-app[data-pilot="editorial"] .nw-row:hover > td { background: color-mix(in srgb, var(--select-bg) 55%, transparent); }
+.nx-app[data-pilot="editorial"] .nw-row[data-open="1"] > td { background: var(--select-bg); }
+.nx-app[data-pilot="editorial"] .nw-row[data-open="1"] > td:first-child { box-shadow: inset 3px 0 0 0 var(--select-line); }
+.nx-app[data-pilot="editorial"] .nw-sub-h { font-size: var(--t-h2); font-weight: 600; padding-block-end: var(--sp-2); border-block-end: 1px solid var(--hairline); }
+.nx-app[data-pilot="editorial"] .nw-sub-ico { display: none; }
+.nx-app[data-pilot="editorial"] .nw-sub-s { font-size: var(--t-body); }
+.nx-app[data-pilot="editorial"] .nw-move { border: 0; border-block-start: 2px solid var(--ink-1); border-radius: 0; background: none; padding-inline: 0; }
+.nx-app[data-pilot="editorial"] .nw-s4big { font-family: var(--font-mono); }
+.nx-app[data-pilot="editorial"] .nw-links { font-size: var(--t-sm); }
+
+/* ==========================================================================
+   TABLES · /neo/tables/ — the code plate, ruled rows, empty and loading
+   ========================================================================== */
+.nx-app[data-pilot="editorial"] .nxd-head .nx-h1 { font-size: var(--t-h1); font-weight: 600; }
+.nx-app[data-pilot="editorial"] .nxd-head { padding-block-end: var(--sp-3); border-block-end: 2px solid var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nxd-stats { border: 0; border-block-start: 1px solid var(--hairline); border-block-end: 1px solid var(--hairline); border-radius: 0; background: none; padding-inline: 0; box-shadow: none; }
+.nx-app[data-pilot="editorial"] .nxd-stats::before { display: none; }
+.nx-app[data-pilot="editorial"] .nxd-stat b { font-family: var(--font-mono); font-weight: 600; }
+.nx-app[data-pilot="editorial"] .nxd-stat > span:last-child { font-size: var(--t-sm); color: var(--ink-2); }
+.nx-app[data-pilot="editorial"] .nxd-tools input { border-radius: 0; border-color: var(--line-strong); background: var(--surface); min-block-size: 2.5rem; font-size: var(--t-ui); }
+.nx-app[data-pilot="editorial"] .nxd-sort select { border-radius: 0; }
+.nx-app[data-pilot="editorial"] .nxd-count { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nxd-list { gap: 0; border-block-start: 2px solid var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nxd-row { border: 0; border-block-end: 1px solid var(--hairline); border-radius: 0; background: none; padding-inline-start: var(--sp-2); }
+.nx-app[data-pilot="editorial"] .nxd-row:hover { background: var(--select-bg); border-color: var(--hairline); }
+.nx-app[data-pilot="editorial"] .nxd-mark { display: none; }
+/* the key plate: the table's code on a plate filled with the owning module's hue */
+.nx-app[data-pilot="editorial"] .nxd-id > b {
+  display: inline-grid; place-items: center;
+  min-inline-size: 7rem; min-block-size: 2rem; padding-inline: var(--sp-2);
+  background: var(--m); color: var(--ed-on-fill);
+  font-size: var(--t-ui); font-weight: 600;
+}
+.nx-app[data-pilot="editorial"] .nxd-mods { gap: var(--sp-1); }
+.nx-app[data-pilot="editorial"] .nxd-mod { background: transparent; color: var(--ink-1); border: 1px solid var(--line-strong); border-inline-start: 3px solid var(--m); font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nxd-mod > i { display: none; }
+.nx-app[data-pilot="editorial"] .nxd-mod em { color: var(--ink-2); }
+.nx-app[data-pilot="editorial"] .nxd-he { font-size: var(--t-ui); color: var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nxd-sub, .nx-app[data-pilot="editorial"] .nxd-zone { font-size: var(--t-sm); color: var(--ink-2); }
+.nx-app[data-pilot="editorial"] .nxd-dot { display: none; }
+.nx-app[data-pilot="editorial"] .nxd-nums .nu-chip { border: 0; padding-inline: 0; font-family: var(--font-mono); font-size: var(--t-sm); color: var(--ink-2); }
+.nx-app[data-pilot="editorial"] .nxd-s4-t { font-size: var(--t-sm); color: var(--ink-2); }
+.nx-app[data-pilot="editorial"] .nxd-s4-t b { color: var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nxd-go { color: var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nxd-tabs { border-block-end: 1px solid var(--hairline); }
+.nx-app[data-pilot="editorial"] .nxd-foot { font-size: var(--t-sm); }
+
+/* empty state: a composition with a next action */
+.nx-app[data-pilot="editorial"] .nxd-none { border: 0; border-block-start: 8px solid var(--ink-1); border-block-end: 1px solid var(--hairline); padding: var(--sp-6) 0; max-inline-size: var(--measure); }
+.nx-app[data-pilot="editorial"] .nxd-none b { font-family: var(--font-display); font-weight: 700; font-size: var(--t-h2); }
+.nx-app[data-pilot="editorial"] .nxd-none p, .nx-app[data-pilot="editorial"] .nxd-none span { font-size: var(--t-body); color: var(--ink-2); }
+.nx-app[data-pilot="editorial"] .nxd-none-a > :first-child { background: var(--brand); color: var(--brand-foreground); border-color: var(--brand); font-weight: 600; }
+
+/* loading: skeleton rows, no spinner, no animation */
+html[data-state="loading"] .nx-app[data-pilot="editorial"] .nxd-row > * { visibility: hidden; }
+html[data-state="loading"] .nx-app[data-pilot="editorial"] .nxd-row { position: relative; min-block-size: 3.5rem; }
+html[data-state="loading"] .nx-app[data-pilot="editorial"] .nxd-row::before,
+html[data-state="loading"] .nx-app[data-pilot="editorial"] .nxd-row::after {
+  content: ""; position: absolute; inset-inline-start: var(--sp-2); block-size: 12px; background: var(--surface-2);
+}
+html[data-state="loading"] .nx-app[data-pilot="editorial"] .nxd-row::before { inset-block-start: 1rem; inline-size: 7rem; background: var(--select-bg); }
+html[data-state="loading"] .nx-app[data-pilot="editorial"] .nxd-row::after { inset-block-start: 2.1rem; inline-size: 46%; }
+html[data-state="loading"] .nx-app[data-pilot="editorial"] :is(.nxd-count, .nxd-stats) { visibility: hidden; }
+
+/* ==========================================================================
+   ERD · /neo/erd/ — the night canvas kept; the focus node filled; outlines
+   ========================================================================== */
+.nx-app[data-pilot="editorial"] .ne { --ne-stage: var(--background); }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"] .ne { --ne-stage: #0a111a; }
+.nx-app[data-pilot="editorial"] .ne-bar { border-block-end: 2px solid var(--ink-1); }
+.nx-app[data-pilot="editorial"] .ne-h1 { font-size: var(--t-h1); font-weight: 600; }
+.nx-app[data-pilot="editorial"] .ne-sub, .nx-app[data-pilot="editorial"] .ne-fhint, .nx-app[data-pilot="editorial"] .ne-crumbs, .nx-app[data-pilot="editorial"] .ne-hint { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .ne-modechip { border-radius: 0; }
+.nx-app[data-pilot="editorial"] .ne-group .nu-ghost { border-radius: 0; }
+/* the black "N PM tables" button becomes an outline; its count too */
+.nx-app[data-pilot="editorial"] .ne-pop-t[data-on="1"], .nx-app[data-pilot="editorial"] .ne-pop-t[aria-expanded="true"] { background: transparent; color: var(--ink-1); border-color: var(--ink-1); box-shadow: none; }
+.nx-app[data-pilot="editorial"] .ne-pop-n { background: transparent; color: var(--ink-1); border: 1px solid var(--ink-1); border-radius: 0; font-size: var(--t-sm); }
+/* focus node: filled 100 % with the module colour, labels on the fill */
+.nx-app[data-pilot="editorial"] .ne-node[data-lvl="0"] .ne-node-r { fill: var(--m); stroke: var(--m); stroke-width: 2; }
+.nx-app[data-pilot="editorial"] .ne-node[data-lvl="0"] :is(.ne-node-n, .ne-node-he, .ne-node-mod, .ne-node-z, .ne-node-k, .ne-node-fk, .ne-node-sh) { fill: var(--ed-on-fill); }
+.nx-app[data-pilot="editorial"] .ne-node[data-lvl="0"] .ne-node-cls { fill: var(--ed-on-fill); opacity: .9; }
+.nx-app[data-pilot="editorial"] .ne-node[data-lvl="0"] .ne-node-h { opacity: 1; fill: transparent; stroke: var(--ink-1); stroke-width: 1.5; }
+/* context nodes outlined only */
+.nx-app[data-pilot="editorial"] .ne-node-r { fill: var(--surface); }
+.nx-app[data-pilot="editorial"] .ne-node[data-lvl="1"] .ne-node-r { fill: var(--surface); stroke-width: 2.4; }
+.nx-app[data-pilot="editorial"] .ne-node-he { font-size: 13px; }
+.nx-app[data-pilot="editorial"] .ne-node-k, .nx-app[data-pilot="editorial"] .ne-node-fk, .nx-app[data-pilot="editorial"] .ne-node-mod, .nx-app[data-pilot="editorial"] .ne-node-z { font-size: 12px; }
+.nx-app[data-pilot="editorial"] .ne-edge-t { font-size: 13px; }
+/* neighbour dimming: 220 ms opacity on non-neighbours (old NEO #33/#41) */
+.nx-app[data-pilot="editorial"] .ne-node, .nx-app[data-pilot="editorial"] .ne-edge, .nx-app[data-pilot="editorial"] .ne-edge-p { transition-duration: 220ms; transition-property: opacity, stroke-width; }
+.nx-app[data-pilot="editorial"] .ne-insp { background: var(--surface); }
+.nx-app[data-pilot="editorial"] .ne-idle h2 { font-size: var(--t-ui); }
+.nx-app[data-pilot="editorial"] .ne-idle > p, .nx-app[data-pilot="editorial"] .ne-facts, .nx-app[data-pilot="editorial"] .ne-note, .nx-app[data-pilot="editorial"] .ne-modlist { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .ne-detail .nu-btn2 { border-radius: 0; }
+
+/* ==========================================================================
+   READER · /neo/read/ — the red folio, sand TOC, one measure
+   ========================================================================== */
+.nx-app[data-pilot="editorial"] .nr { --nr-paper: var(--surface); --nr-ink: var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nr[data-measure="normal"] { --nr-measure: calc(var(--nr-fs) * 31); }
+.nx-app[data-pilot="editorial"] .nr-head { background: var(--background); border-block-end: 2px solid var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nr-crumb, .nx-app[data-pilot="editorial"] .nr-crumb-now, .nx-app[data-pilot="editorial"] .nr-crumb-l, .nx-app[data-pilot="editorial"] .nr-crumb-b { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nr-tool, .nx-app[data-pilot="editorial"] .nr-mark, .nx-app[data-pilot="editorial"] .nr-lang { border-radius: 0; }
+.nx-app[data-pilot="editorial"] .nr-strip-seg b, .nx-app[data-pilot="editorial"] .nr-strip-seg em { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nr-strip-bar i { background: var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nr-sheet { border: 0; border-radius: 0; box-shadow: none; padding-inline: var(--sp-6); border-inline-start: 1px solid var(--hairline); }
+.nx-app[data-pilot="editorial"] .nr-ch-head { border-block-end: 2px solid var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nr-eye .nu-chip { border: 0; border-inline-start: 2px solid var(--m); padding-inline: var(--sp-2) 0; font-size: var(--t-sm); color: var(--ink-2); }
+.nx-app[data-pilot="editorial"] .nr-ch-t { font-family: var(--font-display); font-weight: 700; font-size: var(--t-h1); line-height: 1.2; }
+/* the folio: chapter numeral in brand, mono, with the editor's rule */
+.nx-app[data-pilot="editorial"] .nr-ch-n {
+  font-family: var(--font-mono); font-size: var(--t-ui); font-weight: 700; color: var(--brand-ink);
+  padding-inline-start: var(--sp-2); border-inline-start: 3px solid var(--brand);
+}
+.nx-app[data-pilot="editorial"] .nr-ch-m { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nr-sec-n { border: 0; padding-inline: 0; font-family: var(--font-mono); font-size: var(--t-sm); font-weight: 600; color: var(--ink-3); background: none; }
+.nx-app[data-pilot="editorial"] .nr-sec-t { font-weight: 600; }
+.nx-app[data-pilot="editorial"] .nr-sec[aria-current="true"] .nr-sec-t { border-inline-start-color: var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nr-sec-meta { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nr-intro { border-radius: 0; }
+.nx-app[data-pilot="editorial"] .nr-intro-l { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nr-end { border: 0; border-block-start: 2px solid var(--ink-1); border-radius: 0; background: none; }
+.nx-app[data-pilot="editorial"] .nr-end:hover { background: var(--select-bg); }
+.nx-app[data-pilot="editorial"] .nr-end-k { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nr-foot { font-size: var(--t-sm); }
+/* the rail: ruled, the progress rail in brand */
+.nx-app[data-pilot="editorial"] .nr-rail { border: 0; border-inline-end: 1px solid var(--hairline); border-radius: 0; background: none; box-shadow: none; }
+.nx-app[data-pilot="editorial"] .nr-rail-pct { font-family: var(--font-mono); color: var(--brand-ink); }
+.nx-app[data-pilot="editorial"] .nr-rail-pct i, .nx-app[data-pilot="editorial"] .nr-rail-cap { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nr-track-bed { border-radius: 0; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--hairline); }
+.nx-app[data-pilot="editorial"] .nr-track-band { border-radius: 0; background: var(--select-bg); }
+.nx-app[data-pilot="editorial"] .nr-track-fill { border-radius: 0; background: var(--brand); }
+.nx-app[data-pilot="editorial"] .nr-now { background: var(--ink-1); box-shadow: 0 0 0 2px var(--background); }
+.nx-app[data-pilot="editorial"] .nr-tick[data-on="1"]::before { background: var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nr-rtoc-t { font-size: var(--t-sm); border-radius: 0; }
+.nx-app[data-pilot="editorial"] .nr-rtoc-sec { font-size: var(--t-sm); border-radius: 0; }
+.nx-app[data-pilot="editorial"] .nr-rtoc-ch[data-on="1"] > .nr-rtoc-hd .nr-rtoc-t { background: var(--select-bg); color: var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nr-rtoc-ch[data-on="1"] > .nr-rtoc-hd .nr-rtoc-t:not(:focus-visible) { box-shadow: inset 3px 0 0 0 var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nr-rtoc-bar { border-radius: 0; }
+.nx-app[data-pilot="editorial"] .nr-rtoc-bar i { background: var(--ink-2); }
+.nx-app[data-pilot="editorial"] .nr-meter-t, .nx-app[data-pilot="editorial"] .nr-meter-n { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nr-dock { background: var(--background); border-block-start: 1px solid var(--hairline); }
+.nx-app[data-pilot="editorial"] .nr-dock-k, .nx-app[data-pilot="editorial"] .nr-dock-t { font-size: var(--t-sm); }
+
+/* ==========================================================================
+   THE MARGIN FOOTNOTE (direction.js builds it from text already in the DOM)
+   ========================================================================== */
+.nx-app[data-pilot="editorial"] .ed-fn {
+  position: fixed; z-index: 60;
+  inline-size: 16rem; max-inline-size: calc(100vw - 2rem);
+  padding: var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-3);
+  background: var(--surface);
+  color: var(--ink-1);
+  border-block-start: 2px solid var(--ink-1);
+  border-inline-start: 3px solid var(--brand);
+  box-shadow: 0 0 0 1px var(--hairline);
+  font-size: var(--t-sm); line-height: 1.5;
+  opacity: 0; transform: translateY(4px);
+  transition: opacity 160ms var(--ease-out), transform 160ms var(--ease-out);
+  pointer-events: none;
+}
+.nx-app[data-pilot="editorial"] .ed-fn[data-on="1"] { opacity: 1; transform: none; }
+.nx-app[data-pilot="editorial"] .ed-fn-code { display: block; font-family: var(--font-mono); font-weight: 600; direction: ltr; unicode-bidi: isolate; text-align: start; color: var(--brand-ink); margin-block-end: 2px; }
+.nx-app[data-pilot="editorial"] .ed-fn-mark { display: block; font-size: var(--t-sm); color: var(--ink-3); margin-block-start: var(--sp-1); }
+@media (prefers-reduced-motion: reduce) { .nx-app[data-pilot="editorial"] .ed-fn { transition: none; transform: none; } }
+
+/* ---------- phone ---------------------------------------------------------- */
+@media (max-width: 52rem) {
+  .nx-app[data-pilot="editorial"] .nw-ch-h { grid-template-columns: 44px minmax(0, 1fr); column-gap: var(--sp-3); }
+  .nx-app[data-pilot="editorial"] .nw-ch-h > .nw-ch-n { inline-size: 44px; min-block-size: 44px; font-size: 1.15rem; }
+  .nx-app[data-pilot="editorial"] .nh-gate { padding-inline: var(--sp-4); }
+  .nx-app[data-pilot="editorial"] .nxd-id > b { min-inline-size: 0; }
+}
+
+/* ---------- iteration 2 ---------------------------------------------------- */
+/* the module code beside the title is a marginal note, not a chip */
+.nx-app[data-pilot="editorial"] .nw-code { background: none; border: 0; padding: 0; box-shadow: none; }
+/* on home the gate carries the one ⌘K hint; the top bar's is the duplicate there */
+.nx-app[data-pilot="editorial"]:has(.nh-gate) .nx-cmdbar kbd { display: none; }
+/* reader toolbar: a pressed language or bookmark = sand + ink line, never an ink block */
+.nx-app[data-pilot="editorial"] .nr-lang[data-on="1"], .nx-app[data-pilot="editorial"] .nr-mark[data-on="1"] {
+  background: var(--select-bg); color: var(--ink-1); border-color: transparent;
+  box-shadow: inset 0 -3px 0 0 var(--ink-1); border-radius: 0;
+}
+.nx-app[data-pilot="editorial"] .nr-langs, .nx-app[data-pilot="editorial"] .nr-steps { border-radius: 0; }
+
+/* iteration 3: the floor measured, not assumed (ed-shot audit: 13.9995 at 17px root, 13.2 at 16px) */
+.nx-app[data-pilot="editorial"] .nr-end--none, .nx-app[data-pilot="editorial"] .nr-end-t, .nx-app[data-pilot="editorial"] .nr-end-k { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nw-rail { background: var(--background-2); }
+/* loading: the row's second action waits with the row */
+html[data-state="loading"] .nx-app[data-pilot="editorial"] .nxd-item > :not(.nxd-row) { visibility: hidden; }
+
+/* ==========================================================================
+   ROUND 2 (judges' deductions)
+   ========================================================================== */
+/* 1a. module hero figures: a ruled figure grid, numerals large, labels under */
+.nx-app[data-pilot="editorial"] .nw-figs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin-block-start: var(--sp-4);
+  padding-block: 0;
+  border-block: 2px solid var(--ink-1);
+  font-size: var(--t-sm);
+}
+.nx-app[data-pilot="editorial"] .nw-fig {
+  display: grid;
+  grid-template-rows: auto auto auto;
+  align-content: start;
+  gap: 2px;
+  padding: var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-2);
+  border-inline-start: 1px solid var(--hairline);
+  border-block-end: 1px solid var(--hairline);
+  margin-block-end: -1px;
+}
+.nx-app[data-pilot="editorial"] .nw-fig b { font-family: var(--font-mono); font-size: 1.65rem; font-weight: 600; line-height: 1.1; color: var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nw-fig > span { font-size: var(--t-sm); color: var(--ink-1); font-weight: 500; }
+.nx-app[data-pilot="editorial"] .nw-fig em { font-size: var(--t-sm); color: var(--ink-3); }
+.nx-app[data-pilot="editorial"] .nw-fig em bdi { font-family: var(--font-mono); }
+@media (max-width: 52rem) {
+  .nx-app[data-pilot="editorial"] .nw-figs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nx-app[data-pilot="editorial"] .nw-fig { padding-inline: var(--sp-2); }
+  .nx-app[data-pilot="editorial"] .nw-fig b { font-size: 1.4rem; }
+}
+
+/* 1b. the running section bar: room, a folio, the current chapter sand + ink bar */
+.nx-app[data-pilot="editorial"] .nw .nxs { padding-block: var(--sp-2); min-block-size: 3.75rem; border-block-end: 2px solid var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nxs-at { font-family: var(--font-mono); font-size: var(--t-ui); padding-inline-end: var(--sp-3); border-inline-end: 1px solid var(--hairline); min-block-size: 44px; display: inline-flex; align-items: center; gap: 4px; }
+.nx-app[data-pilot="editorial"] .nxs-at b { color: var(--brand-ink); font-weight: 700; font-size: 1.15rem; }
+.nx-app[data-pilot="editorial"] .nxs-i { min-block-size: 44px; padding-inline: var(--sp-4); border-radius: 0; font-size: var(--t-ui); }
+.nx-app[data-pilot="editorial"] .nxs-i[data-on="1"] { padding-inline-start: calc(var(--sp-4) + 3px); background-color: var(--select-bg); border-color: transparent; box-shadow: inset 3px 0 0 0 var(--select-line); }
+.nx-app[data-pilot="editorial"] .nxs-n { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nxs-next { min-block-size: 44px; border-radius: 0; }
+
+/* 2. the catalogue row as one journal line:
+      plate at the start · name + description beside it · counts as a marginal
+      note at the end · the S/4 standing under the description on its own line */
+html .nx-app[data-pilot="editorial"] .nxd[data-surface] .nxd-row,
+html .nx-app[data-pilot="editorial"] .nxd[data-surface] .nxd-row--tx {
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  grid-template-areas:
+    "id body nums go"
+    "id s4   nums go";
+  align-items: start;
+  column-gap: var(--sp-4);
+  row-gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-2) var(--sp-3) 6.5rem;
+}
+.nx-app[data-pilot="editorial"] .nxd-id { align-self: start; gap: var(--sp-1); }
+.nx-app[data-pilot="editorial"] .nxd-body { align-self: start; gap: 2px; }
+.nx-app[data-pilot="editorial"] .nxd-he { font-size: var(--t-ui); font-weight: 600; line-height: 1.4; -webkit-line-clamp: 2; }
+.nx-app[data-pilot="editorial"] .nxd-sub { font-size: var(--t-sm); }
+html .nx-app[data-pilot="editorial"] .nxd[data-surface] .nxd-s4 {
+  grid-area: s4; inline-size: auto; justify-self: start; grid-template-columns: none;
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-1) var(--sp-3);
+  padding-block-start: var(--sp-1); border-block-start: 1px solid var(--hairline);
+}
+.nx-app[data-pilot="editorial"] .nxd-s4-t { font-size: var(--t-sm); -webkit-line-clamp: 2; }
+/* the bench line: mono tabular counts with their unit, right-ruled, nothing centred */
+html .nx-app[data-pilot="editorial"] .nxd[data-surface] .nxd-nums {
+  grid-area: nums; align-self: start;
+  display: grid; justify-items: end; gap: 2px;
+  min-inline-size: 7rem; max-inline-size: none;
+  padding-inline-start: var(--sp-3); border-inline-start: 1px solid var(--hairline);
+  text-align: end;
+}
+.nx-app[data-pilot="editorial"] .nxd-nums .nu-chip { display: inline-flex; gap: 4px; border: 0; padding: 0; background: none; font-family: var(--font-mono); font-size: var(--t-sm); font-variant-numeric: tabular-nums; color: var(--ink-2); line-height: 1.4; }
+.nx-app[data-pilot="editorial"] .nxd-nums .nu-chip svg { display: none; }
+.nx-app[data-pilot="editorial"] .nxd-go { grid-area: go; align-self: start; margin-block-start: 6px; opacity: .6; transform: none; }
+.nx-app[data-pilot="editorial"] .nxd-row:hover .nxd-go { opacity: 1; }
+@media (max-width: 52rem) {
+  html .nx-app[data-pilot="editorial"] .nxd[data-surface] .nxd-row, html .nx-app[data-pilot="editorial"] .nxd[data-surface] .nxd-row--tx {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "id" "body" "s4" "nums";
+    padding-inline: var(--sp-2) 5.5rem;   /* the row's second action keeps its corner */
+  }
+  html .nx-app[data-pilot="editorial"] .nxd[data-surface] .nxd-id { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+  html .nx-app[data-pilot="editorial"] .nxd[data-surface] .nxd-s4 { border: 0; padding-block-start: 0; }
+  html .nx-app[data-pilot="editorial"] .nxd[data-surface] .nxd-nums { display: flex; flex-wrap: wrap; justify-content: start; gap: var(--sp-1) var(--sp-3); padding: 0; border: 0; min-inline-size: 0; text-align: start; }
+  .nx-app[data-pilot="editorial"] .nxd-go { display: none; }
+}
+
+/* 3. ERD header: one row (identity block at two lines + the tool row once) */
+.nx-app[data-pilot="editorial"] .ne-bar { flex-wrap: nowrap; align-items: center; gap: var(--sp-4); padding-block: var(--sp-2); border-block-end: 1px solid var(--hairline); }
+.nx-app[data-pilot="editorial"] .ne-bar-id { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; flex: 1 1 22rem; min-inline-size: 15rem; }
+.nx-app[data-pilot="editorial"] .ne-bar-nav { display: none; }                      /* the top bar already carries the crumbs; the identity block stays two lines */
+.nx-app[data-pilot="editorial"] .ne-bar-t { flex-wrap: nowrap; align-items: baseline; gap: var(--sp-2); padding-inline-start: var(--sp-3); border-inline-start: 3px solid var(--m); }
+.nx-app[data-pilot="editorial"] .ne-h1 { font-size: var(--t-h2); font-weight: 600; line-height: 1.3; white-space: normal; }
+.nx-app[data-pilot="editorial"] .ne-sub { padding-inline-start: calc(var(--sp-3) + 3px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nx-app[data-pilot="editorial"] .ne-view { flex: 0 1 auto; justify-content: flex-end; }
+@media (max-width: 70rem) { .nx-app[data-pilot="editorial"] .ne-bar { flex-wrap: wrap; } .nx-app[data-pilot="editorial"] .ne-h1, .nx-app[data-pilot="editorial"] .ne-sub { white-space: normal; } }
+
+/* 4. the collapsed chapter: the whole band is the target and shows its state */
+.nx-app[data-pilot="editorial"] .nw-ch-d > summary { padding: var(--sp-3) var(--sp-3); margin-inline: calc(-1 * var(--sp-3)); transition: background-color 120ms linear; }
+.nx-app[data-pilot="editorial"] .nw-ch-d > summary:hover, .nx-app[data-pilot="editorial"] .nw-ch-d > summary:focus-visible { background: var(--select-bg); }
+.nx-app[data-pilot="editorial"] .nw-ch-d > summary:hover .nw-ch-toggle { background: var(--ink-1); color: var(--background); }
+.nx-app[data-pilot="editorial"] .nw-ch-d > summary:hover .nw-ch-toggle::after { background: var(--background); }
+.nx-app[data-pilot="editorial"] .ed-fn { transition-duration: 120ms; }
+/* ERD node: a focused node shows its ring; the footnote reads its own label */
+.nx-app[data-pilot="editorial"] .ne-node:has(.ne-node-go:focus-visible) .ne-node-r { stroke: var(--focus); stroke-width: 3; }
+/* ERD bar, measured: id 318 + search 246 + tools 552 did not fit 1126; the search narrows, the
+   title keeps one line, the tool groups stay one row */
+.nx-app[data-pilot="editorial"] .ne-bar { gap: var(--sp-3); padding-inline: var(--sp-4); }
+.nx-app[data-pilot="editorial"] .ne-bar-id { flex: 0 1 auto; min-inline-size: 0; }
+.nx-app[data-pilot="editorial"] .ne-bar-t { display: grid; grid-template-columns: auto auto; grid-template-rows: auto auto; align-items: baseline; column-gap: var(--sp-2); row-gap: 0; }
+.nx-app[data-pilot="editorial"] .ne-bar-t > .ne-h1 { grid-row: 1; grid-column: 1; font-size: 1.2rem; white-space: nowrap; }
+.nx-app[data-pilot="editorial"] .ne-bar-t > .ne-modechip { grid-row: 1; grid-column: 2; }
+.nx-app[data-pilot="editorial"] .ne-bar-t > .ne-sub { grid-row: 2; grid-column: 1 / 3; padding-inline-start: 0; max-inline-size: 22rem; }
+.nx-app[data-pilot="editorial"] .ne-find-top { flex: 0 1 11rem; min-inline-size: 9rem; }
+.nx-app[data-pilot="editorial"] .ne-find-top .ne-search { inline-size: 100%; min-inline-size: 0; }
+.nx-app[data-pilot="editorial"] .ne-view { flex: 1 1 auto; flex-wrap: nowrap; justify-content: flex-end; gap: var(--sp-1); }
+.nx-app[data-pilot="editorial"] .ne-view .ne-group { flex: none; }
+@media (max-width: 75rem) { .nx-app[data-pilot="editorial"] .ne-bar { flex-wrap: wrap; } .nx-app[data-pilot="editorial"] .ne-view { flex-wrap: wrap; } .nx-app[data-pilot="editorial"] .ne-bar-t > .ne-h1 { white-space: normal; } }
+/* the title's module rule: the ERD scopes its hue as --ms on the selection; ink when no module is in scope */
+.nx-app[data-pilot="editorial"] .ne-bar-t { border-inline-start: 3px solid var(--ms, var(--m, var(--ink-1))); padding-inline-start: var(--sp-3); }

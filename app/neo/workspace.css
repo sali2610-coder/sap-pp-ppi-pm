@@ -815,9 +815,11 @@ html .nx-app .nx-canvas:has(> .nw) {
    at 1099px, which left the most common laptop canvases (1100 to 1299px: a
    1366 to 1512 window beside the rail) with the full widths and a 140px
    description column of eight letters, every cell an ellipsis (adaptive-ui
-   reviewer, 2026-10-02, 1440-light-nw-tbl.png). From 1300px the widths above
-   leave the description at least 18rem; under 900px the rows are cards. */
-@container nw (min-width: 900px) and (max-width: 1299px) {
+   reviewer, 2026-10-02, 1440-light-nw-tbl.png). The pilot's root ramp (18px at
+   1728) makes the rem columns 1130px, so the band reaches 1399px; from 1400px
+   the widths above leave the description at least 18rem; under 900px the rows
+   are cards. */
+@container nw (min-width: 900px) and (max-width: 1399px) {
   .nw-row > td, .nw-tbl thead th { padding-inline: 6px; }
   .nw-c-n { inline-size: 7rem; }      /* a code is six letters; its chip sits under it */
   .nw-c-tp { inline-size: 6.5rem; }
@@ -1568,16 +1570,30 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
 
 /* Secondary chapters as progressive disclosure (design audit §7, 2026-09-21):
    the header is the summary, the body opens on click or on anchor navigation. */
-.nw-ch-d > summary { list-style: none; cursor: pointer; }
+/* The closed chapter's control: one visible row, at least 44px, the state
+   word as an outlined control and the chapter's kicker and count beside it.
+   The head with its heading sits above it, outside the button (2026-10-02). */
+.nw-ch-d > summary {
+  list-style: none; cursor: pointer;
+  display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2) var(--sp-4);
+  min-block-size: var(--c-tap, 44px);
+  padding-block: var(--sp-2);
+  border-block-start: 1px solid var(--hairline);
+}
 .nw-ch-d > summary::-webkit-details-marker { display: none; }
 .nw-ch-d > summary:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--r-sm); }
+.nw-ch-sum-t { font-size: var(--t-sm); color: var(--ink-3); }
+/* The teaser: what the fold hides, three or more real items from the body. */
+.nw-ch-teaser { display: flex; flex-wrap: wrap; gap: var(--sp-2); max-inline-size: 68ch; }
+.nw-ch-teaser .nw-tz { display: inline-flex; align-items: baseline; gap: var(--sp-2); font-size: var(--t-sm); color: var(--ink-2); }
+.nw-ch-teaser .nw-tz b { font-variant-numeric: tabular-nums; color: var(--ink-1); }
+.nw-ch-teaser .nu-chip em { font-style: normal; color: var(--ink-3); }
 .nw-ch-toggle {
-  display: inline-flex; align-items: center; gap: 4px; margin-block-start: var(--sp-3);
+  display: inline-flex; align-items: center; gap: 4px;
   font-size: var(--t-micro); font-weight: 600; color: var(--m);
 }
 .nw-ch-toggle::after { content: "▾"; }
 .nw-ch[data-collapsed="open"] .nw-ch-toggle::after { content: "▴"; }
-.nw-ch[data-collapsed="closed"] > .nw-ch-d > summary .nw-ch-h { margin-block-end: 0; }
 .nw-ch-d[open] > .nw-ch-body { margin-block-start: var(--sp-6); }
 
 /* 2026 system: a module environment is a gateway (DESIGN-SPEC: 32 to 44px), not

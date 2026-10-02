@@ -2967,6 +2967,9 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                             tabIndex={0}
                             aria-label={t.pg ? `פתיחת עמוד האובייקט ${t.n}` : `פתיחת כרטיס הטבלה ${t.n}`}
                           >
+                            {/* the pointer target is 44×44 (WCAG 2.5.8, brief rule 5); the
+                                drawn affordance stays 30×22 */}
+                            <rect className="ne-node-go-hit" x={-ow / 2 + 1} y={oy + 21} width={44} height={44} fill="transparent" stroke="none" />
                             <rect x={-ow / 2 + 8} y={oy + 32} width={30} height={22} rx={6} />
                             <path d="M0 0 L-6 -6 M0 0 L0 -5 M0 0 L-5 0" transform={`translate(${-ow / 2 + 26} ${oy + 46})`} />
                           </g>

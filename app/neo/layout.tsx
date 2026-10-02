@@ -15,6 +15,10 @@ import "./motion.css";
 // The 2026 design system re-values the tokens every NEO stylesheet reads; it has to
 // come after the ground and motion layers so its values win.
 import "./system.css";
+// The pilot of the art direction that passed the blind judging (Editorial
+// Technology, docs/redesign-2026-09/DESIGN-SPEC-EDITORIAL.md). Scoped to the
+// five pilot routes by [data-pilot="editorial"] on .nx-app; last, so it wins.
+import "./editorial.css";
 
 // noindex is not optional here. scripts/gen-sitemap.mjs derives the sitemap from
 // out/ rather than from a list, and its ONLY exclusion mechanism is a page

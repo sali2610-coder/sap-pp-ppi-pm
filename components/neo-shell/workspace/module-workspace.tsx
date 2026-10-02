@@ -284,6 +284,28 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
       .filter((s) => BUILD_KEYS.includes(s.key))
       .reduce((a, s) => a + s.rows.length, 0);
 
+    // What each closed chapter shows before the click: its own body's first
+    // items, from the dataset as built (nothing authored for the teaser).
+    const chip = (code: string, n?: number, key?: string) => (
+      <span className="nu-chip is-sap nw-tz" key={key ?? code}>
+        <b className="nw-sap">{code}</b>
+        {n !== undefined ? <em>{nf.format(n)}</em> : null}
+      </span>
+    );
+    const teasers = {
+      ops: data.tcodes.slice(0, 5).map((t) => chip(t.code, t.n)),
+      rel: data.rel.hubs.slice(0, 3).map((h) => chip(h.n, h.deg)),
+      iface: [["BAPI", data.counts.bapis], ["FM", data.counts.fms], ["CDS", data.counts.cds], ["Fiori", data.counts.fiori]].map(([k, n]) => (
+        <span className="nw-tz nw-tz-fig" key={String(k)}><b>{nf.format(Number(n))}</b> {k}</span>
+      )),
+      build: data.sheets.map((sh) => (
+        <span className="nw-tz" key={sh.key}><b>{nf.format(sh.rows.length)}</b> {sh.title}</span>
+      )),
+      learn: [
+        ...data.books.slice(0, 2).map((b) => <span className="nw-tz" key={b.id}>{b.he || b.title}</span>),
+        <span className="nw-tz nw-tz-fig" key="courses"><b>{nf.format(data.courses.length)}</b> קורסים</span>,
+      ],
+    };
     const plan: (Omit<ChapterMeta, "n"> & { key: string })[] = [
       { key: "map", id: "nw-map", kicker: "מפת המודול", title: "נושאים ותהליך", count: data.counts.topics, countLabel: "נושאים" },
       // The one chapter the page is really for. It is marked here, once, and the
@@ -295,13 +317,13 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
       { key: "s4", id: "nw-s4", kicker: "המעבר ל-S/4HANA", title: "מה משתנה במודול במעבר ל-S/4HANA", count: data.s4x.changed.length, countLabel: "טבלאות משתנות", feature: true },
       // Secondary chapters open on demand (or from their anchor); the map, the
       // table and the S/4HANA chapter stay open.
-      { key: "ops", id: "nw-ops", kicker: "טרנזקציות ודוחות", title: "הטרנזקציות שהתיעוד קושר למודול", count: data.counts.tcodes, countLabel: "טרנזקציות", collapsed: true },
-      { key: "rel", id: "nw-rel", kicker: "קשרים ומודל הנתונים", title: "קשרי הנתונים של המודול עם שאר המערכת", count: data.rel.edges, countLabel: "קשרים ממודלים", collapsed: true },
-      { key: "iface", id: "nw-if", kicker: "ממשקים · CDS · Fiori", title: "ממשקים, CDS ו-Fiori", count: data.counts.funcEntries, countLabel: "רשומות ממשק", collapsed: true },
+      { key: "ops", id: "nw-ops", kicker: "טרנזקציות ודוחות", title: "הטרנזקציות שהתיעוד קושר למודול", count: data.counts.tcodes, countLabel: "טרנזקציות", collapsed: true, teaser: teasers.ops },
+      { key: "rel", id: "nw-rel", kicker: "קשרים ומודל הנתונים", title: "קשרי הנתונים של המודול עם שאר המערכת", count: data.rel.edges, countLabel: "קשרים ממודלים", collapsed: true, teaser: teasers.rel },
+      { key: "iface", id: "nw-if", kicker: "ממשקים · CDS · Fiori", title: "ממשקים, CDS ו-Fiori", count: data.counts.funcEntries, countLabel: "רשומות ממשק", collapsed: true, teaser: teasers.iface },
       ...(buildRows
-        ? [{ key: "build", id: "nw-build", kicker: "קונפיגורציה וכלים", title: "קונפיגורציה וקוד מותאם", count: buildRows, countLabel: "רשומות בגיליונות", collapsed: true }]
+        ? [{ key: "build", id: "nw-build", kicker: "קונפיגורציה וכלים", title: "קונפיגורציה וקוד מותאם", count: buildRows, countLabel: "רשומות בגיליונות", collapsed: true, teaser: teasers.build }]
         : []),
-      { key: "learn", id: "nw-learn", kicker: "ידע ופעילות", title: "ספרים וקורסים", count: data.books.length + data.courses.length, countLabel: "ספרים וקורסים", collapsed: true },
+      { key: "learn", id: "nw-learn", kicker: "ידע ופעילות", title: "ספרים וקורסים", count: data.books.length + data.courses.length, countLabel: "ספרים וקורסים", collapsed: true, teaser: teasers.learn },
     ];
 
     // Every chapter stands on the module's own scene. It costs nothing visually

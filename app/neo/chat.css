@@ -105,8 +105,13 @@
 @media (prefers-reduced-motion: no-preference) {
   /* Idle is not still. It is one slow counter-rotation, slow enough that the
      mark reads as alive without ever pulling the eye off the conversation. */
-  .nxm[data-mark="librarian"] .nxm-o1 { animation: nxm-spin 26s linear infinite; }
-  .nxm[data-mark="librarian"] .nxm-o2 { animation: nxm-spin-r 34s linear infinite; }
+  /* Idle IS still (WCAG 2.2.2 and the owner's rule against infinite motion,
+     accessibility seat 08, 2026-10-02): the orbits turn only while the
+     assistant is thinking or writing, as the activity's own indicator. */
+  .nxm[data-state="thinking"][data-mark="librarian"] .nxm-o1,
+  .nxm[data-state="writing"][data-mark="librarian"] .nxm-o1 { animation: nxm-spin 26s linear infinite; }
+  .nxm[data-state="thinking"][data-mark="librarian"] .nxm-o2,
+  .nxm[data-state="writing"][data-mark="librarian"] .nxm-o2 { animation: nxm-spin-r 34s linear infinite; }
 
   /* Thinking: the same motion, faster, plus a breath on the book. This is the
      state before the first token — nothing is being written yet, so nothing

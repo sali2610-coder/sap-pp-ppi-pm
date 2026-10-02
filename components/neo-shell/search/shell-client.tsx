@@ -70,6 +70,9 @@ import { BROWSE_CAP, KINDS, buildIndex, runQuery, suggest } from "./build";
 import { CommandSurface, type EmptyAction } from "./command-surface";
 import { CmdKey } from "../cmd-key";
 import type { CmdItem, CmdKind, CmdRecord, CommandExtra, CommandTx } from "./types";
+import { EditorialFootnote } from "../editorial-footnote";
+/** The five pilot routes of the Editorial Technology direction (DESIGN-SPEC-EDITORIAL.md). */
+const PILOT_ROUTES = /^\/neo\/(pm\/|tables\/|erd\/|read\/book9\/)?$/;
 
 /* The transaction rows (1,847) come from /neo/search-tx.json, once per visit:
    inline they added ~24 KB gzip to every page (gate 6, major 9). A failed load
@@ -186,6 +189,7 @@ export function NeoShellClient({
   children: React.ReactNode;
 }) {
   const path = usePathname() || "/neo/";
+  const pilot = PILOT_ROUTES.test(path);
   const router = useRouter();
   const here = normalisePath(path);
 
@@ -945,6 +949,10 @@ export function NeoShellClient({
       className={fontClass ? `nx-app ${fontClass}` : "nx-app"}
       data-neo-shell=""
       data-nav={mode}
+      // The art-direction pilot (editorial.css) is scoped to five routes until
+      // the owner approves a rollout: home, the PM module, the tables
+      // catalogue, the ERD and one book in the reader.
+      data-pilot={PILOT_ROUTES.test(path) ? "editorial" : undefined}
       data-searching={searching ? "1" : "0"}
       data-sheet={railHidden ? "1" : undefined}
       data-typed={q ? "1" : "0"}
@@ -1270,6 +1278,7 @@ export function NeoShellClient({
         <main id="main" className="nx-canvas">
           {children}
           <SiteFooter />
+          {pilot ? <EditorialFootnote /> : null}
         </main>
 
         <MobileTabs
