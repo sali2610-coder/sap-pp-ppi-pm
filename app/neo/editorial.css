@@ -896,3 +896,6 @@ html[data-erd-pending] .nx-app[data-pilot="editorial"] :is(.ne-bar, .ne-filters,
 /* A node the keyboard is on is never dimmed: its ring inherited the context
    nodes' .42 opacity, 2.17:1 (accessibility QA round 3, N2). */
 .nx-app[data-pilot="editorial"] .ne-node:has(.ne-node-go:focus-visible) { opacity: 1; }
+/* The home waits for the Latin face of Plex before it shows (app/neo/page.tsx,
+   FONT_GATE, at most 300ms), so the lede never re-wraps in front of the reader. */
+html[data-home-fonts] .nx-app[data-pilot="editorial"] .nh { visibility: hidden; }
