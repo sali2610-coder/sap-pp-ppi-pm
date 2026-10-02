@@ -791,8 +791,9 @@ html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nh-gate { border-block-
 /* ---------- pilot QA, UX / motion / accessibility (2026-10-02) ------------- */
 /* Every home door carries a verb (UX director row 13): the word is drawn, not
    read (the "/ """ alt keeps it out of the accessible name). */
-.nx-app[data-pilot="editorial"] .nh-door { position: relative; padding-block-end: calc(var(--sp-4) + 1.4rem); }
-.nx-app[data-pilot="editorial"] .nh-door::after { content: "פתיחה" / ""; position: absolute; inset-inline-start: var(--sp-4); inset-block-end: var(--sp-3); font-size: var(--t-micro); font-weight: 600; color: var(--link); }
+/* a line of its own under the subtitle: positioned at the corner it collided
+   with a wrapped second line ("ל-PM", "8 ספרים"; home-desk-dark, 5cd908bbf) */
+.nx-app[data-pilot="editorial"] .nh-door::after { content: "פתיחה" / ""; display: block; margin-block-start: var(--sp-2); font-size: var(--t-micro); font-weight: 600; color: var(--link); }
 .nx-app[data-pilot="editorial"] .nh-door:hover::after, .nx-app[data-pilot="editorial"] .nh-door:focus-visible::after { color: var(--ink-1); }
 /* The ERD on a phone: the inspector's primary action comes first, right under a
    shorter stage, inside the first viewport (council 05 C7, UX QA major 2). */
