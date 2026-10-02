@@ -214,6 +214,9 @@ export function NeoShellClient({
   const narrow = useSyncExternalStore(subscribeNarrow, isNarrow, () => false);
   const device = useSyncExternalStore(noSubscribe, currentDeviceClass, () => "desktop" as const);
   const mode: RailMode = layout.mode ?? (narrow ? "peek" : "expanded");
+  // a stored column mode (compact, context) looks closed under 40rem, so the
+  // top-bar toggle opens the drawer from it
+  const railClosed = mode === "hidden" || mode === "peek" || (narrow && (mode === "compact" || mode === "context"));
   const open = layout.open;
   const setMode = useCallback((m: RailMode) => setLayout({ mode: m }), []);
   /** The surface is a full-screen dialog rather than a panel beside the rail. */
@@ -995,9 +998,11 @@ export function NeoShellClient({
           <button
             type="button"
             className="nx-iconbtn nx-collapse"
-            aria-label={mode === "compact" ? "הרחבת הניווט" : "כיווץ הניווט"}
-            aria-pressed={mode === "compact"}
-            onClick={() => changeMode(mode === "compact" ? "expanded" : "compact")}
+            // under 40rem the rail is a drawer (globals.css): its own button
+            // closes it instead of leaving a compact column beside the page
+            aria-label={narrow ? "הסתרת הניווט" : mode === "compact" ? "הרחבת הניווט" : "כיווץ הניווט"}
+            aria-pressed={narrow ? undefined : mode === "compact"}
+            onClick={() => changeMode(narrow ? "hidden" : mode === "compact" ? "expanded" : "compact")}
           >
             {mode === "compact"
               ? <PanelRightOpen size={16} strokeWidth={1.75} aria-hidden="true" />
@@ -1217,8 +1222,8 @@ export function NeoShellClient({
             type="button"
             className="nx-iconbtn"
             aria-label="הצגה או הסתרה של הניווט"
-            aria-expanded={!(mode === "hidden" || mode === "peek")}
-            onClick={() => changeMode(mode === "hidden" || mode === "peek" ? "expanded" : "hidden")}
+            aria-expanded={!railClosed}
+            onClick={() => changeMode(railClosed ? "expanded" : "hidden")}
           >
             <Menu size={16} strokeWidth={1.75} aria-hidden="true" />
           </button>
