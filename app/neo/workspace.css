@@ -811,19 +811,22 @@ html .nx-app .nx-canvas:has(> .nw) {
    columns above sum 62.75rem, so the table spilled past the canvas and every
    row's expand button sat 44px off screen (lead, WS-1: scrollWidth 1044 in
    1000 at 1280). Here the widest columns give way and wrap and the cells lose
-   2px a side, so the description keeps a real column. From 1100px the widths
-   above fit; under 900px the rows are cards. */
-@container nw (min-width: 900px) and (max-width: 1099px) {
+   2px a side, so the description keeps a real column. The band first stopped
+   at 1099px, which left the most common laptop canvases (1100 to 1299px: a
+   1366 to 1512 window beside the rail) with the full widths and a 140px
+   description column of eight letters, every cell an ellipsis (adaptive-ui
+   reviewer, 2026-10-02, 1440-light-nw-tbl.png). From 1300px the widths above
+   leave the description at least 18rem; under 900px the rows are cards. */
+@container nw (min-width: 900px) and (max-width: 1299px) {
   .nw-row > td, .nw-tbl thead th { padding-inline: 6px; }
-  .nw-c-n { inline-size: 8.5rem; }
+  .nw-c-n { inline-size: 7rem; }      /* a code is six letters; its chip sits under it */
   .nw-c-tp { inline-size: 6.5rem; }
-  .nw-c-f { inline-size: 4.5rem; }
+  .nw-c-f { inline-size: 6rem; }      /* "1 PK · 4 FK" on one line (after6: three lines at 4.5rem) */
   .nw-c-tc { inline-size: 7rem; }
   .nw-c-fn { inline-size: 5rem; }    /* the "ממשקים" sort label, whole */
   .nw-c-rel { inline-size: 4.5rem; }
   .nw-c-cv { inline-size: 5rem; }
   .nw-c-s4 { inline-size: 5.5rem; }
-  .nw-tp-t { max-inline-size: 4rem; }
 }
 
 /* The one thing in the row that leaves for a route. .nu-link supplies the
@@ -835,13 +838,17 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw-name:focus-visible .nu-arw { opacity: 1; }
 
 .nw-c-n .nu-chip { margin-inline-start: var(--sp-2); }
-.nw-c-he span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* The description is what the consultant reads: two lines before it clips,
+   not one line of eight letters and an ellipsis (UX director C1). */
+.nw-c-he span { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; line-height: 1.35; }
 .nw-c-tp { color: var(--ink-3); }
 .nw-c-tp .nw-sap { font-size: var(--t-micro); }
+/* The topic label is its own line under the topic number and never wider than
+   the cell: inline beside the number it ran 11px past the cell into the fields
+   column on every laptop canvas (after5 gate, 55 of 58 rows at 1440). */
 .nw-tp-t {
-  display: inline-block;
-  max-inline-size: 6.5rem;
-  margin-inline-start: 5px;
+  display: block;
+  max-inline-size: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -849,7 +856,10 @@ html .nx-app .nx-canvas:has(> .nw) {
   font-size: var(--t-xs);
 }
 .nw-c-f b, .nw-c-fn b, .nw-c-rel b { font-size: var(--t-sm); color: var(--ink-1); font-variant-numeric: tabular-nums; }
-.nw-c-f em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); margin-inline-start: 5px; }
+/* The key line ("1 PK · 4 FK") is its own line under the count. Inline next to
+   it, it wrapped at 6rem and its second line printed over the count: "46 FK"
+   read as a fact (adaptive-ui reviewer, 2026-10-02). */
+.nw-c-f em { display: block; font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
 .nw-c-tc .nu-chip { margin-inline-end: 3px; }
 .nw-c-tc em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
 .nw-c-cv .nw-sap { font-variant-numeric: tabular-nums; color: var(--ink-1); }
@@ -1033,7 +1043,9 @@ html .nx-app .nx-canvas:has(> .nw) {
    first thing read on the page after the module's own name. */
 .nw-s4stage .nw-s4big b { font-size: clamp(3rem, 7.5cqi, 5.5rem); }
 .nw-s4stage .nw-s4big span { font-size: 1.25rem; }
-.nw-s4stage .nw-s4mix { max-inline-size: none; }
+/* The stage keeps the list's 40rem cap: without it the row's label and its
+   value sat a whole canvas apart at 1920 (adaptive-ui reviewer P2). */
+.nw-s4stage .nw-s4mix { max-inline-size: 40rem; }
 /* The trust line is the band's footer: it says where every number above it came
    from, so it sits under both columns and is separated by the scene's own
    hairline rather than by a module one. */
@@ -1639,10 +1651,15 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before { backgroun
 .nw-ch[data-collapsed] { row-gap: var(--sp-3); }
 .nw-ch-lead { margin-block-start: 0; }
 @container nw (min-width: 52rem) {
+  /* The content column is the sentence's measure, not the canvas: with 1fr the
+     figure stood at the far edge of a 1600px chapter, a whole screen from the
+     sentence that restates it, and the head's coverage halved from 1280 up
+     (layout director S2, adaptive-ui reviewer P3, 2026-10-02). */
   .nw-ch-h {
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-columns: auto minmax(0, 68ch) auto;
     grid-template-rows: auto auto auto auto;
     column-gap: var(--sp-3);
+    justify-content: start;
   }
   .nw-ch-h > .nw-ch-n { grid-row: 1; grid-column: 1; }
   .nw-ch-k            { grid-row: 1; grid-column: 2; }
