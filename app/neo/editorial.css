@@ -797,7 +797,11 @@ html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nh-gate { border-block-
 /* The ERD on a phone: the inspector's primary action comes first, right under a
    shorter stage, inside the first viewport (council 05 C7, UX QA major 2). */
 @media (max-width: 52rem) {
-  .nx-app[data-pilot="editorial"][data-route="erd"] .ne-stage { block-size: min(46vh, 400px); }
+  .nx-app[data-pilot="editorial"][data-route="erd"] .ne-stage { block-size: min(36vh, 300px); }
+  /* the count line and the keyboard hint make room for the action on a phone */
+  .nx-app[data-pilot="editorial"][data-route="erd"] .ne-sub,
+  .nx-app[data-pilot="editorial"][data-route="erd"] .ne-hint,
+  .nx-app[data-pilot="editorial"][data-route="erd"] .ne-fhint { display: none; }
   .nx-app[data-pilot="editorial"][data-route="erd"] .ne-detail { display: flex; flex-direction: column; }
   .nx-app[data-pilot="editorial"][data-route="erd"] .ne-detail > .nu-btn,
   .nx-app[data-pilot="editorial"][data-route="erd"] .ne-detail > p:has(> .nu-btn),
@@ -814,8 +818,17 @@ html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nh-gate { border-block-
 /* The ERD filter row is one line before and after hydration: the server's hint
    paragraph took 123px and the client's filter group 38px, an 85px shift at
    ~170ms (motion QA, CLS 0.088 at 1440). */
-.nx-app[data-pilot="editorial"] .ne-filters { min-block-size: 38px; }
-.nx-app[data-pilot="editorial"] .ne-fhint { max-inline-size: none; block-size: 38px; line-height: 38px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.nx-app[data-pilot="editorial"] .ne-filters { min-block-size: 56px; }
+/* The server's hint paragraph is replaced by the client's filter group; drawn
+   on its own row it made the filters 103px before hydration and 56px after
+   (CLS 0.103 at 1440). The pilot does not draw it. */
+.nx-app[data-pilot="editorial"] .ne-fhint { display: none; }
+/* On a tablet the bar and the filter row wrap after hydration (184→261px and
+   99→186px at 834, CLS 0.315): their hydrated heights are reserved. */
+@media (min-width: 52rem) and (max-width: 70rem) {
+  .nx-app[data-pilot="editorial"] .ne-bar { min-block-size: 261px; }
+  .nx-app[data-pilot="editorial"] .ne-filters { min-block-size: 186px; }
+}
 /* The S/4 chapter's risk words take the spec's family inks (a11y QA major 1:
    the inline #dc2626 / #d97706 / #16a34a measured 2.85 to 4.32:1). Day on
    ivory: brick #8e3a20 7.0, amber #7a4a00 7.6, green #136d44 6.3; night on
