@@ -1608,6 +1608,14 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before { backgroun
 .nw-ch-k            { grid-row: 1; grid-column: 2; }
 .nw-ch-t            { grid-row: 2; grid-column: 1 / 3; }
 .nw-ch-s            { grid-row: 3; grid-column: 1 / 3; max-inline-size: min(100%, 68ch); }
+/* A sentence that nearly fits one line left one or two words alone on the
+   second ("בפרק הבא.") in five of eight chapters at every width (layout
+   director, 2026-10-02). `pretty` only rescues a single word (measured
+   after2: 150/256 heads still ended in a two- or three-word line), so the
+   short chapter sentence is balanced across its two or three lines instead;
+   the longer lede keeps `pretty`. */
+.nw-ch-s { text-wrap: balance; }
+.nw-lede { text-wrap: pretty; }
 .nw-ch-stat         { grid-row: 4; grid-column: 1 / 3; }
 .nw-ch-h > .nw-ch-go,
 .nw-ch-h > .nw-ch-toggle { grid-row: 5; grid-column: 1 / 3; justify-self: start; }
