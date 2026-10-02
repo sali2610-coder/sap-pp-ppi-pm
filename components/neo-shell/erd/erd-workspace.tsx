@@ -47,6 +47,7 @@
 //   BRAND   --brand  focus ring and the minimap viewport. Never a data category.
 
 import { enLang } from "../lang";
+import { DotLabel } from "../dot-label";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import {
@@ -1906,7 +1907,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               <i aria-hidden="true" />
               תרשים ישויות וקשרים
             </p>
-            <h1 className="ne-h1">{M ? modTitle(M) : "מודל הנתונים · כל המודולים"}</h1>
+            <h1 className="ne-h1"><DotLabel label={M ? modTitle(M) : "מודל הנתונים · כל המודולים"} /></h1>
             {/* Which of the three modes the reader is in, always stated (design
                 audit §7): overview, selection, or relation analysis. */}
             <p className="ne-modechip" aria-live="polite">

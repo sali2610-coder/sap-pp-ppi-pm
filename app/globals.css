@@ -269,7 +269,7 @@ pre {
 
   /* Motion tokens */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);   /* no overshoot (brief, 2026-10) */
   --dur-fast: 120ms; --dur-base: 220ms; --dur-slow: 360ms;
 }
 
@@ -1004,9 +1004,11 @@ html[data-device="desktop"] [data-shell="desktop-only"] { display: flex !importa
    browser reports itself (an iPad in landscape is still a tablet). */
 html[data-device="tablet"] [data-shell="desktop-only"],
 html[data-device="phone"]  [data-shell="desktop-only"] { display: none !important; }
-/* A desktop window narrowed to a phone width has no room for the rail toggle
-   either (axe target-size at 390 without a phone UA, 2026-10-02). */
-@media (max-width: 30rem) { html[data-device] [data-shell="desktop-only"], html[data-device] .nx-railedge { display: none !important; } }
+/* At a phone width the rail's edge handle covered 32 of the top-bar toggle's
+   44px (axe target-size at 390 without a phone UA). Only the handle goes: the
+   bars stay, or a narrowed desktop window and 400% zoom lose the navigation
+   (WCAG 1.4.10 reflow; accessibility QA round 2, N1). */
+@media (max-width: 30rem) { .nx-railedge { display: none !important; } }
 html[data-device="tablet"] [data-shell="mobile-only"],
 html[data-device="phone"]  [data-shell="mobile-only"] { display: block !important; }
 

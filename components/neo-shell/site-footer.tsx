@@ -9,7 +9,7 @@ import Link from "next/link";
 export function SiteFooter() {
   return (
     <footer className="nx-foot">
-      <p className="nx-foot-credit">Project NEO של CBC Israel. פותח על ידי סאלי חליף, Web Coding.</p>
+      <p className="nx-foot-credit">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</p>
       <nav className="nx-foot-legal" aria-label="מסמכים משפטיים">
         <Link href="/neo/privacy/" prefetch={false}>מדיניות פרטיות</Link>
         <Link href="/neo/terms/" prefetch={false}>תנאי שימוש</Link>

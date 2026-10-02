@@ -118,7 +118,7 @@ html[data-theme="dark"] .nx-app[data-pilot="editorial"] {
 
   --ed-mast: #eef1f6;               /* the ivory masthead on navy: night-only region */
   --ed-mast-ink: #0e1721;           /* 16.24:1 */
-  --ed-sand: #273144;               /* raised selection: L .313 C .037 h263, under the purple band's C .04 (visual QA A6, 2026-10-02; was #273144 at C .061) */
+  --ed-sand: #273144;               /* raised selection: L .313 C .037 h263, under the purple band's C .04 (visual QA A6, 2026-10-02; was #223050 at C .061) */
   --ed-on-fill: #1a0705;            /* label on a night module fill (a11y 08) */
 
   --brand: #ff5a52;                 /* fill: label #1a0705 6.35:1 */
@@ -694,7 +694,10 @@ html .nx-app[data-pilot="editorial"] .nxd[data-surface] .nxd-nums {
 .nx-app[data-pilot="editorial"] .nxd-nums .nu-chip svg { display: none; }
 .nx-app[data-pilot="editorial"] .nxd-go { grid-area: go; align-self: start; margin-block-start: 6px; opacity: .6; transform: none; }
 .nx-app[data-pilot="editorial"] .nxd-row:hover .nxd-go { opacity: 1; }
-@media (max-width: 52rem) {
+/* one column while the LIST is narrower than the four tracks need: keyed to
+   the viewport it missed a 834 window (a 554px list) by 2px and clamped 101
+   of 105 rows (responsive QA C36) */
+@container nxd-list (max-width: 56rem) {
   html .nx-app[data-pilot="editorial"] .nxd[data-surface] .nxd-row, html .nx-app[data-pilot="editorial"] .nxd[data-surface] .nxd-row--tx {
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas: "id" "body" "s4" "nums";
@@ -763,7 +766,11 @@ html .nx-app[data-pilot="editorial"] .nxd[data-surface] .nxd-nums {
 .nx-app[data-pilot="editorial"] .nx-glyph { inline-size: 24px; block-size: 24px; padding: 0; }
 .nx-app[data-pilot="editorial"] .nx-glyph i { background: var(--brand); }
 /* The rail item: the module code is a small plate, the name beside it. */
-.nx-app[data-pilot="editorial"] .nx-navitem-code { display: inline-block; font-family: var(--font-mono); font-size: var(--t-micro); font-weight: 600; line-height: 1.3; padding: 0 4px; margin-inline-end: 4px; background: var(--m, var(--ink-1)); color: var(--ed-on-fill, #fff); direction: ltr; }
+/* Dotted labels (dot-label.tsx): beside a code the dot goes and the code is
+   set; the rail and the ERD title carry it as a plate. */
+.nx-app[data-pilot="editorial"] .nx-sep[data-code] { display: none; }
+.nx-app[data-pilot="editorial"] .nx-code-part { font-family: var(--font-mono); font-weight: 600; direction: ltr; unicode-bidi: isolate; }
+.nx-app[data-pilot="editorial"] :is(.nx-navitem-l, .ne-h1) .nx-code-part { display: inline-block; font-size: var(--t-micro); line-height: 1.35; padding: 0 4px; background: var(--m, var(--ink-1)); color: var(--ed-on-fill, #fff); vertical-align: .1em; }
 /* The index summary's marker is a rule, not a glyph that reads as a dangling dot. */
 .nx-app[data-pilot="editorial"] .nw-idx-d > summary .nw-idx-k::after { content: ""; display: inline-block; inline-size: 1.25rem; block-size: 2px; background: var(--ink-1); margin-inline-start: var(--sp-2); vertical-align: middle; }
 .nx-app[data-pilot="editorial"] .nw-idx-d[open] > summary .nw-idx-k::after { content: ""; }
@@ -785,7 +792,11 @@ html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nh-gate { border-block-
 /* ONE SEARCH PER VIEWPORT (UX director A4): the rail's field is hidden at rest on
    the pilot routes (it returns with the rail's search mode); on the home the
    gate is the search, so the top bar's field goes too. */
-.nx-app[data-pilot="editorial"]:not([data-nav="search"]) .nx-railsrch { display: none; }
+/* the visible rail field is the quick-search button (.nx-railq); its slot
+   returns when the rail enters search mode (⌘K, the top-bar field), so the
+   one search per viewport is the top bar's field, or the gate on the home
+   (brand QA round 2, A8: the round-1 rule hid the already hidden panel). */
+@media (min-width: 52rem) { html[data-device="desktop"] .nx-app[data-pilot="editorial"]:not([data-nav="search"]) .nx-rail-cmd { display: none; } }
 .nx-app[data-pilot="editorial"][data-route="home"] .nx-topbar .nx-cmdbar { display: none; }
 
 /* ---------- pilot QA, UX / motion / accessibility (2026-10-02) ------------- */
@@ -814,10 +825,17 @@ html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nh-gate { border-block-
 }
 /* The edge pulse is one pass of 480ms, not 2.1s twice (motion QA major 1). */
 .nx-app[data-pilot="editorial"] .ne-pulse { animation-duration: 480ms !important; animation-iteration-count: 1 !important; }
-/* The reader's loading mark is still; the skeleton says "loading". */
-.nx-app[data-pilot="editorial"] .nr-spin { animation: none; }
-/* The home map builds inside 1s: 17 nodes at 46ms plus the last fade. */
-.nx-app[data-pilot="editorial"] .fm { --nm-stagger: 46ms; }
+/* The reader's loading mark and skeleton are still (no infinite motion; the
+   round-1 rule named a keyframes, not an element: motion QA round 2). */
+.nx-app[data-pilot="editorial"] .nr-load svg,
+.nx-app[data-pilot="editorial"] .skeleton::after { animation: none; }
+/* The home map builds inside a second: the delays are home.css's own literals
+   (95ms apart), restated at 46ms (motion QA round 2: 1,025ms before). */
+@media (prefers-reduced-motion: no-preference) {
+  .nx-app[data-pilot="editorial"] .fm:is([data-motion="armed"], [data-motion="run"]) .fm-node { animation-delay: min(calc(var(--i) * 46ms), 600ms); }
+  .nx-app[data-pilot="editorial"] .fm:is([data-motion="armed"], [data-motion="run"]) .fm-line { animation-delay: min(calc(var(--i) * 46ms + 90ms), 690ms); }
+  .nx-app[data-pilot="editorial"] .fm:is([data-motion="armed"], [data-motion="run"]) :is(.fm-card, .fm-via, .fm-gap) { animation-delay: min(calc(var(--i) * 46ms + 200ms), 800ms); }
+}
 /* No compositor hint at rest on a page that is not moving (budget ≤ 4). */
 .nx-app[data-pilot="editorial"] .nm-kin > span > * { will-change: auto; }
 /* The ERD filter row is one line before and after hydration: the server's hint
@@ -839,18 +857,39 @@ html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nh-gate { border-block-
   .nx-app[data-pilot="editorial"] .ne-bar { min-block-size: 261px; }
   .nx-app[data-pilot="editorial"] .ne-filters { min-block-size: 186px; }
 }
-/* The S/4 chapter's risk words take the spec's family inks (a11y QA major 1:
+/* The S/4 chapter's risk words take the spec's family inks; !important because
+   the hex arrives inline as --s (workspace-s4.tsx), which a plain rule cannot beat (a11y QA major 1:
    the inline #dc2626 / #d97706 / #16a34a measured 2.85 to 4.32:1). Day on
    ivory: brick #8e3a20 7.0, amber #7a4a00 7.6, green #136d44 6.3; night on
    navy: #f39c80 8.4, #f5c76a 11.0, #7ddba8 11.4 (computed 2026-10-02). */
-.nx-app[data-pilot="editorial"] .nu-status[style*="#dc2626"] { --s: #8e3a20; }
-.nx-app[data-pilot="editorial"] .nu-status[style*="#d97706"] { --s: #7a4a00; }
-.nx-app[data-pilot="editorial"] .nu-status[style*="#16a34a"] { --s: #136d44; }
-html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nu-status[style*="#dc2626"] { --s: #f39c80; }
-html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nu-status[style*="#d97706"] { --s: #f5c76a; }
-html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nu-status[style*="#16a34a"] { --s: #7ddba8; }
+.nx-app[data-pilot="editorial"] .nu-status[style*="#dc2626"] { --s: #8e3a20 !important; }
+.nx-app[data-pilot="editorial"] .nu-status[style*="#d97706"] { --s: #7a4a00 !important; }
+.nx-app[data-pilot="editorial"] .nu-status[style*="#16a34a"] { --s: #136d44 !important; }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nu-status[style*="#dc2626"] { --s: #f39c80 !important; }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nu-status[style*="#d97706"] { --s: #f5c76a !important; }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nu-status[style*="#16a34a"] { --s: #7ddba8 !important; }
 /* The current chapter-bar item keeps its bar AND shows the ring when focused. */
 .nx-app[data-pilot="editorial"] .nxs-i[data-on="1"]:focus-visible { outline: 2px solid transparent; box-shadow: inset 3px 0 0 0 var(--select-line), 0 0 0 2px var(--background), 0 0 0 4px var(--focus); }
 [dir="ltr"] .nx-app[data-pilot="editorial"] .nxs-i[data-on="1"]:focus-visible { box-shadow: inset -3px 0 0 0 var(--select-line), 0 0 0 2px var(--background), 0 0 0 4px var(--focus); }
 /* The two S/4 standings name their source (council 11 P1). */
 .nx-app[data-pilot="editorial"] .nxd-s4-src, .nx-app[data-pilot="editorial"] .nw-s4-src { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); margin-inline-start: var(--sp-2); }
+
+/* ---------- pilot QA round 2 (2026-10-02) ---------------------------------- */
+/* The brand glyph grows with its 24px box (the bars stayed 3px x 7-16px). */
+.nx-app[data-pilot="editorial"] .nx-glyph { gap: 3px; }
+.nx-app[data-pilot="editorial"] .nx-glyph i { inline-size: 5px; border-radius: 0; }
+.nx-app[data-pilot="editorial"] .nx-glyph i:nth-child(1) { block-size: 15px; }
+.nx-app[data-pilot="editorial"] .nx-glyph i:nth-child(2) { block-size: 24px; }
+.nx-app[data-pilot="editorial"] .nx-glyph i:nth-child(3) { block-size: 10px; }
+/* The ERD node's focus is two-tone: the focus-blue ring on the drawn
+   affordance, a ground-coloured ring on its 44px target, so one of the two
+   reads on a filled node (1.1:1 on teal before) and on an outlined one. */
+.nx-app[data-pilot="editorial"] .ne-node-go:focus-visible rect.ne-node-go-hit { stroke: var(--background); stroke-width: 2px; vector-effect: non-scaling-stroke; }
+/* A deep link (#AUFK) is applied after hydration: the bar, the filters and the
+   inspector first paint in the overview state and flip at ~170ms (CLS 0.025 at
+   1440, 0.031 at 834). app/neo/erd/page.tsx marks <html> while the hash is
+   pending; the regions wait, invisible, so nothing that shifts was ever seen. */
+html[data-erd-pending] .nx-app[data-pilot="editorial"] :is(.ne-bar, .ne-filters, .ne-body) { visibility: hidden; }
+/* The node's "לחיצה ↡" hint printed over its PK line on hover (UX QA C9,
+   visual QA round 1); the open glyph and the footnote say it in the pilot. */
+.nx-app[data-pilot="editorial"] .ne-node-hint { display: none; }

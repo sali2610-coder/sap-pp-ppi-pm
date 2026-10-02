@@ -59,6 +59,7 @@ import {
 } from "../flip";
 import { modVar } from "../mod-var";
 import { SiteFooter } from "../site-footer";
+import { DotLabel } from "../dot-label";
 import { PreviewPanel } from "../preview";
 import { ContextPane, PinnedPane, RecentPane, ShelfTabs } from "../shelf";
 import { useFavorites } from "@/lib/prefs";
@@ -1127,14 +1128,7 @@ export function NeoShellClient({
                             onBlur={hidePreview}
                           >
                             <span className="nx-navitem-i"><Ico name={it.icon} size={16} /></span>
-                            <span className="nx-navitem-l">
-                              {/* "PM · תחזוקת מפעל": the code is its own span so a
-                                  surface can set it as a plate instead of a dotted
-                                  string (brand review, 2026-10-02) */}
-                              {it.mod && it.label.includes(" · ")
-                                ? (<><b className="nx-navitem-code">{it.label.split(" · ")[0]}</b>{" "}<span>{it.label.split(" · ").slice(1).join(" · ")}</span></>)
-                                : it.label}
-                            </span>
+                            <span className="nx-navitem-l"><DotLabel label={it.label} /></span>
                             {/* The space keeps the count a separate word in the link's
                                 name ("…מפעל 56", not "…מפעל56"); a flex item gap is not text. */}
                             {" "}
@@ -1234,8 +1228,8 @@ export function NeoShellClient({
               <>
                 <Ico name="ChevronLeft" size={12} />
                 {below
-                  ? <Link prefetch={false} href={active.href}>{active.label}</Link>
-                  : <span className="nx-cur" aria-current="page">{active.label}</span>}
+                  ? <Link prefetch={false} href={active.href}><DotLabel label={active.label} /></Link>
+                  : <span className="nx-cur" aria-current="page"><DotLabel label={active.label} /></span>}
               </>
             ) : crumbParent && crumbParent.href !== "/neo/" ? (
               <>

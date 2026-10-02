@@ -806,6 +806,7 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw-c-rel { inline-size: 5rem; }
 .nw-c-cv { inline-size: 6rem; }
 .nw-c-s4 { inline-size: 6.5rem; }
+.nw-tbl thead th.nw-c-s4 { white-space: normal; line-height: 1.25; }
 .nw-c-x { inline-size: 2.75rem; }
 /* A laptop canvas (the workspace 900 to 1099px wide, a 1280 window): the fixed
    columns above sum 62.75rem, so the table spilled past the canvas and every
@@ -817,15 +818,9 @@ html .nx-app .nx-canvas:has(> .nw) {
    description column of eight letters, every cell an ellipsis (adaptive-ui
    reviewer, 2026-10-02, 1440-light-nw-tbl.png). The pilot's root ramp (18px at
    1728) makes the rem columns 1130px, so the band reaches 1399px; from 1400px
-   the widths above leave the description at least 18rem; under 900px the rows
+   the widths above leave the description at least 18rem; under 1100px the rows
    are cards. */
-@container nw (min-width: 900px) and (max-width: 1099px) {
-  /* 148px of description at a 1000px canvas: a long one runs to as many lines
-     as it needs rather than clipping (responsive QA C16: two rows still clipped
-     at three lines) */
-  .nw-tbl .nw-c-he span { -webkit-line-clamp: unset; display: block; overflow: visible; }
-}
-@container nw (min-width: 900px) and (max-width: 1399px) {
+@container nw (min-width: 1100px) and (max-width: 1399px) {
   .nw-row > td, .nw-tbl thead th { padding-inline: 6px; }
   .nw-c-n { inline-size: 7rem; }      /* a code is six letters; its chip sits under it */
   .nw-c-tp { inline-size: 6.5rem; }
@@ -1387,6 +1382,14 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
   .nw-railtop { gap: var(--sp-2); }
   .nw-find { flex: 1 1 100%; }
   .nw-fk { min-inline-size: 100%; }
+}
+
+/* The working table becomes cards until its description column can hold a
+   measure: from 900 to 1099px of canvas the nine fixed columns left it 48 to
+   208px, three to six lines of a word or two (responsive QA C37, 2026-10-02),
+   the vertical paragraph the owner ruled out. The rest of the touch
+   composition above still starts under 900px. */
+@container nw (max-width: 1099px) {
   .nw-fgroup--sort { display: flex; }
 
   /* The table becomes cards, not a smaller table. */
@@ -1442,6 +1445,7 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
   .nw-name .nu-arw { opacity: 1; }
   .nw-detrow > td { border: 0; }
   .nw-det { grid-template-columns: minmax(0, 1fr); padding-inline: var(--sp-3); }
+  .nw-c-he span { display: block; -webkit-line-clamp: unset; overflow: visible; }
 }
 
 /* --- laptop: the block splits get their second column --------------------- */

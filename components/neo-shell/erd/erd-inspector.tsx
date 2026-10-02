@@ -316,7 +316,7 @@ export function ErdInspector({
                               <i aria-hidden="true" />
                               {j.m}
                             </span>
-                            {j.j ? <code tabIndex={0} aria-label={`תנאי JOIN ${j.m}`}>{j.j}</code> : null}
+                            {j.j ? <code tabIndex={0}>{j.j}</code> : null}
                             {j.pk || j.fk ? (
                               <span className="ne-join-k">
                                 {j.pk ? (
