@@ -28,7 +28,7 @@ export const metadata = {
 // hash is known before the first paint, so this marks <html> while it is
 // pending; editorial.css keeps those regions invisible until the workspace has
 // applied it (or 1.5s pass), and an invisible region's move is not a shift.
-const ERD_PENDING = `(function(){try{if(location.hash.length<2)return;var d=document.documentElement;d.setAttribute("data-erd-pending","");var done=function(){d.removeAttribute("data-erd-pending")};var t=setTimeout(done,1500);var mo=new MutationObserver(function(){var n=document.querySelector(".ne");if(n&&(n.getAttribute("data-sel")==="1"||n.getAttribute("data-level")!=="overview")){clearTimeout(t);mo.disconnect();requestAnimationFrame(function(){requestAnimationFrame(done)})}});mo.observe(d,{subtree:true,attributes:true,attributeFilter:["data-sel","data-level"]})}catch(e){}})();`;
+const ERD_PENDING = `(function(){try{if(!/^#[A-Z0-9_\/]{2,40}$/.test(location.hash))return;var d=document.documentElement;d.setAttribute("data-erd-pending","");var done=function(){d.removeAttribute("data-erd-pending")};var t=setTimeout(done,1500);var mo=new MutationObserver(function(){var n=document.querySelector(".ne");if(n&&(n.getAttribute("data-sel")==="1"||n.getAttribute("data-level")!=="overview")){clearTimeout(t);mo.disconnect();requestAnimationFrame(function(){requestAnimationFrame(done)})}});mo.observe(d,{subtree:true,attributes:true,attributeFilter:["data-sel","data-level"]})}catch(e){}})();`;
 
 export default function NeoErd() {
   return (

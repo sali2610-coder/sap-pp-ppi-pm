@@ -454,14 +454,17 @@ export function NeoShellClient({
   const showPreview = useCallback((el: HTMLElement, immediate = false) => {
     const id = el.dataset.nav;
     // While the surface is open it covers the canvas the preview would open
-    // over, and the rail is answering the query instead.
-    if (!id || mode === "search") return;
+    // over, and the rail is answering the query instead. On a narrow window
+    // the card has no canvas beside the rail: it mounted under the pointer on
+    // mouse-down focus and the click landed on the card, so a rail link did
+    // nothing under 640px (accessibility QA round 3, N1-c).
+    if (!id || mode === "search" || narrow) return;
     pvAnchor.current = el;
     const fire = () => setPvId(id);
     if (pvTimer.current) window.clearTimeout(pvTimer.current);
     if (immediate) fire();
     else pvTimer.current = window.setTimeout(fire, PREVIEW_DELAY);
-  }, [mode]);
+  }, [mode, narrow]);
 
   const hidePreview = useCallback(() => {
     if (pvTimer.current) window.clearTimeout(pvTimer.current);
@@ -954,6 +957,9 @@ export function NeoShellClient({
       // the owner approves a rollout: home, the PM module, the tables
       // catalogue, the ERD and one book in the reader.
       data-pilot={PILOT_ROUTES.test(path) ? "editorial" : undefined}
+      // the user chose this rail mode (globals.css paints the narrow default
+      // from the first frame only while no choice exists)
+      data-nav-user={layout.mode ? "1" : undefined}
       data-route={pilot ? (path === "/neo/" ? "home" : path.startsWith("/neo/pm/") ? "module" : path.startsWith("/neo/tables/") ? "tables" : path.startsWith("/neo/erd/") ? "erd" : "reader") : undefined}
       data-searching={searching ? "1" : "0"}
       data-sheet={railHidden ? "1" : undefined}

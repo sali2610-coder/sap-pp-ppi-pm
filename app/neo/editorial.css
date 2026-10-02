@@ -893,3 +893,6 @@ html[data-erd-pending] .nx-app[data-pilot="editorial"] :is(.ne-bar, .ne-filters,
 /* The node's "לחיצה ↡" hint printed over its PK line on hover (UX QA C9,
    visual QA round 1); the open glyph and the footnote say it in the pilot. */
 .nx-app[data-pilot="editorial"] .ne-node-hint { display: none; }
+/* A node the keyboard is on is never dimmed: its ring inherited the context
+   nodes' .42 opacity, 2.17:1 (accessibility QA round 3, N2). */
+.nx-app[data-pilot="editorial"] .ne-node:has(.ne-node-go:focus-visible) { opacity: 1; }

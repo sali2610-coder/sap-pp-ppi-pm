@@ -820,7 +820,7 @@ html .nx-app .nx-canvas:has(> .nw) {
    1728) makes the rem columns 1130px, so the band reaches 1399px; from 1400px
    the widths above leave the description at least 18rem; under 1100px the rows
    are cards. */
-@container nw (min-width: 1100px) and (max-width: 1399px) {
+@container nw (min-width: 1100px) and (max-width: 1449px) {
   .nw-row > td, .nw-tbl thead th { padding-inline: 6px; }
   .nw-c-n { inline-size: 7rem; }      /* a code is six letters; its chip sits under it */
   .nw-c-tp { inline-size: 6.5rem; }
@@ -843,7 +843,7 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw-c-n .nu-chip { margin-inline-start: var(--sp-2); }
 /* The description is what the consultant reads: two lines before it clips,
    not one line of eight letters and an ellipsis (UX director C1). */
-.nw-c-he span { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; line-height: 1.35; }
+.nw-c-he span { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; line-height: 1.35; text-wrap: pretty; }
 .nw-c-tp { color: var(--ink-3); }
 .nw-c-tp .nw-sap { font-size: var(--t-micro); }
 /* The topic label is its own line under the topic number and never wider than

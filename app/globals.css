@@ -1798,6 +1798,21 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
   inline-size: var(--c-peek-w); z-index: 21; background: transparent;
 }
 .nx-app[data-nav="peek"] .nx-railedge { display: block; }
+/* The server cannot know the width: it renders the rail "expanded" and the
+   client turns it to "peek" under 40rem (shell-client NARROW_Q), a 280px jump
+   of the whole canvas at hydration (CLS 0.71 to 0.98 at 390 in a desktop
+   window; motion QA round 3, R3-9). Until the user has chosen a mode of their
+   own, a narrow desktop window paints the peek layout from the first frame. */
+@media (max-width: 40rem) {
+  html[data-device="desktop"] .nx-app[data-nav="expanded"]:not([data-nav-user]) { --nx-rail-col: 0px; }
+  html[data-device="desktop"] .nx-app[data-nav="expanded"]:not([data-nav-user]) .nx-main { grid-column: 1 / -1; }
+  html[data-device="desktop"] .nx-app[data-nav="expanded"]:not([data-nav-user]) .nx-rail {
+    position: absolute; inset-block: 0; inset-inline-start: 0;
+    inline-size: var(--c-rail-x); transform: translateX(100%); box-shadow: var(--elev-3);
+  }
+  html[dir="ltr"][data-device="desktop"] .nx-app[data-nav="expanded"]:not([data-nav-user]) .nx-rail { transform: translateX(-100%); }
+  html[data-device="desktop"] .nx-app[data-nav="expanded"]:not([data-nav-user]) .nx-railedge { display: block; }
+}
 /* A phone or a tablet has no rail to reveal: the strip was a 14px ghost control
    over the right edge of every page there (gate 4, major 9). */
 html[data-device="phone"] .nx-railedge,
