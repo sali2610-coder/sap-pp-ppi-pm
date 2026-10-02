@@ -2043,23 +2043,30 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             >
               <Focus size={15} strokeWidth={1.8} aria-hidden="true" />
             </button>
-            {fsOk ? (
-              <button
-                type="button"
-                className="nu-ghost"
-                data-fs={full ? "1" : "0"}
-                onClick={toggleFull}
-                aria-pressed={full}
-                aria-label={full ? "יציאה ממסך מלא" : "מסך מלא"}
-                title={full ? "יציאה ממסך מלא · Esc" : "מסך מלא"}
-              >
-                {full ? (
-                  <Minimize size={15} strokeWidth={1.8} aria-hidden="true" />
-                ) : (
-                  <Maximize size={15} strokeWidth={1.8} aria-hidden="true" />
-                )}
-              </button>
-            ) : null}
+            {/* The slot is in the markup from the first paint: whether the
+                fullscreen API exists is known only after mount, and a button
+                that arrived then wrapped the tool row to a second line in a
+                620-640px window, a 54px shift right after the deep-link guard
+                (motion QA round 4, R4-1b). Until then it holds its place,
+                unseen and out of the tab order. */}
+            <button
+              type="button"
+              className="nu-ghost"
+              data-fs={full ? "1" : "0"}
+              onClick={fsOk ? toggleFull : undefined}
+              aria-pressed={fsOk ? full : undefined}
+              aria-label={full ? "יציאה ממסך מלא" : "מסך מלא"}
+              title={fsOk ? (full ? "יציאה ממסך מלא · Esc" : "מסך מלא") : undefined}
+              aria-hidden={fsOk ? undefined : true}
+              tabIndex={fsOk ? undefined : -1}
+              style={fsOk ? undefined : { visibility: "hidden" }}
+            >
+              {full ? (
+                <Minimize size={15} strokeWidth={1.8} aria-hidden="true" />
+              ) : (
+                <Maximize size={15} strokeWidth={1.8} aria-hidden="true" />
+              )}
+            </button>
             <button
               type="button"
               className="nu-ghost"
