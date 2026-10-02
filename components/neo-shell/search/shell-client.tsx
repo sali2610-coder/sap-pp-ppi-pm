@@ -267,14 +267,20 @@ export function NeoShellClient({
     focusIn();
     // Under reduced motion every transition is 0.01ms rather than none
     // (globals.css), so the button inherits the rail's visibility through a
-    // transition that has not run yet and cannot take focus at this point; it
-    // can two frames later (accessibility QA round 6, N8).
-    let f2 = 0;
-    const f1 = requestAnimationFrame(() => { f2 = requestAnimationFrame(() => { if (!railRef.current?.contains(document.activeElement)) focusIn(); }); });
+    // transition that has not run yet and cannot take focus at this point. It
+    // is tried each frame until it takes it, for at most ten (accessibility
+    // QA round 6, N8; the third frame on a first open).
+    let frame = 0, tries = 0;
+    const retry = () => {
+      if (railRef.current?.contains(document.activeElement) || ++tries > 10) return;
+      focusIn();
+      frame = requestAnimationFrame(retry);
+    };
+    frame = requestAnimationFrame(retry);
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape" && !e.defaultPrevented) closeDrawer(); };
     window.addEventListener("keydown", onKey);
     return () => {
-      cancelAnimationFrame(f1); cancelAnimationFrame(f2);
+      cancelAnimationFrame(frame);
       window.removeEventListener("keydown", onKey);
       // closed by a navigation: focus must leave the parked rail, whose peek
       // reveal opens on focus-within and slid it back over the new page; it

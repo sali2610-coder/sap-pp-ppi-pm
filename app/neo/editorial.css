@@ -257,10 +257,11 @@ html .nx-app[data-pilot="editorial"] .nu-filter:is([aria-pressed="true"], [data-
   clip-path: inset(0 -100vmax);
   border-block-end: 4px solid var(--brand);   /* the editor's pencil */
 }
-/* The display size holds to about 390px and then follows the width: at 320 the
-   one-piece "SAP S/4HANA" was 268px in a 240px title, its S cut and the canvas
-   scrolling sideways (responsive QA round 6, C40). */
-.nx-app[data-pilot="editorial"] .nh-h1 { grid-area: title; max-inline-size: none; color: var(--ed-mast-ink); font-size: clamp(1.75rem, 11.25vw, var(--t-display)); line-height: 1.1; font-weight: 700; }
+/* The display size holds to about 390px and then follows the title's width:
+   at 320 the one-piece line "ל-SAP S/4HANA" (7.4 times the size) ran out of a
+   240px title, its S cut and the canvas scrolling sideways (responsive QA
+   round 6, C40). The title is the canvas less 5rem of padding. */
+.nx-app[data-pilot="editorial"] .nh-h1 { grid-area: title; max-inline-size: none; color: var(--ed-mast-ink); font-size: clamp(1.5rem, calc((100vw - 5rem) / 7.5), var(--t-display)); line-height: 1.1; font-weight: 700; }
 .nx-app[data-pilot="editorial"] .nh-lede { grid-area: lede; color: var(--ed-mast-ink); opacity: .86; max-inline-size: 60ch; font-size: var(--t-lead); }
 .nx-app[data-pilot="editorial"] .nh-find { grid-area: find; margin: 0; align-self: center; }
 .nx-app[data-pilot="editorial"] .nh-find-l { color: var(--ed-mast-ink); font-size: var(--t-sm); }

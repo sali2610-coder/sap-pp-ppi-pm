@@ -1807,8 +1807,9 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
 .nx-app[data-nav="peek"] .nx-railedge { display: block; }
 /* Revealed, the parked rail is a layer over the page, as the drawer is: at
    z-index 20 the reader's sticky head (also 20, later in the document) covered
-   7 of its 36 keyboard stops (accessibility QA round 6, N9). */
-.nx-app[data-nav="peek"] .nx-rail { z-index: 25; }
+   7 of its 36 keyboard stops (accessibility QA round 6, N9), and the reader's
+   sticky dock (25) its foot. Under the hover preview (35). */
+.nx-app[data-nav="peek"] .nx-rail { z-index: 30; }
 /* The server cannot know the width: it renders the rail "expanded" and the
    client turns it to "peek" under 40rem (shell-client NARROW_Q), a 280px jump
    of the whole canvas at hydration (CLS 0.71 to 0.98 at 390 in a desktop
@@ -1833,7 +1834,7 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
   html[data-device="desktop"] .nx-app[data-nav="expanded"][data-nav-user] { --nx-rail-col: 0px; }
   html[data-device="desktop"] .nx-app[data-nav="expanded"][data-nav-user] .nx-main { grid-column: 1 / -1; }
   html[data-device="desktop"] .nx-app[data-nav="expanded"][data-nav-user] .nx-rail {
-    position: absolute; inset-block: 0; inset-inline-start: 0; z-index: 25;
+    position: absolute; inset-block: 0; inset-inline-start: 0; z-index: 30;
     inline-size: var(--c-rail-x); box-shadow: var(--elev-3);
     /* it slides in as it slides out (it appeared in one frame; motion QA round 5) */
     transition: transform 480ms var(--c-spring);
