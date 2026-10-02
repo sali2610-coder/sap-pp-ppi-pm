@@ -87,14 +87,6 @@ function ModuleCard({ d, i }: { d: HomeData; i: 0 | 1 }) {
   );
 }
 
-// The Latin face of Plex is not preloaded (app/fonts/plex.ts, gate 9), so the
-// gate's lede first lays out its Latin runs ("PM", "PP-PI", "S/4HANA") in the
-// calibrated fallback; at a few widths that is one line more than in Plex and
-// the whole page below shifts when it arrives (CLS 0.16 at 390, 0.07 at 320;
-// motion QA round 3). The home's content waits for that one face, at most
-// 300ms; the shell is painted meanwhile and a cached visit does not wait.
-const FONT_GATE = `(function(){try{var f=document.fonts;if(!f||f.check("400 1em plexLat","PM"))return;var d=document.documentElement;d.setAttribute("data-home-fonts","");var done=function(){d.removeAttribute("data-home-fonts")};var t=setTimeout(done,300);f.load("400 1em plexLat","PM").then(function(){clearTimeout(t);requestAnimationFrame(done)},done)}catch(e){}})();`;
-
 export default function NeoHome() {
   const d = homeData();
   const books = booksData();
@@ -154,7 +146,6 @@ export default function NeoHome() {
 
   return (
     <div className="nh">
-      <script dangerouslySetInnerHTML={{ __html: FONT_GATE }} />
       <header className="nh-gate" aria-labelledby="nh-h1">
         <p className="nh-eye">
           <bdi>SAP by Sali</bdi> · <bdi>Project NEO</bdi> · <bdi>CBC Israel</bdi>

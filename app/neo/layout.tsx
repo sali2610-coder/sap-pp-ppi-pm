@@ -32,18 +32,33 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+// The Latin and mono faces of Plex are not preloaded (app/fonts/plex.ts, gate
+// 9), and their calibrated fallbacks are close to them but not equal: at some
+// widths a run of SAP codes or an English title takes one line more or less in
+// the fallback, and the page below moves when the face arrives (the home's lede
+// at 320 to 670, the reader's crumb row at 1024, the catalogue's filter row at
+// 834 and 1024; motion QA rounds 3 to 5). On the pilot routes the page content
+// waits for those faces, at most 300ms, while the shell is painted; a visit that
+// already has them does not wait. It runs here, before the shell, so after the
+// stylesheets that declare the faces and before any page content is parsed;
+// editorial.css scopes the hold to the pilot.
+const FONT_GATE = `(function(){try{var f=document.fonts;if(!f)return;var q=["400 1em plexLat","500 1em plexLat","600 1em plexLat","400 1em plexMono","500 1em plexMono","600 1em plexMono","400 1em frankLat"];if(q.every(function(x){return f.check(x,"PM")}))return;var d=document.documentElement;d.setAttribute("data-neo-fonts","");var done=function(){d.removeAttribute("data-neo-fonts")};var t=setTimeout(done,300);Promise.all(q.map(function(x){return f.load(x,"PM")})).then(function(){clearTimeout(t);requestAnimationFrame(done)},done)}catch(e){}})();`;
+
 // Server component: shellData() reads the SAP datasets at BUILD time and hands
 // the client rail a small plain object. Importing lib/module-portal from a
 // client component would pull the whole knowledge base into the browser bundle.
 export default function NeoLayout({ children }: { children: React.ReactNode }) {
   return (
-    <NeoShell data={shellData()}>
-      {children}
-      {/* Both are siblings of the page, not part of it, so a route change never
-          remounts them: the font panel survives navigation, and the motion
-          level is re-published rather than re-initialised. */}
-      <MotionProvider />
-      <NeoDock />
-    </NeoShell>
+    <>
+      <script dangerouslySetInnerHTML={{ __html: FONT_GATE }} />
+      <NeoShell data={shellData()}>
+        {children}
+        {/* Both are siblings of the page, not part of it, so a route change never
+            remounts them: the font panel survives navigation, and the motion
+            level is re-published rather than re-initialised. */}
+        <MotionProvider />
+        <NeoDock />
+      </NeoShell>
+    </>
   );
 }
