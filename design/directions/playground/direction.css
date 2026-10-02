@@ -1,0 +1,489 @@
+/* ==========================================================================
+   D3 · SAP Knowledge Playground (re-dosed) · overlay, injected after the app
+   Rooms: each module is a room with a visible ground, a board of large tiles,
+   oversized numerals, family colours as full-strength fills, tiles that lift.
+   Tokens: council 02 §4.3 (hex as written there). Labels on fills: white by
+   day, #1a0705 by night (a11y seat 08). Depth: --elev-1/2 (CD S1).
+   ========================================================================== */
+
+/* ---- 0. tokens ---------------------------------------------------------- */
+.nx-app {
+  --elev-1: 0 1px 0 rgba(46, 34, 20, .08);
+  --elev-2: 0 1px 2px rgba(46, 34, 20, .10), 0 6px 16px -10px rgba(46, 34, 20, .22);
+  --elev-lift: 0 1px 0 rgba(46, 34, 20, .06), 0 10px 28px -14px rgba(46, 34, 20, .30);
+  --room-pm: #e3efea;
+  --room-pppi: #e4eaf8;
+  --room-neutral: #f2f1ee;
+  --on-fill: #ffffff;          /* label on a day family fill */
+  --slate: #536070;            /* ECC side of the seam */
+  --amber-fill: #885400;       /* amber as a fill: with white 6.33 (a11y 08) */
+  --amber-ink: #885400;
+  --font-display: "assistantHe", "assistantLat", "assistantLat Fallback", var(--font-sans);
+  --font-numeral: "assistantLat", "assistantHe", "assistantLat Fallback", var(--font-mono);
+  --r-xl: 8px;
+  --r-lg: 6px;
+  --ease-spring: var(--ease-emphasis);
+}
+html[data-theme="dark"] .nx-app {
+  --elev-1: inset 0 1px 0 rgba(255, 255, 255, .06);
+  --elev-2: inset 0 1px 0 rgba(255, 255, 255, .06), 0 1px 0 rgba(0, 0, 0, .3);
+  --elev-lift: inset 0 1px 0 rgba(255, 255, 255, .09), 0 10px 28px -14px rgba(0, 0, 0, .7);
+  --room-pm: #0f2c28;
+  --room-pppi: #15213f;
+  --room-neutral: #1b292f;
+  --on-fill: #1a0705;          /* label on a night family fill, ≥ 6.7:1 */
+  --slate: #a9b4bd;
+  --amber-fill: #fac463;
+  --amber-ink: #fac463;
+}
+
+/* Display voice: Assistant 700/800 (bundled, variable 200-800). Frank only in the reader. */
+.nx-app .nx-display:not(.nr-ch-t) { font-family: var(--font-display); font-weight: 700; }
+.nx-app .nh-h1 { font-weight: 800; }
+.nx-app .nr-ch-t { font-family: var(--f-frank-he), "NEO Display Hebrew Fallback", var(--f-frank-lat), var(--font-sans); }
+
+/* Template tells in reach: one ⌘K hint per viewport, no arrows on inline links,
+   the tinted eyebrow tile neutralised. */
+.nx-app .nx-railq kbd { display: none; }
+.nx-app .nu-link > svg, .nx-app .nxr-link > svg { display: none; }
+.nx-app .nx-eyebrow { background: none; border: 0; padding: 0; color: var(--ink-3); }
+.nx-app .nw-ch-ico { display: none; }
+
+/* Two-tone focus ring on every tile / filled control: gap in the panel, ring in ink
+   (ring vs any fill in this sheet ≥ 3:1). */
+.nx-app :is(.nh-door, .nh-mod, .fm-node, .nw-idx-i, .nxd-row, .nxs-i, .nu-btn, .nu-btn2, .nu-filter, .nr-rtoc-t, .nw-ch-d > summary):focus-visible {
+  outline: 2px solid transparent;
+  box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--ink-1);
+}
+
+/* Selection = the row's own family, never red. */
+.nx-app .nu-card[aria-current="true"], .nx-app .nu-card[data-on="1"] {
+  border-color: var(--m, var(--ink-1));
+  box-shadow: inset -3px 0 0 var(--m, var(--ink-1)); /* inline start in RTL */
+  background: color-mix(in oklab, var(--m, var(--ink-3)) 14%, var(--surface));
+}
+.nx-app .nu-filter[aria-pressed="true"], .nx-app .nu-filter[data-on="1"],
+.nx-app .nxc-chip[aria-pressed="true"] {
+  background: color-mix(in oklab, var(--m, var(--ink-3)) 14%, var(--surface));
+  border-color: transparent;
+  color: var(--ink-1);
+  box-shadow: inset -3px 0 0 var(--m, var(--ink-1));
+}
+.nx-app .nxc-chip[aria-pressed="true"] b { color: var(--ink-1); }
+.nx-app .nu-tab::after { background: var(--ink-1); }
+/* the selection primitive (motion.css .nm-sel): the row's own family, never red */
+.nx-app .nm-sel[data-on="1"] { background-color: color-mix(in oklab, var(--m, var(--ink-3)) 14%, var(--surface)); border-color: transparent; }
+.nx-app .nm-sel[data-on="1"]::before { background: var(--m, var(--ink-1)); }
+.nx-app .nxs { --nxs-on: var(--m, var(--ink-1)); }
+/* the rail's travelling indicator: neutral fill + ink bar; on a module page, the module's family */
+.nx-app .nx-ind { background: var(--room-neutral); }
+.nx-app .nx-ind::before { background: var(--ink-1); }
+.nx-app:has(.nx-navitem[aria-current][data-mod="PM"]) .nx-ind { background: var(--room-pm); }
+.nx-app:has(.nx-navitem[aria-current][data-mod="PM"]) .nx-ind::before { background: var(--mod-pm); }
+.nx-app:has(.nx-navitem[aria-current][data-mod="PP-PI"]) .nx-ind { background: var(--room-pppi); }
+.nx-app:has(.nx-navitem[aria-current][data-mod="PP-PI"]) .nx-ind::before { background: var(--mod-pppi); }
+/* home: the gate carries the one ⌘K hint; the top bar's steps aside there */
+.nx-app:has(.nh-gate) .nx-cmdbar kbd { display: none; }
+
+/* The lift: a pre-painted shadow that only changes opacity (perf 15 §2). */
+.nx-app .d3-tile, .nx-app .nh-door, .nx-app .nh-mod, .nx-app .nw-idx-i, .nx-app .nxd-row, .nx-app .nw-move,
+.nx-app .nw-ch[data-collapsed="closed"] > .nw-ch-d > summary {
+  position: relative;
+  isolation: isolate;
+  transition: transform 160ms var(--ease-out), border-color 160ms linear;
+}
+.nx-app :is(.nh-door, .nh-mod, .nw-idx-i, .nxd-row, .nw-move, .nw-ch[data-collapsed="closed"] > .nw-ch-d > summary)::after {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  border-radius: inherit;
+  box-shadow: var(--elev-lift);
+  opacity: 0;
+  transition: opacity 160ms linear;
+  pointer-events: none;
+}
+.nx-app :is(.nh-door, .nh-mod, .nw-idx-i, .nxd-row, .nw-move, .nw-ch[data-collapsed="closed"] > .nw-ch-d > summary):hover { transform: translateY(-2px); }
+.nx-app :is(.nh-door, .nh-mod, .nw-idx-i, .nxd-row, .nw-move, .nw-ch[data-collapsed="closed"] > .nw-ch-d > summary):hover::after { opacity: 1; }
+
+/* ==========================================================================
+   1. HOME · the two-flow board is the colour focus
+   ========================================================================== */
+.nx-app .nh-doors ul { gap: var(--sp-3); }
+.nx-app .nh-doors .nh-door {
+  gap: 4px var(--sp-2);
+  padding: var(--sp-4);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  box-shadow: var(--elev-2);
+  min-block-size: 5.5rem;
+}
+.nx-app .nh-doors .nh-door:hover { border-color: var(--line-strong); }
+.nx-app .nh-doors .nh-door:hover .nh-door-name { text-decoration: none; }
+.nx-app .nh-door-n { font-family: var(--font-numeral); font-size: 1.5rem; font-weight: 800; color: var(--ink-1); }
+.nx-app .nh-door-sub { font-size: var(--t-sm); }
+.nx-app .nh-door-i { color: var(--ink-3); }
+
+/* module tiles: the room's door, 6px band in the module colour */
+.nx-app .nh-mod {
+  border: 1px solid var(--hairline);
+  border-block-start: 6px solid var(--m, var(--ink-3));
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  box-shadow: var(--elev-2);
+}
+.nx-app .nh-mod:hover .nh-mod-he { text-decoration: none; }
+.nx-app .nh-mod-he { font-size: var(--t-h2); font-weight: 700; }
+.nx-app .nh-mod-nums dd { font-family: var(--font-numeral); font-size: 1.5rem; font-weight: 800; color: var(--m, var(--ink-1)); }
+.nx-app .nh-mod-nums dt { font-size: var(--t-sm); }
+.nx-app .nh-bar { block-size: 6px; border-radius: 2px; }
+
+/* the lanes: PM on its scene, PP-PI on its scene; chips filled, white code */
+.nx-app .fm-chain { --lane: var(--room-neutral); background: var(--lane); border-color: transparent; border-radius: var(--r-xl); padding: var(--sp-5); box-shadow: var(--elev-1); }
+.nx-app .fm-chain[data-mod="PM"] { --lane: var(--room-pm); }
+.nx-app .fm-chain[data-mod="PP-PI"] { --lane: var(--room-pppi); }
+.nx-app .fm-title { font-size: var(--t-h2); font-weight: 700; }
+.nx-app .fm-mod { font-weight: 700; }
+.nx-app .fm-node {
+  border-color: transparent;
+  border-radius: var(--r-lg);
+  background: var(--mod);
+  box-shadow: var(--elev-2);
+  padding: 12px 14px;
+  min-block-size: 2.75rem;
+}
+.nx-app .fm-code { color: var(--on-fill); font-size: 1rem; font-weight: 700; }
+.nx-app .fm-label { color: var(--on-fill); font-size: var(--t-sm); }
+.nx-app a.fm-node { transition: transform 160ms var(--ease-out); }
+.nx-app a.fm-node:hover { background: var(--mod); border-color: transparent; transform: translateY(-2px); }
+.nx-app a.fm-node:focus-visible { box-shadow: 0 0 0 2px var(--lane), 0 0 0 4px var(--ink-1); }
+.nx-app .fm-node--missing { background: transparent; border: 1px dashed var(--line-strong); box-shadow: none; }
+.nx-app .fm-node--missing .fm-code, .nx-app .fm-node--missing .fm-label { color: var(--ink-2); }
+.nx-app .fm-card, .nx-app .fm-via { background: var(--lane); }
+.nx-app .fm-link { font-size: var(--t-sm); color: var(--ink-1); }
+.nx-app .fm-legend { font-size: var(--t-sm); }
+
+/* ==========================================================================
+   2. MODULE · the room: hero + index on the scene ground; night hero plate
+   ========================================================================== */
+.nx-app .nw { --room: var(--room-neutral); }
+.nx-app .nw[data-scene="pm"] { --room: var(--room-pm); --room-night: #0a3a35; }
+.nx-app .nw[data-scene="pppi"] { --room: var(--room-pppi); --room-night: #13265e; }
+
+/* SIGNATURE · the room's colour entering: a pre-painted layer that fades in once (320ms). */
+.nx-app .nw-hero, .nx-app .nw-idx { position: relative; isolation: isolate; border: 0; }
+.nx-app .nw-hero::before, .nx-app .nw-idx::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: var(--room);
+  animation: d3-room 320ms var(--ease-out) both;
+}
+.nx-app .nw .nxs { background: var(--room); border-block-end: 1px solid color-mix(in oklab, var(--m) 24%, var(--hairline)); }
+@keyframes d3-room { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .nx-app .nw-hero::before, .nx-app .nw-idx::before { animation: none; opacity: 1; }
+}
+html[data-theme="dark"] .nx-app .nw-hero::before { background: var(--room-night, var(--room)); }
+html[data-theme="dark"] .nx-app .nw-idx::before { background: transparent; }
+html[data-theme="dark"] .nx-app .nw[data-scene="pm"] .nw-hero,
+html[data-theme="dark"] .nx-app .nw[data-scene="pppi"] .nw-hero {
+  --ink-1: #ffffff; --ink-2: #d9ebe7; --ink-3: #b7d1cc;
+  --hairline: rgba(255, 255, 255, .18); --line-strong: rgba(255, 255, 255, .5);
+  color: #ffffff;
+}
+html[data-theme="dark"] .nx-app .nw[data-scene="pppi"] .nw-hero { --ink-2: #dbe3f7; --ink-3: #bcc8ea; }
+html[data-theme="dark"] .nx-app .nw .nxs { background: var(--background); }
+
+.nx-app .nw-hero { padding-block: var(--sp-12) var(--sp-10); gap: var(--sp-5); }
+.nx-app .nw-title { font-family: var(--font-display); font-weight: 700; font-size: clamp(2rem, 4.2cqi, 3.25rem); }
+.nx-app .nw-eye { font-size: var(--t-sm); color: var(--ink-2); }
+.nx-app .nw-lede { font-size: var(--t-lead); }
+.nx-app .nw-mark { background: var(--m); border-color: transparent; color: var(--on-fill); box-shadow: var(--elev-2); }
+.nx-app .nw-title .nw-code { background: var(--m); border-color: transparent; color: var(--on-fill); font-weight: 700; padding: .2rem .6rem; border-radius: var(--r-sm); }
+.nx-app .nw-figs { gap: var(--sp-5); }
+.nx-app .nw-fig b { font-family: var(--font-numeral); font-size: 1.75rem; font-weight: 800; color: var(--m); line-height: 1.1; }
+.nx-app .nw-fig span, .nx-app .nw-fig em { font-size: var(--t-sm); color: var(--ink-2); }
+.nx-app .nw-go .nu-btn2 { background: var(--surface); }
+html[data-theme="dark"] .nx-app .nw-hero .nu-btn2 { background: transparent; color: #ffffff; border-color: rgba(255, 255, 255, .5); }
+html[data-theme="dark"] .nx-app .nw-hero .nu-btn2:hover { background: rgba(255, 255, 255, .1); }
+html[data-theme="dark"] .nx-app .nw-hero .nw-mark { color: var(--on-fill); }
+
+/* chapter index: a board of large entry tiles */
+.nx-app .nw-idx { padding-block: var(--sp-8) var(--sp-10); }
+.nx-app .nw-idx-k { font-size: var(--t-sm); color: var(--ink-2); }
+.nx-app .nw-idx-s { font-size: var(--t-body); }
+.nx-app .nw-idx-l { gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 1fr)); }
+.nx-app .nw-idx-i {
+  min-block-size: 5.5rem;
+  padding: var(--sp-4) var(--sp-5);
+  gap: 4px var(--sp-4);
+  border-color: transparent;
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  box-shadow: var(--elev-2);
+}
+html[data-theme="dark"] .nx-app .nw-idx-i { background: var(--surface-raised); }
+.nx-app .nw-idx-n { font-family: var(--font-numeral); font-size: 2.25rem; font-weight: 800; color: var(--m); }
+.nx-app .nw-idx-t { font-size: var(--t-body); }
+.nx-app .nw-idx-c b { font-size: var(--t-sm); }
+.nx-app .nw-idx-c em { font-size: var(--t-sm); }
+.nx-app .nw-idx-i:hover { border-color: transparent; }
+
+/* section bar: active = module fill + bar, ink text */
+.nx-app .nxs-i { min-block-size: 2.75rem; }
+.nx-app .nxs-i[data-on="1"] {
+  background-color: color-mix(in oklab, var(--m) 14%, var(--surface));
+  border-color: transparent;
+  box-shadow: none; /* the bar is the primitive's own ::before, at the inline start */
+}
+.nx-app .nxs-i[data-on="1"] .nxs-n { color: var(--m); }
+.nx-app .nxs-n { font-size: var(--t-sm); }
+
+/* chapter head: numeral oversized in the module colour; kicker chip filled */
+.nx-app .nw-ch { border-block-start: 0; padding-block: var(--sp-8) var(--sp-10); }
+.nx-app .nw-ch-h { grid-template-columns: auto minmax(0, 1fr); column-gap: var(--sp-4); }
+.nx-app .nw-ch-h > .nw-ch-n {
+  font-family: var(--font-numeral);
+  font-size: clamp(2.5rem, 4cqi, 3.5rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--m);
+}
+.nx-app .nw-ch-k {
+  justify-self: start; align-self: center;
+  padding: .3rem .7rem;
+  border-radius: var(--r-sm);
+  background: var(--c, var(--m));
+  color: var(--on-fill);
+  font-size: var(--t-sm);
+  font-weight: 700;
+}
+.nx-app #nw-s4 .nw-ch-k { --c: var(--amber-fill); }
+.nx-app .nw-ch-t { font-family: var(--font-display); font-weight: 700; }
+.nx-app .nw-ch-s { font-size: var(--t-body); }
+
+/* a collapsed chapter is one tile, one target, its figure oversized */
+.nx-app .nw-ch[data-collapsed="closed"] > .nw-ch-d > summary {
+  display: block;
+  padding: var(--sp-5) var(--sp-6);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  box-shadow: var(--elev-2);
+  min-block-size: 2.75rem;
+}
+html[data-theme="dark"] .nx-app .nw-ch[data-collapsed="closed"] > .nw-ch-d > summary { background: var(--surface-raised); border-color: transparent; }
+.nx-app .nw-ch[data-collapsed="closed"] .nw-ch-h { grid-template-columns: auto minmax(0, 1fr) auto; }
+.nx-app .nw-ch[data-collapsed="closed"] .nw-ch-stat {
+  grid-row: 1 / span 3; grid-column: 3; align-self: center;
+  flex-direction: column; align-items: flex-end; gap: 2px; margin: 0;
+  padding-inline-start: var(--sp-6);
+}
+.nx-app .nw-ch[data-collapsed="closed"] .nw-ch-t { grid-column: 1 / 3; }
+.nx-app .nw-ch[data-collapsed="closed"] .nw-ch-s { grid-column: 1 / 3; }
+.nx-app .nw-ch[data-collapsed="closed"] .nw-ch-toggle { grid-row: 5; grid-column: 1 / 4; }
+.nx-app .nw-ch-stat b { font-family: var(--font-numeral); font-size: clamp(2.5rem, 4cqi, 3.5rem); font-weight: 800; color: var(--m); }
+.nx-app .nw-ch-stat span { font-size: var(--t-sm); }
+.nx-app .nw-ch-toggle {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  min-block-size: 2.75rem; padding-inline: var(--sp-4);
+  border: 1px solid var(--line-strong); border-radius: var(--r-lg);
+  font-size: var(--t-sm); font-weight: 600; color: var(--ink-1);
+}
+@media (max-width: 833px) {
+  .nx-app .nw-ch[data-collapsed="closed"] .nw-ch-h { grid-template-columns: auto minmax(0, 1fr); }
+  .nx-app .nw-ch[data-collapsed="closed"] .nw-ch-stat { grid-row: 4; grid-column: 1 / 3; flex-direction: row; align-items: baseline; padding: 0; }
+  .nx-app .nw-ch[data-collapsed="closed"] .nw-ch-toggle { grid-column: 1 / 3; }
+}
+
+/* rank rows and bars: the family fills the bar */
+.nx-app .nw-rankrow { border-radius: var(--r-lg); }
+.nx-app .nw-rankrow .nw-bar > i { background: var(--m); }
+.nx-app .nw-rank-i { color: var(--m); font-weight: 700; }
+
+/* S/4 chapter: amber owns the status strip; families as filled tiles */
+.nx-app .nw-s4top {
+  background: var(--warning-bg);
+  border-radius: var(--r-xl);
+  padding: var(--sp-6) var(--sp-7);
+  box-shadow: var(--elev-1);
+}
+.nx-app .nw-s4big b { font-family: var(--font-numeral); font-weight: 800; color: var(--amber-ink); }
+.nx-app .nw-s4mix { max-inline-size: none; }
+.nx-app .nw-s4mix li { grid-template-columns: minmax(9rem, auto) minmax(3rem, 1fr) auto; min-block-size: 2.75rem; }
+.nx-app .nw-s4mix .nu-status, .nx-app .nw-move-h .nu-status, .nx-app .nxd-s4 .nu-status {
+  font-size: var(--t-sm);
+  padding: .3rem .6rem;
+  border-radius: var(--r-sm);
+  background: color-mix(in oklab, var(--s, var(--ink-3)) 14%, var(--surface));
+  color: var(--s, var(--ink-2));
+}
+.nx-app .nw-s4mix b { font-family: var(--font-numeral); font-size: 1.25rem; font-weight: 800; }
+/* the risk mix writes raw hex inline (#dc2626 / #d97706 / #16a34a): re-keyed to the feedback
+   families, and the bar beside each tile fills with the same family (VD 12 S2) */
+.nx-app .nw-s4mix .nu-status[style*="dc2626"] { --s: var(--danger) !important; }
+.nx-app .nw-s4mix .nu-status[style*="d97706"] { --s: var(--warning) !important; }
+.nx-app .nw-s4mix .nu-status[style*="16a34a"] { --s: var(--success) !important; }
+.nx-app .nw-s4mix .nu-status[style*="dc2626"] ~ .nw-bar > i { background: var(--danger); }
+.nx-app .nw-s4mix .nu-status[style*="d97706"] ~ .nw-bar > i { background: var(--warning); }
+.nx-app .nw-s4mix .nu-status[style*="16a34a"] ~ .nw-bar > i { background: var(--success); }
+.nx-app .nw-move {
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  box-shadow: var(--elev-2);
+  border: 1px solid var(--hairline);
+}
+.nx-app .nw-move-he, .nx-app .nw-move-y, .nx-app .nw-move-kv dd { font-size: var(--t-body); }
+
+/* ==========================================================================
+   3. TABLES · catalogue: module chips filled, the ECC|S/4 seam, tiles that lift
+   ========================================================================== */
+.nx-app .nxd-list { gap: var(--sp-3); }
+.nx-app .nxd-row {
+  border-radius: var(--r-xl);
+  border-color: var(--hairline);
+  background: var(--surface);
+  box-shadow: var(--elev-2);
+  padding: var(--sp-4);
+  padding-inline-end: 6.5rem;
+  overflow: visible;
+}
+html[data-theme="dark"] .nx-app .nxd-row { background: var(--surface-raised); border-color: transparent; }
+.nx-app .nxd-row:hover { border-color: var(--hairline); }
+.nx-app .nxd-mark, .nx-app .nxd[data-surface="tables"] .nxd-mark { background: transparent; }
+.nx-app .nxd-id > b { font-size: 1rem; position: relative; padding-block-end: 8px; }
+/* the migration seam: ECC slate | S/4 status colour, 4px, under the code */
+.nx-app .nxd-id > b::before, .nx-app .nxd-id > b::after {
+  content: ""; position: absolute; inset-block-end: 0; block-size: 4px; inline-size: 50%;
+  border-radius: 1px;
+}
+.nx-app .nxd-id > b::before { inset-inline-start: 0; background: var(--slate); }
+.nx-app .nxd-id > b::after { inset-inline-end: 0; background: var(--seam, var(--s4-verify)); }
+.nx-app .nxd-row:has([data-status="unchanged"]) { --seam: var(--s4-keep); }
+.nx-app .nxd-row:has([data-status="changed"]), .nx-app .nxd-row:has([data-status="simplified"]) { --seam: var(--s4-change); }
+.nx-app .nxd-row:has([data-status="replaced"]) { --seam: var(--s4-replace); }
+.nx-app .nxd-row:has([data-status="verification_required"]) { --seam: var(--s4-verify); }
+.nx-app .nxd-row:has([data-status="removed"]) { --seam: var(--s4-removed); }
+.nx-app .nxd-row:has([data-status="new"]) { --seam: var(--s4-new); }
+
+.nx-app .nxd-mod {
+  background: var(--m);
+  border-color: transparent;
+  color: var(--on-fill);
+  font-size: var(--t-sm);
+  font-weight: 700;
+  padding: .2rem .55rem;
+  min-block-size: 1.5rem;
+}
+.nx-app .nxd-mod > i { display: none; }
+.nx-app .nxd-mod em { color: var(--on-fill); font-weight: 500; }
+.nx-app .nxd-he { font-size: var(--t-body); }
+.nx-app .nxd-sub, .nx-app .nxd-nums .nu-chip, .nx-app .nxd-s4-t { font-size: var(--t-sm); }
+.nx-app .nxd-nums .nu-chip { background: var(--surface-2); border-color: transparent; color: var(--ink-2); }
+.nx-app .nxd-ctx { min-block-size: 2.75rem; }
+.nx-app .nxd-stats { border-radius: var(--r-xl); box-shadow: var(--elev-2); border-color: transparent; }
+.nx-app .nxd-stat b, .nx-app .nxd-stat strong { font-family: var(--font-numeral); font-weight: 800; }
+
+/* loading: skeleton rows, no spinner, nothing moves */
+html[data-state="loading"] .nx-app .nxd-row > *, html[data-state="loading"] .nx-app .nxd-ctx { visibility: hidden; }
+html[data-state="loading"] .nx-app .nxd-row { min-block-size: 4.5rem; }
+html[data-state="loading"] .nx-app .nxd-item::before,
+html[data-state="loading"] .nx-app .nxd-item::after {
+  content: ""; position: absolute; z-index: 1; border-radius: 2px; background: var(--surface-2);
+}
+html[data-state="loading"] .nx-app .nxd-item::before { inset-block-start: 18px; inset-inline-start: 18px; inline-size: 8rem; block-size: 14px; }
+html[data-state="loading"] .nx-app .nxd-item::after { inset-block-start: 42px; inset-inline-start: 18px; inline-size: min(60%, 24rem); block-size: 12px; }
+html[data-state="loading"] .nx-app .nxd-count { visibility: hidden; }
+
+/* empty: a tile with the next action */
+.nx-app .nxd-none {
+  border: 1px solid var(--hairline); border-style: solid;
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  box-shadow: var(--elev-2);
+  padding: var(--sp-7) var(--sp-6);
+  gap: var(--sp-4);
+}
+.nx-app .nxd-none b { font-size: var(--t-h2); }
+.nx-app .nxd-none-a :is(.nu-btn, .nu-btn2, .nu-filter) { min-block-size: 2.75rem; }
+
+/* the mini-record (direction.js) */
+.nx-app .d3-mini {
+  position: absolute; z-index: 30;
+  inset-inline: 0; inset-block-start: calc(100% + 6px);
+  display: grid; gap: var(--sp-2);
+  padding: var(--sp-4) var(--sp-5);
+  border-radius: var(--r-xl);
+  border-inline-start: 6px solid var(--m, var(--ink-3));
+  background: var(--surface-raised);
+  box-shadow: var(--elev-3);
+  color: var(--ink-1);
+  font-size: var(--t-sm);
+  line-height: 1.5;
+  opacity: 0;
+  transition: opacity 160ms linear;
+  pointer-events: none;
+}
+.nx-app .d3-mini[data-show="1"] { opacity: 1; }
+.nx-app .d3-mini-code { font-family: var(--font-mono); font-size: 1.125rem; font-weight: 700; direction: ltr; unicode-bidi: isolate; justify-self: start; }
+.nx-app .d3-mini-row { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-4); }
+.nx-app .d3-mini-row span { color: var(--ink-2); }
+.nx-app .d3-mini-row b { color: var(--ink-1); font-weight: 600; }
+.nx-app .d3-mini-s4 { display: flex; align-items: center; gap: var(--sp-2); }
+.nx-app .d3-mini-s4 i { display: inline-block; inline-size: 2rem; block-size: 4px; border-radius: 1px; background: var(--slate); position: relative; }
+.nx-app .d3-mini-s4 i::after { content: ""; position: absolute; inset-inline-end: 0; inset-block: 0; inline-size: 50%; background: var(--seam, var(--s4-verify)); }
+
+/* ==========================================================================
+   4. ERD · night map blocks by family only; focus band in --m; labels ≥ 12px
+   ========================================================================== */
+html[data-theme="dark"] .ne .ne-mod { --m: #a9b4bd !important; --ms: #a9b4bd !important; }
+html[data-theme="dark"] .ne .ne-mod[data-node="PM"] { --m: var(--mod-pm) !important; --ms: var(--mod-pm) !important; }
+html[data-theme="dark"] .ne .ne-mod[data-node="PP-PI"] { --m: var(--mod-pppi) !important; --ms: var(--mod-pppi) !important; }
+.ne .ne-node-he, .ne .ne-node-mod, .ne .ne-node-z, .ne .ne-node-k, .ne .ne-node-fk, .ne .ne-mod-en, .ne .ne-mod-l, .ne .ne-edge-t { font-size: 13px; }
+.ne .ne-node { transition: opacity 220ms linear; }
+.ne .ne-edge { transition: opacity 220ms linear; }
+.ne .ne-node[data-lvl="0"] .ne-node-r { stroke-width: 4; }
+.nx-app .ne-insp { box-shadow: var(--elev-2); border-radius: var(--r-xl); }
+html[data-theme="dark"] .nx-app .ne-insp { background: var(--surface-raised); }
+.nx-app .ne-pop-t[data-on="1"] { background: color-mix(in oklab, var(--m, var(--ink-3)) 14%, var(--surface)); color: var(--ink-1); border-color: transparent; box-shadow: inset -3px 0 0 var(--m, var(--ink-1)); }
+.nx-app .ne-row[aria-pressed="true"] { background: color-mix(in oklab, var(--m, var(--ink-3)) 14%, var(--surface)); box-shadow: inset -3px 0 0 var(--m, var(--ink-1)); }
+.nx-app .ne-modlist li, .nx-app .ne-facts dd, .nx-app .ne-facts dt, .nx-app .ne-note, .nx-app .ne-sub, .nx-app .ne-hint { font-size: var(--t-sm); }
+
+/* ==========================================================================
+   5. READER · the book's module colour on the spine; red only on the resume
+   ========================================================================== */
+.nx-app .nr-eye .nu-chip.is-sap { background: var(--m); color: var(--on-fill); border-color: transparent; font-size: var(--t-sm); font-weight: 700; }
+.nx-app .nr-eye .nu-chip { font-size: var(--t-sm); }
+.nx-app .nr-ch-n { font-family: var(--font-numeral); font-size: 1rem; font-weight: 800; color: var(--m); border: 0; padding: 0; }
+.nx-app .nr-ch-m, .nx-app .nr-sec-meta { font-size: var(--t-sm); }
+.nx-app .nr-rail { border-radius: var(--r-xl); box-shadow: var(--elev-2); border-color: transparent; }
+html[data-theme="dark"] .nx-app .nr-rail { background: var(--surface-raised); }
+.nx-app .nr-rail-pct { font-family: var(--font-numeral); font-size: 1.5rem; font-weight: 800; color: var(--m); }
+.nx-app .nr-rail-head { position: relative; display: grid; place-items: center; min-block-size: 4.5rem; }
+.nx-app .nr-rail-head .d3-ring { position: absolute; inset: 0; margin: auto; inline-size: 4.5rem; block-size: 4.5rem; pointer-events: none; }
+.nx-app .nr-rail-head .d3-ring circle { fill: none; stroke-width: 4; }
+.nx-app .nr-rail-head .d3-ring .d3-ring-bed { stroke: var(--surface-2); }
+.nx-app .nr-rail-head .d3-ring .d3-ring-v { stroke: var(--m); stroke-linecap: butt; }
+.nx-app .nr-rail-cap { font-size: var(--t-sm); }
+.nx-app .nr-track-band { background: color-mix(in oklab, var(--m) 30%, var(--surface)); }
+.nx-app .nr-rtoc-ch[data-on="1"] > .nr-rtoc-hd .nr-rtoc-t { background: color-mix(in oklab, var(--m) 14%, var(--surface)); }
+.nx-app .nr-rtoc-ch[data-on="1"] > .nr-rtoc-hd .nr-rtoc-t:not(:focus-visible) { box-shadow: inset 3px 0 0 0 var(--m); }
+.nx-app .nr-rtoc-t { font-size: var(--t-sm); }
+.nx-app .nr-rtoc-sec { font-size: var(--t-sm); }
+.nx-app .nr-rtoc-sec[data-now="1"], .nx-app .nr-rtoc-t[data-now="1"] { color: var(--ink-1); background: color-mix(in oklab, var(--m) 14%, var(--surface)); }
+.nx-app :is(.nr-rtoc-sec, .nr-rtoc-t)[data-now="1"]:not(:focus-visible) { box-shadow: inset 3px 0 0 0 var(--m); }
+.nx-app .nr-tick[data-on="1"]::before { background: var(--m); }
+.nx-app .nr-crumb-l, .nx-app .nr-crumb-now, .nx-app .nr-crumb-b { font-size: var(--t-sm); }.nx-app .nr-sheet { box-shadow: var(--elev-2); border-radius: var(--r-xl); }
+html[data-theme="dark"] .nx-app .nr-sheet { background: var(--surface-raised); }
+.nx-app .nr-end { border-radius: var(--r-xl); box-shadow: var(--elev-2); }
+.nx-app .nr-end-t { font-size: var(--t-sm); }
+.nx-app .nr-strip-seg b, .nx-app .nr-strip-seg em { font-size: var(--t-sm); }
+.nx-app .nr-meter-t, .nx-app .nr-meter-n { font-size: var(--t-sm); }
+
+/* ---- phone: one column, 44px bottom bar ---------------------------------- */
+@media (max-width: 833px) {
+  .nx-app .nh-doors ul { grid-template-columns: 1fr; }
+  .nx-app .nh-door-n { font-size: 1.25rem; }
+  .nx-app .nw-idx-l { grid-template-columns: 1fr; }
+  .nx-app .nw-ch-h > .nw-ch-n { font-size: 2.25rem; }
+  .nx-app .nw-fig b { font-size: 1.5rem; }
+  .nx-app .d3-mini { display: none; }
+}
