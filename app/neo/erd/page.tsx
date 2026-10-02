@@ -28,13 +28,18 @@ export const metadata = {
 // hash is known before the first paint, so this marks <html> while it is
 // pending; editorial.css keeps those regions invisible until the workspace has
 // applied it (or 1.5s pass), and an invisible region's move is not a shift.
-const ERD_PENDING = `(function(){try{if(!/^#[A-Z0-9_\/]{2,40}$/.test(location.hash))return;var d=document.documentElement;d.setAttribute("data-erd-pending","");var done=function(){d.removeAttribute("data-erd-pending")};var t=setTimeout(done,1500);var mo=new MutationObserver(function(){var n=document.querySelector(".ne");if(n&&(n.getAttribute("data-sel")==="1"||n.getAttribute("data-level")!=="overview")){clearTimeout(t);mo.disconnect();requestAnimationFrame(function(){requestAnimationFrame(done)})}});mo.observe(d,{subtree:true,attributes:true,attributeFilter:["data-sel","data-level"]})}catch(e){}})();`;
+// Only a hash that names one of the catalog's tables, matched as the workspace
+// matches it (decoded, upper case), is held: a lower-case #aufk was not held and
+// shifted (CLS 0.024), an unknown #ZZZZ was held the full 1.5s (motion QA R4-4b,
+// R4-4c), and #main is no table.
+const erdPending = (codes: string[]) => `(function(){try{var w=decodeURIComponent(location.hash.slice(1)).toUpperCase();if(${JSON.stringify(codes)}.indexOf(w)<0)return;var d=document.documentElement;d.setAttribute("data-erd-pending","");var done=function(){d.removeAttribute("data-erd-pending")};var t=setTimeout(done,1500);var mo=new MutationObserver(function(){var n=document.querySelector(".ne");if(n&&(n.getAttribute("data-sel")==="1"||n.getAttribute("data-level")!=="overview")){clearTimeout(t);mo.disconnect();requestAnimationFrame(function(){requestAnimationFrame(done)})}});mo.observe(d,{subtree:true,attributes:true,attributeFilter:["data-sel","data-level"]})}catch(e){}})();`;
 
 export default function NeoErd() {
+  const data = erdCatalog();
   return (
     <>
-      <script dangerouslySetInnerHTML={{ __html: ERD_PENDING }} />
-      <ErdWorkspace data={erdCatalog()} />
+      <script dangerouslySetInnerHTML={{ __html: erdPending(data.tables.map((t) => t.n.toUpperCase())) }} />
+      <ErdWorkspace data={data} />
     </>
   );
 }

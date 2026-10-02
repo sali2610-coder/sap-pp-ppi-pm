@@ -1783,7 +1783,7 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
   position: absolute; inset-block: 0; inset-inline-start: 0;
   inline-size: var(--c-rail-x); transform: translateX(100%);
   box-shadow: var(--elev-3);
-  transition: transform 520ms var(--c-spring);
+  transition: transform 480ms var(--c-spring);
 }
 [dir="ltr"] .nx-app[data-nav="hidden"] .nx-rail,
 [dir="ltr"] .nx-app[data-nav="peek"] .nx-rail { transform: translateX(-100%); }
@@ -1791,7 +1791,7 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
    tab order once the slide-out ends: keyboard focus was landing off-screen. */
 .nx-app[data-nav="hidden"] .nx-rail {
   visibility: hidden;
-  transition: transform 520ms var(--c-spring), visibility 0s linear 520ms;
+  transition: transform 480ms var(--c-spring), visibility 0s linear 480ms;
 }
 .nx-railedge {
   display: none; position: absolute; inset-block: 0; inset-inline-start: 0;
@@ -1824,7 +1824,32 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
   html[data-device="desktop"] .nx-app[data-nav="expanded"][data-nav-user] .nx-rail {
     position: absolute; inset-block: 0; inset-inline-start: 0; z-index: 25;
     inline-size: var(--c-rail-x); box-shadow: var(--elev-3);
+    /* it slides in as it slides out (it appeared in one frame; motion QA round 5) */
+    transition: transform 480ms var(--c-spring);
   }
+  /* The drawer is the way in here; a hover reveal of 280px over a page this
+     narrow held the rail open under the pointer after a destination was
+     chosen from the drawer. A keyboard focus inside the rail still reveals it. */
+  html[data-device="desktop"] .nx-app[data-nav="peek"] .nx-rail:not(:focus-within) { transform: translateX(100%); }
+  html[dir="ltr"][data-device="desktop"] .nx-app[data-nav="peek"] .nx-rail:not(:focus-within) { transform: translateX(-100%); }
+}
+/* A returning user's own mode in a wider window: the server paints "expanded",
+   a 314px column, and hydration then applied a stored compact or hidden rail,
+   moving the whole page sideways (CLS 0.17 and 0.21 at 1440; motion QA round
+   5). The head script copies the stored mode to data-nav-boot before the first
+   paint (lib/theme-boot.ts); until the shell hydrates the page takes that
+   mode's column, and the rail, still rendered expanded, is not drawn. */
+@media not all and (max-width: 40rem) {
+  html[data-device="desktop"][data-nav-boot] .nx-app[data-nav="expanded"]:not([data-nav-user]) .nx-rail { visibility: hidden; }
+  html[data-device="desktop"][data-nav-boot="compact"] .nx-app[data-nav="expanded"]:not([data-nav-user]) { --nx-rail-col: var(--c-rail-c); }
+  html[data-device="desktop"]:is([data-nav-boot="hidden"], [data-nav-boot="peek"]) .nx-app[data-nav="expanded"]:not([data-nav-user]) { --nx-rail-col: 0px; }
+  html[data-device="desktop"]:is([data-nav-boot="hidden"], [data-nav-boot="peek"]) .nx-app[data-nav="expanded"]:not([data-nav-user]) .nx-main { grid-column: 1 / -1; }
+  /* parked where hydration puts it, so it does not slide out over the page */
+  html[data-device="desktop"]:is([data-nav-boot="hidden"], [data-nav-boot="peek"]) .nx-app[data-nav="expanded"]:not([data-nav-user]) .nx-rail {
+    position: absolute; inset-block: 0; inset-inline-start: 0;
+    inline-size: var(--c-rail-x); transform: translateX(100%);
+  }
+  html[dir="ltr"][data-device="desktop"]:is([data-nav-boot="hidden"], [data-nav-boot="peek"]) .nx-app[data-nav="expanded"]:not([data-nav-user]) .nx-rail { transform: translateX(-100%); }
 }
 /* A phone or a tablet has no rail to reveal: the strip was a 14px ghost control
    over the right edge of every page there (gate 4, major 9). */

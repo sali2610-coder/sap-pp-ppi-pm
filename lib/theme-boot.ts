@@ -29,4 +29,9 @@ export const THEME_BOOT =
   `var s=${JSON.stringify(SCALE)}[p.size];` +
   `if(s&&s!==1)r.setProperty("--nx-type-scale",String(s));` +
   `if(${JSON.stringify(FACE_IDS)}.indexOf(p.face)>=0)document.documentElement.setAttribute("data-neo-face",p.face);` +
+  // The stored rail mode (store.ts MODE_KEY; that module is "use client", so
+  // the key is written out here): globals.css paints its column from the first
+  // frame instead of the server's expanded rail (motion QA round 5).
+  `var m=localStorage.getItem("neo:nx:mode");` +
+  `if(m==="compact"||m==="hidden"||m==="peek")document.documentElement.setAttribute("data-nav-boot",m);` +
   `}}catch(e){}})();`;
