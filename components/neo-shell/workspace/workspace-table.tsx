@@ -46,7 +46,7 @@ const COLS: { k: SortKey | null; he: string; cls: string }[] = [
   { k: "fn", he: "ממשקים", cls: "nw-c-fn" },
   { k: "rel", he: "קשרים", cls: "nw-c-rel" },
   { k: null, he: "CDS · Fiori", cls: "nw-c-cv" },
-  { k: null, he: "S/4HANA", cls: "nw-c-s4" },
+  { k: null, he: "S/4HANA לפי הבלופרינט", cls: "nw-c-s4" },
 ];
 
 export function WorkspaceTable({
@@ -197,7 +197,7 @@ export function WorkspaceTable({
                     <em>{r.fiori ? "Fiori" : "–"}</em>
                   </td>
 
-                  <td className="nw-c-s4" data-l="S/4HANA">
+                  <td className="nw-c-s4" data-l="S/4HANA לפי הבלופרינט">
                     {/* STATUS colour: a small filled dot, immediately followed by its
                         word. It is never a surface, a ring, a line or text colour. */}
                     <span className="nu-status" style={{ "--s": s4Dot(r.s4) } as React.CSSProperties}>

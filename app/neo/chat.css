@@ -135,7 +135,8 @@
 .nxm[data-mark="neo"] .nxm-core { fill: var(--brand); stroke: none; }
 
 @media (prefers-reduced-motion: no-preference) {
-  .nxm[data-mark="neo"] .nxm-hex { animation: nxm-spin 44s linear infinite; }
+  .nxm[data-state="thinking"][data-mark="neo"] .nxm-hex,
+  .nxm[data-state="writing"][data-mark="neo"] .nxm-hex { animation: nxm-spin 44s linear infinite; }
   .nxm[data-state="thinking"][data-mark="neo"] .nxm-hex { animation-duration: 6s; }
   /* The spokes light in sequence, so "thinking" on this surface looks like a
      signal crossing a network rather than like a book being read. */

@@ -787,3 +787,47 @@ html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nh-gate { border-block-
    gate is the search, so the top bar's field goes too. */
 .nx-app[data-pilot="editorial"]:not([data-nav="search"]) .nx-railsrch { display: none; }
 .nx-app[data-pilot="editorial"][data-route="home"] .nx-topbar .nx-cmdbar { display: none; }
+
+/* ---------- pilot QA, UX / motion / accessibility (2026-10-02) ------------- */
+/* Every home door carries a verb (UX director row 13): the word is drawn, not
+   read (the "/ """ alt keeps it out of the accessible name). */
+.nx-app[data-pilot="editorial"] .nh-door { position: relative; padding-block-end: calc(var(--sp-4) + 1.4rem); }
+.nx-app[data-pilot="editorial"] .nh-door::after { content: "פתיחה" / ""; position: absolute; inset-inline-start: var(--sp-4); inset-block-end: var(--sp-3); font-size: var(--t-micro); font-weight: 600; color: var(--link); }
+.nx-app[data-pilot="editorial"] .nh-door:hover::after, .nx-app[data-pilot="editorial"] .nh-door:focus-visible::after { color: var(--ink-1); }
+/* The ERD on a phone: the inspector's primary action comes first, right under a
+   shorter stage, inside the first viewport (council 05 C7, UX QA major 2). */
+@media (max-width: 52rem) {
+  .nx-app[data-pilot="editorial"][data-route="erd"] .ne-stage { block-size: min(46vh, 400px); }
+  .nx-app[data-pilot="editorial"][data-route="erd"] .ne-detail { display: flex; flex-direction: column; }
+  .nx-app[data-pilot="editorial"][data-route="erd"] .ne-detail > .nu-btn,
+  .nx-app[data-pilot="editorial"][data-route="erd"] .ne-detail > p:has(> .nu-btn),
+  .nx-app[data-pilot="editorial"][data-route="erd"] .ne-detail > div:has(> .nu-btn) { order: -1; margin-block: var(--sp-2) var(--sp-3); }
+}
+/* The edge pulse is one pass of 480ms, not 2.1s twice (motion QA major 1). */
+.nx-app[data-pilot="editorial"] .ne-pulse { animation-duration: 480ms !important; animation-iteration-count: 1 !important; }
+/* The reader's loading mark is still; the skeleton says "loading". */
+.nx-app[data-pilot="editorial"] .nr-spin { animation: none; }
+/* The home map builds inside 1s: 17 nodes at 46ms plus the last fade. */
+.nx-app[data-pilot="editorial"] .fm { --nm-stagger: 46ms; }
+/* No compositor hint at rest on a page that is not moving (budget ≤ 4). */
+.nx-app[data-pilot="editorial"] .nm-kin > span > * { will-change: auto; }
+/* The ERD filter row is one line before and after hydration: the server's hint
+   paragraph took 123px and the client's filter group 38px, an 85px shift at
+   ~170ms (motion QA, CLS 0.088 at 1440). */
+.nx-app[data-pilot="editorial"] .ne-filters { min-block-size: 38px; }
+.nx-app[data-pilot="editorial"] .ne-fhint { max-inline-size: none; block-size: 38px; line-height: 38px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+/* The S/4 chapter's risk words take the spec's family inks (a11y QA major 1:
+   the inline #dc2626 / #d97706 / #16a34a measured 2.85 to 4.32:1). Day on
+   ivory: brick #8e3a20 7.0, amber #7a4a00 7.6, green #136d44 6.3; night on
+   navy: #f39c80 8.4, #f5c76a 11.0, #7ddba8 11.4 (computed 2026-10-02). */
+.nx-app[data-pilot="editorial"] .nu-status[style*="#dc2626"] { --s: #8e3a20; }
+.nx-app[data-pilot="editorial"] .nu-status[style*="#d97706"] { --s: #7a4a00; }
+.nx-app[data-pilot="editorial"] .nu-status[style*="#16a34a"] { --s: #136d44; }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nu-status[style*="#dc2626"] { --s: #f39c80; }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nu-status[style*="#d97706"] { --s: #f5c76a; }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nu-status[style*="#16a34a"] { --s: #7ddba8; }
+/* The current chapter-bar item keeps its bar AND shows the ring when focused. */
+.nx-app[data-pilot="editorial"] .nxs-i[data-on="1"]:focus-visible { outline: 2px solid transparent; box-shadow: inset 3px 0 0 0 var(--select-line), 0 0 0 2px var(--background), 0 0 0 4px var(--focus); }
+[dir="ltr"] .nx-app[data-pilot="editorial"] .nxs-i[data-on="1"]:focus-visible { box-shadow: inset -3px 0 0 0 var(--select-line), 0 0 0 2px var(--background), 0 0 0 4px var(--focus); }
+/* The two S/4 standings name their source (council 11 P1). */
+.nx-app[data-pilot="editorial"] .nxd-s4-src, .nx-app[data-pilot="editorial"] .nw-s4-src { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); margin-inline-start: var(--sp-2); }

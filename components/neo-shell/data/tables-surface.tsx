@@ -174,6 +174,10 @@ function Row({ r, q, makeOrigin, landed }: { r: NeoTableRow; q: string; makeOrig
             {r.s4Alt && r.s4 ? " · " : null}
             {slashBreaks(r.s4) || (r.s4Alt ? "" : "תיעוד המקור אינו מציין הערת S/4HANA לטבלה זו")}
           </span>
+          {/* The standing's source, named: the catalogue reads the evidence layer,
+              the module table the blueprint prose, and a table may differ between
+              them (council 11 P1, 2026-10-02). */}
+          <i className="nxd-s4-src">לפי שכבת הראיות</i>
         </span>
 
       {/* The arrow is the "this leaves for another route" signal, so a row that

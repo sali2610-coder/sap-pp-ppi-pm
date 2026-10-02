@@ -133,7 +133,8 @@ html {
    VS-Code style, instead of overlaying it. Smooth, no layout jump. */
 @media (min-width: 1280px) {
   body[data-inspector="1"] #main { padding-inline-end: var(--inspector-w, 360px); }
-  #main { transition: padding-inline-end 0.22s var(--ease-out-expo, ease); }
+  /* no layout tween on the canvas (brief: transform and opacity only; motion QA 2026-10-02) */
+  #main { transition: none; }
 }
 
 body {
@@ -1005,7 +1006,7 @@ html[data-device="tablet"] [data-shell="desktop-only"],
 html[data-device="phone"]  [data-shell="desktop-only"] { display: none !important; }
 /* A desktop window narrowed to a phone width has no room for the rail toggle
    either (axe target-size at 390 without a phone UA, 2026-10-02). */
-@media (max-width: 30rem) { [data-shell="desktop-only"] { display: none !important; } }
+@media (max-width: 30rem) { html[data-device] [data-shell="desktop-only"], html[data-device] .nx-railedge { display: none !important; } }
 html[data-device="tablet"] [data-shell="mobile-only"],
 html[data-device="phone"]  [data-shell="mobile-only"] { display: block !important; }
 
