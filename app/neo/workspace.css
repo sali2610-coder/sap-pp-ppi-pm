@@ -823,7 +823,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   /* 148px of description at a 1000px canvas: a long one runs to as many lines
      as it needs rather than clipping (responsive QA C16: two rows still clipped
      at three lines) */
-  .nw-c-he span { -webkit-line-clamp: unset; display: block; }
+  .nw-tbl .nw-c-he span { -webkit-line-clamp: unset; display: block; overflow: visible; }
 }
 @container nw (min-width: 900px) and (max-width: 1399px) {
   .nw-row > td, .nw-tbl thead th { padding-inline: 6px; }
