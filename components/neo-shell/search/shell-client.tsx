@@ -267,7 +267,13 @@ export function NeoShellClient({
     railRef.current?.querySelector<HTMLElement>(".nx-collapse")?.focus();
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape" && !e.defaultPrevented) closeDrawer(); };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      // closed by a navigation or a wider window: focus must leave the parked
+      // rail, whose peek reveal opens on focus-within and slid it back over
+      // the new page; it returns to the toggle, as an Escape does
+      requestAnimationFrame(() => { if (railRef.current?.contains(document.activeElement)) navToggle.current?.focus(); });
+    };
   }, [drawer, closeDrawer]);
   const mainRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLSpanElement>(null);
