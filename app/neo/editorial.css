@@ -257,7 +257,10 @@ html .nx-app[data-pilot="editorial"] .nu-filter:is([aria-pressed="true"], [data-
   clip-path: inset(0 -100vmax);
   border-block-end: 4px solid var(--brand);   /* the editor's pencil */
 }
-.nx-app[data-pilot="editorial"] .nh-h1 { grid-area: title; max-inline-size: none; color: var(--ed-mast-ink); font-size: var(--t-display); line-height: 1.1; font-weight: 700; }
+/* The display size holds to about 390px and then follows the width: at 320 the
+   one-piece "SAP S/4HANA" was 268px in a 240px title, its S cut and the canvas
+   scrolling sideways (responsive QA round 6, C40). */
+.nx-app[data-pilot="editorial"] .nh-h1 { grid-area: title; max-inline-size: none; color: var(--ed-mast-ink); font-size: clamp(1.75rem, 11.25vw, var(--t-display)); line-height: 1.1; font-weight: 700; }
 .nx-app[data-pilot="editorial"] .nh-lede { grid-area: lede; color: var(--ed-mast-ink); opacity: .86; max-inline-size: 60ch; font-size: var(--t-lead); }
 .nx-app[data-pilot="editorial"] .nh-find { grid-area: find; margin: 0; align-self: center; }
 .nx-app[data-pilot="editorial"] .nh-find-l { color: var(--ed-mast-ink); font-size: var(--t-sm); }
@@ -897,6 +900,6 @@ html[data-erd-pending] .nx-app[data-pilot="editorial"] :is(.ne-bar, .ne-filters,
    nodes' .42 opacity, 2.17:1 (accessibility QA round 3, N2). */
 .nx-app[data-pilot="editorial"] .ne-node:has(.ne-node-go:focus-visible) { opacity: 1; }
 /* The page content waits for the Latin and mono faces of Plex before it shows
-   (app/neo/layout.tsx, FONT_GATE, at most 300ms), so no line re-wraps in front
-   of the reader when a face arrives. */
+   (app/neo/layout.tsx, FONT_GATE, at most 300ms, set on the pilot routes only),
+   so no line re-wraps in front of the reader when a face arrives. */
 html[data-neo-fonts] .nx-app[data-pilot="editorial"] .nx-canvas { visibility: hidden; }

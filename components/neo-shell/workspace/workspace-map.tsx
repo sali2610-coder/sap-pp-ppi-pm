@@ -86,7 +86,14 @@ export function WorkspaceMap({
         </Link>
       }
     >
-      <div className="nw-tabs" role="tablist" aria-label="תצוגת מפת המודול">
+      {/* Under 30rem the strip scrolls sideways, and a tab reached by Tab stayed
+          4px in view at 320 (accessibility QA round 6, N11): it scrolls in. */}
+      <div
+        className="nw-tabs"
+        role="tablist"
+        aria-label="תצוגת מפת המודול"
+        onFocus={(e) => e.target.scrollIntoView({ block: "nearest", inline: "nearest" })}
+      >
         {VIEWS.map((v) => (
           <button
             key={v.k}

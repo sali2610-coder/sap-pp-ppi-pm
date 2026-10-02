@@ -1365,7 +1365,9 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       // Compared without case: HR and BW carry mixed-case names
       // (EC_JobInformation, CompositeProvider) that an upper-cased hash missed
       // (gate 7, minor 19).
-      const want = decodeURIComponent((window.location.hash || "").slice(1)).toUpperCase();
+      // a malformed escape (#%E0%A4%A) threw once per load (motion QA round 6)
+      let want = "";
+      try { want = decodeURIComponent((window.location.hash || "").slice(1)).toUpperCase(); } catch { /* no table */ }
       const t = want ? data.tables.find((x) => x.n.toUpperCase() === want) : undefined;
       if (!t) return;
       // The table's main module, the one its rows and the inspector name, when
@@ -1516,6 +1518,15 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   useEffect(() => {
     openTableRef.current = openTable;
   }, [openTable]);
+
+  /** A focus the camera does not show is one the reader cannot see: Tab
+   *  reached 12 of 17 nodes off the stage (accessibility QA round 6, N12). A
+   *  node that takes the focus outside the stage comes to its centre at the
+   *  current zoom, as an inspector row brings it. Through a ref, as above. */
+  const centreRef = useRef(centre);
+  useEffect(() => {
+    centreRef.current = centre;
+  }, [centre]);
 
   const onEmpty = useCallback(() => {
     setFocus(false);
@@ -1677,6 +1688,15 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       openTableRef.current(name);
     };
 
+    const focusIn = (e: FocusEvent) => {
+      const el = e.target as Element | null;
+      const name = el?.closest?.("[data-node]")?.getAttribute("data-node");
+      if (!el || !name) return;
+      const r = el.getBoundingClientRect(), b = st.getBoundingClientRect();
+      if (r.left >= b.left && r.right <= b.right && r.top >= b.top && r.bottom <= b.bottom) return;
+      centreRef.current(name, view.current.k);
+    };
+
     st.addEventListener("pointerdown", remember, true);
     st.addEventListener("pointerdown", down);
     st.addEventListener("pointermove", move);
@@ -1684,6 +1704,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     st.addEventListener("pointercancel", cancel);
     st.addEventListener("dblclick", dbl);
     st.addEventListener("keydown", key);
+    st.addEventListener("focusin", focusIn);
     return () => {
       st.removeEventListener("pointerdown", remember, true);
       st.removeEventListener("pointerdown", down);
@@ -1692,6 +1713,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       st.removeEventListener("pointercancel", cancel);
       st.removeEventListener("dblclick", dbl);
       st.removeEventListener("keydown", key);
+      st.removeEventListener("focusin", focusIn);
     };
   }, [clamp, paint, zoomAt]);
 

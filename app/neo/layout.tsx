@@ -3,6 +3,7 @@ import { NeoShell } from "@/components/neo-shell/neo-shell";
 import { shellData } from "@/components/neo-shell/nav-data";
 import { NeoDock } from "@/components/neo-shell/dock/neo-dock";
 import { MotionProvider } from "@/components/neo-shell/motion/motion-provider";
+import { PILOT_ROUTES } from "@/components/neo-shell/pilot";
 // Imported here rather than by the dock component, so the two controls are
 // styled on the very first paint of every NEO route instead of when the client
 // bundle for the dock arrives.
@@ -38,11 +39,12 @@ export const metadata: Metadata = {
 // the fallback, and the page below moves when the face arrives (the home's lede
 // at 320 to 670, the reader's crumb row at 1024, the catalogue's filter row at
 // 834 and 1024; motion QA rounds 3 to 5). On the pilot routes the page content
-// waits for those faces, at most 300ms, while the shell is painted; a visit that
-// already has them does not wait. It runs here, before the shell, so after the
-// stylesheets that declare the faces and before any page content is parsed;
-// editorial.css scopes the hold to the pilot.
-const FONT_GATE = `(function(){try{var f=document.fonts;if(!f)return;var q=["400 1em plexLat","500 1em plexLat","600 1em plexLat","400 1em plexMono","500 1em plexMono","600 1em plexMono","400 1em frankLat"];if(q.every(function(x){return f.check(x,"PM")}))return;var d=document.documentElement;d.setAttribute("data-neo-fonts","");var done=function(){d.removeAttribute("data-neo-fonts")};var t=setTimeout(done,300);Promise.all(q.map(function(x){return f.load(x,"PM")})).then(function(){clearTimeout(t);requestAnimationFrame(done)},done)}catch(e){}})();`;
+// waits for those faces, at most 300ms, while the shell is painted; from the
+// browser's cache they load in 23 to 96ms (motion QA round 6). It runs here,
+// before the shell, so after the stylesheets that declare the faces and before
+// any page content is parsed. Only on the pilot: elsewhere it fetched the Latin
+// display face a page did not use (44KB) and held nothing (R6-3).
+const FONT_GATE = `(function(){try{var f=document.fonts;if(!f||!${PILOT_ROUTES}.test(location.pathname))return;var q=["400 1em plexLat","500 1em plexLat","600 1em plexLat","400 1em plexMono","500 1em plexMono","600 1em plexMono","400 1em frankLat"];if(q.every(function(x){return f.check(x,"PM")}))return;var d=document.documentElement;d.setAttribute("data-neo-fonts","");var done=function(){d.removeAttribute("data-neo-fonts")};var t=setTimeout(done,300);Promise.all(q.map(function(x){return f.load(x,"PM")})).then(function(){clearTimeout(t);requestAnimationFrame(done)},done)}catch(e){}})();`;
 
 // Server component: shellData() reads the SAP datasets at BUILD time and hands
 // the client rail a small plain object. Importing lib/module-portal from a

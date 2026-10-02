@@ -1172,6 +1172,10 @@ html .nx-app .nx-canvas:has(> .nw) {
    THE VERBATIM SHEET — the blueprint's own aux worksheets, kept as records.
    ========================================================================== */
 .nw-sheet { display: grid; gap: var(--sp-4); justify-items: start; }
+/* "הצגת כל 46 השורות של «…»" is 385 to 413px on one line: under 30rem it ran
+   past its border and the canvas clipped both ends (responsive QA round 6,
+   C39). It may take a second line. */
+.nw-sheet > .nu-btn2 { white-space: normal; max-inline-size: 100%; text-align: start; text-wrap: balance; }
 .nw-sheet-l { display: grid; gap: var(--sp-3); inline-size: 100%; }
 .nw-sheet-r {
   display: grid;

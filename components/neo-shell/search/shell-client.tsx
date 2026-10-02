@@ -67,13 +67,12 @@ import { MobileSheet, MobileTabs } from "../mobile-nav";
 import { pushRecentObject, relTime, setLayout, useLayout, useRecent } from "../store";
 import { DockButtons } from "../dock/dock-buttons";
 import type { NavItem, RailMode, ShelfTab, ShellData } from "../types";
+import { PILOT_ROUTES } from "../pilot";
 import { BROWSE_CAP, KINDS, buildIndex, runQuery, suggest } from "./build";
 import { CommandSurface, type EmptyAction } from "./command-surface";
 import { CmdKey } from "../cmd-key";
 import type { CmdItem, CmdKind, CmdRecord, CommandExtra, CommandTx } from "./types";
 import { EditorialFootnote } from "../editorial-footnote";
-/** The five pilot routes of the Editorial Technology direction (DESIGN-SPEC-EDITORIAL.md). */
-const PILOT_ROUTES = /^\/neo\/(pm\/|tables\/|erd\/|read\/book9\/)?$/;
 
 /* The transaction rows (1,847) come from /neo/search-tx.json, once per visit:
    inline they added ~24 KB gzip to every page (gate 6, major 9). A failed load
@@ -227,7 +226,7 @@ export function NeoShellClient({
       : layout.mode ?? (narrow ? "peek" : "expanded");
   const railClosed = mode === "hidden" || mode === "peek";
   const open = layout.open;
-  const setMode = useCallback((m: RailMode) => setLayout({ mode: m }), []);
+  const setMode = useCallback((m: RailMode | null) => setLayout({ mode: m }), []);
   /** The surface is a full-screen dialog rather than a panel beside the rail. */
   const sheet = device !== "desktop" || narrow;
 
@@ -264,16 +263,29 @@ export function NeoShellClient({
   useEffect(() => {
     if (!drawer) return;
     // focus moves into the drawer, and Escape closes it
-    railRef.current?.querySelector<HTMLElement>(".nx-collapse")?.focus();
+    const focusIn = () => railRef.current?.querySelector<HTMLElement>(".nx-collapse")?.focus();
+    focusIn();
+    // Under reduced motion every transition is 0.01ms rather than none
+    // (globals.css), so the button inherits the rail's visibility through a
+    // transition that has not run yet and cannot take focus at this point; it
+    // can two frames later (accessibility QA round 6, N8).
+    let f2 = 0;
+    const f1 = requestAnimationFrame(() => { f2 = requestAnimationFrame(() => { if (!railRef.current?.contains(document.activeElement)) focusIn(); }); });
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape" && !e.defaultPrevented) closeDrawer(); };
     window.addEventListener("keydown", onKey);
     return () => {
+      cancelAnimationFrame(f1); cancelAnimationFrame(f2);
       window.removeEventListener("keydown", onKey);
       // closed by a navigation: focus must leave the parked rail, whose peek
       // reveal opens on focus-within and slid it back over the new page; it
       // returns to the toggle, as an Escape does (a wider window keeps the
-      // rail as a column, and the focus where it is)
-      requestAnimationFrame(() => { if (isNarrow() && railRef.current?.contains(document.activeElement)) navToggle.current?.focus(); });
+      // rail as a column, and the focus where it is). The drawer is closed
+      // for good: Back to the page it opened on, or a window narrowed again,
+      // reopened it (N7).
+      requestAnimationFrame(() => {
+        setDrawerAt(null);
+        if (isNarrow() && railRef.current?.contains(document.activeElement)) navToggle.current?.focus();
+      });
     };
   }, [drawer, closeDrawer]);
   const mainRef = useRef<HTMLDivElement>(null);
@@ -295,7 +307,7 @@ export function NeoShellClient({
   const prevY = useRef<number | undefined>(undefined);
   /** The layout the user was in before ⌘K. Escaping search restores it instead
    *  of silently dropping a compact rail back to expanded. */
-  const beforeSearch = useRef<RailMode>("expanded");
+  const beforeSearch = useRef<RailMode | null>("expanded");
   /** The control that had focus when the surface opened, and how it closed:
    *  dismissed (Escape, the close button, a click outside, the shortcut) or by
    *  leaving for a result. Focus goes back to it only on a dismissal. */
@@ -509,17 +521,20 @@ export function NeoShellClient({
   }, []);
 
   /* ------------------------------------------------------- the FLIP */
-  const changeMode = useCallback((next: RailMode) => {
+  const changeMode = useCallback((next: RailMode | null) => {
     const cur = mode;
     if (cur === next) return;
     if (next === "search") {
-      beforeSearch.current = cur;
+      // Under 40rem the rail on screen is derived (the drawer, peek or hidden);
+      // the search returns to the stored mode, so a search opened from the
+      // drawer no longer wrote "expanded" over it (accessibility QA round 6).
+      beforeSearch.current = narrowDesk ? layout.mode : cur;
       const a = document.activeElement as HTMLElement | null;
       opener.current = a && a !== document.body ? a : null;
       closedBy.current = "dismiss";
     }
-    const widthChange =
-      (cur === "compact") !== (next === "compact") || (cur === "context") !== (next === "context");
+    const widthChange = !narrowDesk &&
+      ((cur === "compact") !== (next === "compact") || (cur === "context") !== (next === "context"));
 
     const commit = () => {
       setMode(next);
@@ -561,7 +576,7 @@ export function NeoShellClient({
     if (edge && edgeBefore) play(edge, edgeBefore.left - edge.getBoundingClientRect().left, "X", 0, RAIL_MS);
 
     raf2(syncInd);
-  }, [mode, setMode, syncInd, hidePreview]);
+  }, [mode, setMode, syncInd, hidePreview, narrowDesk, layout.mode]);
 
   const closeSearch = useCallback(() => {
     changeMode(beforeSearch.current === "search" ? "expanded" : beforeSearch.current);
@@ -586,6 +601,14 @@ export function NeoShellClient({
     const first = requestAnimationFrame(() => { second = requestAnimationFrame(() => { el.inert = true; }); });
     return () => { cancelAnimationFrame(first); cancelAnimationFrame(second); el.inert = false; };
   }, [searching]);
+  /* The page is inert while the narrow drawer is open. Set here, after the
+     search's effect, rather than as a prop: the search writes the element's
+     inert itself, and its cleanup dropped the drawer's, so Tab walked out of a
+     drawer still open after a search (accessibility QA round 6, N6). */
+  useLayoutEffect(() => {
+    const el = mainRef.current;
+    if (el && !searching) el.inert = drawer;
+  }, [drawer, searching]);
 
   /* The transactions load when the browser is idle after the page, or at once
      when the search opens first; the index rebuilds when they arrive. A failed
@@ -1247,7 +1270,7 @@ export function NeoShellClient({
 
       {/* -------------------------------------------------------- the main */}
       {/* the page is out of reach while the narrow drawer is open */}
-      <div className="nx-main" ref={mainRef} inert={drawer || undefined}>
+      <div className="nx-main" ref={mainRef}>
         <header className="nx-topbar" data-shell="desktop-only">
           <button
             type="button"
