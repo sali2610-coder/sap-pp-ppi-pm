@@ -2,35 +2,35 @@
    Neutral reading planes, module colour on identity and selection, and
    independent container breakpoints for each data card. */
 .nx-app {
-  --background: #f5f7f7;
-  --background-2: #edf1f0;
+  --background: #f7f5f2;
+  --background-2: #f0ece6;
   --surface: #ffffff;
-  --surface-2: #edf1f0;
-  --hairline: #cdd8d8;
-  --ink-1: #172326;
-  --ink-2: #3d4f54;
-  --ink-3: #5b6d72;
-  --foreground: #172326;
+  --surface-2: #f0ece6;
+  --hairline: #d6cfc5;
+  --ink-1: #24211f;
+  --ink-2: #514a43;
+  --ink-3: #70665c;
+  --foreground: #24211f;
   --card: #ffffff;
-  --card-foreground: #172326;
-  --muted: #edf1f0;
-  --muted-foreground: #5b6d72;
-  --border: #cdd8d8;
-  --input: #cdd8d8;
+  --card-foreground: #24211f;
+  --muted: #f0ece6;
+  --muted-foreground: #70665c;
+  --border: #d6cfc5;
+  --input: #d6cfc5;
   --c-hair: var(--hairline);
   --t-body: .9375rem;
   --t-sm: .875rem;
-  --g-ground: #f5f7f7;
+  --g-ground: #f7f5f2;
   --g-raised: #ffffff;
-  --g-ink-1: #172326;
-  --g-ink-2: #3d4f54;
-  --g-ink-3: #5b6d72;
-  --g-hair: #cdd8d8;
-  --elev-1: 0 1px 2px rgba(23, 35, 38, .06);
-  --elev-2: 0 2px 4px rgba(23, 35, 38, .04), 0 8px 24px -14px rgba(23, 35, 38, .18);
-  --elev-3: 0 4px 8px rgba(23, 35, 38, .04), 0 16px 32px -16px rgba(23, 35, 38, .2);
+  --g-ink-1: #24211f;
+  --g-ink-2: #514a43;
+  --g-ink-3: #70665c;
+  --g-hair: #d6cfc5;
+  --elev-1: 0 1px 2px rgba(48, 39, 30, .06);
+  --elev-2: 0 2px 4px rgba(48, 39, 30, .04), 0 8px 24px -14px rgba(48, 39, 30, .18);
+  --elev-3: 0 4px 8px rgba(48, 39, 30, .04), 0 16px 32px -16px rgba(48, 39, 30, .2);
   --glass-bg: rgba(255, 255, 255, .9);
-  --glass-border: rgba(205, 216, 216, .8);
+  --glass-border: rgba(214, 207, 197, .8);
 }
 html[data-theme="dark"] .nx-app {
   --background: #101719;
@@ -61,12 +61,12 @@ html[data-theme="dark"] .nx-app {
   --glass-border: rgba(67, 88, 94, .85);
 }
 .nx-app [data-scene="deep"] {
-  --scene-ground: #eef4f2;
+  --scene-ground: #f3eee5;
   --scene-raised: #ffffff;
-  --scene-ink: #172326;
-  --scene-ink-2: #3d4f54;
-  --scene-ink-3: #52676d;
-  --scene-hair: #cddbd8;
+  --scene-ink: #24211f;
+  --scene-ink-2: #514a43;
+  --scene-ink-3: #70665c;
+  --scene-hair: #d6cfc5;
 }
 html[data-theme="dark"] .nx-app [data-scene="deep"] {
   --scene-ground: #101719;
@@ -221,4 +221,56 @@ html[data-theme="dark"] .nx-app [data-scene="books"] {
 
 @media (prefers-reduced-motion: reduce) {
   .nx-app .nxd .nxd-row { transition: none; }
+}
+
+/* Hierarchy and the original brand mark, from the existing offline SVG. */
+.nx-app .nxd .nx-h1 { font-size: clamp(1.75rem, 3.2cqi, 2.5rem); line-height: 1.2; text-wrap: balance; }
+.nx-app .nx-glyph { padding: 0; background: none; align-items: center; }
+.nx-app .nh-brand svg { inline-size: clamp(3.25rem, 5.5cqi, 4.875rem); block-size: auto; }
+.nx-app .nh-brand { color: var(--scene-ink); }
+.nx-app .nh-brand .text-ink-1 { color: var(--scene-ink); }
+.nx-app .nh-brand .text-ink-3 { color: var(--scene-ink-2); }
+
+/* S/4 differences are readable as labelled before/after blocks. Status and
+   verification remain the data's own; this changes emphasis, not assertions. */
+.nx-app .ns4 .ns4-h1 { line-height: 1.2; font-size: clamp(1.875rem, 3.4vw, 2.75rem); }
+.nx-app .ns4 .ns4-h2 { font-size: clamp(1.25rem, 2vw, 1.625rem); line-height: 1.4; }
+.nx-app .ns4 :is(.ns4-h3, .ns4-obj-n) { font-size: 1.0625rem; line-height: 1.5; }
+.nx-app .ns4 :is(.ns4-eye, .ns4-sec-k, .ns4-h4, .ns4-stat em, .ns4-ba dt) { font-size: .8125rem; letter-spacing: 0; }
+.nx-app .ns4 :is(.ns4-sec-s, .ns4-obj-he, .ns4-ba dd, .ns4-why) { font-size: .9375rem; line-height: 1.75; }
+.nx-app .ns4 .ns4-obj { background: var(--surface); box-shadow: var(--elev-2); padding: 1.25rem; }
+.nx-app .ns4 .ns4-ba { gap: .6rem; margin-block: .875rem; }
+.nx-app .ns4 .ns4-ba > div { grid-template-columns: minmax(5rem, auto) minmax(0, 1fr); padding: .65rem .75rem; border-radius: .5rem; background: var(--background); }
+.nx-app .ns4 .ns4-ba > div:last-child { border-inline-start: 3px solid var(--mod-s4); background: color-mix(in srgb, var(--mod-s4) 8%, var(--surface)); }
+.nx-app .ns4 .ns4-ba > div:last-child :is(dt, dd) { color: var(--ink-1); font-weight: 650; }
+.nx-app .ns4 .ns4-why { border: 1px solid var(--hairline); }
+.nx-app .no .no-s4flag { border-inline-start-width: 4px; }
+
+/* The expanded book keeps the full contents usable beside its cover. */
+.nx-app .nb-sheet-t { line-height: 1.3; }
+.nx-app :is(.nb-sheet-t2, .nb-sheet-k, .nb-facts dt) { font-size: .875rem; line-height: 1.65; }
+.nx-app .nb-ch-row { min-block-size: 3rem; }
+@media (min-width: 1200px) {
+  .nx-app .nb-sheet { inline-size: min(84rem, 100%); max-block-size: 94dvh; grid-template-columns: minmax(0, 17rem) minmax(0, 1fr); }
+}
+@media (max-width: 480px) {
+  .nx-app .ns4 .ns4-ba > div { grid-template-columns: minmax(0, 1fr); gap: .25rem; }
+}
+
+/* Expanded view leaves the user's saved navigation mode untouched. The exit
+   control remains inside the fullscreen element, including on mobile. */
+.nx-app .nx-wide-credit { display: none; }
+.nx-app[data-expanded-view="1"][data-expanded-view] { --nx-rail-col: 0px; }
+.nx-app[data-expanded-view="1"][data-expanded-view] .nx-main { grid-column: 1 / -1; grid-template-rows: minmax(0, 1fr) auto; }
+.nx-app[data-expanded-view="1"] > .nx-rail[data-shell],
+.nx-app[data-expanded-view="1"] > .nx-railedge,
+.nx-app[data-expanded-view="1"] .nx-main > :is(.nx-topbar, .nx-mtop, .nx-mtabs, .nx-mcredit)[data-shell] { display: none !important; }
+.nx-app[data-expanded-view="1"] .nx-wide-credit { display: block; margin: 0; padding: .15rem 1rem; font-size: .75rem; line-height: 1.5; color: var(--ink-2); background: var(--surface); text-align: start; }
+.nx-app[data-expanded-view="1"] .nxk { inset-block-end: max(2.25rem, env(safe-area-inset-bottom)); }
+.nx-app .nxk { flex-wrap: wrap; justify-content: flex-end; max-inline-size: calc(100vw - 1.5rem); }
+.nx-app .nx-screen-button[aria-pressed="true"] { border-color: var(--brand); color: var(--ink-1); background: var(--surface); }
+@media (max-width: 480px) {
+  .nx-app .nxk-b { padding-inline: .6rem; }
+  .nx-app .nx-screen-button[aria-pressed="true"] span { max-inline-size: 6rem; }
+  .nx-app { --nxk-h: 5rem; }
 }

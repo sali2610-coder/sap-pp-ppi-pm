@@ -38,6 +38,7 @@ import {
   useSyncExternalStore,
 } from "react";
 import { mark } from "@/components/defer-mount";
+import { SiteLogo } from "@/components/site-logo";
 import { consumeReturn, rememberOrigin, useReturnPacket } from "@/components/neo-shell/nav-context";
 import { Ico } from "../icon";
 import {
@@ -701,7 +702,7 @@ export function NeoShellClient({
 
         <div className="nx-rail-head" ref={headRef}>
           <Link prefetch={false} href="/neo/" className="nx-glyph" aria-label="Project NEO: מעבר למסך הבית">
-            <i /><i /><i />
+            <SiteLogo tone="dark" size="sm" wordmark="never" />
           </Link>
           <span className="nx-lock">
             <b>SAP by Sali</b>
@@ -964,12 +965,13 @@ export function NeoShellClient({
 
         <header className="nx-mtop" data-shell="mobile-only">
           <div className="nx-mtop-in">
-            <span className="nx-glyph" aria-hidden="true"><i /><i /><i /></span>
+            <span className="nx-glyph" aria-hidden="true"><SiteLogo tone="dark" size="sm" wordmark="never" /></span>
             <b>{active?.label || "Project NEO"}</b>
           </div>
         </header>
 
         <main id="main" className="nx-canvas">{children}</main>
+        <p className="nx-wide-credit">SAP by Sali · סאלי חליף · Web Coding</p>
 
         {/* The mandatory footer credit, on the MOBILE shell. On desktop it
             lives in the rail foot; on a phone the rail never renders, and 12

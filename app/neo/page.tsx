@@ -142,7 +142,7 @@ export default function NeoHome() {
 
         <div className="nh-in nh-gate-in nh-gate-layout">
          <div className="nh-gate-copy">
-          <SiteLogo tone="dark" size="lg" className="nh-brand nm-rise nm-once" />
+          <SiteLogo tone="dark" size="hero" className="nh-brand nm-rise nm-once" />
 
           <p className="nh-eye nh-eye--gate">
             SAP Enterprise Knowledge Platform

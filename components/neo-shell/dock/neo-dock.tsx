@@ -25,6 +25,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Type, Sparkles, X, BookOpen, MessageSquare, Check } from "lucide-react";
 import { ThemeSwitch } from "./theme-switch";
+import { ScreenControl } from "./screen-control";
 import { setMotionPreference, useMotionPreference } from "../motion/preferences";
 import {
   contextFromPath, contextLine, NEO_CTX_EVENT,
@@ -104,6 +105,7 @@ export function NeoDock() {
   return (
     <>
       <div className="nxk" data-open={open ? "1" : "0"}>
+        <ScreenControl />
         {/* ONE display menu (design audit §3, 2026-09-22): appearance, font
             and size live in the same panel. The bar still answers "which mode am
             I in" from across the room: the button carries the resolved theme. */}
