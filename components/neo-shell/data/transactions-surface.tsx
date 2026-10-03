@@ -49,6 +49,7 @@ import { toggleTxFavorite, useRecentTx, useTxFavorites } from "@/lib/tx-prefs";
 import { SmartReturn, consumeReturn, rememberOrigin, useReturnPacket } from "@/components/neo-shell/nav-context";
 import { MOD_HE, modVar } from "../mod-var";
 import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
+import { ViewTabs } from "./view-tabs";
 
 const nf = new Intl.NumberFormat("he-IL");
 const PAGE = 120;
@@ -407,27 +408,20 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
           ) : null}
         </div>
 
-        <div className="nxd-tabs" role="tablist" aria-label="תצוגה">
-          {VIEWS.map((x) => (
-            <button
-              key={x.v}
-              type="button"
-              role="tab"
-              className="nu-tab"
-              aria-selected={view === x.v}
-              onClick={() => onView(x.v)}
-            >
-              {x.v === "popular" ? <Flame size={13} strokeWidth={1.75} />
-                : x.v === "deep" ? <Layers size={13} strokeWidth={1.75} />
-                : x.v === "fav" ? <Star size={13} strokeWidth={1.75} />
-                : x.v === "recent" ? <Clock size={13} strokeWidth={1.75} />
-                : <Terminal size={13} strokeWidth={1.75} />}
-              {x.he}
-              {x.v === "fav" && favs.length ? <b>{nf.format(favs.length)}</b> : null}
-              {x.v === "recent" && recent.length ? <b>{nf.format(recent.length)}</b> : null}
-            </button>
-          ))}
-        </div>
+        <ViewTabs
+          id="neo-tx-view"
+          value={view}
+          onChange={onView}
+          options={VIEWS.map((x) => ({
+            value: x.v, label: x.he,
+            icon: x.v === "popular" ? <Flame size={15} aria-hidden="true" />
+              : x.v === "deep" ? <Layers size={15} aria-hidden="true" />
+              : x.v === "fav" ? <Star size={15} aria-hidden="true" />
+              : x.v === "recent" ? <Clock size={15} aria-hidden="true" />
+              : <Terminal size={15} aria-hidden="true" />,
+            count: x.v === "fav" ? favs.length : x.v === "recent" ? recent.length : undefined,
+          }))}
+        />
 
         <label className="nxd-sort">
           <span>מיון</span>
@@ -532,6 +526,7 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
         {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
       </p>
 
+      <div className="nxd-results" id="neo-tx-view-panel" role="tabpanel" aria-labelledby={`neo-tx-view-${view}`}>
       {list.length === 0 ? (
         <div className="nx-card nxd-none nm-rise nm-once">
           <p><b>{emptyCopy[view].t}</b></p>
@@ -557,6 +552,7 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
         </>
       )}
 
+      </div>
       <p className="nxd-foot nm-fade nm-once">
         הקטלוג מאחד ארבעה מקורות מאומתים לרשימה אחת, ללא כפילויות. קוד ללא כותרת אנגלית במקור
         {" "}מוצג בלעדיה.

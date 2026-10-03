@@ -36,6 +36,7 @@ import {
 } from "@/components/neo-shell/nav-context";
 import { MOD_HE, modVar } from "../mod-var";
 import type { NeoTableRow, NeoTablesData } from "./types";
+import { ViewTabs } from "./view-tabs";
 
 const nf = new Intl.NumberFormat("he-IL");
 
@@ -403,21 +404,15 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
           ) : null}
         </div>
 
-        <div className="nxd-tabs" role="tablist" aria-label="תצוגה">
-          {VIEWS.map((x) => (
-            <button
-              key={x.v}
-              type="button"
-              role="tab"
-              className="nu-tab"
-              aria-selected={view === x.v}
-              onClick={() => setView(x.v)}
-            >
-              {x.v === "list" ? <ListTree size={13} strokeWidth={1.75} /> : x.v === "topic" ? <LayoutGrid size={13} strokeWidth={1.75} /> : <Boxes size={13} strokeWidth={1.75} />}
-              {x.he}
-            </button>
-          ))}
-        </div>
+        <ViewTabs
+          id="neo-table-view"
+          value={view}
+          onChange={setView}
+          options={VIEWS.map((x) => ({
+            value: x.v, label: x.he,
+            icon: x.v === "list" ? <ListTree size={15} aria-hidden="true" /> : x.v === "topic" ? <LayoutGrid size={15} aria-hidden="true" /> : <Boxes size={15} aria-hidden="true" />,
+          }))}
+        />
 
         <label className="nxd-sort">
           <span>מיון</span>
@@ -511,6 +506,7 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
         {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
       </p>
 
+      <div className="nxd-results" id="neo-table-view-panel" role="tabpanel" aria-labelledby={`neo-table-view-${view}`}>
       {rows.length === 0 ? (
         <div className="nx-card nxd-none nm-rise nm-once">
           <p><b>לא נמצאו טבלאות מתאימות. נסה חיפוש אחר או נקה מסננים.</b></p>
@@ -543,6 +539,7 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
         </ul>
       )}
 
+      </div>
       <p className="nxd-foot nm-fade nm-once">
         המקור: שני קובצי תיעוד המקור של הפרויקט, PM ו-PP-PI. שדה שאינו מתועד מוצג כ&quot;לא צוין&quot;.
       </p>
