@@ -142,10 +142,14 @@ function LaneNode({
         strokeWidth={center ? 2.4 : on ? 2 : 1.2}
       />
       <rect width={3} height={NH} rx={1.5} fill={col} />
-      <text x={NW / 2 + 3} y={15} textAnchor="middle"
+      {/* Direction is stated, never left to the engine: an SAP code is ltr, the
+          Hebrew label rtl. No letter-spacing on Hebrew in SVG: WebKit (Safari)
+          drew "האובייקט הנוכחי" letter by letter in reverse with it (owner's
+          report, DESIGN-BLOCKER-RTL-MAPS). */}
+      <text x={NW / 2 + 3} y={15} textAnchor="middle" direction="ltr"
         style={{ font: `${center ? 800 : 700} 14px ui-monospace, monospace`, fill: "var(--ink-1)" }}>{label}</text>
-      <text x={NW / 2 + 3} y={29} textAnchor="middle"
-        style={{ font: "700 12px sans-serif", fill: col, letterSpacing: ".05em" }}>
+      <text x={NW / 2 + 3} y={29} textAnchor="middle" direction={center ? "rtl" : "ltr"}
+        style={{ font: "700 12px sans-serif", fill: col, letterSpacing: 0 }}>
         {center ? "האובייקט הנוכחי" : module}
       </text>
     </g>
@@ -181,7 +185,7 @@ function LaneEdge({
         fill={on && card ? col : "var(--surface)"}
         stroke={col} strokeOpacity={card ? (on ? 1 : 0.4) : 0.55} strokeWidth={1}
         strokeDasharray={card ? undefined : "3 3"} />
-      <text x={mx} y={my + 4} textAnchor="middle"
+      <text x={mx} y={my + 4} textAnchor="middle" direction="ltr"
         style={{
           font: "700 12px ui-monospace, monospace",
           fill: card ? (on ? "var(--surface)" : "var(--ink-2)") : "var(--ink-3)",
@@ -290,9 +294,9 @@ export function ObjectLanes({ name }: { name: string }) {
           style={{ minWidth: 760 }}
           onMouseLeave={() => setHot(null)}
         >
-          {hasUp ? <text x={colX.up} y={20} textAnchor="middle" className="nol-lane">מעלה הזרם</text> : null}
-          <text x={cx} y={20} textAnchor="middle" className="nol-lane">האובייקט</text>
-          {hasDown ? <text x={colX.down} y={20} textAnchor="middle" className="nol-lane">מורד הזרם</text> : null}
+          {hasUp ? <text x={colX.up} y={20} textAnchor="middle" direction="rtl" className="nol-lane">מעלה הזרם</text> : null}
+          <text x={cx} y={20} textAnchor="middle" direction="rtl" className="nol-lane">האובייקט</text>
+          {hasDown ? <text x={colX.down} y={20} textAnchor="middle" direction="rtl" className="nol-lane">מורד הזרם</text> : null}
 
           {up.map((n, i) => {
             const y = yFor(i, up.length);

@@ -1390,6 +1390,13 @@ html[data-device="phone"] .nx-app .nx-main { grid-column: 1 / -1; grid-template-
 @media (min-width: 1440px) { .nx-canvas { padding: var(--sp-8); } }
 html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
 
+/* Text in a diagram is never tracked. WebKit (Safari) drew a letter-spaced
+   Hebrew <text> letter by letter in reverse ("האובייקט הנוכחי" on every object
+   map; DESIGN-BLOCKER-RTL-MAPS), and tracking is inherited, so a heading's
+   tracking would reach an SVG drawn inside it. Direction is stated on the
+   <text> itself: SAP codes ltr, Hebrew rtl. */
+.nx-app svg :is(text, tspan) { letter-spacing: 0 !important; }
+
 /* ---------------------------------------------------------------- 2. RAIL
    The surface is a separate element so a width change can be absorbed by a
    scaleX FLIP without distorting its children, and the hairline edge is its own

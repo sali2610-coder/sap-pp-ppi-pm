@@ -110,9 +110,12 @@ export function LineageExplorer({ initial = "EQUI" }: { initial?: string }) {
           {/* lineage flow */}
           <div className="overflow-x-auto rounded-2xl border border-hairline bg-[radial-gradient(circle_at_1px_1px,#e2e8f0_1px,transparent_0)] [background-size:20px_20px] p-2">
             <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ minWidth: 620, maxHeight: 460 }}>
-              <text x={colX.src} y={22} textAnchor="middle" style={{ font: "800 10px sans-serif", fill: "#94a3b8", letterSpacing: "1.5px" }}>מקור · SOURCE</text>
-              <text x={cx} y={22} textAnchor="middle" style={{ font: "800 10px sans-serif", fill: "#94a3b8", letterSpacing: "1.5px" }}>אובייקט · OBJECT</text>
-              <text x={colX.con} y={22} textAnchor="middle" style={{ font: "800 10px sans-serif", fill: "#94a3b8", letterSpacing: "1.5px" }}>צרכן · CONSUMER</text>
+              {/* Hebrew and Latin in one line: the base direction is stated (rtl)
+                  and nothing is letter-spaced. With 1.5px of tracking WebKit
+                  (Safari) drew the Hebrew in reverse (DESIGN-BLOCKER-RTL-MAPS). */}
+              <text x={colX.src} y={22} textAnchor="middle" direction="rtl" style={{ font: "800 10px sans-serif", fill: "#94a3b8", letterSpacing: 0 }}>מקור · SOURCE</text>
+              <text x={cx} y={22} textAnchor="middle" direction="rtl" style={{ font: "800 10px sans-serif", fill: "#94a3b8", letterSpacing: 0 }}>אובייקט · OBJECT</text>
+              <text x={colX.con} y={22} textAnchor="middle" direction="rtl" style={{ font: "800 10px sans-serif", fill: "#94a3b8", letterSpacing: 0 }}>צרכן · CONSUMER</text>
               {/* source → object edges */}
               {sources.map((n, i) => { const y = yFor(i, sources.length); const x1 = colX.src + NW / 2, x2 = cx - NW / 2, mx = (x1 + x2) / 2; const on = !active || active === n; const col = mc(tableByName(n)?.module); return (
                 <g key={"s" + n} style={{ opacity: on ? 1 : 0.18, transition: "opacity .25s" }}>

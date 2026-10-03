@@ -2889,7 +2889,12 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                           </text>
                           {!isOpen ? (
                             <>
-                              <text className="ne-node-k nx-sap" x={W / 2 - 20} y={H / 2 - 12} textAnchor="end">
+                              {/* "PK AUFNR" is an identifier (ltr); "6 שדות" is a sentence,
+                                  and in the ltr island it read noun first. Its right
+                                  edge stays where the identifier's is: rtl "start". */}
+                              <text className="ne-node-k nx-sap" x={W / 2 - 20} y={H / 2 - 12}
+                                textAnchor={t.pk.length ? "end" : "start"}
+                                style={t.pk.length ? undefined : { direction: "rtl" }}>
                                 {t.pk.length
                                   ? `PK ${t.pk[0]}${t.pk.length > 1 ? ` +${t.pk.length - 1}` : ""}`
                                   : `${t.fn} שדות`}

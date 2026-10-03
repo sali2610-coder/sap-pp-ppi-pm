@@ -392,12 +392,12 @@ export function ObjectOrbit({ name, he, obj, mods, neighbours, total, rank }: Or
           {/* Band captions. The direction of the chain, said in words, so the
               reader never has to infer it from which half a card landed in. */}
           {scene.up ? (
-            <text x={CX} y={18} textAnchor="middle" style={cap}>
+            <text x={CX} y={18} textAnchor="middle" direction="rtl" style={cap}>
               מעלה הזרם · {scene.up} טבלאות שמחזיקות את המפתח הראשי
             </text>
           ) : null}
           {scene.down ? (
-            <text x={CX} y={VH - 10} textAnchor="middle" style={cap}>
+            <text x={CX} y={VH - 10} textAnchor="middle" direction="rtl" style={cap}>
               מורד הזרם · {scene.down} טבלאות שמחזיקות מפתח זר אל האובייקט
             </text>
           ) : null}
