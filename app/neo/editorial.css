@@ -239,6 +239,11 @@ html .nx-app[data-pilot="editorial"] .nu-filter:is([aria-pressed="true"], [data-
 /* ==========================================================================
    HOME · /neo/ — the masthead, the doors as a journal grid, the map as a rule
    ========================================================================== */
+/* The masthead answers to the page's width, not the window's: with the rail
+   open, a 833 to 1000px window put it in two columns on a 553 to 690px
+   canvas, the title and the lede in a 137 to 328px column (responsive QA
+   round 7, C42). */
+.nx-app[data-pilot="editorial"] .nh { container: nh / inline-size; }
 .nx-app[data-pilot="editorial"] .nh-gate {
   position: relative;
   max-inline-size: none;
@@ -260,8 +265,10 @@ html .nx-app[data-pilot="editorial"] .nu-filter:is([aria-pressed="true"], [data-
 /* The display size holds to about 390px and then follows the title's width:
    at 320 the one-piece line "ל-SAP S/4HANA" (7.4 times the size) ran out of a
    240px title, its S cut and the canvas scrolling sideways (responsive QA
-   round 6, C40). The title is the canvas less 5rem of padding. */
-.nx-app[data-pilot="editorial"] .nh-h1 { grid-area: title; max-inline-size: none; color: var(--ed-mast-ink); font-size: clamp(1.5rem, calc((100vw - 5rem) / 7.5), var(--t-display)); line-height: 1.1; font-weight: 700; }
+   round 6, C40). In one column the title is the page less the masthead's
+   3rem of padding; measured on the page, not the window, a desktop
+   scrollbar is not counted in (round 7, C40b). */
+.nx-app[data-pilot="editorial"] .nh-h1 { grid-area: title; max-inline-size: none; color: var(--ed-mast-ink); font-size: clamp(1.5rem, calc((100cqi - 3rem) / 7.5), var(--t-display)); line-height: 1.1; font-weight: 700; }
 .nx-app[data-pilot="editorial"] .nh-lede { grid-area: lede; color: var(--ed-mast-ink); opacity: .86; max-inline-size: 60ch; font-size: var(--t-lead); }
 .nx-app[data-pilot="editorial"] .nh-find { grid-area: find; margin: 0; align-self: center; }
 .nx-app[data-pilot="editorial"] .nh-find-l { color: var(--ed-mast-ink); font-size: var(--t-sm); }
@@ -278,7 +285,9 @@ html .nx-app[data-pilot="editorial"] .nu-filter:is([aria-pressed="true"], [data-
 .nx-app[data-pilot="editorial"] .nh-find-k { background: transparent; border-color: var(--line-strong); color: var(--ink-2); border-radius: 0; }
 .nx-app[data-pilot="editorial"] .nh-find-eg { grid-area: eg; color: var(--ed-mast-ink); opacity: .86; font-size: var(--t-sm); }
 .nx-app[data-pilot="editorial"] .nh-find-eg .nu-link { color: var(--ed-mast-ink); text-decoration: underline; text-underline-offset: 3px; }
-@media (max-width: 52rem) {
+/* two columns need the find column's 18rem, the title's longest line (19rem
+   at the display size), the gap and the padding: 42rem, and a little air */
+@container nh (max-width: 44rem) {
   .nx-app[data-pilot="editorial"] .nh-gate { grid-template-columns: minmax(0, 1fr); grid-template-areas: "title" "lede" "find" "eg"; }
 }
 

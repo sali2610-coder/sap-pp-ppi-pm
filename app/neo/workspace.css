@@ -1345,7 +1345,9 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
   .nw-idx-l { grid-template-columns: minmax(0, 1fr); gap: var(--sp-2); }
   .nw-idx-i { min-block-size: var(--c-tap); }
 
-  .nw-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; }
+  /* the scroller clipped the tabs' two-tone focus ring to one bar; 4px of room
+     inside it, given back outside (accessibility QA round 7, N14) */
+  .nw-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; padding: 4px; margin: -4px; scroll-padding-inline: 4px; }
   .nw-tabs .nu-tab { flex: none; }
 
   /* Every key/value grid collapses to stacked pairs: a 10rem label column on a
@@ -1386,6 +1388,14 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
   .nw-railtop { gap: var(--sp-2); }
   .nw-find { flex: 1 1 100%; }
   .nw-fk { min-inline-size: 100%; }
+}
+/* Under 30rem of workspace the count ("6 טבלאות · 29 שדות", 126px on one
+   line) left a topic's name 50 to 120px, and its two-line clamp cut 11 of the
+   12 names at 320 (responsive QA round 7, C41). The count goes under the name. */
+@container nw (max-width: 30rem) {
+  .nw-rankrow { grid-template-columns: 2rem minmax(0, 1fr); }
+  .nw-rankrow--obj { grid-template-columns: auto minmax(0, 1fr); }
+  .nw-rankrow .nw-rank-n { grid-column: 2; justify-items: start; }
 }
 
 /* The working table becomes cards until its description column can hold a

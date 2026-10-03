@@ -74,7 +74,8 @@ export function EditorialFootnote() {
         if (x < 8) x = 8;
         y = hr.bottom + 8;
       }
-      if (y + h > window.innerHeight - 8) y = Math.max(8, window.innerHeight - h - 8);
+      // kept on screen only while its code is: it leaves with a scrolled-away row
+      if (y + h > window.innerHeight - 8 && r.top < window.innerHeight) y = Math.max(8, window.innerHeight - h - 8);
       fn.style.left = `${x}px`;
       fn.style.top = `${y}px`;
     };
@@ -131,8 +132,12 @@ export function EditorialFootnote() {
     root.addEventListener("focusin", onFocusIn);
     root.addEventListener("focusout", onFocusOut);
     document.addEventListener("keydown", onKey);
-    window.addEventListener("scroll", onMove, { passive: true });
+    // The page scrolls inside the shell's canvas, not the window, and a scroll
+    // event does not bubble: only a capturing listener hears it. The ERD's
+    // camera announces its own moves.
+    window.addEventListener("scroll", onMove, { passive: true, capture: true });
     window.addEventListener("resize", onMove);
+    window.addEventListener("neo:camera", onMove);
     return () => {
       root.removeEventListener("mouseover", onOver);
       root.removeEventListener("mouseleave", hide);
@@ -140,8 +145,9 @@ export function EditorialFootnote() {
       root.removeEventListener("focusout", onFocusOut);
       root.removeEventListener("click", onClick);
       document.removeEventListener("keydown", onKey);
-      window.removeEventListener("scroll", onMove);
+      window.removeEventListener("scroll", onMove, { capture: true });
       window.removeEventListener("resize", onMove);
+      window.removeEventListener("neo:camera", onMove);
       for (const t of timers) window.clearTimeout(t);
       window.clearTimeout(hideT);
       fn.remove();

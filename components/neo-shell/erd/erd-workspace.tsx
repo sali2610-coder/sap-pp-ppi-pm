@@ -751,6 +751,9 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       mv.setAttribute("width", String(Math.max(0, st.clientWidth / k)));
       mv.setAttribute("height", String(Math.max(0, st.clientHeight / k)));
     }
+    // a footnote on a node follows the camera (editorial-footnote.tsx): after a
+    // glide it was left 170 to 701px from its node (motion QA round 7)
+    window.dispatchEvent(new Event("neo:camera"));
   }, []);
 
   const clamp = useCallback(
@@ -1695,6 +1698,11 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       const r = el.getBoundingClientRect(), b = st.getBoundingClientRect();
       if (r.left >= b.left && r.right <= b.right && r.top >= b.top && r.bottom <= b.bottom) return;
       centreRef.current(name, view.current.k);
+      // The browser has scrolled the page toward where the node was, outside
+      // the stage (297 to 1,099px a Tab at 390 to 834; motion QA round 7); the
+      // node is now coming to the stage's centre, so the stage is what is
+      // brought into view.
+      requestAnimationFrame(() => st.scrollIntoView({ block: "nearest", inline: "nearest" }));
     };
 
     st.addEventListener("pointerdown", remember, true);

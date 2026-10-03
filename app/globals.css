@@ -1780,6 +1780,8 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
 .nx-app[data-nav="compact"] .nx-group-btn { justify-content: center; padding-inline: 0; }
 .nx-app[data-nav="compact"] .nx-navitem::before { inset: 2px 6px; }
 .nx-app[data-nav="compact"] .nx-group-h { block-size: 1px; overflow: hidden; clip-path: inset(50%); }
+/* with its toggle out of reach, a group closed in the wide rail stays open here */
+.nx-app[data-nav="compact"] .nx-group[data-open="false"] .nx-group-body { display: block; }
 .nx-app[data-nav="compact"] .nx-group { border-block-start: 1px solid var(--c-hair); padding-block-start: 4px; }
 .nx-app[data-nav="compact"] .nx-group:first-of-type { border-block-start: 0; }
 

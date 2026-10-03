@@ -1159,8 +1159,11 @@ export function NeoShellClient({
                 hidden={shown.length === 0}
               >
                 {/* Not a heading: these seven came before every page's h1
-                    (gate 8, m1). The button names the group. */}
-                <div className="nx-group-h">
+                    (gate 8, m1). The button names the group. Compact clips
+                    it to 1px and shows every group, so there it is inert:
+                    seven focus stops with nothing to see, and Enter on one
+                    hid destinations (accessibility QA round 7, N13). */}
+                <div className="nx-group-h" inert={mode === "compact" || undefined}>
                   <button
                     type="button"
                     className="nx-group-btn"
