@@ -68,14 +68,19 @@ export function EditorialFootnote() {
       let x = rtl ? hr.left - w - 16 : hr.right + 16;
       let y = r.top;
       const inMargin = x >= 8 && x + w <= window.innerWidth - 8;
-      if (!inMargin) {
-        // no margin room: under the HOST ROW, never over its cells (judge 5)
+      if (inMargin) {
+        // beside the row it covers none of it, so it may slide up to stay on
+        // screen, but only while its code is: it leaves with a scrolled-away row
+        if (y + h > window.innerHeight - 8 && r.top < window.innerHeight) y = Math.max(8, window.innerHeight - h - 8);
+      } else {
+        // no margin room: under the HOST ROW, never over its cells (judge 5),
+        // and over it when there is no room below: pushed up onto the row, it
+        // covered the ERD node that held the focus (accessibility QA round 7)
         x = rtl ? Math.min(r.right - w, window.innerWidth - w - 8) : Math.max(r.left, 8);
         if (x < 8) x = 8;
         y = hr.bottom + 8;
+        if (y + h > window.innerHeight - 8 && hr.top - h - 8 >= 8) y = hr.top - h - 8;
       }
-      // kept on screen only while its code is: it leaves with a scrolled-away row
-      if (y + h > window.innerHeight - 8 && r.top < window.innerHeight) y = Math.max(8, window.innerHeight - h - 8);
       fn.style.left = `${x}px`;
       fn.style.top = `${y}px`;
     };
