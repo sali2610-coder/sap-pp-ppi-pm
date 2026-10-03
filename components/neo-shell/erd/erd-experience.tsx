@@ -31,7 +31,9 @@ export function ErdExperience({ data }: { data: ErdCatalog }) {
   // workspace. Keep its selection, filters and camera restoration intact.
   if (context !== seenContext) {
     setSeenContext(context);
-    if (packet || hash) setSpatial(false);
+    let name = "";
+    try { name = decodeURIComponent(hash.slice(1)).toUpperCase(); } catch { /* Ignore malformed anchors. */ }
+    if (packet || data.tables.some((table) => table.n === name)) setSpatial(false);
   }
   return spatial ? <Spatial data={data} initialModule={module} onModuleChange={setModule} onClassic={() => setSpatial(false)} /> : (
     <div className="e3-classic">
