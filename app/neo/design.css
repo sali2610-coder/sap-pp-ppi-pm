@@ -181,9 +181,9 @@ html[data-theme="dark"] .nx-app [data-scene="books"] {
   padding: 1.25rem;
   gap: 1.25rem;
 }
-.nx-app .nxd .nxd-stat b { font-size: 1.5rem; }
+.nx-app .nxd .nxd-stats--after .nxd-stat b { font-size: 1.5rem; }
 .nx-app .nxd .nxd-stat > span:last-child { font-size: .8125rem; }
-.nx-app .nxd .nxd-stat-i { inline-size: 2.25rem; block-size: 2.25rem; }
+.nx-app .nxd .nxd-stats--after .nxd-stat-i { inline-size: 2.25rem; block-size: 2.25rem; }
 .nx-app .nxd .nxd-results { min-inline-size: 0; display: grid; gap: var(--sp-4); }
 .nx-app .nxd .nxd-list { gap: .875rem; }
 .nx-app .nxd .nxd-item { min-inline-size: 0; container-type: inline-size; container-name: nxd-row; }
@@ -201,8 +201,8 @@ html[data-theme="dark"] .nx-app [data-scene="books"] {
 @container nxd (max-width: 44rem) {
   .nx-app .nxd .nxd-stats--after { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 1rem; gap: 1rem; }
   .nx-app .nxd .nxd-stat { gap: 0 .5rem; min-inline-size: 0; }
-  .nx-app .nxd .nxd-stat-i { inline-size: 1.75rem; block-size: 1.75rem; }
-  .nx-app .nxd .nxd-stat b { font-size: 1.25rem; }
+  .nx-app .nxd .nxd-stats--after .nxd-stat-i { inline-size: 1.75rem; block-size: 1.75rem; }
+  .nx-app .nxd .nxd-stats--after .nxd-stat b { font-size: 1.25rem; }
   .nx-app .nxd .nxd-head { padding: 1.25rem; }
   .nx-app .nxd .nxd-tools { padding: .75rem; }
 }

@@ -428,10 +428,10 @@
    never has to scroll sideways. */
 @container nxd-row (max-width: 78rem) {
   .nx-app .nxd-row {
-    grid-template-columns: 3px minmax(7rem, auto) minmax(0, 1fr) auto;
+    grid-template-columns: 3px minmax(7rem, auto) minmax(0, 1fr) auto 1rem;
     grid-template-areas:
-      "mark id   body nums"
-      "mark .    s4   s4";
+      "mark id   body nums go"
+      "mark .    s4   s4   s4";
     row-gap: var(--sp-2);
   }
   .nx-app .nxd-s4 { inline-size: auto; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--sp-2); }
