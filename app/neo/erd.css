@@ -527,9 +527,8 @@ html[data-theme="dark"] .ne {
      never intercepted at all — see the listener in erd-workspace.tsx. */
   touch-action: none;
   background-color: var(--ne-stage);
-  background-image:
-    repeating-linear-gradient(to right, var(--ne-grid) 0 1px, transparent 1px 68px),
-    repeating-linear-gradient(to bottom, var(--ne-grid) 0 1px, transparent 1px 68px);
+  background-image: radial-gradient(circle, var(--ne-grid) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 .ne-stage[data-drag="1"] { cursor: grabbing; }
 .ne-stage:focus-visible { outline: none; box-shadow: inset var(--focus-ring); }
@@ -551,28 +550,19 @@ html[data-theme="dark"] .ne {
   stroke: var(--e);
   stroke-width: 1.8;
   stroke-linecap: round;
-  opacity: .62;
+  opacity: .78;
   transition: opacity var(--dur-base) var(--ease-out-expo), stroke-width var(--dur-base) var(--ease-out-expo);
 }
 .ne-edge[data-kind="unstated"] .ne-edge-p { opacity: .42; }
 
-/* THE DASH MARCH — the production ERD's signature, restored.
-   The old graph gives every relationship `stroke-dasharray: 7 6` and marches
-   the offset to -200 over three seconds. That single detail is most of why the
-   old diagram feels like live connections rather than printed strokes, and NEO
-   had replaced it with a travelling dot, which reads as one particle rather
-   than as flow.
-
-   Every edge marches, as it does in production, but slowly and at low contrast
-   so it stays precision motion rather than decoration. A focused edge switches
-   to the old graph's `fast` variant, which is what makes the relationship you
-   are actually asking about pull ahead of the rest. */
+/* Motion follows the current selection. The resting graph stays still so a
+   large diagram can be read without dozens of competing moving strokes. */
 .ne-edge-p {
   stroke-dasharray: 7 6;
-  animation: ne-march 3s linear infinite;
+  animation: none;
 }
 .ne-edge[data-lvl="1"] .ne-edge-p,
-.ne-edge[data-lvl="2"] .ne-edge-p { animation-duration: 1s; }
+.ne-edge[data-lvl="2"] .ne-edge-p { animation: ne-march 3s linear infinite; }
 /* Dimmed and off-focus edges hold still: motion is for what is in play. */
 .ne-edge[data-lvl="x"] .ne-edge-p,
 .ne-edge[data-off="1"] .ne-edge-p { animation: none; }
@@ -696,7 +686,7 @@ html[data-theme="dark"] .ne {
   /* Module identity twice over: a tinted surface and the ring. A table both
      blueprints document takes a two-stop gradient ring rather than being
      assigned to one of them. */
-  fill: color-mix(in srgb, var(--ms) 7%, var(--surface));
+  fill: color-mix(in srgb, var(--ms) 12%, var(--surface));
   stroke: var(--m);
   stroke-width: 1.6;
   transition:

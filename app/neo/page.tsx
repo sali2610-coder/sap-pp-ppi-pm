@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpLeft, GitBranch, GraduationCap, Route, Table, Terminal, Waypoints } from "lucide-react";
+import { ArrowUpLeft, BookOpen, GitBranch, GraduationCap, Route, Sparkles, Table, Terminal, Waypoints } from "lucide-react";
 // The interaction system first, the page's own sheet second: Home never invents
 // a control style, it consumes .nu-* and only overrides layout around them.
 import "./ui.css";
@@ -140,7 +140,8 @@ export default function NeoHome() {
         </div>
         <span className="nh-glow" aria-hidden="true" />
 
-        <div className="nh-in nh-gate-in">
+        <div className="nh-in nh-gate-in nh-gate-layout">
+         <div className="nh-gate-copy">
           <SiteLogo tone="dark" size="lg" className="nh-brand nm-rise nm-once" />
 
           <p className="nh-eye nh-eye--gate">
@@ -186,11 +187,27 @@ export default function NeoHome() {
               <GraduationCap size={15} strokeWidth={1.75} aria-hidden="true" />
               המשך ללמוד
             </Link>
-            <Link className="nu-link" href="/neo/erd/" prefetch={false}>
-              <GitBranch size={14} strokeWidth={1.75} aria-hidden="true" />
-              מודל הנתונים
-            </Link>
           </div>
+         </div>
+         <nav className="nh-start" aria-label="כניסה לספרייה, לעוזר ולמודל הנתונים">
+          <p className="nh-start-eye">סביבת העבודה שלך</p>
+          <Link href="/neo/books/" prefetch={false} className="nh-start-card" style={{ "--entry": "var(--mod-pm)" } as React.CSSProperties}>
+            <span className="nh-start-icon"><BookOpen size={25} strokeWidth={1.6} aria-hidden="true" /></span>
+            <span className="nh-start-copy"><b>ספריית SAP</b><span>ספרים, פרקים ומקום הקריאה האחרון שלך</span></span>
+            <ArrowUpLeft className="nh-start-arrow" size={18} aria-hidden="true" />
+          </Link>
+          <Link href="/neo/ai/" prefetch={false} className="nh-start-card" style={{ "--entry": "var(--mod-pp)" } as React.CSSProperties}>
+            <span className="nh-start-icon"><Sparkles size={25} strokeWidth={1.6} aria-hidden="true" /></span>
+            <span className="nh-start-copy"><b>שאל את הספרייה</b><span>שאלות על התוכן, עם מקורות לקריאה</span></span>
+            <ArrowUpLeft className="nh-start-arrow" size={18} aria-hidden="true" />
+          </Link>
+          <Link href="/neo/erd/" prefetch={false} className="nh-start-card" style={{ "--entry": "var(--mod-pppi)" } as React.CSSProperties}>
+            <span className="nh-start-icon"><GitBranch size={25} strokeWidth={1.6} aria-hidden="true" /></span>
+            <span className="nh-start-copy"><b>מודל הנתונים</b><span>מודולים, טבלאות והקשרים ביניהם</span></span>
+            <ArrowUpLeft className="nh-start-arrow" size={18} aria-hidden="true" />
+          </Link>
+          <p className="nh-start-note">בחר נקודת כניסה, והמשך משם אל התוכן והכלים.</p>
+         </nav>
         </div>
        </div>
       </section>
