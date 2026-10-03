@@ -1476,13 +1476,13 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
     margin-inline-end: calc(-1 * var(--sp-10));
     border-inline-end: 1px solid var(--hairline);
   }
-  /* The topic list gets more columns of rows before it gets a longer scroll,
-     but never a column narrower than a row needs: at two columns from a 900px
-     workspace (three from 1600) a row kept its index, bar and count and left
-     the topic's name 52 to 112px, 11 of 12 names cut (responsive QA round 8,
-     C45). A column is at least 37rem, the row's 25rem of fixed parts and
-     12rem of name. */
-  .nw-view .nw-rank { grid-template-columns: repeat(auto-fill, minmax(min(100%, 37rem), 1fr)); }
+  /* The topic list gets two columns of rows before it gets a longer scroll. */
+  .nw-view .nw-rank { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  /* In a column a row kept its index, its full 9rem bar and its count, and the
+     topic's name took what was left: 52 to 112px from a 900px workspace,
+     11 of 12 names cut (responsive QA round 8, C45). The name has 8rem first;
+     the bar, which only restates the count beside it, takes the rest. */
+  .nw-view .nw-rankrow:not(.nw-rankrow--obj) { grid-template-columns: 2rem minmax(8rem, 1fr) minmax(0, 9rem) auto; }
   .nw-view .nw-chain { grid-template-columns: minmax(0, 1fr); }
 
   /* THE STAGE, COMPOSED. A full-bleed band whose content huddles in one column
@@ -1511,6 +1511,7 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
   .nw-c-tp { inline-size: 12rem; }
   .nw-c-tc { inline-size: 12rem; }
   .nw-tp-t { max-inline-size: 9rem; }
+  .nw-view .nw-rank { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .nw-view .nw-chain { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   /* Two columns of steps means the vertical connector would join the wrong
      pair, so it goes: the list is still numbered and still ordered. */
@@ -1529,6 +1530,7 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
   .nw { --nw-gut: 9rem; }
   .nw-tbl { font-size: var(--t-sm); }
   .nw-row > td { padding-block: var(--sp-3); }
+  .nw-view .nw-rank { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
 /* ==========================================================================
