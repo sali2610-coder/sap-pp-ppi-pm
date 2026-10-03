@@ -612,9 +612,11 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw-steprow b { font-size: var(--t-sm); color: var(--ink-1); }
 .nw-step-he { font-size: var(--t-xs); color: var(--ink-2); }
 .nw-steprow em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); white-space: nowrap; }
-/* "6 שדות · 7 קשרים" is a sentence, not an identifier: in the ltr island of
-   .nw-sap it read «שדות · 7 קשרים 6» (responsive QA round 8, C43) */
-.nw-steprow em.nw-sap { direction: rtl; }
+/* A count with its noun ("5 טבלאות", "PM · 9 פרקים", "6 שדות · 7 קשרים") is
+   a sentence, not an identifier: in the ltr island of .nw-sap it read noun
+   first, «טבלאות 5» (responsive QA rounds 8 and 9, C43, C48). Identifiers
+   such as "3 PK · 12 FK" and "+2" stay ltr. */
+.nw-steprow em.nw-sap, .nw-courserow em.nw-sap, .nw em.nw-sap:has(> span) { direction: rtl; }
 .nw-steparw { color: var(--m); opacity: 0; transition: opacity var(--dur-fast) linear; }
 .nw-rank .nu-card:hover .nw-steparw,
 .nw-chain .nu-card:hover .nw-steparw,
