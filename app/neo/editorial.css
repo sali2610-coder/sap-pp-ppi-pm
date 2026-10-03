@@ -270,7 +270,9 @@ html .nx-app[data-pilot="editorial"] .nu-filter:is([aria-pressed="true"], [data-
    content, which is its container: measured there, not on the window, a
    desktop scrollbar is not counted in (round 7, C40b). */
 .nx-app[data-pilot="editorial"] .nh-h1 { grid-area: title; max-inline-size: none; color: var(--ed-mast-ink); font-size: clamp(1.5rem, calc(100cqi / 7.5), var(--t-display)); line-height: 1.1; font-weight: 700; }
-.nx-app[data-pilot="editorial"] .nh-lede { grid-area: lede; color: var(--ed-mast-ink); opacity: .86; max-inline-size: 60ch; font-size: var(--t-lead); }
+/* balanced: the lede ended on a one-to-three-word line at most widths, a lone
+   "ל-S/4HANA." at a portrait tablet (responsive QA round 8, C44) */
+.nx-app[data-pilot="editorial"] .nh-lede { grid-area: lede; color: var(--ed-mast-ink); opacity: .86; max-inline-size: 60ch; font-size: var(--t-lead); text-wrap: balance; }
 .nx-app[data-pilot="editorial"] .nh-find { grid-area: find; margin: 0; align-self: center; }
 .nx-app[data-pilot="editorial"] .nh-find-l { color: var(--ed-mast-ink); font-size: var(--t-sm); }
 .nx-app[data-pilot="editorial"] .nh-find-f {
