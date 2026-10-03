@@ -644,10 +644,9 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
 .nxq-src-list {
   list-style: none; margin: 0; padding: 0;
   display: grid; gap: var(--sp-2);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  align-items: start;
   inline-size: 100%;
-}
-@media (min-width: 1600px) {
-  .nxq-src-list { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
 }
 
 /* A CITATION IS A PAGE OUT OF A BOOK, SO IT IS DRAWN AS ONE.
