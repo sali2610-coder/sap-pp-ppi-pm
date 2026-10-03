@@ -7,7 +7,7 @@ import "@/app/neo/ui.css";
 import "@/app/neo/erd.css";
 import { erdCatalog } from "@/components/neo-shell/erd/erd-catalog";
 import { MODULE_ORDER } from "@/components/neo-shell/erd/erd-types";
-import { ErdWorkspace } from "@/components/neo-shell/erd/erd-workspace";
+import { ErdExperience } from "@/components/neo-shell/erd/erd-experience";
 
 export const metadata = {
   title: "מודל הנתונים · Project NEO",
@@ -23,5 +23,5 @@ export const metadata = {
 // coordinates and owns interaction only. Static export — no server runtime, no
 // client layout engine.
 export default function NeoErd() {
-  return <ErdWorkspace data={erdCatalog()} />;
+  return <ErdExperience data={erdCatalog()} />;
 }
