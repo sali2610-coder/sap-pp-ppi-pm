@@ -1,6 +1,8 @@
 html .nx-app .nx-canvas:has(> .e3), html .nx-app .nx-canvas:has(> .e3-classic), html .nx-app .nx-canvas:has(> .e3-loading) { display:block; padding:0; gap:0; overflow:hidden; }
 .e3, .e3-classic, .e3-loading { height:100%; min-height:520px; width:100%; }
 .e3-classic { position:relative; }
+/* Preserve the current 2D workspace's scrolling layout inside the view switch. */
+@media(max-width:1100px) { html .nx-app .nx-canvas:has(> .e3-classic) { overflow:auto; } .e3-classic { height:auto; min-height:100%; } }
 .e3-classic-switch { position:absolute; top:60px; left:16px; z-index:30; display:flex; gap:8px; align-items:center; padding:10px 14px; background:#102038; color:#fff; border:1px solid #486080; border-radius:10px; font-size:14px; }
 .e3 { --e3-ink:#eef4ff; --e3-muted:#a6b8cf; --e3-line:#ffffff16; position:relative; isolation:isolate; color:var(--e3-ink); background:#081222; overflow:hidden; font-family:var(--font-sans),Arial,sans-serif; font-size:16px; line-height:1.5; color-scheme:dark; }
 .e3 *, .e3 *::before, .e3 *::after { box-sizing:border-box; }
