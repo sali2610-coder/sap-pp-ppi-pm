@@ -11,11 +11,11 @@
 
 /* ---------- 0. tokens · day ---------------------------------------------- */
 .nx-app[data-pilot="editorial"] {
-  --background: #f6f2ea;            /* ground: ivory */
-  --background-2: #efe9dd;
-  --surface: #fffdf8;               /* panel */
+  --background: #f4efe5;            /* ground: the ivory desk (rollout: a step deeper, so a white sheet reads) */
+  --background-2: #ece6da;
+  --surface: #ffffff;               /* panel: white paper on the desk */
   --surface-2: #ede8dc;             /* recess (table heads, code wells) */
-  --surface-raised: #fffdf8;
+  --surface-raised: #ffffff;
   --surface-sunken: #ede8dc;
   --hairline: #d8d0c2;
   --line-1: #d8d0c2;
@@ -23,8 +23,8 @@
   --ink-1: #16130e;
   --ink-2: #433c33;
   --ink-3: #5d554a;                 /* 6.57:1 on ground, 7.21:1 on panel */
-  --g-ground: #f6f2ea;
-  --g-raised: #fffdf8;
+  --g-ground: #f4efe5;
+  --g-raised: #ffffff;
   --g-ink-1: #16130e;
   --g-ink-2: #433c33;
   --g-ink-3: #5d554a;
@@ -66,10 +66,13 @@
   /* shape: the journal has corners */
   --radius: 0; --r-xs: 0; --r-sm: 0; --r-md: 0; --r-lg: 0; --r-xl: 0; --r-2xl: 0; --r-pill: 0;
 
-  /* depth: flat ink on paper; the command palette is the one raised layer */
-  --elev-1: 0 0 0 0 transparent;
-  --elev-2: 0 0 0 0 transparent;
-  --shadow-card: none;
+  /* depth: paper on a desk. A sheet sits 1px proud of the ivory; a raised or
+     hovered sheet lifts a little more. The shadow is tinted with the desk's
+     warm ink, offset and blurred, never a zero-offset halo (rollout, owner's
+     "pale, too editorial"; the palette stays the one high layer). */
+  --elev-1: 0 1px 1px rgb(54 41 20 / .05), 0 1px 3px rgb(54 41 20 / .07);
+  --elev-2: 0 2px 4px rgb(54 41 20 / .05), 0 14px 30px -18px rgb(54 41 20 / .28);
+  --shadow-card: var(--elev-1);
 
   /* type roles (root ramp below): body 17 · lead 19 · h2 22 · h1 32 · display 44 */
   --t-micro: max(14px, 0.8235rem);  /* 14px floor at every root size; chrome takes the floor too */
@@ -916,3 +919,86 @@ html[data-erd-pending] .nx-app[data-pilot="editorial"] :is(.ne-bar, .ne-filters,
    (app/neo/layout.tsx, FONT_GATE, at most 300ms, set on the pilot routes only),
    so no line re-wraps in front of the reader when a face arrives. */
 html[data-neo-fonts] .nx-app[data-pilot="editorial"] .nx-canvas { visibility: hidden; }
+
+/* ==========================================================================
+   FAMILIES · colour as wayfinding (rollout, 2026-10-03)
+   The language now covers every /neo route. Each route belongs to a family
+   (components/neo-shell/pilot.ts famOf, data-fam on .nx-app) and each family
+   has one hue, taken from the palette the product already had: the modules'
+   teal and cobalt, the object-type pigments (master data petrol, transaction
+   ochre, configuration wine), the S/4 slate. A page shows its own hue in four
+   places only: the head band, the section marks, its numbers, and the rail's
+   current row. Red stays the action and the editor's pencil. Every hue is
+   4.5:1 or more as text on its own wash and on white (rollout PLAN, contrast
+   table); night has its own lighter set.
+   ========================================================================== */
+.nx-app[data-pilot="editorial"] { --fam: var(--ink-1); --fam-wash: #faefdd; --fam-tint: #fdf7ee; }   /* home, modules, tools: ink on the editorial sand */
+.nx-app[data-pilot="editorial"][data-fam="pm"]       { --fam: var(--mod-pm);   --fam-wash: #dbf7f2; --fam-tint: #eefbf9; }
+.nx-app[data-pilot="editorial"][data-fam="pppi"]     { --fam: var(--mod-pppi); --fam-wash: #e6f0ff; --fam-tint: #f3f8ff; }
+.nx-app[data-pilot="editorial"][data-fam="data"]     { --fam: #0d6480; --fam-wash: #dcf5ff; --fam-tint: #eefaff; }   /* tables, ERD, objects: master-data petrol */
+.nx-app[data-pilot="editorial"][data-fam="tx"]       { --fam: #7e4f10; --fam-wash: #feeddb; --fam-tint: #fef6ee; }   /* transactions: ochre */
+.nx-app[data-pilot="editorial"][data-fam="iface"]    { --fam: #4e641d; --fam-wash: #ebf4de; --fam-tint: #f5faef; }   /* BAPI/FM, IDoc, enhancements: moss */
+.nx-app[data-pilot="editorial"][data-fam="s4"]       { --fam: #3b5b7a; --fam-wash: #e1f2ff; --fam-tint: #f1f9ff; }   /* S/4HANA, readiness, cockpit, CDS, Fiori: slate */
+.nx-app[data-pilot="editorial"][data-fam="lib"]      { --fam: #8a3f4a; --fam-wash: #ffe8ea; --fam-tint: #fff4f5; }   /* books, reader, the library's AI: wine */
+.nx-app[data-pilot="editorial"][data-fam="learn"]    { --fam: #296a3b; --fam-wash: #e3f6e6; --fam-tint: #f2fbf3; }   /* knowledge, practice, Academy, certification, centres: forest */
+.nx-app[data-pilot="editorial"][data-fam="incident"] { --fam: #8e3a20; --fam-wash: #ffeae2; --fam-tint: #fff5f1; }   /* incidents: brick, never the brand red */
+/* night: the hue lifts, the wash is the hue at L .235 (a lit desk, not an inversion) */
+html[data-theme="dark"] .nx-app[data-pilot="editorial"]                      { --fam-wash: var(--surface-raised); --fam-tint: color-mix(in oklab, var(--fam) 6%, var(--surface)); }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"][data-fam="pm"]       { --fam-wash: #0c231f; }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"][data-fam="pppi"]     { --fam-wash: #171e2c; }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"][data-fam="data"]     { --fam: #84c9e5; --fam-wash: #0d2129; }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"][data-fam="tx"]       { --fam: #e9b276; --fam-wash: #281b0e; }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"][data-fam="iface"]    { --fam: #adca7a; --fam-wash: #1b2111; }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"][data-fam="s4"]       { --fam: #a0c2e3; --fam-wash: #131f2c; }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"][data-fam="lib"]      { --fam: #f2a6ad; --fam-wash: #2b181a; }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"][data-fam="learn"]    { --fam: #8ed09c; --fam-wash: #142216; }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"][data-fam="incident"] { --fam: #f6a78f; --fam-wash: #2a1914; }
+.nx-app[data-pilot="editorial"] { --fam-line: color-mix(in oklab, var(--fam) 45%, var(--hairline)); }
+
+/* the head band: a flat wash of the family across the canvas, its rule on top */
+.nx-app[data-pilot="editorial"] :is(.ndm-hero, .nxl-head, .nxv-head, .nxb-head, .nxd-head, .nxt-head, .no-hero, .nce-hero, .nct-hero, .ns4-hero, .nlg-head, .nb-hub-top) {
+  background: var(--fam-wash);
+  box-shadow: 0 0 0 100vmax var(--fam-wash);
+  clip-path: inset(0 -100vmax);
+  border-block-start: 3px solid var(--fam);
+  border-image: linear-gradient(var(--fam) 0 0) 1 / 3px 0 0 / 0 100vmax;
+  padding-block: var(--sp-5);
+}
+.nx-app[data-pilot="editorial"] :is(.ndm-hero, .nxl-head, .nxv-head, .nxb-head, .nxd-head, .nxt-head, .no-hero, .nce-hero, .nct-hero, .ns4-hero, .nlg-head, .nb-hub-top) :is(.nu-link, .nxr-link) { color: var(--ink-1); }
+
+/* section marks: a short rule in the family hue before a section's title */
+.nx-app[data-pilot="editorial"] :is(.nx-h2, .no-sec-h, .nxt-sec-h)::before {
+  content: "";
+  display: inline-block;
+  inline-size: 1.25rem; block-size: 3px;
+  margin-inline-end: .6rem;
+  vertical-align: middle;
+  background: var(--fam);
+}
+
+/* numbers carry the family */
+.nx-app[data-pilot="editorial"] :is(.nxd-stat, .nxl-stat, .nxb-stat, .no-stat, .ns4-stat, .ndm-stat, .nb-stat) :is(b, strong) { color: var(--fam); }
+
+/* sheets: a box that exists is white paper with depth, never a flat ivory
+   panel on ivory; an interactive sheet takes the family's tint on hover */
+.nx-app[data-pilot="editorial"] :is(.ndm-card, .ndm-sec, .nxb-sec, .no-sec, .nct-fam, .nct-sec, .ns4-obj, .ns4-sec, .nce-opt, .nx-card, .nxg-col, .nxv-s4, .nlg-owner, .nxb-rel, .no-rel-row) {
+  background: var(--surface);
+  border-color: var(--hairline);
+  box-shadow: var(--elev-1);
+}
+.nx-app[data-pilot="editorial"] :is(a.ndm-card, a.nct-fam, a.ns4-obj, .nce-opt, a.nxb-rel, a.no-rel-row):hover {
+  background: var(--fam-tint);
+  border-color: var(--fam-line);
+  box-shadow: var(--elev-2);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .nx-app[data-pilot="editorial"] :is(a.ndm-card, a.nct-fam, a.ns4-obj, .nce-opt, a.nxb-rel, a.no-rel-row) {
+    transition: background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+  }
+}
+
+/* the catalogue's code plate takes the family's ink: transactions ochre, interfaces moss */
+.nx-app[data-pilot="editorial"]:not([data-fam="data"]) .nxd-id > b { background: var(--fam); color: var(--surface); }
+
+/* the rail's current row carries the page's family */
+.nx-app[data-pilot="editorial"] .nx-ind::before { background: var(--fam); }

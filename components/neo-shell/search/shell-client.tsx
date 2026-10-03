@@ -67,7 +67,7 @@ import { MobileSheet, MobileTabs } from "../mobile-nav";
 import { pushRecentObject, relTime, setLayout, useLayout, useRecent } from "../store";
 import { DockButtons } from "../dock/dock-buttons";
 import type { NavItem, RailMode, ShelfTab, ShellData } from "../types";
-import { PILOT_ROUTES } from "../pilot";
+import { PILOT_ROUTES, famOf } from "../pilot";
 import { BROWSE_CAP, KINDS, buildIndex, runQuery, suggest } from "./build";
 import { CommandSurface, type EmptyAction } from "./command-surface";
 import { CmdKey } from "../cmd-key";
@@ -279,6 +279,8 @@ export function NeoShellClient({
     frame = requestAnimationFrame(retry);
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape" && !e.defaultPrevented) closeDrawer(); };
     window.addEventListener("keydown", onKey);
+    // The rail and the toggle live in the shell, which outlives every page.
+    const rail = railRef.current, toggle = navToggle.current;
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("keydown", onKey);
@@ -290,7 +292,7 @@ export function NeoShellClient({
       // reopened it (N7).
       requestAnimationFrame(() => {
         setDrawerAt(null);
-        if (isNarrow() && railRef.current?.contains(document.activeElement)) navToggle.current?.focus();
+        if (isNarrow() && rail?.contains(document.activeElement)) toggle?.focus();
       });
     };
   }, [drawer, closeDrawer]);
@@ -1015,14 +1017,15 @@ export function NeoShellClient({
       className={fontClass ? `nx-app ${fontClass}` : "nx-app"}
       data-neo-shell=""
       data-nav={mode}
-      // The art-direction pilot (editorial.css) is scoped to five routes until
-      // the owner approves a rollout: home, the PM module, the tables
-      // catalogue, the ERD and one book in the reader.
+      // The Editorial Technology language (editorial.css): piloted on five
+      // routes, rolled out to every /neo route (docs/rollout-2026-10).
       data-pilot={PILOT_ROUTES.test(path) ? "editorial" : undefined}
+      // the route's family: its wayfinding hue (editorial.css, FAMILIES)
+      data-fam={famOf(path)}
       // the user chose this rail mode (globals.css paints the narrow default
       // from the first frame only while no choice exists)
       data-nav-user={layout.mode || drawer ? "1" : undefined}
-      data-route={pilot ? (path === "/neo/" ? "home" : path.startsWith("/neo/pm/") ? "module" : path.startsWith("/neo/tables/") ? "tables" : path.startsWith("/neo/erd/") ? "erd" : "reader") : undefined}
+      data-route={path === "/neo/" ? "home" : path.startsWith("/neo/erd/") ? "erd" : undefined}
       data-searching={searching ? "1" : "0"}
       data-sheet={railHidden ? "1" : undefined}
       data-typed={q ? "1" : "0"}
