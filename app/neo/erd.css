@@ -1553,13 +1553,11 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 .ne[data-present="1"] .ne-mod-he { font-size: 19px; }
 .ne[data-present="1"] .ne-mod-en { font-size: 14px; }
 .ne[data-present="1"] .ne-mini { display: none; }
-/* On a narrow stage the camera cannot bring a node at the graph's edge to the
-   centre, and the minimap's corner covered two focused nodes at 320 by 640
-   (accessibility QA round 7, N12). It steps aside while a node has the
-   keyboard focus. */
-@media (max-width: 30rem) {
-  .ne-stage:has(.ne-node-go:focus-visible) .ne-mini { visibility: hidden; }
-}
+/* The camera cannot bring a node at the graph's edge to the centre, and the
+   minimap's corner covered focused nodes: two at 320 by 640 (accessibility
+   QA round 7, N12), and at 1280 by 720 and 1920 by 1080 too (round 8, N15).
+   It steps aside while a node has the keyboard focus. */
+.ne-stage:has(.ne-node-go:focus-visible) .ne-mini { visibility: hidden; }
 .ne-legend {
   position: absolute; inset-inline: 10px; inset-block-end: 10px; z-index: 3;
   display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px;

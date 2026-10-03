@@ -1700,9 +1700,10 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       centreRef.current(name, view.current.k);
       // The browser has scrolled the page toward where the node was, outside
       // the stage (297 to 1,099px a Tab at 390 to 834; motion QA round 7); the
-      // node is now coming to the stage's centre, so the stage is what is
-      // brought into view.
-      requestAnimationFrame(() => st.scrollIntoView({ block: "nearest", inline: "nearest" }));
+      // node is now coming to the stage's centre, so that centre is brought
+      // into view: the stage's nearest edge was not enough where the stage is
+      // taller than the window (360 by 225; accessibility QA round 8, N17).
+      requestAnimationFrame(() => st.scrollIntoView({ block: "center", inline: "nearest" }));
     };
 
     st.addEventListener("pointerdown", remember, true);
