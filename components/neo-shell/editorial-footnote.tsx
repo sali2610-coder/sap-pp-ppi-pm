@@ -81,8 +81,10 @@ export function EditorialFootnote() {
         y = hr.bottom + 8;
         if (y + h > window.innerHeight - 8 && hr.top - h - 8 >= 8) y = hr.top - h - 8;
       }
-      fn.style.left = `${x}px`;
-      fn.style.top = `${y}px`;
+      // placed with the translate property: it follows a scroll or the ERD's
+      // camera every frame, and a moved left/top is a layout per frame and a
+      // layout-shift entry (200 to 290 while tabbing the ERD's nodes)
+      fn.style.translate = `${Math.round(x)}px ${Math.round(y)}px`;
     };
 
     const hide = () => {

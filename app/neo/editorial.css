@@ -586,7 +586,7 @@ html[data-theme="dark"] .nx-app[data-pilot="editorial"] .ne { --ne-stage: #0a111
    THE MARGIN FOOTNOTE (direction.js builds it from text already in the DOM)
    ========================================================================== */
 .nx-app[data-pilot="editorial"] .ed-fn {
-  position: fixed; z-index: 60;
+  position: fixed; z-index: 60; left: 0; top: 0;
   inline-size: 16rem; max-inline-size: calc(100vw - 2rem);
   padding: var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-3);
   background: var(--surface);
