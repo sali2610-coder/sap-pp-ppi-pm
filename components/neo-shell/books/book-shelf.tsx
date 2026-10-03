@@ -1,5 +1,7 @@
 "use client";
 
+import { motionIsReduced, subscribeMotion } from "../motion/preferences";
+
 // THE SHELF.
 //
 // One continuous editorial run, not nine detached blocks. Each module is a
@@ -53,16 +55,16 @@ const nf = new Intl.NumberFormat("he-IL");
 /* ------------------------------------------------------------------- tilt */
 
 const HOVER_Q = "(hover: hover) and (pointer: fine)";
-const MOTION_Q = "(prefers-reduced-motion: reduce)";
 
 function armedSubscribe(cb: () => void): () => void {
   let mqs: MediaQueryList[] = [];
-  try { mqs = [window.matchMedia(HOVER_Q), window.matchMedia(MOTION_Q)]; } catch { return () => {}; }
+  try { mqs = [window.matchMedia(HOVER_Q)]; } catch { return () => {}; }
   for (const m of mqs) m.addEventListener("change", cb);
-  return () => { for (const m of mqs) m.removeEventListener("change", cb); };
+  const off = subscribeMotion(cb);
+  return () => { off(); for (const m of mqs) m.removeEventListener("change", cb); };
 }
 function armedSnapshot(): boolean {
-  try { return window.matchMedia(HOVER_Q).matches && !window.matchMedia(MOTION_Q).matches; }
+  try { return window.matchMedia(HOVER_Q).matches && !motionIsReduced(); }
   catch { return false; }
 }
 

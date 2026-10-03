@@ -25,6 +25,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Type, Sparkles, X, BookOpen, MessageSquare, Check } from "lucide-react";
 import { ThemeSwitch } from "./theme-switch";
+import { setMotionPreference, useMotionPreference } from "../motion/preferences";
 import {
   contextFromPath, contextLine, NEO_CTX_EVENT,
   type NeoContext, type NeoContextPatch,
@@ -38,6 +39,7 @@ type Panel = "none" | "type" | "ask";
 
 export function NeoDock() {
   const path = usePathname() || "/";
+  const motion = useMotionPreference();
   const [panel, setPanel] = useState<Panel>("none");
   const [pref, setPref] = useState<NeoTypePref | null>(null);
   const [patch, setPatch] = useState<NeoContextPatch | null>(null);
@@ -109,7 +111,7 @@ export function NeoDock() {
           type="button"
           className="nxk-b nxk-b--display"
           aria-expanded={panel === "type"}
-          aria-label={`הגדרות תצוגה: מראה, גופן וגודל טקסט${themeNow ? ` (כעת ${themeNow})` : ""}`}
+          aria-label={`הגדרות תצוגה: מראה, גופן, גודל טקסט ותנועה${themeNow ? ` (כעת ${themeNow})` : ""}`}
           onClick={() => setPanel((p) => (p === "type" ? "none" : "type"))}
         >
           <Type className="ico" size={15} aria-hidden="true" />
@@ -135,9 +137,9 @@ export function NeoDock() {
       {open && <button type="button" className="nxk-scrim" aria-label="סגירת החלונית" onClick={() => setPanel("none")} />}
 
       {panel === "type" && (
-        <section className="nxk-p nxk-p--type" role="dialog" aria-modal="false" aria-label="הגדרות תצוגה: מראה, גופן וגודל טקסט">
+        <section className="nxk-p nxk-p--type" role="dialog" aria-modal="false" aria-label="הגדרות תצוגה: מראה, גופן, גודל טקסט ותנועה">
           <header className="nxk-p-h">
-            <h2>תצוגה: מראה, גופן וגודל טקסט</h2>
+            <h2>הגדרות תצוגה</h2>
             <button ref={closer} type="button" className="nu-ghost nxk-x" aria-label="סגירת חלונית התצוגה" onClick={() => setPanel("none")}>
               <X className="ico" size={16} aria-hidden="true" />
             </button>
@@ -192,7 +194,24 @@ export function NeoDock() {
             </div>
           </fieldset>
 
-          <button type="button" className="nu-btn2 nxk-reset" onClick={() => set({ face: "system", size: "md" })}>
+          <fieldset className="nxk-set">
+            <legend className="nx-eyebrow">תנועה</legend>
+            <div className="nxk-sizes">
+              <button type="button" className="nu-filter" aria-pressed={motion === "system"}
+                onClick={() => setMotionPreference("system")}>
+                לפי הגדרות המכשיר
+              </button>
+              <button type="button" className="nu-filter" aria-pressed={motion === "reduce"}
+                onClick={() => setMotionPreference("reduce")}>
+                תנועה מופחתת
+              </button>
+            </div>
+            <p className="nxk-note">מפחית הנפשות ותנועה בגלילה, ומשאיר את התוכן והפעולות זמינים.</p>
+          </fieldset>
+
+          <button type="button" className="nu-btn2 nxk-reset" onClick={() => {
+            set({ face: "system", size: "md" }); setMotionPreference("system");
+          }}>
             איפוס לברירת המחדל של NEO
           </button>
         </section>

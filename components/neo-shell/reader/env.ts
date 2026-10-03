@@ -7,7 +7,7 @@
    worth a dependency.
    ========================================================================== */
 
-import { useEffect, useState } from "react";
+import { useMotionReduced } from "../motion/preferences";
 
 /**
  * The user asked the operating system for less motion.
@@ -17,18 +17,10 @@ import { useEffect, useState } from "react";
  * exactly the failure the setting exists to prevent.
  *
  * Starts `false` so the server render and the hydrating render agree; the
- * effect corrects it before paint-relevant work happens.
+ * external-store snapshot then follows the device and the NEO display choice.
  */
 export function useReducedMotion(): boolean {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const on = () => setReduced(mq.matches);
-    on();
-    mq.addEventListener("change", on);
-    return () => mq.removeEventListener("change", on);
-  }, []);
-  return reduced;
+  return useMotionReduced();
 }
 
 /**

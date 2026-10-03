@@ -391,3 +391,36 @@
 @media (min-width: 1600px) {
   .nx-app { --nm-par: 0px; }
 }
+
+/* A reader can choose less motion in NEO without changing the OS. */
+.nx-app[data-motion-reduced="1"],
+.nx-app[data-motion-reduced="1"] *,
+.nx-app[data-motion-reduced="1"] *::before,
+.nx-app[data-motion-reduced="1"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+.nx-app[data-motion-reduced="1"] {
+  --nm-rise: 0px;
+  --nm-par: 0px;
+  --nm-scale: 1;
+  --nm-stagger: 0ms;
+}
+.nx-app[data-motion-reduced="1"] :is(.nm-rise, .nm-fade, .nm-par, .nm-par-slow),
+.nx-app[data-motion-reduced="1"] .nm-kin > span > * {
+  opacity: 1 !important;
+  transform: none !important;
+}
+.nx-app[data-motion-reduced="1"] .nm-grow { transform: scaleX(1) !important; }
+.nx-app[data-motion-reduced="1"] .nm-pin { position: static; min-block-size: 0; }
+.nx-app[data-motion-reduced="1"] .nm-lift:hover { transform: none !important; }
+.nx-app[data-motion-paused="1"] *,
+.nx-app[data-motion-paused="1"] *::before,
+.nx-app[data-motion-paused="1"] *::after { animation-play-state: paused !important; }
+.nx-app [data-motion-visible="0"],
+.nx-app [data-motion-visible="0"] *,
+.nx-app [data-motion-visible="0"]::before,
+.nx-app [data-motion-visible="0"]::after,
+.nx-app [data-motion-visible="0"] *::before,
+.nx-app [data-motion-visible="0"] *::after { animation-play-state: paused !important; }

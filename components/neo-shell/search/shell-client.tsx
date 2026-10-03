@@ -186,6 +186,7 @@ export function NeoShellClient({
      rail's own filter reads the same deferred value, so the tree and the result
      list can never disagree about which query is on screen. */
   const dq = useDeferredValue(query);
+  const searchBusy = query !== dq;
   const q = dq.trim().toLowerCase();
 
   /** The whole command index, assembled once from the two build-time payloads.
@@ -250,6 +251,11 @@ export function NeoShellClient({
   const applyQuery = useCallback((v: string) => { setQuery(v); setCursor(0); }, []);
   const applyOnly = useCallback((k: CmdKind | null) => { setOnly(k); setCursor(0); }, []);
   const applyMod = useCallback((m: string | null) => { setModOnly(m); setCursor(0); }, []);
+  const resetFilters = useCallback(() => {
+    setOnly(null); setModOnly(null); setCursor(0);
+    const field = inputRef.current?.offsetParent ? inputRef.current : mInputRef.current;
+    field?.focus();
+  }, []);
 
   /* ---------------------------------------------- the travelling pill */
   const syncInd = useCallback(() => {
@@ -520,6 +526,7 @@ export function NeoShellClient({
 
   /* ----------------------------------------------- the command surface */
   const goResult = useCallback((r: CmdRecord) => {
+    if (searchBusy) return;
     if (r.ctx) openObject(r.ctx);
     if (r.href) {
       // Activating a result is a router.push and not a link, so the origin is
@@ -535,7 +542,7 @@ export function NeoShellClient({
       router.push(r.href);
       closeSearch();
     }
-  }, [openObject, router, closeSearch, path, query, only, modOnly]);
+  }, [searchBusy, openObject, router, closeSearch, path, query, only, modOnly]);
 
   /* ------------------------------------------------- returning to the search
 
@@ -584,6 +591,9 @@ export function NeoShellClient({
   const onFieldKey = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     const n = result.flat.length;
     if (e.key === "Escape") { e.preventDefault(); closeSearch(); return; }
+    if (searchBusy && ["Enter", "ArrowDown", "ArrowUp", "Home", "End"].includes(e.key)) {
+      e.preventDefault(); return;
+    }
     if (e.key === "Enter") {
       const r = result.flat[cursor];
       if (r) { e.preventDefault(); goResult(r); }
@@ -594,7 +604,7 @@ export function NeoShellClient({
     else if (e.key === "ArrowUp") { e.preventDefault(); setCursor((c) => (c - 1 + n) % n); }
     else if (e.key === "Home") { e.preventDefault(); setCursor(0); }
     else if (e.key === "End") { e.preventDefault(); setCursor(n - 1); }
-  }, [result.flat, cursor, closeSearch, goResult]);
+  }, [searchBusy, result.flat, cursor, closeSearch, goResult]);
 
   /* -------------------------------------------------------- keyboard */
   useEffect(() => {
@@ -732,7 +742,8 @@ export function NeoShellClient({
                 aria-expanded={searching}
                 aria-controls="nxc-list"
                 aria-autocomplete="list"
-                aria-activedescendant={searching && activeRow ? `nxc-o-${cursor}` : undefined}
+                aria-busy={searchBusy}
+                aria-activedescendant={searching && activeRow && !searchBusy ? `nxc-o-${cursor}` : undefined}
                 tabIndex={searching ? 0 : -1}
               />
               <button
@@ -981,6 +992,8 @@ export function NeoShellClient({
       {searching ? (
         <CommandSurface
           query={query}
+          busy={searchBusy}
+          onReset={resetFilters}
           onQuery={applyQuery}
           onKey={onFieldKey}
           result={result}

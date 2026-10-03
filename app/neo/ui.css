@@ -312,3 +312,11 @@ a.nu-card:active, button.nu-card:active { transform: translateY(0); box-shadow: 
 /* Interactive chips are targets: 24px minimum (WCAG 2.5.8; a11y sample 2026-09-21).
    Static chips keep their height. */
 .nx-app a.nu-chip, .nx-app button.nu-chip { min-block-size: 1.5rem; }
+
+/* Copy feedback keeps its label width and reports the actual clipboard result. */
+.nx-copy-label { display: inline-grid; }
+.nx-copy-label > span { grid-area: 1 / 1; }
+.nx-copy-reserve { visibility: hidden; }
+.nx-copy[data-copy-state="done"] { color: var(--ink-1); border-color: var(--m, var(--brand)); }
+.nx-copy[data-copy-state="error"] { color: var(--ink-1); border-style: dashed; }
+.nx-copy-spin { animation: nu-spin .8s linear infinite; }

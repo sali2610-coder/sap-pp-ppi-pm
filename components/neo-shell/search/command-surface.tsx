@@ -236,11 +236,13 @@ function Detail({
 /* --------------------------------------------------------------- surface */
 
 export function CommandSurface({
-  query, onQuery, onKey, result, only, onOnly, modOnly, onModOnly,
+  query, busy, onReset, onQuery, onKey, result, only, onOnly, modOnly, onModOnly,
   active, onActive, onGo, onContext, onClose,
   contexts, extra, idle, navHits, navTotal, listRef, mobileInputRef, surfaceMod,
 }: {
   query: string;
+  busy: boolean;
+  onReset: () => void;
   onQuery: (v: string) => void;
   /** The SAME key handler the rail's field uses. Without it the phone field's
    *  arrow keys fall through to the document and scroll the page — the one
@@ -317,7 +319,8 @@ export function CommandSurface({
             aria-expanded
             aria-controls="nxc-list"
             aria-autocomplete="list"
-            aria-activedescendant={rec ? `nxc-o-${active}` : undefined}
+            aria-busy={busy}
+            aria-activedescendant={rec && !busy ? `nxc-o-${active}` : undefined}
           />
           <button type="button" className="nx-iconbtn nx-iconbtn--xs" aria-label="סגירת החיפוש" onClick={onClose}>
             <Ico name="X" size={14} />
@@ -328,8 +331,9 @@ export function CommandSurface({
             the scope strip is one line that never wraps, so the result list never
             moves under the cursor while the query is being typed. */}
         <header className="nxc-head">
-          <p className="nxc-head-t">
-            {q ? (
+          <div className="nxc-readout">
+          <p className="nxc-head-t" role="status" aria-live="polite" aria-atomic="true">
+            {busy ? "מחפש…" : q ? (
               <>
                 <b>{nf.format(result.total)}</b> תוצאות עבור <span className="nxc-q">{q}</span>
                 <span className="nxc-head-sep">·</span>
@@ -345,6 +349,8 @@ export function CommandSurface({
               </>
             )}
           </p>
+          {only || modOnly ? <button type="button" className="nxc-reset" onClick={onReset}>איפוס הסינון</button> : null}
+          </div>
 
           <div className="nxc-scope">
             {live && result.sections.length ? (
@@ -417,6 +423,8 @@ export function CommandSurface({
             id="nxc-list"
             role="listbox"
             aria-label="תוצאות חיפוש"
+            aria-busy={busy}
+            data-busy={busy ? "1" : "0"}
             ref={listRef}
           >
             {!live ? (
@@ -444,11 +452,15 @@ export function CommandSurface({
                 </p>
               </div>
             ) : result.sections.length === 0 ? (
-              <p className="nxc-none">
-                לא נמצאו תוצאות עבור «{q}»
-                {modOnly ? ` במודול ${modLabel(modOnly)}` : ""}. החיפוש עובר על כל האינדקס,{" "}
-                {nf.format(indexTotal)} רשומות מנתוני הפרויקט.
-              </p>
+              <div className="nxc-none">
+                <p>לא נמצאו תוצאות עבור «{q}»
+                  {modOnly ? ` במודול ${modLabel(modOnly)}` : ""}. החיפוש עובר על כל האינדקס,{" "}
+                  {nf.format(indexTotal)} רשומות מנתוני הפרויקט.</p>
+                <div className="nxc-none-actions">
+                  {only || modOnly ? <button type="button" className="nxc-reset" onClick={onReset}>חיפוש בכל הסוגים והמודולים</button> : null}
+                  <button type="button" className="nxc-reset" onClick={() => { onQuery(""); onReset(); }}>ניקוי החיפוש והסינון</button>
+                </div>
+              </div>
             ) : (
               result.sections.map((sec, si) => {
                 let base = 0;

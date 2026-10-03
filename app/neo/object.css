@@ -669,6 +669,47 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
 
 /* --- 2 · the scope. .nu-filter owns every state --------------------------- */
 .no-scope { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.no-field-tools {
+  display: grid;
+  grid-template-columns: minmax(12rem, 1fr) auto;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  border: 1px solid color-mix(in srgb, var(--o) 25%, var(--hairline));
+  border-inline-start: 3px solid var(--o);
+  border-radius: var(--r-md);
+  background: color-mix(in srgb, var(--o) 4%, var(--surface));
+}
+.no-field-tools .no-scope { grid-column: 1 / -1; }
+.no-field-search {
+  display: flex; align-items: center; gap: var(--sp-2);
+  min-inline-size: 0; min-block-size: var(--c-tap);
+  padding-inline: var(--sp-3);
+  border: 1px solid var(--hairline); border-radius: var(--r-sm);
+  background: var(--surface); color: var(--ink-2);
+}
+.no-field-search:focus-within { outline: 2px solid var(--brand); outline-offset: 2px; }
+.no-field-search input {
+  inline-size: 100%; min-inline-size: 0;
+  border: 0; outline: 0; background: transparent;
+  font-family: var(--font-sans); font-size: var(--t-sm); color: var(--ink-1);
+}
+.no-field-search input::placeholder { color: var(--ink-3); }
+.no-field-search > svg { flex: none; }
+.no-field-summary { display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-3); font-size: var(--t-xs); color: var(--ink-2); }
+.no-field-summary b { color: var(--ink-1); font-variant-numeric: tabular-nums; }
+.no-field-id { display: inline-flex; align-items: center; gap: var(--sp-2); direction: ltr; }
+.no-field-id .nx-copy { min-block-size: 1.75rem; min-inline-size: 1.75rem; padding: .25rem; color: var(--ink-3); }
+.no-field-id .nx-copy:hover { color: var(--ink-1); }
+.no-field-id > .nx-sap { overflow-wrap: anywhere; }
+.no-table .no-field-empty { text-align: center; padding: var(--sp-6); font-family: var(--font-sans); direction: rtl; color: var(--ink-2); }
+.no-table tbody tr:focus-within { outline: 2px solid var(--o); outline-offset: -2px; }
+@media (pointer: coarse) {
+  .no-field-id .nx-copy { min-block-size: var(--c-tap); min-inline-size: var(--c-tap); }
+}
+@container no (max-width: 760px) {
+  .no-field-tools { grid-template-columns: minmax(0, 1fr); }
+  .no-field-summary { justify-content: space-between; }
+}
 .no-scope .nu-filter em {
   font-style: normal;
   font-size: 10px;
