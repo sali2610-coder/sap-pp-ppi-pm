@@ -20,6 +20,7 @@
     "check:sitemap": "node scripts/check-sitemap.mjs",
     "check:prod": "node scripts/check-prod.mjs",
     "check:vercel": "node scripts/check-vercel-json.mjs",
+    "pretest": "npm run gen:neo-shell -- --content-only",
     "test": "node --experimental-strip-types --test test/*.test.ts",
     "typecheck:test": "tsc --noEmit -p tsconfig.test.json",
     "gen:academy-blocks": "node --experimental-strip-types --no-warnings scripts/gen-academy-blocks.mjs",
