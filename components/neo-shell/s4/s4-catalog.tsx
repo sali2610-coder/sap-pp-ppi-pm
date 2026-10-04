@@ -9,12 +9,13 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, ClipboardList, Code2, Search, X } from "lucide-react";
+import { EDITION_HE } from "@/lib/evidence/types";
 import type { S4Link, S4ObjView } from "./s4-data";
 
 const nf = new Intl.NumberFormat("he-IL");
 const RISK_HE: Record<string, string> = { high: "סיכון גבוה", medium: "סיכון בינוני", low: "סיכון נמוך" };
 const RISK_C: Record<string, string> = { high: "var(--status-blocked, #dc2626)", medium: "var(--status-in-analysis, #d97706)", low: "var(--status-done, #16a34a)" };
-const TRUST_HE: Record<string, string> = { curated: "תיעוד מאומת", "needs-verification": "נדרש אימות נוסף" };
+const TRUST_HE: Record<string, string> = { curated: "תיעוד הפרויקט", "needs-verification": "נדרש אימות נוסף" };
 const ORDER: { k: string; he: string; open: boolean }[] = [
   { k: "removed", he: "בוטל", open: true },
   { k: "replaced", he: "הוחלף", open: true },
@@ -133,6 +134,18 @@ export function S4Catalog({ objs }: { objs: S4ObjView[] }) {
                   </dl>
 
                   {o.why ? <p className="ns4-why"><b>סיבת השינוי: </b>{o.why}</p> : null}
+
+                  {o.evidence?.map((source) => (
+                    <p className="ns4-why" key={`${source.url}-${source.claim}`}>
+                      <b>מקור לשינוי: </b>
+                      {source.url
+                        ? <a className="nu-link" href={source.url} target="_blank" rel="noopener noreferrer">{source.sourceTitle}</a>
+                        : source.sourceTitle}
+                      {" · "}<span className="nx-sap" dir="ltr">{EDITION_HE[source.edition]} {source.release}</span>
+                      {source.lastVerifiedAt ? <> · נבדק <time dir="ltr" dateTime={source.lastVerifiedAt}>{source.lastVerifiedAt}</time></> : null}
+                      <br />{source.claim}
+                    </p>
+                  ))}
 
                   {o.replacesLinks.length ? (
                     <>

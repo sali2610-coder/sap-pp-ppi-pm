@@ -42,7 +42,7 @@ const RISK_C: Record<string, string> = {
   medium: "var(--status-in-analysis, #d97706)",
   low: "var(--status-done, #16a34a)",
 };
-const TRUST_HE: Record<string, string> = { curated: "תיעוד מאומת", "needs-verification": "נדרש אימות נוסף" };
+const TRUST_HE: Record<string, string> = { curated: "תיעוד הפרויקט", "needs-verification": "נדרש אימות נוסף" };
 
 /* ------------------------------------------------------------- primitives */
 
@@ -158,8 +158,9 @@ export function S4HanaCenter() {
         ]}
         note={
           <>
-            {t.curated} מתוך {t.total} האובייקטים מסומנים כתיעוד מאומת; ליתר נדרש אימות נוסף בהתאם לגרסת המערכת,
-            והסימון מוצג על כל כרטיס. {t.linked} מהם מקושרים לדף אובייקט מלא בפרויקט.
+            {t.curated} מתוך {t.total} האובייקטים מבוססים על תיעוד הפרויקט; הסימון מופיע על כל כרטיס.
+            לפני החלטת מעבר יש לאמת את השינוי מול תיעוד SAP לגרסה ולמהדורה שלך.
+            {" "}{t.linked} מהם מקושרים לדף אובייקט מלא בפרויקט, עם המקורות הזמינים במאגר.
           </>
         }
       />
@@ -478,8 +479,9 @@ export function MigrationCockpit() {
         ]}
         note={
           <>
-            {t.curated} אובייקטים מסומנים כתיעוד מאומת ו-{t.needsVerification} כנדרש אימות נוסף בהתאם לגרסת המערכת.
-            הסימון מופיע על כל אובייקט. {t.eccLinked} מטבלאות ה-ECC מקושרות לדף טבלה מלא בפרויקט.
+            {t.curated} אובייקטים מבוססים על תיעוד הפרויקט ו-{t.needsVerification} מסומנים כנדרש אימות נוסף.
+            לפני תכנון הטעינה יש לבדוק זמינות ושיטת מעבר בתיעוד SAP לגרסה ולמהדורה שלך.
+            {" "}{t.eccLinked} מטבלאות ה-ECC מקושרות לדף טבלה מלא בפרויקט.
           </>
         }
       />

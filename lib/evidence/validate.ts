@@ -391,8 +391,14 @@ export interface CoverageRow {
   catalog: Catalog;
   total: number;
   depth: Record<DepthLevel, number>;
+  /** Stored evidence tiers, not a fresh verification of the cited SAP claims. */
+  byVerificationLevel: Record<VerificationLevel, number>;
+  /** Legacy aggregate of official, repository and secondary tiers. Prefer
+   *  byVerificationLevel: this number is NOT the count of SAP-verified facts. */
   verified: number;
+  /** Same OR condition as EvidenceBlockData.needsVerification. */
   verificationRequired: number;
+  statusVerificationRequired: number;
   conflicting: number;
   legacyOnly: number;
   s4Applicable: number;
@@ -409,12 +415,19 @@ export function coverageOf(
   const row: CoverageRow = {
     catalog, total: rows.length,
     depth: { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
-    verified: 0, verificationRequired: 0, conflicting: 0, legacyOnly: 0, s4Applicable: 0, editionSpecific: 0,
+    byVerificationLevel: {
+      sap_official_verified: 0, repository_verified: 0, supported_secondary_source: 0,
+      verification_required: 0, conflicting_sources: 0, legacy_context_only: 0,
+    },
+    verified: 0, verificationRequired: 0, statusVerificationRequired: 0,
+    conflicting: 0, legacyOnly: 0, s4Applicable: 0, editionSpecific: 0,
   };
   for (const r of rows) {
     row.depth[r.depth] += 1;
+    row.byVerificationLevel[r.level] += 1;
     if (VERIFIED.includes(r.level)) row.verified += 1;
-    if (r.level === "verification_required") row.verificationRequired += 1;
+    if (r.level === "verification_required" || r.status === "verification_required") row.verificationRequired += 1;
+    if (r.status === "verification_required") row.statusVerificationRequired += 1;
     if (r.level === "conflicting_sources") row.conflicting += 1;
     if (r.status === "legacy_ecc_only") row.legacyOnly += 1;
     if (!NOT_S4.includes(r.status)) row.s4Applicable += 1;

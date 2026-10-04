@@ -13,8 +13,9 @@
  *     scripts/report-coverage.mjs [--json] [--catalog <name>] [--min-depth <catalog>=<L>]
  *
  * --json        print CoverageRow[] as JSON instead of the table
- * --ids         print every row (id, depth, level, status) as JSON, per catalog:
- *               the exact universe this report counts, for work queues
+ * --ids         write every row with status, release, dates and source metadata
+ *               as JSON, per catalog, to IDS_OUT (default coverage-ids.json).
+ *               This audits stored provenance; it does not verify SAP claims.
  * --catalog X   limit to one catalog
  * --min-depth   gate for later phases: exit 1 if any record of <catalog> is
  *               below depth <L> (repeatable)
@@ -78,9 +79,14 @@ const rowOf = (block) => ({
   depth: block.depth.level,
   level: block.level.key,
   status: block.status.key,
-  edition:
-    block.sources.find((s) => s.edition === "private-cloud" || s.edition === "public-cloud")?.edition ??
-    block.status.edition,
+  release: block.status.release,
+  statusDerived: block.status.derived,
+  needsVerification: block.needsVerification,
+  lastVerifiedAt: block.lastVerifiedAt,
+  sources: block.sources,
+  // A contextual Cloud source cannot change the edition of the status claim.
+  // Each source retains its own edition in sources above.
+  edition: block.status.edition,
 });
 
 const truthy = (v) => (typeof v === "number" ? v > 0 : !!v);
@@ -201,23 +207,30 @@ if (flags.ids) {
 } else {
   const cols = [
     ["catalog", 16, "l"], ["total", 6], ["L0", 5], ["L1", 5], ["L2", 5], ["L3", 5], ["L4", 5], ["L5", 5],
-    ["verified", 10], ["verif.req", 11], ["conflict", 10], ["legacy", 8], ["s4-appl", 9], ["edition", 9],
+    ["sap-doc", 9], ["repo", 7], ["secondary", 11], ["needs-check", 13], ["status-?", 10],
+    ["conflict", 10], ["legacy", 8], ["s4-scope", 10], ["cloud-ed", 10],
   ];
   const line = (vals) => vals.map((v, i) =>
     cols[i][2] === "l" ? String(v).padEnd(cols[i][1]) : String(v).padStart(cols[i][1])).join("");
   console.log(line(cols.map(([h]) => h)));
-  const total = { total: 0, d: [0, 0, 0, 0, 0, 0], verified: 0, vr: 0, conf: 0, legacy: 0, s4: 0, ed: 0 };
+  const total = { total: 0, d: [0, 0, 0, 0, 0, 0], sap: 0, repo: 0, secondary: 0, vr: 0, unknown: 0, conf: 0, legacy: 0, s4: 0, ed: 0 };
   for (const r of coverage) {
+    const levels = r.byVerificationLevel;
     console.log(line([
       r.catalog, r.total, r.depth[0], r.depth[1], r.depth[2], r.depth[3], r.depth[4], r.depth[5],
-      r.verified, r.verificationRequired, r.conflicting, r.legacyOnly, r.s4Applicable, r.editionSpecific,
+      levels.sap_official_verified, levels.repository_verified, levels.supported_secondary_source,
+      r.verificationRequired, r.statusVerificationRequired, r.conflicting, r.legacyOnly, r.s4Applicable, r.editionSpecific,
     ]) + (NOTES[r.catalog] ? `  ${NOTES[r.catalog]}` : ""));
     total.total += r.total;
     for (let l = 0; l <= 5; l++) total.d[l] += r.depth[l];
-    total.verified += r.verified; total.vr += r.verificationRequired; total.conf += r.conflicting;
+    total.sap += levels.sap_official_verified; total.repo += levels.repository_verified;
+    total.secondary += levels.supported_secondary_source;
+    total.vr += r.verificationRequired; total.unknown += r.statusVerificationRequired; total.conf += r.conflicting;
     total.legacy += r.legacyOnly; total.s4 += r.s4Applicable; total.ed += r.editionSpecific;
   }
-  console.log(line(["TOTAL", total.total, ...total.d, total.verified, total.vr, total.conf, total.legacy, total.s4, total.ed]));
+  console.log(line(["TOTAL", total.total, ...total.d, total.sap, total.repo, total.secondary, total.vr, total.unknown, total.conf, total.legacy, total.s4, total.ed]));
+  console.log("Stored evidence tiers only; not a fresh SAP fact verification. needs-check = source level OR S/4 status requires verification; columns overlap.");
+  console.log("cloud-ed uses the status edition, not a contextual source. s4-scope includes not_available: it is not a count of usable objects.");
 }
 
 /* ------------------------------------------------------ --min-depth gate */

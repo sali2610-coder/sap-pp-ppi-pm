@@ -4,6 +4,8 @@
 // trust:"needs-verification". This curated layer is MERGED with derived
 // entries (S4_IMPACT, ECC_S4_TOPICS, TRANSACTIONS) in lib/s4-catalog.
 
+import type { Evidence } from "@/lib/evidence/types";
+
 export type S4Status = "stays" | "changed" | "replaced" | "removed";
 export type S4Kind = "Table" | "View" | "CDS" | "Tcode" | "BAPI" | "IDoc" | "Framework" | "Field";
 export type Trust = "curated" | "needs-verification";
@@ -19,6 +21,8 @@ export interface S4Obj {
   abap?: { k: string; note: string; code?: string }[];
   checklist?: string[];
   trust: Trust;
+  /** Sources support only their stated claim and release, not the entire card. */
+  evidence?: Evidence[];
 }
 
 export const S4STATUS_META: Record<S4Status, { he: string; c: string }> = {
@@ -29,6 +33,7 @@ export const S4STATUS_META: Record<S4Status, { he: string; c: string }> = {
 };
 
 const O = (o: S4Obj): S4Obj => o;
+const SIMPLIFICATION_2023 = "https://help.sap.com/doc/c34b5ef72430484cb4d8895d5edd12af/2023/en-US/SIMPL_OP2023.pdf";
 
 export const S4_OBJECTS: S4Obj[] = [
   /* ── MM-IM inventory: MATDOC ── */
@@ -54,7 +59,16 @@ export const S4_OBJECTS: S4Obj[] = [
     ecc: "טבלת אינדקס ל-G/L open items.", s4: "בוטלה — הנתונים ב-ACDOCA; קיים Compatibility View.", modules: ["FI"], related: ["ACDOCA", "BSEG"], checklist: ["דוחות Z על BSIS"], trust: "curated" }),
   O({ name: "BSID", kind: "Table", he: "אינדקס לקוחות — פתוחים", status: "removed", risk: "high", ecc: "אינדקס AR open items.", s4: "בוטלה → ACDOCA (compat view).", modules: ["FI"], related: ["ACDOCA", "KNA1"], trust: "curated" }),
   O({ name: "BSIK", kind: "Table", he: "אינדקס ספקים — פתוחים", status: "removed", risk: "high", ecc: "אינדקס AP open items.", s4: "בוטלה → ACDOCA (compat view).", modules: ["FI"], related: ["ACDOCA", "LFA1"], trust: "curated" }),
-  O({ name: "COEP", kind: "Table", he: "פריטי CO לפי תקופה", status: "removed", risk: "high", ecc: "פריטי עלות בפועל ב-CO.", s4: "בוטלה — עלויות ב-ACDOCA (account-based).", modules: ["CO"], related: ["ACDOCA"], trust: "curated" }),
+  O({ name: "COEP", kind: "Table", he: "פריטי CO לפי תקופה", status: "changed", risk: "high", ecc: "פריטי עלות בפועל ב-CO.",
+    s4: "נתוני WRTTP=04 נשמרים ב-ACDOCA; נתוני WRTTP=11 גם ב-COEP לתאימות. סוגי ערך אחרים עדיין נשמרים ב-COEP.",
+    modules: ["CO"], related: ["ACDOCA"], trust: "curated",
+    evidence: [{
+      sourceType: "simplification_item", sourceTitle: "Technical Changes in Controlling · סעיף 12.9, עמ׳ 352–353",
+      url: `${SIMPLIFICATION_2023}#page=352`, product: "SAP S/4HANA", edition: "on-premise", release: "2023 FPS03",
+      accessedAt: "2026-10-04", lastVerifiedAt: "2026-10-04", verificationLevel: "sap_official_verified",
+      claim: "מקום שמירת הנתונים תלוי ב-WRTTP; אין ביטול גורף של COEP. המקור חל גם על Cloud Private Edition 2023 FPS03.",
+    }],
+  }),
   O({ name: "MLIT", kind: "Table", he: "Material Ledger — פריטים", status: "changed", risk: "medium", ecc: "Material Ledger אופציונלי.", s4: "Material Ledger חובה ב-S/4 (לא בהכרח actual costing).", modules: ["CO", "MM"], related: ["ACDOCA", "MBEW"], trust: "curated" }),
 
   /* ── Business Partner (CVI) ── */
@@ -71,9 +85,16 @@ export const S4_OBJECTS: S4Obj[] = [
 
   /* ── PP / PP-PI ── */
   O({ name: "MATNR", kind: "Field", he: "מספר חומר (אורך שדה)", status: "changed", risk: "high", release: "S/4 1511",
-    ecc: "MATNR 18 תווים.", s4: "מורחב ל-40 תווים (ברירת מחדל 40).", why: "תמיכה במזהי חומר ארוכים גלובליים.", modules: ["MM", "PP", "PP-PI", "PM", "SD"], related: ["MARA", "MARC"],
+    ecc: "MATNR 18 תווים.", s4: "אורך טכני עד 40 תווים; שימוש במספרי חומר ארוכים כבוי כברירת מחדל ודורש הפעלה ב-FLETS והתאמת האורך ב-OMSL.", why: "תמיכה במזהי חומר ארוכים גלובליים.", modules: ["MM", "PP", "PP-PI", "PM", "SD"], related: ["MARA", "MARC"],
     abap: [{ k: "OFFSET", note: "MOVE עם offset קבוע על MATNR יישבר; השתמש ב-CONVERSION_EXIT_MATN1.", code: "lv_x = matnr+0(18).  \" ← unsafe in S/4" }, { k: "ממשקים", note: "IDoc/RFC/ברקודים שמניחים 18 תווים — בדוק." }],
-    checklist: ["ממשקי Zetes/Daymax", "ברקודים", "קוד Z עם offset על MATNR"], trust: "curated" }),
+    checklist: ["ממשקי Zetes/Daymax", "ברקודים", "קוד Z עם offset על MATNR"], trust: "curated",
+    evidence: [{
+      sourceType: "simplification_item", sourceTitle: "Material Number Field Length Extension · סעיף 3.22, עמ׳ 169",
+      url: `${SIMPLIFICATION_2023}#page=169`, product: "SAP S/4HANA", edition: "on-premise", release: "2023 FPS03",
+      accessedAt: "2026-10-04", lastVerifiedAt: "2026-10-04", verificationLevel: "sap_official_verified",
+      claim: "השימוש באורך המורחב כבוי כברירת מחדל בהסבה ובהתקנה חדשה; נדרשות הגדרות FLETS ו-OMSL. המקור חל גם על Cloud Private Edition 2023 FPS03.",
+    }],
+  }),
   O({ name: "PLAF", kind: "Table", he: "הזמנות מתוכננות", status: "changed", risk: "medium", ecc: "MRP קלאסי יוצר הזמנות מתוכננות.", s4: "MRP Live (PPH) — חישוב על HANA; PLAF נשמר אך הביצועים/לוגיקה שונים.", modules: ["PP", "PP-PI"], related: ["MDKP", "AFKO"], trust: "curated" }),
   O({ name: "AFKO", kind: "Table", he: "כותרת פקודת ייצור/תהליך", status: "stays", risk: "low", ecc: "כותרת פקודה.", s4: "נשמרת; aATP ו-MRP Live משפיעים על תהליכים סביבה.", modules: ["PP", "PP-PI"], related: ["AFPO", "AFVC", "RESB"], trust: "curated" }),
 
