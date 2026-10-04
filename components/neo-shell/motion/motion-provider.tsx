@@ -198,6 +198,20 @@ export function MotionProvider() {
     const scenes = Array.from(document.querySelectorAll<HTMLElement>("[data-scene]"));
     if (scenes.length === 0) return;
 
+    let activeScene: HTMLElement | null = null;
+    const syncGround = () => {
+      if (!activeScene) return;
+      app.dataset.sceneNow = activeScene.dataset.scene || "base";
+      app.style.setProperty(
+        "--nm-shell-ground",
+        getComputedStyle(activeScene).getPropertyValue("--scene-ground").trim() || "",
+      );
+    };
+    // Changing the theme does not cross an intersection threshold. Re-read
+    // the active scene's colour so the outer canvas changes with its cards.
+    const themeChanges = new MutationObserver(syncGround);
+    themeChanges.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
     let io: IntersectionObserver | null = null;
     try {
       io = new IntersectionObserver(
@@ -208,14 +222,8 @@ export function MotionProvider() {
           // stable because only one element can hold it.
           for (const e of entries) {
             if (!e.isIntersecting) continue;
-            const el = e.target as HTMLElement;
-            const name = el.dataset.scene || "base";
-            if (app.dataset.sceneNow === name) continue;
-            app.dataset.sceneNow = name;
-            app.style.setProperty(
-              "--nm-shell-ground",
-              getComputedStyle(el).getPropertyValue("--scene-ground").trim() || "",
-            );
+            activeScene = e.target as HTMLElement;
+            syncGround();
           }
         },
         { root: scroller, rootMargin: "-50% 0px -50% 0px", threshold: 0 },
@@ -225,6 +233,7 @@ export function MotionProvider() {
 
     return () => {
       io?.disconnect();
+      themeChanges.disconnect();
       delete app.dataset.sceneNow;
       app.style.removeProperty("--nm-shell-ground");
     };

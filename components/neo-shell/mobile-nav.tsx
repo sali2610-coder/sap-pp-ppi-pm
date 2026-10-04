@@ -9,32 +9,36 @@
 // window width; a real tablet never gets it. Same policy as the legacy chrome.
 
 import Link from "next/link";
+import { useEffect, useRef, type Ref } from "react";
 import { Ico } from "./icon";
 import { modVar } from "./mod-var";
+import { bindNavigationDialog } from "./navigation-dialog";
 import type { NavGroup } from "./types";
 
 const nf = new Intl.NumberFormat("he-IL");
 
 export function MobileTabs({
-  onNav, onSearch, navOpen, searchOpen,
+  onNav, onSearch, navOpen, searchOpen, isHome, navRef,
 }: {
   onNav: () => void;
   onSearch: () => void;
   navOpen: boolean;
   searchOpen: boolean;
+  isHome: boolean;
+  navRef: Ref<HTMLButtonElement>;
 }) {
   return (
     <nav className="nx-mtabs" data-shell="mobile-only" aria-label="ניווט תחתון">
       <div>
-        <Link prefetch={false} href="/neo/" className="nx-mtab" aria-current={!navOpen && !searchOpen ? "page" : undefined}>
+        <Link prefetch={false} href="/neo/" className="nx-mtab" aria-current={isHome ? "page" : undefined}>
           <Ico name="Home" size={18} />
           <span>בית</span>
         </Link>
-        <button type="button" className="nx-mtab" aria-current={navOpen ? "page" : undefined} aria-expanded={navOpen} onClick={onNav}>
+        <button ref={navRef} type="button" className="nx-mtab" aria-current={navOpen ? "true" : undefined} aria-pressed={navOpen} aria-expanded={navOpen} aria-controls={navOpen ? "nx-mobile-navigation" : undefined} aria-haspopup="dialog" onClick={onNav}>
           <Ico name="LayoutGrid" size={18} />
           <span>ניווט</span>
         </button>
-        <button type="button" className="nx-mtab" aria-current={searchOpen ? "page" : undefined} onClick={onSearch}>
+        <button type="button" className="nx-mtab" aria-current={searchOpen ? "true" : undefined} aria-pressed={searchOpen} onClick={onSearch}>
           <Ico name="Search" size={18} />
           <span>חיפוש</span>
         </button>
@@ -44,16 +48,27 @@ export function MobileTabs({
 }
 
 export function MobileSheet({
-  groups, activeId, onClose,
+  groups, activeId, open, onToggle, onClose,
 }: {
   groups: NavGroup[];
   activeId: string | null;
+  open: Record<string, boolean>;
+  onToggle: (id: string) => void;
   onClose: () => void;
 }) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const restoreFocus = useRef(true);
+  useEffect(() => {
+    if (!dialogRef.current) return;
+    restoreFocus.current = true;
+    const release = bindNavigationDialog(dialogRef.current, onClose);
+    return () => release(restoreFocus.current);
+  }, [onClose]);
+
   return (
     <>
       <div className="nx-scrim" onClick={onClose} aria-hidden="true" />
-      <div className="nx-msheet" role="dialog" aria-modal="true" aria-label="ניווט">
+      <div ref={dialogRef} id="nx-mobile-navigation" tabIndex={-1} className="nx-msheet" role="dialog" aria-modal="true" aria-label="ניווט">
         <div className="nx-msheet-h">
           <Ico name="LayoutGrid" size={16} />
           <span>ניווט</span>
@@ -64,13 +79,17 @@ export function MobileSheet({
         <div className="nx-msheet-b">
           {groups.map((g) => (
             <section key={g.id} className="nx-msheet-g">
-              <h4>{g.label}</h4>
+              <h4><button type="button" aria-expanded={open[g.id] !== false} aria-controls={`nx-mobile-grp-${g.id}`} onClick={() => onToggle(g.id)}>{g.label}</button></h4>
+              <div id={`nx-mobile-grp-${g.id}`} hidden={open[g.id] === false}>
               {g.items.map((it) => (
                 <Link
                   key={it.id}
                   prefetch={false}
                   href={it.href}
-                  onClick={onClose}
+                  onNavigate={() => {
+                    restoreFocus.current = new URL(it.href, window.location.href).href === window.location.href;
+                    onClose();
+                  }}
                   aria-current={activeId === it.id ? "page" : undefined}
                   style={it.mod ? ({ "--m": modVar(it.mod) } as React.CSSProperties) : undefined}
                 >
@@ -79,6 +98,7 @@ export function MobileSheet({
                   <span className="nx-n">{it.count === null ? "—" : nf.format(it.count)}</span>
                 </Link>
               ))}
+              </div>
             </section>
           ))}
         </div>

@@ -43,6 +43,8 @@ import { classifyFunc, cleanFunc } from "@/lib/object-intel";
 import { CDS_VIEWS } from "@/data/cds-map";
 import { FIORI_APPS } from "@/data/fiori/apps";
 import { LIBRARY } from "@/data/library";
+import { identityByShelfId } from "@/lib/book-identity";
+import { getBook } from "@/lib/library/registry";
 import { DOMAINS } from "@/data/domains";
 import { CONCEPTS } from "@/data/concepts";
 import { BEST_PRACTICES } from "@/data/best-practices";
@@ -179,6 +181,8 @@ function chapters(): CmdExtraRecord[] {
   const out: CmdExtraRecord[] = [];
   for (const b of LIBRARY) {
     const title = b.titleHe || b.title;
+    const bookId = identityByShelfId(b.id)?.bookId;
+    const book = bookId ? getBook(bookId) : null;
     for (const c of b.chapters) {
       out.push({
         k: "chapter",
@@ -187,7 +191,7 @@ function chapters(): CmdExtraRecord[] {
         // Record-level destination: the reader itself, opened on this chapter —
         // the same `?c=` contract the book hub uses. A chapter hit that landed
         // on the shelf made the reader re-find what the palette already knew.
-        href: `/neo/read/${b.id}/?c=${c.n}`,
+        href: book?.chapters.some((chapter) => chapter.n === c.n) ? `/neo/read/${bookId}/?c=${c.n}` : null,
         mod: b.module,
         rel: c.page ? `${title} · פרק ${c.n} · עמ׳ ${c.page}` : `${title} · פרק ${c.n}`,
       });

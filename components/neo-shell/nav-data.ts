@@ -30,6 +30,7 @@ import { ENHANCEMENTS } from "@/data/enhancements";
 import { INCIDENTS } from "@/data/troubleshooting";
 import { LIBRARY, LIBRARY_STATS } from "@/data/library";
 import { allBookIds } from "@/lib/library/registry";
+import { identityByShelfId } from "@/lib/book-identity";
 import { knowledgeData } from "@/components/neo-shell/learn/knowledge-data";
 import { BOOKS } from "@/data/library/academy-index";
 import { CONCEPTS } from "@/data/concepts";
@@ -433,8 +434,12 @@ function searchIndex(objects: Record<string, ObjectMeta>): SearchRecord[] {
 
   for (const v of CDS_VIEWS) out.push({ k: "cds", t: v.view, s: v.he, m: true, href: "/neo/cds/", st: cStatus.get(v.view) });
   for (const a of FIORI_APPS) out.push({ k: "fiori", t: a.id, s: a.he || a.name, m: true, href: "/neo/fiori-apps/", st: aStatus.get(a.id) });
-  for (const b of LIBRARY) out.push({ k: "book", t: b.titleHe || b.title, s: b.title, m: false, href: "/neo/books/" });
-  for (const i of INCIDENTS) out.push({ k: "incident", t: i.he, s: i.symptom.slice(0, 90), m: false, href: "/neo/incidents/" });
+  const bookIds = new Set(allBookIds());
+  for (const b of LIBRARY) {
+    const id = identityByShelfId(b.id)?.bookId;
+    out.push({ k: "book", t: b.titleHe || b.title, s: b.title, m: false, href: id && bookIds.has(id) ? `/neo/books/${id}/` : null });
+  }
+  for (const i of INCIDENTS) out.push({ k: "incident", t: i.he, s: i.symptom.slice(0, 90), m: false, href: `/neo/incidents/${encodeURIComponent(i.slug)}/` });
 
   return out;
 }
