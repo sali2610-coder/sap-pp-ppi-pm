@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { NeoShell } from "@/components/neo-shell/neo-shell";
-import { shellData } from "@/components/neo-shell/nav-data";
 import { NeoDock } from "@/components/neo-shell/dock/neo-dock";
 import { MotionProvider } from "@/components/neo-shell/motion/motion-provider";
 // Imported here rather than by the dock component, so the two controls are
@@ -26,12 +25,11 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-// Server component: shellData() reads the SAP datasets at BUILD time and hands
-// the client rail a small plain object. Importing lib/module-portal from a
-// client component would pull the whole knowledge base into the browser bundle.
+// The shell's generated presentation index is shared across routes. Canonical
+// SAP datasets stay in the build process; they are never client imports.
 export default function NeoLayout({ children }: { children: React.ReactNode }) {
   return (
-    <NeoShell data={shellData()}>
+    <NeoShell>
       {children}
       {/* Both are siblings of the page, not part of it, so a route change never
           remounts them: the font panel survives navigation, and the motion
