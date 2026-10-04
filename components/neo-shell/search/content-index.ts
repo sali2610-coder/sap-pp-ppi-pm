@@ -9,6 +9,9 @@ import { S4_OBJECTS } from "@/data/s4-objects";
 import { ECC_S4_TOPICS } from "@/data/ecc-s4";
 import { MIG_OBJECTS } from "@/data/migration-cockpit";
 import { idocDir } from "../reference/idoc-data";
+import { allBookIds, getBook } from "@/lib/library/registry";
+import { neoChapterHref, neoSectionHref } from "../books/links";
+import { commandIndex } from "./command-index";
 import type { CmdExtraRecord } from "./types";
 
 /** Search all authored words, without repeating full paragraphs in the index.
@@ -62,5 +65,37 @@ export function contentIndex(): CmdExtraRecord[] {
     s: item.title, href: `/neo/s4-readiness/#topic-${item.slug}`, rel: "מוכנות למעבר", kw: words(item) });
   for (const item of MIG_OBJECTS) rows.push({ k: "guide", t: item.he,
     s: item.name, href: `/neo/migration-cockpit/#mo-${item.id}`, rel: "קוקפיט המעבר", kw: words(item) });
+  const knownChapters = new Set(commandIndex().recs.filter((r) => r.k === "chapter").map((r) => r.href));
+  const bookSections = new Map<string, CmdExtraRecord>();
+  for (const id of allBookIds()) {
+    const book = getBook(id);
+    if (!book) continue;
+    const title = book.meta.title.he || book.meta.title.en;
+    for (const ch of book.chapters) {
+      const href = neoChapterHref(id, ch.n);
+      const chTitle = ch.title.he || ch.title.en;
+      if (!knownChapters.has(href)) {
+        rows.push({ k: "chapter", t: chTitle, s: title,
+          href, mod: book.meta.module, rel: `פרק ${ch.n}`, kw: ch.title.en });
+        knownChapters.add(href);
+      }
+      for (const section of ch.sections) {
+        const sectionHref = neoSectionHref(id, section.id);
+        const kw = `${section.title.en} ${section.title.he || ""}`;
+        const existing = bookSections.get(sectionHref);
+        if (existing) {
+          // The Reader resolves a repeated section ID to its first occurrence.
+          // Keep that destination once, while retaining every authored alias.
+          existing.kw = `${existing.kw} ${kw} ${chTitle}`;
+          continue;
+        }
+        const row: CmdExtraRecord = { k: "section", t: section.title.he || section.title.en,
+          s: `${title} · ${chTitle}`, href: sectionHref, mod: book.meta.module,
+          rel: section.id, kw };
+        bookSections.set(sectionHref, row);
+        rows.push(row);
+      }
+    }
+  }
   return rows;
 }

@@ -35,6 +35,7 @@ export const KINDS: { k: CmdKind; he: string; icon: string }[] = [
   { k: "course", he: "קורס", icon: "GraduationCap" },
   { k: "lesson", he: "שיעור", icon: "BookOpen" },
   { k: "source", he: "חומר לימוד מלא", icon: "FolderOpen" },
+  { k: "section", he: "נושא בספר", icon: "BookMarked" },
   { k: "idoc", he: "IDoc", icon: "Cable" },
   { k: "incident", he: "תקלה", icon: "AlertTriangle" },
 ];
@@ -64,7 +65,7 @@ export const KIND_SHAPE: Record<CmdKind, CmdShape> = {
   guide: "doc",
   bp: "doc",
   incident: "doc",
-  course: "doc", lesson: "doc", source: "doc", idoc: "code",
+  course: "doc", lesson: "doc", source: "doc", idoc: "code", section: "doc",
 };
 
 /** BAPI vs plain Function Module is decided by the identifier itself, which is
@@ -214,7 +215,8 @@ export function buildIndex(data: ShellData, extra: CommandExtra, content: CmdExt
       continue;
     }
     push({
-      id: `${r.k}:${r.t}`,
+      // Different canonical books can share a title; their routes identify them.
+      id: r.k === "book" && r.href ? `book:${r.href}` : `${r.k}:${r.t}`,
       k: r.k as CmdKind,
       title: r.t,
       mono: r.m,

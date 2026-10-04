@@ -29,7 +29,7 @@ import { FIORI_APPS } from "@/data/fiori/apps";
 import { ENHANCEMENTS } from "@/data/enhancements";
 import { INCIDENTS } from "@/data/troubleshooting";
 import { LIBRARY, LIBRARY_STATS } from "@/data/library";
-import { allBookIds } from "@/lib/library/registry";
+import { allBookIds, getBook } from "@/lib/library/registry";
 import { identityByShelfId } from "@/lib/book-identity";
 import { knowledgeData } from "@/components/neo-shell/learn/knowledge-data";
 import { BOOKS } from "@/data/library/academy-index";
@@ -441,12 +441,23 @@ function searchIndex(objects: Record<string, ObjectMeta>): SearchRecord[] {
     }
   }
 
+  for (const r of bapiDir().rows) if (!seenFn.has(r.name)) {
+    seenFn.add(r.name);
+    out.push({ k: "func", t: r.name, s: r.he || r.en, m: true, href: r.href, st: r.s4.status.key });
+  }
+
   for (const v of CDS_VIEWS) out.push({ k: "cds", t: v.view, s: v.he, m: true, href: "/neo/cds/", st: cStatus.get(v.view) });
   for (const a of FIORI_APPS) out.push({ k: "fiori", t: a.id, s: a.he || a.name, m: true, href: "/neo/fiori-apps/", st: aStatus.get(a.id) });
   const bookIds = new Set(allBookIds());
   for (const b of LIBRARY) {
     const id = identityByShelfId(b.id)?.bookId;
     out.push({ k: "book", t: b.titleHe || b.title, s: b.title, m: false, href: id && bookIds.has(id) ? `/neo/books/${id}/` : null });
+  }
+  for (const id of bookIds) {
+    if (out.some((r) => r.k === "book" && r.href === `/neo/books/${id}/`)) continue;
+    const book = getBook(id);
+    if (book) out.push({ k: "book", t: book.meta.title.he || book.meta.title.en,
+      s: book.meta.title.en, m: false, href: `/neo/books/${id}/` });
   }
   for (const i of INCIDENTS) out.push({ k: "incident", t: i.he, s: i.symptom.slice(0, 90), m: false, href: `/neo/incidents/${encodeURIComponent(i.slug)}/` });
 

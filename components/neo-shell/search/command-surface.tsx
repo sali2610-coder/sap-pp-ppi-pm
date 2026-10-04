@@ -316,7 +316,7 @@ export function CommandSurface({
             autoFocus
             aria-label="חיפוש בכל האתר"
             role="combobox"
-            aria-expanded
+            aria-expanded={live && result.flat.length > 0}
             aria-controls="nxc-list"
             aria-autocomplete="list"
             aria-busy={busy}

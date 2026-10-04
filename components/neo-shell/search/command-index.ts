@@ -35,6 +35,7 @@
 // out of the dataset, and a family with no dataset behind it is declared in
 // `gaps` rather than filled with plausible rows.
 
+import { bapiDir } from "../reference/bapi-data";
 import { txRegistry } from "@/lib/tx-registry";
 import { PM_DATA, PPPI_DATA } from "@/data/sapData";
 import { moduleTables, overviewStats } from "@/lib/module-portal";
@@ -110,6 +111,7 @@ function ownership(): { fn: CommandExtra["fn"]; tx: CommandExtra["tx"] } {
     }
   }
 
+  for (const r of bapiDir().rows) if (!fn[r.name]) fn[r.name] = ["", r.mods.join(" · "), r.href];
   const tx: CommandExtra["tx"] = {};
   // Include directory and breadth records as well as authored transactions.
   // This must cover the same canonical registry as the shell's search index.

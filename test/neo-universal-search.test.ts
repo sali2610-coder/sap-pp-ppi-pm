@@ -12,6 +12,9 @@ test("universal search reaches canonical catalogs and the complete Academy witho
     import {academyData} from './components/neo-shell/learn/academy-data.ts';
     import {sourceChapters, sourceNodes, sourceHref} from './components/neo-shell/learn/source-data.ts';
     import {registryCodes} from './lib/tx-registry.ts';
+    import {bapiDir} from './components/neo-shell/reference/bapi-data.ts';
+    import {allBookIds,getBook} from './lib/library/registry.ts';
+    import {neoChapterHref,neoSectionHref} from './components/neo-shell/books/links.ts';
     import {ALL_TABLES} from './data/sapData.ts';
     const content = contentIndex();
     const index = buildIndex(shellData(), commandIndex(), content);
@@ -20,6 +23,14 @@ test("universal search reaches canonical catalogs and the complete Academy witho
     for (const code of registryCodes()) assert.ok(runQuery(index, code, 'tcode').flat.some(r => r.title === code && r.href), code);
     for (const t of ALL_TABLES) assert.ok(runQuery(index, t.tableName, 'table').flat.some(r => r.title === t.tableName && r.href), t.tableName);
     const byHref = new Set(index.filter(r => r.href).map(r => r.href));
+    for (const r of bapiDir().rows) assert.ok(byHref.has(r.href), r.name);
+    for (const id of allBookIds()) {
+      assert.ok(byHref.has('/neo/books/' + id + '/'), id);
+      for (const ch of getBook(id).chapters) {
+        assert.ok(byHref.has(neoChapterHref(id,ch.n)), id + ':' + ch.n);
+        for (const section of ch.sections) assert.ok(byHref.has(neoSectionHref(id,section.id)), id + ':' + section.id);
+      }
+    }
     for (const c of academyData().courses) {
       assert.ok(byHref.has(c.href));
       for (const ch of c.chapters) for (const l of ch.lessons) if (l.hasLesson) assert.ok(byHref.has(l.href), l.slug);

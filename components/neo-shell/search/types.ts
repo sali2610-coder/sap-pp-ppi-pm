@@ -27,13 +27,14 @@ export type CmdKind =
   | "course"
   | "lesson"
   | "source"
-  | "idoc";
+  | "idoc"
+  | "section";
 
 /** A record the rail's own `ShellData.search` index does not carry, produced at
  *  build time by search/command-index.ts. Short keys: this payload is inlined
  *  into the HTML of every page in the namespace. */
 export interface CmdExtraRecord {
-  k: "chapter" | "flow" | "guide" | "bp" | "course" | "lesson" | "source" | "idoc";
+  k: "chapter" | "flow" | "guide" | "bp" | "course" | "lesson" | "source" | "idoc" | "section";
   /** Authored search terms, generated at build time. */
   kw?: string;
   /** Title — always a real title from the dataset. */
