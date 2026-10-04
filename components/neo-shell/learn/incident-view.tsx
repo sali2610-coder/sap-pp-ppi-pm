@@ -18,17 +18,27 @@
    sequence never has a hole where a field was missing.
    ========================================================================== */
 
-import { enLang } from "../lang";
+import { enDir, enLang } from "../lang";
 import Link from "next/link";
 import {
-  ArrowLeft, Bug, GitCompareArrows, Info, ListChecks, Puzzle, Quote, Search, ShieldCheck,
+  ArrowLeft, Boxes, Bug, FileSearch, GitCompareArrows, Info, ListChecks, Puzzle, Quote, Search, ShieldCheck,
   Stethoscope, Table as TableIcon, Terminal,
 } from "lucide-react";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
+import { noteHref, oicHref } from "@/components/neo-shell/records/links";
+import { SOURCE_HE, TRUST_META, trustDomain } from "@/lib/trust";
 import { learnModVar } from "./mod";
-import type { CodeRef, IncidentRow } from "./incidents-data";
+import type { CodeRef, IncidentDetail } from "./incidents-data";
 
 const ABSENT = "אין תיעוד מאומת במאגר";
+
+/** "BLOCKING (ייצור לא מקבל הוראות)" → ["BLOCKING", " (ייצור לא מקבל הוראות)"]:
+ *  the English tag becomes its own LTR island, the gloss stays in the line. */
+const splitImpact = (s: string): [string, string] => {
+  const i = s.indexOf(" (");
+  return i < 0 ? [s, ""] : [s.slice(0, i), s.slice(i)];
+};
+const hasHe = (s: string) => /[֐-׿]/.test(s);
 
 const IMPACT_HE: Record<string, string> = {
   BLOCKING: "חוסם עבודה",
@@ -76,17 +86,20 @@ function Ref({ r, kind }: { r: CodeRef; kind: "tcode" | "table" }) {
   );
 }
 
-export function IncidentView({ r }: { r: IncidentRow }) {
+export function IncidentView({ r }: { r: IncidentDetail }) {
   // The sections that will actually render, in order. The numbering reads off
-  // this list, so it can never show 01 · 02 · 04.
+  // this list, so it can never show 01 · 02 · 04. Diagnosis always renders:
+  // the tables line says so out loud when the record lists none.
+  // The S/4HANA plate renders after prevention (design audit §7), so it is
+  // numbered there too; listed first, it read "07 · 01 · 08".
   const order: string[] = [
-    "s4",
     "symptom",
     r.rootCauses.length ? "causes" : "",
-    r.tcodes.length || r.tables.length || r.debugEntry.length || r.breakpoints.length ? "diagnose" : "",
+    "diagnose",
     r.exits.length || r.funcs.length ? "hooks" : "",
     r.fix.length ? "fix" : "",
     r.prevention.length ? "prevent" : "",
+    "s4",
     r.scenario ? "scenario" : "",
     "notes",
   ].filter(Boolean);
@@ -94,6 +107,9 @@ export function IncidentView({ r }: { r: IncidentRow }) {
 
   const linked = [...r.tcodes, ...r.tables].filter((x) => x.href).length;
   const totalRefs = r.tcodes.length + r.tables.length;
+  const [impactTag, impactGloss] = splitImpact(r.impact);
+  // The catalogue's own trust level (lib/trust): authored domain knowledge.
+  const trust = trustDomain();
 
   return (
     <div
@@ -126,7 +142,15 @@ export function IncidentView({ r }: { r: IncidentRow }) {
           )}
           <span className="nu-chip is-sap">{r.slug}</span>
         </div>
-        {r.impact && r.impact !== r.impactKind ? <p className="nxv-lede">{r.impact}</p> : null}
+        {/* The source's impact line, verbatim: the pill above is its Hebrew
+            reading, this is what the record says. */}
+        {r.impact ? (
+          <p className="nxv-lede nxr-impact">
+            <b>השפעה עסקית:</b>{" "}
+            <span dir="ltr" lang="en">{impactTag}</span>
+            {impactGloss}
+          </p>
+        ) : null}
       </header>
 
       {/* ------------------------------------------------------------ SYMPTOM */}
@@ -139,13 +163,13 @@ export function IncidentView({ r }: { r: IncidentRow }) {
         {r.symptom ? <p className="nxv-v">{r.symptom}</p> : <Absent what="סימפטום" />}
         {r.error ? (
           <div className="nxv-fact">
-            <span className="nxv-l">הודעת השגיאה</span>
-            <code className="nxv-code">{r.error}</code>
+            <span className="nxv-l">קוד שגיאה</span>
+            <code className="nxv-code" data-he={hasHe(r.error) ? "1" : undefined}>{r.error}</code>
           </div>
         ) : null}
         {r.techCause ? (
           <div className="nxv-fact">
-            <span className="nxv-l">סיבת שורש טכנית</span>
+            <span className="nxv-l">גורם שורש טכני</span>
             <p className="nxv-v">{r.techCause}</p>
           </div>
         ) : null}
@@ -166,47 +190,76 @@ export function IncidentView({ r }: { r: IncidentRow }) {
       ) : null}
 
       {/* ----------------------------------------------------------- DIAGNOSE */}
-      {order.includes("diagnose") ? (
-        <section className="nxv-sec" aria-labelledby="i-dx">
-          <div className="nxv-sec-h">
-            <span className="nxv-sec-i" aria-hidden="true"><Search size={16} strokeWidth={1.75} /></span>
-            <h2 className="nx-h2" id="i-dx">אבחון</h2>
-            <em className="nxv-sec-n">{n("diagnose")}</em>
+      <section className="nxv-sec" aria-labelledby="i-dx">
+        <div className="nxv-sec-h">
+          <span className="nxv-sec-i" aria-hidden="true"><Search size={16} strokeWidth={1.75} /></span>
+          <h2 className="nx-h2" id="i-dx">אבחון</h2>
+          <em className="nxv-sec-n">{n("diagnose")}</em>
+        </div>
+
+        {r.tcodes.length ? (
+          <div className="nxv-fact">
+            <span className="nxv-l">T-Codes לאבחון</span>
+            <div className="nxv-refs">
+              {r.tcodes.map((c) => <Ref key={`tx-${c.code}`} r={c} kind="tcode" />)}
+            </div>
           </div>
+        ) : null}
 
-          {r.tcodes.length ? (
-            <div className="nxv-fact">
-              <span className="nxv-l">טרנזקציות לאבחון</span>
-              <div className="nxv-refs">
-                {r.tcodes.map((c) => <Ref key={`tx-${c.code}`} r={c} kind="tcode" />)}
-              </div>
-            </div>
-          ) : null}
-
+        <div className="nxv-fact">
+          <span className="nxv-l">טבלאות לבדיקה</span>
           {r.tables.length ? (
-            <div className="nxv-fact">
-              <span className="nxv-l">טבלאות לבדיקה</span>
-              <div className="nxv-refs">
-                {r.tables.map((c) => <Ref key={`tb-${c.code}`} r={c} kind="table" />)}
-              </div>
+            <div className="nxv-refs">
+              {r.tables.map((c) => <Ref key={`tb-${c.code}`} r={c} kind="table" />)}
             </div>
-          ) : null}
+          ) : (
+            <Absent what="טבלאות לבדיקה" />
+          )}
+        </div>
 
-          {r.debugEntry.length ? (
-            <div className="nxv-fact">
-              <span className="nxv-l">נקודות כניסה ל-Debug</span>
-              <ul className="nxv-ul">{r.debugEntry.map((d) => <li key={d}>{d}</li>)}</ul>
+        {/* The business objects whose primary table is on the list above
+            (the project's object registry), each to its object page. */}
+        {r.objects.length ? (
+          <div className="nxv-fact">
+            <span className="nxv-l">אובייקטים מושפעים</span>
+            <div className="nxv-refs">
+              {r.objects.map((o) => {
+                // A link only when /neo/oic/ generates this object's page.
+                const href = oicHref(o.slug);
+                const body = (
+                  <>
+                    <Boxes size={13} strokeWidth={1.75} />
+                    <b>{o.he}</b>
+                    <span className="nx-sap" dir="ltr">{o.table}</span>
+                  </>
+                );
+                return href ? (
+                  <Link key={o.slug} href={href} className="nu-card nxv-ref nxr-ref-he" prefetch={false}>
+                    {body}
+                    <ArrowLeft size={13} strokeWidth={2} aria-hidden="true" style={{ marginInlineStart: "auto", opacity: 0.5 }} />
+                  </Link>
+                ) : (
+                  <span key={o.slug} className="nxv-ref nxr-ref-he nxr-inert">{body}</span>
+                );
+              })}
             </div>
-          ) : null}
+          </div>
+        ) : null}
 
-          {r.breakpoints.length ? (
-            <div className="nxv-fact">
-              <span className="nxv-l">Breakpoints</span>
-              <ul className="nxv-ul">{r.breakpoints.map((d) => <li key={d} className="nx-sap">{d}</li>)}</ul>
-            </div>
-          ) : null}
-        </section>
-      ) : null}
+        {r.debugEntry.length ? (
+          <div className="nxv-fact">
+            <span className="nxv-l">נקודות Debug</span>
+            <ul className="nxv-ul">{r.debugEntry.map((d) => <li key={d}>{d}</li>)}</ul>
+          </div>
+        ) : null}
+
+        {r.breakpoints.length ? (
+          <div className="nxv-fact">
+            <span className="nxv-l">Breakpoints</span>
+            <ul className="nxv-ul">{r.breakpoints.map((d) => <li key={d} className="nx-sap">{d}</li>)}</ul>
+          </div>
+        ) : null}
+      </section>
 
       {/* -------------------------------------------------------------- HOOKS */}
       {order.includes("hooks") ? (
@@ -315,15 +368,56 @@ export function IncidentView({ r }: { r: IncidentRow }) {
           <h2 className="nx-h2" id="i-nt">איתור SAP Notes</h2>
           <em className="nxv-sec-n">{n("notes")}</em>
         </div>
-        {r.notes.length || r.oss.length ? (
+        {r.notes.length || r.oss.length || r.noteTopics.length ? (
           <>
             <p className="nx-muted">
               מילות חיפוש ל-SAP for Me. הקטלוג אינו כולל מספרי SAP Note; יש לאמת את ה-Note שנמצא
               {" "}לפני יישום.
             </p>
-            <div className="nxv-chips">
-              {[...r.notes, ...r.oss].map((k) => <span key={k} className="nu-chip">{k}</span>)}
-            </div>
+            {r.notes.length ? (
+              <div className="nxv-fact">
+                <span className="nxv-l">SAP Notes — מילות חיפוש</span>
+                <div className="nxv-chips">
+                  {r.notes.map((k) => <span key={k} className="nu-chip" dir={enDir(k)} lang={enLang(k)}>{k}</span>)}
+                </div>
+              </div>
+            ) : null}
+            {r.oss.length ? (
+              <div className="nxv-fact">
+                <span className="nxv-l">OSS / SAP Notes — הפניות</span>
+                <div className="nxv-chips">
+                  {r.oss.map((k) => <span key={k} className="nu-chip" dir={enDir(k)} lang={enLang(k)}>{k}</span>)}
+                </div>
+              </div>
+            ) : null}
+            {/* Resolution topics of the SAP Notes catalogue that name this
+                incident: component and title, never a note number. */}
+            {r.noteTopics.length ? (
+              <div className="nxv-fact">
+                <span className="nxv-l">SAP Notes קשורים</span>
+                <div className="nxv-refs">
+                  {r.noteTopics.map((t) => {
+                    // A link only when /neo/sap-notes/ generates this topic's page.
+                    const href = noteHref(t.slug);
+                    const body = (
+                      <>
+                        <FileSearch size={13} strokeWidth={1.75} />
+                        <b>{t.component}</b>
+                        <span>{t.he}</span>
+                      </>
+                    );
+                    return href ? (
+                      <Link key={t.slug} href={href} className="nu-card nxv-ref" prefetch={false}>
+                        {body}
+                        <ArrowLeft size={13} strokeWidth={2} aria-hidden="true" style={{ marginInlineStart: "auto", opacity: 0.5, flex: "none" }} />
+                      </Link>
+                    ) : (
+                      <span key={t.slug} className="nxv-ref nxr-inert">{body}</span>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : null}
           </>
         ) : (
           <Absent what="מילות חיפוש ל-SAP Notes" />
@@ -334,8 +428,8 @@ export function IncidentView({ r }: { r: IncidentRow }) {
         <p className="nxv-src">
           <Info size={13} strokeWidth={1.75} aria-hidden="true" />
           <span>
-            מקור: קטלוג התקלות של הפרויקט: תיעוד פתרון בעיות מאומת, שאינו
-            {" "}בדיקה חיה במערכת SAP. כל צעד טעון אימות בסביבת בדיקות לפני ביצוע בייצור.
+            מקור: קטלוג התקלות של הפרויקט. רמת אמון: {TRUST_META[trust.level].he} · סוג מקור: {SOURCE_HE[trust.source]}.
+            {" "}אינו בדיקה חיה במערכת SAP; כל צעד טעון אימות בסביבת בדיקות לפני ביצוע בייצור.
           </span>
         </p>
         {totalRefs ? (

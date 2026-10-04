@@ -1,0 +1,60 @@
+/* The editorial language for the reader surface only, loaded by the pages that render it
+   (split from editorial.css, which every /neo route loads; order and selectors unchanged). */
+/* ==========================================================================
+   READER · /neo/read/ — the red folio, sand TOC, one measure
+   ========================================================================== */
+.nx-app[data-pilot="editorial"] .nr { --nr-paper: var(--surface); --nr-ink: var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nr[data-measure="normal"] { --nr-measure: calc(var(--nr-fs) * 31); }
+.nx-app[data-pilot="editorial"] .nr-head { background: var(--background); border-block-end: 2px solid var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nr-crumb, .nx-app[data-pilot="editorial"] .nr-crumb-now, .nx-app[data-pilot="editorial"] .nr-crumb-l, .nx-app[data-pilot="editorial"] .nr-crumb-b { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nr-tool, .nx-app[data-pilot="editorial"] .nr-mark, .nx-app[data-pilot="editorial"] .nr-lang { border-radius: 0; }
+.nx-app[data-pilot="editorial"] .nr-strip-seg b, .nx-app[data-pilot="editorial"] .nr-strip-seg em { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nr-strip-bar i { background: var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nr-sheet { border: 0; border-radius: 0; box-shadow: none; padding-inline: var(--sp-6); border-inline-start: 1px solid var(--hairline); }
+.nx-app[data-pilot="editorial"] .nr-ch-head { border-block-end: 2px solid var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nr-eye .nu-chip { border: 0; border-inline-start: 2px solid var(--m); padding-inline: var(--sp-2) 0; font-size: var(--t-sm); color: var(--ink-2); }
+.nx-app[data-pilot="editorial"] .nr-ch-t { font-family: var(--font-display); font-weight: 700; font-size: var(--t-h1); line-height: 1.2; }
+/* the folio: chapter numeral in brand, mono, with the editor's rule */
+.nx-app[data-pilot="editorial"] .nr-ch-n {
+  font-family: var(--font-mono); font-size: var(--t-ui); font-weight: 700; color: var(--brand-ink);
+  padding-inline-start: var(--sp-2); border-inline-start: 3px solid var(--brand);
+}
+.nx-app[data-pilot="editorial"] .nr-ch-m { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nr-sec-n { border: 0; padding-inline: 0; font-family: var(--font-mono); font-size: var(--t-sm); font-weight: 600; color: var(--ink-3); background: none; }
+.nx-app[data-pilot="editorial"] .nr-sec-t { font-weight: 600; }
+.nx-app[data-pilot="editorial"] .nr-sec[aria-current="true"] .nr-sec-t { border-inline-start-color: var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nr-sec-meta { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nr-intro { border-radius: 0; }
+.nx-app[data-pilot="editorial"] .nr-intro-l { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nr-end { border: 0; border-block-start: 2px solid var(--ink-1); border-radius: 0; background: none; }
+.nx-app[data-pilot="editorial"] .nr-end:hover { background: var(--select-bg); }
+.nx-app[data-pilot="editorial"] .nr-end-k { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nr-foot { font-size: var(--t-sm); }
+/* the rail: ruled, the progress rail in brand */
+.nx-app[data-pilot="editorial"] .nr-rail { border: 0; border-inline-end: 1px solid var(--hairline); border-radius: 0; background: none; box-shadow: none; }
+.nx-app[data-pilot="editorial"] .nr-rail-pct { font-family: var(--font-mono); color: var(--brand-ink); }
+.nx-app[data-pilot="editorial"] .nr-rail-pct i, .nx-app[data-pilot="editorial"] .nr-rail-cap { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nr-track-bed { border-radius: 0; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--hairline); }
+.nx-app[data-pilot="editorial"] .nr-track-band { border-radius: 0; background: var(--select-bg); }
+.nx-app[data-pilot="editorial"] .nr-track-fill { border-radius: 0; background: var(--brand); }
+.nx-app[data-pilot="editorial"] .nr-now { background: var(--ink-1); box-shadow: 0 0 0 2px var(--background); }
+.nx-app[data-pilot="editorial"] .nr-tick[data-on="1"]::before { background: var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nr-rtoc-t { font-size: var(--t-sm); border-radius: 0; }
+.nx-app[data-pilot="editorial"] .nr-rtoc-sec { font-size: var(--t-sm); border-radius: 0; }
+.nx-app[data-pilot="editorial"] .nr-rtoc-ch[data-on="1"] > .nr-rtoc-hd .nr-rtoc-t { background: var(--select-bg); color: var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nr-rtoc-ch[data-on="1"] > .nr-rtoc-hd .nr-rtoc-t:not(:focus-visible) { box-shadow: inset 3px 0 0 0 var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nr-rtoc-bar { border-radius: 0; }
+.nx-app[data-pilot="editorial"] .nr-rtoc-bar i { background: var(--ink-2); }
+.nx-app[data-pilot="editorial"] .nr-meter-t, .nx-app[data-pilot="editorial"] .nr-meter-n { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nr-dock { background: var(--background); border-block-start: 1px solid var(--hairline); }
+.nx-app[data-pilot="editorial"] .nr-dock-k, .nx-app[data-pilot="editorial"] .nr-dock-t { font-size: var(--t-sm); }
+/* reader toolbar: a pressed language or bookmark = sand + ink line, never an ink block */
+.nx-app[data-pilot="editorial"] .nr-lang[data-on="1"], .nx-app[data-pilot="editorial"] .nr-mark[data-on="1"] {
+  background: var(--select-bg); color: var(--ink-1); border-color: transparent;
+  box-shadow: inset 0 -3px 0 0 var(--ink-1); border-radius: 0;
+}
+.nx-app[data-pilot="editorial"] .nr-langs, .nx-app[data-pilot="editorial"] .nr-steps { border-radius: 0; }
+
+/* iteration 3: the floor measured, not assumed (ed-shot audit: 13.9995 at 17px root, 13.2 at 16px) */
+.nx-app[data-pilot="editorial"] .nr-end--none, .nx-app[data-pilot="editorial"] .nr-end-t, .nx-app[data-pilot="editorial"] .nr-end-k { font-size: var(--t-sm); }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nr-sheet { background: var(--surface-raised); }

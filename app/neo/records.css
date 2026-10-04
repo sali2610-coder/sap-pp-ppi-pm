@@ -1,0 +1,127 @@
+/* ============================================================================
+   PROJECT NEO · RECORDS — the legacy record families rebuilt under /neo/
+   ----------------------------------------------------------------------------
+   components/neo-shell/records/kit.tsx draws on the centres markup (nct-*,
+   app/neo/centers.css, painted by the editorial layer). This file adds only
+   what that markup lacks: the family hue on the markers, a linked code, rows
+   of codes with their words, references, compare, key/value, a warning note,
+   folded sections and the index group headings. Tokens only.
+   ========================================================================== */
+
+/* The section markers and step numbers take the page's family hue. */
+.nrc { --ct: var(--fam, var(--sec-knowledge, var(--brand))); }
+
+.nrc .nrc-n {
+  margin-inline-start: var(--sp-2);
+  font-size: var(--t-micro); font-weight: 600; color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.nrc .nrc-lede { margin-bottom: var(--sp-3); }
+.nrc .nrc-h3 {
+  display: flex; align-items: baseline;
+  margin: 0 0 var(--sp-2);
+  font-size: .86rem; font-weight: 700; color: var(--ink-1);
+}
+.nrc .nrc-part + .nrc-part, .nrc .nrc-grp + .nrc-grp { margin-top: var(--sp-4); }
+.nrc .nrc-status { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-4); margin-top: var(--sp-3); }
+
+/* A code that opens its NEO page: the value's plate with a solid edge and the
+   link ink. A code with no page keeps the dashed plate (centers.css). */
+.nrc .nrc-go { border-style: solid; color: var(--link); text-decoration: none; }
+.nrc .nrc-go:hover { border-color: var(--fam-line, var(--line-strong)); background: var(--fam-tint, var(--surface)); }
+
+/* Codes that carry words: one row each. */
+.nrc .nrc-rows { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-2); }
+.nrc .nrc-rows li { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-2); font-size: .87rem; line-height: 1.6; color: var(--ink-2); }
+
+/* References with a Hebrew label. */
+.nrc .nrc-refs { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-1); }
+.nrc .nrc-ref {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-1) var(--sp-2);
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px solid var(--hairline); border-radius: var(--r-md);
+  font-size: .88rem; line-height: 1.55; color: var(--ink-1); text-decoration: none;
+}
+.nrc .nrc-ref--go { color: var(--link); }
+.nrc .nrc-ref--go:hover { border-color: var(--fam-line, var(--line-strong)); background: var(--fam-tint, var(--surface-2)); }
+.nrc .nrc-ref-id { font-size: var(--t-micro); color: var(--ink-3); unicode-bidi: isolate; }
+.nrc .nrc-ref-s { flex-basis: 100%; font-size: .8rem; color: var(--ink-2); }
+
+.nrc :is(.nrc-go, .nrc-ref--go):focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* Two sides of one change. */
+.nrc .nrc-cmp { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: var(--sp-3); }
+.nrc .nrc-cmp > div { padding: var(--sp-3); border: 1px solid var(--hairline); border-radius: var(--r-md); background: var(--surface-2); }
+.nrc .nrc-cmp-l { margin: 0 0 var(--sp-1); font-size: var(--t-micro); font-weight: 700; color: var(--ink-3); }
+
+/* Key and value. */
+.nrc .nrc-kv { margin: 0; display: grid; }
+.nrc .nrc-kv > div {
+  display: grid; grid-template-columns: minmax(7rem, 11rem) minmax(0, 1fr); gap: var(--sp-3);
+  padding-block: var(--sp-2); border-block-end: 1px solid var(--hairline);
+}
+.nrc .nrc-kv > div:last-child { border-block-end: 0; }
+.nrc .nrc-kv dt { font-size: var(--t-micro); font-weight: 700; line-height: 1.7; color: var(--ink-3); }
+.nrc .nrc-kv dd { margin: 0; display: grid; gap: var(--sp-2); font-size: .89rem; line-height: 1.65; color: var(--ink-2); }
+.nrc .nct-hero .nrc-kv { margin-top: var(--sp-3); max-inline-size: 62ch; }
+
+/* A warning the record itself carries. */
+.nrc .nrc-warn {
+  display: flex; gap: var(--sp-2); align-items: flex-start; margin: 0;
+  font-size: .9rem; line-height: 1.65; color: var(--ink-1);
+}
+.nrc .nrc-warn svg { flex: none; margin-top: .2em; color: var(--status-in-analysis); }
+.nrc .nrc-sec-warn { border-inline-start: 3px solid var(--status-in-analysis); }
+
+/* Steps that carry codes and a caution. */
+.nrc .nrc-steps li { align-items: flex-start; }
+.nrc .nrc-step { display: grid; gap: var(--sp-1); min-inline-size: 0; }
+.nrc .nrc-step-l { font-size: var(--t-micro); font-weight: 700; color: var(--ink-3); }
+.nrc .nrc-step-t { margin: 0; color: var(--ink-1); }
+.nrc .nrc-step-g { display: grid; gap: var(--sp-1); }
+.nrc .nrc-step-note { margin: 0; font-size: .82rem; line-height: 1.6; color: var(--ink-2); }
+.nrc .nrc-step-note b { font-weight: 700; color: var(--ink-1); }
+
+/* Long secondary content stays in the page, folded. */
+.nrc .nrc-fold > .nrc-sum {
+  display: flex; align-items: center; min-block-size: 2.75rem;
+  list-style: none; cursor: pointer; border-radius: var(--r-sm);
+}
+.nrc .nrc-fold > .nrc-sum::-webkit-details-marker { display: none; }
+.nrc .nrc-fold > .nrc-sum .nct-sec-h { margin: 0; flex: 1 1 auto; }
+/* A chevron has no reading direction: physical right + bottom edges turned 45°
+   point down (closed) and, turned -135°, up (open) in RTL and LTR alike. The
+   logical edges flipped to the left in RTL and the mark pointed sideways. */
+.nrc .nrc-fold > .nrc-sum::after {
+  content: ""; flex: none; inline-size: .5rem; block-size: .5rem; margin-inline: var(--sp-2);
+  border-right: 2px solid var(--ink-3); border-bottom: 2px solid var(--ink-3);
+  transform: rotate(45deg);
+}
+/* A fold reached from a link (#t-<topic>, the security course's start cards) keeps clear of the page top. */
+.nrc .nrc-fold[id] { scroll-margin-block-start: var(--sp-6); }
+.nrc .nrc-fold[open] > .nrc-sum { margin-bottom: var(--sp-3); }
+.nrc .nrc-fold[open] > .nrc-sum::after { transform: rotate(-135deg); }
+.nrc .nrc-fold > .nrc-sum:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* The neighbourhood drawing: the record in its family hue, neighbours on
+   paper. Static; every node is also a row in the lists below. */
+.nrc .nrc-graph { display: block; inline-size: 100%; block-size: auto; max-inline-size: 48rem; margin-inline: auto; }
+.nrc .nrc-g-edge { stroke: var(--fam-line, var(--hairline)); stroke-width: 1.5; }
+.nrc .nrc-g-hub { fill: var(--fam, var(--ink-1)); }
+.nrc .nrc-g-hub-t { fill: var(--surface); font-family: var(--font-mono); font-size: 17px; font-weight: 700; }
+.nrc .nrc-g-hub-s { fill: var(--surface); font-size: 10px; font-weight: 700; }
+.nrc .nrc-g-node { fill: var(--surface); stroke: var(--fam-line, var(--hairline)); stroke-width: 1.5; }
+.nrc .nrc-g-l { fill: var(--ink-1); font-family: var(--font-mono); font-size: 11px; font-weight: 600; }
+.nrc .nrc-g-k { fill: var(--ink-3); font-size: 8px; font-weight: 700; }
+/* The mono face has no Hebrew: a Hebrew label takes the page's face, untracked. */
+.nrc .nrc-g-he { font-family: inherit; letter-spacing: 0; }
+
+/* The index: one heading per group of rows. */
+.nrc .nrc-intro { margin-block: 0 var(--sp-6); }
+.nrc .nrc-index + .nrc-index { margin-top: var(--sp-6); }
+.nrc .nrc-gh { display: flex; align-items: baseline; margin: 0 0 var(--sp-3); font-size: 1.05rem; font-weight: 700; }
+.nrc .nrc-index + .nct-secs { margin-top: var(--sp-8); }
+
+@media (max-width: 720px) {
+  .nrc .nrc-kv > div { grid-template-columns: minmax(0, 1fr); gap: var(--sp-1); }
+}

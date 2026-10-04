@@ -1,0 +1,108 @@
+/* The editorial language for the home surface only, loaded by the pages that render it
+   (split from editorial.css, which every /neo route loads; order and selectors unchanged). */
+/* ==========================================================================
+   HOME · /neo/ — the masthead, the doors as a journal grid, the map as a rule
+   ========================================================================== */
+/* The masthead answers to the page's width, not the window's: with the rail
+   open, a 833 to 1000px window put it in two columns on a 553 to 690px
+   canvas, the title and the lede in a 137 to 328px column (responsive QA
+   round 7, C42). */
+.nx-app[data-pilot="editorial"] .nh { container: nh / inline-size; }
+.nx-app[data-pilot="editorial"] .nh-gate {
+  container-type: inline-size;
+  position: relative;
+  max-inline-size: none;
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(18rem, 1fr);
+  grid-template-areas: "title find" "lede find" "eg eg";
+  align-items: center;
+  column-gap: var(--sp-8);
+  row-gap: var(--sp-2);
+  min-block-size: 96px;
+  padding: var(--sp-5) var(--sp-6) var(--sp-4);
+  background: var(--ed-mast);
+  color: var(--ed-mast-ink);
+  /* full bleed inside the canvas without knowing its gutter */
+  box-shadow: 0 0 0 100vmax var(--ed-mast);
+  clip-path: inset(0 -100vmax);
+  border-block-end: 4px solid var(--brand);   /* the editor's pencil */
+}
+/* The display size holds to about 390px and then follows the title's width:
+   at 320 the one-piece line "ל-SAP S/4HANA" (7.4 times the size) ran out of a
+   240px title, its S cut and the canvas scrolling sideways (responsive QA
+   round 6, C40). In one column the title is as wide as the masthead's
+   content, which is its container: measured there, not on the window, a
+   desktop scrollbar is not counted in (round 7, C40b). */
+.nx-app[data-pilot="editorial"] .nh-h1 { grid-area: title; max-inline-size: none; color: var(--ed-mast-ink); font-size: clamp(1.5rem, calc(100cqi / 7.5), var(--t-display)); line-height: 1.1; font-weight: 700; }
+/* balanced: the lede ended on a one-to-three-word line at most widths, a lone
+   "ל-S/4HANA." at a portrait tablet (responsive QA round 8, C44) */
+.nx-app[data-pilot="editorial"] .nh-lede { grid-area: lede; color: var(--ed-mast-ink); opacity: .86; max-inline-size: 60ch; font-size: var(--t-lead); text-wrap: balance; }
+.nx-app[data-pilot="editorial"] .nh-find { grid-area: find; margin: 0; align-self: center; }
+.nx-app[data-pilot="editorial"] .nh-find-l { color: var(--ed-mast-ink); font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nh-find-f {
+  background: var(--background);
+  color: var(--ink-1);
+  border: 1px solid var(--background);
+  border-radius: 0;
+  min-block-size: 3rem;
+}
+.nx-app[data-pilot="editorial"] .nh-find:hover .nh-find-f { border-color: var(--brand); }
+.nx-app[data-pilot="editorial"] .nh-find:focus-visible .nh-find-f { box-shadow: 0 0 0 2px var(--ed-mast), 0 0 0 4px var(--background); }
+.nx-app[data-pilot="editorial"] .nh-find-ph { color: var(--ink-2); }
+.nx-app[data-pilot="editorial"] .nh-find-k { background: transparent; border-color: var(--line-strong); color: var(--ink-2); border-radius: 0; }
+.nx-app[data-pilot="editorial"] .nh-find-eg { grid-area: eg; color: var(--ed-mast-ink); opacity: .86; font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nh-find-eg .nu-link { color: var(--ed-mast-ink); text-decoration: underline; text-underline-offset: 3px; }
+/* two columns need the find column's 18rem, the title's longest line (19rem
+   at the display size), the gap and the padding: 42rem, and a little air */
+@container nh (max-width: 44rem) {
+  .nx-app[data-pilot="editorial"] .nh-gate { grid-template-columns: minmax(0, 1fr); grid-template-areas: "title" "lede" "find" "eg"; }
+}
+
+/* doors: a journal grid with vertical rules */
+.nx-app[data-pilot="editorial"] .nh-doors ul { gap: 0; }
+.nx-app[data-pilot="editorial"] .nh-doors li { border-inline-start: 1px solid var(--hairline); }
+.nx-app[data-pilot="editorial"] .nh-doors .nh-door { padding: var(--sp-4) var(--sp-4) var(--sp-4); border-block-end: 1px solid var(--hairline); }
+.nx-app[data-pilot="editorial"] .nh-doors .nh-door:hover { background: var(--select-bg); border-block-end-color: var(--hairline); }
+.nx-app[data-pilot="editorial"] .nh-door-i { color: var(--ink-3); }
+.nx-app[data-pilot="editorial"] .nh-door-name { font-size: var(--t-body); font-weight: 600; }
+.nx-app[data-pilot="editorial"] .nh-doors .nh-door-n { font-family: var(--font-mono); font-size: var(--t-h2); font-weight: 600; color: var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nh-door-sub { font-size: var(--t-sm); color: var(--ink-2); }
+
+/* sections: rules of three weights */
+.nx-app[data-pilot="editorial"] .nh-sec { padding-block-start: var(--sp-4); border-block-start: 8px solid var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nh-sec-head { max-inline-size: var(--measure); padding-block-end: var(--sp-2); border-block-end: 1px solid var(--hairline); }
+.nx-app[data-pilot="editorial"] .nh-h2 { font-size: var(--t-h2); font-weight: 600; }
+.nx-app[data-pilot="editorial"] .nh-sec-lede { font-size: var(--t-body); color: var(--ink-2); }
+
+/* module figures and the S/4 list as ruled rows */
+.nx-app[data-pilot="editorial"] .nh-mods > * { border: 0; border-block-start: 2px solid var(--ink-1); border-radius: 0; background: none; padding-inline: 0; }
+.nx-app[data-pilot="editorial"] .nh-mod-nums dd { font-weight: 600; }
+.nx-app[data-pilot="editorial"] .nh-imp li { border-block-end: 1px solid var(--hairline); }
+.nx-app[data-pilot="editorial"] .nh-bar { background: var(--surface-2); }
+
+/* ---------- phone ---------------------------------------------------------- */
+@media (max-width: 52rem) {
+  .nx-app[data-pilot="editorial"] .nh-gate { padding-inline: var(--sp-4); }
+}
+html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nh-gate { box-shadow: none; border-block-start: 8px solid #eef1f6; padding-block-start: var(--sp-6); }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nh-gate::after { content: none; }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nh-find-f { background: var(--surface); color: var(--ink-1); border: 1px solid var(--line-strong); }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nh-find:focus-visible .nh-find-f { box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--focus); }
+/* At night red stays on the CTA only: the pencil rule under the gate is ivory. */
+html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nh-gate { border-block-end-color: #eef1f6; }
+
+/* ---------- pilot QA, UX / motion / accessibility (2026-10-02) ------------- */
+/* Every home door carries a verb (UX director row 13): the word is drawn, not
+   read (the "/ """ alt keeps it out of the accessible name). */
+/* a line of its own under the subtitle: positioned at the corner it collided
+   with a wrapped second line ("ל-PM", "8 ספרים"; home-desk-dark, 5cd908bbf) */
+.nx-app[data-pilot="editorial"] .nh-door::after { content: "פתיחה" / ""; display: block; margin-block-start: var(--sp-2); font-size: var(--t-micro); font-weight: 600; color: var(--link); }
+.nx-app[data-pilot="editorial"] .nh-door:hover::after, .nx-app[data-pilot="editorial"] .nh-door:focus-visible::after { color: var(--ink-1); }
+
+/* The home's lede at a phone measure (QA-5 minor: it ended on three words at a
+   canvas of 384px and below). balance gives up past six lines, which is where
+   the lede is at that width, so the narrow lede is set pretty instead: no
+   short last line, whatever the line count. */
+@media (max-width: 30rem) {
+  .nx-app[data-pilot="editorial"] .nh-lede { text-wrap: pretty; }
+}

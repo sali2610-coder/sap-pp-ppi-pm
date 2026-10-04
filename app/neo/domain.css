@@ -397,3 +397,44 @@ html[data-theme="dark"] .ndm-s4 li b { color: color-mix(in srgb, var(--t, var(--
 .ndm-modchips .nu-tab em { font-style: normal; margin-inline-start: .3rem; color: var(--ink-3); }
 .ndm-count { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .9rem; margin: .8rem 0 0; font-size: .86rem; color: var(--ink-3); }
 .ndm-none { padding: 1.2rem; display: grid; gap: .8rem; justify-items: start; margin-block-start: 1rem; }
+
+/* ==========================================================================
+   CARRIED FROM THE LEGACY PAGES (content parity, rollout 2026-10)
+   The plant areas on the hub (data/domain-model.ts) and the MRP / MPS guide on
+   the MRP domain (data/mrp-center.ts). Both are native <details>: the summary
+   carries the description, the body opens on demand.
+   ========================================================================== */
+.ndm-areas .ndm-sec-s { margin-block-end: .8rem; }
+.ndm-area-l, .ndm-guide-l { display: grid; gap: .55rem; }
+.ndm-area {
+  border-radius: var(--r-xl); background: var(--surface);
+  border: 1px solid var(--hairline);
+}
+.ndm-area > summary, .ndm-guide-t > summary { list-style: none; cursor: pointer; }
+.ndm-area > summary::-webkit-details-marker, .ndm-guide-t > summary::-webkit-details-marker { display: none; }
+.ndm-area > summary:focus-visible, .ndm-guide-t > summary:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--r-xl); }
+.ndm-area > summary { display: grid; gap: .3rem; padding: .85rem 1rem; }
+.ndm-area-t { display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem .55rem; }
+.ndm-area-t b { font-size: .98rem; color: var(--ink-1); }
+.ndm-area-mods { display: inline-flex; flex-wrap: wrap; gap: .3rem; margin-inline-start: auto; }
+.ndm-area-d { font-size: .86rem; line-height: 1.6; color: var(--ink-2); }
+.ndm-area-t::after, .ndm-guide-t > summary::after { content: "▾"; font-size: var(--t-micro); color: var(--ink-3); }
+.ndm-area[open] .ndm-area-t::after, .ndm-guide-t[open] > summary::after { content: "▴"; }
+.ndm-area-b { display: grid; gap: .5rem; padding: 0 1rem 1rem; }
+.ndm-guide-t { border-block-start: 1px solid var(--hairline); }
+.ndm-guide-t > summary {
+  display: flex; align-items: center; justify-content: space-between; gap: .5rem;
+  min-block-size: 2.75rem; font-size: .9rem; font-weight: 700; color: var(--ink-1);
+}
+.ndm-guide-b { display: grid; gap: .55rem; padding-block-end: .9rem; }
+.ndm-h4 { margin: .2rem 0 0; font-size: var(--t-micro); font-weight: 700; color: var(--ink-3); }
+.ndm-tbl-w { overflow-x: auto; border: 1px solid var(--hairline); border-radius: var(--r-xl); }
+.ndm-tbl-w:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.ndm-tbl { inline-size: 100%; min-inline-size: 38rem; border-collapse: collapse; font-size: .85rem; }
+.ndm-tbl th {
+  padding: .5rem .65rem; text-align: start; font-size: var(--t-micro); font-weight: 700;
+  color: var(--ink-3); background: var(--surface-2); border-block-end: 1px solid var(--hairline);
+}
+.ndm-tbl td { padding: .55rem .65rem; vertical-align: top; line-height: 1.55; color: var(--ink-2); border-block-end: 1px solid var(--hairline); }
+.ndm-tbl tr:last-child td { border-block-end: 0; }
+.ndm-tbl td b { color: var(--ink-1); }

@@ -17,6 +17,18 @@ import { ArrowLeft } from "lucide-react";
 import { Glyph } from "./icons";
 import type { IdocReference } from "./idoc-data";
 
+/** A T-Code: a link when /neo/transactions generates its page, a value when not. */
+function Tx({ t, href }: { t: string; href: string | null }) {
+  return href ? (
+    <Link href={href} prefetch={false} className="nu-link nxr-codelink">
+      <span className="nx-sap">{t}</span>
+      <ArrowLeft size={12} strokeWidth={2} className="nu-arw" aria-hidden="true" />
+    </Link>
+  ) : (
+    <span className="nu-chip is-sap">{t}</span>
+  );
+}
+
 export function IdocReferenceBlock({ r }: { r: IdocReference }) {
   return (
     <div className="nxr-ref">
@@ -59,6 +71,17 @@ export function IdocReferenceBlock({ r }: { r: IdocReference }) {
             );
           })}
         </ul>
+
+        <p className="nxr-route">
+          <b>ניתוב:</b>
+          {r.routing.map((x) => (
+            <span key={x.tx.t} className="nxr-route-i">
+              <span lang="en">{x.what}</span>
+              <Tx t={x.tx.t} href={x.tx.href} />
+              {x.join ? <span aria-hidden="true">{x.join}</span> : null}
+            </span>
+          ))}
+        </p>
       </section>
 
       {/* ------------------------------------------------------ statuses */}
@@ -77,16 +100,7 @@ export function IdocReferenceBlock({ r }: { r: IdocReference }) {
               <span className="nxr-st-he">{s.he}</span>
               <span className="nxr-st-cause">{s.cause}</span>
               <span className="nxr-st-fix">
-                {s.fix.map((f) => (
-                  f.href
-                    ? (
-                      <Link key={f.t} href={f.href} prefetch={false} className="nu-link nxr-codelink">
-                        <span className="nx-sap">{f.t}</span>
-                        <ArrowLeft size={12} strokeWidth={2} className="nu-arw" aria-hidden="true" />
-                      </Link>
-                    )
-                    : <span key={f.t} className="nu-chip is-sap">{f.t}</span>
-                ))}
+                {s.fix.map((f) => <Tx key={f.t} t={f.t} href={f.href} />)}
               </span>
             </li>
           ))}
@@ -104,18 +118,47 @@ export function IdocReferenceBlock({ r }: { r: IdocReference }) {
         <ul className="nxr-mon">
           {r.monitoring.map((m) => (
             <li key={m.t} className="nxr-mon-i">
-              {m.href ? (
-                <Link href={m.href} prefetch={false} className="nu-link nxr-codelink">
-                  <span className="nx-sap">{m.t}</span>
-                  <ArrowLeft size={12} strokeWidth={2} className="nu-arw" aria-hidden="true" />
-                </Link>
-              ) : (
-                <span className="nu-chip is-sap">{m.t}</span>
-              )}
+              <Tx t={m.t} href={m.href} />
               <span className="nxr-mon-w">{m.what}</span>
             </li>
           ))}
         </ul>
+
+        <dl className="nxt-grid">
+          <div className="nxt-fact">
+            <dt className="nxt-l">כלי ניטור (T-Codes)</dt>
+            <dd className="nxt-v">
+              <ul className="nxt-codes nxr-codes" aria-label="כלי ניטור (T-Codes)">
+                {r.transactions.map((x) => <li key={x.t}><Tx t={x.t} href={x.href} /></li>)}
+              </ul>
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      {/* -------------------------------------------------- from the field */}
+      <section className="nxt-sec" aria-labelledby="idoc-field">
+        <h2 className="nx-h2 nxt-sec-h" id="idoc-field">
+          <span className="nxt-sec-i" aria-hidden="true"><Glyph i="wrench" size={15} /></span>
+          מהשטח בארגון
+        </h2>
+        <p className="nxr-text">{r.scenario}</p>
+        {r.incidents.length ? (
+          <ul className="nxt-codes nxr-codes" aria-label="תקלות מקושרות">
+            {r.incidents.map((i) => (
+              <li key={i.label}>
+                {i.href ? (
+                  <Link href={i.href} prefetch={false} className="nu-link nxr-codelink">
+                    {i.label}
+                    <ArrowLeft size={12} strokeWidth={2} className="nu-arw" aria-hidden="true" />
+                  </Link>
+                ) : (
+                  <span className="nu-chip">{i.label}</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </section>
     </div>
   );

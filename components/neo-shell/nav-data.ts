@@ -54,6 +54,7 @@ import type {
   SearchRecord,
   ShellData,
 } from "./types";
+import { splitTcodes } from "@/lib/tcode-split";
 
 /* ---------------------------------------------------------------- palette */
 
@@ -91,11 +92,6 @@ export const objVarFor = (table: string) => ZONE_OBJ[zoneOf(table)];
 /* ------------------------------------------------------------ small utils */
 
 const uniq = <T,>(a: T[]) => [...new Set(a)];
-const splitTcodes = (s: string) =>
-  (s || "")
-    .split(/[,\s/]+/)
-    .map((x) => x.trim().toUpperCase())
-    .filter((x) => /^[A-Z][A-Z0-9_]{1,}$/.test(x));
 
 const booksFor = (mod: ModuleKey) =>
   LIBRARY.filter((b) => (mod === "PP-PI" ? b.module === "PP-PI" || b.module === "PP" : b.module === mod));

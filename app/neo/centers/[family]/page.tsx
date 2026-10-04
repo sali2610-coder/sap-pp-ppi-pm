@@ -1,5 +1,6 @@
 import "@/app/neo/ui.css";
 import "@/app/neo/centers.css";
+import "@/app/neo/learn-records.css";
 import { notFound } from "next/navigation";
 import { CENTER_FAMILIES, centerFamily } from "@/components/neo-shell/centers/centers-data";
 import { CenterFamilyView } from "@/components/neo-shell/centers/centers-view";

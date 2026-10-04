@@ -34,6 +34,7 @@
 
 import { enLang } from "../lang";
 import { useEffect } from "react";
+import Link from "next/link";
 import { ArrowLeft, BookOpen, Blocks, Clock, Info, Layers, Play } from "lucide-react";
 import {
   OriginLink, SmartReturn, restoreScroll, scrollOffset, useReturnState, type OriginArg,
@@ -53,7 +54,11 @@ function hoursHe(min: number): string {
   return m ? `${nf.format(h)} שע׳ ${nf.format(m)} דק׳` : `${nf.format(h)} שע׳`;
 }
 
-export function CourseView({ c }: { c: AcademyCourseRow }) {
+/** The course's academy textbook (components/neo-shell/academy-ref/), resolved
+ *  on the server by the route. */
+export interface CourseTextbook { href: string; title: string; chapters: number; referenceHref: string; qualityHref: string; migrated: boolean }
+
+export function CourseView({ c, textbook }: { c: AcademyCourseRow; textbook?: CourseTextbook | null }) {
   const isDone = useIsDone();
   const p = useModuleProgress(c.id);
   const started = p.completedLessons > 0 || p.blocksDone > 0;
@@ -176,7 +181,7 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
                   <h3 className="nxc-ch-t">{ch.title}</h3>
                   <div className="nxc-ch-m">
                     <span className="nu-chip">{nf.format(ch.lessons.length)} שיעורים</span>
-                    {ch.minutes ? <span className="nu-chip">{hoursHe(ch.minutes)}</span> : null}
+                    {ch.minutes ? <span className="nu-chip">{nf.format(ch.minutes)} דק׳</span> : null}
                     {doneN > 0 ? (
                       <span
                         className="nu-status"
@@ -233,6 +238,26 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
           })}
         </div>
       </section>
+
+      {textbook ? (
+        <section className="nxv-sec" aria-labelledby="co-tb">
+          <div className="nxv-sec-h">
+            <span className="nxv-sec-i" aria-hidden="true"><BookOpen size={16} strokeWidth={1.75} /></span>
+            <h2 className="nx-h2" id="co-tb">ספר הלימוד של הקורס</h2>
+            <em className="nxv-sec-n">{nf.format(textbook.chapters)} פרקים</em>
+          </div>
+          <p className="nx-muted">
+            {textbook.migrated
+              ? "השיעורים בקורס הם תתי-הפרקים של ספר הלימוד. בספר עצמו: מבוא לכל פרק, מבנה היחידות ותרשימי התהליך."
+              : "ספר הלימוד המלא של התחום, פרק אחר פרק, לצד השיעורים של הקורס."}
+          </p>
+          <div className="nxl-course-a">
+            <Link className="nu-btn2" href={textbook.href} prefetch={false}>{textbook.title}<ArrowLeft size={14} strokeWidth={2} className="nu-arw" aria-hidden="true" /></Link>
+            <Link className="nu-btn2" href={textbook.referenceHref} prefetch={false}>אינדקס T-Codes, טבלאות ו-Fiori</Link>
+            <Link className="nu-btn2" href={textbook.qualityHref} prefetch={false}>דוח איכות</Link>
+          </div>
+        </section>
+      ) : null}
 
       <div className="nxv-foot">
         <p className="nxv-src">

@@ -23,7 +23,7 @@ import { Fragment, useState } from "react";
 import { ArrowLeft, ChevronDown } from "lucide-react";
 import { OriginLink } from "@/components/neo-shell/nav-context";
 import { pushRecentObject } from "../store";
-import type { S4Class, WsRow, WsTopic } from "./workspace-data";
+import type { WsRow, WsTopic } from "./workspace-data";
 import { S4_HE, S4_UNDECIDED_HE, s4Dot } from "@/lib/s4-class";
 import { useWsOrigin } from "./workspace-origin";
 
@@ -46,7 +46,7 @@ const COLS: { k: SortKey | null; he: string; cls: string }[] = [
   { k: "fn", he: "ממשקים", cls: "nw-c-fn" },
   { k: "rel", he: "קשרים", cls: "nw-c-rel" },
   { k: null, he: "CDS · Fiori", cls: "nw-c-cv" },
-  { k: null, he: "S/4HANA לפי הבלופרינט", cls: "nw-c-s4" },
+  { k: null, he: "S/4HANA", cls: "nw-c-s4" },
 ];
 
 export function WorkspaceTable({
@@ -197,12 +197,18 @@ export function WorkspaceTable({
                     <em>{r.fiori ? "Fiori" : "–"}</em>
                   </td>
 
-                  <td className="nw-c-s4" data-l="S/4HANA לפי הבלופרינט">
+                  <td className="nw-c-s4" data-l="S/4HANA">
                     {/* STATUS colour: a small filled dot, immediately followed by its
                         word. It is never a surface, a ring, a line or text colour. */}
                     <span className="nu-status" style={{ "--s": s4Dot(r.s4) } as React.CSSProperties}>
-                      {r.s4 === null ? S4_UNDECIDED_HE : S4_HE[r.s4]}
+                      {r.s4Word}
                     </span>
+                    {/* The verdict is the evidence layer's; where the blueprint's
+                        own column says otherwise it is shown, not dropped (spec
+                        P1 §10, docs/rollout-2026-10/S4-VERDICT.md). */}
+                    {r.s4Bp !== undefined ? (
+                      <em className="nw-s4-bp">בבלופרינט: {r.s4Bp === null ? S4_UNDECIDED_HE : S4_HE[r.s4Bp]}</em>
+                    ) : null}
                   </td>
 
                   <td className="nw-c-x">

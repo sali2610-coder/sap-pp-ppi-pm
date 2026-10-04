@@ -1,0 +1,168 @@
+/* The editorial language for the workspace surface only, loaded by the pages that render it
+   (split from editorial.css, which every /neo route loads; order and selectors unchanged). */
+/* ==========================================================================
+   MODULE · /neo/pm/ — the module column, the fold, the margin
+   ========================================================================== */
+.nx-app[data-pilot="editorial"] .nw-hero { border-inline-start: 0; padding-block-start: var(--sp-6); }
+/* the eyebrow becomes a rule in the module colour */
+.nx-app[data-pilot="editorial"] .nw-eye {
+  display: block; inline-size: 4.5rem; block-size: 3px; margin: 0;
+  background: var(--m); color: transparent; overflow: hidden; font-size: 1px; line-height: 1;
+}
+.nx-app[data-pilot="editorial"] .nw-eye i { display: none; }
+.nx-app[data-pilot="editorial"] .nw-title { font-family: var(--font-display); font-weight: 700; font-size: var(--t-display); line-height: 1.1; }
+.nx-app[data-pilot="editorial"] .nw-code { font-family: var(--font-mono); font-weight: 600; font-size: var(--t-h2); color: var(--ink-3); }
+.nx-app[data-pilot="editorial"] .nw-en { font-size: var(--t-sm); color: var(--ink-3); }
+.nx-app[data-pilot="editorial"] .nw-lede { font-size: var(--t-lead); line-height: 1.6; max-inline-size: var(--measure); }
+.nx-app[data-pilot="editorial"] .nw-figs { font-size: var(--t-sm); gap: var(--sp-2) var(--sp-4); padding-block: var(--sp-3); border-block: 1px solid var(--hairline); }
+.nx-app[data-pilot="editorial"] .nw-fig b { font-family: var(--font-mono); font-size: var(--t-body); }
+.nx-app[data-pilot="editorial"] .nw-fig em { font-style: normal; color: var(--ink-2); }
+.nx-app[data-pilot="editorial"] .nw-go-why { font-size: var(--t-sm); color: var(--ink-2); }
+
+/* the index: ruled columns, numerals in ink */
+.nx-app[data-pilot="editorial"] .nw-idx { border-block-start: 8px solid var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nw-idx-k { font-size: var(--t-sm); color: var(--ink-2); }
+.nx-app[data-pilot="editorial"] .nw-idx-s { font-size: var(--t-body); }
+.nx-app[data-pilot="editorial"] .nw-idx-l { gap: 0; }
+.nx-app[data-pilot="editorial"] .nw-idx-i { border: 0; border-inline-start: 1px solid var(--hairline); border-block-end: 1px solid var(--hairline); padding: var(--sp-3) var(--sp-4); background: none; border-radius: 0; }
+.nx-app[data-pilot="editorial"] .nw-idx-i:hover { background: var(--select-bg); }
+.nx-app[data-pilot="editorial"] .nw-idx-n { font-family: var(--font-mono); color: var(--ink-1); font-size: var(--t-h2); font-weight: 600; }
+.nx-app[data-pilot="editorial"] .nw-idx-i[data-key="1"] .nw-idx-n { color: var(--m); }
+.nx-app[data-pilot="editorial"] .nw-idx-t { font-size: var(--t-ui); }
+.nx-app[data-pilot="editorial"] .nw-idx-c { font-size: var(--t-sm); color: var(--ink-2); }
+
+/* the running section bar: the folio "01 / 08" is the only red besides the CTA */
+.nx-app[data-pilot="editorial"] .nw .nxs { --nxs-on: var(--ink-1); border-block-end: 1px solid var(--hairline); }
+
+/* chapters: a 2px rule between, no tint, no card */
+.nx-app[data-pilot="editorial"] .nw-ch { border-block-start: 2px solid var(--ink-1); padding-block: var(--sp-8) var(--sp-10); }
+.nx-app[data-pilot="editorial"] .nw > section.nw-ch:nth-of-type(odd)::before { display: none; }
+
+/* THE CHAPTER HEAD: a 56px module column with a white numeral beside the head */
+.nx-app[data-pilot="editorial"] .nw-ch-h { grid-template-columns: 56px minmax(0, 1fr); column-gap: var(--sp-5); }
+.nx-app[data-pilot="editorial"] .nw-ch-h > .nw-ch-n {
+  grid-row: 1 / 6; grid-column: 1; align-self: stretch; justify-self: stretch;
+  display: grid; place-items: start center;
+  min-block-size: 56px; inline-size: 56px; padding-block-start: 10px;
+  background: var(--m);
+  color: var(--ed-on-fill);
+  font-family: var(--font-mono); font-size: 1.4rem; font-weight: 600; line-height: 1;
+}
+.nx-app[data-pilot="editorial"] .nw-ch-h > .nw-ch-t, .nx-app[data-pilot="editorial"] .nw-ch-s, .nx-app[data-pilot="editorial"] .nw-ch-h > .nw-ch-go, .nx-app[data-pilot="editorial"] .nw-ch-h > .nw-ch-toggle, .nx-app[data-pilot="editorial"] .nw-ch-stat { grid-column: 2; }
+.nx-app[data-pilot="editorial"] .nw-ch-h > .nw-ch-t { grid-row: 1; }
+.nx-app[data-pilot="editorial"] .nw-ch-s { grid-row: 2; font-size: var(--t-body); }
+.nx-app[data-pilot="editorial"] .nw-ch-stat { grid-row: 3; }
+.nx-app[data-pilot="editorial"] .nw-ch-h > .nw-ch-go, .nx-app[data-pilot="editorial"] .nw-ch-h > .nw-ch-toggle { grid-row: 4; }
+.nx-app[data-pilot="editorial"] .nw-ch-t { font-family: var(--font-display); font-weight: 700; font-size: var(--t-h1); line-height: 1.2; }
+@container nw (min-width: 52rem) {
+  .nx-app[data-pilot="editorial"] .nw-ch-h { grid-template-columns: 56px minmax(0, 68ch) minmax(9rem, auto); grid-template-rows: auto auto auto auto; }
+  .nx-app[data-pilot="editorial"] .nw-ch-h > .nw-ch-n { grid-row: 1 / 5; }
+  .nx-app[data-pilot="editorial"] .nw-ch-h > .nw-ch-t { grid-row: 1; grid-column: 2; }
+  .nx-app[data-pilot="editorial"] .nw-ch-s { grid-row: 2; grid-column: 2; }
+  .nx-app[data-pilot="editorial"] .nw-ch-h > .nw-ch-go, .nx-app[data-pilot="editorial"] .nw-ch-h > .nw-ch-toggle { grid-row: 3; grid-column: 2; }
+  /* counts in the margin, ruled from the column */
+  .nx-app[data-pilot="editorial"] .nw-ch-stat { grid-row: 1 / 4; grid-column: 3; margin-inline-start: var(--sp-6); padding-inline-start: var(--sp-4); border-inline-start: 1px solid var(--hairline); align-self: start; }
+}
+.nx-app[data-pilot="editorial"] .nw-ch-stat { font-size: var(--t-sm); color: var(--ink-2); }
+.nx-app[data-pilot="editorial"] .nw-ch-stat b { font-family: var(--font-mono); font-weight: 600; color: var(--ink-1); }
+
+/* the collapsed chapter as a "continued" fold: the whole band is one ≥ 44px target */
+/* A closed chapter is told by its own "הצגת הפרק" fold, not by a dashed box:
+   the dashed rules read as the old hairline boxes (QA-1 minor, chapters 03,
+   06 and 07). It keeps the solid hairline every chapter has. */
+.nx-app[data-pilot="editorial"] .nw-ch[data-collapsed] { padding-block: var(--sp-6); }
+.nx-app[data-pilot="editorial"] .nw-ch-d > summary { min-block-size: 44px; }
+.nx-app[data-pilot="editorial"] .nw-ch-d > summary:hover { background: var(--select-bg); }
+.nx-app[data-pilot="editorial"] .nw-ch-d > summary:focus-visible { outline: 2px solid transparent; box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--focus); border-radius: 0; }
+.nx-app[data-pilot="editorial"] .nw-ch-toggle {
+  display: inline-flex; align-items: center; min-block-size: 44px; padding-inline: var(--sp-3);
+  margin-block-start: var(--sp-2);
+  border: 1px solid var(--ink-1);
+  font-size: var(--t-sm); font-weight: 600; color: var(--ink-1);
+}
+.nx-app[data-pilot="editorial"] .nw-ch-toggle::after { content: ""; display: inline-block; inline-size: 1.25rem; block-size: 2px; background: var(--ink-1); margin-inline-start: var(--sp-2); }
+.nx-app[data-pilot="editorial"] .nw-ch[data-collapsed="open"] .nw-ch-toggle::after { content: ""; }
+
+/* chapter body: tabs underline ink, rank rows ruled, tables ruled */
+.nx-app[data-pilot="editorial"] .nw-tabs { border-block-end: 1px solid var(--hairline); }
+.nx-app[data-pilot="editorial"] .nw-tabs .nu-tab { font-size: var(--t-ui); }
+.nx-app[data-pilot="editorial"] .nw-rankrow { border: 0; border-block-end: 1px solid var(--hairline); border-radius: 0; background: none; }
+.nx-app[data-pilot="editorial"] .nw-rankrow:hover { background: var(--select-bg); }
+.nx-app[data-pilot="editorial"] .nw-rank-i { font-size: var(--t-sm); font-family: var(--font-mono); }
+.nx-app[data-pilot="editorial"] .nw-rank-t { font-size: var(--t-ui); }
+.nx-app[data-pilot="editorial"] .nw-rank-n { font-size: var(--t-sm); font-family: var(--font-mono); }
+.nx-app[data-pilot="editorial"] .nw-bar { background: var(--surface-2); }
+.nx-app[data-pilot="editorial"] .nw-fine { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .nw-tbl thead th { font-size: var(--t-sm); color: var(--ink-1); border-block-end: 2px solid var(--ink-1); background: none; }
+.nx-app[data-pilot="editorial"] .nw-row > td { font-size: var(--t-sm); border-block-end: 1px solid var(--hairline); }
+.nx-app[data-pilot="editorial"] .nw-row:hover > td { background: color-mix(in srgb, var(--select-bg) 55%, transparent); }
+.nx-app[data-pilot="editorial"] .nw-row[data-open="1"] > td { background: var(--select-bg); }
+.nx-app[data-pilot="editorial"] .nw-row[data-open="1"] > td:first-child { box-shadow: inset 3px 0 0 0 var(--select-line); }
+.nx-app[data-pilot="editorial"] .nw-sub-h { font-size: var(--t-h2); font-weight: 600; padding-block-end: var(--sp-2); border-block-end: 1px solid var(--hairline); }
+.nx-app[data-pilot="editorial"] .nw-sub-ico { display: none; }
+.nx-app[data-pilot="editorial"] .nw-sub-s { font-size: var(--t-body); }
+.nx-app[data-pilot="editorial"] .nw-move { border: 0; border-block-start: 2px solid var(--ink-1); border-radius: 0; background: none; padding-inline: 0; }
+.nx-app[data-pilot="editorial"] .nw-s4big { font-family: var(--font-mono); }
+.nx-app[data-pilot="editorial"] .nw-links { font-size: var(--t-sm); }
+
+/* ---------- phone ---------------------------------------------------------- */
+@media (max-width: 52rem) {
+  .nx-app[data-pilot="editorial"] .nw-ch-h { grid-template-columns: 44px minmax(0, 1fr); column-gap: var(--sp-3); }
+  .nx-app[data-pilot="editorial"] .nw-ch-h > .nw-ch-n { inline-size: 44px; min-block-size: 44px; font-size: 1.15rem; }
+}
+
+/* ---------- iteration 2 ---------------------------------------------------- */
+/* the module code beside the title is a marginal note, not a chip */
+.nx-app[data-pilot="editorial"] .nw-code { background: none; border: 0; padding: 0; box-shadow: none; }
+.nx-app[data-pilot="editorial"] .nw-rail { background: var(--background-2); }
+
+/* ==========================================================================
+   ROUND 2 (judges' deductions)
+   ========================================================================== */
+/* 1a. module hero figures: a ruled figure grid, numerals large, labels under */
+.nx-app[data-pilot="editorial"] .nw-figs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin-block-start: var(--sp-4);
+  padding-block: 0;
+  border-block: 2px solid var(--ink-1);
+  font-size: var(--t-sm);
+}
+.nx-app[data-pilot="editorial"] .nw-fig {
+  display: grid;
+  grid-template-rows: auto auto auto;
+  align-content: start;
+  gap: 2px;
+  padding: var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-2);
+  border-inline-start: 1px solid var(--hairline);
+  border-block-end: 1px solid var(--hairline);
+  margin-block-end: -1px;
+}
+.nx-app[data-pilot="editorial"] .nw-fig b { font-family: var(--font-mono); font-size: 1.65rem; font-weight: 600; line-height: 1.1; color: var(--ink-1); }
+.nx-app[data-pilot="editorial"] .nw-fig > span { font-size: var(--t-sm); color: var(--ink-1); font-weight: 500; }
+.nx-app[data-pilot="editorial"] .nw-fig em { font-size: var(--t-sm); color: var(--ink-3); }
+.nx-app[data-pilot="editorial"] .nw-fig em bdi { font-family: var(--font-mono); }
+@media (max-width: 52rem) {
+  .nx-app[data-pilot="editorial"] .nw-figs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nx-app[data-pilot="editorial"] .nw-fig { padding-inline: var(--sp-2); }
+  .nx-app[data-pilot="editorial"] .nw-fig b { font-size: 1.4rem; }
+}
+
+/* 1b. the running section bar: room, a folio, the current chapter sand + ink bar */
+.nx-app[data-pilot="editorial"] .nw .nxs { padding-block: var(--sp-2); min-block-size: 3.75rem; border-block-end: 2px solid var(--ink-1); }
+
+/* 4. the collapsed chapter: the whole band is the target and shows its state */
+.nx-app[data-pilot="editorial"] .nw-ch-d > summary { padding: var(--sp-3) var(--sp-3); margin-inline: calc(-1 * var(--sp-3)); transition: background-color 120ms linear; }
+.nx-app[data-pilot="editorial"] .nw-ch-d > summary:hover, .nx-app[data-pilot="editorial"] .nw-ch-d > summary:focus-visible { background: var(--select-bg); }
+.nx-app[data-pilot="editorial"] .nw-ch-d > summary:hover .nw-ch-toggle { background: var(--ink-1); color: var(--background); }
+.nx-app[data-pilot="editorial"] .nw-ch-d > summary:hover .nw-ch-toggle::after { background: var(--background); }
+/* The index summary's marker is a rule, not a glyph that reads as a dangling dot. */
+.nx-app[data-pilot="editorial"] .nw-idx-d > summary .nw-idx-k::after { content: ""; display: inline-block; inline-size: 1.25rem; block-size: 2px; background: var(--ink-1); margin-inline-start: var(--sp-2); vertical-align: middle; }
+.nx-app[data-pilot="editorial"] .nw-idx-d[open] > summary .nw-idx-k::after { content: ""; }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"] .nw-figs { background: var(--surface-raised); padding-inline: var(--sp-3); }
+
+/* A count and its code stay on one line ("34 FM", "153 PK"): the module
+   header's second numbers broke between the number and its code on the
+   PP-PI page at 1440. The line may break only between parts. */
+.nx-app[data-pilot="editorial"] .nw-fig em bdi { white-space: nowrap; }

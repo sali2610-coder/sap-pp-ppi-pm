@@ -5,6 +5,8 @@ import "@/app/neo/ui.css";
 import "@/app/neo/data.css";
 import { TransactionsSurface } from "@/components/neo-shell/data/transactions-surface";
 import { txStatusMap } from "@/components/neo-shell/data/tx-detail";
+import { blueprintOnlyCodes } from "@/components/neo-shell/data/tx/codes";
+import { tcodeIntel } from "@/lib/object-intel";
 
 export const metadata = {
   title: "טרנזקציות · Project NEO",
@@ -22,5 +24,13 @@ export const metadata = {
 // the same resolver the detail page uses, so the list pill and the page pill
 // are the same word. ~1,800 short strings, on this page only.
 export default function NeoTransactions() {
-  return <TransactionsSurface status={txStatusMap()} />;
+  // The codes the blueprint lists on a table but the verified registry does
+  // not carry: each has its own page (rollout 2026-10), listed apart.
+  const extra = blueprintOnlyCodes().map((code) => ({
+    code,
+    // tcodeIntel returns one entry per module row: a table both blueprints
+    // list came twice ("JSTO · TJ30T · TJ30 · JSTO" on BS02).
+    tables: [...new Set((tcodeIntel(code)?.tables || []).map((t) => t.name))],
+  }));
+  return <TransactionsSurface status={txStatusMap()} extra={extra} />;
 }

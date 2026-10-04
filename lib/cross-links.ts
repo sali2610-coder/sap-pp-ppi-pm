@@ -50,7 +50,7 @@ export function objectGraph(rawName: string, opts?: { he?: string; module?: stri
   const name = (rawName || "").trim();
   const t = tableByName(name);
   if (!t && !opts) return null;
-  const module = t?.module || opts?.module || "";
+  const mod = t?.module || opts?.module || "";
   const noTable = !t;
   const objTcodes = new Set(splitTc(t?.tcodes || ""));
   const g = t ? kgraph(name) : null;
@@ -82,27 +82,29 @@ export function objectGraph(rawName: string, opts?: { he?: string; module?: stri
   const cds: LinkRef[] = cdsForTable(name).map((v) => ({ id: v.view, label: v.view, href: `/cds/${encodeURIComponent(v.view)}/`, sub: v.he }));
 
   // incidents referencing this table or sharing tcodes
-  const inc = INCIDENTS.filter((i) => i.tables.includes(name) || i.analyzeTcodes.some((c) => objTcodes.has(c.toUpperCase())) || (noTable && i.module === module));
+  const inc = INCIDENTS.filter((i) => i.tables.includes(name) || i.analyzeTcodes.some((c) => objTcodes.has(c.toUpperCase())) || (noTable && i.module === mod));
   const incidents: LinkRef[] = uniq(inc, (i) => i.slug).map((i) => ({ id: i.slug, label: i.he, href: `/troubleshooting/${i.slug}/`, sub: i.module }));
   const incSlugs = new Set(inc.map((i) => i.slug));
 
   // notes linked to those incidents, or whose keywords hit a tcode/table of the object
-  const notes: LinkRef[] = uniq(SAP_NOTES.filter((n) => (n.relatedIncidents || []).some((s) => incSlugs.has(s)) || n.keywords.some((k) => objTcodes.has(k.toUpperCase()) || k.toUpperCase() === name) || (noTable && n.module === module)), (n) => n.slug)
+  const notes: LinkRef[] = uniq(SAP_NOTES.filter((n) => (n.relatedIncidents || []).some((s) => incSlugs.has(s)) || n.keywords.some((k) => objTcodes.has(k.toUpperCase()) || k.toUpperCase() === name) || (noTable && n.module === mod)), (n) => n.slug)
     .map((n) => ({ id: n.slug, label: n.he, href: `/sap-notes/${n.slug}/`, sub: n.component }));
 
   // debug entries: module match + token overlap with object fms/exits/tcodes
   const objTokens = new Set<string>([...objTcodes, ...bapis.map((b) => b.id.toUpperCase()), ...fms.map((f) => f.id.toUpperCase()), ...badis.map((b) => b.id.toUpperCase())]);
-  const debug: LinkRef[] = DEBUGGINGS.filter((d) => (d.module === module || d.module === "Cross") && [...centerItemTokens(d)].some((tok) => objTokens.has(tok)))
+  const debug: LinkRef[] = DEBUGGINGS.filter((d) => (d.module === mod || d.module === "Cross") && [...centerItemTokens(d)].some((tok) => objTokens.has(tok)))
     .map((d) => ({ id: d.slug, label: d.he, href: `/debugging/${d.slug}/`, sub: d.module }));
 
   // הארגון scenarios: master-data token includes this table, or module match
-  const scenario: LinkRef[] = MFG_SCENARIOS.filter((c) => centerItemTokens(c).has(name.toUpperCase()) || c.module === module)
+  const scenario: LinkRef[] = MFG_SCENARIOS.filter((c) => centerItemTokens(c).has(name.toUpperCase()) || c.module === mod)
     .map((c) => ({ id: c.slug, label: c.he, href: `/manufacturing/${c.slug}/`, sub: c.module }));
 
   return {
-    name, module, he: t?.descriptionHe || t?.descriptionEn || opts?.he || name, exists: !!t,
+    name, module: mod, he: t?.descriptionHe || t?.descriptionEn || opts?.he || name, exists: !!t,
     relatedTables, tcodes, bapis, fms, badis, cds, incidents, notes, debug, scenario,
-    s4Note: [t?.s4Note, t?.s4AltTable ? `→ ${t.s4AltTable}` : "", t?.fioriApp ? `Fiori: ${t.fioriApp}` : ""].filter(Boolean).join(" · ") || "ללא שינוי מהותי ב-S/4HANA.",
+    // Empty when the dataset has nothing: a fallback "ללא שינוי מהותי" claimed
+    // an S/4HANA fact for objects with no row at all (QALS).
+    s4Note: [t?.s4Note, t?.s4AltTable ? `→ ${t.s4AltTable}` : "", t?.fioriApp ? `Fiori: ${t.fioriApp}` : ""].filter(Boolean).join(" · "),
   };
 }
 

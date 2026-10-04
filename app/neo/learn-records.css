@@ -1,0 +1,31 @@
+/* ============================================================================
+   PROJECT NEO · RECORD ADDITIONS — /neo/incidents/<slug>/ and the hubs' "ראו גם"
+   ----------------------------------------------------------------------------
+   The few rules the migrated legacy fields need on top of app/neo/learn.css
+   (which owns the .nxv composition and is not edited from here), plus the one
+   onward row the incidents, knowledge, centres and domain hubs share. Tokens
+   only; logical properties only; nothing animates.
+   ========================================================================== */
+
+/* The source's verbatim impact line under the pills. */
+.nx-app .nxr-impact b { color: var(--ink-1); font-weight: 600; }
+
+/* An error text written in Hebrew reads right to left; codes stay LTR. */
+.nx-app .nxv-code[data-he="1"] { direction: rtl; font-family: inherit; }
+
+/* A reference card whose name is Hebrew (an affected business object): the
+   name in the reading face, right to left; its primary table follows as the
+   quieter LTR island. .nxv-ref > b is a mono LTR code everywhere else. */
+.nx-app .nxr-ref-he > b {
+  font-family: inherit; font-weight: 600;
+  direction: inherit; unicode-bidi: normal;
+}
+
+/* The same card when NEO generates no page for it: a value, not a link. */
+.nx-app .nxr-inert { border: 1px dashed var(--hairline); color: var(--ink-2); cursor: default; }
+
+
+/* The incidents hub's remaining rows, folded natively under the first page. */
+.nx-app .nxl-more { display: grid; gap: var(--sp-3); }
+.nx-app .nxl-more > summary { justify-self: center; list-style: none; cursor: pointer; }
+.nx-app .nxl-more > summary::-webkit-details-marker { display: none; }

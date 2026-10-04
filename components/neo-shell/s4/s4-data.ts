@@ -54,6 +54,8 @@ import {
 import { computeReadiness, overallReadiness, unmeasuredModules, type ModuleReadiness, type RTbl } from "@/lib/s4-readiness";
 import { fromChangeStatus, fromS4Object } from "@/lib/evidence/s4-status";
 import { S4_STATUS_DOT, S4_STATUS_WORD, type S4Status as S4Key } from "@/lib/evidence/types";
+import { TRANSACTIONS } from "@/data/transactions";
+import { CENTERS } from "@/lib/centers";
 import { objectHref, txHref } from "../reference/ref-links";
 
 export type { ArchComp, EccS4Topic, MigObj, ModuleReadiness, S4Obj, S4Status };
@@ -281,3 +283,90 @@ export const transformTotals = memo(() => ({
 export const monitorLinks = memo((): S4Link[] =>
   ["SM37", "ST22", "ODQMON", "COGI", "SE16N", "LTMC", "LTMOM", "SYCM", "ATC"]
     .map((c) => ({ t: c, href: txHref(c) })));
+
+/* ============================================================================
+   CARRIED FROM THE LEGACY PAGES (content parity, rollout 2026-10).
+   The legacy /s4hana/, /migration-cockpit/ and /s4-readiness/ components held
+   these as inline literals or computed them in the browser. The literals are
+   moved here verbatim (source line named on each); the derived views are the
+   same derivation over the same data, run at build time.
+   ========================================================================== */
+
+/** The executive overview, ECC against S/4HANA by layer. Verbatim from the
+ *  inline literal in components/s4-transformation.tsx:112 (legacy /s4hana/). */
+export const EXEC_OVERVIEW: { k: string; ecc: string; s4: string }[] = [
+  { k: "DB", ecc: "Any DB", s4: "SAP HANA (in-memory)" },
+  { k: "UI", ecc: "SAP GUI", s4: "SAP Fiori (+ GUI)" },
+  { k: "מודל נתונים", ecc: "טבלאות סיכום/אינדקס", s4: "טבלאות ליבה רזות (MATDOC/ACDOCA)" },
+  { k: "דיווח", ecc: "BW נפרד + Extractors", s4: "Embedded Analytics + Datasphere/SAC" },
+  { k: "אינטגרציה", ecc: "PI/PO · RFC/IDoc", s4: "Integration Suite · OData/CPI" },
+  { k: "נתוני אב", ecc: "ידני / MDM", s4: "MDG מוטמע" },
+];
+
+/** The legacy page's provenance line (components/s4-transformation.tsx:326),
+ *  its trust word in the NEO evidence vocabulary ("curated" → TRUST_HE). */
+export const S4HANA_PROVENANCE =
+  "נתוני ECC↔S/4 נגזרים מנושאים מאומתים · מתודולוגיה (קוד/אינטגרציה/בדיקות/Cutover) = ידע SAP סטנדרטי, מסומן «תיעוד מאומת». לא להמציא — אמת מול גרסת היעד וה-Readiness Check.";
+
+/** The migration cockpit's load rule, the subtitle of its dependency map
+ *  (components/migration-cockpit.tsx:134). Verbatim. */
+export const MIG_LOAD_RULE =
+  "טען תמיד: בסיס → נתוני אב → תנועות. דוגמה: Business Partner → Customer → Sales Order";
+
+/** The cockpit's provenance line (components/migration-cockpit.tsx:204), its
+ *  trust words in the NEO evidence vocabulary. */
+export const MIG_PROVENANCE =
+  "תוכן מבוסס SAP S/4HANA Migration Cockpit (LTMC/LTMOM) · תיעוד מאומת · פריטים לא ודאיים: נדרש אימות נוסף · לא להמציא — אמת מול גרסת היעד ו-SAP Notes.";
+
+/** Change topics by area: how many, and how many are replaced or deprecated.
+ *  The legacy /s4hana/ "השפעה לפי מודול / תחום" card computed exactly this from
+ *  ECC_S4_TOPICS (components/s4-transformation.tsx:66), with these labels (:20). */
+const AREA_LEGACY_HE: Record<string, string> = { Data: "מודל נתונים", PP: "ייצור (PP/PP-PI)", PM: "אחזקה (PM)", Platform: "פלטפורמה" };
+export const s4AreaImpact = memo((): { area: string; he: string; tot: number; risk: number }[] => {
+  const g = new Map<string, { tot: number; risk: number }>();
+  for (const t of ECC_S4_TOPICS) {
+    const a = g.get(t.area) || { tot: 0, risk: 0 };
+    a.tot++;
+    if (t.status === "Replaced" || t.status === "Deprecated") a.risk++;
+    g.set(t.area, a);
+  }
+  return [...g].map(([area, c]) => ({ area, he: AREA_LEGACY_HE[area] || area, ...c }));
+});
+
+/** The authored PM / PP / PP-PI transactions that name a Fiori app
+ *  (data/transactions.ts `fiori`), grouped by module in first-seen order: the
+ *  legacy "GUI ← Fiori" card (components/s4-transformation.tsx:65), here with
+ *  every row rather than the first ten per module. */
+export const fioriTxByModule = memo((): { mod: string; rows: { code: string; title: string; fiori: string; href: string | null }[] }[] => {
+  const g = new Map<string, { code: string; title: string; fiori: string; href: string | null }[]>();
+  for (const t of TRANSACTIONS) {
+    const app = (t.fiori || "").trim();
+    if (!app) continue;
+    const list = g.get(t.module) || [];
+    list.push({ code: t.code, title: t.title, fiori: app, href: txHref(t.code) });
+    g.set(t.module, list);
+  }
+  return [...g].map(([mod, rows]) => ({ mod, rows }));
+});
+
+/** The five consultant centres the legacy S/4 and cockpit pages linked under
+ *  "מרכזים קשורים" (components/related-centers.tsx over lib/centers.ts). Each
+ *  centre has a NEO page at the same address under /neo/. */
+export const relatedCenters = memo((): { he: string; desc: string; href: string }[] =>
+  CENTERS.map((c) => ({ he: c.he, desc: c.desc, href: `/neo${c.href}` })));
+
+/** The readiness rankings the legacy /s4-readiness/ executive board computed in
+ *  the browser (components/s4-readiness.tsx:32-35), from the same
+ *  computeReadiness output, at build time. Its fourth list, "5 ההגירות הקלות",
+ *  is not carried: it ranked the documentation-coverage score as migration
+ *  ease, the overclaim content review finding 8 removed with the bands. */
+export const readinessBoard = memo(() => {
+  const withT = s4Readiness().mods.filter((m) => m.tables > 0);
+  return {
+    risky: [...withT]
+      .sort((a, b) => (b.risk === "high" ? 1 : 0) - (a.risk === "high" ? 1 : 0) || b.deprecatedPct - a.deprecatedPct || a.score - b.score)
+      .slice(0, 5),
+    code: [...withT].sort((a, b) => b.customCodeImpact - a.customCodeImpact).slice(0, 5),
+    data: [...withT].sort((a, b) => b.dataModelImpact - a.dataModelImpact).slice(0, 5),
+  };
+});

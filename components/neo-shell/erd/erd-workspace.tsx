@@ -48,12 +48,12 @@
 
 import { enLang } from "../lang";
 import { DotLabel } from "../dot-label";
-import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import {
   ArrowRight, Boxes, ChevronDown, Crosshair, Filter, Keyboard, Layers, Link2, Map as MapIcon,
   Focus, Maximize, Maximize2, Minimize, Minus, PanelRightClose, PanelRightOpen, Plus, Presentation, RotateCcw, Scan,
-  Search, Share2, SlidersHorizontal, Target, Workflow, X,
+  LocateFixed, Share2, SlidersHorizontal, Target, Workflow, X,
 } from "lucide-react";
 import {
   ANALYSIS, LEVEL_HE, MODULE_ORDER, REL_HE, REL_ORDER, S4_TRUST_HE, ZONE_HE, modVar,
@@ -290,6 +290,10 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   /** Which disclosure is open. One at a time — two open popovers over a canvas
    *  is two things covering the picture. */
   const [pop, setPop] = useState<"mod" | "filters" | null>(null);
+  /* On a phone the view tools, the analysis lenses and the advanced filters
+     fold behind one "כלים" control (spec P1 §8: 540px of controls stood above
+     the diagram at 390). Wider screens never see the control. */
+  const [tools, setTools] = useState(false);
   /** Mirrors document.fullscreenElement. Driven ONLY by the fullscreenchange
    *  event, never by the click, so the button can never desync from the browser
    *  when the user leaves fullscreen with Escape or with the system control. */
@@ -818,7 +822,9 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       // The fit frames the space above the minimap when it is shown, so no
       // table lands under it (gate 7, minor 24).
       const miniEl = mini && !present ? document.querySelector<HTMLElement>(".ne .ne-mini") : null;
-      const miniH = miniEl ? miniEl.getBoundingClientRect().height + 12 : 0;
+      // The minimap is display:none on a phone: a 0-height box reserves nothing.
+      const miniBox = miniEl?.getBoundingClientRect().height || 0;
+      const miniH = miniBox ? miniBox + 12 : 0;
       const raw = Math.min((st.clientWidth - PAD * 2) / b.w, (st.clientHeight - PAD * 2 - miniH) / b.h);
       autoBox.current = { ...b, minK };
       const floor = present ? (isMap ? PRESENT_MIN_K : PRESENT_TABLE_MIN_K) : minK;
@@ -880,7 +886,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     // below the stage with 3 of 20 tables in view (gate 10, round 3).
     const pos = target.pos;
     const miniEl = mini && !present ? document.querySelector<HTMLElement>(".ne .ne-mini") : null;
-    const miniH = miniEl ? miniEl.getBoundingClientRect().height + 12 : 0;
+    const miniBox = miniEl?.getBoundingClientRect().height || 0;
+    const miniH = miniBox ? miniBox + 12 : 0;
     const aim = (x: number, y: number, k: number) => {
       autoBox.current = null;
       glide({ k, x: st.clientWidth / 2 - x * k, y: (st.clientHeight - miniH) / 2 - y * k });
@@ -911,8 +918,33 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       const ring = bboxOf(pos, sizeMap, new Set([sel, ...(adj.get(sel) || [])]));
       const fitK = Math.min((st.clientWidth - PAD * 2) / ring.w, (st.clientHeight - PAD * 2 - miniH) / ring.h);
       const p = pos.get(sel)!;
-      if (fitK >= NODE_MIN_K) aim(ring.x + ring.w / 2, ring.y + ring.h / 2, clampK(Math.min(1.35, fitK)));
-      else aim(p.x, p.y, clampK(ENTRY_MIN_K));
+      if (fitK >= NODE_MIN_K) { aim(ring.x + ring.w / 2, ring.y + ring.h / 2, clampK(Math.min(1.35, fitK))); return; }
+      // A PHONE'S STAGE (spec P1 §8: a phone arrived on one card in an empty
+      // field, its edges running off the frame). Below 600px the whole ring
+      // never fits at the code floor, so arrival frames the table with as many
+      // of its NEAREST neighbours as still fit there: what it joins is on
+      // screen, codes legible, and the list and the minimap hold the rest. A
+      // wider stage keeps the module floor (gate 10), where names are drawn.
+      if (st.clientWidth < 600) {
+        // A 390 x 384 stage cannot spend 52px a side on margins: 16px.
+        const PH = 16;
+        const fitOf = (bb: { w: number; h: number }) =>
+          Math.min((st.clientWidth - PH * 2) / bb.w, (st.clientHeight - PH * 2 - miniH) / bb.h);
+        const near = [...(adj.get(sel) || [])]
+          .filter((n) => pos.has(n))
+          .sort((a, c) => Math.hypot(pos.get(a)!.x - p.x, pos.get(a)!.y - p.y) - Math.hypot(pos.get(c)!.x - p.x, pos.get(c)!.y - p.y));
+        let keep = new Set([sel]);
+        for (const n of near) {
+          const trial = new Set([...keep, n]);
+          if (fitOf(bboxOf(pos, sizeMap, trial)) >= NODE_MIN_K) keep = trial;
+        }
+        if (keep.size > 1) {
+          const bb = bboxOf(pos, sizeMap, keep);
+          aim(bb.x + bb.w / 2, bb.y + bb.h / 2, clampK(Math.min(ENTRY_MIN_K, fitOf(bb))));
+          return;
+        }
+      }
+      aim(p.x, p.y, clampK(ENTRY_MIN_K));
       return;
     }
     let hub = "";
@@ -925,6 +957,9 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     if (h) aim(h.x, h.y, clampK(ENTRY_MIN_K));
     else fitTo(b);
   }, [fitTo, glide, isMap, present, live.ego, target.pos, tByName, sel, adj, sizeMap, mini]);
+  // The arrival fit reads the newest picture, but only a new picture or a new
+  // focus fires it: an Effect Event, so a selection never moves the camera.
+  const frameArrival = useEffectEvent(() => fitOnEnter());
 
   /** Cinematic zoom INTO a table. The studio's zoomInto, same numbers. */
   const zoomInto = useCallback(
@@ -1413,8 +1448,11 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
    *  view you keep. */
   const pictureKey = `${mod ?? "*"}|${[...extra].sort().join("+")}|${showAll ? 1 : 0}`;
   useEffect(() => {
-    // Keyed on the picture and nothing else — `fit` is a stable callback, so
-    // this fires exactly once per picture. Deliberately NOT guarded by a ref:
+    // Keyed on the picture and nothing else, so this fires once per picture:
+    // `fit` changes with the minimap and the presentation mode, and keyed on it
+    // a toggle of either re-framed the camera and dropped the open card's way
+    // back. frameArrival is an Effect Event and reads the latest fit itself.
+    // Deliberately NOT guarded by a ref:
     // an effect that records "already framed" before its own timeout fires
     // never frames at all when React re-invokes it, which is precisely what
     // left the map at 100% on a graph three screens wide.
@@ -1435,10 +1473,10 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
         setZoomPct(Math.round(view.current.k * 100));
         return;
       }
-      fitOnEnter();
+      frameArrival();
     }, 60);
     return () => window.clearTimeout(id);
-  }, [pictureKey, fit, paint]);
+  }, [pictureKey, paint]);
 
   /** Entering focus mode frames the neighbourhood. Leaving it deliberately does
    *  NOT move the camera: you land back on the map where you were reading. */
@@ -1446,7 +1484,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   useEffect(() => {
     if (live.ego === egoWas.current) return;
     egoWas.current = live.ego;
-    if (live.ego) fitOnEnter();
+    if (live.ego) frameArrival();
   }, [live.ego, fit]);
 
   /** Narrowing to a topic or an object frames that neighbourhood once. */
@@ -1885,6 +1923,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       ref={root}
       data-full={full ? "1" : "0"}
       data-mini={mini ? "1" : "0"}
+      data-tools={tools ? "1" : "0"}
       data-level={level}
       data-sel={sel ? "1" : "0"}
       data-q={query ? "1" : "0"}
@@ -1963,18 +2002,21 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
 
         {!isMap ? (
           <div className="ne-find-top">
+            {/* ONE SEARCH (spec P1 §10): the site's search is the shell's; this
+                field finds a table on THIS map and flies to it, so it is named
+                and drawn as a locator. */}
             <label className="ne-search">
-              <Search size={14} strokeWidth={1.9} aria-hidden="true" />
+              <LocateFixed size={14} strokeWidth={1.9} aria-hidden="true" />
               <input
                 type="search"
                 value={q}
                 onChange={(ev) => setQ(ev.target.value)}
-                placeholder="שם טבלה · תיאור · טרנזקציה"
-                aria-label="חיפוש טבלה בתרשים"
+                placeholder="איתור במפה: שם טבלה · תיאור · טרנזקציה"
+                aria-label="איתור טבלה במפה"
                 dir="auto"
               />
               {q ? (
-                <button type="button" className="nu-ghost ne-x" onClick={() => setQ("")} aria-label="ניקוי החיפוש">
+                <button type="button" className="nu-ghost ne-x" onClick={() => setQ("")} aria-label="ניקוי האיתור">
                   <X size={13} strokeWidth={2.2} aria-hidden="true" />
                 </button>
               ) : null}
@@ -2100,7 +2142,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             </button>
             <button
               type="button"
-              className="nu-ghost"
+              className="nu-ghost ne-mini-t"
               onClick={() => setMini((v) => !v)}
               aria-pressed={mini}
               aria-label={mini ? "הסתרת המפה המוקטנת" : "הצגת המפה המוקטנת"}
@@ -2281,6 +2323,20 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             ))}
           </ul>
         </ErdPop>
+        {/* Only where it folds something: at the module list (no module, no
+            map) the view switch is hidden and the lenses are not rendered, so
+            the toggle changed its own label and nothing else. */}
+        {M || phoneMap ? (
+          <button
+            type="button"
+            className="nu-filter ne-tools-t"
+            aria-expanded={tools}
+            onClick={() => setTools((v) => !v)}
+          >
+            <SlidersHorizontal size={12} strokeWidth={2} aria-hidden="true" />
+            {tools ? "פחות כלים" : "כלים"}
+          </button>
+        ) : null}
 
         {M ? (
           <>

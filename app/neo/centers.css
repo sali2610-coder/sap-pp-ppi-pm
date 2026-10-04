@@ -110,13 +110,11 @@
   background: var(--surface);
   border: 1px solid var(--hairline);
   overflow: hidden;
-  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+  /* Motion inventory #58: no hover lift. A card answers hover with colour,
+     border and background only; nothing moves and no shadow grows. */
+  transition: border-color .16s ease, background-color .16s ease;
 }
-.nct-item:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--elev-2);
-  border-color: color-mix(in srgb, var(--ct) 34%, var(--hairline));
-}
+.nct-item:hover { border-color: color-mix(in srgb, var(--ct) 34%, var(--hairline)); }
 .nct-item-bar { inline-size: 3px; flex: none; border-radius: 3px; background: var(--ct); }
 .nct-item-body { display: flex; flex-direction: column; gap: .12rem; min-inline-size: 0; flex: 1 1 auto; }
 .nct-item-he { font-size: .95rem; font-weight: 700; }
@@ -212,7 +210,17 @@
   border-color: color-mix(in srgb, var(--st) 30%, var(--hairline));
   background: var(--surface);
 }
-.nct-s4-changed { margin: 0 0 .5rem; font-size: .95rem; font-weight: 600; line-height: 1.6; }
+/* One row per ECC→S/4 field, as on the domain pages (app/neo/domain.css
+   .ndm-s4): the label in its status family's ink, the text in body ink. */
+.nct-s4-rows { margin: 0; padding: 0; list-style: none; display: grid; gap: .5rem; }
+.nct-s4-rows li {
+  display: grid; gap: 2px;
+  padding-inline-start: .75rem;
+  border-inline-start: 1px solid var(--hairline);
+}
+.nct-s4-rows li b { font-size: .78rem; font-weight: 700; color: color-mix(in srgb, var(--t, var(--ink-2)) 62%, var(--ink-1)); }
+html[data-theme="dark"] .nct-s4-rows li b { color: color-mix(in srgb, var(--t, var(--ink-2)) 65%, var(--ink-1)); }
+.nct-s4-rows li span { font-size: .88rem; line-height: 1.68; color: var(--ink-2); }
 .nct-s4--none { --st: var(--ink-3); }
 .nct-none { color: var(--ink-3); font-style: italic; }
 
@@ -237,7 +245,7 @@
    every row; nothing lifts. Nothing an item says is removed. */
 .nct-items { gap: 0; border-block-start: 1px solid var(--hairline); }
 .nct-item { padding: var(--sp-3) var(--sp-2); border: 0; border-block-end: 1px solid var(--hairline); border-radius: 0; background: transparent; box-shadow: none; transform: none; }
-.nct-item:hover { background: var(--surface-2); transform: none; box-shadow: none; border-color: var(--hairline); }
+.nct-item:hover { background: var(--surface-2); border-color: var(--hairline); }
 .nct-item-bar { display: none; }
 
 /* The topic list under the cards (centers/center-topics.tsx): the knowledge

@@ -182,9 +182,8 @@
   inline-size: 4.75rem; block-size: 4.75rem;
   border-radius: var(--r-xl);
   border: 1px solid var(--hairline);
-  background:
-    radial-gradient(70% 70% at 50% 40%, color-mix(in srgb, var(--brand) 9%, transparent), transparent 70%),
-    var(--surface);
+  /* flat: the brand wash it had was a decorative gradient (spec P1 §6) */
+  background: var(--surface);
   box-shadow: var(--elev-1);
 }
 
@@ -500,7 +499,9 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   inset: 0;
   z-index: -1;
   border-radius: inherit;
-  background: radial-gradient(70% 70% at 50% 45%, color-mix(in srgb, var(--brand) 26%, transparent), transparent 72%);
+  /* The thinking / writing state, as a flat tint of the mark's own plate (a
+     radial brand glow before; spec P1 §6: no gradient, no glow). */
+  background: color-mix(in srgb, var(--brand) 14%, transparent);
   opacity: 0;
   pointer-events: none;
   transition: opacity 400ms var(--ease-out-expo);
@@ -765,35 +766,10 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   border: 1px solid var(--hairline);
   background: var(--surface);
 }
-/* One slow pass of light across the working row. It is the same idea as the
-   scan bar beside it, at the scale of the whole row, and it exists because a
-   45-second wait on a completely static box reads as a frozen page. It carries
-   NO information — the phase word and the live clock carry all of that — so it
-   is deliberately weak enough to be felt rather than watched.
-
-   Removed the moment text starts arriving: from that point the caret in the
-   draft is the thing that is alive, and two competing rhythms in one column is
-   the sort of noise this whole surface is written against. */
-.nxq-live::after {
-  content: "";
-  position: absolute;
-  inset-block: 0;
-  inset-inline-start: 0;
-  inline-size: 45%;
-  background: linear-gradient(to right, transparent,
-    color-mix(in srgb, var(--brand) 9%, transparent), transparent);
-  transform: translateX(-140%);
-  pointer-events: none;
-}
-@media (prefers-reduced-motion: no-preference) {
-  .nxq-live[data-phase="sending"]::after,
-  .nxq-live[data-phase="retrieved"]::after,
-  .nxq-live[data-phase="finishing"]::after { animation: nxq-pass 2.6s var(--ease-emphasis) infinite; }
-}
-@keyframes nxq-pass {
-  0%   { transform: translateX(-140%); }
-  100% { transform: translateX(320%); }
-}
+/* The working row had a sweep of brand light across it (.nxq-live::after, a
+   gradient carrying no information). Removed with the round's other decorative
+   gradients (spec P1 §6): the scan bar beside the phase word keeps a long wait
+   from reading as a frozen page, and the word and the clock carry the state. */
 .nxq-live-label { font-size: var(--t-xs); font-weight: 600; color: var(--ink-2); }
 .nxq-live-chip { font-variant-numeric: tabular-nums; }
 
@@ -863,10 +839,8 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   vertical-align: text-bottom;
   background: var(--brand);
 }
-@media (prefers-reduced-motion: no-preference) {
-  .nxq-caret-live { animation: nxq-blink 1s steps(2) infinite; }
-}
-@keyframes nxq-blink { 50% { opacity: 0; } }
+/* The caret holds still (motion inventory #55): a blinking caret is a blink,
+   and while the answer is being written the text itself is what moves. */
 
 .nxq-skel { display: grid; gap: var(--sp-2); max-inline-size: 74ch; }
 .nxq-skel span {
@@ -1009,9 +983,7 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   padding: var(--sp-5);
   border-radius: var(--r-2xl);
   border: 1px solid var(--hairline);
-  background:
-    radial-gradient(120% 90% at 88% 0%, color-mix(in srgb, var(--brand) 6%, transparent), transparent 62%),
-    var(--surface);
+  background: var(--surface);
   box-shadow: var(--elev-1);
 }
 
@@ -1501,12 +1473,7 @@ html[data-theme="dark"] .nxq[data-surface="library"] {
   align-items: center;
   padding: clamp(1.25rem, 3vw, 2.25rem) clamp(1rem, 3vw, 2rem);
   border-radius: var(--r-xl);
-  background:
-    radial-gradient(120% 130% at 88% 8%,
-      color-mix(in oklab, var(--scene-cool) 12%, transparent), transparent 60%),
-    linear-gradient(160deg,
-      var(--scene-raised),
-      color-mix(in oklab, var(--scene-raised) 82%, var(--scene-ground)));
+  background: var(--scene-raised);
   border: 1px solid var(--scene-hair);
   box-shadow: var(--nq-lift-2);
 }
@@ -1691,7 +1658,8 @@ html[data-theme="dark"] .nxq[data-surface="library"] {
 @media (prefers-reduced-motion: no-preference) {
   /* Idle is a breath, not a bounce: 1.5% over four seconds, which is at the
      edge of perceptible and never pulls the eye off the text beside it. */
-  .nql[data-state="idle"] .nql-body { animation: nql-breathe 4.4s ease-in-out infinite; }
+  /* Idle holds still (motion inventory #54): a breath while nobody waits is
+     a loop that explains nothing. Thinking and writing keep their states. */
   .nql[data-state="thinking"] .nql-halo { animation: nql-halo 1.6s ease-in-out infinite; }
   .nql[data-state="thinking"] .nql-leaf-r { animation: nql-riffle 1.1s ease-in-out infinite; }
   .nql[data-state="writing"] .nql-write { animation: nql-write 1.5s ease-in-out infinite; }

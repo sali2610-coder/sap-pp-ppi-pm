@@ -8,6 +8,7 @@
 // ER model keeps its own entry under Reference.
 import "@/app/neo/ui.css";
 import "@/app/neo/domain.css";
+import "@/app/neo/learn-records.css";
 import { DomainsHub } from "@/components/neo-shell/domain/domain-view";
 import { domainTotals } from "@/components/neo-shell/domain/domain-data";
 

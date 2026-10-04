@@ -40,7 +40,7 @@ import { enLang, slashBreaks } from "../lang";
 import Link from "next/link";
 import { useCallback, useEffect, useId, useMemo, useState, ViewTransition } from "react";
 import {
-  AppWindow, ArrowLeft, Clock, Flame, Layers, Search, SlidersHorizontal,
+  AppWindow, ArrowLeft, Clock, Flame, Layers, ListFilter, Search, SlidersHorizontal,
   Star, Terminal, X,
 } from "lucide-react";
 import { TX_INTEL } from "@/data/tx-intel";
@@ -199,7 +199,7 @@ function Row({ t, fav, onOpen, landed, st }: { t: RegistryTx; fav: boolean; onOp
 
 /* ---------------------------------------------------------------- surface */
 
-export function TransactionsSurface({ status }: { status?: Record<string, string> }) {
+export function TransactionsSurface({ status, extra }: { status?: Record<string, string>; extra?: { code: string; tables: string[] }[] }) {
   const reg = useMemo(() => txRegistry(), []);
   const all = useMemo(() => [...reg.values()], [reg]);
   const stats = useMemo(() => registryStats(), []);
@@ -394,17 +394,19 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
 
 
       <div className="nxd-tools nm-fade nm-once">
+        {/* ONE SEARCH (spec P1 §10): the site's search is the shell's; this
+            field narrows this list, and is named and drawn as a filter. */}
         <div className="nxd-field">
-          <Search size={15} strokeWidth={1.75} aria-hidden="true" />
+          <ListFilter size={15} strokeWidth={1.75} aria-hidden="true" />
           <input
             type="search"
             value={q}
             onChange={(e) => { setQ(e.target.value); setLimit(PAGE); }}
-            placeholder="קוד (IW31) · שם עברי · שם אנגלי · אזור"
-            aria-label="חיפוש טרנזקציות"
+            placeholder="סינון הרשימה: קוד (IW31) · שם עברי · שם אנגלי · אזור"
+            aria-label="סינון רשימת הטרנזקציות"
           />
           {q ? (
-            <button type="button" className="nu-ghost nxd-clear" onClick={() => setQ("")} aria-label="ניקוי החיפוש">
+            <button type="button" className="nu-ghost nxd-clear" onClick={() => setQ("")} aria-label="ניקוי הסינון">
               <X size={13} strokeWidth={2} />
             </button>
           ) : null}
@@ -573,6 +575,29 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
           ) : null}
         </>
       )}
+
+      {/* Codes the blueprint lists on a table that the verified registry does
+          not carry. Each has a page that says so; they are listed here, apart
+          from the catalogue, so its counts stay the registry's. */}
+      {extra?.length ? (
+        <details className="nxd-extra">
+          <summary>
+            עוד <span className="nx-sap">{nf.format(extra.length)}</span> קודים שמופיעים בבלופרינט ואינם ברישום המאומת
+          </summary>
+          <p className="nxd-extra-p">
+            כל קוד מופיע בעמודת הטרנזקציות של טבלה בבלופרינט של הפרויקט. לכל אחד עמוד משלו,
+            {" "}שמציין שהקוד אינו ברישום המאומת ומה ידוע עליו מהבלופרינט.
+          </p>
+          <ul className="nxd-extra-l">
+            {extra.map((x) => (
+              <li key={x.code}>
+                <Link href={`/neo/transactions/${x.code}/`} prefetch={false} className="nu-link nx-sap" dir="ltr">{x.code}</Link>
+                {x.tables.length ? <span className="nxd-extra-t" dir="ltr">{x.tables.join(" · ")}</span> : null}
+              </li>
+            ))}
+          </ul>
+        </details>
+      ) : null}
 
       <p className="nxd-foot nm-fade nm-once">
         הקטלוג מאחד את מקורות הפרויקט לרשימה אחת, בלי כפילויות. קוד ללא כותרת אנגלית במקור

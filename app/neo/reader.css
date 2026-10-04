@@ -1640,3 +1640,20 @@ html[data-theme="dark"] .nr-tip { box-shadow: 0 10px 30px -12px rgba(0, 0, 0, .7
 .nr :is(a[href], button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])) {
   scroll-margin-block: calc(var(--nr-headh) + var(--sp-2)) calc(var(--nr-dockh, 0px) + var(--sp-2));
 }
+
+/* THE READER ON A PHONE (spec P1 §8: the reader's chrome pushed the text below
+   the fold at 390 and off the first screen at 320). The table of contents and
+   the bookmark stay on the bar; the language, focus and text size join the
+   finer settings behind the one "הגדרות תצוגה" control, which opens them in
+   place. The progress strip keeps the chapter's line: the book's share is in
+   the reading dock at the foot of the screen, and the subchapter's is the place
+   the reader is looking at. Nothing is removed from the document. */
+/* The settings toggle and what it opens are reachable at every width: below
+   1100px .nr-tool-min hid the toggle, so the lens, the column width, the
+   leading, the paper tone and the reset could not be reached on a tablet or a
+   phone at all. */
+.nr-adv-b, .nr-adv .nr-tool-min, .nr-adv .nr-steps--wide { display: inline-flex; }
+@media (max-width: 37.5rem) {
+  .nr-tools:not([data-adv="1"]) :is(.nr-langs, .nr-tool-ph, .nr-steps:not(.nr-steps--wide)) { display: none; }
+  .nr-strip .nr-strip-seg:not(:nth-child(2)) { display: none; }
+}

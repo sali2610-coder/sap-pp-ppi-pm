@@ -16,6 +16,7 @@
 // prints the absence.
 
 import { INCIDENTS, type Incident } from "@/data/troubleshooting";
+import { cdsForTable } from "@/data/cds-map";
 import { getTableEnrichment, type TableEnrichment } from "@/data/table-enrichment";
 import { LIBRARY } from "@/data/library";
 import { processSteps } from "@/lib/module-portal";
@@ -28,7 +29,7 @@ import { PM_DATA, PPPI_DATA } from "@/data/sapData";
 import type { SAPModuleData } from "@/lib/types";
 import type { ModuleKey } from "../types";
 import {
-  cdsFor, danglingFor, edges, mergedFields, moduleRows, nodes, occurrences,
+  danglingFor, edges, mergedFields, moduleRows, nodes, occurrences,
   relVar, selfRelsFor, tableNames, ZONE_HE, zoneVar,
   type DanglingRel, type ErdNode, type FieldRow, type ModuleRow, type RelEdge,
   type RelKind, type SelfRel, type Zone,
@@ -105,15 +106,24 @@ export interface S4Standing {
 
 export interface IncidentRef {
   slug: string;
+  /** `/neo/incidents/<slug>/` — every catalogued incident has a page there. */
+  href: string;
   he: string;
   module: string;
   symptom: string;
   error: string;
   impact: string;
   rootCauses: string[];
+  /** Where to look first, as the catalogue writes it. */
+  debugEntry: string[];
   analyzeTcodes: string[];
   tables: string[];
+  /** Related BAPIs / FMs and exits, verbatim. */
+  funcs: string[];
+  exits: string[];
   fix: string[];
+  /** A worked case from the plant floor, when the record carries one. */
+  scenario: string;
   ecc: string;
   s4: string;
 }
@@ -146,7 +156,9 @@ export interface ObjectView {
   funcs: { name: string; he: string; mods: ModuleKey[] }[];
   progs: { name: string; he: string; mods: ModuleKey[] }[];
   flow: FlowPlace[];
-  cds: { view: string; he: string; tables: string[] }[];
+  /** CDS views over the table, with the consumption view and Fiori app the
+   *  project's CDS map names on top of each, when it names one. */
+  cds: { view: string; he: string; tables: string[]; consumption: string; fiori: string }[];
   incidents: IncidentRef[];
   /** Books are indexed at MODULE level in data/library.ts — there is no
    *  table-to-chapter map in the project, and one is not invented here. */
@@ -235,15 +247,20 @@ function standingOf(rows: ModuleRow[], name: string): S4Standing {
 
 const incRef = (i: Incident): IncidentRef => ({
   slug: i.slug,
+  href: `/neo/incidents/${encodeURIComponent(i.slug)}/`,
   he: i.he,
   module: i.module,
   symptom: i.symptom || "",
   error: i.error && i.error !== "—" ? i.error : "",
   impact: i.impact || "",
   rootCauses: i.rootCauses || [],
+  debugEntry: i.debugEntry || [],
   analyzeTcodes: i.analyzeTcodes || [],
   tables: i.tables || [],
+  funcs: i.funcs || [],
+  exits: i.exits || [],
   fix: i.fix || [],
+  scenario: (i.scenario || "").trim(),
   ecc: i.ecc || "",
   s4: i.s4 || "",
 });
@@ -358,7 +375,9 @@ export function objectView(raw: string): ObjectView | null {
     funcs: [...funcMap.values()],
     progs: [...progMap.values()],
     flow,
-    cds: cdsFor(name),
+    cds: cdsForTable(name).map((c) => ({
+      view: c.view, he: c.he, tables: c.tables, consumption: c.consumption || "", fiori: c.fiori || "",
+    })),
     incidents: INCIDENTS.filter((i) => (i.tables || []).some((t) => t.toUpperCase() === name)).map(incRef),
     books: booksFor(node.mods),
     s4: standingOf(rows, name),

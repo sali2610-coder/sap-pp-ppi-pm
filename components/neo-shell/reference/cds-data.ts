@@ -26,6 +26,7 @@ import { FIORI_APPS } from "@/data/fiori/apps";
 import { registry } from "@/lib/bapi-registry";
 import { zoneOf } from "@/lib/studio-graph";
 import { ZONE_HE } from "../erd/model";
+import { profileSection } from "./profile";
 import { MOD_HE } from "../mod-var";
 import {
   bapiHref, cdsHref, clean, completeness, fioriHref, nf, standings, uniq,
@@ -105,7 +106,9 @@ function rowOf(v: CdsView): RefRow {
     href: `/neo/cds/${encodeURIComponent(v.view)}/`,
     name: v.view,
     he: v.he,
-    en: "",
+    // the chain above the view, as the legacy catalogue printed it per view:
+    // its consumption view, then the Fiori app the mapping names
+    en: [v.consumption, v.fiori].filter(Boolean).join(" · "),
     mods: [v.module],
     kind: kindOf(v),
     group: ZONE_HE[zoneOf(v.tables[0] || "")] || "ללא מחלקת אובייקט במאגר",
@@ -144,17 +147,21 @@ export function cdsDir(): RefDir {
     lede:
       `${nf.format(CDS_VIEWS.length)} תצוגות CDS של S/4HANA שתיעוד הפרויקט ממפה אל הטבלאות הקלאסיות שהן מכסות. ` +
       `לכל תצוגה מוצגות טבלאות ה-ECC שהיא מכסה, שכבת ה-Consumption שמעליה, יישום ה-Fiori שצורך אותה ` +
-      `ומעמד הטבלה הקלאסית במעבר ל-S/4HANA.`,
+      `ומעמד הטבלה הקלאסית במעבר ל-S/4HANA. ` +
+      `ב-S/4HANA הגישה לנתונים עוברת דרך תצוגות CDS במקום קריאה ישירה לטבלה. תצוגת Interface (I_) חושפת ` +
+      `את הנתון הגולמי, תצוגת Consumption (C_) מוסיפה היגיון אנליטי, ואפליקציית Fiori צורכת את השרשרת.`,
     stats: [
       { v: CDS_VIEWS.length, l: "תצוגות CDS", i: "sigma" },
-      { v: uniq(CDS_VIEWS.flatMap((v) => v.tables)).length, l: "טבלאות קלאסיות מכוסות", i: "table" },
+      { v: uniq(CDS_VIEWS.flatMap((v) => v.tables)).length, l: "טבלאות ECC ממופות", i: "table" },
       { v: count((r) => r.caps.includes("deep")), l: "עם רשומת העשרה", i: "bookOpen" },
-      { v: count((r) => r.caps.includes("consumption")), l: "עם שכבת Consumption", i: "layoutGrid" },
-      { v: count((r) => r.caps.includes("fiori")), l: "עם יישום Fiori", i: "appWindow" },
+      { v: count((r) => r.caps.includes("consumption")), l: "תצוגות צריכה (C_)", i: "layoutGrid" },
+      { v: count((r) => r.caps.includes("fiori")), l: "מחוברות ל-Fiori", i: "appWindow" },
       { v: count((r) => r.caps.includes("abap")), l: "עם דוגמת ABAP", i: "fileCode" },
       { v: CDS_VIEWS.filter((v) => (CDS_ENRICHMENT[v.view]?.associations?.length || 0) > 0).length, l: "עם אסוציאציות מתועדות", i: "gitBranch" },
       { v: count((r) => r.s4.tone === "changed"), l: "מעל טבלה שמשתנה ב-S/4HANA", i: "arrowLeft" },
     ],
+    // the VDM chain every view sits in, as the legacy CDS explorer drew it
+    flow: ["טבלת ECC קלאסית", "Interface View · I_", "Consumption View · C_", "Fiori App"],
     rows,
     mods: [...byMod.entries()].sort((a, b) => b[1] - a[1])
       .map(([id, n]) => ({ id, he: MOD_HE[id] ? `${id} · ${MOD_HE[id]}` : id, n })),
@@ -258,6 +265,12 @@ export function cdsDetail(name: string): RefDetail | null {
     cards,
     empty: "לא קיימת בתיעוד רשומת Fiori או אובייקט פונקציה שמפנה לתצוגה זו.",
   });
+
+  /* the consultant profile: what, why, who, the mapped classic tables with
+     their descriptions, troubleshooting, interview questions, the ECC/S/4
+     contrast and the two module examples, each with its own trust mark */
+  const profile = profileSection(v.view, "cds");
+  if (profile) sections.push(profile);
 
   // The ECC alternative is deliberately NOT parsed into T-Code links. The field
   // is one authored sentence ("טבלאות AUFK+AFKO · טרנזקציות IW31/IW32/IW33"),

@@ -13,7 +13,8 @@ import "@/app/neo/ui.css";
 import "@/app/neo/data.css";
 import "@/app/neo/reference.css";
 import { RefSurface } from "@/components/neo-shell/reference/ref-surface";
-import { bapiDir } from "@/components/neo-shell/reference/bapi-data";
+import { RefCols, RefMore } from "@/components/neo-shell/reference/ref-more";
+import { BAPI_VS_FM, bapiDir } from "@/components/neo-shell/reference/bapi-data";
 
 // noindex, like every other page in the namespace: scripts/gen-sitemap.mjs
 // derives the sitemap from out/ and its only exclusion mechanism is a page
@@ -28,5 +29,11 @@ export const metadata = {
 // Server component. bapiDir() resolves the registry at BUILD time and hands the
 // client surface one small plain object, so no SAP dataset crosses the boundary.
 export default function NeoBapiDirectory() {
-  return <RefSurface dir={bapiDir()} />;
+  return (
+    <RefSurface dir={bapiDir()}>
+      <RefMore title="מה ההבדל בין BAPI ל-Function Module?">
+        <RefCols cols={BAPI_VS_FM} />
+      </RefMore>
+    </RefSurface>
+  );
 }

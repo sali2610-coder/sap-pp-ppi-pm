@@ -20,9 +20,13 @@ import { IDOC, IDOC_RECORDS, IDOC_STATUSES, idocMessageTypes } from "@/lib/idoc-
 import { evidenceBlock, fromEccS4Block } from "@/lib/evidence";
 import { canonStatus } from "./canon";
 import { funcIntel } from "@/lib/object-intel";
+import { registryObject } from "@/lib/bapi-registry";
+import { funcDetail } from "./bapi-data";
+import { profileSection } from "./profile";
+import { incidentSlugs } from "../learn/incidents-data";
 import { MOD_HE } from "../mod-var";
 import {
-  bapiHref, cdsHref, clean, completeness, nf, objectHref, standings, txHref, uniq,
+  bapiHref, cdsHref, clean, completeness, idocHref, nf, objectHref, standings, txHref, uniq,
 } from "./ref-links";
 import type { RefCard, RefDetail, RefDir, RefFact, RefRow, RefSection, RefStatus } from "./types";
 
@@ -136,6 +140,7 @@ export function idocDir(): RefDir {
       { v: IDOC_RECORDS.length, l: "רשומות פיזיות", i: "database" },
       { v: IDOC_STATUSES.length, l: "קודי סטטוס מתועדים", i: "shieldCheck" },
       { v: IDOC.monitoring.length, l: "טרנזקציות ניטור", i: "terminal" },
+      { v: IDOC.transactions.length, l: "כלי ניטור (T-Codes)", i: "wrench" },
       { v: uniq(rows.flatMap((r) => r.mods)).length, l: "מודולים", i: "boxes" },
     ],
     rows,
@@ -162,39 +167,77 @@ export function idocDir(): RefDir {
    Rendered by app/neo/idoc/page.tsx as the surface's children. It is data, not
    navigation: no control, no link, nothing that pretends to be clickable. */
 
+type Code = { t: string; href: string | null };
+
 export interface IdocReference {
   records: { table: string; he: string; role: string; href: string | null }[];
-  statuses: { code: string; dir: string; he: string; cause: string; fix: { t: string; href: string | null }[] }[];
+  /** How an IDoc is routed: each object with the transaction that maintains it. */
+  routing: { what: string; tx: Code; join: string }[];
+  statuses: { code: string; dir: string; he: string; cause: string; fix: Code[] }[];
   monitoring: { t: string; what: string; href: string | null }[];
+  /** Every transaction the curated record names for IDoc work. */
+  transactions: Code[];
   architecture: string;
   flow: string[];
+  /** The project's own field case and the incidents it catalogues. */
+  scenario: string;
+  incidents: { label: string; href: string | null }[];
 }
 
 export function idocReference(): IdocReference {
+  const incidents = new Set(incidentSlugs());
   return {
     architecture: IDOC.architecture,
     flow: IDOC.flow,
     records: IDOC_RECORDS.map((r) => ({
       table: r.table, he: r.he, role: r.role, href: objectHref(r.table),
     })),
+    // the routing line of the legacy IDoc explorer, verbatim
+    routing: [
+      { what: "Partner Profile", tx: { t: "WE20", href: txHref("WE20") }, join: "·" },
+      { what: "Port", tx: { t: "WE21", href: txHref("WE21") }, join: "·" },
+      { what: "Basic Type", tx: { t: "WE30", href: txHref("WE30") }, join: "" },
+      { what: "+ Extension", tx: { t: "WE31", href: txHref("WE31") }, join: "" },
+    ],
     statuses: IDOC_STATUSES.map((s) => ({
       code: s.code,
-      dir: s.dir === "in" ? "נכנס" : "יוצא",
+      dir: s.dir === "in" ? "נכנס (Inbound)" : "יוצא (Outbound)",
       he: s.he,
       cause: s.cause,
       fix: s.fix.map((t) => ({ t, href: txHref(t) })),
     })),
     monitoring: IDOC.monitoring.map((m) => ({ t: m.t, what: m.what, href: txHref(m.t) })),
+    transactions: IDOC.transactions.map((t) => ({ t, href: txHref(t) })),
+    scenario: IDOC.scenario,
+    incidents: IDOC.incidents.map((i) => ({
+      label: i.label,
+      href: incidents.has(i.slug) ? `/neo/incidents/${encodeURIComponent(i.slug)}/` : null,
+    })),
   };
 }
 
 /* ------------------------------------------------------------- the record */
 
+/** A parameter's direction, in the words the record page used. */
+const DIR_EN: Record<string, string> = { import: "Import", export: "Export", table: "Table", return: "Return" };
+
+/** The registry facts the S/4 plate carries for a message type the registry
+ *  also records (availability, interface stability, release, call traits). */
+const REG_S4 = new Set(["זמינות לפי הרשומה", "יציבות הממשק", "סטטוס שחרור ברשומה", "מאפייני הממשק לפי הרשומה"]);
+
 export function idocDetail(name: string): RefDetail | null {
   const r = recordOf(name);
   if (!r) return null;
   const intel = r.intel;
-  const tables = standings(r.tables);
+  // The function registry keeps its own record of this message type (the
+  // legacy /bapi/<NAME>/ page printed it): description, availability, trust,
+  // complexity and related functions. They belong on the type's one page.
+  const reg = registryObject(name);
+  const fd = reg ? funcDetail(reg) : null;
+  const regSection = (id: string) => fd?.sections.find((s) => s.id === id);
+
+  const tables = standings(uniq([...r.tables, ...(reg?.tables || [])]));
+  const tcodes = uniq([...r.tcodes, ...(reg?.transactions || [])]);
   const critical = tables.filter((t) => t.critical);
 
   const tone: RefDetail["s4"]["tone"] = critical.length
@@ -208,6 +251,7 @@ export function idocDetail(name: string): RefDetail | null {
   const s4Facts: RefFact[] = [
     { label: "הערת S/4HANA ברשומה", text: clean(intel?.s4), absent: "לא קיימת הערת S/4HANA ברשומה לסוג הודעה זה." },
     { label: "הערת ECC ברשומה", text: clean(intel?.ecc), absent: "לא קיימת הערת ECC ברשומה לסוג הודעה זה." },
+    ...(fd?.s4.facts.filter((f) => REG_S4.has(f.label)) || []),
   ];
   if (intel?.related.cds?.length) {
     s4Facts.push({
@@ -218,62 +262,66 @@ export function idocDetail(name: string): RefDetail | null {
 
   const sections: RefSection[] = [];
 
+  const he = clean(intel?.what) || r.he;
+  const regHe = clean(reg?.shortDescriptionHe);
   sections.push({
     id: "what",
     icon: "cable",
     title: "תפקיד סוג ההודעה",
     facts: [
-      { label: "תיאור", text: clean(intel?.what) || r.he },
-      { label: "הקשר עסקי", text: clean(intel?.why), absent: "לא צוין הקשר עסקי ברשומה." },
-      { label: "תחום תהליכי", text: clean(intel?.processArea), absent: "לא צוין תחום ברשומה." },
-      { label: "זרימה", text: clean(intel?.flow), absent: "לא צוינה זרימה ברשומה." },
+      { label: "תיאור", text: he },
+      ...(regHe && regHe !== he ? [{ label: "תיאור ברשומת הקטלוג", text: regHe }] : []),
+      { label: "מטרה עסקית · למה קיים", text: clean(intel?.why), absent: "לא צוין הקשר עסקי ברשומה." },
     ],
+    subs: [{
+      title: "היכן משתייך",
+      facts: [
+        { label: "מודול", text: r.module ? `${r.module}${MOD_HE[r.module] ? ` · ${MOD_HE[r.module]}` : ""}` : "", absent: "לא צוין מודול ברשומה." },
+        { label: "אזור תהליך", text: clean(intel?.processArea), absent: "לא צוין תחום ברשומה." },
+        { label: "זרימה", text: clean(intel?.flow), absent: "לא צוינה זרימה ברשומה." },
+      ],
+    }],
   });
 
   if (intel?.inputs.length || intel?.outputs.length) {
+    const line = (p: { name: string; dir: string; req?: boolean; he: string }) =>
+      `${p.name} · ${DIR_EN[p.dir] || p.dir}${p.req ? " (חובה)" : ""}: ${p.he}`;
     sections.push({
       id: "payload",
       icon: "fileCode",
-      title: "מבנה ההודעה",
+      title: "פרמטרים · Inputs / Outputs",
       facts: [
-        ...(intel.inputs.length ? [{
-          label: "סגמנטים / קלט",
-          bullets: intel.inputs.map((p) => `${p.name}: ${p.he}`),
-        }] : []),
-        ...(intel.outputs.length ? [{
-          label: "פלט וסטטוס",
-          bullets: intel.outputs.map((p) => `${p.name}: ${p.he}`),
-        }] : []),
+        ...(intel.inputs.length ? [{ label: "סגמנטים / קלט", bullets: intel.inputs.map(line) }] : []),
+        ...(intel.outputs.length ? [{ label: "פלט וסטטוס", bullets: intel.outputs.map(line) }] : []),
       ],
     });
   }
 
-  sections.push({
-    id: "objects",
-    icon: "boxes",
-    title: "טבלאות וטרנזקציות",
-    facts: [
-      {
-        label: "טבלאות SAP מקושרות",
-        codes: tables.length ? tables.map((t) => ({ t: t.name, href: t.href })) : undefined,
-        absent: "לא קיימת בתיעוד טבלת SAP המקושרת לסוג הודעה זה.",
-      },
-      {
-        label: "טרנזקציות",
-        codes: r.tcodes.length ? r.tcodes.map((c) => ({ t: c, href: txHref(c) })) : undefined,
-        absent: "לא קיימת בתיעוד טרנזקציה המקושרת לסוג הודעה זה.",
-      },
-    ],
-  });
+  const objFacts: RefFact[] = [
+    {
+      label: "טבלאות SAP מקושרות",
+      codes: tables.length ? tables.map((t) => ({ t: t.name, href: t.href })) : undefined,
+      absent: "לא קיימת בתיעוד טבלת SAP המקושרת לסוג הודעה זה.",
+    },
+    {
+      label: "טרנזקציות (T-Codes)",
+      codes: tcodes.length ? tcodes.map((c) => ({ t: c, href: txHref(c) })) : undefined,
+      absent: "לא קיימת בתיעוד טרנזקציה המקושרת לסוג הודעה זה.",
+    },
+  ];
+  if (intel?.related.idocs?.length) {
+    objFacts.push({ label: "IDocs", codes: intel.related.idocs.map((c) => ({ t: c, href: idocHref(c) })) });
+  }
+  sections.push({ id: "objects", icon: "boxes", title: "טבלאות וטרנזקציות", facts: objFacts });
 
   if (intel?.qa) {
     sections.push({
       id: "ops",
       icon: "workflow",
-      title: "הפעלה ובדיקה",
+      title: "QA · בדיקות",
       facts: [
-        { label: "נקודות לבדיקה", bullets: intel.qa.test },
-        { label: "תלויות", bullets: intel.qa.deps },
+        { label: "מה לבדוק", bullets: intel.qa.test },
+        { label: "תלויות (הרשאות/אב/קונפיג)", bullets: intel.qa.deps },
         { label: "תרחיש בדיקה", text: intel.qa.scenario },
       ],
     });
@@ -281,7 +329,7 @@ export function idocDetail(name: string): RefDetail | null {
       id: "trouble",
       icon: "alertTriangle",
       title: "כשלים נפוצים",
-      facts: [{ label: "כשלים מתועדים", bullets: intel.qa.failures }],
+      facts: [{ label: "נקודות כשל נפוצות", bullets: intel.qa.failures }],
     });
   }
 
@@ -291,7 +339,6 @@ export function idocDetail(name: string): RefDetail | null {
   const cards: RefCard[] = tables
     .filter((t) => t.href)
     .map((t) => ({ href: t.href, code: t.name, he: t.he, reason: "טבלה שההודעה כותבת אליה או קוראת ממנה" }));
-  const relatedFuncs = uniq(intel?.related.tcodes || []);
   if (cards.length) {
     sections.push({
       id: "related",
@@ -301,20 +348,31 @@ export function idocDetail(name: string): RefDetail | null {
       cards,
     });
   }
-  if (relatedFuncs.length) {
-    // BAPI counterparts, only where the project really generates a page.
-    // Only function objects: a message type referencing another (kind "idoc") is
-    // not a function card, and a blueprint process concept says so in its reason.
-    const fnCards: RefCard[] = uniq(Object.keys(FUNCTION_INTEL))
-      .filter((k) => FUNCTION_INTEL[k].kind !== "idoc" && (FUNCTION_INTEL[k].related.idocs || []).includes(r.name))
-      .map((k) => ({
-        href: bapiHref(k), code: k, he: FUNCTION_INTEL[k].what,
-        reason: FUNCTION_INTEL[k].kind === "concept" ? "מושג תהליכי מהבלופרינט שרשומתו מפנה לסוג ההודעה" : "אובייקט פונקציה שרשומתו מפנה לסוג ההודעה",
-      }));
-    if (fnCards.length) {
-      sections.push({ id: "funcs", icon: "plug", title: "אובייקטי פונקציה קשורים", cards: fnCards });
-    }
+  // Function objects that name this message type, and the ones the registry
+  // record relates it to — only where the project really generates a page.
+  // A message type referencing another (kind "idoc") is not a function card,
+  // and a blueprint process concept says so in its reason.
+  const fnCards: RefCard[] = uniq(Object.keys(FUNCTION_INTEL))
+    .filter((k) => FUNCTION_INTEL[k].kind !== "idoc" && (FUNCTION_INTEL[k].related.idocs || []).includes(r.name))
+    .map((k) => ({
+      href: bapiHref(k), code: k, he: FUNCTION_INTEL[k].what,
+      reason: FUNCTION_INTEL[k].kind === "concept" ? "מושג תהליכי מהבלופרינט שרשומתו מפנה לסוג ההודעה" : "אובייקט פונקציה שרשומתו מפנה לסוג ההודעה",
+    }));
+  for (const c of regSection("related")?.cards || []) {
+    if (!fnCards.some((x) => x.code === c.code)) fnCards.push(c);
   }
+  if (fnCards.length) {
+    sections.push({ id: "funcs", icon: "plug", title: "BAPIs / FMs קשורים", note: `${nf.format(fnCards.length)} רשומות`, cards: fnCards });
+  }
+
+  for (const id of ["commit", "complexity"]) {
+    const sec = regSection(id);
+    if (sec) sections.push(sec);
+  }
+  const profile = profileSection(r.name, "idoc");
+  if (profile) sections.push(profile);
+  const trust = regSection("trust");
+  if (trust) sections.push(trust);
 
   const checks = [
     !!r.he, !!intel?.what, !!intel?.why, !!intel?.flow, !!intel?.inputs.length,
@@ -327,17 +385,18 @@ export function idocDetail(name: string): RefDetail | null {
       ? { he: "מתועד לעומק", color: "var(--status-done)" }
       : { he: "רשומת קישור בלבד", color: "var(--status-not-started)" },
   ];
+  if (intel && !intel.inferred) statuses.push({ he: "אומת ידנית", color: "var(--status-done)" });
   if (intel?.inferred) statuses.push({ he: "תלוי גרסה: נדרש אימות נוסף", color: "var(--status-in-analysis)" });
 
   return {
     kind: "idoc",
     eyebrow: `IDoc Message Type${r.module ? ` · ${r.module}` : ""}`,
     code: r.name,
-    he: clean(intel?.what) || r.he,
-    en: "",
+    he,
+    en: fd?.en || "",
     mod: r.module,
     modHe: MOD_HE[r.module] || "",
-    chips: uniq([clean(intel?.processArea)]),
+    chips: uniq([clean(intel?.processArea), ...(fd?.chips || [])]),
     statuses,
     completeness: completeness(checks.filter(Boolean).length, checks.length),
     s4: {
@@ -363,7 +422,7 @@ export function idocDetail(name: string): RefDetail | null {
     // presence of the deep intel record.
     evidence: evidenceOf(r),
     sections,
-    sources: [],
+    sources: uniq([reg?.verificationSource]),
     foot:
       "מקור: התיעוד המאומת של הפרויקט על אובייקטי פונקציה ו-IDoc. מבנה ה-IDoc וקודי הסטטוס " +
       "משותפים לכל סוגי ההודעה ומוצגים בעמוד קטלוג IDoc.",

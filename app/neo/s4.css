@@ -510,3 +510,29 @@ html[data-theme="dark"] .ns4-abap-k { color: var(--scene-ink); }
 .ns4-stats .ns4-stat { display: inline-flex; align-items: baseline; gap: var(--sp-1); }
 .ns4-stats .ns4-stat b { font-size: var(--t-sm); font-weight: 600; }
 .ns4-stats .ns4-stat em { font-size: var(--t-sm); color: var(--ink-2); }
+
+/* ==========================================================================
+   CARRIED FROM THE LEGACY PAGES (content parity, rollout 2026-10)
+   The executive overview and the area count read as the rows above, two to a
+   line where there is room; the Fiori list is one quiet row per transaction;
+   the related centres keep their one-line description under each link.
+   ========================================================================== */
+.ns4-rows.ns4-xo { grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); }
+.ns4-xo-n { display: flex; flex-wrap: wrap; gap: 0 var(--sp-3); }
+.ns4-fx { margin: .6rem 0 0; padding: 0; list-style: none; display: grid; gap: 0; }
+.ns4-fx li {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: .2rem .6rem;
+  padding-block: .4rem; border-block-end: 1px solid var(--hairline); font-size: .86rem;
+}
+.ns4-fx-he { color: var(--ink-2); }
+.ns4-fx-app { margin-inline-start: auto; color: var(--ink-1); unicode-bidi: isolate; overflow-wrap: anywhere; }
+.nx-app .nxr-also.ns4-relc ul { display: grid; gap: var(--sp-2); }
+.ns4-relc li { display: grid; gap: 1px; }
+.ns4-relc-d { font-size: var(--t-xs); line-height: 1.55; color: var(--ink-3); }
+.ns4-prov { margin: .4rem 0 0; max-inline-size: 72ch; font-size: .8125rem; line-height: 1.6; color: var(--ink-3); }
+.ns4-board { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
+.ns4-board-p {
+  display: grid; gap: .6rem; align-content: start;
+  padding: .85rem .95rem; border-radius: var(--r-xl);
+  background: var(--surface-2); border: 1px solid var(--hairline); overflow-wrap: anywhere;
+}

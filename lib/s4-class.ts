@@ -102,6 +102,14 @@ export function s4ClassOf(t: Pick<SAPTable, "s4Note">): S4Class | null {
 export const s4He = (k: S4Class | null) => (k === null ? S4_UNDECIDED_HE : S4_HE[k]);
 export const s4Dot = (k: S4Class | null) => (k === null ? S4_UNDECIDED_DOT : S4_DOT[k]);
 
+/** A NEO verdict bucket (components/neo-shell/data/s4-verdict.ts). An open
+ *  verdict is the evidence layer's "verification required", not the
+ *  blueprint's silence: it reads as that layer's own word
+ *  (S4_STATUS_WORD.verification_required), and s4He above stays the label for
+ *  the blueprint's column. Kept here, beside S4_HE, for the client tables. */
+export const S4_OPEN_HE = "נדרש אימות";
+export const verdictHe = (k: S4Class | null) => (k === null ? S4_OPEN_HE : S4_HE[k]);
+
 /** Counts over a set of tables, including the honest "undecided" bucket. */
 export interface S4Split {
   kept: number;

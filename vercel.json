@@ -21,2317 +21,837 @@
     {
       "source": "/abap/",
       "destination": "/neo/centers/abap/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/academy/",
       "destination": "/neo/academy/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/academy/dashboard/",
       "destination": "/neo/academy/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/ai/",
       "destination": "/neo/ai/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/alm/",
-      "destination": "/neo/",
-      "permanent": false
+      "destination": "/neo/alm/",
+      "permanent": true
     },
     {
       "source": "/apps/",
       "destination": "/neo/transactions/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/architect/",
       "destination": "/neo/studio/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/authorizations/",
       "destination": "/neo/centers/process-auth/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/authorizations/mrp-auth/",
       "destination": "/neo/centers/process-auth/mrp-auth/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/authorizations/pm-notif-auth/",
       "destination": "/neo/centers/process-auth/pm-notif-auth/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/authorizations/pm-order-auth/",
       "destination": "/neo/centers/process-auth/pm-order-auth/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/authorizations/pp-prodord-auth/",
       "destination": "/neo/centers/process-auth/pp-prodord-auth/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/authorizations/pppi-procord-auth/",
       "destination": "/neo/centers/process-auth/pppi-procord-auth/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/authorizations/settlement-auth/",
       "destination": "/neo/centers/process-auth/settlement-auth/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/bapi/",
       "destination": "/neo/bapi/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/bapi/BOMMAT/",
       "destination": "/neo/idoc/BOMMAT/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/bapi/LOIPRO/",
       "destination": "/neo/idoc/LOIPRO/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/bapi/MATMAS/",
       "destination": "/neo/idoc/MATMAS/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/blueprints/",
       "destination": "/neo/centers/blueprints/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/brain/",
       "destination": "/neo/ai/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/cds/",
       "destination": "/neo/cds/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/certification/",
       "destination": "/neo/certification/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/chat/",
       "destination": "/neo/chat/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/concepts/",
       "destination": "/neo/knowledge/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/config/",
       "destination": "/neo/centers/config/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/connector/",
-      "destination": "/neo/",
-      "permanent": false
+      "destination": "/neo/connector/",
+      "permanent": true
     },
     {
       "source": "/copilot/",
       "destination": "/neo/chat/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/debugging/",
       "destination": "/neo/centers/debugging/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/delivery/",
-      "destination": "/neo/centers/toolkit/",
-      "permanent": false
+      "destination": "/neo/delivery/",
+      "permanent": true
     },
     {
       "source": "/design/",
       "destination": "/neo/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/domain-model/",
       "destination": "/neo/domain-model/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/ecc-s4/",
-      "destination": "/neo/s4-readiness/",
-      "permanent": false
-    },
-    {
-      "source": "/ecc-s4/acdoca/",
-      "destination": "/neo/centers/migration/acdoca/",
-      "permanent": false
-    },
-    {
-      "source": "/ecc-s4/business-partner/",
-      "destination": "/neo/centers/migration/business-partner/",
-      "permanent": false
-    },
-    {
-      "source": "/ecc-s4/matdoc/",
-      "destination": "/neo/centers/migration/matdoc/",
-      "permanent": false
-    },
-    {
-      "source": "/ecc-s4/matnr-extension/",
-      "destination": "/neo/centers/migration/matnr-extension/",
-      "permanent": false
-    },
-    {
-      "source": "/ecc-s4/mrp-live/",
-      "destination": "/neo/centers/migration/mrp-live/",
-      "permanent": false
+      "destination": "/neo/ecc-s4/",
+      "permanent": true
     },
     {
       "source": "/enhancements/",
       "destination": "/neo/enhancements/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/evolution/",
-      "destination": "/neo/",
-      "permanent": false
+      "destination": "/neo/evolution/",
+      "permanent": true
     },
     {
       "source": "/exits/",
-      "destination": "/neo/enhancements/",
-      "permanent": false
-    },
-    {
-      "source": "/exits/Implicit-Enhancement/",
-      "destination": "/neo/enhancements/implicit-enhancement/",
-      "permanent": false
+      "destination": "/neo/exits/",
+      "permanent": true
     },
     {
       "source": "/fiori-apps/",
       "destination": "/neo/fiori-apps/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/fiori/",
-      "destination": "/neo/centers/fiori/",
-      "permanent": false
+      "destination": "/neo/fiori/",
+      "permanent": true
     },
     {
       "source": "/graph/",
       "destination": "/neo/erd/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/guides/",
-      "destination": "/neo/centers/",
-      "permanent": false
-    },
-    {
-      "source": "/guides/pm-corrective/",
-      "destination": "/neo/centers/blueprints/pm-corrective/",
-      "permanent": false
-    },
-    {
-      "source": "/guides/pm-preventive/",
-      "destination": "/neo/centers/blueprints/pm-preventive/",
-      "permanent": false
+      "destination": "/neo/guides/",
+      "permanent": true
     },
     {
       "source": "/idoc/",
       "destination": "/neo/idoc/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/impact/",
-      "destination": "/neo/s4hana/",
-      "permanent": false
-    },
-    {
-      "source": "/impact/CRCA/",
-      "destination": "/neo/transactions/CRCA/",
-      "permanent": false
+      "destination": "/neo/tables/",
+      "permanent": true
     },
     {
       "source": "/import/",
-      "destination": "/neo/",
-      "permanent": false
+      "destination": "/neo/import/",
+      "permanent": true
     },
     {
       "source": "/incidents/",
       "destination": "/neo/incidents/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/integration/",
-      "destination": "/neo/centers/integration/",
-      "permanent": false
+      "destination": "/neo/integration/",
+      "permanent": true
     },
     {
       "source": "/knowledge/",
       "destination": "/neo/knowledge/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/knowledge/coverage/",
-      "destination": "/neo/knowledge/",
-      "permanent": false
+      "destination": "/neo/knowledge/coverage/",
+      "permanent": true
     },
     {
       "source": "/learn/",
-      "destination": "/neo/academy/",
-      "permanent": false
-    },
-    {
-      "source": "/learn/pm-ecc-s4/",
-      "destination": "/neo/academy/pm/",
-      "permanent": false
-    },
-    {
-      "source": "/learn/pm-execution/",
-      "destination": "/neo/academy/pm/",
-      "permanent": false
-    },
-    {
-      "source": "/learn/pm-fundamentals/",
-      "destination": "/neo/academy/pm/",
-      "permanent": false
-    },
-    {
-      "source": "/learn/pm-planning/",
-      "destination": "/neo/academy/pm/",
-      "permanent": false
-    },
-    {
-      "source": "/learn/pm-preventive/",
-      "destination": "/neo/centers/blueprints/pm-preventive/",
-      "permanent": false
-    },
-    {
-      "source": "/learn/pm-troubleshooting/",
-      "destination": "/neo/academy/pm/",
-      "permanent": false
-    },
-    {
-      "source": "/learn/pp-pi/",
-      "destination": "/neo/academy/pp-pi/",
-      "permanent": false
+      "destination": "/neo/academy/tracks/",
+      "permanent": true
     },
     {
       "source": "/library/",
       "destination": "/neo/books/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/library/academy/",
       "destination": "/neo/academy/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/library/academy/fiori/",
-      "destination": "/neo/fiori-apps/",
-      "permanent": false
+      "destination": "/neo/academy/fiori/",
+      "permanent": true
     },
     {
       "source": "/library/academy/reference/mm/",
-      "destination": "/neo/academy/mm/",
-      "permanent": false
+      "destination": "/neo/academy/mm/textbook/reference/",
+      "permanent": true
     },
     {
       "source": "/library/academy/reference/pm/",
-      "destination": "/neo/academy/pm/",
-      "permanent": false
+      "destination": "/neo/academy/pm/textbook/reference/",
+      "permanent": true
     },
     {
       "source": "/library/academy/reference/pmu/",
-      "destination": "/neo/academy/pm-user/",
-      "permanent": false
+      "destination": "/neo/academy/pm-user/textbook/reference/",
+      "permanent": true
     },
     {
       "source": "/library/academy/reference/pp/",
-      "destination": "/neo/academy/pp-pi/",
-      "permanent": false
+      "destination": "/neo/academy/pp-pi/textbook/reference/",
+      "permanent": true
     },
     {
       "source": "/library/academy/reference/ppds/",
-      "destination": "/neo/academy/pp-ds/",
-      "permanent": false
+      "destination": "/neo/academy/pp-ds/textbook/reference/",
+      "permanent": true
     },
     {
       "source": "/library/academy/reference/qm/",
-      "destination": "/neo/academy/qm/",
-      "permanent": false
+      "destination": "/neo/academy/qm/textbook/reference/",
+      "permanent": true
     },
     {
       "source": "/library/academy/reference/sop/",
-      "destination": "/neo/academy/sop/",
-      "permanent": false
+      "destination": "/neo/academy/sop/textbook/reference/",
+      "permanent": true
     },
     {
       "source": "/library/academy/reference/wm/",
-      "destination": "/neo/academy/wm/",
-      "permanent": false
+      "destination": "/neo/academy/wm/textbook/reference/",
+      "permanent": true
     },
     {
       "source": "/library/academy/search/",
       "destination": "/neo/academy/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/library/ask/",
       "destination": "/neo/ai/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/library/mm-academy/",
-      "destination": "/neo/academy/mm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/mm-academy/chapter-01/",
-      "destination": "/neo/academy/mm/mm-1-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/mm-academy/chapter-02/",
-      "destination": "/neo/academy/mm/mm-2-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/mm-academy/chapter-03/",
-      "destination": "/neo/academy/mm/mm-3-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/mm-academy/chapter-04/",
-      "destination": "/neo/academy/mm/mm-4-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/mm-academy/chapter-05/",
-      "destination": "/neo/academy/mm/mm-5-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/mm-academy/chapter-06/",
-      "destination": "/neo/academy/mm/mm-6-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/mm-academy/chapter-07/",
-      "destination": "/neo/academy/mm/mm-7-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/mm-academy/chapter-08/",
-      "destination": "/neo/academy/mm/mm-8-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/mm-academy/chapter-09/",
-      "destination": "/neo/academy/mm/mm-9-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/mm-academy/chapter-10/",
-      "destination": "/neo/academy/mm/mm-10-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/mm-academy/chapter-11/",
-      "destination": "/neo/academy/mm/mm-11-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/mm-academy/chapter-12/",
-      "destination": "/neo/academy/mm/mm-12-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/mm-academy/chapter-13/",
-      "destination": "/neo/academy/mm/mm-13-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/mm-academy/chapter-14/",
-      "destination": "/neo/academy/mm/mm-14-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/mm-academy/chapter-15/",
-      "destination": "/neo/academy/mm/mm-15-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/mm-academy/chapter-16/",
-      "destination": "/neo/academy/mm/mm-16-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/mm-academy/chapter-17/",
-      "destination": "/neo/academy/mm/mm-17-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/mm-academy/chapter-18/",
-      "destination": "/neo/academy/mm/mm-18-1/",
-      "permanent": false
+      "destination": "/neo/academy/mm/textbook/",
+      "permanent": true
     },
     {
       "source": "/library/mm-quality-report/",
-      "destination": "/neo/academy/mm/",
-      "permanent": false
+      "destination": "/neo/academy/mm/textbook/quality/",
+      "permanent": true
     },
     {
       "source": "/library/pm-academy/",
-      "destination": "/neo/academy/pm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pm-academy/chapter-01/",
-      "destination": "/neo/academy/pm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pm-academy/chapter-02/",
-      "destination": "/neo/academy/pm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pm-academy/chapter-03/",
-      "destination": "/neo/academy/pm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pm-academy/chapter-04/",
-      "destination": "/neo/academy/pm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pm-academy/chapter-05/",
-      "destination": "/neo/academy/pm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pm-academy/chapter-06/",
-      "destination": "/neo/academy/pm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pm-academy/chapter-07/",
-      "destination": "/neo/academy/pm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pm-academy/chapter-08/",
-      "destination": "/neo/academy/pm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pm-academy/chapter-09/",
-      "destination": "/neo/academy/pm/",
-      "permanent": false
+      "destination": "/neo/academy/pm/textbook/",
+      "permanent": true
     },
     {
       "source": "/library/pm-quality-report/",
-      "destination": "/neo/academy/pm/",
-      "permanent": false
+      "destination": "/neo/academy/pm/textbook/quality/",
+      "permanent": true
     },
     {
       "source": "/library/pmu-academy/",
-      "destination": "/neo/academy/pm-user/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pmu-academy/chapter-01/",
-      "destination": "/neo/academy/pm-user/pmu-1-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pmu-academy/chapter-02/",
-      "destination": "/neo/academy/pm-user/pmu-2-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pmu-academy/chapter-03/",
-      "destination": "/neo/academy/pm-user/pmu-3-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pmu-academy/chapter-04/",
-      "destination": "/neo/academy/pm-user/pmu-4-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pmu-academy/chapter-05/",
-      "destination": "/neo/academy/pm-user/pmu-5-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pmu-academy/chapter-06/",
-      "destination": "/neo/academy/pm-user/pmu-6-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pmu-academy/chapter-07/",
-      "destination": "/neo/academy/pm-user/pmu-7-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pmu-academy/chapter-08/",
-      "destination": "/neo/academy/pm-user/pmu-8-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pmu-academy/chapter-09/",
-      "destination": "/neo/academy/pm-user/pmu-9-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pmu-academy/chapter-10/",
-      "destination": "/neo/academy/pm-user/pmu-10-1/",
-      "permanent": false
+      "destination": "/neo/academy/pm-user/textbook/",
+      "permanent": true
     },
     {
       "source": "/library/pmu-quality-report/",
-      "destination": "/neo/academy/pm-user/",
-      "permanent": false
+      "destination": "/neo/academy/pm-user/textbook/quality/",
+      "permanent": true
     },
     {
       "source": "/library/pp-quality-report/",
-      "destination": "/neo/academy/pp-pi/",
-      "permanent": false
+      "destination": "/neo/academy/pp-pi/textbook/quality/",
+      "permanent": true
     },
     {
       "source": "/library/pp/",
-      "destination": "/neo/academy/pp-pi/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/chapter-01/",
-      "destination": "/neo/academy/pp-pi/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/chapter-02/",
-      "destination": "/neo/academy/pp-pi/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/chapter-03/",
-      "destination": "/neo/academy/pp-pi/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/chapter-04/",
-      "destination": "/neo/academy/pp-pi/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/chapter-05/",
-      "destination": "/neo/academy/pp-pi/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/chapter-06/",
-      "destination": "/neo/academy/pp-pi/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/chapter-07/",
-      "destination": "/neo/academy/pp-pi/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/chapter-08/",
-      "destination": "/neo/academy/pp-pi/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/chapter-09/",
-      "destination": "/neo/academy/pp-pi/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/chapter-10/",
-      "destination": "/neo/academy/pp-pi/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/chapter-11/",
-      "destination": "/neo/academy/pp-pi/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/chapter-12/",
-      "destination": "/neo/academy/pp-pi/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/chapter-13/",
-      "destination": "/neo/academy/pp-pi/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/chapter-14/",
-      "destination": "/neo/academy/pp-pi/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/chapter-15/",
-      "destination": "/neo/academy/pp-pi/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/AFKO/",
-      "destination": "/neo/tables/AFKO/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/AFPO/",
-      "destination": "/neo/tables/AFPO/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/AFRU/",
-      "destination": "/neo/tables/AFRU/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/AFVC/",
-      "destination": "/neo/tables/AFVC/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/C201/",
-      "destination": "/neo/transactions/C201/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/C202/",
-      "destination": "/neo/transactions/C202/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/C203/",
-      "destination": "/neo/transactions/C203/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/C223/",
-      "destination": "/neo/transactions/C223/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CA01/",
-      "destination": "/neo/transactions/CA01/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CA02/",
-      "destination": "/neo/transactions/CA02/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CA21/",
-      "destination": "/neo/transactions/CA21/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CA96/",
-      "destination": "/neo/transactions/CA96/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CA98/",
-      "destination": "/neo/transactions/CA98/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CL02/",
-      "destination": "/neo/transactions/CL02/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CM01/",
-      "destination": "/neo/transactions/CM01/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CM02/",
-      "destination": "/neo/transactions/CM02/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CM03/",
-      "destination": "/neo/transactions/CM03/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CM05/",
-      "destination": "/neo/transactions/CM05/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CM07/",
-      "destination": "/neo/transactions/CM07/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CM21/",
-      "destination": "/neo/transactions/CM21/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CM25/",
-      "destination": "/neo/transactions/CM25/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CM50/",
-      "destination": "/neo/transactions/CM50/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CO01/",
-      "destination": "/neo/transactions/CO01/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CO02/",
-      "destination": "/neo/transactions/CO02/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CO03/",
-      "destination": "/neo/transactions/CO03/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CO04/",
-      "destination": "/neo/transactions/CO04/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CO05N/",
-      "destination": "/neo/transactions/CO05N/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CO07/",
-      "destination": "/neo/transactions/CO07/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CO11N/",
-      "destination": "/neo/transactions/CO11N/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CO13/",
-      "destination": "/neo/transactions/CO13/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CO14/",
-      "destination": "/neo/transactions/CO14/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CO15/",
-      "destination": "/neo/transactions/CO15/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CO1F/",
-      "destination": "/neo/transactions/CO1F/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CO24/",
-      "destination": "/neo/transactions/CO24/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CO27/",
-      "destination": "/neo/transactions/CO27/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CO40/",
-      "destination": "/neo/transactions/CO40/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CO41/",
-      "destination": "/neo/transactions/CO41/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CO46/",
-      "destination": "/neo/transactions/CO46/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CO52/",
-      "destination": "/neo/transactions/CO52/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CO53/",
-      "destination": "/neo/transactions/CO53/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CO54/",
-      "destination": "/neo/transactions/CO54/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CO55/",
-      "destination": "/neo/transactions/CO55/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CO57/",
-      "destination": "/neo/transactions/CO57/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/COID/",
-      "destination": "/neo/transactions/COID/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/COOIS/",
-      "destination": "/neo/transactions/COOIS/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/COR1/",
-      "destination": "/neo/transactions/COR1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/COR2/",
-      "destination": "/neo/transactions/COR2/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/COR3/",
-      "destination": "/neo/transactions/COR3/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/COR4/",
-      "destination": "/neo/transactions/COR4/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/COR6N/",
-      "destination": "/neo/transactions/COR6N/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CORC/",
-      "destination": "/neo/transactions/CORC/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CORK/",
-      "destination": "/neo/transactions/CORK/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CORM/",
-      "destination": "/neo/transactions/CORM/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CR01/",
-      "destination": "/neo/transactions/CR01/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CRHD/",
-      "destination": "/neo/tables/CRHD/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CS01/",
-      "destination": "/neo/transactions/CS01/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CS02/",
-      "destination": "/neo/transactions/CS02/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CS20/",
-      "destination": "/neo/transactions/CS20/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CS21/",
-      "destination": "/neo/transactions/CS21/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/CT04/",
-      "destination": "/neo/transactions/CT04/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/I_MRPMaterial/",
-      "destination": "/neo/cds/I_MRPMaterial/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/LOIPRO/",
-      "destination": "/neo/idoc/LOIPRO/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MAPL/",
-      "destination": "/neo/tables/MAPL/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MARA/",
-      "destination": "/neo/tables/MARA/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MARC/",
-      "destination": "/neo/tables/MARC/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MB1A/",
-      "destination": "/neo/transactions/MB1A/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MB31/",
-      "destination": "/neo/transactions/MB31/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MB51/",
-      "destination": "/neo/transactions/MB51/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MB52/",
-      "destination": "/neo/transactions/MB52/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MB56/",
-      "destination": "/neo/transactions/MB56/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MB5M/",
-      "destination": "/neo/transactions/MB5M/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MC74/",
-      "destination": "/neo/transactions/MC74/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MC75/",
-      "destination": "/neo/transactions/MC75/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MC81/",
-      "destination": "/neo/transactions/MC81/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MC82/",
-      "destination": "/neo/transactions/MC82/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MC84/",
-      "destination": "/neo/transactions/MC84/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MC87/",
-      "destination": "/neo/transactions/MC87/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MC88/",
-      "destination": "/neo/transactions/MC88/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MC90/",
-      "destination": "/neo/transactions/MC90/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MC93/",
-      "destination": "/neo/transactions/MC93/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MC94/",
-      "destination": "/neo/transactions/MC94/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MCH1/",
-      "destination": "/neo/tables/MCH1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MCHA/",
-      "destination": "/neo/tables/MCHA/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MD01/",
-      "destination": "/neo/transactions/MD01/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MD01N/",
-      "destination": "/neo/transactions/MD01N/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MD02/",
-      "destination": "/neo/transactions/MD02/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MD03/",
-      "destination": "/neo/transactions/MD03/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MD04/",
-      "destination": "/neo/transactions/MD04/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MD05/",
-      "destination": "/neo/transactions/MD05/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MD06/",
-      "destination": "/neo/transactions/MD06/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MD07/",
-      "destination": "/neo/transactions/MD07/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MD11/",
-      "destination": "/neo/transactions/MD11/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MD25/",
-      "destination": "/neo/transactions/MD25/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MD43/",
-      "destination": "/neo/transactions/MD43/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MD50/",
-      "destination": "/neo/transactions/MD50/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MD51/",
-      "destination": "/neo/transactions/MD51/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MD61/",
-      "destination": "/neo/transactions/MD61/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MD62/",
-      "destination": "/neo/transactions/MD62/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MD63/",
-      "destination": "/neo/transactions/MD63/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MD64/",
-      "destination": "/neo/transactions/MD64/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MD73/",
-      "destination": "/neo/transactions/MD73/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MD74/",
-      "destination": "/neo/transactions/MD74/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MD81/",
-      "destination": "/neo/transactions/MD81/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MDMA/",
-      "destination": "/neo/tables/MDMA/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MF12/",
-      "destination": "/neo/transactions/MF12/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MF41/",
-      "destination": "/neo/transactions/MF41/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MF42N/",
-      "destination": "/neo/transactions/MF42N/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MF47/",
-      "destination": "/neo/transactions/MF47/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MF50/",
-      "destination": "/neo/transactions/MF50/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MF51/",
-      "destination": "/neo/transactions/MF51/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MF60/",
-      "destination": "/neo/transactions/MF60/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MF63/",
-      "destination": "/neo/transactions/MF63/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MFBF/",
-      "destination": "/neo/transactions/MFBF/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MKAL/",
-      "destination": "/neo/tables/MKAL/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MM01/",
-      "destination": "/neo/transactions/MM01/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MM02/",
-      "destination": "/neo/transactions/MM02/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MM03/",
-      "destination": "/neo/transactions/MM03/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MM11/",
-      "destination": "/neo/transactions/MM11/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MM17/",
-      "destination": "/neo/transactions/MM17/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MSC1N/",
-      "destination": "/neo/transactions/MSC1N/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MSC2N/",
-      "destination": "/neo/transactions/MSC2N/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MSC3N/",
-      "destination": "/neo/transactions/MSC3N/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MSC4N/",
-      "destination": "/neo/transactions/MSC4N/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/MSEG/",
-      "destination": "/neo/tables/MSEG/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/OPL8/",
-      "destination": "/neo/transactions/OPL8/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/OPU3/",
-      "destination": "/neo/transactions/OPU3/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/PLKO/",
-      "destination": "/neo/tables/PLKO/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/PLPO/",
-      "destination": "/neo/tables/PLPO/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/PP01/",
-      "destination": "/neo/transactions/PP01/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/RESB/",
-      "destination": "/neo/tables/RESB/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/STKO/",
-      "destination": "/neo/tables/STKO/",
-      "permanent": false
-    },
-    {
-      "source": "/library/pp/object/STPO/",
-      "destination": "/neo/tables/STPO/",
-      "permanent": false
+      "destination": "/neo/academy/pp-pi/textbook/",
+      "permanent": true
     },
     {
       "source": "/library/ppds-academy/",
-      "destination": "/neo/academy/pp-ds/",
-      "permanent": false
-    },
-    {
-      "source": "/library/ppds-academy/chapter-01/",
-      "destination": "/neo/academy/pp-ds/ppds-1-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/ppds-academy/chapter-02/",
-      "destination": "/neo/academy/pp-ds/ppds-2-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/ppds-academy/chapter-03/",
-      "destination": "/neo/academy/pp-ds/ppds-3-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/ppds-academy/chapter-04/",
-      "destination": "/neo/academy/pp-ds/ppds-4-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/ppds-academy/chapter-05/",
-      "destination": "/neo/academy/pp-ds/ppds-5-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/ppds-academy/chapter-06/",
-      "destination": "/neo/academy/pp-ds/ppds-6-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/ppds-academy/chapter-07/",
-      "destination": "/neo/academy/pp-ds/ppds-7-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/ppds-academy/chapter-08/",
-      "destination": "/neo/academy/pp-ds/ppds-8-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/ppds-academy/chapter-09/",
-      "destination": "/neo/academy/pp-ds/ppds-9-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/ppds-academy/chapter-10/",
-      "destination": "/neo/academy/pp-ds/ppds-10-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/ppds-academy/chapter-11/",
-      "destination": "/neo/academy/pp-ds/ppds-11-1/",
-      "permanent": false
+      "destination": "/neo/academy/pp-ds/textbook/",
+      "permanent": true
     },
     {
       "source": "/library/ppds-quality-report/",
-      "destination": "/neo/academy/pp-ds/",
-      "permanent": false
+      "destination": "/neo/academy/pp-ds/textbook/quality/",
+      "permanent": true
     },
     {
       "source": "/library/qm-academy/",
-      "destination": "/neo/academy/qm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/qm-academy/chapter-01/",
-      "destination": "/neo/academy/qm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/qm-academy/chapter-02/",
-      "destination": "/neo/academy/qm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/qm-academy/chapter-03/",
-      "destination": "/neo/academy/qm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/qm-academy/chapter-04/",
-      "destination": "/neo/academy/qm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/qm-academy/chapter-05/",
-      "destination": "/neo/academy/qm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/qm-academy/chapter-06/",
-      "destination": "/neo/academy/qm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/qm-academy/chapter-07/",
-      "destination": "/neo/academy/qm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/qm-academy/chapter-08/",
-      "destination": "/neo/academy/qm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/qm-academy/chapter-09/",
-      "destination": "/neo/academy/qm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/qm-academy/chapter-10/",
-      "destination": "/neo/academy/qm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/qm-academy/chapter-11/",
-      "destination": "/neo/academy/qm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/qm-academy/chapter-12/",
-      "destination": "/neo/academy/qm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/qm-academy/chapter-13/",
-      "destination": "/neo/academy/qm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/qm-academy/chapter-14/",
-      "destination": "/neo/academy/qm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/qm-academy/chapter-15/",
-      "destination": "/neo/academy/qm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/qm-academy/chapter-16/",
-      "destination": "/neo/academy/qm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/qm-academy/chapter-17/",
-      "destination": "/neo/academy/qm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/qm-academy/chapter-18/",
-      "destination": "/neo/academy/qm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/qm-academy/chapter-19/",
-      "destination": "/neo/academy/qm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/qm-academy/chapter-20/",
-      "destination": "/neo/academy/qm/",
-      "permanent": false
+      "destination": "/neo/academy/qm/textbook/",
+      "permanent": true
     },
     {
       "source": "/library/qm-quality-report/",
-      "destination": "/neo/academy/qm/",
-      "permanent": false
+      "destination": "/neo/academy/qm/textbook/quality/",
+      "permanent": true
     },
     {
       "source": "/library/sop-academy/",
-      "destination": "/neo/academy/sop/",
-      "permanent": false
-    },
-    {
-      "source": "/library/sop-academy/chapter-01/",
-      "destination": "/neo/academy/sop/sop-1-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/sop-academy/chapter-02/",
-      "destination": "/neo/academy/sop/sop-2-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/sop-academy/chapter-03/",
-      "destination": "/neo/academy/sop/sop-3-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/sop-academy/chapter-04/",
-      "destination": "/neo/academy/sop/sop-4-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/sop-academy/chapter-05/",
-      "destination": "/neo/academy/sop/sop-5-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/sop-academy/chapter-06/",
-      "destination": "/neo/academy/sop/sop-6-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/sop-academy/chapter-07/",
-      "destination": "/neo/academy/sop/sop-7-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/sop-academy/chapter-08/",
-      "destination": "/neo/academy/sop/sop-8-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/sop-academy/chapter-09/",
-      "destination": "/neo/academy/sop/sop-9-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/sop-academy/chapter-10/",
-      "destination": "/neo/academy/sop/sop-10-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/sop-academy/chapter-11/",
-      "destination": "/neo/academy/sop/sop-11-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/sop-academy/chapter-12/",
-      "destination": "/neo/academy/sop/sop-12-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/sop-academy/chapter-13/",
-      "destination": "/neo/academy/sop/sop-13-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/sop-academy/chapter-14/",
-      "destination": "/neo/academy/sop/sop-14-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/sop-academy/chapter-15/",
-      "destination": "/neo/academy/sop/sop-15-1/",
-      "permanent": false
+      "destination": "/neo/academy/sop/textbook/",
+      "permanent": true
     },
     {
       "source": "/library/sop-quality-report/",
-      "destination": "/neo/academy/sop/",
-      "permanent": false
+      "destination": "/neo/academy/sop/textbook/quality/",
+      "permanent": true
     },
     {
       "source": "/library/wm-academy/",
-      "destination": "/neo/academy/wm/",
-      "permanent": false
-    },
-    {
-      "source": "/library/wm-academy/chapter-01/",
-      "destination": "/neo/academy/wm/wm-1-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/wm-academy/chapter-02/",
-      "destination": "/neo/academy/wm/wm-2-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/wm-academy/chapter-03/",
-      "destination": "/neo/academy/wm/wm-3-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/wm-academy/chapter-04/",
-      "destination": "/neo/academy/wm/wm-4-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/wm-academy/chapter-05/",
-      "destination": "/neo/academy/wm/wm-5-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/wm-academy/chapter-06/",
-      "destination": "/neo/academy/wm/wm-6-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/wm-academy/chapter-07/",
-      "destination": "/neo/academy/wm/wm-7-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/wm-academy/chapter-08/",
-      "destination": "/neo/academy/wm/wm-8-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/wm-academy/chapter-09/",
-      "destination": "/neo/academy/wm/wm-9-1/",
-      "permanent": false
-    },
-    {
-      "source": "/library/wm-academy/chapter-10/",
-      "destination": "/neo/academy/wm/wm-10-1/",
-      "permanent": false
+      "destination": "/neo/academy/wm/textbook/",
+      "permanent": true
     },
     {
       "source": "/library/wm-quality-report/",
-      "destination": "/neo/academy/wm/",
-      "permanent": false
+      "destination": "/neo/academy/wm/textbook/quality/",
+      "permanent": true
     },
     {
       "source": "/lineage/",
-      "destination": "/neo/erd/",
-      "permanent": false
+      "destination": "/neo/object/EQUI/",
+      "permanent": true
     },
     {
       "source": "/manufacturing/",
       "destination": "/neo/centers/manufacturing/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/migration-cockpit/",
       "destination": "/neo/migration-cockpit/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/migration/",
       "destination": "/neo/centers/migration/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/mrp/",
       "destination": "/neo/domain/pppi-mrp/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/notes-graph/",
-      "destination": "/neo/knowledge/",
-      "permanent": false
+      "destination": "/neo/notes-graph/",
+      "permanent": true
     },
     {
       "source": "/offline/",
       "destination": "/neo/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/oic/",
-      "destination": "/neo/knowledge/",
-      "permanent": false
-    },
-    {
-      "source": "/oic/equipment/",
-      "destination": "/neo/knowledge/equipment/",
-      "permanent": false
-    },
-    {
-      "source": "/oic/functional-location/",
-      "destination": "/neo/knowledge/functional-location/",
-      "permanent": false
-    },
-    {
-      "source": "/oic/process-order/",
-      "destination": "/neo/knowledge/process-order/",
-      "permanent": false
-    },
-    {
-      "source": "/oic/work-center/",
-      "destination": "/neo/knowledge/work-center/",
-      "permanent": false
+      "destination": "/neo/oic/",
+      "permanent": true
     },
     {
       "source": "/onboarding/",
-      "destination": "/neo/academy/",
-      "permanent": false
+      "destination": "/neo/onboarding/",
+      "permanent": true
     },
     {
       "source": "/playbooks/",
       "destination": "/neo/centers/playbooks/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/pm/",
       "destination": "/neo/pm/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/pp-pi/",
       "destination": "/neo/pp-pi/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/privacy/",
       "destination": "/neo/privacy/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/process-explorer/",
-      "destination": "/neo/domain-model/",
-      "permanent": false
+      "destination": "/neo/process-explorer/",
+      "permanent": true
     },
     {
       "source": "/qa-testing/",
-      "destination": "/neo/centers/",
-      "permanent": false
+      "destination": "/neo/qa-testing/",
+      "permanent": true
     },
     {
       "source": "/quality-audit/",
-      "destination": "/neo/s4-readiness/",
-      "permanent": false
+      "destination": "/neo/quality-audit/",
+      "permanent": true
     },
     {
       "source": "/resolution/",
       "destination": "/neo/incidents/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/s4-readiness/",
       "destination": "/neo/s4-readiness/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/s4hana/",
       "destination": "/neo/s4hana/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/sap-infrastructure/",
-      "destination": "/neo/",
-      "permanent": false
+      "destination": "/neo/sap-infrastructure/",
+      "permanent": true
     },
     {
       "source": "/sap-notes/",
-      "destination": "/neo/incidents/",
-      "permanent": false
-    },
-    {
-      "source": "/sap-notes/mrp-no-planned-orders/",
-      "destination": "/neo/incidents/mrp-no-planned-orders/",
-      "permanent": false
+      "destination": "/neo/sap-notes/",
+      "permanent": true
     },
     {
       "source": "/security/",
-      "destination": "/neo/centers/process-auth/",
-      "permanent": false
-    },
-    {
-      "source": "/security/pfcg/",
-      "destination": "/neo/transactions/PFCG/",
-      "permanent": false
-    },
-    {
-      "source": "/security/stauthtrace/",
-      "destination": "/neo/transactions/STAUTHTRACE/",
-      "permanent": false
-    },
-    {
-      "source": "/security/su01/",
-      "destination": "/neo/transactions/SU01/",
-      "permanent": false
-    },
-    {
-      "source": "/security/su21/",
-      "destination": "/neo/transactions/SU21/",
-      "permanent": false
-    },
-    {
-      "source": "/security/su24/",
-      "destination": "/neo/transactions/SU24/",
-      "permanent": false
-    },
-    {
-      "source": "/security/su25/",
-      "destination": "/neo/transactions/SU25/",
-      "permanent": false
-    },
-    {
-      "source": "/security/su53/",
-      "destination": "/neo/transactions/SU53/",
-      "permanent": false
-    },
-    {
-      "source": "/security/suim/",
-      "destination": "/neo/transactions/SUIM/",
-      "permanent": false
+      "destination": "/neo/security/",
+      "permanent": true
     },
     {
       "source": "/solutions/",
-      "destination": "/neo/best-practices/",
-      "permanent": false
-    },
-    {
-      "source": "/solutions/process-order/",
-      "destination": "/neo/knowledge/process-order/",
-      "permanent": false
-    },
-    {
-      "source": "/solutions/production-order/",
-      "destination": "/neo/knowledge/production-order/",
-      "permanent": false
+      "destination": "/neo/solutions/",
+      "permanent": true
     },
     {
       "source": "/story/",
-      "destination": "/neo/domain-model/",
-      "permanent": false
-    },
-    {
-      "source": "/story/pm-maintenance/",
-      "destination": "/neo/domain-model/",
-      "permanent": false
-    },
-    {
-      "source": "/story/pppi-process-order/",
-      "destination": "/neo/domain-model/",
-      "permanent": false
+      "destination": "/neo/story/",
+      "permanent": true
     },
     {
       "source": "/studio/",
       "destination": "/neo/studio/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/tables/",
       "destination": "/neo/tables/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/AOBJ/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/BS02/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/BS03/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/BS22/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/BS23/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/CC02/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/CFC1/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/CFC2/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/CFC3/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/CFV1/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/CFV2/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/CFV3/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/DB15/",
-      "destination": "/neo/transactions/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/tcode/ECC/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/IK08/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/IK21/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/IK41/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/IQ01/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/IQ02/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/IQ03/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/IQ08/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/IQ09/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/IR02/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/IR03/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/KOT2_OPA/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/OIA1/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/OIAL/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/OIM1/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/OIMR/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/OIN4/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/OIOA/",
-      "destination": "/neo/transactions/",
-      "permanent": false
-    },
-    {
-      "source": "/tcode/SPRO/",
-      "destination": "/neo/transactions/",
-      "permanent": false
+      "destination": "/neo/tables/BUT000/",
+      "permanent": true
     },
     {
       "source": "/toolkit/",
       "destination": "/neo/centers/toolkit/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/transactions/",
       "destination": "/neo/transactions/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/troubleshooting/",
       "destination": "/neo/incidents/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/verification/",
-      "destination": "/neo/s4hana/",
-      "permanent": false
+      "destination": "/neo/verification/",
+      "permanent": true
     },
     {
       "source": "/workbench/",
-      "destination": "/neo/centers/",
-      "permanent": false
-    },
-    {
-      "source": "/workbench/debugging/",
-      "destination": "/neo/centers/debugging/",
-      "permanent": false
+      "destination": "/neo/workbench/",
+      "permanent": true
     },
     {
       "source": "/academy/lesson/:slug(pmu-[^/]+)/",
       "destination": "/neo/academy/pm-user/:slug/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/academy/lesson/:slug(mm-[^/]+)/",
       "destination": "/neo/academy/mm/:slug/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/academy/lesson/:slug(wm-[^/]+)/",
       "destination": "/neo/academy/wm/:slug/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/academy/lesson/:slug(ppds-[^/]+)/",
       "destination": "/neo/academy/pp-ds/:slug/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/academy/lesson/:slug(sop-[^/]+)/",
       "destination": "/neo/academy/sop/:slug/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/academy/lesson/:slug(pm-[^/]+)/",
       "destination": "/neo/academy/pm/:slug/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/academy/lesson/:slug(pp-[^/]+)/",
       "destination": "/neo/academy/pp-pi/:slug/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/academy/lesson/:slug(qm-[^/]+)/",
       "destination": "/neo/academy/qm/:slug/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/academy/path/:id/",
       "destination": "/neo/academy/:id/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/tcode/:code/",
       "destination": "/neo/transactions/:code/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/apps/:code/",
       "destination": "/neo/transactions/:code/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/resolution/:slug/",
       "destination": "/neo/incidents/:slug/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/troubleshooting/:slug/",
       "destination": "/neo/incidents/:slug/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/impact/:code/",
       "destination": "/neo/tables/:code/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/concepts/:slug/",
       "destination": "/neo/knowledge/:slug/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/library/:book(book\\d+)/",
-      "destination": "/neo/read/:book/",
-      "permanent": false
+      "destination": "/neo/books/:book/",
+      "permanent": true
     },
     {
       "source": "/library/v2/:book(book\\d+)/",
-      "destination": "/neo/read/:book/",
-      "permanent": false
+      "destination": "/neo/books/:book/",
+      "permanent": true
     },
     {
       "source": "/library/pp/object/:code/",
-      "destination": "/neo/academy/pp-pi/",
-      "permanent": false
+      "destination": "/neo/academy/pp-pi/objects/:code/",
+      "permanent": true
+    },
+    {
+      "source": "/library/pp/:ch(chapter-\\d+)/",
+      "destination": "/neo/academy/pp-pi/textbook/:ch/",
+      "permanent": true
+    },
+    {
+      "source": "/library/pm-academy/:ch(chapter-\\d+)/",
+      "destination": "/neo/academy/pm/textbook/:ch/",
+      "permanent": true
+    },
+    {
+      "source": "/library/qm-academy/:ch(chapter-\\d+)/",
+      "destination": "/neo/academy/qm/textbook/:ch/",
+      "permanent": true
+    },
+    {
+      "source": "/library/mm-academy/:ch(chapter-\\d+)/",
+      "destination": "/neo/academy/mm/textbook/:ch/",
+      "permanent": true
+    },
+    {
+      "source": "/library/wm-academy/:ch(chapter-\\d+)/",
+      "destination": "/neo/academy/wm/textbook/:ch/",
+      "permanent": true
+    },
+    {
+      "source": "/library/ppds-academy/:ch(chapter-\\d+)/",
+      "destination": "/neo/academy/pp-ds/textbook/:ch/",
+      "permanent": true
+    },
+    {
+      "source": "/library/sop-academy/:ch(chapter-\\d+)/",
+      "destination": "/neo/academy/sop/textbook/:ch/",
+      "permanent": true
+    },
+    {
+      "source": "/library/pmu-academy/:ch(chapter-\\d+)/",
+      "destination": "/neo/academy/pm-user/textbook/:ch/",
+      "permanent": true
+    },
+    {
+      "source": "/learn/:slug/",
+      "destination": "/neo/academy/tracks/:slug/",
+      "permanent": true
     },
     {
       "source": "/object/:id/",
       "destination": "/neo/object/:id/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/cds/:id/",
       "destination": "/neo/cds/:id/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/domain/:id/",
       "destination": "/neo/domain/:id/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/fiori-apps/:id/",
       "destination": "/neo/fiori-apps/:id/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/enhancements/:id/",
       "destination": "/neo/enhancements/:id/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/idoc/:id/",
       "destination": "/neo/idoc/:id/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/bapi/:id/",
       "destination": "/neo/bapi/:id/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/abap/:slug/",
       "destination": "/neo/centers/abap/:slug/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/blueprints/:slug/",
       "destination": "/neo/centers/blueprints/:slug/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/config/:slug/",
       "destination": "/neo/centers/config/:slug/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/debugging/:slug/",
       "destination": "/neo/centers/debugging/:slug/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/fiori/:slug/",
       "destination": "/neo/centers/fiori/:slug/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/integration/:slug/",
       "destination": "/neo/centers/integration/:slug/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/manufacturing/:slug/",
       "destination": "/neo/centers/manufacturing/:slug/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/migration/:slug/",
       "destination": "/neo/centers/migration/:slug/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/playbooks/:slug/",
       "destination": "/neo/centers/playbooks/:slug/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/toolkit/:slug/",
       "destination": "/neo/centers/toolkit/:slug/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/exits/:slug/",
-      "destination": "/neo/enhancements/",
-      "permanent": false
+      "destination": "/neo/exits/:slug/",
+      "permanent": true
     },
     {
       "source": "/sap-notes/:slug/",
-      "destination": "/neo/incidents/",
-      "permanent": false
-    },
-    {
-      "source": "/learn/:slug/",
-      "destination": "/neo/academy/",
-      "permanent": false
+      "destination": "/neo/sap-notes/:slug/",
+      "permanent": true
     },
     {
       "source": "/process/:slug/",
-      "destination": "/neo/domain-model/",
-      "permanent": false
+      "destination": "/neo/process/:slug/",
+      "permanent": true
     },
     {
       "source": "/oic/:slug/",
-      "destination": "/neo/knowledge/",
-      "permanent": false
+      "destination": "/neo/oic/:slug/",
+      "permanent": true
     },
     {
       "source": "/solutions/:slug/",
-      "destination": "/neo/best-practices/",
-      "permanent": false
+      "destination": "/neo/solutions/:slug/",
+      "permanent": true
     },
     {
       "source": "/pm/:slug/",
-      "destination": "/neo/pm/",
-      "permanent": false
+      "destination": "/neo/pm/:slug/",
+      "permanent": true
     },
     {
       "source": "/pp-pi/:slug/",
-      "destination": "/neo/pp-pi/",
-      "permanent": false
+      "destination": "/neo/pp-pi/:slug/",
+      "permanent": true
     },
     {
       "source": "/security/:slug/",
-      "destination": "/neo/centers/process-auth/",
-      "permanent": false
+      "destination": "/neo/security/:slug/",
+      "permanent": true
     },
     {
       "source": "/qa-testing/:slug/",
-      "destination": "/neo/centers/",
-      "permanent": false
+      "destination": "/neo/qa-testing/:slug/",
+      "permanent": true
     },
     {
       "source": "/process-explorer/:slug/",
-      "destination": "/neo/domain-model/",
-      "permanent": false
+      "destination": "/neo/process-explorer/:slug/",
+      "permanent": true
     },
     {
       "source": "/workbench/:slug/",
-      "destination": "/neo/centers/",
-      "permanent": false
+      "destination": "/neo/workbench/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/ecc-s4/:slug/",
+      "destination": "/neo/ecc-s4/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/guides/:slug/",
+      "destination": "/neo/guides/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/story/:slug/",
+      "destination": "/neo/story/:slug/",
+      "permanent": true
     },
     {
       "source": "/design/:slug/",
       "destination": "/neo/",
-      "permanent": false
-    },
-    {
-      "source": "/ecc-s4/:slug/",
-      "destination": "/neo/s4-readiness/",
-      "permanent": false
-    },
-    {
-      "source": "/guides/:slug/",
-      "destination": "/neo/centers/",
-      "permanent": false
+      "permanent": true
     }
   ],
   "headers": [

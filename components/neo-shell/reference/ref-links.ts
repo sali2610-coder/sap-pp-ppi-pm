@@ -22,6 +22,7 @@
 import { ALL_TABLES } from "@/data/sapData";
 import { registry } from "@/lib/bapi-registry";
 import { registryCodes } from "@/lib/tx-registry";
+import { blueprintOnlyCodes } from "../data/tx/codes";
 import { listFuncs } from "@/lib/object-intel";
 import { CDS_VIEWS } from "@/data/cds-map";
 import { FIORI_APPS } from "@/data/fiori/apps";
@@ -43,8 +44,10 @@ const memo = <T>(fn: () => T): (() => T) => {
  *  cannot drift: blueprint + HR/BW + verified, 186 objects. Before this read the
  *  union, 81 real pages existed in the legacy route and were unlinkable here. */
 const objectSet = memo(() => new Set(objectNames()));
-/** T-Codes with a generated /neo/transactions/<CODE>/ page. */
-const txSet = memo(() => new Set(registryCodes().map((c) => c.toUpperCase())));
+/** T-Codes with a generated /neo/transactions/<CODE>/ page: the registry plus
+ *  the codes only the blueprint lists, the same two lists the route's
+ *  generateStaticParams (txDetailCodes) builds from. */
+const txSet = memo(() => new Set([...registryCodes(), ...blueprintOnlyCodes()].map((c) => c.toUpperCase())));
 /** Function objects with a generated /neo/bapi/<id>/ page. The IDoc message
  *  types the registry also carries are excluded: /neo/idoc owns those, so a
  *  message type has exactly one home and exactly one URL. */

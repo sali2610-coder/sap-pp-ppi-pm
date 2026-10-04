@@ -34,7 +34,8 @@
 
 import { enLang, slashBreaks } from "../lang";
 import Link from "next/link";
-import { ArrowLeft, ShieldCheck } from "lucide-react";
+import { Fragment } from "react";
+import { ArrowLeft, ChevronDown, ExternalLink, ShieldCheck } from "lucide-react";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
 import { EvidenceBlock } from "../evidence/evidence-block";
 import { RecordStatus } from "../evidence/record-status";
@@ -60,21 +61,44 @@ function Status({ s }: { s: RefStatus }) {
   return <span className="nu-status" style={{ "--s": s.color } as React.CSSProperties}>{s.he}</span>;
 }
 
+/** A SAP technical name inside prose — a name with an underscore (BAPI_TRANSACTION_COMMIT,
+ *  I_WorkCenter) or letters then digits (IW31, BAPIRET2), slash-joined runs included
+ *  (IW31/IW32). Ordinary English words and "S/4HANA" are not names and stay prose. */
+const SAP_ID = /\b(?:[A-Z][A-Za-z0-9]*_[A-Za-z0-9_]*[A-Za-z0-9]|[A-Z]{2,}[0-9][A-Z0-9]*)(?:\/(?:[A-Z][A-Za-z0-9]*_[A-Za-z0-9_]*[A-Za-z0-9]|[A-Z]{2,}[0-9][A-Z0-9]*))*\b/g;
+
+/** Prose with every SAP name in its own LTR island, so the Hebrew paragraph
+ *  cannot reorder "ל-IW31/IW32" or "(BAPIRET2)". */
+function prose(s: string): React.ReactNode {
+  const out: React.ReactNode[] = [];
+  let last = 0;
+  for (const m of s.matchAll(SAP_ID)) {
+    if (m.index > last) out.push(<Fragment key={`t${last}`}>{slashBreaks(s.slice(last, m.index))}</Fragment>);
+    out.push(<span key={`s${m.index}`} className="nx-sap" dir="ltr">{m[0]}</span>);
+    last = m.index + m[0].length;
+  }
+  if (!out.length) return slashBreaks(s);
+  if (last < s.length) out.push(<Fragment key={`t${last}`}>{slashBreaks(s.slice(last))}</Fragment>);
+  return out;
+}
+
 /** A named fact. The label is metadata, the value is content — set at different
  *  sizes and weights on purpose. */
 function Fact({ f }: { f: RefFact }) {
-  const empty = !f.text && !f.bullets?.length && !f.steps?.length && !f.codes?.length && !f.pre;
+  const empty = !f.text && !f.bullets?.length && !f.steps?.length && !f.codes?.length && !f.pre && !f.links?.length;
   return (
     <div className="nxt-fact">
-      <dt className="nxt-l">{f.label}</dt>
+      <dt className="nxt-l">
+        {f.label}
+        {f.status ? <> <Status s={f.status} /></> : null}
+      </dt>
       <dd className="nxt-v">
         {empty ? <span className="nxt-absent">{f.absent || NONE}</span> : null}
-        {f.text ? <span className="nxr-text">{slashBreaks(f.text)}</span> : null}
+        {f.text ? <span className="nxr-text">{prose(f.text)}</span> : null}
         {f.bullets?.length ? (
-          <ul className="nxt-ul">{f.bullets.map((x, i) => <li key={`${i}-${x.slice(0, 24)}`} lang={enLang(x)}>{x}</li>)}</ul>
+          <ul className="nxt-ul">{f.bullets.map((x, i) => <li key={`${i}-${x.slice(0, 24)}`} lang={enLang(x)}>{prose(x)}</li>)}</ul>
         ) : null}
         {f.steps?.length ? (
-          <ol className="nxt-ol">{f.steps.map((x, i) => <li key={`${i}-${x.slice(0, 24)}`}>{x}</li>)}</ol>
+          <ol className="nxt-ol">{f.steps.map((x, i) => <li key={`${i}-${x.slice(0, 24)}`} lang={enLang(x)}>{prose(x)}</li>)}</ol>
         ) : null}
         {f.codes?.length ? (
           // TWO FORMS, ON PURPOSE. A code that opens a generated page is a
@@ -98,11 +122,25 @@ function Fact({ f }: { f: RefFact }) {
             ))}
           </ul>
         ) : null}
+        {/* A reference outside the project, in the evidence block's form: a
+            plain link that says where it goes and opens a new tab. */}
+        {f.links?.length ? (
+          <ul className="nxt-codes nxr-codes" aria-label={f.label}>
+            {f.links.map((l) => (
+              <li key={l.href}>
+                <a href={l.href} rel="noopener noreferrer" target="_blank" className="nu-link nxr-codelink">
+                  {l.t}
+                  <ExternalLink size={12} strokeWidth={2} aria-hidden="true" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : null}
         {/* Code is meant to be taken away (design audit S7-CAT-5): every
             preformatted block carries its own copy control. */}
         {f.pre ? (
           <div className="nxr-pre-w">
-            <pre className="nxr-pre" dir="ltr">{f.pre}</pre>
+            <pre className="nxr-pre" dir="ltr" tabIndex={0}>{f.pre}</pre>
             <CopyId value={f.pre} label="העתקת הקוד" />
           </div>
         ) : null}
@@ -114,6 +152,7 @@ function Fact({ f }: { f: RefFact }) {
 function Section({ s }: { s: RefSection }) {
   const nothing =
     !s.facts?.length && !s.subs?.length && !s.cards?.length;
+  const body = <SectionBody s={s} />;
   return (
     <section className="nxt-sec" aria-labelledby={`sec-${s.id}`}>
       <h2 className="nx-h2 nxt-sec-h" id={`sec-${s.id}`}>
@@ -124,6 +163,26 @@ function Section({ s }: { s: RefSection }) {
 
       {nothing ? <p className="nxt-absent">{s.empty || NONE}</p> : null}
 
+      {/* Long secondary content stays in the HTML behind a native disclosure
+          (the .nxl-more form of /neo/certification), so the page stays calm. */}
+      {s.fold && !nothing ? (
+        <details className="nxr-more">
+          <summary>
+            <ChevronDown size={15} strokeWidth={2} aria-hidden="true" />
+            {s.fold}
+          </summary>
+          <div className="nxr-more-b">{body}</div>
+        </details>
+      ) : body}
+
+      {s.warn ? <p className="nxt-s4-warn">{prose(s.warn)}</p> : null}
+    </section>
+  );
+}
+
+function SectionBody({ s }: { s: RefSection }) {
+  return (
+    <>
       {s.facts?.length ? (
         <dl className="nxt-grid">{s.facts.map((f) => <Fact key={f.label} f={f} />)}</dl>
       ) : null}
@@ -166,7 +225,7 @@ function Section({ s }: { s: RefSection }) {
           })}
         </ul>
       ) : null}
-    </section>
+    </>
   );
 }
 
@@ -331,7 +390,7 @@ export function RefDetailView({ d }: { d: RefDetail }) {
           </div>
         ) : null}
 
-        {d.s4.warn ? <p className="nxt-s4-warn">{d.s4.warn}</p> : null}
+        {d.s4.warn ? <p className="nxt-s4-warn">{prose(d.s4.warn)}</p> : null}
 
         {d.evidence ? <EvidenceBlock e={d.evidence} /> : null}
       </section>

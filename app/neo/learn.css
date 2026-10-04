@@ -1315,3 +1315,183 @@ html[data-theme="dark"] .nx-app .nxl-side[data-s4="1"] .nxl-side-l { color: var(
   font-size: var(--t-sm); font-weight: 600; line-height: 1.5;
 }
 .nx-app .nxl-stats .nxl-stat > span:last-child { font-size: var(--t-sm); color: var(--ink-2); }
+
+/* ==========================================================================
+   THE ACADEMY TEXTBOOKS — /neo/academy/<course>/textbook/…, the PP object
+   index, the Fiori index and the textbook shelf on /neo/academy
+   (components/neo-shell/academy-ref/*). It reuses the detail screen (.nxv
+   head, .nxv-sec, .nxv-fact, .nxl-more, .nxs-* lists and tables) and adds only
+   what a textbook has: numbered units, a unit tree, flow steps with a code and
+   a note, and the index tables. Tokens only.
+   ========================================================================== */
+
+/* An inline text link: a title inside a sentence, a list or a table cell.
+   .nu-link is a button-shaped control that does not wrap; these do. */
+.nx-app .nxa-a { color: var(--link); text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.nx-app .nxa-a:hover { color: var(--ink-1); }
+.nx-app .nxa-a:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 2px; }
+
+/* The figures of a page, as one line of body text (THE COUNTS ARE A LINE). */
+.nx-app .nxa-figs { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-1) var(--sp-4); margin: 0; font-size: var(--t-sm); color: var(--ink-2); }
+.nx-app .nxa-figs b { color: var(--ink-1); font-weight: 600; }
+.nx-app .nxa-intro { max-inline-size: var(--measure); }
+
+/* The unit number: a mono LTR tag beside the title. */
+.nx-app .nxa-id {
+  flex: none;
+  font-family: var(--font-mono); font-size: var(--t-micro); font-weight: 600; color: var(--ink-2);
+  padding: 2px var(--sp-2);
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--c-hair);
+}
+.nx-app .nxa-en { display: block; font-size: var(--t-xs); color: var(--ink-3); text-align: start; }
+
+/* ---- the units of a chapter ------------------------------------------- */
+.nx-app .nxa-units { display: grid; gap: var(--sp-8); min-inline-size: 0; }
+.nx-app .nxa-unit { display: grid; gap: var(--sp-3); min-inline-size: 0; scroll-margin-block-start: 5rem; max-inline-size: var(--measure); }
+.nx-app .nxa-unit[data-depth="1"] { padding-inline-start: var(--sp-4); border-inline-start: 2px solid var(--c-hair); }
+.nx-app .nxa-unit[data-depth="2"], .nx-app .nxa-unit[data-depth="3"] { padding-inline-start: var(--sp-6); border-inline-start: 2px solid var(--c-hair); }
+.nx-app .nxa-unit-h {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2);
+  padding-block-end: var(--sp-2);
+  border-block-end: 1px solid var(--c-hair);
+}
+.nx-app .nxa-unit-t { flex: 1 1 12rem; min-inline-size: 0; margin: 0; }
+.nx-app .nxa-unit-t--sub { font-size: var(--t-body); font-weight: 700; color: var(--ink-1); }
+.nx-app .nxa-facet { gap: var(--sp-1); }
+.nx-app .nxa-go { margin: 0; }
+
+/* A flow step: its words, then the transaction it runs and the note it carries. */
+.nx-app .nxa-flow { display: grid; gap: var(--sp-2); margin: 0; padding: 0; list-style: none; }
+.nx-app .nxa-flow > li {
+  display: flex; align-items: baseline; gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--c-hair);
+  font-size: var(--t-sm); color: var(--ink-1); line-height: var(--lh-he);
+}
+.nx-app .nxa-flow-t { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-1) var(--sp-3); min-inline-size: 0; }
+.nx-app .nxa-flow-t b { font-weight: 600; }
+.nx-app .nxa-flow-t .nx-sap { font-family: var(--font-mono); font-size: var(--t-xs); color: var(--ink-2); }
+.nx-app .nxa-flow-note { font-size: var(--t-xs); color: var(--ink-3); }
+
+/* Interview questions, a glossary: a term and what it means. */
+.nx-app .nxa-qa, .nx-app .nxa-gloss { display: grid; gap: var(--sp-3); margin: 0; }
+.nx-app .nxa-qa dt, .nx-app .nxa-gloss dt { font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); }
+.nx-app .nxa-qa dd, .nx-app .nxa-gloss dd { margin: var(--sp-1) 0 0; font-size: var(--t-sm); color: var(--ink-2); line-height: var(--lh-he); }
+
+/* Related topics, the references of an index row. One per line. */
+.nx-app .nxa-rel, .nx-app .nxa-refs { display: grid; gap: var(--sp-1); margin: 0; padding: 0; list-style: none; font-size: var(--t-sm); line-height: var(--lh-he); }
+.nx-app .nxa-rel > li { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.nx-app .nxa-refs { font-size: var(--t-xs); }
+
+/* The structure of a subchapter, and the chapter's table of contents. */
+.nx-app .nxa-tree, .nx-app .nxa-toc ol { display: grid; gap: var(--sp-1); margin: 0; padding: 0; list-style: none; columns: auto; }
+.nx-app .nxa-tree > li, .nx-app .nxa-toc li {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-1) var(--sp-2);
+  font-size: var(--t-sm); color: var(--ink-1); line-height: var(--lh-he);
+}
+.nx-app .nxa-tree > li[data-depth="2"], .nx-app .nxa-toc li[data-depth="1"] { padding-inline-start: var(--sp-4); }
+.nx-app .nxa-tree > li[data-depth="3"], .nx-app .nxa-toc li[data-depth="2"] { padding-inline-start: var(--sp-8); }
+.nx-app .nxa-toc li[data-depth="3"] { padding-inline-start: calc(var(--sp-8) + var(--sp-4)); }
+.nx-app .nxa-tree .nxa-en { display: inline; }
+.nx-app .nxa-toc { margin: 0; }
+
+/* The PP chapter's objects, kind by kind. */
+.nx-app .nxa-objs { display: grid; gap: var(--sp-3); }
+.nx-app .nxa-objs-r { display: grid; gap: var(--sp-1); }
+
+/* A row of secondary actions. */
+.nx-app .nxa-links { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin: 0; padding: 0; list-style: none; }
+.nx-app .nxa-links .nu-btn2 { white-space: normal; }
+
+/* A chapter row that also carries the English title under the Hebrew one. */
+.nx-app .nxa-chrow .nxc-l-t { display: grid; gap: 2px; }
+
+/* ---- index tables ------------------------------------------------------ */
+.nx-app .nxa-tbl td { line-height: var(--lh-he); }
+.nx-app .nxa-tbl td:first-child { white-space: nowrap; }
+.nx-app .nxa-books { display: block; font-size: var(--t-micro); color: var(--ink-3); direction: ltr; unicode-bidi: isolate; text-align: start; }
+.nx-app .nxa-num { white-space: nowrap; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.nx-app .nxa-kinds, .nx-app .nxa-name { font-size: var(--t-xs); color: var(--ink-2); text-align: start; }
+
+/* ---- the quality report ------------------------------------------------ */
+.nx-app .nxa-qcards { display: grid; gap: var(--sp-4); }
+.nx-app .nxa-qcard { display: grid; gap: var(--sp-3); padding: var(--sp-5); min-inline-size: 0; }
+.nx-app .nxa-qcard-h { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); }
+.nx-app .nxa-qcard-t { flex: 1 1 14rem; margin: 0; font-size: var(--t-body); font-weight: 700; color: var(--ink-1); }
+.nx-app .nxa-score { font-family: var(--font-mono); font-size: var(--t-h2); font-weight: 600; color: var(--ink-1); font-variant-numeric: tabular-nums; }
+.nx-app .nxa-findings { display: grid; gap: var(--sp-2); margin: 0; padding: 0; list-style: none; }
+.nx-app .nxa-findings > li { display: flex; align-items: baseline; gap: var(--sp-2); font-size: var(--t-sm); color: var(--ink-1); line-height: var(--lh-he); }
+.nx-app .nxa-findings[data-resolved="1"] > li > span:last-child { text-decoration: line-through; text-decoration-color: var(--ink-3); color: var(--ink-2); }
+.nx-app .nxa-checks { display: grid; gap: var(--sp-2); margin: 0; padding: 0; list-style: none; }
+.nx-app .nxa-checks > li {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-1) var(--sp-3);
+  padding: var(--sp-3);
+  border-radius: var(--r-md);
+  box-shadow: inset 0 0 0 1px var(--c-hair);
+  font-size: var(--t-sm); color: var(--ink-2);
+}
+.nx-app .nxa-checks > li > b { color: var(--ink-1); }
+
+/* ---- the textbook shelf on /neo/academy -------------------------------- */
+.nx-app .nxa-lib { display: grid; gap: var(--sp-4); min-inline-size: 0; }
+.nx-app .nxa-lib-l { margin: 0; max-inline-size: var(--measure); }
+.nx-app .nxa-books-l {
+  display: grid; gap: var(--sp-4); margin: 0; padding: 0; list-style: none;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
+}
+.nx-app .nxa-book { display: grid; gap: var(--sp-2); align-content: start; padding: var(--sp-5); min-inline-size: 0; }
+.nx-app .nxa-book-h { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.nx-app .nxa-book-t { display: flex; align-items: center; gap: var(--sp-2); margin: 0; font-size: var(--t-body); font-weight: 700; color: var(--ink-1); }
+.nx-app .nxa-cross { display: grid; gap: var(--sp-2); }
+.nx-app .nxa-cross p { margin: 0; }
+.nx-app .nxa-cross-l { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-4); margin: 0; padding: 0; list-style: none; }
+.nx-app .nxa-cross-l > li { display: inline-flex; align-items: baseline; gap: var(--sp-2); font-size: var(--t-sm); }
+.nx-app .nxa-cross-l .nxa-books { display: inline; }
+
+/* 44px targets for the list links on touch and at phone width. */
+@media (pointer: coarse), (max-width: 720px) {
+  .nx-app .nxa-refs .nxa-a, .nx-app .nxa-rel .nxa-a, .nx-app .nxa-toc a { display: inline-flex; align-items: center; min-block-size: var(--c-tap); }
+}
+@media (max-width: 720px) {
+  .nx-app .nxa-unit[data-depth="1"], .nx-app .nxa-unit[data-depth="2"], .nx-app .nxa-unit[data-depth="3"] { padding-inline-start: var(--sp-3); }
+  .nx-app .nxa-tbl td:first-child { white-space: normal; }
+  .nx-app .nxa-qcard, .nx-app .nxa-book { padding: var(--sp-4); }
+}
+html[data-theme="dark"] .nx-app .nxa-flow > li,
+html[data-theme="dark"] .nx-app .nxa-id { background: color-mix(in srgb, var(--ink-1) 6%, var(--surface)); }
+
+/* ==========================================================================
+   THE CENTRES BY TASK (knowledge-journeys.tsx; content parity, rollout 2026-10)
+   The legacy knowledge directory: eight journeys as native disclosures. The
+   summary carries the journey and its intent; each centre is its link plus
+   the one line that says what it holds.
+   ========================================================================== */
+.nx-app .nxl-jr { display: grid; gap: var(--sp-3); min-inline-size: 0; padding-block-start: var(--sp-4); border-block-start: 1px solid var(--c-hair); }
+.nx-app .nxl-jr .nx-h2 { margin: 0; }
+.nx-app .nxl-jr-lede { margin: 0; max-inline-size: var(--measure); font-size: var(--t-sm); color: var(--ink-2); }
+.nx-app .nxl-jr-g { border: 1px solid var(--c-hair); border-radius: var(--r-lg, 10px); background: var(--surface); }
+.nx-app .nxl-jr-g > summary {
+  display: grid; gap: var(--sp-1); padding: var(--sp-3) var(--sp-4);
+  min-block-size: var(--c-tap); cursor: pointer; list-style: none;
+}
+.nx-app .nxl-jr-g > summary::-webkit-details-marker { display: none; }
+.nx-app .nxl-jr-g > summary:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--r-lg, 10px); }
+.nx-app .nxl-jr-gt { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-1) var(--sp-2); }
+.nx-app .nxl-jr-gt b { font-size: var(--t-body); color: var(--ink-1); }
+.nx-app .nxl-jr-gt em, .nx-app .nxl-jr-t em { font-style: normal; font-size: var(--t-xs); color: var(--ink-3); unicode-bidi: isolate; }
+.nx-app .nxl-jr-n { margin-inline-start: auto; font-size: var(--t-xs); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.nx-app .nxl-jr-n::after { content: " ▾"; }
+.nx-app .nxl-jr-g[open] .nxl-jr-n::after { content: " ▴"; }
+.nx-app .nxl-jr-intent { font-size: var(--t-sm); color: var(--ink-2); }
+.nx-app .nxl-jr-l {
+  display: grid; gap: var(--sp-3); margin: 0; padding: 0 var(--sp-4) var(--sp-4); list-style: none;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+}
+.nx-app .nxl-jr-l > li { display: grid; gap: 2px; min-inline-size: 0; }
+.nx-app .nxl-jr-t { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 var(--sp-2); }
+.nx-app .nxl-jr-d { font-size: var(--t-xs); line-height: var(--lh-he, 1.6); color: var(--ink-3); overflow-wrap: anywhere; }
+.nx-app .nxl-jr-cov { margin: 0; }

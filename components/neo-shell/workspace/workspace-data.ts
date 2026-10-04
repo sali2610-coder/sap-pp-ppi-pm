@@ -29,7 +29,7 @@
 
 import { PM_DATA, PPPI_DATA } from "@/data/sapData";
 import {
-  eccS4,
+  NAV_SECTIONS,
   moduleTables,
   processSteps,
   relationships,
@@ -53,7 +53,8 @@ import type { ModuleKey } from "../types";
  *  `null` on a row means the source states no verdict; it is shown as a gap. */
 export type { S4Class } from "@/lib/s4-class";
 import type { S4Class, S4Split } from "@/lib/s4-class";
-import { s4ClassOf } from "@/lib/s4-class";
+import { s4BpOf, s4Of, s4WordOf } from "../data/s4-verdict";
+import { splitTcodes } from "@/lib/tcode-split";
 
 export interface WsField {
   tech: string;
@@ -119,6 +120,12 @@ export interface WsRow {
   /** Fiori app as the blueprint names it, or "". */
   fiori: string;
   s4: S4Class | null;
+  /** The word the row prints for s4 (s4-verdict.ts s4WordOf): an open verdict
+   *  reads "נדרש אימות", a status the class word does not state keeps its own. */
+  s4Word: string;
+  /** The blueprint's own class when it differs from the verdict in s4, else
+   *  undefined (spec P1 §10; docs/rollout-2026-10/S4-VERDICT.md). */
+  s4Bp?: S4Class | null;
   /** Verbatim S/4HANA note. Never paraphrased. */
   s4Note: string;
   /** Replacement table / transaction as stated, or "". */
@@ -191,8 +198,10 @@ export interface WsS4Row {
   he: string;
   href: string;
   obj: string;
-  /** Verdict class, the same bucketing the working table shows. */
+  /** Verdict class, the same bucketing the working table shows: always 1, 2
+   *  or 3 here, since the list is the tables the verdict marks as moving. */
   s4: S4Class | null;
+  s4Word: string;
   risk: "high" | "medium" | "low" | "none";
   riskHe: string;
   trust: "verified" | "partial" | "needs";
@@ -242,6 +251,12 @@ export interface WsData {
   lede: string;
   /** var(--mod-*) reference — module identity, never a data category. */
   m: string;
+  /** The module's fifteen full sections, each its own page under the module
+   *  (/neo/pm/<slug>/, the rollout of 2026-10). Built here, on the server, so
+   *  the client never imports lib/module-portal. `desc` is each section's
+   *  one-line description from the same SECTIONS registry, which the legacy
+   *  portal page printed under each section (content parity, 2026-10). */
+  sections: { slug: string; he: string; href: string; desc: string }[];
 
   counts: {
     topics: number;
@@ -335,13 +350,6 @@ export interface WsData {
 
 const uniq = <T,>(a: T[]) => [...new Set(a)];
 
-/** Same split the module portal and the rail use, so a code counted here is the
- *  same code the transaction registry page counts. */
-const splitTcodes = (s: string) =>
-  (s || "")
-    .split(/[,\s/]+/)
-    .map((x) => x.trim().toUpperCase())
-    .filter((x) => /^[A-Z][A-Z0-9_]{1,}$/.test(x));
 
 /** Topic titles arrive from the blueprint with their ordinal prefix, and the
  *  PP-PI ones are truncated by the source extractor mid-parenthesis:
@@ -385,9 +393,12 @@ const dataOf = (k: ModuleKey): SAPModuleData => (k === "PM" ? PM_DATA : PPPI_DAT
  *  they are two different pieces of documentation. */
 const rowsOf = (m: SAPModuleData): SAPTable[] => m.topics.flatMap((tp) => tp.tables);
 
-/** The blueprint's own S/4HANA verdict for one row. Shared with the ECC↔S/4
- *  page and Home through lib/s4-class.ts, so the three cannot drift. */
-const s4Of = s4ClassOf;
+/* THE S/4HANA VERDICT PER TABLE (spec P1 §10, decided 2026-10-03; the
+   decision and the nine tables it settles are in
+   docs/rollout-2026-10/S4-VERDICT.md) is s4Of / s4BpOf / s4WordOf from
+   ../data/s4-verdict, the one resolver every surface reads. The blueprint's
+   class is still read and travels beside the verdict when the two differ, so
+   its statement is never lost. */
 
 /** Books whose module is this module. PP-PI absorbs PP, exactly as the rail's
  *  booksFor() does — the two are one shelf in this product, not two. */
@@ -547,6 +558,8 @@ export function workspaceData(key: ModuleKey): WsData {
       cds: cdsForTable(t.tableName).length,
       fiori: clean(t.fioriApp || ""),
       s4: s4Of(t),
+      s4Word: s4WordOf(t),
+      s4Bp: s4BpOf(t),
       s4Note: clean(t.s4Note || ""),
       s4Alt: clean([t.s4AltTable, t.s4AltTcode].filter(Boolean).join(" · ")),
       sum: clean(t.sumNote || ""),
@@ -579,7 +592,6 @@ export function workspaceData(key: ModuleKey): WsData {
     };
   });
 
-  const s4 = eccS4(m);
   const topics: WsTopic[] = m.topics.map((tp) => ({
     idx: tp.idx,
     title: cleanTopic(tp.title),
@@ -627,14 +639,20 @@ export function workspaceData(key: ModuleKey): WsData {
     if (clean(t.sumNote || "")) has.sum++;
     if (clean(t.fioriApp || "")) has.fiori++;
     if (st.impact?.note) noteSet.add(st.impact.note);
-    if (!st.impacted) continue;
+    // The list is what the VERDICT moves (changes, replaced, removed), the
+    // same buckets as the filters and counts; the project's risk reading
+    // travels on each row. Chosen by the risk resolver instead, it listed
+    // tables the verdict keeps (EBKN) and missed one it changes (TQ80).
+    const k = s4Of(t);
+    if (k === null || k === 0) continue;
     const row = rowByName.get(t.tableName);
     changed.push({
       n: t.tableName,
       he: t.descriptionHe || t.descriptionEn || "",
       href: `/neo/object/${t.tableName}/`,
       obj: objVar(zoneOf(t.tableName)),
-      s4: s4Of(t),
+      s4: k,
+      s4Word: s4WordOf(t),
       risk: st.risk,
       riskHe: RISK_HE[st.risk] || "",
       trust: st.trust,
@@ -708,6 +726,7 @@ export function workspaceData(key: ModuleKey): WsData {
         ? "ציוד, מיקומים פונקציונליים, הודעות תחזוקה והזמנות תחזוקה, לפי התיעוד הטכני של הפרויקט."
         : "מתכוני אב, משאבים, פקודות תהליך ואישורי ביצוע, לפי התיעוד הטכני של הפרויקט.",
     m: MOD_VAR[key],
+    sections: NAV_SECTIONS.map((s) => ({ slug: s.slug, he: s.he, href: `/neo/${key === "PM" ? "pm" : "pp-pi"}/${s.slug}/`, desc: s.desc })),
 
     counts: {
       topics: m.topics.length,
@@ -739,13 +758,20 @@ export function workspaceData(key: ModuleKey): WsData {
       obj: objVar(z.id),
     })),
 
-    s4: {
-      kept: s4.kept.length,
-      changed: s4.changed.length,
-      replaced: s4.replaced.length,
-      removed: s4.removed.length,
-      undecided: s4.undecided.length,
-    },
+    // Counted from the verdict (s4Of), over the same distinct tables eccS4
+    // walks, so the bar above the table counts what the rows below show.
+    s4: (() => {
+      const c = { kept: 0, changed: 0, replaced: 0, removed: 0, undecided: 0 };
+      for (const t of moduleTables(m)) {
+        const k = s4Of(t);
+        if (k === null) c.undecided++;
+        else if (k === 0) c.kept++;
+        else if (k === 1) c.changed++;
+        else if (k === 2) c.replaced++;
+        else c.removed++;
+      }
+      return c;
+    })(),
 
     s4x: { risk, trust, changed, notes: [...noteSet].sort(), has },
 

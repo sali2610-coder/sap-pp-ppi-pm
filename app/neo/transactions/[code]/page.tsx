@@ -5,6 +5,8 @@
 // buttons. Imported first so data.css's own placement rules still win.
 import "@/app/neo/ui.css";
 import "@/app/neo/data.css";
+// The blocks carried over from the legacy /tcode/ and /apps/ pages.
+import "@/app/neo/tx-detail.css";
 import { notFound } from "next/navigation";
 import { TxDetailView } from "@/components/neo-shell/data/tx-detail-view";
 import { txDetail, txDetailCodes } from "@/components/neo-shell/data/tx-detail";

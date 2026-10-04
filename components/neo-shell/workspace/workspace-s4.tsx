@@ -44,7 +44,7 @@ import type { S4Class, WsData, WsS4Row } from "./workspace-data";
 import { Chapter, Sub, type ChapterMeta } from "./workspace-chapter";
 import { useWsOrigin } from "./workspace-origin";
 import { WorkspaceSheet } from "./workspace-sheet";
-import { s4He, s4Dot } from "@/lib/s4-class";
+import { s4Dot, verdictHe } from "@/lib/s4-class";
 
 const nf = new Intl.NumberFormat("he-IL");
 
@@ -62,9 +62,9 @@ const TRUST_WHY: Record<string, string> = {
 export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
   const [all, setAll] = useState(false);
 
-  // Five buckets, not three. "לא הוכרע במקור" is a real state in this dataset
-  // — 11 PP-PI rows carry an S/4 note with no leading verdict — and folding it
-  // into "ללא שינוי" is what made PP-PI read as 68 unchanged / 0 replaced.
+  // Five buckets, not three. An open verdict ("נדרש אימות") is a real state in
+  // this dataset, and folding it into "ללא שינוי" is what once made PP-PI read
+  // as 68 unchanged / 0 replaced.
   const split = ([
     { k: 0, n: d.s4.kept },
     { k: 1, n: d.s4.changed },
@@ -82,9 +82,9 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
   // it has no data for.
   const sic = d.sheets.find((s) => s.key === "simplification") || null;
 
-  // Every dictionary row the blueprint does NOT mark as kept, first occurrence
-  // wins. This is the verdict view of the same column the risk view reads, and
-  // the two are shown side by side rather than merged into one flattering list.
+  // Every dictionary row the verdict does NOT keep (moving or open), first
+  // occurrence wins: the count under the split, beside the risk reading above
+  // rather than merged into one flattering list.
   const notKept = useMemo(() => {
     const seen = new Set<string>();
     return d.rows.filter((r) => r.s4 !== 0).filter((r) => (seen.has(r.n) ? false : (seen.add(r.n), true)));
@@ -106,7 +106,7 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
       lede={
         <>
           <b className="nw-sap">{nf.format(changed.length)}</b> מתוך <b className="nw-sap">{nf.format(d.counts.tables)}</b> טבלאות
-          המודול מסומנות בסיכון גבוה או בינוני במעבר ל-S/4HANA. לכל אחת מוצג מקור ההכרעה.
+          המודול משתנות, מוחלפות או מוסרות ב-S/4HANA לפי ההכרעה. לכל אחת מוצגים מקור ההכרעה ורמת הסיכון שהפרויקט מסמן.
         </>
       }
       lead={
@@ -132,10 +132,10 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
         <div className="nw-s4top">
           <p className="nw-s4big nm-rise">
             <b className="nw-sap">{nf.format(changed.length)}</b>
-            <span>טבלאות משתנות מהותית</span>
+            <span>טבלאות משתנות ב-S/4HANA</span>
             <em>
-              מתוך {nf.format(d.counts.tables)}: {nf.format(d.s4x.risk.high)} בסיכון גבוה,{" "}
-              {nf.format(d.s4x.risk.medium)} בסיכון בינוני
+              הסיכון שהפרויקט מסמן על {nf.format(d.counts.tables)} הטבלאות: {nf.format(d.s4x.risk.high)} גבוה,{" "}
+              {nf.format(d.s4x.risk.medium)} בינוני
             </em>
           </p>
 
@@ -170,8 +170,8 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
       <Sub
         id={`${meta.id}-moves`}
         icon={<TriangleAlert size={13} strokeWidth={1.75} />}
-        title="הטבלאות שמשתנות מהותית"
-        note="כל שורה היא טבלה שהפרויקט מסמן בסיכון גבוה או בינוני במעבר."
+        title="הטבלאות שמשתנות ב-S/4HANA"
+        note="כל שורה היא טבלה שההכרעה מסמנת כמשתנה, מוחלפת או מוסרת, עם רמת הסיכון שהפרויקט מסמן לה."
       >
         {changed.length ? (
           <>
@@ -187,7 +187,7 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
             ) : null}
           </>
         ) : (
-          <p className="nw-fine">הפרויקט אינו מסמן אף טבלה של המודול כמשתנה מהותית ב-S/4HANA.</p>
+          <p className="nw-fine">ההכרעה אינה מסמנת אף טבלה של המודול כמשתנה ב-S/4HANA.</p>
         )}
       </Sub>
 
@@ -210,14 +210,14 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
       <Sub
         id={`${meta.id}-verdict`}
         icon={<Layers size={13} strokeWidth={1.75} />}
-        title="הכרעת התיעוד לפי עמודת S/4HANA"
-        note={`חלוקת עמודת S/4HANA בתיעוד על ${nf.format(d.counts.tables)} הטבלאות השונות, לצד פילוח הסיכון.`}
+        title="הכרעת S/4HANA לכל טבלה"
+        note={`חלוקת ההכרעה על ${nf.format(d.counts.tables)} הטבלאות השונות: שכבת הראיות, ובהיעדר רשומה, עמודת S/4HANA בתיעוד.`}
       >
         <ul className="nw-verdicts">
           {split.map((s) => (
             <li key={s.k}>
               <span className="nu-status" style={{ "--s": s4Dot(s.k) } as React.CSSProperties}>
-                {s4He(s.k)}
+                {verdictHe(s.k)}
               </span>
               <span className="nw-bar nw-bar--ink nm-grow" aria-hidden="true">
                 <i style={{ "--p": s.n / total } as React.CSSProperties} />
@@ -230,7 +230,7 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
         <p className="nw-fine">
           {notKept.length
             ? `${nf.format(notKept.length)} טבלאות אינן מסומנות "ללא שינוי". כולן מופיעות בטבלת העבודה שמתחת, עם אותה הכרעה.`
-            : "התיעוד מסמן את כל טבלאות המודול ללא שינוי."}
+            : "ההכרעה מסמנת את כל טבלאות המודול \"ללא שינוי\"."}
         </p>
       </Sub>
 
@@ -282,7 +282,7 @@ function Move({ r }: { r: WsS4Row }) {
           <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
         </OriginLink>
         <span className="nu-status" style={{ "--s": s4Dot(r.s4) } as React.CSSProperties}>
-          {s4He(r.s4)}
+          {r.s4Word}
         </span>
         {r.note ? <span className="nu-chip is-sap">{r.note}</span> : null}
       </div>

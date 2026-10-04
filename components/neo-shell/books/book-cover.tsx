@@ -74,10 +74,14 @@ export function BookCover({
   /** Draws the front cover hinged back off the block. The entry and hub sizes
    *  use it so the book reads as an opened book rather than a closed one. */
   open = false,
+  /** Plays the opening (arrival + hinge). Only the hub sets it, and only when
+   *  the reader has just opened the book (./opening.ts). */
+  arrive = false,
 }: {
   b: BookCard;
   size?: "shelf" | "entry";
   open?: boolean;
+  arrive?: boolean;
 }) {
   const main = b.titleHe || b.titleEn;
   const under = b.titleHe ? b.titleEn : null;
@@ -90,6 +94,7 @@ export function BookCover({
       data-size={size}
       data-fit={b.fit}
       data-open={open ? "1" : undefined}
+      data-arrive={arrive ? "1" : undefined}
       /* Two variables, two different jobs. `--cloth` is what this book is BOUND
          in and is the book's own; `--m`, inherited from the card, is the module
          and stays the colour of everything printed ON the binding. Separating

@@ -34,6 +34,7 @@
 // count last round.
 
 import { LIBRARY } from "@/data/library";
+import { impactReport } from "@/lib/impact";
 import { BOOK_IDENTITY } from "@/lib/book-identity";
 import { RISK_HE, TRUST_HE, s4For } from "@/lib/s4";
 import { s4ClassOf } from "@/lib/s4-class";
@@ -166,6 +167,23 @@ export interface TdS4 {
   rows: TdS4Row[];
 }
 
+/** The legacy impact analysis (/impact/<NAME>/, lib/impact.ts), which now
+ *  lands on this page. Its score is the project's own transparent heuristic —
+ *  S/4HANA risk + dependants + dependencies + known incidents, every factor
+ *  shown with its points — and the page says it is not an SAP rating. */
+export interface TdImpact {
+  score: number;
+  tier: "high" | "medium" | "low";
+  tierHe: string;
+  factors: { label: string; points: number; detail: string }[];
+  /** The S/4HANA alternative the dictionary row names, verbatim; "" when none. */
+  replacement: string;
+  /** The curated process step of the table, "" when the knowledge layer has none. */
+  step: string;
+  /** Incidents that list this table among the tables to inspect. */
+  incidents: { slug: string; he: string; symptom: string; href: string }[];
+}
+
 export interface TableDetail {
   name: string;
   he: string;
@@ -206,6 +224,7 @@ export interface TableDetail {
   /** Onward destinations, each already proven to be a generated route. */
   objectHref: string;
   erdHref: string;
+  impact: TdImpact | null;
 }
 
 /* ---------------------------------------------------------------- helpers */
@@ -295,6 +314,29 @@ function degreeRank(): Map<string, number> {
   const list = [...nodes().values()].sort((a, b) => b.deg - a.deg || a.n.localeCompare(b.n));
   _rank = new Map(list.map((n, i) => [n.n, i + 1]));
   return _rank;
+}
+
+const TIER_HE: Record<TdImpact["tier"], string> = { high: "השפעה גבוהה", medium: "השפעה בינונית", low: "השפעה נמוכה" };
+
+/** lib/impact's report, read as it is. Every incident has a page at
+ *  /neo/incidents/<slug>/ — that route generates from the same catalogue. */
+function impactOf(name: string): TdImpact | null {
+  const r = impactReport(name);
+  if (!r) return null;
+  return {
+    score: r.score,
+    tier: r.tier,
+    tierHe: TIER_HE[r.tier],
+    factors: r.factors,
+    replacement: (r.s4Replacement || "").trim(),
+    step: (r.businessProcess || "").trim(),
+    incidents: r.incidents.map((i) => ({
+      slug: i.slug,
+      he: i.he,
+      symptom: i.symptom || "",
+      href: `/neo/incidents/${encodeURIComponent(i.slug)}/`,
+    })),
+  };
 }
 
 /* ------------------------------------------------------------------ build */
@@ -462,6 +504,7 @@ export function tableDetail(raw: string): TableDetail | null {
     // list as this one, and /neo/erd/ is a hand-written page.
     objectHref: `/neo/object/${encodeURIComponent(name)}/`,
     erdHref: `/neo/erd/#${encodeURIComponent(name)}`,
+    impact: impactOf(name),
   };
   cache.set(name, view);
   return view;

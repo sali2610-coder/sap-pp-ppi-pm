@@ -169,7 +169,9 @@ function Row({ c, onOpen }: { c: ConceptRow; onOpen: (slug: string) => void }) {
   );
 }
 
-export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
+/** `children`: server-rendered sections the route places under the list, before
+ *  "ראו גם" (today the centres by task, knowledge-journeys.tsx). */
+export function KnowledgeSurface({ data, children }: { data: KnowledgeData; children?: React.ReactNode }) {
   const { rows, groups, centers, families, totals } = data;
 
   const [body, setBody] = useState<Body>("terms");
@@ -436,6 +438,17 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
             : list.map((c) => <Row key={c.slug} c={c} onOpen={onOpen} />)}
         </ul>
       )}
+
+      {children}
+
+      <nav className="nxr-also" aria-labelledby="kn-also-h">
+        <h2 className="nxr-also-h" id="kn-also-h">ראו גם</h2>
+        <ul>
+          <li><Link href="/neo/oic/" prefetch={false} className="nu-link">מרכז תבונת אובייקטים</Link></li>
+          <li><Link href="/neo/qa-testing/" prefetch={false} className="nu-link">מרכז בדיקות QA</Link></li>
+          <li><Link href="/neo/guides/" prefetch={false} className="nu-link">מדריכי תהליך מעמיקים</Link></li>
+        </ul>
+      </nav>
 
       <div className="nxl-foot">
         {isWork ? (

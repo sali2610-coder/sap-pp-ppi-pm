@@ -273,3 +273,32 @@ a.nu-card:hover, button.nu-card:hover { border-color: var(--line-strong); }
   html .nx-app :is(a[href], button, [role="button"], [role="tab"]):not(.nst-node, .ne-node, .nx-skip) { min-inline-size: var(--c-tap, 2.75rem); }
   html .nx-app .nx-skip { min-block-size: var(--c-tap, 2.75rem); display: inline-flex; align-items: center; }
 }
+
+/* AN ACTION THAT SUCCEEDED SAYS SO ONCE (motion inventory #52, ADAPT). The
+   control that did it swells by 1.8% and settles, 420ms, starting on the frame
+   the success is known (the control sets data-done="1"). Scale is the whole
+   signal: the label change ("הועתק") carries it without motion, and a screen
+   reader hears it from the status region beside the control. */
+@media (prefers-reduced-motion: no-preference) {
+  .nx-app [data-done="1"] { animation: nu-ok 420ms var(--ease-out-expo); }
+}
+@keyframes nu-ok { 40% { transform: scale(1.018); } }
+
+/* A LINK'S ARROW STEPS TOWARD WHERE IT LEADS (motion inventory #28, KEEP):
+   2px along the reading direction, 120ms, on hover and keyboard focus. A hint
+   of direction, not a lift: the link itself does not move. */
+@media (prefers-reduced-motion: no-preference) {
+  .nx-app :is(.nu-link, .nu-btn, .nu-btn2) .nu-arw { transition: transform 120ms var(--ease-out-expo); }
+  .nx-app :is(.nu-link, .nu-btn, .nu-btn2):is(:hover, :focus-visible) .nu-arw { transform: translateX(-2px); }
+  [dir="ltr"] .nx-app :is(.nu-link, .nu-btn, .nu-btn2):is(:hover, :focus-visible) .nu-arw,
+  .nx-app [dir="ltr"] :is(.nu-link, .nu-btn, .nu-btn2):is(:hover, :focus-visible) .nu-arw { transform: translateX(2px); }
+}
+
+/* "ראו גם" (shared by every hub that links its sibling record families): a hub's one quiet row of onward links to sibling record families. */
+.nx-app .nxr-also {
+  display: grid; gap: var(--sp-1);
+  padding-block-start: var(--sp-3);
+  border-block-start: 1px solid var(--hairline);
+}
+.nx-app .nxr-also-h { margin: 0; font-size: var(--t-xs); font-weight: 600; color: var(--ink-2); }
+.nx-app .nxr-also ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0 var(--sp-4); }

@@ -39,7 +39,7 @@ import { enLang, slashBreaks } from "../lang";
 import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, Boxes, LayoutGrid, ListTree, Search, X } from "lucide-react";
+import { ArrowLeft, Boxes, LayoutGrid, ListFilter, ListTree, X } from "lucide-react";
 import {
   SmartReturn, consumeReturn, rememberOrigin, useReturnPacket,
 } from "@/components/neo-shell/nav-context";
@@ -49,7 +49,10 @@ import { catalogSearch } from "../data/catalog-match";
 import type { RefDir, RefRow } from "./types";
 
 const nf = new Intl.NumberFormat("he-IL");
-const PAGE = 90;
+/** Rows rendered before "show more". Above the largest directory (144 BAPI and
+ *  FM rows), so every record is in the HTML a static export serves: a row that
+ *  exists only after a click is content the page does not carry. */
+const PAGE = 150;
 
 type View = "list" | "group" | "kind";
 type Sort = "name" | "rank" | "s4";
@@ -125,6 +128,7 @@ function Row({ r, onOpen }: { r: RefRow; onOpen: (id: string) => void }) {
             {r.en && r.group ? <span className="nxd-dot" aria-hidden="true">·</span> : null}
             {r.group ? <span>{r.group}</span> : null}
           </span>
+          {r.note ? <span className="nxd-note">{slashBreaks(r.note)}</span> : null}
         </span>
 
         {/* Values, not controls: .nu-chip has no hover and no pointer. A count
@@ -337,21 +341,34 @@ export function RefSurface({ dir, children }: { dir: RefDir; children?: React.Re
         <span className="nx-eyebrow">{dir.eyebrow}</span>
         <h1 className="nx-h1">{dir.title}</h1>
         <p className="nx-lede">{dir.lede}</p>
+        {dir.flow?.length ? (
+          <ol className="nxr-flow" aria-label="השרשרת">
+            {dir.flow.map((step, i) => (
+              <li key={step}>
+                <span className="nxr-flow-n" aria-hidden="true">{i + 1}</span>
+                <span lang={enLang(step)}>{step}</span>
+              </li>
+            ))}
+          </ol>
+        ) : null}
       </header>
 
 
       <div className="nxd-tools">
+        {/* ONE SEARCH (spec P1 §10): the site's search is the shell's (header,
+            rail, Ctrl/⌘+K). This field narrows THIS list, so it says so: a
+            filter's icon and a filter's name. */}
         <div className="nxd-field">
-          <Search size={15} strokeWidth={1.75} aria-hidden="true" />
+          <ListFilter size={15} strokeWidth={1.75} aria-hidden="true" />
           <input
             type="search"
             value={q}
             onChange={(e) => { setQ(e.target.value); setLimit(PAGE); }}
-            placeholder={dir.searchPlaceholder}
-            aria-label={`חיפוש · ${dir.title}`}
+            placeholder={`סינון הרשימה: ${dir.searchPlaceholder}`}
+            aria-label={`סינון רשימת ${dir.title}`}
           />
           {q ? (
-            <button type="button" className="nu-ghost nxd-clear" onClick={() => setQ("")} aria-label="ניקוי החיפוש">
+            <button type="button" className="nu-ghost nxd-clear" onClick={() => setQ("")} aria-label="ניקוי הסינון">
               <X size={13} strokeWidth={2} />
             </button>
           ) : null}

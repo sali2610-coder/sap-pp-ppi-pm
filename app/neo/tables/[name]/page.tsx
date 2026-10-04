@@ -5,6 +5,7 @@
 // buttons. Imported FIRST so data.css's own placement rules still win.
 import "@/app/neo/ui.css";
 import "@/app/neo/data.css";
+import "@/app/neo/tables-detail.css";
 import { notFound } from "next/navigation";
 import { TableDetailView } from "@/components/neo-shell/data/tables-detail-view";
 import { tableDetail, tableDetailNames } from "@/components/neo-shell/data/tables-detail";

@@ -177,6 +177,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           `console.log(out);try{copy(out)}catch(e){}return out;};`
         }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(JSON_LD) }} />
+        {/* Without JavaScript the streamed page would stay in its hidden
+            segment behind the loading state forever (the inline $RC swap never
+            runs). This shows the page and drops the loader instead. */}
+        <noscript dangerouslySetInnerHTML={{ __html: '<style>div[hidden][id^="S:"]{display:block!important}.nl-wait{display:none!important}</style>' }} />
       </head>
       <body className="flex min-h-full flex-col">
         <AppShell>{children}</AppShell>

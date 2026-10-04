@@ -19,32 +19,18 @@
 import { enLang } from "../lang";
 import Link from "next/link";
 import {
-  AlertTriangle, BadgeCheck, Boxes, Cable, FlaskConical, GitBranch,
+  AlertTriangle, BadgeCheck, BookOpen, Boxes, Cable, Factory, FlaskConical, GitBranch,
   GraduationCap, LayoutGrid, Lightbulb, Plug, Puzzle, Route, ShieldQuestion,
   Table2, Terminal,
 } from "lucide-react";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
-import { S4_STATUS_DOT } from "@/lib/evidence/types";
-import { domainCards, domainTotals, type DomLink, type DomainView } from "./domain-data";
+import { S4_TONE, domainCards, domainTotals, mfgAreas, type DomLink, type DomainView } from "./domain-data";
 import { DomainHubList } from "./domain-hub-list";
 
 const nf = new Intl.NumberFormat("he-IL");
 
 const MOD_VAR: Record<string, string> = { PM: "var(--mod-pm)", "PP-PI": "var(--mod-pppi)" };
-
-/** The verdict's tones as the S/4 status families (S4_STATUS_DOT), so a word
- *  has one colour on every surface. "gone" labels the record's `deprecated`
- *  row ("הוסר או לא אסטרטגי"), which the canonical mapper reads as not
- *  strategic: never the brand red, which is selection (gate 3, major 6). */
-const TONE: Record<string, string> = {
-  stays: S4_STATUS_DOT.unchanged,
-  changes: S4_STATUS_DOT.changed,
-  replaced: S4_STATUS_DOT.replaced,
-  gone: S4_STATUS_DOT.deprecated,
-  new: S4_STATUS_DOT.s4_native,
-  plan: "var(--ink-3)",
-};
 
 /* --------------------------------------------------------------------- hub */
 
@@ -99,6 +85,16 @@ export function DomainsHub() {
 
       <DomainHubList cards={cards} />
 
+      <PlantAreas />
+
+      <nav className="nxr-also" aria-labelledby="dm-also-h">
+        <h2 className="nxr-also-h" id="dm-also-h">ראו גם</h2>
+        <ul>
+          <li><Link href="/neo/process-explorer/" prefetch={false} className="nu-link">מפות תהליך מקצה-לקצה</Link></li>
+          <li><Link href="/neo/process/" prefetch={false} className="nu-link">תהליכי המודולים</Link></li>
+          <li><Link href="/neo/story/" prefetch={false} className="nu-link">סיור מודרך בתהליך</Link></li>
+        </ul>
+      </nav>
     </div>
   );
 }
@@ -146,6 +142,56 @@ const Bullets = ({ items }: { items: string[] }) => (
   <ul className="ndm-bul">{items.map((x, i) => <li key={i}>{x}</li>)}</ul>
 );
 
+/* ------------------------------------------------------------- plant areas */
+
+/** THE PLANT AREAS (content parity, rollout 2026-10). The legacy /domain-model/
+ *  page was data/domain-model.ts: seven areas of the plant, each with its SAP
+ *  modules, its steps, and the objects, process maps and incidents it touches.
+ *  The description sits in the summary, the rest opens on demand. The section
+ *  lede is the legacy page header's, verbatim. */
+function PlantAreas() {
+  const areas = mfgAreas();
+  return (
+    <section className="ndm-mod ndm-areas" aria-labelledby="ndm-areas-h">
+      <h2 className="ndm-mod-h" id="ndm-areas-h">
+        <Factory size={16} strokeWidth={1.75} aria-hidden="true" />
+        אזורי המפעל ומודולי SAP
+        <span className="ndm-mod-n">{areas.length} אזורים</span>
+      </h2>
+      <p className="ndm-sec-s">
+        {areas.length} אזורי מפעל (קו ייצור, חדר תרכיז, CIP, אצוות, אריזה, איכות, מחסן) מחוברים למודולי SAP (PP/PP-PI/QM/PM/MM) + אובייקטים, מפות תהליך ותקלות.
+      </p>
+      <div className="ndm-area-l">
+        {areas.map((a) => (
+          <details key={a.slug} className="ndm-area">
+            <summary>
+              <span className="ndm-area-t">
+                <b>{a.he}</b>
+                <span className="ndm-card-en" dir="ltr" lang={enLang(a.title)}>{a.title}</span>
+                <span className="ndm-area-mods">
+                  {a.modules.map((m) => <span key={m} className="ndm-tag nx-sap" dir="ltr">{m}</span>)}
+                </span>
+              </span>
+              <span className="ndm-area-d">{a.description}</span>
+            </summary>
+            <div className="ndm-area-b">
+              <ol className="ndm-chain" aria-label={`שלבי ${a.he}`}>
+                {a.flow.map((s, i) => <li key={i}>{s}</li>)}
+              </ol>
+              <h3 className="ndm-h3">אובייקטי SAP</h3>
+              <Chips items={a.objects} mono={false} />
+              <h3 className="ndm-h3">מפות תהליך</h3>
+              <Chips items={a.processes} mono={false} />
+              <h3 className="ndm-h3">תקלות</h3>
+              <Chips items={a.incidents} mono={false} />
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export function DomainDetailView({ v }: { v: DomainView }) {
   const nav: [string, string][] = [];
   const push = (id: string, he: string) => { nav.push([id, he]); return nav.length; };
@@ -156,6 +202,8 @@ export function DomainDetailView({ v }: { v: DomainView }) {
   const nApi = v.bapis.length || v.funcs.length ? push("ndm-api", "BAPI ומודולי פונקציה") : 0;
   const nExt = v.exits.length || v.badis.length ? push("ndm-ext", "הרחבות") : 0;
   const nLearn = push("ndm-learn", "נקודות למידה");
+  const g = v.guide;
+  const nGuide = g ? push("ndm-guide", g.title) : 0;
   const nQa = v.qa.length ? push("ndm-qa", "תרחישי בדיקה") : 0;
   const nTrb = push("ndm-trb", "תקלות ופתרונות");
   const nScen = v.scenario ? push("ndm-scen", "תרחיש מהמפעל") : 0;
@@ -282,6 +330,7 @@ export function DomainDetailView({ v }: { v: DomainView }) {
           icon={<Plug size={15} strokeWidth={1.75} />}
           eyebrow="ממשקים"
           title="BAPI ומודולי פונקציה"
+          lede={v.bapis.length ? `BAPIs / Functions · ${nf.format(v.bapis.length)}` : undefined}
         >
           {v.bapis.length ? <Chips items={v.bapis} /> : null}
           {v.funcs.length ? (
@@ -314,6 +363,67 @@ export function DomainDetailView({ v }: { v: DomainView }) {
       >
         <Bullets items={v.learning} />
       </Sec>
+
+      {/* THE CARRIED GUIDE (content parity, rollout 2026-10): the legacy MRP /
+          MPS planning centre, data/mrp-center.ts, on the domain /mrp/ now
+          redirects to. Each topic opens on demand; the first is open. */}
+      {g && nGuide ? (
+        <Sec
+          id="ndm-guide" n={nGuide}
+          icon={<BookOpen size={15} strokeWidth={1.75} />}
+          eyebrow="מדריך תכנון"
+          title={g.title}
+          lede={g.lede}
+        >
+          <h3 className="ndm-h3"><Terminal size={13} strokeWidth={2} aria-hidden="true" /> טרנזקציות התכנון</h3>
+          <Chips items={g.tcodes} />
+          <div className="ndm-guide-l">
+            {g.topics.map((s, i) => (
+              <details key={s.id} className="ndm-guide-t" open={i === 0}>
+                <summary>{s.he}</summary>
+                <div className="ndm-guide-b">
+                  <p className="ndm-p">{s.body}</p>
+                  <Bullets items={s.points} />
+                  {s.tcodes.length ? (<><p className="ndm-h4" lang="en">T-Codes</p><Chips items={s.tcodes} /></>) : null}
+                  {s.tables.length ? (<><p className="ndm-h4">טבלאות</p><Chips items={s.tables} /></>) : null}
+                  {s.s4.length ? (
+                    <>
+                      <p className="ndm-h4" lang="en">ECC6 → S/4HANA</p>
+                      <ul className="ndm-s4">
+                        {s.s4.map((r) => (
+                          <li key={r.key} style={{ "--t": S4_TONE[r.tone] } as React.CSSProperties}>
+                            <b>{r.he}</b>
+                            <span lang={enLang(r.text)}>{r.text}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  ) : null}
+                </div>
+              </details>
+            ))}
+          </div>
+          <h3 className="ndm-h3" id="ndm-strat-h">אסטרטגיות תכנון — טבלת עזר</h3>
+          <div className="ndm-tbl-w" role="region" aria-labelledby="ndm-strat-h" tabIndex={0}>
+            <table className="ndm-tbl">
+              <thead>
+                <tr><th scope="col">אסטרטגיה</th><th scope="col">שם</th><th scope="col">תיאור</th><th scope="col" lang="en">Req. Type</th><th scope="col">צריכה</th></tr>
+              </thead>
+              <tbody>
+                {g.strategies.map((s) => (
+                  <tr key={s.key}>
+                    <td><span className="ndm-tag nx-sap" dir="ltr">{s.key}</span></td>
+                    <td><b>{s.he}</b></td>
+                    <td>{s.desc}</td>
+                    <td><span className="nx-sap" dir="ltr">{s.reqType}</span></td>
+                    <td>{s.consumption}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Sec>
+      ) : null}
 
       {nQa ? (
         <Sec
@@ -370,7 +480,7 @@ export function DomainDetailView({ v }: { v: DomainView }) {
         {v.s4.length ? (
           <ul className="ndm-s4">
             {v.s4.map((r) => (
-              <li key={r.key} style={{ "--t": TONE[r.tone] } as React.CSSProperties}>
+              <li key={r.key} style={{ "--t": S4_TONE[r.tone] } as React.CSSProperties}>
                 <b>{r.he}</b>
                 <span>{r.text}</span>
               </li>

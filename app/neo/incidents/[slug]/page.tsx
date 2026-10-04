@@ -1,6 +1,7 @@
 // Project NEO · /neo/incidents/<slug>/ — one page per catalogued incident.
 import "@/app/neo/ui.css";
 import "@/app/neo/learn.css";
+import "@/app/neo/learn-records.css";
 import { notFound } from "next/navigation";
 import { IncidentView } from "@/components/neo-shell/learn/incident-view";
 import { incidentDetail, incidentSlugs } from "@/components/neo-shell/learn/incidents-data";

@@ -45,13 +45,13 @@ export function LineageExplorer({ initial = "EQUI" }: { initial?: string }) {
   const yFor = (i: number, n: number) => padY + (H - padY * 2) * (n === 1 ? 0.5 : i / (n - 1));
   const NW = 156, NH = 42;
 
-  const dim = (n: string) => active && active !== n && active !== sel; // when a node is active, fade the rest
-
-  const Node = ({ x, y, label, module, exists, center }: { x: number; y: number; label: string; module: string; exists: boolean; center?: boolean }) => {
+  // A plain render function, not a component: a component declared in render
+  // would remount (and lose its state) on every render.
+  const node = ({ x, y, label, module, center }: { x: number; y: number; label: string; module: string; center?: boolean }) => {
     const col = center ? RED : mc(module);
     const faded = !center && active && active !== label;
     return (
-      <g transform={`translate(${x - NW / 2},${y - NH / 2})`} style={{ cursor: "pointer", opacity: faded ? 0.3 : 1, transition: "opacity .25s" }}
+      <g key={label} transform={`translate(${x - NW / 2},${y - NH / 2})`} style={{ cursor: "pointer", opacity: faded ? 0.3 : 1, transition: "opacity .25s" }}
         onClick={() => setActive((a) => (a === label ? null : center ? null : label))}>
         <rect width={NW} height={NH} rx={11} fill="#fff" stroke={col} strokeWidth={center ? 2.5 : active === label ? 2.5 : 1.4}
           style={{ filter: center ? `drop-shadow(0 8px 18px ${col}40)` : active === label ? `drop-shadow(0 6px 14px ${col}55)` : "drop-shadow(0 4px 10px rgba(15,23,42,.08))" }} />
@@ -119,18 +119,18 @@ export function LineageExplorer({ initial = "EQUI" }: { initial?: string }) {
               {/* source → object edges */}
               {sources.map((n, i) => { const y = yFor(i, sources.length); const x1 = colX.src + NW / 2, x2 = cx - NW / 2, mx = (x1 + x2) / 2; const on = !active || active === n; const col = mc(tableByName(n)?.module); return (
                 <g key={"s" + n} style={{ opacity: on ? 1 : 0.18, transition: "opacity .25s" }}>
-                  <path d={`M${x1},${y} C${mx},${y} ${mx},${cy} ${x2},${cy}`} fill="none" stroke={col} strokeWidth={active === n ? 2.6 : 1.6} strokeOpacity={0.7} strokeDasharray="6 5">{!reduce && <animate attributeName="stroke-dashoffset" from="0" to="-110" dur="3s" repeatCount="indefinite" />}</path>
+                  <path d={`M${x1},${y} C${mx},${y} ${mx},${cy} ${x2},${cy}`} fill="none" stroke={col} strokeWidth={active === n ? 2.6 : 1.6} strokeOpacity={0.7} strokeDasharray="6 5">{!reduce && <animate attributeName="stroke-dashoffset" from="0" to="-110" dur="3s" repeatCount="1" />}</path>
                   <path d={`M${x2 - 8},${cy - 4} L${x2},${cy} L${x2 - 8},${cy + 4}`} fill="none" stroke={col} strokeWidth={1.6} />
                 </g>); })}
               {/* object → consumer edges */}
               {consumers.map((n, i) => { const y = yFor(i, consumers.length); const x1 = cx + NW / 2, x2 = colX.con - NW / 2, mx = (x1 + x2) / 2; const on = !active || active === n; const col = mc(tableByName(n)?.module); return (
                 <g key={"c" + n} style={{ opacity: on ? 1 : 0.18, transition: "opacity .25s" }}>
-                  <path d={`M${x1},${cy} C${mx},${cy} ${mx},${y} ${x2},${y}`} fill="none" stroke={col} strokeWidth={active === n ? 2.6 : 1.6} strokeOpacity={0.7} strokeDasharray="6 5">{!reduce && <animate attributeName="stroke-dashoffset" from="0" to="-110" dur="3s" repeatCount="indefinite" />}</path>
+                  <path d={`M${x1},${cy} C${mx},${cy} ${mx},${y} ${x2},${y}`} fill="none" stroke={col} strokeWidth={active === n ? 2.6 : 1.6} strokeOpacity={0.7} strokeDasharray="6 5">{!reduce && <animate attributeName="stroke-dashoffset" from="0" to="-110" dur="3s" repeatCount="1" />}</path>
                   <path d={`M${x2 - 8},${y - 4} L${x2},${y} L${x2 - 8},${y + 4}`} fill="none" stroke={col} strokeWidth={1.6} />
                 </g>); })}
-              {sources.map((n, i) => <Node key={n} x={colX.src} y={yFor(i, sources.length)} label={n} module={tableByName(n)?.module || "?"} exists={!!tableByName(n)} />)}
-              {consumers.map((n, i) => <Node key={n} x={colX.con} y={yFor(i, consumers.length)} label={n} module={tableByName(n)?.module || "?"} exists={!!tableByName(n)} />)}
-              <Node x={cx} y={cy} label={t.tableName} module={t.module} exists center />
+              {sources.map((n, i) => node({ x: colX.src, y: yFor(i, sources.length), label: n, module: tableByName(n)?.module || "?" }))}
+              {consumers.map((n, i) => node({ x: colX.con, y: yFor(i, consumers.length), label: n, module: tableByName(n)?.module || "?" }))}
+              {node({ x: cx, y: cy, label: t.tableName, module: t.module, center: true })}
             </svg>
             <div className="flex items-center justify-between gap-2 px-2 pb-1 pt-2">
               <span className="text-[11px] font-semibold text-ink-3">{active ? <>נתיב מסומן: <span className="tech font-bold text-ink-2" dir="ltr">{active}</span> ↔ {t.tableName}</> : "לחץ על צומת כדי לסמן את הנתיב"}</span>

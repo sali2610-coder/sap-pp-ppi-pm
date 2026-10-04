@@ -18,6 +18,7 @@
    ========================================================================== */
 
 import { notFound } from "next/navigation";
+import "@/app/neo/editorial-reader.css";
 import "@/app/neo/ui.css";
 import "@/app/neo/reader.css";
 import { readerData, readerBookIds } from "@/components/neo-shell/reader/reader-data";

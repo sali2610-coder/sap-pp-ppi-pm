@@ -10,6 +10,7 @@ import { classifyFunc, cleanFunc } from "@/lib/object-intel";
 import { fromBlueprintClass } from "@/lib/evidence/s4-status";
 import { s4ClassOf, s4He } from "@/lib/s4-class";
 import type { Module } from "@/lib/types";
+import { splitTcodes } from "./tcode-split";
 
 export type SKind = "table" | "tcode" | "bapi" | "fm" | "idoc" | "cds" | "fiori";
 /** The five canonical statuses the blueprint's S/4HANA verdict can produce
@@ -39,7 +40,7 @@ const MASTER: Record<string, string[]> = {
   "PP-PI": ["MARA", "MARC", "MAST", "PLKO", "PLPO", "MKAL", "MCH1", "CRHD", "MBEW"],
 };
 
-const splitTc = (s: string) => (s || "").split(/[,\s/]+/).map((x) => x.trim().toUpperCase()).filter((x) => /^[A-Z][A-Z0-9_]{1,}$/.test(x));
+const splitTc = splitTcodes;
 
 export function buildHetero(module: Module): SHetero {
   const nodes = new Map<string, SNode>();

@@ -32,6 +32,7 @@
 // travel as tuples with their repeated values (module, status) as indexes.
 
 import { PM_DATA, PPPI_DATA } from "@/data/sapData";
+import { blueprintOnlyCodes } from "../data/tx/codes";
 import { moduleTables, overviewStats } from "@/lib/module-portal";
 import { ZONES } from "@/lib/studio-graph";
 import { cleanFunc } from "@/lib/object-intel";
@@ -61,16 +62,8 @@ import type { SAPModuleData } from "@/lib/types";
 import type {
   CmdExtraRecord, CmdFieldTuple, CmdFnTuple, CmdModuleRecord, CmdTxTuple, CommandExtra, CommandTx,
 } from "./types";
+import { splitTcodes } from "@/lib/tcode-split";
 
-/** Same split rule the transaction list in lib/module-portal uses, re-stated
- *  here because that one is a local closure. Keeping the two in sync matters:
- *  a code this map does not recognise simply gets no relationship line, which
- *  is the honest failure mode. */
-const splitTcodes = (s: string): string[] =>
-  (s || "")
-    .split(/[,\s/]+/)
-    .map((x) => x.trim().toUpperCase())
-    .filter((x) => /^[A-Z][A-Z0-9_]{1,}$/.test(x));
 
 const clip = (s: string, n: number) => {
   const t = (s || "").replace(/\s+/g, " ").trim();
@@ -118,7 +111,9 @@ const tablesLine = (tables: Set<string>) => {
 /** EVERY transaction the registry holds — the list /neo/transactions/[code]
  *  generates from — with the registry's own Hebrew line (gate 6, major 10:
  *  every row used to carry the same generic subtitle), then the blueprint
- *  codes the registry does not carry, which have no page and say so. */
+ *  codes the registry does not carry. Since the rollout (2026-10) each of those
+ *  has a page that says it is outside the registry (data/tx/codes.ts), and
+ *  txHref knows it, so the row carries its destination like any other. */
 function transactions(own: ReturnType<typeof ownership>["tx"]) {
   const status = txStatusMap();
   const txMods: string[] = [];
@@ -143,7 +138,11 @@ function transactions(own: ReturnType<typeof ownership>["tx"]) {
   };
   for (const t of txRegistry().values()) row(t.code, t.he, t.module);
   const known = new Set(txs.map((t) => t[0]));
-  for (const code of own.keys()) if (!known.has(code)) row(code, "", "");
+  for (const code of own.keys()) if (!known.has(code)) { known.add(code); row(code, "", ""); }
+  // Every blueprint-only code with a page gets its row, including the ones a
+  // blueprint cell joins ("CFC1/CFC2/CFC3"): the ownership map keeps such a
+  // cell as one token, the transaction pages split it (data/tx/codes.ts).
+  for (const code of blueprintOnlyCodes()) if (!known.has(code)) { known.add(code); row(code, "", ""); }
   return { txs, txMods, txSts };
 }
 

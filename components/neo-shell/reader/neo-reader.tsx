@@ -614,11 +614,19 @@ export function NeoReader({ book }: { book: NRBook }) {
      location the data actually has. */
   const bookmarks: NeoBookmark[] = useMemo(() => evidence?.bookmarks ?? [], [evidence?.bookmarks]);
   const marked = chapter ? isBookmarked(bookmarks, chapter.n, activeSection) : false;
+  /* A bookmark that was ADDED says so once (motion inventory #52): the control
+     carries data-done for the length of its 420ms swell (ui.css). Removing a
+     bookmark is not a success to celebrate, so it does not. */
+  const [markDone, setMarkDone] = useState(false);
   const mark = useCallback(() => {
     if (!chapter) return;
     markMoved();
+    if (!marked) {
+      setMarkDone(true);
+      window.setTimeout(() => setMarkDone(false), 450);
+    }
     toggleBookmark(book.id, chapter.n, activeSection);
-  }, [book.id, chapter, activeSection, markMoved]);
+  }, [book.id, chapter, activeSection, markMoved, marked]);
 
   /* -------------------------------------------------------------- memory */
 
@@ -739,7 +747,7 @@ export function NeoReader({ book }: { book: NRBook }) {
             )}
           </nav>
 
-          <div className="nr-tools">
+          <div className="nr-tools" data-adv={adv ? "1" : undefined}>
             <button
               type="button"
               className="nu-btn2 nr-tool"
@@ -762,6 +770,7 @@ export function NeoReader({ book }: { book: NRBook }) {
               type="button"
               className="nu-filter nr-mark"
               data-on={marked ? "1" : undefined}
+              data-done={markDone ? "1" : undefined}
               aria-pressed={marked}
               aria-label={marked ? "הסרת הסימנייה מהמיקום הנוכחי" : "הוספת סימנייה במיקום הנוכחי"}
               onClick={mark}
@@ -805,7 +814,7 @@ export function NeoReader({ book }: { book: NRBook }) {
             </span>
             <button
               type="button"
-              className="nu-filter"
+              className="nu-filter nr-tool-ph"
               data-on={prefs.focus ? "1" : undefined}
               aria-pressed={prefs.focus}
               aria-label="מצב מיקוד"
@@ -846,13 +855,17 @@ export function NeoReader({ book }: { book: NRBook }) {
               type="button"
               className="nu-filter nr-tool-min nr-adv-b"
               aria-expanded={adv}
-              aria-controls="nr-adv"
+              aria-controls={adv ? "nr-adv" : undefined}
+              /* Named: its word is hidden below 1280px, and the name contains
+                 that word (WCAG 2.5.3). On a phone this one control also holds
+                 the language, focus and text size. */
+              aria-label="הגדרות תצוגה"
               data-on={adv ? "1" : undefined}
               onClick={() => setAdv((v) => !v)}
               title="הגדרות מתקדמות: עדשת קריאה, רוחב הטור, רווח שורות, גוון נייר, איפוס"
             >
               <SlidersHorizontal size={14} strokeWidth={1.9} aria-hidden="true" />
-              <span className="nr-tool-l">עוד</span>
+              <span className="nr-tool-l">הגדרות</span>
             </button>
             {adv ? (
               <span className="nr-adv" id="nr-adv" role="group" aria-label="הגדרות מתקדמות">

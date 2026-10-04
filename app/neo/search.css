@@ -81,16 +81,11 @@
   /* .nxc passes pointers through to the rail; the wash takes them, so a click
      beside the panel closes it (gate 6, minor 18). */
   pointer-events: auto;
-  background:
-    radial-gradient(115% 85% at 100% 0%, color-mix(in srgb, var(--sm) 17%, transparent), transparent 68%),
-    linear-gradient(to bottom, color-mix(in srgb, var(--sm) 8%, transparent), transparent 62%);
+  /* A flat tint of the scope's colour (spec P1 §6: a radial and a linear wash
+     before). Still the scrim a click beside the panel lands on. */
+  background: color-mix(in srgb, var(--sm) 8%, transparent);
   opacity: 0;
   transition: opacity var(--dur-panel) var(--ease-out-expo);
-}
-[dir="ltr"] .nx-app .nxc--r .nxc-wash {
-  background:
-    radial-gradient(115% 85% at 0% 0%, color-mix(in srgb, var(--sm) 17%, transparent), transparent 68%),
-    linear-gradient(to bottom, color-mix(in srgb, var(--sm) 8%, transparent), transparent 62%);
 }
 .nx-app .nxc--r[data-live="1"] .nxc-wash { opacity: 1; }
 
@@ -772,3 +767,19 @@ html[data-theme="dark"] .nx-app .nxc--r .nxc-row::before { background: var(--sel
 .nx-app .nxc--r .nxc-row::after { inset-block: 6px; inline-size: 3px; background: var(--select-line); }
 .nx-app .nxc--r .nxc-row-k { background: none; box-shadow: none; border-radius: 0; }
 .nx-app .nxc--r .nxc-row[data-shape] .nxc-row-k { border-radius: 0; }
+
+/* RESULTS LAND AS A SEQUENCE, NOT A WALL (motion inventory #13, ADAPT).
+   Only rows that mount move: rows are keyed by record, so refining a query
+   keeps the rows already there still and lands only the new ones. The first
+   eight step 16ms apart, which reads as one soft landing rather than a
+   stagger; the whole list has settled within 370ms. transform and opacity
+   only; removed, not slowed, under reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .nx-app .nxc--r .nxc-row {
+    animation: nxc-row-in 240ms var(--ease-out-expo) both;
+    animation-delay: calc(var(--i, 0) * 16ms);
+  }
+}
+@keyframes nxc-row-in {
+  from { opacity: 0; transform: translateY(var(--nm-enter, 6px)); }
+}

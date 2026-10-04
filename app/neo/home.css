@@ -152,7 +152,10 @@ html[data-device="phone"] .nx-app .nh-find-k { display: none; }
 @container (min-width: 60rem) {
   .nx-app .nh-doors ul { grid-template-columns: repeat(12, minmax(0, 1fr)); }
   .nx-app .nh-doors li { grid-column: span 3; }
-  .nx-app .nh-doors li:nth-child(n+5) { grid-column: span 4; }
+  /* The second row sits on the first row's lines (QA-1 minor: three doors at
+     span 4 drew their dividers between the four above). Doors 5 and 6 take
+     the first two columns of the row above, the seventh the last two. */
+  .nx-app .nh-doors li:nth-child(7) { grid-column: span 6; }
 }
 .nx-app .nh-doors .nh-door {
   gap: 2px var(--sp-2);

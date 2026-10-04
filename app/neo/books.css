@@ -367,7 +367,6 @@ html[data-theme="dark"] .nb-shelf::after {
   gap: var(--sp-4);
   align-content: start;
   min-inline-size: 0;
-  transition: translate 380ms var(--ease-out-expo);
 }
 /* §2 — THE NEIGHBOURS MAKE ROOM.
    Deliberately the IMMEDIATE siblings only. A grid that wraps has no notion of
@@ -388,6 +387,20 @@ html[data-theme="dark"] .nb-shelf::after {
 .nb-card:hover + .nb-card { translate: -7px; }
 [dir="ltr"] .nb-card:has(+ .nb-card:hover) { translate: -7px; }
 [dir="ltr"] .nb-card:hover + .nb-card { translate: 7px; }
+/* #46 — THE ROOM IS MADE, NOT JUMPED. The card is also `.nm-rise`, and where
+   scroll-driven animation is unsupported motion.css gives `.nm-rise` its own
+   `transition: opacity …, transform …` — a shorthand, so on an equal selector
+   it replaced the card's translate transition and the neighbours jumped 7px.
+   Two classes outrank it, and the reveal's own two transitions are restated
+   with their stagger delay so neither effect loses the other. */
+@media (prefers-reduced-motion: no-preference) {
+  .nb-grid .nb-card {
+    transition:
+      translate 400ms var(--ease-out-expo),
+      opacity var(--nm-dur, 0ms) var(--nm-ease, linear) var(--nm-d, 0ms),
+      transform var(--nm-dur, 0ms) var(--nm-ease, linear) var(--nm-d, 0ms);
+  }
+}
 
 /* §2 — the contextual line. Real metadata that the resting, turned cover
    foreshortens: how the book is built, and its shelf plate. It appears only
@@ -1385,13 +1398,18 @@ html[data-theme="dark"] .nb-slot::after {
   to   { transform: translateZ(var(--d)) rotateY(calc(var(--open) * var(--side))); }
 }
 
-.nb-cov[data-size="entry"] .nb-cov-3d {
-  animation: nb-arrive 760ms var(--ease-out-expo) backwards;
+/* #48 — ONLY WHEN A BOOK IS OPENED, AND IN 600MS. The two beats play when the
+   reader opens the book from the shelf or its card (data-arrive, set for that
+   one navigation by components/neo-shell/books/opening.ts), never on a reload,
+   a deep link or a return to the hub. Arrival 360ms; the hinge starts at 280ms
+   and runs 300ms, so the whole opening ends at 580ms. */
+.nb-cov[data-size="entry"][data-arrive="1"] .nb-cov-3d {
+  animation: nb-arrive 360ms var(--ease-out-expo) backwards;
 }
-.nb-cov[data-size="entry"][data-open="1"] .nb-f-front {
+.nb-cov[data-size="entry"][data-arrive="1"][data-open="1"] .nb-f-front {
   /* The delay is the first beat's length minus its long settle tail: the board
      starts to move as the object stops rather than after a visible pause. */
-  animation: nb-hinge 620ms var(--ease-out-expo) 520ms backwards;
+  animation: nb-hinge 300ms var(--ease-out-expo) 280ms backwards;
 }
 
 /* The quick view runs its OWN flight, timed in JavaScript against a measured
@@ -2077,3 +2095,25 @@ html[data-theme="dark"] .nb-cov-cast {
 .nb-mega-2 { font-family: var(--font-sans); font-size: var(--t-lead); font-weight: 500; line-height: 1.5; color: var(--ink-2); }
 .nb-eye { font-size: var(--t-xs); color: var(--ink-2); }
 .nb-hub-t { font-family: var(--font-display); font-size: clamp(1.75rem, 1.3rem + 1.8vw, var(--t-display)); font-weight: 600; line-height: 1.2; }
+
+/* ==========================================================================
+   THE OLD LANDING'S FACTS ON THE BOOK PAGE (components/neo-shell/books/
+   landing-data.ts): the shelf's Hebrew title and summary, the reading
+   estimate and translation count, and per chapter its pages, sections,
+   figures and translation state. One line per chapter, hairline rows.
+   ========================================================================== */
+.nb-hub-he { margin: 0; font-size: var(--t-body); font-weight: 600; color: var(--ink-1); line-height: 1.5; }
+.nb-hub-sum { margin: 0; }
+.nb-hub-facts { display: flex; flex-wrap: wrap; gap: var(--sp-1) var(--sp-3); }
+.nb-land-l { list-style: none; margin: 0; padding: 0; border-block-start: 1px solid var(--hairline); }
+.nb-land-l > li {
+  display: grid; gap: var(--sp-1);
+  padding-block: var(--sp-3);
+  border-block-end: 1px solid var(--hairline);
+}
+.nb-land-t { display: grid; gap: 2px; min-inline-size: 0; }
+.nb-land-t b { font-size: var(--t-sm); font-weight: 600; color: var(--ink-1); }
+.nb-land-t .nb-sap { font-size: var(--t-xs); color: var(--ink-3); }
+.nb-land-m { display: flex; flex-wrap: wrap; gap: var(--sp-1) var(--sp-3); font-size: var(--t-xs); color: var(--ink-2); }
+.nb-land-u { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-1); font-size: var(--t-xs); color: var(--ink-2); line-height: 1.6; }
+.nb-land .nb-fine a { color: var(--link); text-decoration: underline; text-underline-offset: 3px; }

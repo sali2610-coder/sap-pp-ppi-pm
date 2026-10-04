@@ -3,6 +3,7 @@
 // import is deduplicated by the bundler, so this is safe even once the shell
 // layout pulls the same file in, and it means the ERD can never render its
 // controls unstyled.
+import "@/app/neo/editorial-erd.css";
 import "@/app/neo/ui.css";
 import "@/app/neo/erd.css";
 import { erdCatalog } from "@/components/neo-shell/erd/erd-catalog";
@@ -26,7 +27,7 @@ export const metadata = {
 // and the inspector first paint in the overview state and flip at ~170ms: a
 // layout shift (CLS 0.025 at 1440, 0.031 at 834; motion QA, 2026-10-02). The
 // hash is known before the first paint, so this marks <html> while it is
-// pending; editorial.css keeps those regions invisible until the workspace has
+// pending; editorial-erd.css keeps those regions invisible until the workspace has
 // applied it (or 1.5s pass), and an invisible region's move is not a shift.
 // Only a hash that names one of the catalog's tables, matched as the workspace
 // matches it (decoded, upper case), is held: a lower-case #aufk was not held and

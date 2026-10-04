@@ -1,0 +1,281 @@
+/* ============================================================================
+   PROJECT NEO · TOOLS — the tool and dashboard pages at their old addresses.
+   ----------------------------------------------------------------------------
+   The frame is the centers surface (centers.css: .nct hero, .nct-sec sheets,
+   .nct-bul / .nct-steps lists), imported before this file. This file adds only
+   what centers has no shape for: stat rows, data tables, SAP code lists, folded
+   detail, an ordered chain and the per-reader progress controls. Tokens only:
+   ink, surface, hairline, the family hue, spacing; rules instead of boxes.
+   ========================================================================== */
+
+/* The section markers and the module tag take the page's family hue, as on the
+   record pages (records.css), not the knowledge default the centres use. */
+.nx-app .ntl { max-inline-size: 78rem; --ct: var(--fam, var(--sec-knowledge, var(--brand))); }
+.nx-app .ntl-body { display: grid; gap: var(--sp-4); margin-block-start: var(--sp-5); min-inline-size: 0; }
+.nx-app .ntl-sec { min-inline-size: 0; }
+.nx-app .ntl-sec > * + * { margin-block-start: var(--sp-3); }
+.nx-app .ntl-sec-en {
+  margin-inline-start: auto;
+  font-size: var(--t-micro); font-weight: 600; color: var(--ink-3);
+  unicode-bidi: isolate;
+}
+.nx-app .ntl-note { margin: 0; font-size: var(--t-sm); line-height: 1.6; color: var(--ink-3); }
+.nx-app .ntl-none { margin: 0; font-size: var(--t-sm); color: var(--ink-3); font-style: italic; }
+.nx-app .ntl-foot { flex-wrap: wrap; line-height: 1.6; }
+.nx-app .ntl .nx-sap { font-family: var(--font-mono); unicode-bidi: isolate; }
+.nx-app .ntl-lede-p { margin: 0; }
+.nx-app .ntl-lede-p + .ntl-lede-p { margin-block-start: var(--sp-2); }
+
+/* ------------------------------------------------------------------ stats */
+
+.nx-app .ntl-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11.5rem), 1fr));
+  gap: var(--sp-3);
+  margin: 0;
+}
+.nx-app .ntl-stat {
+  display: flex; flex-direction: column; gap: var(--sp-1);
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--elev-1);
+  min-inline-size: 0;
+}
+.nx-app .ntl-stat dt { order: 2; font-size: var(--t-ui); font-weight: 600; color: var(--ink-2); }
+.nx-app .ntl-stat dd { margin: 0; }
+.nx-app .ntl-stat dd:first-of-type { order: 1; }
+.nx-app .ntl-stat dd b {
+  font-size: var(--t-h1); line-height: 1.1; font-weight: 700;
+  color: var(--fam, var(--ink-1));
+  font-variant-numeric: tabular-nums lining-nums;
+  unicode-bidi: isolate;
+}
+.nx-app .ntl-stat .ntl-stat-s { order: 3; font-size: var(--t-micro); line-height: 1.5; color: var(--ink-3); }
+
+/* ------------------------------------------------------------- data table */
+
+.nx-app .ntl-tablewrap {
+  overflow-x: auto;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--elev-1);
+  max-inline-size: 100%;
+}
+/* The frame is in the tab order (kit TableWrap): the shared ring shows where the keyboard is. */
+.nx-app .ntl-tablewrap:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.nx-app .ntl-table { inline-size: 100%; border-collapse: collapse; font-size: var(--t-ui); }
+.nx-app .ntl-table caption {
+  caption-side: top; text-align: start;
+  padding: var(--sp-3) var(--sp-3) var(--sp-2);
+  font-size: var(--t-sm); color: var(--ink-3);
+}
+.nx-app .ntl-table th {
+  text-align: start; vertical-align: bottom;
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--surface-2); color: var(--ink-2);
+  font-size: var(--t-sm); font-weight: 600;
+  border-block-end: 1px solid var(--hairline);
+  white-space: nowrap;
+}
+.nx-app .ntl-table td {
+  padding: var(--sp-2) var(--sp-3);
+  vertical-align: top; line-height: 1.6; color: var(--ink-2);
+  border-block-end: 1px solid var(--hairline);
+}
+.nx-app .ntl-table tbody tr:last-child td { border-block-end: 0; }
+.nx-app .ntl-table th[scope="row"] { background: transparent; white-space: normal; color: var(--ink-1); vertical-align: top; }
+.nx-app .ntl-num { text-align: end; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.nx-app .ntl-wide { min-inline-size: 16rem; }
+.nx-app .ntl-table--wide { min-inline-size: 52rem; }
+
+/* a share as a bar: the number is the content, the bar its picture */
+.nx-app .ntl-bar { display: flex; align-items: center; gap: var(--sp-2); min-inline-size: 8rem; }
+.nx-app .ntl-bar b { font-variant-numeric: tabular-nums; min-inline-size: 3ch; text-align: end; color: var(--ink-1); }
+.nx-app .ntl-bar i { flex: 1 1 auto; block-size: 6px; background: var(--surface-2); }
+.nx-app .ntl-bar i > span { display: block; block-size: 100%; inline-size: var(--w, 0%); background: var(--fam, var(--ink-2)); }
+
+.nx-app .ntl-score[data-st="hi"] .ntl-bar i > span { background: var(--danger); }
+.nx-app .ntl-score[data-st="mid"] .ntl-bar i > span { background: var(--warning); }
+.nx-app .ntl-score[data-st="ok"] .ntl-bar i > span { background: var(--success); }
+
+/* a state word with its mark: the word is the content, the mark its colour */
+.nx-app .ntl-state { display: inline-flex; align-items: center; gap: var(--sp-1); font-weight: 600; color: var(--ink-1); white-space: nowrap; }
+.nx-app .ntl-state::before {
+  content: ""; inline-size: 8px; block-size: 8px; flex: none;
+  background: var(--st, var(--ink-3));
+}
+.nx-app .ntl-state[data-st="hi"] { --st: var(--danger); }
+.nx-app .ntl-state[data-st="mid"] { --st: var(--warning); }
+.nx-app .ntl-state[data-st="lo"] { --st: var(--s4-replace, var(--ink-3)); }
+.nx-app .ntl-state[data-st="ok"] { --st: var(--success); }
+
+/* --------------------------------------------------- sub-sections (h3) */
+
+.nx-app .ntl-h3 {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1) var(--sp-3);
+  margin: 0 0 var(--sp-2);
+  font-size: var(--t-ui); font-weight: 600; color: var(--ink-1);
+}
+.nx-app .ntl-h3 .ntl-state { margin-inline-start: auto; font-size: var(--t-sm); }
+.nx-app .ntl-finding { padding-block: var(--sp-3); border-block-start: 1px solid var(--hairline); }
+.nx-app .ntl-finding:first-of-type { border-block-start: 0; padding-block-start: 0; }
+.nx-app .ntl-ok { margin: 0; font-size: var(--t-sm); font-weight: 600; color: var(--success); }
+
+/* -------------------------------------------------------------- SAP codes */
+
+.nx-app .ntl-codes { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--sp-1) var(--sp-2); }
+/* A code that opens its NEO page: a solid plate in the link ink. A code with no
+   page keeps the dashed plate (centers.css .nct-chip). */
+.nx-app .ntl-go { border-style: solid; color: var(--link); text-decoration: none; display: inline-flex; align-items: center; min-block-size: 1.5rem; }
+.nx-app .ntl-go:hover { text-decoration: underline; text-underline-offset: 3px; border-color: var(--line-strong); }
+.nx-app .ntl-go:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* --------------------------------------------------------- ordered chain */
+
+.nx-app .ntl-flow { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1) var(--sp-2); }
+.nx-app .ntl-flow li {
+  padding: var(--sp-1) var(--sp-2);
+  border: 1px solid var(--fam-line, var(--hairline));
+  background: var(--surface);
+  font-size: var(--t-sm); font-weight: 600; color: var(--ink-1);
+}
+.nx-app .ntl-flow li + li::before {
+  content: "←"; margin-inline-end: var(--sp-2);
+  color: var(--ink-3); font-weight: 400;
+}
+[dir="ltr"] .nx-app .ntl-flow li + li::before { content: "→"; }
+
+/* ---------------------------------------------------------------- folding */
+
+.nx-app .ntl-more { border-block-start: 1px solid var(--hairline); }
+.nx-app .ntl-more > summary {
+  display: flex; align-items: center; gap: var(--sp-2);
+  min-block-size: var(--c-tap, 2.75rem);
+  cursor: pointer; list-style: none;
+  font-weight: 600; color: var(--ink-1);
+}
+.nx-app .ntl-more > summary::-webkit-details-marker { display: none; }
+.nx-app .ntl-more > summary::before {
+  content: "+"; inline-size: 1.25rem; flex: none; text-align: center;
+  font-family: var(--font-mono); color: var(--fam, var(--ink-2));
+}
+.nx-app .ntl-more[open] > summary::before { content: "−"; }
+.nx-app .ntl-more > summary:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.nx-app .ntl-more-b { padding-block: 0 var(--sp-3); display: grid; gap: var(--sp-3); }
+.nx-app .ntl-more-b > * { margin: 0; }
+
+/* ------------------------------------------------------------ definitions */
+
+.nx-app .ntl-dl { display: grid; gap: var(--sp-3); margin: 0; }
+.nx-app .ntl-dl > div { display: grid; gap: var(--sp-1); }
+.nx-app .ntl-dl dt { font-size: var(--t-sm); font-weight: 600; color: var(--ink-3); }
+/* "Discover→Design→Build→…" has no break opportunity; at 390 it pushed the list 15px past the canvas. */
+.nx-app .ntl-dl dd { margin: 0; font-size: var(--t-ui); line-height: 1.7; color: var(--ink-2); overflow-wrap: anywhere; }
+@media (min-width: 900px) {
+  .nx-app .ntl-dl--2 { grid-template-columns: 1fr 1fr; column-gap: var(--sp-5); }
+}
+
+@media (min-width: 900px) {
+  .nx-app .ntl-dl--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--sp-5); }
+}
+.nx-app .ntl-dl dt.ntl-item-t { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1) var(--sp-3); font-size: var(--t-ui); color: var(--ink-1); }
+.nx-app .ntl-pairs { display: grid; gap: var(--sp-3); }
+.nx-app .ntl-pair { margin: 0; display: grid; gap: var(--sp-2) var(--sp-4); padding-block-start: var(--sp-3); border-block-start: 1px solid var(--hairline); }
+.nx-app .ntl-pair:first-child { border-block-start: 0; padding-block-start: 0; }
+.nx-app .ntl-pair dt { font-family: var(--font-mono); font-size: var(--t-sm); font-weight: 600; color: var(--ink-3); text-align: start; }
+.nx-app .ntl-pair dd { margin: 0; font-size: var(--t-ui); line-height: 1.7; color: var(--ink-2); }
+.nx-app .ntl-pair > div:last-child dt { color: var(--mod-s4, var(--ink-2)); }
+@media (min-width: 900px) { .nx-app .ntl-pair { grid-template-columns: 1fr 1fr; } }
+.nx-app .ntl-links { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.nx-app .ntl-links .nu-link { padding-block: var(--sp-1); text-align: start; }
+
+/* ------------------------------------------------------------ graph nodes */
+
+.nx-app .ntl-graph { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-3); }
+.nx-app .ntl-node { display: grid; gap: var(--sp-3); }
+.nx-app .ntl-node-h {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1) var(--sp-2);
+  margin: 0; font-size: var(--t-ui); font-weight: 600;
+}
+/* a node title is a heading-sized link: it wraps (.nu-link is nowrap; a 424px title widened the page at 390) */
+.nx-app .ntl-node-t { font-size: var(--t-lead, 1.05rem); font-weight: 600; text-align: start; white-space: normal; overflow-wrap: anywhere; }
+
+/* ------------------------------------------------------------- the onward */
+
+.nx-app .ntl-onward { border-block-start: 1px solid var(--hairline); padding-block-start: var(--sp-3); }
+.nx-app .ntl-onward-h { margin: 0 0 var(--sp-2); font-size: var(--t-ui); font-weight: 600; color: var(--ink-2); }
+.nx-app .ntl-onward ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0 var(--sp-4); }
+
+/* ------------------------------------------------- per-reader progress */
+
+.nx-app .ntl-prog { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); }
+.nx-app .ntl-prog-t { font-size: var(--t-sm); color: var(--ink-3); }
+.nx-app .ntl-prog-t b { color: var(--ink-1); font-variant-numeric: tabular-nums; }
+.nx-app .ntl-meter { inline-size: min(100%, 18rem); block-size: 6px; background: var(--surface-2); }
+.nx-app .ntl-meter > span { display: block; block-size: 100%; inline-size: var(--w, 0%); background: var(--fam, var(--ink-1)); }
+.nx-app .ntl-done-mark { color: var(--success); font-weight: 600; }
+
+@media (max-width: 720px) {
+  .nx-app .ntl-stat dd b { font-size: var(--t-h2); }
+  .nx-app .ntl-sec-en { inline-size: 100%; margin-inline-start: 0; }
+  .nx-app .ntl-sec .nct-sec-h { flex-wrap: wrap; }
+}
+
+/* ---------------------------------------------------- the onboarding path */
+
+.nx-app .ntl-h2 { margin: 0 0 var(--sp-3); }
+.nx-app .ntl-journey { display: grid; gap: var(--sp-3); margin-block-start: var(--sp-4); }
+.nx-app .ntl-journey > .nu-ghost { justify-self: start; display: inline-flex; align-items: center; gap: var(--sp-1); }
+.nx-app .ntl-stats--sm { grid-template-columns: repeat(3, minmax(0, 8.5rem)); }
+.nx-app .ntl-stats--sm .ntl-stat dd b { font-size: var(--t-h2); }
+.nx-app .ntl-cert { border-color: var(--fam-line, var(--hairline)); }
+.nx-app .ntl-journey-steps {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: var(--sp-3);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+}
+.nx-app .ntl-step { display: flex; flex-direction: column; gap: var(--sp-2); }
+.nx-app .ntl-step > * { margin: 0; }
+.nx-app .ntl-step-k { font-size: var(--t-sm); font-weight: 600; color: var(--ink-3); }
+.nx-app .ntl-step-h { font-size: var(--t-lead, 1.05rem); font-weight: 600; color: var(--ink-1); }
+.nx-app .ntl-step .nct-p { flex: 1 1 auto; }
+.nx-app .ntl-step-ctl { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-2); padding-block-start: var(--sp-2); border-block-start: 1px solid var(--hairline); }
+.nx-app .ntl-ach { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); column-gap: var(--sp-5); }
+.nx-app .ntl-ach li { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); padding-block: var(--sp-2); border-block-end: 1px solid var(--hairline); font-size: var(--t-ui); color: var(--ink-1); }
+@media (max-width: 720px) {
+  .nx-app .ntl-stats--sm { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* ------------------------------------------------------------ the courses */
+
+.nx-app .ntl-start { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-2) var(--sp-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); }
+.nx-app .ntl-start-a {
+  display: grid; gap: var(--sp-1);
+  min-block-size: var(--c-tap, 2.75rem);
+  padding: var(--sp-2) 0;
+  border-block-end: 1px solid var(--hairline);
+  text-decoration: none; color: inherit;
+}
+.nx-app .ntl-start-a b { color: var(--link); font-weight: 600; }
+.nx-app .ntl-start-a span { font-size: var(--t-sm); line-height: 1.55; color: var(--ink-2); }
+.nx-app .ntl-start-a:hover b { text-decoration: underline; text-underline-offset: 3px; }
+.nx-app .ntl-start-a:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.nx-app .ntl-ladder { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr)); }
+.nx-app .ntl-ladder .ntl-h3 { margin-block-end: var(--sp-1); }
+.nx-app .ntl-ladder-a { display: inline-flex; align-items: center; gap: var(--sp-2); }
+.nx-app .ntl-todo-mark { color: var(--ink-3); flex: none; }
+.nx-app .ntl-done-mark { flex: none; }
+.nx-app .ntl-topic { scroll-margin-block-start: var(--sp-6); }
+.nx-app .ntl-know { display: grid; gap: var(--sp-2); padding-block: var(--sp-3); border-block: 1px solid var(--hairline); }
+.nx-app .ntl-know .nu-btn2 { justify-self: start; display: inline-flex; align-items: center; gap: var(--sp-1); }
+.nx-app .ntl-know .ntl-h3 { margin: 0; }
+.nx-app .ntl-lbl { margin: 0 0 var(--sp-1); font-size: var(--t-sm); font-weight: 600; color: var(--ink-3); }
+.nx-app .ntl-en { font-weight: 400; color: var(--ink-3); unicode-bidi: isolate; }
+
+/* ------------------------------------------------- infrastructure centre */
+
+.nx-app .ntl-codes > li { display: inline-flex; align-items: center; gap: var(--sp-1); }
+.nx-app .ntl-land { font-size: var(--t-micro); color: var(--ink-3); white-space: nowrap; }
+.nx-app .ntl-proc + .ntl-proc { margin-block-start: var(--sp-5); }
+.nx-app .ntl-sec > .ntl-more:first-of-type { border-block-start: 0; }

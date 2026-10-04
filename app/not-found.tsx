@@ -10,6 +10,9 @@ import "@/app/neo/ground.css";
 import "@/app/neo/system.css";
 import "@/app/neo/ui.css";
 import "@/app/neo/rail.css";
+// The editorial language every NEO route now speaks (spec P0 §1, the 404
+// family): its tokens and the ink family's head band, scoped by data-pilot.
+import "@/app/neo/editorial.css";
 
 /* The site's 404. One exported file (out/404.html) answers every unknown URL,
    the unknown /neo/ addresses included, so it stands on its own: the NEO
@@ -25,7 +28,7 @@ const FONTS = [plexHe, plexLat, plexMono].map((f) => f.variable).join(" ");
 
 export default function NotFound() {
   return (
-    <div dir="rtl" className={`nx-app nx-nf ${FONTS}`}>
+    <div dir="rtl" className={`nx-app nx-nf ${FONTS}`} data-pilot="editorial" data-fam="ink">
       {/* The same first stop as every NEO page (gate 8, m8). */}
       <a href="#main" className="nx-skip">מעבר לתוכן הראשי</a>
       <main id="main" className="nx-nf-main">

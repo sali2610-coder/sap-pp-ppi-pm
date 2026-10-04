@@ -77,6 +77,12 @@ export interface RefFact {
   pre?: string;
   /** Rendered when the dataset is silent and the silence is itself the answer. */
   absent?: string;
+  /** The record's own trust mark for this one fact ("אומת" / "ידע כללי"),
+   *  printed beside the label. */
+  status?: RefStatus;
+  /** References outside the project (an SAP Note the record cites). They open
+   *  in a new tab, as the evidence block's source links do. */
+  links?: { t: string; href: string }[];
 }
 
 export interface RefCode {
@@ -108,6 +114,12 @@ export interface RefSection {
   cards?: RefCard[];
   /** Shown INSTEAD of the body when there is nothing verified to show. */
   empty?: string;
+  /** An honest caveat under the body (the record is not yet verified …). */
+  warn?: string;
+  /** Long secondary content: the body stays in the HTML behind a native
+   *  <details>, and this is its summary line. The heading stays outside it, so
+   *  the page index still reaches the section. */
+  fold?: string;
 }
 
 export interface RefCard {
@@ -248,6 +260,9 @@ export interface RefRow {
   kind: string;
   /** The secondary grouping key, in Hebrew — process area, module, category. */
   group: string;
+  /** One more line of the record's own prose under its names: a Fiori app's
+   *  business purpose. Absent on the directories that have no such line. */
+  note?: string;
   nums: RefNum[];
   s4: {
     tone: RefTone;
@@ -288,4 +303,7 @@ export interface RefDir {
   emptyNote: string;
   /** A comparison table over the directory, behind a disclosure. */
   compare?: RefCompare;
+  /** The chain the directory's records sit in, in order, under the lede
+   *  (classic table → Interface view → Consumption view → Fiori app). */
+  flow?: string[];
 }

@@ -19,7 +19,11 @@ export const plexHe = localFont({
   ],
   variable: "--f-plex-he",
   adjustFontFallback: false,
-  display: "swap",
+  // optional, like plexLat below (16,796 bytes, preloaded already). With every
+  // face 700ms late the home's lede at 390 still went from 3 lines to 4 when
+  // this one swapped in over "NEO Hebrew Fallback" (CLS 0.10; 0.08 at 320): no
+  // fallback metric fits mixed Hebrew and Latin text at every width.
+  display: "optional",
   declarations: [{ prop: "unicode-range", value: "U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F" }],
 });
 
@@ -31,12 +35,16 @@ export const plexLat = localFont({
   ],
   variable: "--f-plex-lat",
   adjustFontFallback: false,
-  display: "swap",
-  // Not preloaded (gate 9, P2): 60,472 bytes that competed with the render-
-  // blocking CSS on every page. The faces are still requested at the first
-  // render, and until they arrive "NEO Latin Fallback" (app/neo/system.css,
-  // calibrated to this UI's text) holds the same metrics.
-  preload: false,
+  // optional + preload (spec P1 §11, 2026-10-03). Under `swap` with no preload
+  // (gate 9) a face that arrived late re-wrapped a line: the home's lede at 390
+  // moved 0.28 to 0.29 with a 700ms font delay, and the 300ms gate that hid the
+  // page content while it waited could not prevent it. Now the face is fetched
+  // with the page and used if it is there within the block period; otherwise
+  // "NEO Latin Fallback" (app/neo/system.css) stays for the life of the page and
+  // nothing moves when the face lands. 60,472 bytes on a first visit, cached
+  // after; the Slow-4G cost against the no-preload variant is measured in
+  // docs/rollout-2026-10/STATUS.md.
+  display: "optional",
   declarations: [{ prop: "unicode-range", value: "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD" }],
 });
 
@@ -48,6 +56,6 @@ export const plexMono = localFont({
   ],
   variable: "--f-plex-mono",
   adjustFontFallback: false,
-  display: "swap",
-  preload: false,
+  // optional + preload, for the same reason as plexLat (45,216 bytes).
+  display: "optional",
 });

@@ -23,7 +23,7 @@
 import { enLang } from "../lang";
 import Link from "next/link";
 import {
-  BadgeCheck, Boxes, Columns3, GitBranch, Info, KeyRound, Layers,
+  ArrowLeft, BadgeCheck, Boxes, Columns3, GitBranch, Info, KeyRound, Layers,
   Route, Search, ShieldQuestion, Table2, Terminal,
 } from "lucide-react";
 import { OriginLink } from "@/components/neo-shell/nav-context";
@@ -31,6 +31,8 @@ import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { ObjectReturn } from "./object-return";
 import { CopyId } from "../copy-id";
 import { auxSummary, type AuxLink, type AuxView } from "./object-aux";
+import { objectProfile } from "./object-profile";
+import { ProfileSections, Sec, profileNav } from "./object-profile-view";
 
 const nf = new Intl.NumberFormat("he-IL");
 
@@ -42,28 +44,6 @@ const FAM_OBJ: Record<string, string> = {
   HR: "var(--obj-master)",
   BW: "var(--obj-structure)",
 };
-
-function Sec({
-  id, n, icon, eyebrow, title, lede, children,
-}: {
-  id: string; n: number; icon: React.ReactNode; eyebrow: string;
-  title: string; lede?: React.ReactNode; children: React.ReactNode;
-}) {
-  return (
-    <section className="no-sec nm-rise nm-once" id={id} aria-labelledby={`${id}-h`}>
-      <header className="no-sec-h">
-        <span className="no-sec-n" aria-hidden="true">{String(n).padStart(2, "0")}</span>
-        <p className="no-sec-k">
-          <span className="no-sec-ico" aria-hidden="true">{icon}</span>
-          {eyebrow}
-        </p>
-        <h2 className="no-h2" id={`${id}-h`}>{title}</h2>
-        {lede ? <p className="no-sec-s">{lede}</p> : null}
-      </header>
-      <div className="no-sec-b">{children}</div>
-    </section>
-  );
-}
 
 /** An identifier chip. A destination when the project generates the page, plain
  *  text when it does not — the value is never withheld, only the link is. */
@@ -123,8 +103,14 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
   const nUse = v.useCases.length || v.ppPi ? push("nox-use", "שימוש בפועל") : 0;
   const nTx = push("nox-tx", "טרנזקציות ואובייקטים");
   const nS4 = push("nox-s4", "ECC ו-S/4HANA");
+  // The consultant layer the legacy page carried for HR/BW objects
+  // (object-profile.ts). The verified registry has none.
+  const prof = v.source === "hrbw" ? objectProfile(v.name) : null;
+  for (const [id, he] of prof ? profileNav(prof) : []) push(id, he);
   const nDomain = v.domain ? push("nox-domain", "תחום נתונים") : 0;
   const nSib = v.siblings.length ? push("nox-sib", "אובייקטים באותו אזור") : 0;
+  const num = Object.fromEntries(nav.map(([id], i) => [id, i + 1])) as Record<string, number>;
+  const secondary = v.modules.filter((m) => m !== v.family);
 
   return (
     <div className="no nox" style={{ "--o": obj } as React.CSSProperties}>
@@ -176,6 +162,19 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
             ) : null}
           </ul>
 
+          {v.source === "verified" ? (
+            <p className="nox-modline">
+              <span>מודול ראשי:</span>
+              <b className="nx-sap" dir="ltr">{v.family}</b>
+              {secondary.length ? (
+                <>
+                  <span>· משני:</span>
+                  {secondary.map((m) => <em key={m} className="nx-sap" dir="ltr">{m}</em>)}
+                </>
+              ) : null}
+            </p>
+          ) : null}
+
           {v.pk.length ? (
             <p className="no-keyline">
               <span className="no-keyline-g" data-k="PK">
@@ -214,13 +213,16 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
         lede="הקטלוג שממנו נבנה העמוד, ומה הוא כולל."
       >
         <p className="no-quote">{provenance}</p>
-        {v.guide ? <p className="no-guide">{v.guide}</p> : null}
-        {v.modules.length > 1 ? (
+        {v.source === "verified" ? (
           <p className="no-note">
             <Layers size={14} strokeWidth={1.75} aria-hidden="true" />
-            {" "}מודולים שמשתמשים באובייקט לפי הקטלוג: {v.modules.join(" · ")}.
+            <span>
+              מקור: <b>רפרנס SAP מאומת</b> · אובייקט תקני מחוץ לבלוּפרינט PM/PP-PI (לוגיסטיקה/מלאי/מכירות/פיננסי).
+              {" "}שדות שאינם מאומתים אינם מוצגים — ללא המצאה.
+            </span>
           </p>
         ) : null}
+        {v.guide ? <p className="no-guide">{v.guide}</p> : null}
       </Sec>
 
       {/* ====================================================== FIELDS */}
@@ -295,7 +297,7 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
           id="nox-alias" n={nAlias}
           icon={<Search size={15} strokeWidth={1.75} />}
           eyebrow="חיפוש"
-          title="שמות נרדפים ומונחי חיפוש"
+          title="שמות וכינויים לחיפוש"
           lede="השמות הנרדפים והמונחים שנרשמו בקטלוג, בעברית ובאנגלית."
         >
           <div className="nox-cloud">
@@ -323,10 +325,21 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
         >
           {v.ppPi ? (
             <div className="nox-pppi">
-              <h3 className="no-h3">בתהליך PP-PI</h3>
+              <h3 className="no-h3">חיבור לזרימת PP-PI (ייצור תהליכי)</h3>
               <p className="no-quote">{v.ppPi}</p>
+              <p className="no-links">
+                <OriginLink className="nu-link" href="/neo/pp-pi/" origin={from}>
+                  סביבת העבודה של PP-PI
+                  <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
+                </OriginLink>
+                <OriginLink className="nu-link" href="/neo/studio/" origin={from}>
+                  מפת הקשרים · Studio
+                  <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
+                </OriginLink>
+              </p>
             </div>
           ) : null}
+          {v.useCases.length ? <h3 className="no-h3">שימושי יועץ נפוצים</h3> : null}
           {v.useCases.length ? (
             <ol className="nox-steps">
               {v.useCases.map((u, i) => (
@@ -349,7 +362,7 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
             : "לא קיימת טרנזקציה בקטלוג לאובייקט זה."
         }
       >
-        <h3 className="no-h3">טרנזקציות</h3>
+        <h3 className="no-h3">{v.source === "verified" ? "טרנזקציות נפוצות" : "טרנזקציות"}</h3>
         <Chips items={v.tcodes} empty="לא קיימת טרנזקציה בקטלוג לאובייקט זה." />
 
         {v.related.length || v.source === "verified" ? (
@@ -402,6 +415,8 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
         ) : null}
       </Sec>
 
+      {prof ? <ProfileSections p={prof} num={num} /> : null}
+
       {/* ====================================================== DOMAIN */}
       {nDomain && v.domain ? (
         <Sec
@@ -409,9 +424,12 @@ export function AuxObjectPage({ v }: { v: AuxView }) {
           icon={<Boxes size={15} strokeWidth={1.75} />}
           eyebrow="תחום נתונים"
           title={`${v.domain.he} · ${v.domain.en}`}
-          lede={v.domain.component}
+          lede={`רכיב SAP: ${v.domain.component}`}
         >
           <p className="no-quote">{v.domain.summary}</p>
+          {v.domain.id === "LO-HU" ? (
+            <p className="no-note">LO-HU שייך ל-Logistics General — מוצג כשכבה משולבת, לא כטבלת PP-PI מזויפת.</p>
+          ) : null}
           <h3 className="no-h3">טבלאות הליבה של התחום</h3>
           <Chips
             items={v.domain.members.map((m) => ({

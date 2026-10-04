@@ -1339,7 +1339,6 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 .ne-legend li { display: flex; align-items: center; gap: 7px; font-size: var(--t-micro); color: var(--ink-3); }
 .ne-legend li i { inline-size: 22px; block-size: 2.5px; border-radius: 2px; background: var(--e); flex: none; }
 .ne-legend li[data-kind="unstated"] i { background: repeating-linear-gradient(to right, var(--e) 0 5px, transparent 5px 10px); }
-.ne-legend li.ne-lg-both i { background: linear-gradient(to left, var(--mod-pm), var(--mod-pppi)); }
 .ne-lg-pk, .ne-lg-fk { inline-size: 22px; block-size: 9px; flex: none; }
 .ne-lg-card {
   flex: none;
@@ -1845,3 +1844,24 @@ html .nx-app .nx-canvas:has(> .ne) > .nx-foot { flex: none; margin: 0; padding: 
 .ne-stage[data-lod="3"] .ne-world :is(.ne-mod-c, .ne-mod-he, .ne-mod-n, .ne-node-n),
 .ne-stage[data-lod="2"] .ne-world :is(.ne-mod-c, .ne-mod-he, .ne-node-n),
 .ne-stage[data-lod="1"] .ne-world .ne-mod-c { visibility: visible; }
+
+/* THE MINIMAP ON A PHONE (spec P1 §8). On a 390 x 384 stage it took 102px of
+   the height, a quarter of the picture, and left room for one table: a phone
+   arrived on AUFK alone with its edges running off the frame. Below 600px the
+   overview is the module's own "המודול כולו" fit and the table list, so the
+   minimap and its switch step aside, and arrival frames the table with its
+   nearest neighbours (erd-workspace.tsx, fitOnEnter). */
+@media (max-width: 37.5rem) {
+  .ne .ne-mini, .ne .ne-mini-t { display: none; }
+}
+
+/* THE TOOLS ON A PHONE (spec P1 §8). The view tools (zoom, fit, centre,
+   reset, keyboard, panel, full screen, focus, present), the analysis lenses
+   and the advanced filters fold behind the one "כלים" control; the module
+   and scope, the locator and the selection's own actions stay. Every control
+   is still one tap away, and the diagram is on the first screen. */
+.ne-tools-t { display: none; }
+@media (max-width: 37.5rem) {
+  .ne-tools-t { display: inline-flex; }
+  .ne[data-tools="0"] :is(.ne-view, .ne-flens, .ne-filters .ne-pop ~ .ne-pop) { display: none; }
+}

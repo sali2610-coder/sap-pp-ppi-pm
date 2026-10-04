@@ -1,52 +1,21 @@
 /* ============================================================================
-   PROJECT NEO · THE MOTION ENGINE
+   PROJECT NEO · THE MOTION ENGINE (tokens, selection, the record morph)
    ----------------------------------------------------------------------------
-   ONE DECISION EXPLAINS THIS WHOLE FILE
+   Motion explains a change of place or state (DESIGN-SPEC §1; the motion
+   checklist, docs/rollout-2026-10/MOTION-CHECKLIST.md). The scroll engine this
+   file used to carry (reveals, stagger, parallax, pinned scenes, kinetic
+   headlines, growing bars, hover lift) was switched off for every surface by
+   the 2026 policy, and since the rollout of 2026-10 every /neo route is under
+   it, so the engine itself is gone: about 4KB of CSS on every page that no
+   element could use (spec P1 §11, the CSS budget). Classes such as .nm-rise
+   still in the markup are inert.
 
-     The brief names ORYZO as the motion reference. ORYZO was measured, not
-     remembered, and under a 4x CPU throttle it scrolls at 35fps with six long
-     tasks — one of them blocking the main thread for 1,595ms. The other three
-     references hold 59-60fps with zero or one long task, and Driftime does it
-     while carrying two WebGL canvases in 1.4MB.
-
-     So the choreography is ORYZO's and the engineering is not.
-
-     Everything that scrubs, parallaxes or pins here is a CSS scroll-driven
-     animation (animation-timeline: view() / scroll()). Those run on the
-     compositor. They cannot produce a long task, because they never touch the
-     main thread at all. No rAF scroll loop is used anywhere in this file, and
-     that single choice is the difference between 35fps and 60fps.
-
-     Browsers without scroll-driven animation (Safari, at time of writing) fall
-     back through @supports to an IntersectionObserver reveal: the content still
-     arrives, it simply arrives rather than being scrubbed. Nothing is ever
-     invisible because a timeline was unavailable.
-
-   THE FOUR LEVELS, AS SPECIFIED
-
-     L4  Home · Books · NEO AI          the strongest treatment
-     L3  PM · PP-PI                     medium; must stay easy to study
-     L2  Objects/Tables/Transactions    functional; motion clarifies interaction
-     L1  ERD / Data Model               precision only; no theatre
-
-     A level is not a switch, it is an AMPLITUDE. The same primitive is used at
-     every level and the level decides how far it travels. That is why a card
-     behaves recognisably the same on Home and on a table detail page, just with
-     more or less air. Levels scale distance; they never change meaning.
-
-   REDUCED MOTION IS A REMOVAL, NOT A SLOWDOWN
-
-     The brief is explicit and it is also correct: slowing a parallax down still
-     makes a vestibular user sick. Under prefers-reduced-motion every transform,
-     parallax and scrub amplitude is set to ZERO and every scroll timeline is
-     detached. Opacity survives, because a fade is not motion through space.
-
-   TOUCH IS NOT HOVER
-
-     On a coarse pointer, hover-triggered motion is dead code that fires on tap
-     and sticks. Every hover rule here is inside @media (hover: hover), and the
-     parallax amplitudes are cut on coarse pointers where the scroll is a finger
-     and the extra travel just smears.
+   What remains:
+     · the amplitude per screen type (§1), which MotionProvider publishes as
+       data-motion and which the changes that still travel read (--nm-enter);
+     · the selection state (§2), a state change, in four signals;
+     · reduced motion as a removal (§3);
+     · the list-to-record signature (§4).
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -67,250 +36,27 @@
 [data-motion="3"] { --nm-rise: 16px; --nm-par: 14px; --nm-scale: .994; --nm-dur: 560ms; --nm-stagger: 52ms; }
 [data-motion="4"] { --nm-rise: 30px; --nm-par: 44px; --nm-scale: .982; --nm-dur: 780ms; --nm-stagger: 72ms; }
 
+/* What travel survives the 2026 policy (§12) is the arrival of something that
+   CHANGED: a result row, a panel. Its distance follows the level as well
+   (inventory #10): on the ERD nothing under the pointer moves, a record's
+   change travels 6px, the home's 12px. MotionProvider publishes data-motion
+   per route (components/neo-shell/motion/level.ts). */
+.nx-app { --nm-enter: 8px; }
+[data-motion="1"] { --nm-enter: 0px; }
+[data-motion="2"] { --nm-enter: 6px; }
+[data-motion="3"] { --nm-enter: 8px; }
+[data-motion="4"] { --nm-enter: 12px; }
+
 /* A finger already moves the page; extra travel reads as lag, not depth. */
 @media (pointer: coarse) {
+  [data-motion="3"] { --nm-enter: 6px; }
+  [data-motion="4"] { --nm-enter: 8px; }
   [data-motion="3"] { --nm-rise: 12px; --nm-par: 0px; }
   [data-motion="4"] { --nm-rise: 18px; --nm-par: 14px; --nm-dur: 620ms; }
 }
 
 /* --------------------------------------------------------------------------
-   2. REVEAL — the primitive every surface uses
-   Scrubbed against the element's own passage through the scrollport, so the
-   content is tied to the scroll rather than merely triggered by it. That
-   coupling is the thing that makes ORYZO feel authored instead of animated.
-   -------------------------------------------------------------------------- */
-
-@keyframes nm-rise {
-  from { opacity: 0; transform: translate3d(0, var(--nm-rise), 0) scale(var(--nm-scale)); }
-  to   { opacity: 1; transform: none; }
-}
-@keyframes nm-fade {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-.nm-rise,
-.nm-fade { will-change: opacity; }
-
-/* --- the modern path: compositor-driven, zero JS -------------------------
-   view(0px), never view(): the default inset is `auto`, which borrows the
-   scroll container's scroll-padding. .nx-canvas keeps the dock's height as
-   scroll-padding so keyboard focus lands above it, and with `auto` every
-   reveal timeline was silently shortened by that same 76px, which is exactly
-   how a chat starter card 200px inside the viewport measured 79% opacity. A
-   zero inset ties the timeline to the real edge of the scrollport. */
-@supports (animation-timeline: view()) {
-  .nm-rise,
-  .nm-fade {
-    animation: nm-rise linear both;
-    animation-timeline: view(0px);
-    /* THE RANGE IS A LENGTH, NOT A FRACTION OF THE ELEMENT. The earlier
-       `cover 26%` ended the entrance a quarter of the way through the element's
-       own passage, which for a tall section meant the reader was already inside
-       it while it sat at half opacity: the design audit of 2026-09-14 measured
-       45% on the readiness screen, and this branch measured 31% on the S/4
-       centre and 51% on the cockpit. The entrance now completes once the
-       element's leading edge has travelled a fixed 160px into the scrollport,
-       whatever the element's height, so useful text is fully readable the
-       moment it can be read. */
-    animation-range: entry 0% entry 160px;
-  }
-  .nm-fade { animation-name: nm-fade; }
-
-  /* Once seen, stay seen. Without this an element re-animates on the way back
-     up, which turns a considered entrance into a flicker. */
-  .nm-once { animation-range: entry 0% entry 160px; }
-}
-
-/* --- the fallback path: observed, then transitioned --------------------- */
-@supports not (animation-timeline: view()) {
-  .nm-rise,
-  .nm-fade {
-    opacity: 0;
-    transform: translate3d(0, var(--nm-rise), 0) scale(var(--nm-scale));
-    transition: opacity var(--nm-dur) var(--nm-ease),
-                transform var(--nm-dur) var(--nm-ease);
-    transition-delay: var(--nm-d, 0ms);
-  }
-  .nm-fade { transform: none; }
-  .nm-rise.is-in,
-  .nm-fade.is-in { opacity: 1; transform: none; }
-
-  /* A document that never runs JS must still be readable. If the observer has
-     not marked the shell as live, nothing hides. */
-  .nx-app:not([data-nm="on"]) .nm-rise,
-  .nx-app:not([data-nm="on"]) .nm-fade { opacity: 1; transform: none; }
-}
-
-/* --------------------------------------------------------------------------
-   3. STAGGER — a list arrives as a sequence, not as a wall
-   -------------------------------------------------------------------------- */
-
-.nm-seq > * { --nm-d: calc(var(--nm-i, 0) * var(--nm-stagger)); }
-
-@supports (animation-timeline: view()) {
-  .nm-seq > .nm-rise,
-  .nm-seq > .nm-fade { animation-delay: 0ms; }
-  /* A scroll timeline has no time axis to delay along, so the sequence is
-     expressed as a staggered RANGE instead: each child begins its entrance a
-     little later in its own passage. Same perceived cascade, no timers.
-     The stagger moves only the START. Every child finishes at the same 160px,
-     because a sequence of SECTIONS enters the screen one at a time, and a
-     sixth section that finished 100px later than the first was the reason the
-     PM and PP-PI pages still read at 47% after the base range was fixed. */
-  .nm-seq > *:nth-child(1) { animation-range: entry 0px  entry 160px; }
-  .nm-seq > *:nth-child(2) { animation-range: entry 10px entry 160px; }
-  .nm-seq > *:nth-child(3) { animation-range: entry 20px entry 160px; }
-  .nm-seq > *:nth-child(4) { animation-range: entry 30px entry 160px; }
-  .nm-seq > *:nth-child(5) { animation-range: entry 40px entry 160px; }
-  .nm-seq > *:nth-child(n+6) { animation-range: entry 50px entry 160px; }
-}
-
-/* --------------------------------------------------------------------------
-   4. PARALLAX + SCRUB — depth, tied to the scrollbar
-   L1 and L2 get --nm-par: 0, so these classes are inert there by construction
-   rather than by being forbidden. One codebase, four intensities.
-   -------------------------------------------------------------------------- */
-
-@keyframes nm-par {
-  from { transform: translate3d(0, calc(var(--nm-par) * 1), 0); }
-  to   { transform: translate3d(0, calc(var(--nm-par) * -1), 0); }
-}
-@keyframes nm-par-slow {
-  from { transform: translate3d(0, calc(var(--nm-par) * .45), 0); }
-  to   { transform: translate3d(0, calc(var(--nm-par) * -.45), 0); }
-}
-
-@supports (animation-timeline: view()) {
-  .nm-par,
-  .nm-par-slow {
-    animation: nm-par linear both;
-    animation-timeline: view(0px);
-    animation-range: cover 0% cover 100%;
-    will-change: transform;
-  }
-  .nm-par-slow { animation-name: nm-par-slow; }
-}
-
-/* --------------------------------------------------------------------------
-   5. PIN — a scene that holds while its content changes
-   Pure sticky. No scroll hijacking, no fixed-position juggling, so the native
-   scrollbar keeps telling the truth about where the reader is and the back
-   button still restores the right offset.
-   -------------------------------------------------------------------------- */
-
-.nm-pin {
-  position: sticky;
-  inset-block-start: 0;
-  min-block-size: 100svh;
-  display: grid;
-  align-content: center;
-  overflow: clip;
-}
-/* Pinning a full viewport on a short screen traps the reader in a scene they
-   cannot scroll past comfortably. Below that height it becomes normal flow. */
-@media (max-height: 34rem) {
-  .nm-pin { position: static; min-block-size: 0; }
-}
-
-/* --------------------------------------------------------------------------
-   6. KINETIC TYPE — the headline arrives as language, line by line
-   Each line is clipped by its own mask and rises out of it. Only L4 gives this
-   enough travel to read as kinetic; below that it degrades to a plain fade,
-   which is the correct behaviour for a page someone is trying to study.
-   -------------------------------------------------------------------------- */
-
-.nm-kin { display: block; }
-.nm-kin > span {
-  display: block;
-  overflow: clip;
-  padding-block-end: .08em;   /* descenders must not be clipped by the mask */
-  margin-block-end: -.08em;
-}
-.nm-kin > span > * {
-  display: block;
-  will-change: transform;
-}
-
-@keyframes nm-kin-line {
-  from { opacity: 0; transform: translate3d(0, 108%, 0); }
-  to   { opacity: 1; transform: none; }
-}
-
-@supports (animation-timeline: view()) {
-  [data-motion="4"] .nm-kin > span > *,
-  [data-motion="3"] .nm-kin > span > * {
-    animation: nm-kin-line linear both;
-    animation-timeline: view(0px);
-  }
-  .nm-kin > span:nth-child(1) > * { animation-range: entry 0px  entry 140px; }
-  .nm-kin > span:nth-child(2) > * { animation-range: entry 12px entry 140px; }
-  .nm-kin > span:nth-child(3) > * { animation-range: entry 24px entry 140px; }
-  .nm-kin > span:nth-child(n+4) > * { animation-range: entry 36px entry 140px; }
-}
-@supports not (animation-timeline: view()) {
-  [data-motion="4"] .nm-kin > span > *,
-  [data-motion="3"] .nm-kin > span > * {
-    opacity: 0; transform: translate3d(0, 108%, 0);
-    transition: opacity var(--nm-dur) var(--nm-ease), transform var(--nm-dur) var(--nm-ease);
-  }
-  .nm-kin.is-in > span > * { opacity: 1; transform: none; }
-  .nm-kin > span:nth-child(2) > * { transition-delay: 70ms; }
-  .nm-kin > span:nth-child(3) > * { transition-delay: 140ms; }
-  .nm-kin > span:nth-child(n+4) > * { transition-delay: 210ms; }
-  .nx-app:not([data-nm="on"]) .nm-kin > span > * { opacity: 1; transform: none; }
-}
-
-/* --------------------------------------------------------------------------
-   7. METRIC GROWTH — a number that earns its bar
-   scaleX only; width is a layout property and animating it would reflow the
-   row on every frame.
-   -------------------------------------------------------------------------- */
-
-@keyframes nm-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-
-.nm-grow {
-  transform-origin: inline-start center;
-  transform: scaleX(0);
-}
-@supports (animation-timeline: view()) {
-  .nm-grow {
-    animation: nm-grow linear both;
-    animation-timeline: view(0px);
-    animation-range: entry 0px entry 200px;
-  }
-}
-@supports not (animation-timeline: view()) {
-  .nm-grow { transition: transform var(--nm-dur) var(--nm-ease); transition-delay: var(--nm-d, 0ms); }
-  .nm-grow.is-in { transform: scaleX(1); }
-  .nx-app:not([data-nm="on"]) .nm-grow { transform: scaleX(1); }
-}
-
-/* --------------------------------------------------------------------------
-   8. POINTER RESPONSE — the surface notices you
-   Desktop only, and expressed as a variable the element chooses to consume, so
-   nothing moves unless a component opted in.
-   -------------------------------------------------------------------------- */
-
-@media (hover: hover) and (pointer: fine) {
-  [data-motion="4"] .nm-lift,
-  [data-motion="3"] .nm-lift {
-    transition: transform 260ms var(--nm-ease), box-shadow 260ms var(--nm-ease),
-                border-color 180ms linear;
-  }
-  [data-motion="4"] .nm-lift:hover,
-  [data-motion="3"] .nm-lift:hover { transform: translate3d(0, -3px, 0); box-shadow: var(--elev-3); }
-
-  [data-motion="2"] .nm-lift { transition: transform 160ms var(--nm-ease), border-color 140ms linear, background-color 140ms linear; }
-  [data-motion="2"] .nm-lift:hover { transform: translate3d(0, -1px, 0); }
-
-  /* L1 is precision: the ERD acknowledges the pointer without moving under it,
-     because a node that shifts on hover is a node you cannot click reliably. */
-  [data-motion="1"] .nm-lift { transition: border-color 140ms linear, background-color 140ms linear; }
-}
-
-/* --------------------------------------------------------------------------
-   9. FOCUS AND SELECTION — the loudest state in the system
+   2. FOCUS AND SELECTION — the loudest state in the system
    The brief: "Selected state must be visually obvious. Do not rely only on a
    thin underline." So selection is carried by FOUR signals at once — ground,
    ink, an edge, and a scale — and never by one hairline.
@@ -338,7 +84,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   10. REDUCED MOTION — amplitudes to zero, timelines detached
+   3. REDUCED MOTION — amplitudes to zero; the selection simply changes
    -------------------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
@@ -348,76 +94,14 @@
     --nm-par: 0px;
     --nm-scale: 1;
     --nm-stagger: 0ms;
+    --nm-enter: 0px;
   }
-
-  /* Detach every scroll timeline. The content is simply present. */
-  .nm-par,
-  .nm-par-slow,
-  .nm-kin > span > * {
-    animation: none !important;
-    animation-timeline: none !important;
-    transform: none !important;
-    opacity: 1 !important;
-  }
-
-  /* A fade is not travel through space, so it is allowed to survive — but it
-     is shortened to the point of being a courtesy rather than an effect. */
-  .nm-rise,
-  .nm-fade {
-    /* 2026-09-21: `animation-timeline: none` froze the 120ms fade at its first
-       keyframe, so every reveal stayed at opacity 0 for reduced-motion readers
-       (measured: 8 invisible chapter cards on /neo/pm/). A time-based fade also
-       never starts inside a skipped subtree (closed <details>), so the content
-       is simply present: no animation, full opacity. */
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
-  .nm-grow { animation: none !important; transition: none !important; transform: scaleX(1) !important; }
-  .nm-pin { position: static; min-block-size: 0; }
-  .nm-lift:hover { transform: none !important; }
   .nm-sel { transition: none; }
 }
 
 /* --------------------------------------------------------------------------
-   11. LARGE-DISPLAY BUDGET
-   globals.css already drops blur and idle loops above 1600px because paint
-   cost dominates on a presentation screen. Parallax is the same class of
-   expense at that size: a 3840px-wide composited layer moving every frame.
-   The reveals stay; only the continuous travel goes.
+   4. THE 2026 SELECTION LANGUAGE AND THE LIST-TO-RECORD SIGNATURE
    -------------------------------------------------------------------------- */
-
-@media (min-width: 1600px) {
-  .nx-app { --nm-par: 0px; }
-}
-
-/* ============================================================================
-   12. 2026 SYSTEM · THE MOTION POLICY (Knowledge Workbench)
-   ----------------------------------------------------------------------------
-   Motion explains a change of place or state (DESIGN-SPEC §1; BAKEOFF: short
-   motion only where it explains a transition). So, from here on:
-
-   OFF  scroll-driven reveals (nm-rise, nm-fade), parallax (nm-par), kinetic
-        headlines (nm-kin), bars that grow as they scroll in (nm-grow), hover
-        lift (nm-lift). Content is simply there. The measured reason beside the
-        principle: a reveal completes 160px into the viewport, so at every
-        scroll position the bottom 160px of the screen held half-faded text
-        (axe, 2026-09-29: 3.36:1 on a table code, 2.42:1 on a module chip).
-   KEPT selection (nm-sel, a state change) in the system's selection language;
-        pinning (nm-pin is layout); the signature moments (the home's process
-        map, the list-to-record view transition); panels arriving; the rail's
-        selection moving. The motion levels keep working for what remains.
-   Specificity is set to beat each family's own level-scoped rules.
-   ========================================================================== */
-.nx-app .nm-rise,
-.nx-app .nm-fade { animation: none; opacity: 1; transform: none; transition: none; will-change: auto; }
-.nx-app .nm-par,
-.nx-app .nm-par-slow { animation: none; transform: none; }
-.nx-app .nm-kin > span > * { animation: none; opacity: 1; transform: none; transition: none; }
-.nx-app .nm-grow { animation: none; transform: none; transition: none; }
-html .nx-app .nm-lift,
-html .nx-app .nm-lift:hover { transform: none; box-shadow: none; }
 .nx-app .nm-sel[data-on="1"] { background-color: var(--select-bg); border-color: var(--select-line); font-weight: 600; }
 .nx-app .nm-sel[data-on="1"]::before { background: var(--select-line); border-radius: 0; inset-block: 6px; }
 

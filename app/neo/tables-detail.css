@@ -1,0 +1,54 @@
+/* ============================================================================
+   PROJECT NEO · /neo/tables/<NAME>/ — the impact analysis section.
+   ----------------------------------------------------------------------------
+   Imported by app/neo/tables/[name]/page.tsx only, after data.css, whose
+   section chrome (.nxb-sec, .nxb-h3, .nxb-kv) the section already wears. These
+   rules lay out the two things it adds: the score with its four factors, and
+   the incident list. Ink tokens only; the bars are the page's own line colour,
+   not a status colour, because the score is a heuristic and not a verdict.
+   ========================================================================== */
+
+.nx-app .nxi-score { display: grid; gap: var(--sp-3); }
+.nx-app .nxi-score > p { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-1) var(--sp-3); margin: 0; }
+.nx-app .nxi-score > p > b { font-size: var(--t-h2); font-weight: 600; color: var(--ink-1); font-variant-numeric: tabular-nums; }
+.nx-app .nxi-score > p > span { font-size: var(--t-xs); color: var(--ink-3); }
+.nx-app .nxi-score > p > em { font-style: normal; font-size: var(--t-sm); font-weight: 600; color: var(--ink-2); }
+
+.nx-app .nxi-factors { display: grid; gap: var(--sp-2); list-style: none; margin: 0; padding: 0; }
+.nx-app .nxi-factors > li {
+  display: grid;
+  grid-template-columns: minmax(9rem, 13rem) minmax(4rem, 1fr) 2.5rem minmax(0, 12rem);
+  align-items: center;
+  gap: var(--sp-2) var(--sp-3);
+  font-size: var(--t-xs);
+  color: var(--ink-2);
+}
+.nx-app .nxi-f-l { color: var(--ink-1); font-weight: 600; }
+.nx-app .nxi-f-bar {
+  display: block;
+  block-size: 6px;
+  border-radius: var(--r-pill);
+  background: var(--surface-2);
+  overflow: hidden;
+}
+.nx-app .nxi-f-bar > i { display: block; block-size: 100%; border-radius: inherit; background: var(--ink-3); }
+.nx-app .nxi-factors b { color: var(--ink-1); font-variant-numeric: tabular-nums; text-align: end; unicode-bidi: isolate; }
+.nx-app .nxi-factors em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
+
+.nx-app .nxi-inc { display: grid; gap: var(--sp-2); list-style: none; margin: 0; padding: 0; }
+.nx-app .nxi-inc > li {
+  display: grid;
+  gap: 2px;
+  padding: var(--sp-3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  background: var(--surface);
+}
+.nx-app .nxi-inc .nu-link { justify-self: start; font-weight: 700; font-size: var(--t-sm); }
+.nx-app .nxi-inc > li > span { font-size: var(--t-xs); color: var(--ink-2); line-height: var(--lh-he); }
+
+@media (max-width: 640px) {
+  .nx-app .nxi-factors > li { grid-template-columns: minmax(0, 1fr) 2.5rem; }
+  .nx-app .nxi-f-bar { grid-column: 1 / -1; grid-row: 2; }
+  .nx-app .nxi-factors em { grid-column: 1 / -1; }
+}

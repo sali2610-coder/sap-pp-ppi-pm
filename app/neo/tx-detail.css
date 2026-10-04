@@ -1,0 +1,93 @@
+/* ============================================================================
+   PROJECT NEO · /neo/transactions/<CODE>/ — the blocks carried over from the
+   legacy /tcode/ and /apps/ pages (components/neo-shell/data/tx/blocks.ts).
+   ----------------------------------------------------------------------------
+   data.css draws the screen; this sheet adds only the shapes those blocks need:
+   the disclosure, the evolution / process strip, the relation rows, the
+   comparison table, and the grouped issue list. Tokens only, no new colour.
+   ========================================================================== */
+
+/* A long secondary block, closed by default. The same shape as .nxl-more
+   (learn.css) and .nxr-compare (reference.css), which this route does not load. */
+.nx-app .nxt-more {
+  min-inline-size: 0;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  background: var(--surface);
+}
+.nx-app .nxt-more > summary {
+  display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2);
+  min-block-size: var(--c-tap, 2.75rem);
+  padding: var(--sp-2) var(--sp-4);
+  cursor: pointer; list-style: none;
+  font-size: var(--t-sm); font-weight: 700; color: var(--ink-1);
+  border-radius: var(--r-md);
+}
+.nx-app .nxt-more > summary::-webkit-details-marker { display: none; }
+.nx-app .nxt-more > summary svg { flex: none; color: var(--ink-3); transition: transform .18s ease; }
+.nx-app .nxt-more[open] > summary svg { transform: rotate(180deg); }
+.nx-app .nxt-more > summary em {
+  font-style: normal; font-weight: 400; font-size: var(--t-xs); color: var(--ink-3);
+  margin-inline-start: auto;
+}
+.nx-app .nxt-more > summary:hover { background: var(--surface-2); }
+.nx-app .nxt-more > summary:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.nx-app .nxt-more-b { display: grid; gap: var(--sp-4); padding: var(--sp-2) var(--sp-4) var(--sp-4); min-inline-size: 0; }
+
+/* A section's one-line subtitle, and an honest provenance line in the head. */
+.nx-app .nxt-sec-sub { font-size: var(--t-xs); color: var(--ink-3); line-height: var(--lh-he); margin: 0; }
+.nx-app .nxt-origin { font-size: var(--t-xs); color: var(--ink-2); line-height: var(--lh-he); max-inline-size: var(--measure); margin: 0; }
+
+/* A heading or label that carries an evidence mark after its words. */
+.nx-app .nxt-sub-st, .nx-app .nxt-l-st { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1) var(--sp-3); }
+
+/* ----------------------------------------- the evolution and process strip */
+.nx-app .nxt-path { display: flex; flex-wrap: wrap; align-items: stretch; gap: var(--sp-2); list-style: none; margin: 0; padding: 0; }
+.nx-app .nxt-path > li { display: flex; align-items: center; gap: var(--sp-2); min-inline-size: 0; }
+.nx-app .nxt-path-sep { flex: none; color: var(--ink-3); }
+.nx-app .nxt-path-s {
+  display: grid; gap: 2px; align-content: start; min-inline-size: 0;
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px solid var(--hairline); border-radius: var(--r-sm);
+  background: var(--surface);
+}
+.nx-app .nxt-path-v { font-size: var(--t-sm); font-weight: 600; color: var(--ink-1); overflow-wrap: anywhere; }
+.nx-app .nxt-path-he { font-size: var(--t-micro); color: var(--ink-3); line-height: 1.45; max-inline-size: 16rem; }
+/* The current step: the family tint and line, the one emphasis in the strip. */
+.nx-app .nxt-path > li[aria-current="step"] .nxt-path-s {
+  background: var(--fam-tint, var(--surface-2));
+  border-color: var(--fam-line, var(--line-strong));
+}
+.nx-app .nxt-path .nu-chip { justify-self: start; }
+
+/* ------------------------------------------------------ relation rows */
+.nx-app .nxt-rel { display: grid; gap: var(--sp-3); margin: 0; }
+.nx-app .nxt-rel-r { display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: var(--sp-2) var(--sp-4); align-items: baseline; }
+.nx-app .nxt-rel-r > dd { display: grid; gap: var(--sp-1); margin: 0; min-inline-size: 0; }
+
+/* ------------------------------------------- the ECC / Fiori comparison */
+.nx-app .nxt-cmp-w { overflow-x: auto; min-inline-size: 0; }
+.nx-app .nxt-cmp { border-collapse: collapse; inline-size: 100%; min-inline-size: 36rem; font-size: var(--t-xs); }
+.nx-app .nxt-cmp :is(th, td) {
+  padding: var(--sp-2) var(--sp-3); text-align: start; vertical-align: top;
+  border-block-end: 1px solid var(--hairline); line-height: 1.5; color: var(--ink-2);
+}
+.nx-app .nxt-cmp thead th { font-size: var(--t-micro); font-weight: 700; color: var(--ink-3); }
+.nx-app .nxt-cmp tbody th { font-weight: 700; color: var(--ink-1); white-space: nowrap; }
+
+/* -------------------------------------------- grouped issues and table rows */
+/* Grouped under their own headings, a row no longer needs its kind column. */
+.nx-app .nxt-iss.is-grouped .nxt-iss-i { grid-template-columns: minmax(0, 1fr); grid-template-areas: "t" "d"; }
+.nx-app .nxt-iss.is-grouped .nu-link { white-space: normal; justify-content: flex-start; text-align: start; padding-block: 0; }
+.nx-app .nxt-tbl-s { display: inline-flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: var(--sp-2); }
+
+@media (max-width: 720px) {
+  .nx-app .nxt-rel-r { grid-template-columns: minmax(0, 1fr); }
+  .nx-app .nxt-path > li { inline-size: 100%; }
+  .nx-app .nxt-path-s { flex: 1; }
+  .nx-app .nxt-path-he { max-inline-size: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nx-app .nxt-more > summary svg { transition: none; }
+}

@@ -20,7 +20,7 @@ import { enLang } from "../lang";
 import Link from "next/link";
 import {
   AlertTriangle, ArrowLeft, ArrowUpLeft, BadgeCheck, BookOpen, Boxes, Cable,
-  Code2, Columns3, GitBranch, Layers, Library, Route, Sigma, Table2, Terminal,
+  Code2, Columns3, GitBranch, Layers, Library, Puzzle, Route, Sigma, Table2, Terminal,
   TriangleAlert, Workflow,
 } from "lucide-react";
 import { RISK_COLOR } from "@/lib/s4";
@@ -34,6 +34,9 @@ import { ObjectFields } from "./object-fields";
 import { ObjectReturn } from "./object-return";
 import { ObjectLanes } from "./object-lanes";
 import { objectSummary, relVar, sharedTableCount, type ObjectView } from "./object-data";
+import { objectProfile } from "./object-profile";
+import { objectHref } from "../reference/ref-links";
+import { PChips, ProfileSections, Sec, profileNav } from "./object-profile-view";
 
 const nf = new Intl.NumberFormat("he-IL");
 
@@ -53,49 +56,9 @@ function Silent({ what }: { what: string }) {
   return <p className="no-silent">אין תיעוד מאומת במאגר עבור {what} של אובייקט זה.</p>;
 }
 
-/** A SECTION of the object page.
- *
- *  The client kept the page's structure and asked for its hierarchy: "Each major
- *  section needs stronger visual separation… a stronger heading, larger type,
- *  intentional accent, icon where useful, clear spacing." So a section is now
- *  numbered, its icon carries the module accent as a tinted ring, the h2 is the
- *  largest type on the page after the object's own name, and one sentence of
- *  orientation sits under it. The number comes from the page, which also builds
- *  the jump nav from the same list — so the nav and the sections cannot drift. */
-function Sec({
-  id, n, icon, eyebrow, title, lede, children,
-}: {
-  id: string;
-  n: number;
-  icon: React.ReactNode;
-  eyebrow: string;
-  title: string;
-  lede?: React.ReactNode;
-  children: React.ReactNode;
-}) {
-  return (
-    // nm-rise + nm-once, from app/neo/motion.css. /neo/object/<NAME>/ resolves
-    // to [data-motion="2"]: an 8px rise scrubbed on .nx-canvas's own view
-    // timeline, complete while the section is still entering so it never
-    // replays on the way back up. One class, on the single wrapper all eleven
-    // sections already share.
-    <section className="no-sec nm-rise nm-once" id={id} aria-labelledby={`${id}-h`}>
-      <header className="no-sec-h">
-        <span className="no-sec-n" aria-hidden="true">{String(n).padStart(2, "0")}</span>
-        <p className="no-sec-k">
-          <span className="no-sec-ico" aria-hidden="true">{icon}</span>
-          {eyebrow}
-        </p>
-        <h2 className="no-h2" id={`${id}-h`}>{title}</h2>
-        {lede ? <p className="no-sec-s">{lede}</p> : null}
-      </header>
-      <div className="no-sec-b">{children}</div>
-    </section>
-  );
-}
-
 export function ObjectPage({ v }: { v: ObjectView }) {
   const s = objectSummary(v);
+  const p = objectProfile(v.name);
   // Where a reader who leaves this page is leaving FROM. Nothing on the object
   // page is live — no query, no filter, no camera — so the record is a plain
   // object and can be built on the server. The name is the dictionary's own.
@@ -133,6 +96,9 @@ export function ObjectPage({ v }: { v: ObjectView }) {
     ["no-cds", "תצוגות CDS"],
     ["no-if", "BAPI · FM · IDoc"],
     ["no-trb", "תקלות"],
+    // The consultant layer the legacy page carried (object-profile.ts). It
+    // follows the record so the first screen stays the record itself.
+    ...(p ? profileNav(p) : []),
     ["no-books", "ספרים"],
   ];
   const num = Object.fromEntries(nav.map(([id], i) => [id, i + 1])) as Record<string, number>;
@@ -723,6 +689,14 @@ export function ObjectPage({ v }: { v: ObjectView }) {
                 <b className="nx-sap">{c.view}</b>
                 <em>{c.he}</em>
                 <span className="nx-sap no-dim">{c.tables.join(" · ")}</span>
+                {c.consumption || c.fiori ? (
+                  // Table → CDS → consumption view → Fiori app, as the
+                  // project's CDS map chains them.
+                  <span className="no-cds-chain">
+                    {c.consumption ? <span className="nx-sap" dir="ltr">→ {c.consumption}</span> : null}
+                    {c.fiori ? <span lang={enLang(c.fiori)}>→ {c.fiori}</span> : null}
+                  </span>
+                ) : null}
               </li>
             ))}
           </ul>
@@ -783,6 +757,19 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         ) : (
           <Silent what="תוכניות ודוחות" />
         )}
+        {p?.exits.length ? (
+          <>
+            <h3 className="no-h3">
+              <Puzzle size={14} strokeWidth={1.75} aria-hidden="true" />
+              Enhancements / BAdIs
+            </h3>
+            <PChips items={p.exits} />
+            <p className="no-note">
+              הרחבות מקטלוג ה-Exits וה-BAdIs של הפרויקט, המשויכות לאובייקט לפי שמו או לפי
+              טרנזקציה שלו.
+            </p>
+          </>
+        ) : null}
         <p className="no-links">
           <OriginLink className="nu-link" href="/neo/bapi/" origin={from}>
             קטלוג BAPI ו-FM
@@ -815,23 +802,46 @@ export function ObjectPage({ v }: { v: ObjectView }) {
               {v.incidents.map((i) => (
                 <li key={i.slug}>
                   <header>
-                    <b>{i.he}</b>
+                    <OriginLink className="no-inc-a" href={i.href} origin={from}>{i.he}</OriginLink>
                     <em className="nx-sap">{i.module}</em>
                     {i.impact ? <span className="no-imp" lang={enLang(i.impact)}>{i.impact}</span> : null}
                   </header>
-                  <p>{i.symptom}</p>
+                  <p><b className="no-inc-k">בעיה:</b> {i.symptom}</p>
                   {i.error ? <code className="no-join">{i.error}</code> : null}
+                  {i.scenario ? (
+                    <p className="no-inc-ex"><b>דוגמה מהשטח</b>{i.scenario}</p>
+                  ) : null}
                   <div className="no-inc-g">
                     <div>
-                      <h3>סיבות שורש</h3>
+                      <h3>גורמים אפשריים</h3>
                       <ul>{i.rootCauses.map((c) => <li key={c}>{c}</li>)}</ul>
                     </div>
+                    {i.debugEntry.length ? (
+                      <div>
+                        <h3>שלבי אימות</h3>
+                        <ul>{i.debugEntry.map((c) => <li key={c}>{c}</li>)}</ul>
+                      </div>
+                    ) : null}
                     <div>
                       <h3>טרנזקציות לניתוח</h3>
                       <ul className="no-inc-tx">{i.analyzeTcodes.map((c) => <li key={c} className="nx-sap">{c}</li>)}</ul>
                     </div>
+                    {i.tables.some((x) => x !== v.name) ? (
+                      <div>
+                        <h3>טבלאות לבדיקה</h3>
+                        <PChips items={i.tables.filter((x) => x !== v.name).map((x) => ({ t: x, href: objectHref(x) }))} />
+                      </div>
+                    ) : null}
+                    {i.funcs.length || i.exits.length ? (
+                      <div>
+                        <h3>BAPIs / FMs · Exits</h3>
+                        <ul className="no-inc-tx">
+                          {[...i.funcs, ...i.exits].map((c) => <li key={c} className="nx-sap">{c}</li>)}
+                        </ul>
+                      </div>
+                    ) : null}
                     <div>
-                      <h3>תיקון</h3>
+                      <h3>פתרון</h3>
                       <ul>{i.fix.map((c) => <li key={c}>{c}</li>)}</ul>
                     </div>
                   </div>
@@ -849,6 +859,8 @@ export function ObjectPage({ v }: { v: ObjectView }) {
           <Silent what="תקלות מתועדות" />
         )}
       </Sec>
+
+      {p ? <ProfileSections p={p} num={num} /> : null}
 
       {/* ======================================================== BOOKS */}
       <Sec

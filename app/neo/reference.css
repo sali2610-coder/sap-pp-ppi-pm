@@ -323,7 +323,9 @@ html[data-theme="dark"] .nx-app .nxr-st-i {
 .nx-app a.nxr-chain-c:hover { border-color: color-mix(in srgb, var(--m, var(--brand)) 45%, var(--hairline)); }
 /* One focus language, the blue ring; red reads as selection (gate 3, minor 18). */
 .nx-app a.nxr-chain-c:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.nx-app .nxr-chain-c--none { opacity: .8; }
+/* A link the chain has no page for: a quiet ground, not a faded text (at 80%
+   opacity its ink-3 line fell under 4.5:1). */
+.nx-app .nxr-chain-c--none { background: var(--surface-2); }
 .nx-app .nxr-chain-none { font-size: var(--t-xs); color: var(--ink-3); }
 .nx-app .nxr-chain-note { grid-column: 1 / -1; margin: 0; font-size: var(--t-xs); color: var(--ink-3); }
 @media (max-width: 640px) {
@@ -412,4 +414,82 @@ html[data-theme="dark"] .nx-app .nxr-st-i {
   .nx-app .nxr-compare-t tbody td { grid-template-columns: minmax(0, 1fr); gap: 2px; }
 }
 
+
+
+/* ==========================================================================
+   ROUND 7 · the content carried over from the legacy record pages
+   ========================================================================== */
+
+/* A long secondary block, kept in the HTML behind a native disclosure: the
+   .nxl-more form of /neo/certification (learn.css), restated in this namespace
+   rather than borrowed, since learn.css is not loaded on the record routes. */
+.nx-app .nxr-more {
+  min-inline-size: 0;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  background: var(--surface);
+}
+.nx-app .nxr-more > summary {
+  display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2);
+  min-block-size: var(--c-tap, 2.75rem);
+  padding: var(--sp-2) var(--sp-4);
+  cursor: pointer; list-style: none;
+  font-size: var(--t-sm); font-weight: 700; color: var(--ink-1);
+  border-radius: var(--r-md);
+}
+.nx-app .nxr-more > summary::-webkit-details-marker { display: none; }
+.nx-app .nxr-more > summary svg { flex: none; color: var(--ink-3); transition: transform .18s ease; }
+.nx-app .nxr-more[open] > summary svg { transform: rotate(180deg); }
+.nx-app .nxr-more > summary:hover { background: color-mix(in srgb, var(--ink-1) 4%, transparent); }
+/* One focus language, the blue ring; red reads as selection (gate 3, minor 18). */
+.nx-app .nxr-more > summary:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.nx-app .nxr-more-b { display: grid; gap: var(--sp-4); padding: var(--sp-2) var(--sp-4) var(--sp-4); min-inline-size: 0; }
+@media (prefers-reduced-motion: reduce) { .nx-app .nxr-more > summary svg { transition: none; } }
+
+/* A fact's own trust mark sits on the label line, after the label. */
+.nx-app .nxt-l .nu-status { font-size: var(--t-micro); font-weight: 600; margin-inline-start: var(--sp-1); }
+/* An SAP name inside prose: the identifier face, the prose size. */
+.nx-app .nxr-text .nx-sap,
+.nx-app .nxt-ul .nx-sap,
+.nx-app .nxt-ol .nx-sap,
+.nx-app .nxt-s4-warn .nx-sap { unicode-bidi: isolate; font-size: 0.94em; }
+
+/* The row's own prose line (a Fiori app's purpose), under its names: secondary
+   ink, two lines on the row, the whole sentence in the HTML. */
+.nx-app .nxr-row .nxd-note {
+  font-size: var(--t-xs); color: var(--ink-2); line-height: 1.45;
+  overflow: hidden; text-overflow: ellipsis;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+}
+
+/* A disclosure under a directory list (the BAPI/FM primer, the Fiori index). */
+.nx-app .nxr-more > summary em {
+  font-style: normal; font-weight: 400; font-size: var(--t-xs); color: var(--ink-3);
+  margin-inline-start: auto;
+}
+.nx-app .nxd .nxr-more,
+.nx-app .nxr-ref .nxr-more { margin-block-start: var(--sp-5); }
+.nx-app .nxr-cols { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); }
+.nx-app .nxr-cols-h { margin: 0 0 var(--sp-2); font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); }
+
+/* The full Fiori index: id, title, type. One line each, the title wraps. */
+.nx-app .nxr-index { list-style: none; margin: 0; padding: 0; display: grid; }
+.nx-app .nxr-index > li {
+  display: grid; grid-template-columns: 5.5rem minmax(0, 1fr) auto; align-items: baseline;
+  gap: var(--sp-3); padding-block: 6px;
+  border-block-end: 1px solid var(--hairline);
+  font-size: var(--t-xs); line-height: 1.45;
+}
+.nx-app .nxr-index .nx-sap { color: var(--ink-1); font-weight: 600; unicode-bidi: isolate; }
+.nx-app .nxr-index-n { justify-self: start; color: var(--ink-2); min-inline-size: 0; overflow-wrap: anywhere; unicode-bidi: isolate; }
+.nx-app .nxr-index-t { color: var(--ink-3); }
+@media (max-width: 640px) {
+  .nx-app .nxr-index > li { grid-template-columns: 5rem minmax(0, 1fr); }
+  .nx-app .nxr-index-t { grid-column: 2; }
+}
+
+/* The IDoc reference: the routing line and the field note. */
+.nx-app .nxr-route { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); font-size: var(--t-xs); color: var(--ink-2); }
+.nx-app .nxr-route > b { color: var(--ink-1); }
+.nx-app .nxr-route-i { display: inline-flex; align-items: center; gap: var(--sp-1); }
 

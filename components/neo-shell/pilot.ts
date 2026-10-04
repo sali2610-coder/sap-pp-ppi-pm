@@ -24,7 +24,19 @@ export function famOf(path: string): string {
     case "s4hana": case "s4-readiness": case "migration-cockpit": case "cds": case "fiori-apps": return "s4";
     case "books": case "read": case "ai": return "lib";
     case "knowledge": case "best-practices": case "academy": case "certification": case "centers": return "learn";
-    case "incidents": return "incident";
+    case "incidents": case "sap-notes": return "incident";
+    // The legacy record families rebuilt at their old address under /neo/.
+    case "exits": return "iface";
+    case "ecc-s4": return "s4";
+    case "oic": return "data";
+    case "process": case "process-explorer": case "story": return "modules";
+    case "solutions": case "qa-testing": case "security": case "guides": return "learn";
+    case "alm": case "delivery": case "onboarding": case "workbench": return "learn";
+    case "evolution": return "s4";
+    case "fiori": case "integration": return "learn";   // the two courses
+    case "notes-graph": return "incident";
+    case "sap-infrastructure": return "data";
+    // verification, quality-audit, connector, import: tools, on the ink family
     default: return "ink";
   }
 }

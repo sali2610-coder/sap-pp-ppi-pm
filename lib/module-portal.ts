@@ -11,6 +11,7 @@ import { DOMAINS } from "@/data/domains";
 import { DOMAIN_DETAIL } from "@/data/domain-detail";
 import type { SAPModuleData, SAPTable } from "@/lib/types";
 import { s4ClassOf } from "@/lib/s4-class";
+import { splitTcodes } from "./tcode-split";
 
 // Bridge the stranded rich content: every domain with a hand-authored deep guide
 // (what/why/when/CBC-example/common-mistakes in data/domain-detail.ts) is mapped
@@ -72,8 +73,7 @@ export function tablesByTopic(m: SAPModuleData): TopicGroup[] {
 }
 
 export function transactions(m: SAPModuleData): { code: string }[] {
-  const split = (s: string) => (s || "").split(/[,\s/]+/).map((x) => x.trim().toUpperCase()).filter((x) => /^[A-Z][A-Z0-9_]{1,}$/.test(x));
-  return uniq(moduleTables(m).flatMap((t) => split(t.tcodes))).sort().map((code) => ({ code }));
+  return uniq(moduleTables(m).flatMap((t) => splitTcodes(t.tcodes))).sort().map((code) => ({ code }));
 }
 
 export function funcs(m: SAPModuleData, kinds: ("BAPI" | "FM" | "IDoc")[]): { name: string; kind: string }[] {

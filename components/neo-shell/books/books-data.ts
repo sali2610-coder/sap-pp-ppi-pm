@@ -19,6 +19,7 @@ import { KIND_LABEL, identityOf, type BookKind } from "@/lib/book-identity";
 import { PM_DATA, PPPI_DATA } from "@/data/sapData";
 import { overviewStats } from "@/lib/module-portal";
 import { FIORI_APPS } from "@/data/fiori/apps";
+import { bookLanding, type BookLanding } from "./landing-data";
 
 /* ------------------------------------------------------------------ palette */
 
@@ -156,6 +157,10 @@ export interface BookCard {
   structureHe: string;
   publisher: string | null;
   pages: number | null;
+  /** The library shelf's own titles for this book (data/library.ts), as the
+   *  pre-NEO /library/ landing printed them. Null when the book is not on it. */
+  shelfHe: string | null;
+  shelfEn: string | null;
   /** Only some books carry a figure count in their metadata. */
   figures: number | null;
   chapters: number;
@@ -286,6 +291,8 @@ export function booksData(): BooksData {
       structureHe: STRUCTURE_HE[b.meta.structure] ?? b.meta.structure,
       publisher: b.meta.publisher?.trim() || null,
       pages: typeof b.meta.pages === "number" ? b.meta.pages : null,
+      shelfHe: bookLanding(b.id).titleHe,
+      shelfEn: bookLanding(b.id).titleEn,
       figures: typeof figures === "number" ? figures : null,
       chapters: b.chapters.length,
       sections,
@@ -389,6 +396,11 @@ export interface BookHubData {
   shelf: { id: string; title: string; hubHref: string }[];
   /** Shelf identity, so the hub carries the module it belongs to. */
   module: { code: string; he: string; mod: string; books: number };
+  /** What the old library landing said about this book (./landing-data.ts). */
+  landing: BookLanding;
+  /** book8 is the PM-User academy textbook compiled; its units are read in
+   *  that NEO textbook, chapter by chapter. Null for every other book. */
+  textbookHref: string | null;
 }
 
 /**
@@ -416,6 +428,10 @@ export function bookHubData(id: string): BookHubData | null {
       mod: book.mod,
       books: group?.ids.length ?? 1,
     },
+    landing: bookLanding(id),
+    // scripts/build-book8-full.mjs compiles data/library/pmu-textbook into
+    // book8; that textbook is /neo/academy/pm-user/textbook/.
+    textbookHref: id === "book8" ? "/neo/academy/pm-user/textbook/" : null,
   };
 }
 

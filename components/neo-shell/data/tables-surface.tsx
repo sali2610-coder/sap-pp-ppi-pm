@@ -31,7 +31,7 @@ import { S4_STATUS_HE } from "@/lib/evidence/types";
 import { useCallback, useEffect, useId, useMemo, useState, ViewTransition } from "react";
 import {
   ArrowLeft, Boxes, Database, GitBranch, KeyRound, Layers, LayoutGrid,
-  ListTree, Search, Sigma, Table as TableIcon, Terminal, X,
+  ListFilter, ListTree, Sigma, Table as TableIcon, Terminal, X,
 } from "lucide-react";
 import {
   OriginLink, SmartReturn, consumeReturn, restoreScroll, scrollOffset, useReturnPacket,
@@ -416,17 +416,20 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
 
 
       <div className="nxd-tools nm-fade nm-once">
+        {/* ONE SEARCH (spec P1 §10): the site's search is the shell's (header,
+            rail, Ctrl/⌘+K). This field narrows THIS list, so it says so: a
+            filter's icon and a filter's name. */}
         <div className="nxd-field">
-          <Search size={15} strokeWidth={1.75} aria-hidden="true" />
+          <ListFilter size={15} strokeWidth={1.75} aria-hidden="true" />
           <input
             type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="שם טבלה · תיאור · נושא · טרנזקציה · CDS"
-            aria-label="חיפוש בטבלאות SAP"
+            placeholder="סינון הרשימה: שם טבלה · תיאור · נושא · טרנזקציה · CDS"
+            aria-label="סינון רשימת הטבלאות"
           />
           {q ? (
-            <button type="button" className="nu-ghost nxd-clear" onClick={() => setQ("")} aria-label="ניקוי החיפוש">
+            <button type="button" className="nu-ghost nxd-clear" onClick={() => setQ("")} aria-label="ניקוי הסינון">
               <X size={13} strokeWidth={2} />
             </button>
           ) : null}

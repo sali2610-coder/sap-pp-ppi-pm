@@ -1,4 +1,7 @@
 @import "tailwindcss";
+/* Generated (scripts/gen-tailwind-sources.mjs): the pre-NEO sources no served
+   page imports stay out of the scan, so this sheet carries no legacy utilities. */
+@import "./tailwind-sources.css";
 @import "tw-animate-css";
 
 /* ===== Project NEO Cockpit — SAP by Sali · Enterprise Pro Max ===== =====
@@ -1479,7 +1482,9 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
   position: absolute; inset-inline: var(--sp-3); inset-block-start: var(--sp-2);
   display: grid; gap: 6px; opacity: 0; pointer-events: none;
   transform: scaleY(.86); transform-origin: top;
-  transition: opacity 200ms var(--ease-out-expo), transform 320ms var(--c-spring);
+  /* The quick action hands its slot to the search field (motion inventory #14):
+     240ms on the out-curve, no overshoot. */
+  transition: opacity 200ms var(--ease-out-expo), transform 240ms var(--ease-out-expo);
 }
 .nx-app[data-nav="search"] .nx-railq { opacity: 0; pointer-events: none; transform: scaleY(.9); }
 .nx-app[data-nav="search"] .nx-railsrch { opacity: 1; pointer-events: auto; transform: none; }
@@ -2231,3 +2236,20 @@ html[data-theme="dark"] .nx-app {
 /* One line under a knowledge gate saying what this gate is for, next to the
    two sibling gates (design audit §7, 2026-09-21). */
 .nx-gate-note { margin: .55rem 0 0; max-inline-size: 72ch; font-size: var(--t-xs, .8125rem); color: var(--ink-3); line-height: 1.6; }
+
+/* THE ROUTE LOADING STATE (app/loading.tsx; spec P1 §12). Flat brand mark, no
+   gradient, no shadow, no loop. Hidden for 400ms so a fast page never shows
+   it; then one 160ms fade. Under reduced motion the global rule above cuts the
+   fade to nothing and the state simply appears after the same wait. */
+.nl-wait {
+  min-block-size: 60vh; display: grid; place-content: center; justify-items: center; gap: 10px;
+  padding-inline: 24px; text-align: center;
+  opacity: 0; animation: nl-show 160ms ease-out 400ms forwards;
+}
+.nl-mark {
+  display: grid; place-items: center; inline-size: 44px; block-size: 44px;
+  border-radius: 10px; background: var(--brand); color: var(--brand-foreground);
+}
+.nl-name { margin: 6px 0 0; font-size: .875rem; font-weight: 600; color: var(--ink-2); }
+.nl-text { margin: 0; font-size: .8125rem; color: var(--ink-3); }
+@keyframes nl-show { to { opacity: 1; } }

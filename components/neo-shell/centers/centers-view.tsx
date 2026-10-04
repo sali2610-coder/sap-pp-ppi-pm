@@ -30,6 +30,7 @@ import { SmartReturn } from "../nav-context";
 import { CENTER_FAMILIES, centerTotals, type CenterFamily } from "./centers-data";
 import { CenterTopics } from "./center-topics";
 import { knowledgeData } from "../learn/knowledge-data";
+import { S4_TONE, s4Rows } from "../domain/domain-data";
 
 /** The toolkit items are templates and checklists. "Copy template" (design audit
  *  §7) hands the whole item over as plain text: title, purpose line, then every
@@ -47,6 +48,19 @@ const templateText = (it: CenterItem): string => [
 ].join("\n");
 
 const nf = new Intl.NumberFormat("he-IL");
+
+/** "ראו גם" (app/neo/learn-records.css): the security and authorisation
+ *  records, /neo/security/, sit beside the process-authorisation guides. */
+function SeeSecurity() {
+  return (
+    <nav className="nxr-also" aria-labelledby="ct-also-h">
+      <h2 className="nxr-also-h" id="ct-also-h">ראו גם</h2>
+      <ul>
+        <li><Link href="/neo/security/" prefetch={false} className="nu-link">מרכז אבטחה והרשאות SAP</Link></li>
+      </ul>
+    </nav>
+  );
+}
 
 /* --------------------------------------------------------------------- hub */
 
@@ -100,6 +114,8 @@ export function CentersHub() {
       </div>
 
       <CenterTopics rows={k.centers} families={k.families} />
+
+      <SeeSecurity />
     </div>
   );
 }
@@ -145,6 +161,8 @@ export function CenterFamilyView({ fam }: { fam: CenterFamily }) {
           </li>
         ))}
       </ul>
+
+      {fam.id === "process-auth" ? <SeeSecurity /> : null}
     </div>
   );
 }
@@ -152,6 +170,7 @@ export function CenterFamilyView({ fam }: { fam: CenterFamily }) {
 /* ------------------------------------------------------------------ detail */
 
 export function CenterDetailView({ fam, item }: { fam: CenterFamily; item: CenterItem }) {
+  const s4 = s4Rows(item.eccS4);
   return (
     <article className="nct nct-detail nm-scene" data-surface="centers" data-scene="cream">
       <SmartReturn fallback={{ href: `/neo/centers/${fam.id}/`, label: fam.he }} />
@@ -207,13 +226,21 @@ export function CenterDetailView({ fam, item }: { fam: CenterFamily; item: Cente
             The legacy detail simply omitted this block when eccS4 was missing,
             which on a platform whose whole premise is the migration reads as
             "no change" rather than as "not documented". It says which. */}
-        {item.eccS4 ? (
+        {s4.length ? (
           <section className="nct-sec nct-s4">
             <h2 className="nct-sec-h"><i aria-hidden="true" />המעבר ל-S/4HANA</h2>
-            <p className="nct-s4-changed">{item.eccS4.changed}</p>
-            {item.eccS4.migration ? (
-              <p className="nct-p"><b>השפעת המעבר: </b>{item.eccS4.migration}</p>
-            ) : null}
+            {/* Every field the record fills, in the domain pages' order and
+                words (domain-data s4Rows): what stays, changes, is replaced
+                or goes, the new Fiori app and CDS view, the Simplification
+                Item and the migration impact. */}
+            <ul className="nct-s4-rows">
+              {s4.map((r) => (
+                <li key={r.key} style={{ "--t": S4_TONE[r.tone] } as React.CSSProperties}>
+                  <b>{r.he}</b>
+                  <span lang={enLang(r.text)}>{r.text}</span>
+                </li>
+              ))}
+            </ul>
           </section>
         ) : (
           <section className="nct-sec nct-s4 nct-s4--none">

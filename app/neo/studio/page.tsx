@@ -7,6 +7,8 @@
 import "@/app/neo/ui.css";
 import "@/app/neo/studio.css";
 import { StudioView } from "@/components/neo-shell/studio/studio-view";
+import { tablesData } from "@/components/neo-shell/data/tables-data";
+import type { S4Status } from "@/lib/evidence/types";
 
 export const metadata = {
   title: "Architecture Studio · Project NEO",
@@ -15,5 +17,7 @@ export const metadata = {
 };
 
 export default function Page() {
-  return <StudioView />;
+  // The S/4HANA verdict per table, resolved here at build time (spec P1 §10).
+  const verdicts = Object.fromEntries(tablesData().rows.map((r) => [r.name, r.status.key as S4Status]));
+  return <StudioView verdicts={verdicts} />;
 }

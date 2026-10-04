@@ -36,6 +36,7 @@ import {
   type OriginArg,
 } from "@/components/neo-shell/nav-context";
 import { BookCover } from "./book-cover";
+import { clearOpening, isOpening } from "./opening";
 import { BookToc } from "./book-toc";
 import { noteHandoff, useReading } from "./reading-state";
 import { resolveResume, resumeLine, resumeScrollLine } from "./resume";
@@ -60,12 +61,19 @@ const HUB_SURFACE = "neo:book";
 
 export function BookHub({ d }: { d: BookHubData }) {
   const b = d.book;
+  const L = d.landing;
   const ids = useMemo(() => [b.id], [b.id]);
   const reading = useReading(ids);
   const r = resolveResume(b, reading.map[b.id]);
   const line = resumeLine(r);
   const done = b.chapters > 0 && r.read >= b.chapters;
   const title = b.titleHe || b.titleEn;
+
+  /* #48 — the opening plays only when the reader has just opened this book
+     from the shelf or its card. Read once, on the first render (false on any
+     hard load, which is what the server rendered), and cleared after mount. */
+  const [arrive] = useState(() => isOpening(b.id));
+  useEffect(() => { clearOpening(); }, []);
 
   /* THE WAY BACK IN. Non-null exactly once, on the render after a return from
      the reader — and only when the packet was left by THIS book's hub. */
@@ -159,7 +167,7 @@ export function BookHub({ d }: { d: BookHubData }) {
           {/* §4 — the hub IS the book, opened. The cover is hinged back on its
               binding and the column beside it is the endpaper, which is why the
               identity below sits on paper rather than on a card. */}
-          <BookCover b={b} size="entry" open />
+          <BookCover b={b} size="entry" open arrive={arrive} />
         </div>
 
         <div className="nb-hub-id">
@@ -171,7 +179,12 @@ export function BookHub({ d }: { d: BookHubData }) {
           </p>
           <h1 className="nb-hub-t" lang={enLang(b.titleHe || b.titleEn)}>{b.titleHe || b.titleEn}</h1>
           {b.titleHe && <p className="nb-sheet-t2 nb-sap">{b.titleEn}</p>}
+          {/* The shelf's own Hebrew title and summary (data/library.ts), as the
+              old library landing printed them under the book. */}
+          {L.titleHe && L.titleHe !== b.titleHe && <p className="nb-hub-he">{L.titleHe}</p>}
+          {L.titleEn && L.titleEn !== b.titleEn && <p className="nb-sheet-t2 nb-sap">{L.titleEn}</p>}
           <p className="nb-sheet-k">{b.structureHe}</p>
+          {L.summaryHe && <p className="nb-lede nb-hub-sum">{L.summaryHe}</p>}
 
           <div className="nb-hub-chips">
             <span className="nu-chip is-sap">{b.chapters} פרקים</span>
@@ -182,6 +195,14 @@ export function BookHub({ d }: { d: BookHubData }) {
             {b.figures !== null && <span className="nu-chip is-sap">{nf.format(b.figures)} איורים</span>}
             <span className="nu-chip">{b.publisher ?? "מוציא לאור לא מתועד"}</span>
           </div>
+          {/* The old landing's figures for the same book, from its own files. */}
+          <p className="nb-fine nb-hub-facts">
+            {L.readH !== null && <span>≈ {nf.format(L.readH)} ש׳ קריאה</span>}
+            <span className="nb-sap">EN · HE</span>
+            {L.translated && <span><span className="nb-sap">{L.translated[0]}/{L.translated[1]}</span> פרקים מתורגמים</span>}
+            {L.sections > 0 && <span>{nf.format(L.sections)} {L.chapters.some((c) => c.units.length) ? "יחידות לימוד" : "סעיפים"}</span>}
+            {L.figures !== null && <span>{nf.format(L.figures)} איורים שחולצו</span>}
+          </p>
 
           {/* §4 — WHAT IS INDEXED, AND FROM WHERE. Two separate facts that are
               easy to conflate: how long the printed book is, and how much of it
@@ -311,6 +332,56 @@ export function BookHub({ d }: { d: BookHubData }) {
           </Link>
         )}
       </section>
+
+      {L.chapters.length > 0 && (
+        <section className="nb-link nb-land" aria-labelledby="nb-land-h">
+          <h2 className="nb-h3" id="nb-land-h">
+            פרקי הספר במקור
+            <span>{L.chapters.some((c) => c.pages) ? "עמודים, סעיפים, איורים ותרגום" : "יחידות לימוד ומבוא לכל פרק"}</span>
+          </h2>
+          <ol className="nb-land-l">
+            {L.chapters.map((c) => (
+              <li key={c.n}>
+                <span className="nb-land-t">
+                  <b>{c.n}. <bdi lang={enLang(c.title)}>{c.title}</bdi></b>
+                  {c.titleEn && <span className="nb-sap" lang="en">{c.titleEn}</span>}
+                </span>
+                <span className="nb-land-m">
+                  {c.pages && <span className="nb-sap">pp. {c.pages[0]}–{c.pages[1]}</span>}
+                  {c.units.length
+                    ? <span>{nf.format(c.sections)} יחידות לימוד</span>
+                    : <span className="nb-sap">{c.sections} sections</span>}
+                  {c.figures > 0 && <span className="nb-sap">{c.figures} figures</span>}
+                  {c.translated !== null && <span>{c.translated ? "EN · עברית" : "EN ✓ · עברית בהכנה"}</span>}
+                </span>
+                {(c.intro || c.units.length > 0) && (
+                  <details className="nb-more">
+                    <summary>מבוא הפרק ויחידות הלימוד</summary>
+                    <div className="nb-more-b">
+                      {c.intro && <p className="nb-note nb-note--wide">{c.intro}</p>}
+                      <ul className="nb-land-u">
+                        {c.units.map(([id, he, en]) => (
+                          <li key={id}>
+                            <span className="nb-sap">{id}</span> {he}
+                            {en && <span className="nb-sap" lang="en"> · {en}</span>}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </details>
+                )}
+              </li>
+            ))}
+          </ol>
+          {d.textbookHref && (
+            <p className="nb-fine">
+              כל יחידה נקראת במלואה, על 18 המקטעים שלה, בספר הלימוד של האקדמיה:{" "}
+              <Link href={d.textbookHref} prefetch={false}>תחזוקת מפעל — מדריך משתמש</Link>.
+            </p>
+          )}
+          {L.notes.map((n) => <p key={n} className="nb-note">{n}</p>)}
+        </section>
+      )}
 
       {d.shelf.length > 0 && (
         <section className="nb-link nm-rise nm-once" aria-label="ספרים נוספים במודול">

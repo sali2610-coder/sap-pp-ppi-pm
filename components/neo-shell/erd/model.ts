@@ -26,6 +26,7 @@ import { moduleTables } from "@/lib/module-portal";
 import type { SAPModuleData, SAPTable } from "@/lib/types";
 import { isFkKey, isPkKey } from "./key-role";
 import type { ModuleKey } from "../types";
+import { splitTcodes } from "@/lib/tcode-split";
 
 export type { Zone };
 export { isPkKey, isFkKey };
@@ -146,13 +147,9 @@ export interface ErdNode {
 
 const uniq = <T,>(a: T[]) => [...new Set(a)];
 
-/** Same splitter the rail and the Home data layer use — one tokenisation of the
- *  dictionary's free-text transaction column, never a second, divergent one. */
-export const splitTcodes = (s: string): string[] =>
-  (s || "")
-    .split(/[,;\s/]+/)
-    .map((x) => x.trim().toUpperCase())
-    .filter((x) => /^[A-Z][A-Z0-9_]{1,}$/.test(x));
+/** One tokenisation of the dictionary's free-text transaction column for every
+ *  surface (lib/tcode-split.ts), re-exported for the modules that import it here. */
+export { splitTcodes };
 
 const clean = (s: string) => (s || "").replace(/\s+/g, " ").trim();
 

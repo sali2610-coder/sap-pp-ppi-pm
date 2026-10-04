@@ -112,7 +112,10 @@ function CourseCard({ c, onOpen }: { c: AcademyCourseRow; onOpen: (id: string) =
   );
 }
 
-export function AcademySurface({ data }: { data: AcademyData }) {
+/** `children` is the server-rendered textbook library (components/neo-shell/
+ *  academy-ref/academy-library.tsx), placed after the courses and before the
+ *  foot. Rendered on the server, so none of it ships as JavaScript. */
+export function AcademySurface({ data, children }: { data: AcademyData; children?: React.ReactNode }) {
   const { courses, levels, totals } = data;
   const cont = useContinueCourse();
 
@@ -293,6 +296,8 @@ export function AcademySurface({ data }: { data: AcademyData }) {
           {list.map((c) => <CourseCard key={c.id} c={c} onOpen={onOpen} />)}
         </ul>
       )}
+
+      {children}
 
       <div className="nxl-foot">
         <p>

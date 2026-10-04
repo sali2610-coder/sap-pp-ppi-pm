@@ -46,10 +46,10 @@ import {
   Crosshair, Expand, Filter, Maximize2, Minus, Plus, Presentation, RotateCcw, Search, X, Focus,
 } from "lucide-react";
 import {
-  KIND_META, MODES, S4_COLOR, ZONES, buildHetero, layoutSubset, layoutZoned,
+  KIND_META, MODES, ZONES, buildHetero, layoutSubset, layoutZoned,
   nodeTier, zoneOf, type BlueprintS4, type LEdge, type LNode, type SKind, type SNode,
 } from "@/lib/studio-graph";
-import { S4_STATUS_DOT, S4_STATUS_WORD } from "@/lib/evidence/types";
+import { S4_STATUSES, S4_STATUS_DOT, S4_STATUS_WORD, type S4Status } from "@/lib/evidence/types";
 
 type Mod = "PM" | "PP-PI";
 const MODULES: Mod[] = ["PM", "PP-PI"];
@@ -69,7 +69,10 @@ function firstZoneOf(module: Mod): Set<string> {
   return new Set();
 }
 
-export function StudioView() {
+/** verdicts: the S/4HANA verdict per table, resolved on the server exactly as
+ *  the tables catalogue, the table page, the ERD and the module page resolve it
+ *  (spec P1 §10; docs/rollout-2026-10/S4-VERDICT.md). */
+export function StudioView({ verdicts = {} }: { verdicts?: Record<string, S4Status> }) {
   const [mod, setMod] = useState<Mod>("PM");
   const [modeId, setModeId] = useState("tables");
   const [sel, setSel] = useState<string | null>(null);
@@ -121,7 +124,17 @@ export function StudioView() {
   useEffect(() => { selRef.current = sel; }, [sel]);
 
   const mode = MODES.find((m) => m.id === modeId) ?? MODES[0];
-  const hetero = useMemo(() => buildHetero(mod as never), [mod]);
+  const hetero = useMemo(() => {
+    const h = buildHetero(mod as never);
+    // The graph is built from the blueprint (lib/studio-graph); the verdict
+    // replaces its S/4 class on every table the server resolved. The node type
+    // names the blueprint's five statuses; the verdict can be any S4Status, and
+    // every lookup below (S4_STATUS_DOT / _WORD) is keyed by the full set.
+    for (const [id, n] of h.nodes) {
+      if (n.kind === "table" && verdicts[id]) h.nodes.set(id, { ...n, s4: verdicts[id] as BlueprintS4 });
+    }
+    return h;
+  }, [mod, verdicts]);
 
   /* Which nodes this mode is allowed to show. "full" modes lay every table out
      in its zone; "expand" modes start from the tables and pull in the related
@@ -406,6 +419,9 @@ export function StudioView() {
       {/* Where the layers come from, and what the graph leaves out (gate 7,
           blocker 3 and minor 27). */}
       <p className="nst-layer-src">
+        {/* The legacy studio's provenance line, carried (content parity, 2026-10):
+            the edges are lib/studio-graph's, built from the project datasets. */}
+        קשרים אמיתיים מתוך מודל הנתונים — ללא המצאה.{" "}
         השכבות הן קיבוץ של הסטודיו לפי שמות הטבלאות, לא סיווג מהמאגר.
         {mod === "PP-PI" ? (
           <>
@@ -449,7 +465,9 @@ export function StudioView() {
                   <button type="button" className="nst-zone" data-on={on ? "1" : "0"}
                     aria-pressed={on}
                     onClick={() => setZones((s) => {
-                      const n = new Set(s); n.has(z.id) ? n.delete(z.id) : n.add(z.id); return n;
+                      const n = new Set(s);
+                      if (n.has(z.id)) n.delete(z.id); else n.add(z.id);
+                      return n;
                     })}>
                     <i style={{ background: z.c }} aria-hidden="true" />{z.he}
                   </button>
@@ -578,10 +596,10 @@ export function StudioView() {
 
       {/* legend — colours mean something, so they are stated */}
       <footer className="nst-legend">
-        {mode.colorBy === "s4" ? <span>לפי עמודת S/4HANA בתיעוד המקור:</span> : null}
+        {mode.colorBy === "s4" ? <span>לפי הכרעת S/4HANA (שכבת הראיות; בהיעדר רשומה, עמודת S/4HANA בתיעוד המקור):</span> : null}
         {(mode.colorBy === "s4"
-          ? (Object.keys(S4_COLOR) as BlueprintS4[])
-              .filter((k) => laid.nodes.some((n) => n.s4 === k))
+          ? S4_STATUSES
+              .filter((k) => laid.nodes.some((n) => (n.s4 as S4Status | undefined) === k))
               .map((k) => ({ c: S4_STATUS_DOT[k], he: S4_STATUS_WORD[k] }))
           : [...new Set(laid.nodes.map((n) => n.kind))].map((k) => ({ c: KIND_META[k as SKind].c, he: KIND_META[k as SKind].he }))
         ).map((x) => (

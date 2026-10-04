@@ -1,0 +1,126 @@
+/* The editorial language for the erd surface only, loaded by the pages that render it
+   (split from editorial.css, which every /neo route loads; order and selectors unchanged). */
+/* ==========================================================================
+   ERD · /neo/erd/ — the night canvas kept; the focus node filled; outlines
+   ========================================================================== */
+.nx-app[data-pilot="editorial"] .ne { --ne-stage: var(--background); }
+html[data-theme="dark"] .nx-app[data-pilot="editorial"] .ne { --ne-stage: #0a111a; }
+.nx-app[data-pilot="editorial"] .ne-bar { border-block-end: 2px solid var(--ink-1); }
+.nx-app[data-pilot="editorial"] .ne-h1 { font-size: var(--t-h1); font-weight: 600; }
+.nx-app[data-pilot="editorial"] .ne-sub, .nx-app[data-pilot="editorial"] .ne-fhint, .nx-app[data-pilot="editorial"] .ne-crumbs, .nx-app[data-pilot="editorial"] .ne-hint { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .ne-modechip { border-radius: 0; }
+.nx-app[data-pilot="editorial"] .ne-group .nu-ghost { border-radius: 0; }
+/* the black "N PM tables" button becomes an outline; its count too */
+.nx-app[data-pilot="editorial"] .ne-pop-t[data-on="1"], .nx-app[data-pilot="editorial"] .ne-pop-t[aria-expanded="true"] { background: transparent; color: var(--ink-1); border-color: var(--ink-1); box-shadow: none; }
+.nx-app[data-pilot="editorial"] .ne-pop-n { background: transparent; color: var(--ink-1); border: 1px solid var(--ink-1); border-radius: 0; font-size: var(--t-sm); }
+/* focus node: filled 100 % with the module colour, labels on the fill */
+.nx-app[data-pilot="editorial"] .ne-node[data-lvl="0"] .ne-node-r { fill: var(--m); stroke: var(--m); stroke-width: 2; }
+.nx-app[data-pilot="editorial"] .ne-node[data-lvl="0"] :is(.ne-node-n, .ne-node-he, .ne-node-mod, .ne-node-z, .ne-node-k, .ne-node-fk, .ne-node-sh) { fill: var(--ed-on-fill); }
+.nx-app[data-pilot="editorial"] .ne-node[data-lvl="0"] .ne-node-cls { fill: var(--ed-on-fill); opacity: .9; }
+.nx-app[data-pilot="editorial"] .ne-node[data-lvl="0"] .ne-node-h { opacity: 1; fill: transparent; stroke: var(--ink-1); stroke-width: 1.5; }
+/* context nodes outlined only */
+.nx-app[data-pilot="editorial"] .ne-node-r { fill: var(--surface); }
+.nx-app[data-pilot="editorial"] .ne-node[data-lvl="1"] .ne-node-r { fill: var(--surface); stroke-width: 2.4; }
+.nx-app[data-pilot="editorial"] .ne-node-he { font-size: 13px; }
+.nx-app[data-pilot="editorial"] .ne-node-k, .nx-app[data-pilot="editorial"] .ne-node-fk, .nx-app[data-pilot="editorial"] .ne-node-mod, .nx-app[data-pilot="editorial"] .ne-node-z { font-size: 12px; }
+.nx-app[data-pilot="editorial"] .ne-edge-t { font-size: 13px; }
+/* neighbour dimming: 220 ms opacity on non-neighbours (old NEO #33/#41) */
+.nx-app[data-pilot="editorial"] .ne-node, .nx-app[data-pilot="editorial"] .ne-edge, .nx-app[data-pilot="editorial"] .ne-edge-p { transition-duration: 220ms; transition-property: opacity, stroke-width; }
+.nx-app[data-pilot="editorial"] .ne-insp { background: var(--surface); }
+.nx-app[data-pilot="editorial"] .ne-idle h2 { font-size: var(--t-ui); }
+.nx-app[data-pilot="editorial"] .ne-idle > p, .nx-app[data-pilot="editorial"] .ne-facts, .nx-app[data-pilot="editorial"] .ne-note, .nx-app[data-pilot="editorial"] .ne-modlist { font-size: var(--t-sm); }
+.nx-app[data-pilot="editorial"] .ne-detail .nu-btn2 { border-radius: 0; }
+
+/* 3. ERD header: one row (identity block at two lines + the tool row once) */
+.nx-app[data-pilot="editorial"] .ne-bar { flex-wrap: nowrap; align-items: center; gap: var(--sp-4); padding-block: var(--sp-2); border-block-end: 1px solid var(--hairline); }
+.nx-app[data-pilot="editorial"] .ne-bar-id { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; flex: 1 1 22rem; min-inline-size: 15rem; }
+.nx-app[data-pilot="editorial"] .ne-bar-nav { display: none; }                      /* the top bar already carries the crumbs; the identity block stays two lines */
+.nx-app[data-pilot="editorial"] .ne-bar-t { flex-wrap: nowrap; align-items: baseline; gap: var(--sp-2); padding-inline-start: var(--sp-3); border-inline-start: 3px solid var(--m); }
+.nx-app[data-pilot="editorial"] .ne-h1 { font-size: var(--t-h2); font-weight: 600; line-height: 1.3; white-space: normal; }
+.nx-app[data-pilot="editorial"] .ne-sub { padding-inline-start: calc(var(--sp-3) + 3px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nx-app[data-pilot="editorial"] .ne-view { flex: 0 1 auto; justify-content: flex-end; }
+@media (max-width: 70rem) { .nx-app[data-pilot="editorial"] .ne-bar { flex-wrap: wrap; } .nx-app[data-pilot="editorial"] .ne-h1, .nx-app[data-pilot="editorial"] .ne-sub { white-space: normal; }
+}
+/* ERD node: a focused node shows its ring; the footnote reads its own label */
+.nx-app[data-pilot="editorial"] .ne-node:has(.ne-node-go:focus-visible) .ne-node-r { stroke: var(--focus); stroke-width: 3; }
+/* ERD bar, measured: id 318 + search 246 + tools 552 did not fit 1126; the search narrows, the
+   title keeps one line, the tool groups stay one row */
+.nx-app[data-pilot="editorial"] .ne-bar { gap: var(--sp-3); padding-inline: var(--sp-4); }
+.nx-app[data-pilot="editorial"] .ne-bar-id { flex: 0 1 auto; min-inline-size: 0; }
+.nx-app[data-pilot="editorial"] .ne-bar-t { display: grid; grid-template-columns: auto auto; grid-template-rows: auto auto; align-items: baseline; column-gap: var(--sp-2); row-gap: 0; }
+.nx-app[data-pilot="editorial"] .ne-bar-t > .ne-h1 { grid-row: 1; grid-column: 1; font-size: 1.2rem; white-space: nowrap; }
+.nx-app[data-pilot="editorial"] .ne-bar-t > .ne-modechip { grid-row: 1; grid-column: 2; }
+.nx-app[data-pilot="editorial"] .ne-bar-t > .ne-sub { grid-row: 2; grid-column: 1 / 3; padding-inline-start: 0; max-inline-size: 22rem; }
+.nx-app[data-pilot="editorial"] .ne-find-top { flex: 0 1 11rem; min-inline-size: 9rem; }
+.nx-app[data-pilot="editorial"] .ne-find-top .ne-search { inline-size: 100%; min-inline-size: 0; }
+.nx-app[data-pilot="editorial"] .ne-view { flex: 1 1 auto; flex-wrap: nowrap; justify-content: flex-end; gap: var(--sp-1); }
+.nx-app[data-pilot="editorial"] .ne-view .ne-group { flex: none; }
+@media (max-width: 75rem) { .nx-app[data-pilot="editorial"] .ne-bar { flex-wrap: wrap; } .nx-app[data-pilot="editorial"] .ne-view { flex-wrap: wrap; } .nx-app[data-pilot="editorial"] .ne-bar-t > .ne-h1 { white-space: normal; }
+}
+/* the title's module rule: the ERD scopes its hue as --ms on the selection; ink when no module is in scope */
+.nx-app[data-pilot="editorial"] .ne-bar-t { border-inline-start: 3px solid var(--ms, var(--m, var(--ink-1))); padding-inline-start: var(--sp-3); }
+
+/* ---------- pilot QA, visual minors (2026-10-02) ---------------------------- */
+/* All radii 0 reaches the ERD canvas and its node rects (SVG rx is a
+   presentation attribute, so the stylesheet can set it). */
+.nx-app[data-pilot="editorial"] .ne-canvas,
+.nx-app[data-pilot="editorial"] .ne-stage,
+.nx-app[data-pilot="editorial"] .ne-mini { border-radius: 0; }
+.nx-app[data-pilot="editorial"] .ne-node-r,
+.nx-app[data-pilot="editorial"] .ne-node-h,
+.nx-app[data-pilot="editorial"] .ne-badge rect,
+.nx-app[data-pilot="editorial"] .ne-node-go rect { rx: 0; ry: 0; }
+/* The ERD on a phone: the inspector's primary action comes first, right under a
+   shorter stage, inside the first viewport (council 05 C7, UX QA major 2). */
+@media (max-width: 52rem) {
+  .nx-app[data-pilot="editorial"][data-route="erd"] .ne-stage { block-size: min(36vh, 300px) !important; } /* the stage's own height rule outranks the route scope */
+  /* the inspector's record comes before its search block, so the action is the
+     first thing under the stage (the search block is 313px) */
+  .nx-app[data-pilot="editorial"][data-route="erd"] .ne-insp { display: flex; flex-direction: column; }
+  .nx-app[data-pilot="editorial"][data-route="erd"] .ne-insp > .ne-detail { order: -1; }
+  /* the count line and the keyboard hint make room for the action on a phone */
+  .nx-app[data-pilot="editorial"][data-route="erd"] .ne-sub,
+  .nx-app[data-pilot="editorial"][data-route="erd"] .ne-hint,
+  .nx-app[data-pilot="editorial"][data-route="erd"] .ne-fhint { display: none; }
+  .nx-app[data-pilot="editorial"][data-route="erd"] .ne-detail { display: flex; flex-direction: column; }
+  .nx-app[data-pilot="editorial"][data-route="erd"] .ne-detail > .nu-btn,
+  .nx-app[data-pilot="editorial"][data-route="erd"] .ne-detail > p:has(> .nu-btn),
+  .nx-app[data-pilot="editorial"][data-route="erd"] .ne-detail > div:has(> .nu-btn) { order: -1; margin-block: var(--sp-2) var(--sp-3); }
+}
+/* The edge pulse is one pass of 480ms, not 2.1s twice (motion QA major 1). */
+.nx-app[data-pilot="editorial"] .ne-pulse { animation-duration: 480ms !important; animation-iteration-count: 1 !important; }
+/* The ERD filter row is one line before and after hydration: the server's hint
+   paragraph took 123px and the client's filter group 38px, an 85px shift at
+   ~170ms (motion QA, CLS 0.088 at 1440). */
+.nx-app[data-pilot="editorial"] .ne-filters { min-block-size: 56px; }
+/* The inspector's search block (.ne-find, 313px) arrives at hydration above the
+   record and pushed it 289px (CLS 0.05 at 1440): until it exists, a placeholder
+   of its height holds the room. */
+.nx-app[data-pilot="editorial"] .ne-insp:not(:has(.ne-find))::before { content: ""; display: block; block-size: 313px; }
+@media (max-width: 52rem) { .nx-app[data-pilot="editorial"] .ne-insp:not(:has(.ne-find))::before { content: none; }
+}
+/* The server's hint paragraph is replaced by the client's filter group; drawn
+   on its own row it made the filters 103px before hydration and 56px after
+   (CLS 0.103 at 1440). The pilot does not draw it. */
+.nx-app[data-pilot="editorial"] .ne-fhint { display: none; }
+/* On a tablet the bar and the filter row wrap after hydration (184→261px and
+   99→186px at 834, CLS 0.315): their hydrated heights are reserved. */
+@media (min-width: 52rem) and (max-width: 70rem) {
+  .nx-app[data-pilot="editorial"] .ne-bar { min-block-size: 261px; }
+  .nx-app[data-pilot="editorial"] .ne-filters { min-block-size: 186px; }
+}
+/* The ERD node's focus is two-tone: the focus-blue ring on the drawn
+   affordance, a ground-coloured ring on its 44px target, so one of the two
+   reads on a filled node (1.1:1 on teal before) and on an outlined one. */
+.nx-app[data-pilot="editorial"] .ne-node-go:focus-visible rect.ne-node-go-hit { stroke: var(--background); stroke-width: 2px; vector-effect: non-scaling-stroke; }
+/* A deep link (#AUFK) is applied after hydration: the bar, the filters and the
+   inspector first paint in the overview state and flip at ~170ms (CLS 0.025 at
+   1440, 0.031 at 834). app/neo/erd/page.tsx marks <html> while the hash is
+   pending; the regions wait, invisible, so nothing that shifts was ever seen. */
+html[data-erd-pending] .nx-app[data-pilot="editorial"] :is(.ne-bar, .ne-filters, .ne-body) { visibility: hidden; }
+/* The node's "לחיצה ↡" hint printed over its PK line on hover (UX QA C9,
+   visual QA round 1); the open glyph and the footnote say it in the pilot. */
+.nx-app[data-pilot="editorial"] .ne-node-hint { display: none; }
+/* A node the keyboard is on is never dimmed: its ring inherited the context
+   nodes' .42 opacity, 2.17:1 (accessibility QA round 3, N2). */
+.nx-app[data-pilot="editorial"] .ne-node:has(.ne-node-go:focus-visible) { opacity: 1; }

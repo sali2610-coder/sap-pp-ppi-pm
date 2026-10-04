@@ -16,6 +16,8 @@
    ========================================================================== */
 
 import { FIORI_APPS } from "@/data/fiori/apps";
+import RAW_INDEX from "@/data/library/fiori-apps.json";
+import BOOK7 from "@/data/books/book7.json";
 import type { FioriApp } from "@/lib/fiori/types";
 import { S4_NATIVE_DERIVED, evidenceBlock } from "@/lib/evidence";
 import { canonStatus } from "./canon";
@@ -33,11 +35,12 @@ const TYPE_HE: Record<string, string> = {
 
 const TRUST: Record<string, RefStatus> = {
   "verified-docs": { he: "אומת מול תיעוד SAP", color: "var(--status-done)" },
-  curated: { he: "רשומה שנערכה ידנית", color: "var(--status-in-analysis)" },
-  "needs-review": { he: "נדרשת סקירה", color: "var(--status-not-started)" },
+  curated: { he: "ידע אצור", color: "var(--status-in-analysis)" },
+  "needs-review": { he: "דורש בדיקה", color: "var(--status-not-started)" },
 };
 
-const TRI_HE: Record<string, string> = { yes: "כן", no: "לא", unknown: "לא מתועד במאגר" };
+/** An availability the record does not state is a check to make, said so. */
+const TRI_HE: Record<string, string> = { yes: "כן", no: "לא", unknown: "אמת (לא מתועד במאגר)" };
 
 export const fioriSlugs = (): string[] => FIORI_APPS.map((a) => a.slug);
 export const fioriApp = (slug: string): FioriApp | undefined =>
@@ -100,6 +103,8 @@ function rowOf(a: FioriApp): RefRow {
     mods: [a.module],
     kind: TYPE_HE[a.type] || a.type,
     group: a.role || "ללא תפקיד עסקי במאגר",
+    // the business purpose, under the names: what the legacy catalogue card led with
+    note: clean(a.purpose),
     nums: [
       { i: "terminal", sr: "טרנזקציות GUI ", v: nf.format(a.guiTx.length) },
       { i: "table", sr: "טבלאות ", v: nf.format((a.relatedTables || []).length) },
@@ -170,6 +175,28 @@ export function fioriDir(): RefDir {
   };
 }
 
+/* ------------------------------------------------------------ the index */
+
+type Title = string | { en?: string; he?: string } | undefined;
+
+/** The full Fiori app index (1,450 apps: Fiori ID, title, type). The index file
+ *  keeps only the last word of each title, so the full title is read from Book 7
+ *  (SAP PRESS, Fiori Apps Quick Reference) under the same app id, exactly as
+ *  the legacy catalogue did. Both files are read here and never edited; the page
+ *  names Book 7 as a secondary source. */
+export function fioriIndex(): { id: string; name: string; type: string }[] {
+  const full = new Map<string, string>();
+  for (const c of (BOOK7 as { chapters: { sections?: { id: string | number; title: Title }[] }[] }).chapters) {
+    for (const s of c.sections ?? []) {
+      const t = s.title;
+      const n = (typeof t === "string" ? t : t?.en || "").trim();
+      if (n) full.set(String(s.id), n);
+    }
+  }
+  return (RAW_INDEX as { id: string; name: string; type: string }[])
+    .map((a) => ({ id: a.id, name: full.get(a.id) || a.name, type: a.type }));
+}
+
 /* ------------------------------------------------------------- the record */
 
 export function fioriDetail(slug: string): RefDetail | null {
@@ -212,7 +239,7 @@ export function fioriDetail(slug: string): RefDetail | null {
     facts: [
       { label: "מטרה", text: a.purpose },
       { label: "הבעיה העסקית שהיישום פותר", text: a.problem },
-      { label: "מיקום בתהליך", text: clean(a.process), absent: "לא צוין מיקום בתהליך ברשומה." },
+      { label: "תהליך", text: clean(a.process), absent: "לא צוין מיקום בתהליך ברשומה." },
       { label: "סוג יישום", text: TYPE_HE[a.type] || a.type },
     ],
   });
@@ -235,7 +262,7 @@ export function fioriDetail(slug: string): RefDetail | null {
     facts: [
       { label: "תפקיד עסקי (Business Role)", codes: a.role ? [{ t: a.role }] : undefined, absent: "לא צוין תפקיד ברשומה." },
       { label: "קטלוג עסקי (Business Catalog)", codes: a.catalog ? [{ t: a.catalog }] : undefined, absent: "לא צוין קטלוג ברשומה." },
-      { label: "אובייקטי הרשאה", codes: a.authObjects?.length ? a.authObjects.map((x) => ({ t: x })) : undefined, absent: "לא צוינו אובייקטי הרשאה ברשומה." },
+      { label: "אובייקטי הרשאה (Auth Objects)", codes: a.authObjects?.length ? a.authObjects.map((x) => ({ t: x })) : undefined, absent: "לא צוינו אובייקטי הרשאה ברשומה." },
       { label: "נתיב Customizing", text: clean(a.spro), absent: "לא צוין נתיב SPRO ברשומה." },
     ],
   });
@@ -258,8 +285,22 @@ export function fioriDetail(slug: string): RefDetail | null {
   const ops: RefFact[] = [];
   if (a.commonErrors?.length) ops.push({ label: "תקלות נפוצות", bullets: a.commonErrors });
   if (a.troubleshooting) ops.push({ label: "אבחון", text: a.troubleshooting });
-  if (a.cbc) ops.push({ label: "יישום ב-CBC", text: a.cbc });
-  if (ops.length) sections.push({ id: "ops", icon: "alertTriangle", title: "תפעול ותקלות", facts: ops });
+  if (ops.length) sections.push({ id: "ops", icon: "alertTriangle", title: "שגיאות נפוצות · Troubleshooting", facts: ops });
+  if (a.cbc) {
+    sections.push({ id: "cbc", icon: "workflow", title: "דוגמת CBC", facts: [{ label: "יישום ב-CBC", text: a.cbc }] });
+  }
+
+  /* the record's own verification line: source, review date and trust level */
+  const trust = TRUST[a.trust] || TRUST["needs-review"];
+  sections.push({
+    id: "sources",
+    icon: "shieldCheck",
+    title: "מקורות ואימות",
+    facts: [{
+      label: "מקור ורמת אמון",
+      text: `מקור: ${a.source || "ידע SAP אצור"}${a.lastReviewed ? ` · נבדק לאחרונה ${a.lastReviewed}` : ""} · רמת אמון: ${trust.he}. ללא המצאת SAP Notes או קונפיגורציה.`,
+    }],
+  });
 
   const cards: RefCard[] = (a.similar || []).map((s) => {
     const other = fioriApp(s);

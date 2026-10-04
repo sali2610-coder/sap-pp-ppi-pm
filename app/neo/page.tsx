@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowUpLeft, BookOpen, ClipboardCheck, GitBranch, GraduationCap, Route, Table2, Terminal, Waypoints } from "lucide-react";
 // The interaction system first, the page's own sheet second: Home never invents
 // a control style, it consumes .nu-* and only lays out around them.
+import "./editorial-home.css";
 import "./ui.css";
 import "./home.css";
 import { homeData, type HomeData } from "@/components/neo-shell/home/home-data";

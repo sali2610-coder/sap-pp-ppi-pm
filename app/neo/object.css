@@ -200,10 +200,9 @@
   padding: var(--sp-3);
   border-radius: var(--r-md);
   border: 1px solid var(--hairline);
-  border-inline-start: 1px solid var(--hairline);
-  background: linear-gradient(to left,
-    color-mix(in srgb, var(--mod-pm) 6%, transparent),
-    color-mix(in srgb, var(--mod-pppi) 6%, transparent));
+  /* A flat surface: the PM-to-PP-PI wash it had was a decorative gradient
+     (spec P1 §6), and the note names both modules in words. */
+  background: var(--surface-2);
   font-size: var(--t-xs);
   color: var(--ink-2);
   line-height: 1.6;
@@ -292,9 +291,6 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0f0b08; }
   border-radius: var(--r-md);
   background: var(--surface-2);
   border: 1px solid var(--hairline);
-  /* MODULE-neutral: the object's own class carries the edge here, thick, so it
-     reads as an alert without a status hue ever becoming a line. */
-  border-inline-start: 1px solid var(--hairline);
   font-size: var(--t-sm);
   color: var(--ink-2);
   line-height: 1.65;
@@ -981,7 +977,10 @@ html[data-theme="dark"] .no-key[data-k="PK"] { color: #0f0b08; }
   88%  { opacity: .95; }
   100% { transform: translate(var(--dx), var(--dy)); opacity: 0; }
 }
-.no-edge-p { animation: no-flow 1900ms var(--ease-out-expo) infinite; }
+/* Twice, then still, as the ERD's ne-flow (erd.css): the travel shows the
+   direction and stops, no loop on the canvas (motion inventory #38). The pulse
+   ends transparent, so `both` leaves nothing parked on the line. */
+.no-edge-p { animation: no-flow 1900ms var(--ease-out-expo) 2 both; }
 
 /* --- satellites ----------------------------------------------------------- */
 .no-sat { transition: opacity var(--dur-base) var(--ease-out-expo); }
@@ -1343,6 +1342,8 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
 /* PK is FILLED in the object hue — the object palette is the one palette this
    product allows a solid form. FK is the same badge, outlined and dashed. */
 .nox-k[data-k="PK"] { background: var(--o, var(--brand)); color: #fff; }
+/* At night the object hues are lit (e.g. #6fc4e0): white on them read 1.97. */
+html[data-theme="dark"] .nox-k[data-k="PK"] { color: var(--surface-2); }
 .nox-k[data-k="FK"] {
   color: var(--o, var(--brand));
   border: 1px dashed color-mix(in srgb, var(--o, var(--brand)) 55%, transparent);
@@ -1586,3 +1587,166 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
 .no-stats .no-stat b { font-size: var(--t-sm); font-weight: 600; }
 .no-stats .no-stat em { font-size: var(--t-sm); color: var(--ink-2); }
 
+
+/* ==========================================================================
+   THE OBJECT PROFILE (.nop) — components/neo-shell/object/object-profile-view
+   --------------------------------------------------------------------------
+   The consultant layer the legacy page carried: summary, business use, who
+   creates and reads the object, lifecycle, consultant notes, QA and knowledge
+   questions. Two sections at the foot of the page, in the page's own section
+   chrome; these rules only lay out what is inside them. No new colour: ink
+   tokens for text, the object hue (--o) where the page already uses it.
+   ========================================================================== */
+
+.nop-sum { display: grid; gap: var(--sp-2); }
+.nop-blk { display: grid; gap: var(--sp-3); min-inline-size: 0; }
+.nop-role { font-size: var(--t-body); font-weight: 600; line-height: var(--lh-he); color: var(--ink-1); max-inline-size: var(--measure); }
+.nop-why { font-size: var(--t-sm); line-height: var(--lh-he); color: var(--ink-2); max-inline-size: var(--measure); }
+.nop-blk .no-kv dd { line-height: 1.7; }
+
+.nop-g { display: grid; gap: var(--sp-2); min-inline-size: 0; }
+.nop-h4 { font-size: var(--t-micro); font-weight: 650; color: var(--ink-3); letter-spacing: 0; }
+.nop-list { display: grid; gap: 4px; font-size: var(--t-xs); line-height: 1.65; color: var(--ink-2); }
+.nop-list li { position: relative; padding-inline-start: var(--sp-3); }
+.nop-list li::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: .7em;
+  inline-size: 5px;
+  block-size: 1px;
+  background: var(--ink-3);
+}
+.nop-grid { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
+
+/* Who works with the object: three columns, each a quiet panel. */
+.nop-flow { display: grid; gap: var(--sp-3); grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+.nop-col {
+  display: grid;
+  gap: var(--sp-2);
+  align-content: start;
+  padding: var(--sp-3) var(--sp-4);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  min-inline-size: 0;
+}
+.nop-col .no-none b { font-style: normal; font-weight: 600; color: var(--ink-2); }
+
+/* Lifecycle: numbered steps in reading order, wrapping on a narrow screen. */
+.nop-life { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-4); }
+.nop-life li { display: inline-flex; align-items: center; gap: var(--sp-2); font-size: var(--t-xs); color: var(--ink-2); }
+
+.nop-flag {
+  margin-inline-start: auto;
+  font-size: var(--t-micro);
+  font-weight: 600;
+  color: var(--ink-2);
+  padding: 2px 8px;
+  border: 1px dashed var(--line-strong, var(--hairline));
+  border-radius: var(--r-pill);
+}
+
+.nop-rels { display: grid; gap: var(--sp-2); }
+.nop-rels li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-1) var(--sp-3);
+  font-size: var(--t-xs);
+  color: var(--ink-2);
+  padding-block-end: var(--sp-2);
+  border-block-end: 1px solid var(--hairline);
+}
+.nop-rels li:last-child { border-block-end: 0; padding-block-end: 0; }
+.nop-rels a, .nop-rels b { font-family: var(--font-mono); font-weight: 700; unicode-bidi: isolate; }
+.nop-rels a { min-block-size: 1.5rem; display: inline-flex; align-items: center; }
+.nop-card { font-size: var(--t-micro); color: var(--ink-3); unicode-bidi: isolate; }
+
+/* Knowledge questions: a question per row; the answer behind its own
+   disclosure, so the list reads as a self-test. */
+.nop-iq { display: grid; gap: var(--sp-2); }
+.nop-lvl {
+  flex: none;
+  font-size: var(--t-micro);
+  font-weight: 600;
+  color: var(--ink-3);
+  padding: 1px 7px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-pill);
+  unicode-bidi: isolate;
+}
+.nop-q { flex: 1 1 16rem; min-inline-size: 0; font-size: var(--t-xs); font-weight: 600; color: var(--ink-1); line-height: 1.6; }
+.nop-qflat { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-2); padding: var(--sp-2) var(--sp-4); }
+.nop-a { padding: 0 var(--sp-4) var(--sp-3); font-size: var(--t-xs); line-height: 1.7; color: var(--ink-2); max-inline-size: var(--measure); }
+
+.nop-more-b { padding: 0 var(--sp-4) var(--sp-4); }
+.nop-conn { display: inline-flex; flex-wrap: wrap; gap: 2px var(--sp-2); margin-inline-end: var(--sp-3); }
+.nop-conn em { font-style: normal; color: var(--ink-3); font-size: var(--t-micro); }
+
+/* The page's one disclosure. Native <details>: the content is in the HTML, the
+   summary is a 44px target, focus is the shared ring. */
+.no-more {
+  min-inline-size: 0;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  background: var(--surface);
+}
+.no-more > summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2) var(--sp-3);
+  min-block-size: var(--c-tap);
+  padding: var(--sp-2) var(--sp-4);
+  cursor: pointer;
+  list-style: none;
+  font-size: var(--t-sm);
+  font-weight: 700;
+  color: var(--ink-1);
+  border-radius: var(--r-md);
+}
+.no-more > summary::-webkit-details-marker { display: none; }
+.no-more > summary > svg { flex: none; color: var(--ink-3); }
+.no-more > summary > svg:last-child { margin-inline-start: auto; transition: transform .18s ease; }
+.no-more[open] > summary > svg:last-child { transform: rotate(180deg); }
+.no-more > summary em { font-style: normal; font-weight: 400; font-size: var(--t-xs); color: var(--ink-3); }
+.no-more > summary:hover { background: color-mix(in srgb, var(--ink-1) 4%, transparent); }
+.no-more > summary:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+@media (prefers-reduced-motion: reduce) { .no-more > summary > svg:last-child { transition: none; } }
+
+/* Incidents: the title opens the incident's own page; a worked case from the
+   plant floor sits under the symptom. */
+.no-inc-a {
+  font-size: var(--t-sm);
+  font-weight: 700;
+  color: var(--ink-1);
+  min-block-size: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: underline;
+  text-decoration-color: var(--hairline);
+  text-underline-offset: 3px;
+}
+.no-inc-a:hover { color: var(--link, var(--brand)); text-decoration-color: currentColor; }
+.no-inc-a:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--r-xs); }
+.no-inc-ex {
+  display: grid;
+  gap: 2px;
+  font-size: var(--t-xs);
+  line-height: 1.7;
+  color: var(--ink-2);
+  padding-inline-start: var(--sp-3);
+  border-inline-start: 1px solid var(--hairline);   /* a quote rule, as .no-read-joins */
+}
+.no-inc-ex b { font-size: var(--t-micro); color: var(--ink-3); font-weight: 600; }
+.no-inc-g .nox-chips { gap: 4px; }
+
+/* CDS chain: consumption view and Fiori app after the view's tables. */
+.no-cds-chain { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: var(--sp-1) var(--sp-3); font-size: var(--t-micro); color: var(--ink-3); }
+
+/* Supplemental page: the verified registry's primary / secondary modules. */
+.nox-modline { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-1) var(--sp-2); font-size: var(--t-xs); color: var(--ink-3); }
+.nox-modline b, .nox-modline em { font-style: normal; font-weight: 600; color: var(--ink-1); unicode-bidi: isolate; }
+.nox-modline em { color: var(--ink-2); font-weight: 500; }
+.no-inc-k { font-weight: 600; color: var(--ink-1); }

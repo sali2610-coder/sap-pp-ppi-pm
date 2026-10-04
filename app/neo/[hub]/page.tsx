@@ -8,6 +8,7 @@ import { workspaceData } from "@/components/neo-shell/workspace/workspace-data";
 // its focus ring and its disabled language. It is imported FIRST so that the
 // few layout-only overrides workspace.css makes at the same specificity land
 // after it rather than before it.
+import "../editorial-workspace.css";
 import "../ui.css";
 import "../workspace.css";
 

@@ -47,6 +47,7 @@
 // object class) are driven from the map chapter, where they are legible.
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { Search, SlidersHorizontal, Table2, X } from "lucide-react";
 import {
   SmartReturn, consumeReturn, restoreScroll, scrollOffset, useReturnPacket,
@@ -65,7 +66,7 @@ import { WorkspaceMap, type MapView } from "./workspace-map";
 import { WorkspaceOps } from "./workspace-ops";
 import { WorkspaceS4 } from "./workspace-s4";
 import { WorkspaceTable, type SortKey } from "./workspace-table";
-import { s4He, s4Dot, s4CountOf, S4_ORDER } from "@/lib/s4-class";
+import { s4Dot, s4CountOf, verdictHe, S4_ORDER } from "@/lib/s4-class";
 
 /** Every verdict the dataset can hold, plus the honest "no verdict" bucket. */
 const S4_FILTERS: (S4Class | null)[] = [...S4_ORDER, null];
@@ -196,7 +197,7 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
   const active: string[] = [
     topicTitle ? `נושא · ${topicTitle}` : null,
     zoneTitle ? `מחלקה · ${zoneTitle}` : null,
-    s4 !== undefined ? `S/4HANA · ${s4He(s4)}` : null,
+    s4 !== undefined ? `S/4HANA · ${verdictHe(s4)}` : null,
     sharedOnly ? `משותפות עם ${data.key === "PM" ? "PP-PI" : "PM"}` : null,
     q.trim() ? `חיפוש · ${q.trim()}` : null,
   ].filter((x): x is string => !!x);
@@ -367,8 +368,6 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
       style={{ "--m": data.m } as React.CSSProperties}
     >
       <div className="nw-light nm-par" aria-hidden="true">
-        <i className="nw-light-a" />
-        <i className="nw-light-b" />
       </div>
 
       {/* Where the reader came from, when the session knows — the rail, the
@@ -379,6 +378,20 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
       <WorkspaceHero d={data} />
 
       <WorkspaceIndex chapters={chapters} />
+
+      {/* The module's full sections, one page each (rollout 2026-10): what the
+          chapters below summarise, at full length. */}
+      <nav className="nxr-also nw-secs" aria-labelledby="nw-secs-h">
+        <h2 className="nxr-also-h" id="nw-secs-h">המדורים המלאים של המודול</h2>
+        <ul>
+          {data.sections.map((s) => (
+            <li key={s.slug}>
+              <Link href={s.href} prefetch={false} className="nu-link">{s.he}</Link>
+              {s.desc ? <span className="nw-secs-d">{s.desc}</span> : null}
+            </li>
+          ))}
+        </ul>
+      </nav>
 
       {/* The running index. The band above is the full picture, read once; this
           is the same list kept under the eye, so moving from chapter 02 to
@@ -485,7 +498,7 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
                       {/* STATUS colour appears only as a small filled dot
                           immediately followed by its own word. */}
                       <span className="nu-status" style={{ "--s": s4Dot(k) } as React.CSSProperties}>
-                        {s4He(k)}
+                        {verdictHe(k)}
                       </span>
                       <em className="nw-sap">{nf.format(n)}</em>
                     </button>

@@ -25,6 +25,7 @@ import {
   processSteps,
   transactions,
 } from "@/lib/module-portal";
+import { verdictClass } from "../data/s4-verdict";
 import { ZONES, zoneOf, type Zone } from "@/lib/studio-graph";
 import { cdsForTable } from "@/data/cds-map";
 import { LIBRARY, LIBRARY_STATS } from "@/data/library";
@@ -40,6 +41,7 @@ export type Band = 0 | 1 | 2;
  *  workspaces and the ECC↔S/4 page. */
 export type { S4Class } from "@/lib/s4-class";
 import type { S4Class } from "@/lib/s4-class";
+import { splitTcodes } from "@/lib/tcode-split";
 
 /** One real merged SAP table = one dot. Keys are short because 105 of these
  *  are serialised into the static HTML of every /neo build. */
@@ -212,11 +214,6 @@ export interface HomeData {
 
 const uniq = <T,>(a: T[]) => [...new Set(a)];
 
-const splitTcodes = (s: string) =>
-  (s || "")
-    .split(/[,\s/]+/)
-    .map((x) => x.trim().toUpperCase())
-    .filter((x) => /^[A-Z][A-Z0-9_]{1,}$/.test(x));
 
 const ZONE_OBJ: Record<Zone, string> = {
   master: "var(--obj-master)",
@@ -253,19 +250,25 @@ function occurrences(): Map<string, Occ[]> {
   return map;
 }
 
-/** S/4 class per module row, then merged worst-first: a table that is gone in
- *  one module's blueprint is gone, even if the other blueprint kept it. */
+/** S/4 class per table: the verdict (components/neo-shell/data/s4-verdict.ts;
+ *  spec P1 §10), one per table, the same the catalogue, the table page, the ERD
+ *  and the module pages show. A table the catalogue does not know falls back to
+ *  its blueprint rows, merged worst-first as before; an open verdict writes
+ *  nothing, so absence never outranks a stated verdict. */
 function s4ByTable(): Map<string, S4Class> {
   const out = new Map<string, S4Class>();
   const worst = (code: string, k: S4Class) =>
     out.set(code, Math.max(out.get(code) ?? 0, k) as S4Class);
   for (const m of [PM_DATA, PPPI_DATA] as SAPModuleData[]) {
     const { changed, replaced, removed } = eccS4(m);
-    for (const r of changed) worst(r.code, 1);
-    for (const r of replaced) worst(r.code, 2);
-    for (const r of removed) worst(r.code, 3);
-    // `undecided` deliberately does NOT write: absence of a verdict must not
-    // outrank a verdict the other blueprint actually states.
+    const fallback = (code: string, k: S4Class) => { if (verdictClass(code) === undefined) worst(code, k); };
+    for (const r of changed) fallback(r.code, 1);
+    for (const r of replaced) fallback(r.code, 2);
+    for (const r of removed) fallback(r.code, 3);
+    for (const t of moduleTables(m)) {
+      const v = verdictClass(t.tableName);
+      if (v !== undefined && v !== null && v > 0) out.set(t.tableName, v);
+    }
   }
   return out;
 }

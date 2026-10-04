@@ -4,6 +4,7 @@ import "@/app/neo/learn.css";
 import { notFound } from "next/navigation";
 import { CourseView } from "@/components/neo-shell/learn/course-view";
 import { academyCourse, academyCourseIds } from "@/components/neo-shell/learn/academy-data";
+import { textbookMeta, textbookOfCourse } from "@/components/neo-shell/academy-ref/textbook-data";
 
 // Static export: every authored course becomes a real file, and
 // `dynamicParams = false` makes anything outside that list a build-time 404.
@@ -30,5 +31,12 @@ export default async function NeoCourse({ params }: { params: Promise<{ courseId
   const { courseId } = await params;
   const c = academyCourse(courseId);
   if (!c) notFound();
-  return <CourseView c={c} />;
+  const tb = textbookOfCourse(courseId);
+  const m = tb ? textbookMeta(tb) : null;
+  return (
+    <CourseView
+      c={c}
+      textbook={m ? { href: m.href, title: m.titleHe, chapters: m.stats.chapters, referenceHref: m.referenceHref, qualityHref: m.qualityHref, migrated: m.migrated } : null}
+    />
+  );
 }

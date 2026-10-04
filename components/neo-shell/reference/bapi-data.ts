@@ -38,7 +38,7 @@ const CATEGORY_HE: Record<string, string> = {
   BusinessAPI: "ממשק עסקי (BAPI)",
   MasterData: "נתוני אב",
   Planning: "תכנון",
-  Execution: "ביצוע והזמנות",
+  Execution: "ביצוע ופקודות עבודה",
   Notification: "הודעות",
   Equipment: "ציוד ומיקומים פונקציונליים",
   Reservation: "שריונים (Reservation)",
@@ -320,12 +320,147 @@ export function bapiDir(): RefDir {
   };
 }
 
+/* ------------------------------------------------------- the record's words
+   The record page has always printed its trust fields, its COMMIT contract and
+   its migration note in these words. They are the record's own labels, so they
+   are carried verbatim rather than re-translated: a reader who learned them on
+   the legacy page finds the same words here. */
+
+const VERIF_HE: Record<string, string> = {
+  "verified-system": "מאומת במערכת",
+  "verified-docs": "מאומת בתיעוד SAP",
+  "requires-verification": "דורש אימות",
+  "version-dependent": "תלוי גרסה",
+  "internal-unsupported": "FM פנימי · לא נתמך לאינטגרציה",
+  "invalid-name": "שם לא קיים ב-SAP",
+  deprecated: "הוחלף / הוצא משימוש",
+};
+
+const CONF_HE: Record<string, string> = { high: "גבוהה", medium: "בינונית", low: "נמוכה", derived: "נגזרת" };
+
+/** Availability words: a support claim is "נתמך", not a bare yes. */
+const SUPPORT_HE: Record<string, string> = { yes: "נתמך", no: "לא נתמך", unknown: "לא מתועד במאגר" };
+
+/** The BAPI LUW contract the record page states for every object whose COMMIT
+ *  is required (by record) or derived (from a writing operation). */
+const COMMIT_STEPS = [
+  "קרא את ה-BAPI עם נתוני הקלט",
+  "בדוק את טבלת RETURN (BAPIRET2) — TYPE='E'/'A' מציין שגיאה",
+  "אם אין שגיאה → קרא BAPI_TRANSACTION_COMMIT (עם WAIT='X' לסנכרון)",
+  "אם יש שגיאה → קרא BAPI_TRANSACTION_ROLLBACK",
+];
+
+const UNVERIFIED_NOTE =
+  "חלק מהמידע טרם אומת מול מקור רשמי (SAP Help / API Business Hub). מסומן לבדיקה אנושית — לא ממציאים נתונים.";
+const INVALID_NAME_NOTE =
+  "שם זה אינו אובייקט SAP סטנדרטי לפי המקורות הרשמיים. ראה סעיף אימות בהמשך + חלופה מומלצת.";
+const INTERNAL_NOTE =
+  "FM פנימי — לא ממשק אינטגרציה משוחרר. אין לקרוא ישירות מקוד חיצוני ללא בדיקת תופעות לוואי, נעילה ו-COMMIT.";
+
+/** The object's class as the record page names it. Concepts and IDoc message
+ *  types are not functions, so they get no function label. */
+function typeLabel(o: SapFuncObject): string {
+  if (isConcept(o.id) || o.objectType === "IDoc") return "";
+  if (o.verificationStatus === "invalid-name") return "אובייקט לא קיים";
+  if (o.objectType === "BAPI") return o.stability === "Released" ? "Released BAPI" : "BAPI";
+  if (o.remoteEnabled === "yes") return "RFC-enabled FM";
+  return o.verificationStatus === "internal-unsupported" ? "Internal FM" : "Function Module";
+}
+
+/** Trust, stated field by field: status, certainty, stored source, method, QA
+ *  notes, and the SAP Note the stored source really cites (never a guessed one). */
+function trustSection(o: SapFuncObject): RefSection {
+  const verified = o.verificationStatus.startsWith("verified");
+  const note = (o.verificationSource || "").match(/\b(KBA|SAP Note|Note)\s*[:#]?\s*(\d{6,7})/i);
+  const facts: RefFact[] = [
+    { label: "סטטוס אימות", text: VERIF_HE[o.verificationStatus] || o.verificationStatus },
+    { label: "רמת ודאות", text: `${CONF_HE[o.confidence] || o.confidence} (${o.confidence})` },
+    {
+      label: "מקור אימות",
+      text: clean(o.verificationSource) || "טרם צוין מקור מאומת: לא אוחסן מקור רשמי — סיווג נגזר/אצור",
+    },
+  ];
+  if (o.lastVerified) facts.push({ label: "אומת לאחרונה", text: o.lastVerified });
+  facts.push({
+    label: "שיטת אימות",
+    text: verified ? "מקור SAP מאוחסן" : o.verificationStatus === "invalid-name" ? "בדיקת קיום שם" : "נגזר מנתוני הפרויקט",
+  });
+  if (o.qaNotes) facts.push({ label: "הערות QA", text: o.qaNotes });
+  if (note) {
+    facts.push({
+      label: "הערת SAP רשמית / מיגרציה",
+      codes: [{ t: `${note[1]} ${note[2]}` }],
+      links: [{ t: "פתח ב-SAP ONE Support", href: `https://me.sap.com/notes/${note[2]}` }],
+    });
+  } else if (o.verificationStatus === "deprecated" || o.verificationStatus === "invalid-name") {
+    facts.push({
+      label: "הערת SAP רשמית / מיגרציה",
+      text: "לא נמצאה הערת SAP מאומתת עבור אובייקט זה. איננו ממציאים מספר הערה — אם נדרש, בדוק ב-SAP ONE Support / Simplification Item Catalog.",
+    });
+  }
+  return {
+    id: "trust",
+    icon: "shieldCheck",
+    title: "אמון ואימות",
+    facts,
+    warn: !verified && o.verificationStatus !== "invalid-name" ? UNVERIFIED_NOTE : undefined,
+  };
+}
+
+/** The LUW contract, only where the record requires a COMMIT or the writing
+ *  operation implies one (said so when derived). */
+function commitSection(o: SapFuncObject): RefSection | null {
+  const ci = commitInfo(o);
+  if (ci.value !== "yes") return null;
+  return {
+    id: "commit",
+    icon: "keyRound",
+    title: "התנהגות COMMIT",
+    facts: [
+      {
+        label: "שמירה, ROLLBACK וטיפול ב-RETURN",
+        text: `${ci.derived ? "נגזר מסוג הפעולה — " : ""}לאחר קריאה מוצלחת יש לבצע BAPI_TRANSACTION_COMMIT כדי לשמור את השינוי במסד הנתונים. ה-BAPI עצמו אינו שומר.`,
+        steps: COMMIT_STEPS,
+      },
+      { label: "טעות נפוצה", text: "שכחת COMMIT — ה-RETURN נראה תקין אך השינוי לא נשמר (מתגלה רק כשהנתון חסר בהמשך)." },
+    ],
+  };
+}
+
+/** The catalog's primer on the two kinds, as the legacy catalog stated it. */
+export const BAPI_VS_FM: { title: string; rows: string[] }[] = [
+  {
+    title: "BAPI",
+    rows: [
+      "ממשק עסקי יציב, קשור לאובייקט עסקי SAP (BOR).",
+      "מיועד לאינטגרציה מבוקרת וגישה חיצונית.",
+      "בדרך כלל עוקב אחר טרנזקציה עסקית מוגדרת.",
+      "לרוב דורש SAVE ואז COMMIT (BAPI_TRANSACTION_COMMIT).",
+      "יש לאמת תמיכה, שחרור ותאימות גרסה.",
+    ],
+  },
+  {
+    title: "Function Module",
+    rows: [
+      "פונקציית ABAP לשימוש חוזר.",
+      "עשוי להיות Remote-Enabled, פנימי או Update.",
+      "לא כל FM הוא ממשק אינטגרציה נתמך.",
+      "חלק מה-FM הפנימיים אין לקרוא ישירות.",
+      "התנהגות וזמינות עשויות להשתנות בין ECC ל-S/4HANA.",
+    ],
+  },
+];
+
 /* ------------------------------------------------------------- the record */
 
 export function bapiDetail(id: string): RefDetail | null {
   const o = bapiObject(id);
-  if (!o) return null;
+  return o ? funcDetail(o) : null;
+}
 
+/** One registry record as a detail screen. Exported because /neo/idoc renders
+ *  the registry's IDoc records (MATMAS, LOIPRO, BOMMAT) inside its own page. */
+export function funcDetail(o: SapFuncObject): RefDetail {
   const intel = intelOf(o.id);
   const s4 = s4Of(o);
   const ci = commitInfo(o);
@@ -338,12 +473,19 @@ export function bapiDetail(id: string): RefDetail | null {
   s4Facts.push({
     label: "זמינות לפי הרשומה",
     bullets: [
-      `ECC: ${TRI_HE[o.eccSupport]}`,
-      `S/4HANA On-Premise: ${TRI_HE[o.s4OnPremSupport]}`,
-      `S/4HANA Cloud: ${TRI_HE[o.cloudSupport]}`,
+      `ECC: ${SUPPORT_HE[o.eccSupport]}`,
+      `S/4HANA On-Premise: ${SUPPORT_HE[o.s4OnPremSupport]}`,
+      `S/4HANA Cloud: ${SUPPORT_HE[o.cloudSupport]}`,
     ],
   });
   s4Facts.push({ label: "יציבות הממשק", text: STABILITY_HE[o.stability] || o.stability });
+  if (o.releasedStatus) s4Facts.push({ label: "סטטוס שחרור ברשומה", text: o.releasedStatus });
+  const callTraits = [
+    o.requiresSave === "yes" ? "דורש SAVE לפני COMMIT" : "",
+    o.requiresCommit === "yes" ? "דורש BAPI_TRANSACTION_COMMIT" : "",
+    o.remoteEnabled === "yes" ? "RFC-enabled" : "",
+  ].filter(Boolean);
+  if (callTraits.length) s4Facts.push({ label: "מאפייני הממשק לפי הרשומה", bullets: callTraits });
   const cdsNames = uniq([...(o.relatedCds || []), ...(intel?.related.cds || [])]);
   if (cdsNames.length) {
     s4Facts.push({
@@ -369,16 +511,34 @@ export function bapiDetail(id: string): RefDetail | null {
   if (intel?.what) what.push({ label: "תפקיד האובייקט", text: intel.what });
   else if (o.shortDescriptionHe) what.push({ label: "תפקיד האובייקט", text: o.shortDescriptionHe });
   if (intel?.why) what.push({ label: "מקרי שימוש", text: intel.why });
-  if (o.businessScenario) what.push({ label: "תרחיש עסקי", text: o.businessScenario });
-  if (intel?.flow || o.processChain?.length) {
-    what.push({ label: "מיקום בתהליך", text: clean(intel?.flow), bullets: o.processChain });
-  }
+  if (intel?.flow) what.push({ label: "מיקום בתהליך", text: clean(intel.flow) });
+  if (o.processChain?.length) what.push({ label: "תהליך עסקי", steps: o.processChain });
   what.push({ label: "סוג פעולה", text: OP_HE[o.operationType] });
-  if (intel?.processArea || o.businessProcess) {
-    what.push({ label: "תחום תהליכי", text: clean(intel?.processArea) || clean(o.businessProcess) });
-  }
-  if (o.usageContexts?.length) what.push({ label: "הקשרי שימוש", bullets: o.usageContexts });
-  sections.push({ id: "what", icon: "plug", title: "תפקיד ושימוש", facts: what });
+  const area = uniq([intel?.processArea, o.businessProcess]);
+  if (area.length) what.push({ label: "תחום תהליכי", text: area.join(" · ") });
+  // Why it exists and when to use it, then when not to: the record's own
+  // scenario, typical usage contexts and recommended reading, then its traps.
+  const when: RefFact[] = [];
+  if (o.businessScenario) when.push({ label: "תרחיש עסקי", text: o.businessScenario });
+  if (o.usageContexts?.length) when.push({ label: "תרחישי שימוש טיפוסיים", bullets: o.usageContexts });
+  if (o.recommendedReading?.length) when.push({ label: "קריאה מומלצת", bullets: o.recommendedReading });
+  const whenNot: RefFact[] = o.commonMistakes?.length || o.verificationStatus === "internal-unsupported"
+    ? [{
+      label: "מלכודות",
+      text: o.verificationStatus === "internal-unsupported" ? INTERNAL_NOTE : undefined,
+      bullets: o.commonMistakes,
+    }]
+    : [];
+  sections.push({
+    id: "what",
+    icon: "plug",
+    title: "תפקיד ושימוש",
+    facts: what,
+    subs: [
+      ...(when.length ? [{ title: "למה קיים ומתי להשתמש", facts: when }] : []),
+      ...(whenNot.length ? [{ title: "מתי לא להשתמש · מלכודות", facts: whenNot }] : []),
+    ],
+  });
 
   /* parameters + call contract */
   const contract: RefFact[] = [];
@@ -395,23 +555,38 @@ export function bapiDetail(id: string): RefDetail | null {
     });
   }
   if (o.parameterSummary) contract.push({ label: "תקציר פרמטרים", text: o.parameterSummary });
+  const callable = o.objectType !== "IDoc" && !isConcept(o.id);
+  if (callable && !o.parameterSummary && !intel?.inputs.length && !intel?.outputs.length) {
+    contract.push({
+      label: "תקציר פרמטרים",
+      absent: `רשימת פרמטרים מלאה לא תועדה במאגר. יש לעיין בהגדרת הממשק ב-SE37 (${o.technicalName}).`,
+    });
+  } else if (callable) {
+    // what the page shows is the record's summary; the full interface is SE37's
+    contract.push({ label: "הגדרת הממשק המלאה", text: `ב-SE37 (${o.technicalName})` });
+  }
   contract.push({
     label: "COMMIT",
     text: ci.value === "unknown"
       ? "לא מתועד במאגר"
-      : `${TRI_HE[ci.value]}${ci.derived ? " (נגזר מסוג הפעולה, ללא רשומה מפורשת)" : ""}`,
+      : ci.derived
+        ? `${TRI_HE[ci.value]} (נגזר מסוג הפעולה, ללא רשומה מפורשת)`
+        : ci.value === "yes" ? "כן: RETURN (BAPIRET2) + COMMIT" : TRI_HE[ci.value],
   });
   if (o.requiresSave && o.requiresSave !== "unknown") {
-    contract.push({ label: "נדרשת קריאת SAVE", text: TRI_HE[o.requiresSave] });
+    contract.push({ label: "נדרשת קריאת SAVE", text: o.requiresSave === "yes" ? "כן: SAVE נדרש לפני COMMIT" : TRI_HE.no });
   }
   if (o.remoteEnabled && o.remoteEnabled !== "unknown") {
-    contract.push({ label: "Remote-Enabled (RFC)", text: TRI_HE[o.remoteEnabled] });
+    contract.push({ label: "Remote-Enabled (RFC)", text: o.remoteEnabled === "yes" ? "כן (RFC-enabled)" : TRI_HE.no });
   }
   if (o.sequence?.length) contract.push({ label: "רצף קריאה", steps: o.sequence });
-  if (o.codeAbap) contract.push({ label: "שלד ABAP", pre: o.codeAbap });
+  if (o.codeAbap) contract.push({ label: "דוגמת ABAP בטוחה · טיפול ב-BAPIRET2 · COMMIT / ROLLBACK", pre: o.codeAbap });
   if (contract.length) {
     sections.push({ id: "contract", icon: "fileCode", title: "ממשק הקריאה והפרמטרים", facts: contract });
   }
+
+  const commit = commitSection(o);
+  if (commit) sections.push(commit);
 
   /* objects and tables — provenance made explicit (2026-09-21): a curated list
      from an enrichment file is shown as the record's own; a list the registry
@@ -446,6 +621,9 @@ export function bapiDetail(id: string): RefDetail | null {
   if (o.authObjects?.length) {
     objFacts.push({ label: "אובייקטי הרשאה", codes: o.authObjects.map((a) => ({ t: a })) });
   }
+  if (o.relatedEnhancements?.length) {
+    objFacts.push({ label: "BAdIs / Exits", codes: uniq(o.relatedEnhancements).map((e) => ({ t: e, href: enhHref(e) })) });
+  }
   if (intel?.related.tcodes?.length) {
     objFacts.push({
       label: "טרנזקציות ברשומה המורחבת",
@@ -456,7 +634,7 @@ export function bapiDetail(id: string): RefDetail | null {
 
   /* operating it */
   const ops: RefFact[] = [];
-  if (o.checklist?.length) ops.push({ label: "בדיקות מקדימות", bullets: o.checklist });
+  if (o.checklist?.length) ops.push({ label: "לפני השימוש — צ׳קליסט", bullets: o.checklist });
   if (intel?.qa.deps.length) ops.push({ label: "תלויות", bullets: intel.qa.deps });
   if (intel?.qa.test.length) ops.push({ label: "נקודות לבדיקה", bullets: intel.qa.test });
   if (intel?.qa.scenario) ops.push({ label: "תרחיש בדיקה", text: intel.qa.scenario });
@@ -466,9 +644,8 @@ export function bapiDetail(id: string): RefDetail | null {
   const trouble: RefFact[] = [];
   const errs = uniq([...(o.commonErrors || []), ...(o.troubleshooting?.errors || []), ...(intel?.qa.failures || [])]);
   if (errs.length) trouble.push({ label: "שגיאות נפוצות", bullets: errs });
-  if (o.commonMistakes?.length) trouble.push({ label: "טעויות מימוש", bullets: o.commonMistakes });
   if (o.troubleshooting?.causes?.length) trouble.push({ label: "סיבות שורש", bullets: o.troubleshooting.causes });
-  if (o.troubleshooting?.debug) trouble.push({ label: "אבחון", text: o.troubleshooting.debug });
+  if (o.troubleshooting?.debug) trouble.push({ label: "דיבוג", text: o.troubleshooting.debug });
   if (o.troubleshooting?.tables?.length) {
     trouble.push({
       label: "טבלאות לאבחון",
@@ -476,7 +653,7 @@ export function bapiDetail(id: string): RefDetail | null {
     });
   }
   if (trouble.length) {
-    sections.push({ id: "trouble", icon: "alertTriangle", title: "תקלות ואבחון", facts: trouble });
+    sections.push({ id: "trouble", icon: "alertTriangle", title: "כשלים נפוצים ופתרון", facts: trouble });
   }
 
   /* complexity */
@@ -510,27 +687,17 @@ export function bapiDetail(id: string): RefDetail | null {
       reason: "אובייקט קשור לפי הרשומה",
     });
   }
-  for (const e of uniq(o.relatedEnhancements)) {
-    cards.push({ href: enhHref(e), code: e, he: "", reason: "הרחבה קשורה" });
-  }
   sections.push({
     id: "related",
     icon: "gitBranch",
-    title: "אובייקטים קשורים",
+    title: "BAPIs / FMs קשורים",
     note: cards.length ? `${nf.format(cards.length)} רשומות` : undefined,
     cards,
     empty: "אין תיעוד מאומת במאגר על אובייקטים קשורים לרשומה זו.",
   });
 
-  /* reading */
-  if (o.recommendedReading?.length) {
-    sections.push({
-      id: "reading",
-      icon: "bookOpen",
-      title: "קריאה נוספת",
-      facts: [{ label: "מקורות שהרשומה מפנה אליהם", bullets: o.recommendedReading }],
-    });
-  }
+  /* trust, last: the record's own account of how far it can be relied on */
+  sections.push(trustSection(o));
 
   /* --- completeness: counted, not targeted ----------------------------- */
   const checks = [
@@ -557,9 +724,11 @@ export function bapiDetail(id: string): RefDetail | null {
     : [VERIF[o.verificationStatus] || VERIF["requires-verification"]];
   if (intel) statuses.push({ he: "מתועד לעומק", color: "var(--status-done)" });
 
+  const kindHe = isConcept(o.id) ? CONCEPT_KIND : o.objectType;
+
   return {
     kind: "bapi",
-    eyebrow: `${isConcept(o.id) ? CONCEPT_KIND : o.objectType} · ${mods.join(" · ")}`,
+    eyebrow: `${kindHe} · ${mods.join(" · ")}`,
     code: o.technicalName,
     he: clean(o.shortDescriptionHe) || clean(intel?.what) || "",
     en: clean(o.shortDescriptionEn),
@@ -568,6 +737,7 @@ export function bapiDetail(id: string): RefDetail | null {
     modHe: MOD_HE[o.primaryModule] || "",
     chips: uniq([
       isConcept(o.id) ? "מושג תהליכי מהבלופרינט (לא FM)" : "",
+      typeLabel(o),
       CATEGORY_HE[o.category],
       OP_HE[o.operationType],
       DIFF_HE[o.difficulty],
@@ -593,9 +763,12 @@ export function bapiDetail(id: string): RefDetail | null {
       ],
       facts: s4Facts,
       tables: s4.tables.length ? s4.tables : undefined,
-      warn: s4.tone === "unknown"
-        ? "אין תיעוד מאומת במאגר על מעמד האובייקט ב-S/4HANA. נדרש אימות נוסף מול SE37, BAPI Explorer או תיעוד SAP לפני החלטת מעבר."
-        : undefined,
+      warn: [
+        o.verificationStatus === "invalid-name" ? INVALID_NAME_NOTE : "",
+        s4.tone === "unknown"
+          ? "אין תיעוד מאומת במאגר על מעמד האובייקט ב-S/4HANA. נדרש אימות נוסף מול SE37, BAPI Explorer או תיעוד SAP לפני החלטת מעבר."
+          : "",
+      ].filter(Boolean).join(" ") || undefined,
     },
     // The unified evidence block — the same call the catalog row makes.
     evidence: evidenceOf(o),

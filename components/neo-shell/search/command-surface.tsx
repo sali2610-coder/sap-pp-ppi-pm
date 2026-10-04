@@ -93,6 +93,7 @@ function Row({
       data-active={active ? "1" : "0"}
       style={{
         "--m": modVar(m),
+        "--i": Math.min(i, 8),
         ...(r.obj ? { "--o": r.obj } : null),
       } as React.CSSProperties}
       onPointerMove={() => onHover(i)}

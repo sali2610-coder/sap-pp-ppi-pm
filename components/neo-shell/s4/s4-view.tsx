@@ -19,12 +19,12 @@
    never do.
    ========================================================================== */
 
-import { enLang } from "../lang";
+import { enDir, enLang } from "../lang";
 import Link from "next/link";
 import {
   AlertTriangle, ArrowLeft, BadgeCheck, Boxes, Cable, CheckCircle2, ClipboardList,
-  Code2, Database, Gauge, GitBranch, History, Layers, Network, Rocket, Route, ShieldQuestion,
-  Truck, Waypoints,
+  Code2, Database, Gauge, GitBranch, History, LayoutGrid, Layers, Network, Rocket, Route,
+  ShieldQuestion, TrendingUp, Truck, Waypoints,
 } from "lucide-react";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
@@ -35,9 +35,11 @@ import { S4Catalog } from "./s4-catalog";
 import type { MigCat } from "@/data/migration-cockpit";
 import {
   APPROACHES, ARCH, ARCH_STATUS, CUSTOM_CODE, CUSTOM_CODE_NOTE, CUTOVER, EXEC_NARRATIVE,
-  INTEGRATION, LESSONS, MIG_CHECKLIST, MIG_ERRORS, MIG_LOAD_LAYERS, QUALITY_DIMS, READINESS,
-  TESTING, migObjects, migTotals, monitorLinks, s4Objects, s4ObjectTotals, s4Readiness,
-  s4TopicTotals, s4Topics, transformTotals, type S4Link,
+  EXEC_OVERVIEW, INTEGRATION, LESSONS, MIG_CHECKLIST, MIG_ERRORS, MIG_LOAD_LAYERS, MIG_LOAD_RULE,
+  MIG_PROVENANCE, QUALITY_DIMS, READINESS, S4HANA_PROVENANCE, TESTING, fioriTxByModule,
+  migObjects, migTotals, monitorLinks, readinessBoard, relatedCenters, s4AreaImpact, s4Objects,
+  s4ObjectTotals, s4Readiness, s4TopicTotals, s4Topics, transformTotals, type ModuleReadiness,
+  type S4Link,
 } from "./s4-data";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -136,12 +138,35 @@ function Chips({ items }: { items: S4Link[] }) {
   );
 }
 
-const Credit = () => (
-  <p className="ns4-credit">
-    <Cable size={13} strokeWidth={1.75} aria-hidden="true" />
-    {" "}מקור: תיעוד הפרויקט.
-  </p>
+/** `note`: the legacy page's own provenance line, carried with the credit. */
+const Credit = ({ note }: { note?: string }) => (
+  <>
+    <p className="ns4-credit">
+      <Cable size={13} strokeWidth={1.75} aria-hidden="true" />
+      {" "}מקור: תיעוד הפרויקט.
+    </p>
+    {note ? <p className="ns4-prov">{note}</p> : null}
+  </>
 );
+
+/** "מרכזים קשורים": the five consultant centres the legacy /s4hana/ and
+ *  /migration-cockpit/ pages linked (components/related-centers.tsx), each
+ *  with its one-line description from lib/centers.ts. */
+function RelatedCenters() {
+  return (
+    <nav className="nxr-also ns4-relc" aria-labelledby="ns4-relc-h">
+      <h2 className="nxr-also-h" id="ns4-relc-h">מרכזים קשורים</h2>
+      <ul>
+        {relatedCenters().map((c) => (
+          <li key={c.href}>
+            <Link href={c.href} prefetch={false} className="nu-link">{c.he}</Link>
+            <span className="ns4-relc-d">{c.desc}</span>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}
 
 /* ========================================================================== */
 /*  /neo/s4hana/                                                              */
@@ -152,10 +177,16 @@ export function S4HanaCenter() {
   const t = s4ObjectTotals();
   const tr = transformTotals();
   const mon = monitorLinks();
+  const areas = s4AreaImpact();
+  const fioriMods = fioriTxByModule();
+  const fioriTotal = fioriMods.reduce((a, g) => a + g.rows.length, 0);
 
   const nav: [string, string][] = [
+    ["ns4-exec", "סקירת הנהלה"],
     ["ns4-cat", "קטלוג האובייקטים"],
     ["ns4-arch", "ארכיטקטורת המערכת"],
+    ["ns4-area", "השפעה לפי תחום"],
+    ["ns4-fiori", "טרנזקציות ויישומי Fiori"],
     ["ns4-code", "קוד מותאם"],
     ["ns4-int", "אינטגרציה"],
     ["ns4-test", "בדיקות"],
@@ -196,9 +227,30 @@ export function S4HanaCenter() {
 
       <SectionNav sections={nav.map(([id, label]) => ({ id, label }))} />
 
+      {/* ============================================== EXECUTIVE OVERVIEW
+          The legacy page's opening card, ECC against S/4HANA layer by layer
+          (EXEC_OVERVIEW, carried verbatim). */}
+      <Sec
+        id="ns4-exec" n={1}
+        icon={<TrendingUp size={15} strokeWidth={1.75} />}
+        eyebrow="מבט-על"
+        title="סקירת הנהלה"
+        lede="ECC6 → S/4HANA במבט-על"
+      >
+        <ul className="ns4-rows ns4-xo">
+          {EXEC_OVERVIEW.map((r) => (
+            <li key={r.k}>
+              <header><b lang={enLang(r.k)}>{r.k}</b></header>
+              <p><span className="ns4-lbl">ECC</span><span lang={enLang(r.ecc)} dir={enDir(r.ecc)}>{r.ecc}</span></p>
+              <p><span className="ns4-lbl">S/4HANA</span><span lang={enLang(r.s4)} dir={enDir(r.s4)}>{r.s4}</span></p>
+            </li>
+          ))}
+        </ul>
+      </Sec>
+
       {/* =================================================== THE CATALOGUE */}
       <Sec
-        id="ns4-cat" n={1}
+        id="ns4-cat" n={2}
         icon={<Database size={15} strokeWidth={1.75} />}
         eyebrow="קטלוג"
         title="קטלוג האובייקטים"
@@ -209,7 +261,7 @@ export function S4HanaCenter() {
 
       {/* ================================================== ARCHITECTURE */}
       <Sec
-        id="ns4-arch" n={2}
+        id="ns4-arch" n={3}
         icon={<Network size={15} strokeWidth={1.75} />}
         eyebrow="ארכיטקטורה"
         title="רכיבי הארכיטקטורה לפי שכבה"
@@ -244,9 +296,71 @@ export function S4HanaCenter() {
         </div>
       </Sec>
 
+      {/* ================================================ IMPACT BY AREA
+          The legacy card's count over ECC_S4_TOPICS (s4AreaImpact). The topics
+          themselves are listed in full on /neo/s4-readiness/, which owns them. */}
+      <Sec
+        id="ns4-area" n={4}
+        icon={<GitBranch size={15} strokeWidth={1.75} />}
+        eyebrow="תחומים"
+        title="השפעה לפי מודול / תחום"
+        lede="היקף השינוי לכל תחום (מתוך נושאי ה-ECC↔S/4 המאומתים)"
+      >
+        <ul className="ns4-rows ns4-xo">
+          {areas.map((a) => (
+            <li key={a.area}>
+              <header><b>{a.he}</b></header>
+              <p className="ns4-xo-n">
+                <span>{nf.format(a.tot)} נושאים</span>
+                {a.risk ? <span>{nf.format(a.risk)} סיכון</span> : null}
+              </p>
+            </li>
+          ))}
+        </ul>
+        <p className="ns4-note-x">«סיכון»: נושאים במצב מוחלף, או במצב הוסר או לא אסטרטגי.</p>
+        <p className="ns4-note">
+          <Link className="nu-link" href="/neo/s4-readiness/#ns4-topics" prefetch={false}>
+            כל נושאי השינוי: המצב ב-ECC, המצב ב-S/4HANA והשפעת המעבר
+            <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
+          </Link>
+        </p>
+      </Sec>
+
+      {/* ================================================ GUI AND FIORI
+          The authored transactions that name a Fiori app (fioriTxByModule),
+          every row, grouped by module. */}
+      <Sec
+        id="ns4-fiori" n={5}
+        icon={<LayoutGrid size={15} strokeWidth={1.75} />}
+        eyebrow="GUI ← Fiori"
+        title="טרנזקציות SAP GUI ויישומי ה-Fiori הקשורים"
+        lede={`${nf.format(fioriTotal)} טרנזקציות עם יישום Fiori קשור, לפי מודול.`}
+      >
+        {fioriMods.map((g, i) => (
+          <details key={g.mod} className="ns4-group ns4-group-d" open={i === 0}>
+            <summary className="ns4-h3">
+              <span className="nx-sap" dir="ltr">{g.mod}</span>
+              <span className="ns4-h3-n">{g.rows.length}</span>
+              <span className="ns4-h3-hint" aria-hidden="true">הצגה / צמצום</span>
+            </summary>
+            <ul className="ns4-fx">
+              {g.rows.map((r) => (
+                <li key={r.code}>
+                  {r.href
+                    ? <Link className="ns4-chip" data-live="1" href={r.href} prefetch={false}><span className="nx-sap" dir="ltr">{r.code}</span></Link>
+                    : <span className="ns4-chip" data-live="0"><span className="nx-sap" dir="ltr">{r.code}</span></span>}
+                  <span className="ns4-fx-he">{r.title}</span>
+                  <span className="ns4-fx-app" dir={enDir(r.fiori)} lang={enLang(r.fiori)}>{r.fiori}</span>
+                </li>
+              ))}
+            </ul>
+          </details>
+        ))}
+      </Sec>
+
       {/* ==================================================== CUSTOM CODE */}
       <Sec
-        id="ns4-code" n={3}
+        id="ns4-code" n={6}
         icon={<Code2 size={15} strokeWidth={1.75} />}
         eyebrow="ABAP"
         title="השפעה על הקוד המותאם"
@@ -267,7 +381,7 @@ export function S4HanaCenter() {
 
       {/* ==================================================== INTEGRATION */}
       <Sec
-        id="ns4-int" n={4}
+        id="ns4-int" n={7}
         icon={<Waypoints size={15} strokeWidth={1.75} />}
         eyebrow="ממשקים"
         title="שכבות האינטגרציה"
@@ -286,7 +400,7 @@ export function S4HanaCenter() {
 
       {/* ======================================================= TESTING */}
       <Sec
-        id="ns4-test" n={5}
+        id="ns4-test" n={8}
         icon={<BadgeCheck size={15} strokeWidth={1.75} />}
         eyebrow="איכות"
         title="שכבות הבדיקה"
@@ -301,7 +415,7 @@ export function S4HanaCenter() {
 
       {/* ======================================================= CUTOVER */}
       <Sec
-        id="ns4-cut" n={6}
+        id="ns4-cut" n={9}
         icon={<Route size={15} strokeWidth={1.75} />}
         eyebrow="Go-Live"
         title="Cutover"
@@ -319,7 +433,7 @@ export function S4HanaCenter() {
 
       {/* ======================================================= LESSONS */}
       <Sec
-        id="ns4-les" n={7}
+        id="ns4-les" n={10}
         icon={<History size={15} strokeWidth={1.75} />}
         eyebrow="ניסיון"
         title="לקחים מפרויקטי מעבר"
@@ -335,7 +449,9 @@ export function S4HanaCenter() {
         </ul>
       </Sec>
 
-      <Credit />
+      <RelatedCenters />
+
+      <Credit note={S4HANA_PROVENANCE} />
     </div>
   );
 }
@@ -353,8 +469,19 @@ export function S4ReadinessCenter() {
     Data: "מודל הנתונים", PP: "תכנון ייצור (PP)", PM: "תחזוקת מפעל (PM)", Platform: "פלטפורמה",
   };
 
+  const board = readinessBoard();
+  const tablesN = (n: number) => (n === 1 ? "טבלה אחת" : `${nf.format(n)} טבלאות`);
+  // An impact ranking lists the modules that have any impact: a module with
+  // none carries no information in a "top five".
+  const boardLists: [string, ModuleReadiness[], (m: ModuleReadiness) => string][] = [
+    ["5 המודולים המסוכנים", board.risky, (m) => RISK_HE[m.risk] || m.risk],
+    ["השפעת קוד מותאם", board.code.filter((m) => m.customCodeImpact > 0), (m) => tablesN(m.customCodeImpact)],
+    ["השפעת מודל נתונים", board.data.filter((m) => m.dataModelImpact > 0), (m) => tablesN(m.dataModelImpact)],
+  ];
+
   const nav: [string, string][] = [
     ["ns4-score", "כיסוי תיעוד לפי מודול"],
+    ...(r.available ? [["ns4-board", "לוח הנהלה"] as [string, string]] : []),
     ["ns4-topics", "נושאי השינוי"],
   ];
 
@@ -385,6 +512,16 @@ export function S4ReadinessCenter() {
           <>הציון משקלל את שיעור הטבלאות עם יישום Fiori (30%), עם תצוגת CDS (30%) ועם הערת S/4HANA (25%), ואת שיעור הטבלאות שאינן מסומנות כמוחלפות או כמוסרות (15%). הוא מודד כיסוי תיעוד בלבד ואינו מחליף SAP Readiness Check.</>
         }
       />
+
+      {/* The ECC↔S/4HANA comparison and the T-Code evolution table are their
+          own record families now (rollout 2026-10, P0 §3). */}
+      <nav className="nxr-also" aria-labelledby="ns4-also-h">
+        <h2 className="nxr-also-h" id="ns4-also-h">ראו גם</h2>
+        <ul>
+          <li><Link href="/neo/ecc-s4/" prefetch={false} className="nu-link">ECC מול S/4HANA</Link></li>
+          <li><Link href="/neo/evolution/" prefetch={false} className="nu-link">מרכז אבולוציית טרנזקציות</Link></li>
+        </ul>
+      </nav>
 
       <SectionNav sections={nav.map(([id, label]) => ({ id, label }))} />
 
@@ -417,6 +554,11 @@ export function S4ReadinessCenter() {
                   <div><dt>מורכבות</dt><dd className="nx-sap">{m.complexity}</dd></div>
                   <div><dt>אומדן (לא תוכנית מאומתת)</dt><dd>{m.effort}</dd></div>
                   <div><dt>קוד מותאם</dt><dd className="nx-sap">{nf.format(m.customCodeImpact)}</dd></div>
+                  {/* Computed by the same computeReadiness, shown by the legacy
+                      page in its module panel (components/s4-readiness.tsx:132). */}
+                  <div><dt>השפעת מודל נתונים</dt><dd className="nx-sap">{nf.format(m.dataModelImpact)}</dd></div>
+                  <div><dt>אובייקטי מעבר</dt><dd className="nx-sap">{nf.format(m.migrationObjs)}</dd></div>
+                  <div><dt>נושאי שינוי בתחום</dt><dd className="nx-sap">{nf.format(m.simplification)}</dd></div>
                 </dl>
               </li>
             ))}
@@ -437,10 +579,51 @@ export function S4ReadinessCenter() {
             ציון כיסוי התיעוד אינו זמין: קטלוג טבלאות SAP לא נטען.
           </p>
         )}
+        {r.available ? (
+          <p className="ns4-note-x">
+            «קוד מותאם»: טבלאות המודול שקטלוג S/4HANA של הפרויקט מסמן כמוחלפות או כמוסרות. «השפעת מודל נתונים»: אותן טבלאות ועוד
+            הטבלאות שהקטלוג מסמן כמשתנות. «אובייקטי מעבר»: אובייקטי Migration Cockpit של המודול או הנטענים מטבלאותיו.
+            «נושאי שינוי בתחום»: נושאי השינוי שתחומם הוא המודול; נושאי מודל הנתונים נספרים ל-FI, ל-MM ול-CO.
+          </p>
+        ) : null}
       </Sec>
 
+      {/* ================================================= THE BOARD
+          The legacy page's executive rankings (readinessBoard), over the same
+          per-module figures listed above. */}
+      {r.available ? (
+        <Sec
+          id="ns4-board" n={2}
+          icon={<TrendingUp size={15} strokeWidth={1.75} />}
+          eyebrow="דירוג"
+          title="לוח הנהלה"
+          lede="שלושה דירוגים של המודולים שלמעלה, לפי אותם נתונים."
+        >
+          <div className="ns4-board">
+            {boardLists.map(([title, rows, metric]) => (
+              <section key={title} className="ns4-board-p">
+                <h3 className="ns4-h3">{title}</h3>
+                {rows.length ? (
+                  <ol className="ns4-steps">
+                    {rows.map((m, i) => (
+                      <li key={m.mod}>
+                        <span className="ns4-step-n">{i + 1}</span>
+                        <span>
+                          <b>{m.he} <span className="nx-sap" dir="ltr">{m.mod}</span></b>
+                          <em>{metric(m)}</em>
+                        </span>
+                      </li>
+                    ))}
+                  </ol>
+                ) : <p className="ns4-silent">לאף מודול אין השפעה כזו בנתונים.</p>}
+              </section>
+            ))}
+          </div>
+        </Sec>
+      ) : null}
+
       <Sec
-        id="ns4-topics" n={2}
+        id="ns4-topics" n={r.available ? 3 : 2}
         icon={<GitBranch size={15} strokeWidth={1.75} />}
         eyebrow="שינויים"
         title="נושאי השינוי במעבר ל-S/4HANA"
@@ -538,6 +721,8 @@ export function MigrationCockpit() {
         title="רצף הטעינה"
         lede="כל גל מכיל אובייקטים שכל התלויות שלהם נטענו בגלים הקודמים."
       >
+        {/* The legacy dependency map's own rule (MIG_LOAD_RULE, verbatim). */}
+        <p className="ns4-note">{MIG_LOAD_RULE}</p>
         <div className="ns4-waves">
           {waves.map((w) => {
             const list = objs.filter((o) => o.wave === w);
@@ -720,7 +905,9 @@ export function MigrationCockpit() {
         </ol>
       </Sec>
 
-      <Credit />
+      <RelatedCenters />
+
+      <Credit note={MIG_PROVENANCE} />
     </div>
   );
 }

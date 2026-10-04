@@ -27,6 +27,7 @@ import { SPRING, reducedMotion } from "../flip";
 import { BookCover } from "./book-cover";
 import { BookToc } from "./book-toc";
 import { noteHandoff } from "./reading-state";
+import { markOpening } from "./opening";
 import type { BookReading } from "./reading-state";
 import { resolveResume, resumeLine, resumeScrollLine } from "./resume";
 import type { BookCard } from "./books-data";
@@ -345,7 +346,7 @@ export function BookQuickView({
               <BookOpen size={15} strokeWidth={1.75} aria-hidden="true" />
               פתיחת הספר בקורא
             </OriginLink>
-            <OriginLink className="nu-btn2" href={b.hubHref} origin={() => origin(t)}>
+            <OriginLink className="nu-btn2" href={b.hubHref} origin={() => origin(t)} onClick={() => markOpening(b.id)}>
               <LayoutList size={15} strokeWidth={1.75} aria-hidden="true" />
               מרכז הספר
             </OriginLink>

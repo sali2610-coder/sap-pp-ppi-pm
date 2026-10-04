@@ -34,7 +34,8 @@ import {
 } from "lucide-react";
 import { SmartReturn, consumeReturn, rememberOrigin, useReturnPacket } from "@/components/neo-shell/nav-context";
 import { learnModVar } from "./mod";
-import { IMPACT_UNTAGGED, type IncidentRow, type IncidentsData } from "./incidents-data";
+import type { IncidentRow, IncidentsData } from "./incidents-data";
+import { IMPACT_UNTAGGED } from "./incidents-impact";
 
 const nf = new Intl.NumberFormat("he-IL");
 const SURFACE = "neo:incidents";
@@ -45,7 +46,7 @@ const canvas = (): HTMLElement | null =>
 
 /** A type alias rather than an interface: only an alias picks up the implicit
  *  index signature that satisfies the smart-return module's OriginState. */
-type ListState = { view: string; q: string; mod: string; imp: string; limit: number; y: number; slug: string };
+type ListState = { view: string; q: string; mod: string; imp: string; more: boolean; y: number; slug: string };
 
 type View = "all" | "s4" | "prevent";
 
@@ -77,6 +78,7 @@ function Row({ r, impactHe, onOpen }: { r: IncidentRow; impactHe: string; onOpen
         <span className="nxl-body">
           <span className="nxl-t1">
             <b>{r.he}</b>
+            <em className="nx-sap" dir="ltr">{r.slug}</em>
           </span>
           <span className="nxl-desc">{r.symptom || "אין תיעוד מאומת במאגר"}</span>
           <span className="nxl-meta">
@@ -158,7 +160,9 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
   const [q, setQ] = useState("");
   const [mod, setMod] = useState("");
   const [imp, setImp] = useState("");
-  const [limit, setLimit] = useState(PAGE);
+  // The first PAGE rows are listed; the rest sit in a native <details>, so
+  // every row is in the HTML and the page still opens calm.
+  const [more, setMore] = useState(false);
   // The catalogue bar every catalogue shares (knowledge gate 2, finding 7).
   const [sort, setSort] = useState<"repo" | "he">("repo");
 
@@ -181,10 +185,11 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
     return sort === "he" ? [...out].sort((a, b) => a.he.localeCompare(b.he, "he")) : out;
   }, [rows, view, mod, imp, q, sort]);
 
-  const shown = list.slice(0, limit);
+  const shown = list.slice(0, PAGE);
+  const rest = list.slice(PAGE);
   const dirty = !!q || !!mod || !!imp;
-  const reset = () => { setQ(""); setMod(""); setImp(""); setLimit(PAGE); };
-  const onView = (v: View) => { setView(v); setLimit(PAGE); };
+  const reset = () => { setQ(""); setMod(""); setImp(""); setMore(false); };
+  const onView = (v: View) => { setView(v); setMore(false); };
 
   /* -------------------------------------------------------- smart return */
 
@@ -195,7 +200,7 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
       view === "all" ? "" : VIEWS.find((v) => v.v === view)?.he || "",
       q.trim() ? `חיפוש «${q.trim()}»` : "",
     ].filter(Boolean);
-    const state: ListState = { view, q, mod, imp, limit, y: canvas()?.scrollTop ?? 0, slug };
+    const state: ListState = { view, q, mod, imp, more, y: canvas()?.scrollTop ?? 0, slug };
     rememberOrigin({
       to: `/neo/incidents/${slug}/`,
       href: "/neo/incidents/",
@@ -217,7 +222,7 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
     setQ(s.q || "");
     setMod(s.mod || "");
     setImp(s.imp || "");
-    setLimit(Math.max(PAGE, Number(s.limit) || PAGE));
+    setMore(!!s.more);
   }
   useEffect(() => { if (packet) consumeReturn(SURFACE); }, [packet]);
 
@@ -259,7 +264,7 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
           <input
             type="search"
             value={q}
-            onChange={(e) => { setQ(e.target.value); setLimit(PAGE); }}
+            onChange={(e) => { setQ(e.target.value); setMore(false); }}
             placeholder="סימפטום · הודעת שגיאה · טרנזקציה (COGI) · טבלה (AFFW)"
             aria-label="חיפוש תקלות"
           />
@@ -293,7 +298,7 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
 
         <label className="nxl-sort">
           <span>מיון</span>
-          <select value={sort} onChange={(e) => { setSort(e.target.value as "repo" | "he"); setLimit(PAGE); }}>
+          <select value={sort} onChange={(e) => { setSort(e.target.value as "repo" | "he"); setMore(false); }}>
             <option value="repo">סדר המאגר</option>
             <option value="he">לפי כותרת</option>
           </select>
@@ -310,7 +315,7 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
               className="nu-filter"
               style={{ "--m": learnModVar(m.id) } as React.CSSProperties}
               aria-pressed={mod === m.id}
-              onClick={() => { setMod(mod === m.id ? "" : m.id); setLimit(PAGE); }}
+              onClick={() => { setMod(mod === m.id ? "" : m.id); setMore(false); }}
             >
               {m.id}<b>{nf.format(m.n)}</b>
             </button>
@@ -324,7 +329,7 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
               type="button"
               className="nu-filter"
               aria-pressed={imp === f.id}
-              onClick={() => { setImp(imp === f.id ? "" : f.id); setLimit(PAGE); }}
+              onClick={() => { setImp(imp === f.id ? "" : f.id); setMore(false); }}
             >
               {f.he}<b>{nf.format(f.n)}</b>
             </button>
@@ -376,23 +381,34 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
               <Row key={r.slug} r={r} impactHe={impactHe[r.impactKind] || r.impactKind} onOpen={onOpen} />
             ))}
           </ul>
-          {list.length > shown.length ? (
-            <div className="nxl-page">
-              <button type="button" className="nu-btn2" onClick={() => setLimit((n) => n + PAGE)}>
-                הצגת עוד {nf.format(Math.min(PAGE, list.length - shown.length))}
-                <span className="nxl-page-n">· נותרו {nf.format(list.length - shown.length)}</span>
-              </button>
-            </div>
+          {rest.length ? (
+            <details className="nxl-more" open={more} onToggle={(e) => setMore(e.currentTarget.open)}>
+              <summary className="nu-btn2">
+                {more ? "הסתרת" : "הצגת עוד"} {nf.format(rest.length)}
+              </summary>
+              <ul className="nxl-list">
+                {rest.map((r) => (
+                  <Row key={r.slug} r={r} impactHe={impactHe[r.impactKind] || r.impactKind} onOpen={onOpen} />
+                ))}
+              </ul>
+            </details>
           ) : null}
         </>
       )}
+
+      <nav className="nxr-also" aria-labelledby="inc-also-h">
+        <h2 className="nxr-also-h" id="inc-also-h">ראו גם</h2>
+        <ul>
+          <li><Link href="/neo/sap-notes/" prefetch={false} className="nu-link">מרכז SAP Notes — נתיבי פתרון</Link></li>
+        </ul>
+      </nav>
 
       <div className="nxl-foot">
         <p>
           {nf.format(totals.incidents - rows.filter((r) => r.impactKind).length)} רשומות ללא תג מסומנות «ללא תג השפעה».
         </p>
         <p>
-          מקור: קטלוג התקלות של הפרויקט: תיעוד פתרון בעיות מאומת, שאינו מחובר
+          מקור: קטלוג התקלות של הפרויקט, ידע תחום (לא bench-verified) שאינו מחובר
           {" "}למערכת SAP. הרשומות כוללות מילות חיפוש ל-SAP Notes, ללא מספרי Note.
         </p>
       </div>

@@ -11,6 +11,8 @@ import "@/app/neo/ui.css";
 import "@/app/neo/learn.css";
 import { academyData } from "@/components/neo-shell/learn/academy-data";
 import { AcademySurface } from "@/components/neo-shell/learn/academy-surface";
+import { AcademyLibrarySection } from "@/components/neo-shell/academy-ref/academy-library";
+import { academyLibrary } from "@/components/neo-shell/academy-ref/textbook-data";
 
 export const metadata = {
   title: "SAP Academy · Project NEO",
@@ -22,5 +24,9 @@ export const metadata = {
 // client surface as one plain object. Progress is NOT part of it — that is the
 // reader's own state and is read on the client from the product's own store.
 export default function NeoAcademy() {
-  return <AcademySurface data={academyData()} />;
+  return (
+    <AcademySurface data={academyData()}>
+      <AcademyLibrarySection lib={academyLibrary()} />
+    </AcademySurface>
+  );
 }

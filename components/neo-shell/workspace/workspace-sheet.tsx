@@ -28,7 +28,6 @@
 // both.
 
 import { enLang } from "../lang";
-import { useState } from "react";
 import type { WsSheet } from "./workspace-data";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -41,47 +40,50 @@ const FIRST = 3;
 const isCode = (s: string) => /^[A-Z0-9_\-/;.,()\s]+$/.test(s.trim()) && /[A-Z0-9]/.test(s);
 
 export function WorkspaceSheet({ sheet, lede }: { sheet: WsSheet; lede: string }) {
-  const [all, setAll] = useState(false);
-  const rows = all ? sheet.rows : sheet.rows.slice(0, FIRST);
+  const row = (r: string[], i: number) => {
+    const head = (r[sheet.keyCol] || "").trim();
+    return (
+      <li key={`${i}-${head}`} className="nw-sheet-r">
+        <p className="nw-sheet-h">
+          <span className="nw-sheet-i nw-sap" aria-hidden="true">
+            {String(i + 1).padStart(2, "0")}
+          </span>
+          <span className={isCode(head) ? "nw-sap" : undefined} lang={enLang(head)}>{head || "–"}</span>
+        </p>
+        <dl className="nw-sheet-kv">
+          {sheet.headers.map((h, c) => {
+            const v = (r[c] || "").trim();
+            // The ordinal column and the identity column are already the
+            // heading; an empty cell says nothing and is not printed.
+            if (!v || c === sheet.keyCol || /^מס'/.test(h)) return null;
+            return (
+              <div key={h + c}>
+                <dt lang={enLang(h)}>{h}</dt>
+                <dd className={isCode(v) ? "nw-sap" : undefined} lang={enLang(v)}>{v}</dd>
+              </div>
+            );
+          })}
+        </dl>
+      </li>
+    );
+  };
 
   return (
     <div className="nw-sheet">
       <p className="nw-sub-s">{lede}</p>
-      <ol className="nw-sheet-l">
-        {rows.map((row, i) => {
-          const head = (row[sheet.keyCol] || "").trim();
-          return (
-            <li key={`${i}-${head}`} className="nw-sheet-r">
-              <p className="nw-sheet-h">
-                <span className="nw-sheet-i nw-sap" aria-hidden="true">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span className={isCode(head) ? "nw-sap" : undefined} lang={enLang(head)}>{head || "–"}</span>
-              </p>
-              <dl className="nw-sheet-kv">
-                {sheet.headers.map((h, c) => {
-                  const v = (row[c] || "").trim();
-                  // The ordinal column and the identity column are already the
-                  // heading; an empty cell says nothing and is not printed.
-                  if (!v || c === sheet.keyCol || /^מס'/.test(h)) return null;
-                  return (
-                    <div key={h + c}>
-                      <dt lang={enLang(h)}>{h}</dt>
-                      <dd className={isCode(v) ? "nw-sap" : undefined} lang={enLang(v)}>{v}</dd>
-                    </div>
-                  );
-                })}
-              </dl>
-            </li>
-          );
-        })}
-      </ol>
+      <ol className="nw-sheet-l">{sheet.rows.slice(0, FIRST).map((r, i) => row(r, i))}</ol>
+      {/* The rest of the sheet is in the document, folded in a native
+          disclosure: a list rendered only after a click is content the static
+          page does not have (spec rule; module sections agent G, 2026-10). */}
       {sheet.rows.length > FIRST ? (
-        <button type="button" className="nu-btn2" aria-expanded={all} onClick={() => setAll((v) => !v)}>
-          {all
-            ? "הצגת הראשונות בלבד"
-            : `הצגת כל ${nf.format(sheet.rows.length)} השורות של «${sheet.title}»`}
-        </button>
+        <details className="nw-sheet-more">
+          <summary className="nu-btn2">
+            כל {nf.format(sheet.rows.length)} השורות של «{sheet.title}»
+          </summary>
+          <ol className="nw-sheet-l" start={FIRST + 1}>
+            {sheet.rows.slice(FIRST).map((r, i) => row(r, i + FIRST))}
+          </ol>
+        </details>
       ) : null}
     </div>
   );

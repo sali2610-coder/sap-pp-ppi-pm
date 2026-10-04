@@ -12,7 +12,7 @@
 // A target is "exact" (the same record in NEO), "equivalent" (the same thing
 // in NEO's form: a textbook's course, a book's reader) or "hub" (no NEO page
 // yet; the closest NEO section). Hubs are reported by family, never hidden.
-import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { readFileSync, readdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -46,12 +46,12 @@ const lessonCourse = new Map(); // slug -> course id, from /neo/academy/<course>
 for (const p of NEO) { const m = p.match(/^\/neo\/academy\/([^/]+)\/([^/]+)\/$/); if (m) lessonCourse.set(m[2], m[1]); }
 const centers = new Map(); // slug -> /neo/centers/<family>/<slug>/
 for (const p of NEO) { const m = p.match(/^\/neo\/centers\/([^/]+)\/([^/]+)\/$/); if (m && !centers.has(m[2])) centers.set(m[2], p); }
-// The digital library's textbooks and the NEO course each became (the course
-// lessons are a content-preserving migration of the textbook;
-// data/academy/lessons/<id>-generated.ts, lib/academy/model.ts).
+// The digital library's eight textbooks, each read inside its NEO course at
+// /neo/academy/<course>/textbook/ (chapters, reference index, quality report;
+// components/neo-shell/academy-ref/). TEXTBOOK keys are the old route bases,
+// REPORT_OF keys the old report/reference ids.
 const TEXTBOOK = { pp: "pp-pi", "pm-academy": "pm", "qm-academy": "qm", "mm-academy": "mm", "wm-academy": "wm", "ppds-academy": "pp-ds", "sop-academy": "sop", "pmu-academy": "pm-user" };
 const REPORT_OF = { pp: "pp-pi", pm: "pm", qm: "qm", mm: "mm", wm: "wm", ppds: "pp-ds", sop: "sop", pmu: "pm-user" };
-const LESSON_PREFIX = { mm: "mm", wm: "wm", "pp-ds": "ppds", sop: "sop", "pm-user": "pmu" };
 const recordOf = (code) => {
   for (const f of ["transactions", "tables", "object", "cds", "idoc", "bapi"]) if (has(`/neo/${f}/${code}/`)) return `/neo/${f}/${code}/`;
   return null;
@@ -60,7 +60,7 @@ const CENTER_FAMILIES = ["abap", "blueprints", "config", "debugging", "fiori", "
 // One NEO section per legacy family whose pages have no NEO record yet.
 const HUB = {
   tcode: "/neo/transactions/", apps: "/neo/transactions/", resolution: "/neo/incidents/", troubleshooting: "/neo/incidents/",
-  impact: "/neo/s4hana/", concepts: "/neo/knowledge/", exits: "/neo/enhancements/", "sap-notes": "/neo/incidents/",
+  impact: "/neo/tables/", concepts: "/neo/knowledge/", exits: "/neo/enhancements/", "sap-notes": "/neo/incidents/",
   oic: "/neo/knowledge/", solutions: "/neo/best-practices/", process: "/neo/domain-model/", "process-explorer": "/neo/domain-model/",
   story: "/neo/domain-model/", learn: "/neo/academy/", "qa-testing": "/neo/centers/", workbench: "/neo/centers/", guides: "/neo/centers/",
   security: "/neo/centers/process-auth/", authorizations: "/neo/centers/process-auth/", "ecc-s4": "/neo/s4-readiness/",
@@ -68,54 +68,89 @@ const HUB = {
   domain: "/neo/domain-model/", "fiori-apps": "/neo/fiori-apps/", enhancements: "/neo/enhancements/", idoc: "/neo/idoc/",
   knowledge: "/neo/knowledge/", academy: "/neo/academy/", library: "/neo/books/",
 };
+// Decided before the same-address twin. Visited online, the old offline page
+// leads home: /neo/offline/ is the page the worker serves from its cache when
+// there is no network, and a permanent redirect to it would tell an online
+// reader they are offline (and browsers cache a 308).
+const BEFORE_TWIN = { "/offline/": ["/neo/", "equivalent"] };
 // Single pre-NEO tools, each to the NEO surface that does that job.
 const SINGLE = {
   "/architect/": ["/neo/studio/", "equivalent"], "/copilot/": ["/neo/chat/", "equivalent"], "/brain/": ["/neo/ai/", "equivalent"],
-  "/graph/": ["/neo/erd/", "hub"], "/lineage/": ["/neo/erd/", "hub"], "/notes-graph/": ["/neo/knowledge/", "hub"],
+  // Intentional aliases (agent H, mig/H-decisions.csv): the ERD reads the same
+  // dataset the global graph did and takes #TABLE deep links; the object page's
+  // lineage lanes call the same kgraph() the lineage explorer opened on EQUI.
+  "/graph/": ["/neo/erd/", "equivalent"], "/lineage/": ["/neo/object/EQUI/", "equivalent"], "/notes-graph/": ["/neo/knowledge/", "hub"],
   "/mrp/": ["/neo/domain/pppi-mrp/", "equivalent"], "/onboarding/": ["/neo/academy/", "hub"], "/delivery/": ["/neo/centers/toolkit/", "hub"],
   "/alm/": ["/neo/", "hub"], "/connector/": ["/neo/", "hub"], "/evolution/": ["/neo/", "hub"], "/import/": ["/neo/", "hub"],
   "/quality-audit/": ["/neo/s4-readiness/", "hub"], "/sap-infrastructure/": ["/neo/", "hub"], "/verification/": ["/neo/s4hana/", "hub"],
-  // Visited online, the old offline page leads home; the worker reaches the
-  // NEO offline page from its cache, never through this address.
-  "/offline/": ["/neo/", "equivalent"],
+  // Not a transaction: the old splitter cut "ECC" out of BUT000's T-code cell
+  // "BP; (ECC: XK01/MK01 ...)". The page's one specific fact is that link, so
+  // it lands on BUT000, which shows the whole cell; a NEO page would invent a code.
+  "/tcode/ECC/": ["/neo/tables/BUT000/", "equivalent"],
 };
 
 /* ------------------------------------------------------ one page -> target */
 function resolve(p) {
   const seg = p.split("/").filter(Boolean);
   const fam = seg[0];
-  if (SINGLE[p] && has(SINGLE[p][0])) return SINGLE[p];
-  // the same record at the same address under /neo/
+  // the same record at the same address under /neo/. First, before the table
+  // of single tools below: a tool rebuilt at its own address (/alm/, /evolution/,
+  // the rollout of 2026-10) is its own page, not the hub it used to fall back on.
+  if (BEFORE_TWIN[p]) return BEFORE_TWIN[p];
   if (has("/neo" + p)) return ["/neo" + p, "exact"];
+  if (SINGLE[p] && has(SINGLE[p][0])) return SINGLE[p];
   if (fam === "academy") {
     if (seg[1] === "lesson" && lessonCourse.has(seg[2])) return [`/neo/academy/${lessonCourse.get(seg[2])}/${seg[2]}/`, "exact"];
     if (seg[1] === "path" && has(`/neo/academy/${seg[2]}/`)) return [`/neo/academy/${seg[2]}/`, "exact"];
-    return ["/neo/academy/", seg.length === 1 ? "equivalent" : "hub"];
+    // /academy/ and its dashboard: the directory carries the courses, the
+    // textbooks, their totals and the shared objects.
+    return ["/neo/academy/", seg.length === 1 || seg[1] === "dashboard" ? "equivalent" : "hub"];
   }
   if (fam === "library") {
     if (seg.length === 1) return ["/neo/books/", "equivalent"];
     const book = seg[1] === "v2" ? seg[2] : seg[1];
+    // A book's landing is its NEO book page (TOC, descriptions, stats); the
+    // reader is the fallback when that page is missing.
+    if (/^book\d+$/.test(book) && has(`/neo/books/${book}/`)) return [`/neo/books/${book}/`, "exact"];
     if (/^book\d+$/.test(book) && has(`/neo/read/${book}/`)) return [`/neo/read/${book}/`, "equivalent"];
     const course = TEXTBOOK[seg[1]];
     if (course) {
-      if (seg[2] === "object" && seg[3]) { const r = recordOf(seg[3]); return r ? [r, "exact"] : [`/neo/academy/${course}/`, "hub"]; }
-      const ch = seg[2]?.match(/^chapter-0*(\d+)$/);
-      const pre = LESSON_PREFIX[course];
-      if (ch && pre && has(`/neo/academy/${course}/${pre}-${ch[1]}-1/`)) return [`/neo/academy/${course}/${pre}-${ch[1]}-1/`, "equivalent"];
+      const tb = `/neo/academy/${course}/textbook/`;
+      if (seg[2] === "object" && seg[3]) {
+        if (has(`/neo/academy/${course}/objects/${seg[3]}/`)) return [`/neo/academy/${course}/objects/${seg[3]}/`, "exact"];
+        const r = recordOf(seg[3]); return r ? [r, "exact"] : [`/neo/academy/${course}/`, "hub"];
+      }
+      if (/^chapter-\d+$/.test(seg[2] || "") && has(`${tb}${seg[2]}/`)) return [`${tb}${seg[2]}/`, "exact"];
+      if (!seg[2] && has(tb)) return [tb, "exact"];
       return [`/neo/academy/${course}/`, "equivalent"];
     }
     const rep = seg[1].match(/^(.+)-quality-report$/);
-    if (rep && REPORT_OF[rep[1]]) return [`/neo/academy/${REPORT_OF[rep[1]]}/`, "hub"];
-    if (seg[1] === "academy" && seg[2] === "reference" && REPORT_OF[seg[3]]) return [`/neo/academy/${REPORT_OF[seg[3]]}/`, "hub"];
-    if (seg[1] === "academy" && seg[2] === "fiori") return ["/neo/fiori-apps/", "hub"];
+    if (rep && REPORT_OF[rep[1]]) {
+      const q = `/neo/academy/${REPORT_OF[rep[1]]}/textbook/quality/`;
+      return has(q) ? [q, "exact"] : [`/neo/academy/${REPORT_OF[rep[1]]}/`, "hub"];
+    }
+    if (seg[1] === "academy" && seg[2] === "reference" && REPORT_OF[seg[3]]) {
+      const r = `/neo/academy/${REPORT_OF[seg[3]]}/textbook/reference/`;
+      return has(r) ? [r, "exact"] : [`/neo/academy/${REPORT_OF[seg[3]]}/`, "hub"];
+    }
+    if (seg[1] === "academy" && seg[2] === "fiori") return has("/neo/academy/fiori/") ? ["/neo/academy/fiori/", "exact"] : ["/neo/fiori-apps/", "hub"];
     if (seg[1] === "academy") return ["/neo/academy/", "equivalent"];
     if (seg[1] === "ask") return ["/neo/ai/", "equivalent"];
     return ["/neo/books/", "hub"];
+  }
+  // The learning tracks: /learn/ and /learn/<id>/ each have their NEO page.
+  if (fam === "learn") {
+    if (!seg[1] && has("/neo/academy/tracks/")) return ["/neo/academy/tracks/", "exact"];
+    if (seg[1] && has(`/neo/academy/tracks/${seg[1]}/`)) return [`/neo/academy/tracks/${seg[1]}/`, "exact"];
   }
   if ((fam === "tcode" || fam === "apps") && seg[1]) { const r = recordOf(seg[1]); if (r) return [r, "exact"]; }
   // A legacy SAP-note page whose incident NEO builds under the same slug is that
   // incident (gate 2, round 3: /sap-notes/mrp-no-planned-orders/ went to the hub).
   if ((fam === "resolution" || fam === "troubleshooting" || fam === "sap-notes") && has(`/neo/incidents/${seg[1]}/`)) return [`/neo/incidents/${seg[1]}/`, "exact"];
+  // An impact page is a TABLE's impact analysis, and its content lives on the
+  // table's page (agent B, 2026-10-03): /impact/CRCA/ reached the transaction
+  // CRCA (0.03 of its text) while /neo/tables/CRCA/ carries all of it.
+  if (fam === "impact" && seg[1] && has(`/neo/tables/${seg[1]}/`)) return [`/neo/tables/${seg[1]}/`, "exact"];
   if (fam === "impact" && seg[1]) { const r = recordOf(seg[1]); if (r) return [r, "exact"]; }
   if (fam === "concepts" && seg[1]) {
     for (const f of ["knowledge", "enhancements"]) if (has(`/neo/${f}/${seg[1]}/`)) return [`/neo/${f}/${seg[1]}/`, "exact"];
@@ -164,12 +199,18 @@ const GROUPS = [
   [{ source: "/troubleshooting/:slug/", dest: "/neo/incidents/:slug/" }],
   [{ source: "/impact/:code/", dest: "/neo/tables/:code/" }],
   [{ source: "/concepts/:slug/", dest: "/neo/knowledge/:slug/" }],
-  [{ source: "/library/:book(book\\d+)/", dest: "/neo/read/:book/" }],
-  [{ source: "/library/v2/:book(book\\d+)/", dest: "/neo/read/:book/" }],
-  [{ source: "/library/pp/object/:code/", dest: "/neo/transactions/:code/" }, { source: "/library/pp/object/:code/", dest: "/neo/academy/pp-pi/" }],
+  [{ source: "/library/:book(book\\d+)/", dest: "/neo/books/:book/" }, { source: "/library/:book(book\\d+)/", dest: "/neo/read/:book/" }],
+  [{ source: "/library/v2/:book(book\\d+)/", dest: "/neo/books/:book/" }, { source: "/library/v2/:book(book\\d+)/", dest: "/neo/read/:book/" }],
+  [{ source: "/library/pp/object/:code/", dest: "/neo/academy/pp-pi/objects/:code/" }, { source: "/library/pp/object/:code/", dest: "/neo/transactions/:code/" }],
+  ...Object.entries(TEXTBOOK).map(([base, course]) => [{ source: `/library/${base}/:ch(chapter-\\d+)/`, dest: `/neo/academy/${course}/textbook/:ch/` }]),
+  [{ source: "/learn/:slug/", dest: "/neo/academy/tracks/:slug/" }, hubPat("learn")],
   ...["object", "cds", "domain", "fiori-apps", "enhancements", "idoc", "bapi"].map((f) => [{ source: `/${f}/:id/`, dest: `/neo/${f}/:id/` }]),
   ...CENTER_FAMILIES.map((f) => [{ source: `/${f}/:slug/`, dest: `/neo/centers/${f}/:slug/` }]),
-  ...["exits", "sap-notes", "learn", "process", "oic", "solutions", "pm", "pp-pi", "security", "qa-testing", "process-explorer", "workbench", "design", "ecc-s4", "guides"].map((f) => [hubPat(f)]),
+  // The record families rebuilt at their old address under /neo/ (rollout
+  // 2026-10, P0 §3): the mirror pattern covers them all in one rule; the hub
+  // stays a candidate for a family whose pages are not all rebuilt.
+  ...["exits", "sap-notes", "process", "oic", "solutions", "pm", "pp-pi", "security", "qa-testing", "process-explorer", "workbench", "ecc-s4", "guides", "story"].map((f) => [{ source: `/${f}/:slug/`, dest: `/neo/${f}/:slug/` }, hubPat(f)]),
+  [hubPat("design")],
 ];
 // path-to-regexp subset used above: literal segments, :name, :name(regex).
 export function compile(source) {
@@ -222,8 +263,10 @@ const head = [
   { source: "/", destination: "/neo/", permanent: false },
 ];
 const generated = [
-  ...explicit.map((e) => ({ source: e.source, destination: e.destination, permanent: false })),
-  ...pats.filter((pt) => RESOLVED.some((r) => coveredBy[r.from] && apply([pt], r.from))).map((pt) => ({ ...pt, permanent: false })),
+  // Permanent (308): every legacy address now has its final NEO page (spec P0
+  // §3). The root's redirect above stays temporary; it is a product choice.
+  ...explicit.map((e) => ({ source: e.source, destination: e.destination, permanent: true })),
+  ...pats.filter((pt) => RESOLVED.some((r) => coveredBy[r.from] && apply([pt], r.from))).map((pt) => ({ ...pt, permanent: true })),
 ];
 const next = { ...vercel, redirects: [...head, ...generated] };
 

@@ -35,6 +35,7 @@ import { OriginLink, useReturnState, type OriginArg } from "@/components/neo-she
 import { BookCover } from "./book-cover";
 import { BookQuickView } from "./quick-view";
 import { noteHandoff, useReading } from "./reading-state";
+import { markOpening } from "./opening";
 import { resolveResume, resumeLine } from "./resume";
 import { neoReadHref } from "./links";
 import type { BooksData } from "./books-data";
@@ -294,6 +295,7 @@ export function BookShelf({ data }: { data: BooksData }) {
               className="nu-link"
               href={selected.hubHref}
               origin={() => leaving(selected.titleHe || selected.titleEn)}
+              onClick={() => markOpening(selected.id)}
             >
               מרכז הספר
               <ArrowLeft className="nu-arw" size={14} strokeWidth={1.75} aria-hidden="true" />
@@ -333,6 +335,8 @@ export function BookShelf({ data }: { data: BooksData }) {
           ? `כל ${data.totals.books} הספרים`
           : `${shown} מתוך ${data.totals.books} ספרים`}
       </p>
+      {/* The old /library/ landing's own provenance line for the shelf. */}
+      <p className="nb-note">מדריכי העיון מאונדקסים מתוך תוכן העניינים של קובצי ה-PDF המקוריים. תרגום עברי מקצועי נכתב עבור הארגון.</p>
 
       <div className="nb-shelves">
         {groups.map((g) => {
@@ -356,6 +360,8 @@ export function BookShelf({ data }: { data: BooksData }) {
                 </p>
                 <p className="nb-shelf-n nb-shelf-n2">
                   {g.chapters} פרקים
+                  {/* the dot is decoration; a reader hears the comma, not "פרקים48" */}
+                  <span className="nx-sr">, </span>
                   <i aria-hidden="true" />
                   {nf.format(g.sections)} תת-פרקים
                 </p>
@@ -428,6 +434,8 @@ export function BookShelf({ data }: { data: BooksData }) {
                       <div className="nb-card-meta">
                         <h3 className="nb-card-t" lang={enLang(b.titleHe || b.titleEn)}>{b.titleHe || b.titleEn}</h3>
                         {b.titleHe && <p className="nb-card-t2 nb-sap" lang={enLang(b.titleEn)}>{b.titleEn}</p>}
+                        {b.shelfHe && b.shelfHe !== b.titleHe && <p className="nb-card-t2">{b.shelfHe}</p>}
+                        {b.shelfEn && b.shelfEn !== b.titleEn && <p className="nb-card-t2 nb-sap" lang="en">{b.shelfEn}</p>}
                         <p className="nb-card-n">
                           <span>{b.chapters} פרקים</span>
                           <i aria-hidden="true" />

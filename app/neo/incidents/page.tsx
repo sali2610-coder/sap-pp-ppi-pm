@@ -10,6 +10,7 @@
 // placement rules still win.
 import "@/app/neo/ui.css";
 import "@/app/neo/learn.css";
+import "@/app/neo/learn-records.css";
 import { incidentsData } from "@/components/neo-shell/learn/incidents-data";
 import { IncidentsSurface } from "@/components/neo-shell/learn/incidents-surface";
 

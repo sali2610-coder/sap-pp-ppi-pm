@@ -35,8 +35,11 @@
    ========================================================================== */
 
 import { INCIDENTS, type Incident } from "@/data/troubleshooting";
+import { SAP_NOTES } from "@/data/sap-notes";
+import { OIC_OBJECTS } from "@/lib/cross-links";
 import { tableNames } from "@/components/neo-shell/erd/model";
 import { registryCodes } from "@/lib/tx-registry";
+import { IMPACT_UNTAGGED } from "./incidents-impact";
 
 /** A code the source listed, plus the page it resolves to — or "" when the
  *  project holds no page for it. */
@@ -139,7 +142,7 @@ const IMPACT_HE: Record<string, string> = {
   MONITORING: "ניטור",
 };
 
-const UNTAGGED = "__none";
+const UNTAGGED = IMPACT_UNTAGGED;
 
 let cached: IncidentsData | null = null;
 
@@ -236,12 +239,38 @@ export function incidentsData(): IncidentsData {
 }
 
 /** The id the surface uses for "the source wrote no impact tag". */
-export const IMPACT_UNTAGGED = UNTAGGED;
+export { IMPACT_UNTAGGED };
 
 /** The param list for /neo/incidents/[slug] — the same array the directory
  *  lists from, so a row can never open a page that was not built. */
 export const incidentSlugs = (): string[] => INCIDENTS.map((i) => i.slug);
 
-export function incidentDetail(slug: string): IncidentRow | null {
-  return incidentsData().rows.find((r) => r.slug === slug) ?? null;
+/** A business object of the project's object registry (lib/cross-links
+ *  OIC_OBJECTS) whose primary table the incident lists among its tables. The
+ *  view links it to /neo/oic/<slug>/ only when that page is generated. */
+export interface IncidentObject { slug: string; he: string; table: string }
+
+/** A SAP Note resolution topic (data/sap-notes) whose `relatedIncidents` names
+ *  this incident: its application component and title. The source carries no
+ *  note numbers, so none are shown. The view links it to /neo/sap-notes/<slug>/
+ *  only when that page is generated. */
+export interface IncidentNoteTopic { slug: string; component: string; he: string }
+
+/** The detail page's record: the catalogue row plus the two cross-references
+ *  only the detail page shows, so the directory payload does not grow. */
+export interface IncidentDetail extends IncidentRow {
+  objects: IncidentObject[];
+  noteTopics: IncidentNoteTopic[];
+}
+
+export function incidentDetail(slug: string): IncidentDetail | null {
+  const r = incidentsData().rows.find((x) => x.slug === slug);
+  if (!r) return null;
+  const tables = new Set(r.tables.map((t) => t.code));
+  return {
+    ...r,
+    objects: OIC_OBJECTS.filter((o) => tables.has(o.table)).map((o) => ({ slug: o.slug, he: o.he, table: o.table })),
+    noteTopics: SAP_NOTES.filter((n) => (n.relatedIncidents || []).includes(slug))
+      .map((n) => ({ slug: n.slug, component: n.component, he: n.he })),
+  };
 }

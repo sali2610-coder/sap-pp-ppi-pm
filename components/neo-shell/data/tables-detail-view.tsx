@@ -41,7 +41,7 @@ import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 import Link from "next/link";
 import {
   AppWindow, ArrowLeft, ArrowUpLeft, BadgeCheck, BookOpen, Boxes, Cable,
-  Columns3, Database, GitBranch, Layers, Library, Sigma, Table2,
+  Columns3, Database, Gauge, GitBranch, Layers, Library, Sigma, Table2,
   Terminal, TriangleAlert, Workflow,
 } from "lucide-react";
 import { RISK_COLOR } from "@/lib/s4";
@@ -139,6 +139,9 @@ export function TableDetailView({ t }: { t: TableDetail }) {
     ["nxb-fields", "שדות ומפתחות"],
     ["nxb-rel", "קשרים ו-JOIN"],
     ["nxb-s4", "המעבר ל-S/4HANA"],
+    // The legacy impact analysis (/impact/<NAME>/ lands here), right after the
+    // S/4HANA plate whose risk is one of its four factors.
+    ...(t.impact ? [["nxb-imp", "ניתוח השפעה"] as [string, string]] : []),
     ["nxb-own", t.rows.length > 1 ? "רשומות התיעוד" : "רשומת התיעוד"],
     ["nxb-tx", "טרנזקציות"],
     ["nxb-cds", "תצוגות CDS"],
@@ -594,6 +597,66 @@ export function TableDetailView({ t }: { t: TableDetail }) {
           <Missing what="הערת מעבר ל-S/4HANA" />
         )}
       </Sec>
+
+      {/* ========================================== IMPACT ANALYSIS */}
+      {t.impact ? (
+        <Sec
+          id="nxb-imp"
+          n={num["nxb-imp"]}
+          icon={<Gauge size={16} strokeWidth={1.75} />}
+          eyebrow="ניתוח השפעה"
+          title="ניתוח השפעה ותלויות"
+          lede="ציון השפעה הוא היוריסטיקה שקופה: השפעת S/4 + רדיוס תלויות + צימוד + תקלות ידועות. אינדיקציה לתעדוף ניתוח — לא דירוג SAP רשמי."
+        >
+          <div className="nxi-score">
+            <p>
+              <b className="nx-sap">{t.impact.score}</b>
+              <span>מתוך 100</span>
+              <em>{t.impact.tierHe}</em>
+            </p>
+            <h3 className="nxb-h3">מתוך מה מורכב הציון</h3>
+            <ul className="nxi-factors">
+              {t.impact.factors.map((f) => (
+                <li key={f.label}>
+                  <span className="nxi-f-l">{f.label}</span>
+                  <span className="nxi-f-bar" aria-hidden="true">
+                    <i style={{ inlineSize: `${f.points}%` }} />
+                  </span>
+                  <b className="nx-sap">{f.points}</b>
+                  <em>{f.detail}</em>
+                </li>
+              ))}
+            </ul>
+          </div>
+          {t.impact.replacement || t.impact.step ? (
+            <dl className="nxb-kv">
+              {t.impact.replacement ? (
+                <div><dt>חלופה ב-S/4:</dt><dd className="nx-sap" dir="ltr">{t.impact.replacement}</dd></div>
+              ) : null}
+              {t.impact.step ? (<div><dt>צעד בתהליך</dt><dd>{t.impact.step}</dd></div>) : null}
+            </dl>
+          ) : null}
+          <h3 className="nxb-h3">
+            <TriangleAlert size={14} strokeWidth={1.75} aria-hidden="true" />
+            תקלות ופתרון תקלות קשורים
+          </h3>
+          {t.impact.incidents.length ? (
+            <ul className="nxi-inc">
+              {t.impact.incidents.map((i) => (
+                <li key={i.slug}>
+                  <OriginLink className="nu-link" href={i.href} origin={origin}>
+                    {i.he}
+                    <ArrowLeft className="nu-arw" size={13} strokeWidth={2} aria-hidden="true" />
+                  </OriginLink>
+                  {i.symptom ? <span>{i.symptom}</span> : null}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <Missing what="תקלות מתועדות" />
+          )}
+        </Sec>
+      ) : null}
 
       {/* ============================================== 5. WHO OWNS IT */}
       <Sec

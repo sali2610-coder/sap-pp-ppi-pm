@@ -19,6 +19,7 @@ import { ENHANCEMENTS, type Enhancement } from "@/data/enhancements";
 import { EXITS, type Exit, type ExitKind } from "@/data/exits";
 import { evidenceBlock, fromEccS4Block } from "@/lib/evidence";
 import { canonStatus } from "./canon";
+import { exitHref } from "../records/links";
 import { completeness, enhHref, nf, txHref, uniq } from "./ref-links";
 import type { RefCard, RefDetail, RefDir, RefFact, RefRow, RefSection, RefStatus, RefCompare } from "./types";
 
@@ -228,11 +229,11 @@ export function enhDetail(slug: string): RefDetail | null {
     ],
   });
 
-  /* named exits — values, not destinations: the project has no NEO page per
-     named exit, so they are rendered as inert cards rather than as links that
-     would open nothing. */
+  /* named exits — each opens its /neo/exits/<slug>/ page where the export
+     generates one; a name with no page stays an inert card rather than a link
+     that would open nothing. */
   const cards: RefCard[] = exits.map((x) => ({
-    href: null,
+    href: exitHref(x.name),
     code: x.name,
     he: x.he,
     mod: x.module === "Cross" ? undefined : x.module,

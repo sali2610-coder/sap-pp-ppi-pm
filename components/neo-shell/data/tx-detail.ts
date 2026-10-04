@@ -35,6 +35,9 @@
      lib/s4              the shared S/4 vocabulary (TRUST_HE / RISK_HE /
                          RISK_COLOR) and s4For(), reused verbatim for the S/4
                          disposition of each related TABLE.
+     ./tx/blocks         the blocks the legacy /tcode/ and /apps/ pages showed
+                         that this record did not carry yet, and the codes
+                         only the blueprint lists (a page that says so).
    ========================================================================== */
 
 import { ALL_TABLES } from "@/data/sapData";
@@ -50,6 +53,12 @@ import { s4For } from "@/lib/s4";
 import { evidenceBlock, fromTxDisposition } from "@/lib/evidence";
 import type { CanonicalId, EvidenceBlockData, S4Status } from "@/lib/evidence/types";
 import { tableNames } from "@/components/neo-shell/object/object-data";
+import { incidentSlugs } from "@/components/neo-shell/learn/incidents-data";
+import {
+  appsLayer, blueprintProfile, intelBlocks,
+  type TxAppsLayer, type TxIntelBlocks, type TxProfileDim,
+} from "./tx/blocks";
+import { blueprintOnlyCodes } from "./tx/codes";
 
 /** The exact set app/neo/object/[name] generates. Built once per module load. */
 const OBJECT_ROUTES: ReadonlySet<string> = new Set(tableNames());
@@ -71,6 +80,12 @@ export interface TxTableRef {
   /** "authored" = the transaction record names it. "blueprint" = the PM/PP-PI
    *  dictionary lists this T-Code on the table. Two different claims. */
   from: "authored" | "blueprint";
+  /** The dictionary module(s) that hold the table ("PM · PP-PI"), "" outside
+   *  PM / PP-PI. */
+  module: string;
+  /** The blueprint lists this T-Code on the table too (true for every
+   *  "blueprint" row, and for an authored row the blueprint confirms). */
+  inBlueprint: boolean;
   /** S/4 disposition of the TABLE, from lib/s4. null when the dictionary has
    *  nothing to say and the table therefore needs verification in SAP. */
   risk: "high" | "medium" | "low" | "none";
@@ -88,6 +103,8 @@ export interface TxIssue {
   /** "error" = a message the transaction really raises. "mistake" = a documented
    *  implementation error. "incident" = a full incident record in the KB. */
   kind: "error" | "mistake" | "incident";
+  /** The incident's own page in NEO; null for the other kinds. */
+  href: string | null;
 }
 
 export type S4Disposition = "superseded" | "changed" | "available" | "unknown";
@@ -118,6 +135,9 @@ export interface TxS4 {
 
 export interface TxDetail {
   code: string;
+  /** "registry": the canonical registry carries the code. "blueprint": only the
+   *  PM / PP-PI blueprint rows list it, and the page says so. */
+  origin: "registry" | "blueprint";
   module: string;
   moduleHe: string;
   area: string;
@@ -144,6 +164,9 @@ export interface TxDetail {
   tables: TxTableRef[];
   bapis: string[];
   exits: string[];
+  /** The part of `exits` that comes only from the enhancement catalogue's own
+   *  T-Code lists (data/exits), i.e. derived rather than on the record. */
+  exitsDerived: string[];
   badis: string[];
   enhancements: string[];
   auth: string[];
@@ -154,6 +177,12 @@ export interface TxDetail {
   evidence: EvidenceBlockData;
   neighbours: TxRef[];
   issues: TxIssue[];
+  /** The authored tx-intel blocks of the legacy /tcode/ page. */
+  blocks: TxIntelBlocks | null;
+  /** The legacy /apps/ page's layer (evolution path, Fiori catalogue, lifecycle). */
+  apps: TxAppsLayer | null;
+  /** The kind-level profile, for a code only the blueprint lists. */
+  profile: TxProfileDim[] | null;
   /** How many of the 14 named facts the dataset actually answers. Honest
    *  completeness, computed — not a rating. */
   known: number;
@@ -304,16 +333,22 @@ function buildS4(code: string, intel: (typeof TX_INTEL)[string] | undefined, aut
 /* ------------------------------------------------------------- the build */
 
 const tableIndex = (() => {
-  let m: Map<string, { he: string; s4: string; alt: string }> | null = null;
+  let m: Map<string, { he: string; s4: string; alt: string; modules: string[] }> | null = null;
   return () => {
     if (m) return m;
     m = new Map();
     for (const t of ALL_TABLES) {
-      if (m.has(t.tableName)) continue;
+      const cur = m.get(t.tableName);
+      if (cur) {
+        // A table both blueprints hold (JEST, JSTO) keeps both modules.
+        if (!cur.modules.includes(t.module)) cur.modules.push(t.module);
+        continue;
+      }
       m.set(t.tableName, {
         he: clean(t.descriptionHe) || clean(t.descriptionEn),
         s4: clean(t.s4Note),
         alt: clean(t.s4AltTable),
+        modules: [t.module],
       });
     }
     return m;
@@ -333,6 +368,8 @@ function tablesFor(code: string, authoredNames: string[]): TxTableRef[] {
       name,
       he: meta?.he || "",
       from: authoredNames.some((n) => n.toUpperCase() === name) ? "authored" : "blueprint",
+      module: (meta?.modules || []).join(" · "),
+      inBlueprint: blueprint.has(name),
       risk: st.risk,
       trust: st.trust,
       note: clean(st.impact?.changed),
@@ -350,7 +387,7 @@ function tablesFor(code: string, authoredNames: string[]): TxTableRef[] {
   });
 }
 
-function neighboursFor(code: string, reg: RegistryTx): TxRef[] {
+function neighboursFor(code: string, reg: RegistryTx | undefined): TxRef[] {
   const seen = new Set<string>([code]);
   const out: TxRef[] = [];
   const push = (c: string, reason: string) => {
@@ -367,8 +404,9 @@ function neighboursFor(code: string, reg: RegistryTx): TxRef[] {
   // 2. what the graph says leads INTO this code
   for (const c of txLeadingInto(code).slice(0, 4)) push(c, "מובילה לכאן");
   // 3. only if the graph is silent: the registry's own grouping. Labelled as
-  //    grouping, not as a process relation, because that is all it is.
-  if (out.length < 4) {
+  //    grouping, not as a process relation, because that is all it is. A code
+  //    only the blueprint lists has no registry row, so no grouping.
+  if (reg && out.length < 4) {
     for (const t of txRegistry().values()) {
       if (out.length >= 8) break;
       if (t.module !== reg.module || !t.area || t.area !== reg.area) continue;
@@ -378,21 +416,30 @@ function neighboursFor(code: string, reg: RegistryTx): TxRef[] {
   return out.slice(0, 10);
 }
 
+/** The slugs /neo/incidents/[slug] generates, so an incident links only to a
+ *  page that exists. */
+let _incidentPages: Set<string> | null = null;
+const incidentHref = (slug: string): string | null =>
+  (_incidentPages ??= new Set(incidentSlugs())).has(slug) ? `/neo/incidents/${encodeURIComponent(slug)}/` : null;
+
+// No cap: the legacy transaction page listed every authored error and mistake,
+// and a cap of 14 dropped incidents from the end of long records.
 function issuesFor(code: string, intel: (typeof TX_INTEL)[string] | undefined, authored: (typeof TRANSACTIONS)[number] | undefined): TxIssue[] {
   const out: TxIssue[] = [];
-  for (const e of list(intel?.commonErrors).concat(list(authored?.errors))) out.push({ he: e, detail: "", kind: "error" });
-  for (const m of list(intel?.mistakes)) out.push({ he: m, detail: "", kind: "mistake" });
+  for (const e of uniq(list(intel?.commonErrors).concat(list(authored?.errors)))) out.push({ he: e, detail: "", kind: "error", href: null });
+  for (const m of list(intel?.mistakes)) out.push({ he: m, detail: "", kind: "mistake", href: null });
   for (const i of INCIDENTS) {
     if (!(i.analyzeTcodes || []).some((x) => clean(x).toUpperCase() === code)) continue;
-    out.push({ he: i.he, detail: clean(i.symptom), kind: "incident" });
+    out.push({ he: i.he, detail: clean(i.symptom), kind: "incident", href: incidentHref(i.slug) });
   }
-  return out.slice(0, 14);
+  return out;
 }
 
-/** Every code the NEO transaction registry knows — i.e. exactly the set of
- *  pages /neo/transactions/[code] generates, and exactly the set of codes any
- *  NEO surface is allowed to link at. */
-export const txDetailCodes = (): string[] => registryCodes();
+/** Every code with a /neo/transactions/<CODE>/ page — exactly the set the
+ *  route generates, and exactly the set of codes any NEO surface is allowed to
+ *  link at: the canonical registry, then the codes only the PM / PP-PI
+ *  blueprint lists (their page says it is not in the registry). */
+export const txDetailCodes = (): string[] => [...registryCodes(), ...blueprintOnlyCodes()];
 
 /** The canonical S/4HANA status of EVERY registry code, keyed by code, from
  *  the same derived claim the detail page's evidence block resolves (an
@@ -404,29 +451,47 @@ let txStatusCache: Record<string, S4Status> | null = null;
 export function txStatusMap(): Record<string, S4Status> {
   if (txStatusCache) return txStatusCache;
   const out: Record<string, S4Status> = {};
-  for (const code of registryCodes()) {
+  for (const code of txDetailCodes()) {
     const intel = TX_INTEL[code];
     const authored = TRANSACTIONS.find((t) => t.code.toUpperCase() === code);
     const s4 = buildS4(code, intel, authored);
-    out[code] = evidenceBlock(
-      `tx:${code}`,
-      fromTxDisposition(
-        s4.disposition,
-        s4.trust,
-        s4.supersededBy[0] ? (`tx:${s4.supersededBy[0]}` as CanonicalId) : undefined,
-      ),
-      {},
-      "transactions",
-    ).status.key;
+    out[code] = evidenceBlock(`tx:${code}`, derivedClaim(code, s4), {}, "transactions").status.key;
   }
   txStatusCache = out;
   return out;
 }
 
+let _bpOnly: Set<string> | null = null;
+const isBlueprintOnly = (code: string) => (_bpOnly ??= new Set(blueprintOnlyCodes())).has(code);
+
+/** The derived S/4 claim behind the evidence block. For a code only the
+ *  blueprint lists, the mapper's origin line ("לפי רשומת הטרנזקציה במאגר
+ *  (tx-intel)") would name a record that does not exist, so the claim names
+ *  the blueprint rows it really comes from. The status is the same. */
+function derivedClaim(code: string, s4: TxS4) {
+  const claim = fromTxDisposition(
+    s4.disposition,
+    s4.trust,
+    s4.supersededBy[0] ? (`tx:${s4.supersededBy[0]}` as CanonicalId) : undefined,
+  );
+  return isBlueprintOnly(code)
+    ? {
+        ...claim,
+        he: "לפי שורות תיעוד המקור (blueprint) שמציינות את הקוד; אין לו רשומה במאגר הטרנזקציות: לא קיים תיעוד מאומת במאגר",
+        derivedFrom: "blueprint" as const,
+      }
+    : claim;
+}
+
 export function txDetail(rawCode: string): TxDetail | null {
   const code = clean(rawCode).toUpperCase();
   const reg = registryTx(code);
-  if (!reg) return null;
+  const bpOnly = !reg && isBlueprintOnly(code);
+  if (!reg && !bpOnly) return null;
+  // A code only the blueprint lists: its module is the blueprint's own, read
+  // off the rows that list it; there is no registry title, area or depth.
+  const bpModules = bpOnly ? tcodeIntel(code)?.modules || [] : [];
+  const mod = reg ? reg.module : bpModules.join(" · ");
 
   const intel = TX_INTEL[code];
   const authored = TRANSACTIONS.find((t) => t.code.toUpperCase() === code);
@@ -438,26 +503,28 @@ export function txDetail(rawCode: string): TxDetail | null {
   const bapis = uniq([...list(intel?.bapis), ...list(authored?.funcs)]);
 
   // Exits: the transaction's own list, plus the enhancement catalog's reverse
-  // claim (an Exit record that names this T-Code). Both are dataset facts.
-  const exits = uniq([
-    ...list(intel?.userExits),
-    ...list(authored?.exits),
-    ...EXITS.filter((e) => (e.tcodes || []).some((x) => clean(x).toUpperCase() === code)).map((e) => e.name),
-  ]);
+  // claim (an Exit record that names this T-Code). Both are dataset facts; the
+  // second is kept apart as well, so the screen can say it is derived.
+  const ownExits = uniq([...list(intel?.userExits), ...list(authored?.exits)]);
+  const exitsDerived = uniq(
+    EXITS.filter((e) => (e.tcodes || []).some((x) => clean(x).toUpperCase() === code)).map((e) => e.name),
+  ).filter((x) => !ownExits.includes(x));
+  const exits = [...ownExits, ...exitsDerived];
 
   const purpose = clean(intel?.descHe) || clean(authored?.purpose);
   const process = clean(intel?.process) || clean(authored?.process);
 
   const detail: TxDetail = {
     code,
-    module: reg.module,
-    moduleHe: txModuleHe(reg.module),
-    area: clean(reg.area),
+    origin: reg ? "registry" : "blueprint",
+    module: mod,
+    moduleHe: txModuleHe(mod),
+    area: clean(reg?.area),
     // The registry already resolved the Hebrew title across the four sources,
     // deep-first. Re-deriving it here would risk a second, divergent answer.
-    he: clean(reg.he),
-    en: clean(reg.en),
-    depth: reg.depth,
+    he: clean(reg?.he),
+    en: clean(reg?.en),
+    depth: reg?.depth ?? "light",
     verified: intel?.verified === "verified",
     sources: list(intel?.sources),
     popularity: txPopularity(code),
@@ -477,6 +544,7 @@ export function txDetail(rawCode: string): TxDetail | null {
     tables,
     bapis,
     exits,
+    exitsDerived,
     badis: list(intel?.badis),
     enhancements: list(intel?.enhancements),
     auth: list(intel?.authObjects),
@@ -489,19 +557,18 @@ export function txDetail(rawCode: string): TxDetail | null {
     // the authored facts: purpose, process, tables, BAPIs.
     evidence: evidenceBlock(
       `tx:${code}`,
-      fromTxDisposition(
-        s4.disposition,
-        s4.trust,
-        s4.supersededBy[0] ? (`tx:${s4.supersededBy[0]}` as CanonicalId) : undefined,
-      ),
+      derivedClaim(code, s4),
       {
-        hasHe: !!clean(reg.he),
+        hasHe: !!clean(reg?.he),
         structural: [purpose, process, tables.length > 0, bapis.length > 0].filter(Boolean).length,
       },
       "transactions",
     ),
     neighbours: neighboursFor(code, reg),
     issues: issuesFor(code, intel, authored),
+    blocks: intelBlocks(code),
+    apps: null,
+    profile: bpOnly ? blueprintProfile(code, (n) => (OBJECT_ROUTES.has(n) ? `/neo/object/${encodeURIComponent(n)}/` : null)) : null,
     known: 0,
     total: 0,
   };
@@ -520,6 +587,11 @@ export function txDetail(rawCode: string): TxDetail | null {
       : "changed";
     detail.s4 = { ...detail.s4, he: canon.label, disposition: disp ?? detail.s4.disposition };
   }
+
+  // The /apps/ layer reads the plate's final headline: where data/lifecycle.ts
+  // has no entry, the S/4HANA step of the evolution path says what the plate
+  // says rather than the lifecycle file's default.
+  detail.apps = appsLayer(code, detail.s4.he);
 
   // The 14 facts the brief names, counted honestly: a fact is "known" only when
   // the dataset actually answers it. The screen prints both numbers, so a thin

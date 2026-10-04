@@ -338,6 +338,11 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
 
   const trust = TRUST[lesson.trust];
   const started = doneSet.size > 0;
+  /* The lede is the lesson's own opening block ("objective" in every lesson
+     the engine holds). It is read BEFORE the progress box: a reader arriving
+     from an old address meets the lesson itself first, not a device counter. */
+  const lede = blocks[0]?.kind === "objective" ? blocks[0] : null;
+  const body = lede ? blocks.slice(1) : blocks;
 
   return (
     <div
@@ -373,6 +378,13 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
           ) : null}
         </div>
       </header>
+
+      {/* ---------------------------------------------------------- LEDE */}
+      {lede ? (
+        <div className="nxs-flow-doc">
+          <Section b={lede} done={doneSet.has(lede.kind)} onRead={() => read(lede.kind)} />
+        </div>
+      ) : null}
 
       {/* ------------------------------------------------- WHERE YOU ARE */}
       <section className="nxv-s4" aria-labelledby="nxs-p">
@@ -426,13 +438,13 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
         <p className="nx-muted nxs-none">
           לשיעור זה אין יחידות תוכן במאגר השיעורים.
         </p>
-      ) : (
+      ) : body.length ? (
         <div className="nxs-flow-doc">
-          {blocks.map((b) => (
+          {body.map((b) => (
             <Section key={b.kind} b={b} done={doneSet.has(b.kind)} onRead={() => read(b.kind)} />
           ))}
         </div>
-      )}
+      ) : null}
 
       {/* --------------------------------------------------------- STEPPING */}
       <nav className="nxs-steps" aria-label="מעבר בין שיעורים">

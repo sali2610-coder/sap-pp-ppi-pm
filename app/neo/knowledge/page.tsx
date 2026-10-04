@@ -12,8 +12,10 @@
 // buttons. Imported FIRST so learn.css's placement rules still win.
 import "@/app/neo/ui.css";
 import "@/app/neo/learn.css";
+import "@/app/neo/learn-records.css";
 import { knowledgeData } from "@/components/neo-shell/learn/knowledge-data";
 import { KnowledgeSurface } from "@/components/neo-shell/learn/knowledge-surface";
+import { KnowledgeJourneys } from "@/components/neo-shell/learn/knowledge-journeys";
 
 // noindex, like every other page in the namespace: scripts/gen-sitemap.mjs
 // derives the sitemap from out/ and its only exclusion mechanism is a page
@@ -29,5 +31,11 @@ export const metadata = {
 // hands the client surface one small plain object — the same boundary
 // app/neo/layout.tsx keeps for the rail.
 export default function NeoKnowledge() {
-  return <KnowledgeSurface data={knowledgeData()} />;
+  // The centres by task (the legacy /knowledge/ directory, content parity
+  // 2026-10) are server-rendered here and placed by the surface.
+  return (
+    <KnowledgeSurface data={knowledgeData()}>
+      <KnowledgeJourneys />
+    </KnowledgeSurface>
+  );
 }

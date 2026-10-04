@@ -17,6 +17,14 @@
      · Every control is a real .nu-* control with a real destination, and every
        outgoing link records the origin so the page it opens can come back here.
 
+   THE LEGACY PAGES' BLOCKS (tx/blocks.ts), in the order a reader needs them:
+     the /apps/ evolution path after the S/4 plate; the plain explanation and
+     the consultant's note in «תפקיד הטרנזקציה»; debug, performance, tips and
+     examples behind «פירוט Enterprise»; the process strip and every relation
+     list beside the related transactions; the consultant's notes and the
+     interview questions last. Long secondary content sits in native <details>,
+     so it is in the HTML and the first screen stays what it was.
+
    FORM RULE (app/globals.css, above --mod-pm), obeyed exactly
      STATUS  — S/4 risk, verification trust and registry depth. Each is a small
                dot plus its word (.nu-status), never a surface and never a ring.
@@ -26,11 +34,11 @@
                changes in S/4HANA. It is not a module colour and not a status.
    ========================================================================== */
 
-import { enLang } from "../lang";
+import { enDir, enLang } from "../lang";
 import { ViewTransition } from "react";
 import {
-  AlertTriangle, AppWindow, ArrowLeft, Boxes, GitBranch, KeyRound,
-  Plug, ShieldCheck, Terminal, Workflow,
+  AlertTriangle, AppWindow, ArrowLeft, Boxes, ChevronDown, GitBranch, KeyRound,
+  Lightbulb, NotebookPen, Plug, Route, ShieldCheck, Terminal, Workflow,
 } from "lucide-react";
 import { OriginLink, SmartReturn, type OriginArg } from "@/components/neo-shell/nav-context";
 import { bapiHref, cdsHref, idocHref, txHref } from "../reference/ref-links";
@@ -40,12 +48,15 @@ import { RecordStatus } from "../evidence/record-status";
 import { CopyId } from "../copy-id";
 import { RISK_COLOR, RISK_HE, TRUST_HE } from "@/lib/s4";
 import { MOD_HE, modVar } from "../mod-var";
-import type { TxDetail } from "./tx-detail";
+import type { TxDetail, TxIssue } from "./tx-detail";
+import type { TxCodeRef, TxLine, TxProfileDim } from "./tx/blocks";
 import { TxActions } from "./tx-actions";
 
 const nf = new Intl.NumberFormat("he-IL");
 
 const NONE = "אין תיעוד מאומת במאגר";
+
+type Origin = { href: string; label: string; detail: string };
 
 /* ------------------------------------------------------------ primitives */
 
@@ -89,8 +100,25 @@ function Status({ color, children }: { color: string; children: React.ReactNode 
   return <span className="nu-status" style={{ "--s": color } as React.CSSProperties}>{children}</span>;
 }
 
-function Bullets({ items }: { items: string[] }) {
-  return <ul className="nxt-ul">{items.map((x, i) => <li key={`${i}-${x.slice(0, 24)}`} lang={enLang(x)}>{x}</li>)}</ul>;
+function Bullets({ items, ordered }: { items: string[]; ordered?: boolean }) {
+  // lang only: a dir="ltr" item in a right-to-left list moves its marker and
+  // its alignment to the other edge.
+  const li = items.map((x, i) => <li key={`${i}-${x.slice(0, 24)}`} lang={enLang(x)}>{x}</li>);
+  return ordered ? <ol className="nxt-ol">{li}</ol> : <ul className="nxt-ul">{li}</ul>;
+}
+
+/** A long secondary block, closed by default and present in the HTML. */
+function More({ title, note, children }: { title: string; note?: string; children: React.ReactNode }) {
+  return (
+    <details className="nxt-more">
+      <summary>
+        <ChevronDown size={16} strokeWidth={1.75} aria-hidden="true" />
+        {title}
+        {note ? <em>{note}</em> : null}
+      </summary>
+      <div className="nxt-more-b">{children}</div>
+    </details>
+  );
 }
 
 /** SAP identifiers in a list. A code with a page in NEO is a link to it (the
@@ -118,6 +146,25 @@ function Codes({ items, label, href, origin }: {
   );
 }
 
+/** A relation list: each value links to its NEO page when one exists. */
+function Refs({ items, label, origin }: { items: TxCodeRef[]; label: string; origin: Origin }) {
+  const by = new Map(items.map((x) => [x.code, x.href]));
+  return <Codes items={items.map((x) => x.code)} label={label} href={(c) => by.get(c) ?? null} origin={origin} />;
+}
+
+/** Labelled lines (the /apps/ guidance and catalogue facts). */
+function Lines({ rows }: { rows: TxLine[] }) {
+  return (
+    <dl className="nxt-grid">
+      {rows.map((r) => (
+        <Fact key={r.label} label={r.label}>
+          {r.items.length > 1 ? <Bullets items={r.items} /> : <span lang={enLang(r.items[0])} dir={enDir(r.items[0])}>{r.items[0]}</span>}
+        </Fact>
+      ))}
+    </dl>
+  );
+}
+
 /** A function object is a BAPI or FM, or an IDoc message type, and has one
  *  home either way. */
 const funcHref = (code: string) => bapiHref(code) ?? idocHref(code);
@@ -128,6 +175,8 @@ export function TxDetailView({ t }: { t: TxDetail }) {
   const m = modVar(t.module);
   const modHe = MOD_HE[t.module] || t.moduleHe;
   const impacted = t.s4.disposition === "superseded" || t.s4.disposition === "changed";
+  const b = t.blocks;
+  const apps = t.apps;
 
   // The origin every outgoing link on this page records. One object, so the
   // label can never drift between the table links and the neighbour links.
@@ -135,24 +184,47 @@ export function TxDetailView({ t }: { t: TxDetail }) {
 
   const authored = t.tables.filter((x) => x.from === "authored");
   const blueprint = t.tables.filter((x) => x.from === "blueprint");
+  // Exits the record names itself. The ones only the enhancement catalogue
+  // ties to this code are listed with the derived issues, labelled as such.
+  const ownExits = t.exits.filter((x) => !t.exitsDerived.includes(x));
+  // CDS views the legacy /apps/ page joined through the record's tables
+  // (data/cds-map); the ones the record names itself are on the S/4 plate.
+  const cdsByTable = (apps?.cds || []).filter((v) => !t.cds.includes(v));
+
+  const enterprise = b
+    ? ([
+        ["נתיב Debug", b.debug.length],
+        ["ביצועים", b.perf.length],
+        ["טיפים לפרודקשן", b.prodTips.length],
+        ["דוגמה עסקית", b.businessExample ? 1 : 0],
+        ["דוגמה טכנית", b.techExample ? 1 : 0],
+      ] as [string, number][]).filter(([, n]) => n).map(([l]) => l)
+    : [];
+  const notes = !!b && !!(b.bestPractices.length || b.certTips || b.oss.length || b.interview.length);
+  const guidance = !!apps && !!(apps.tips.length || apps.qa.length);
 
   // A block whose question the dataset does not answer is not rendered, so the
   // running section bar is built from the SAME conditions the page renders on.
   // A chip can therefore never point at a section that is not on the screen.
   const has = {
-    what: !!(t.purpose || t.process || t.whenUse || t.whenNot || t.tech),
-    flow: !!(t.flow.length || t.selection.length),
-    int: !!(t.bapis.length || t.exits.length || t.badis.length || t.enhancements.length || t.auth.length),
+    succ: !!apps && !!(apps.path || apps.catalog.length || apps.lifecycle.length),
+    what: !!(t.purpose || t.process || t.whenUse || t.whenNot || t.tech || b?.beginner || b?.consultant),
+    flow: !!(t.flow.length || t.selection.length || enterprise.length),
+    int: !!(t.bapis.length || ownExits.length || t.badis.length || t.enhancements.length || t.auth.length || b?.classes.length),
+    notes: notes || guidance,
   };
   const heIsArea = !!t.he && t.he === t.area;
   const nav: { id: string; label: string }[] = [
     { id: "nxt-s4", label: "המעבר ל-S/4HANA" },
+    ...(has.succ ? [{ id: "sec-succ", label: "היורש המומלץ" }] : []),
     ...(has.what ? [{ id: "sec-what", label: "תפקיד הטרנזקציה" }] : []),
     ...(has.flow ? [{ id: "sec-flow", label: "מסך והרצה" }] : []),
     { id: "sec-obj", label: "אובייקטים וטבלאות" },
+    ...(t.profile ? [{ id: "sec-prof", label: "תבונת אובייקט" }] : []),
     ...(has.int ? [{ id: "sec-int", label: "ממשקים והרחבות" }] : []),
     { id: "sec-near", label: "טרנזקציות קשורות" },
     { id: "sec-iss", label: "תקלות ידועות" },
+    ...(has.notes ? [{ id: "sec-notes", label: "הערות יועץ" }] : []),
   ];
 
   return (
@@ -190,9 +262,13 @@ export function TxDetailView({ t }: { t: TxDetail }) {
 
         <p className="nxt-s4line"><RecordStatus e={t.evidence} /></p>
         <div className="nxt-meta">
-          <Status color={t.depth === "deep" ? "var(--status-done)" : "var(--status-not-started)"}>
-            {t.depth === "deep" ? "מתועדת לעומק" : "רשומת אימות"}
-          </Status>
+          {t.origin === "blueprint" ? (
+            <Status color="var(--status-not-started)">לא ברשומת הטרנזקציות המאומתת</Status>
+          ) : (
+            <Status color={t.depth === "deep" ? "var(--status-done)" : "var(--status-not-started)"}>
+              {t.depth === "deep" ? "מתועדת לעומק" : "רשומת אימות"}
+            </Status>
+          )}
           {t.verified ? <Status color="var(--status-done)">רשומה מסומנת כמאומתת</Status> : null}
           <span className="nu-chip nxt-mod" style={{ "--m": m } as React.CSSProperties}>
             <i aria-hidden="true" />{t.module}
@@ -208,6 +284,12 @@ export function TxDetailView({ t }: { t: TxDetail }) {
             <bdi className="nxt-known-n">{nf.format(t.known)}/{nf.format(t.total)}</bdi> עובדות מאומתות
           </span>
         </div>
+        {t.origin === "blueprint" ? (
+          <p className="nxt-origin">
+            הקוד אינו ברשומת הטרנזקציות המאומתת. הוא מוכר משורות תיעוד המקור של PM ו-PP-PI שמציינות אותו,
+            וכל הנתונים בעמוד נגזרים מהן.
+          </p>
+        ) : null}
       </header>
 
       {/* The page's own index, kept on screen. The transaction page had no jump
@@ -260,7 +342,9 @@ export function TxDetailView({ t }: { t: TxDetail }) {
 
         <dl className="nxt-s4-facts">
           <Fact label="הערת המאגר">{t.s4.note || NONE}</Fact>
-          {t.s4.delta ? <Fact label="ECC → S/4HANA · מה השתנה">{t.s4.delta}</Fact> : null}
+          {/* The record's delta field is the ECC6 → S/4HANA 2025 comparison
+              (data/tx-intel); an authored 14-column record's is not dated. */}
+          {t.s4.delta ? <Fact label={b ? "ECC6 → S/4HANA 2025 · מה השתנה" : "ECC → S/4HANA · מה השתנה"}>{t.s4.delta}</Fact> : null}
           {t.s4.unchanged ? <Fact label="מה לא השתנה">{t.s4.unchanged}</Fact> : null}
           <Fact label="יישום Fiori קשור">
             {t.s4.fiori ? <span className="nxt-fiori"><AppWindow size={13} strokeWidth={1.75} aria-hidden="true" />{t.s4.fiori}</span> : NONE}
@@ -286,42 +370,146 @@ export function TxDetailView({ t }: { t: TxDetail }) {
         <EvidenceBlock e={t.evidence} />
       </section>
 
-      {/* --------------------------------------------------- 3. WHAT IT DOES */}
+      {/* ------------------------------------- 3. THE EVOLUTION PATH (/apps/) */}
+      {apps && has.succ ? (
+        <Section id="sec-succ" icon={<Route size={15} strokeWidth={1.75} />} title="היורש המומלץ">
+          <p className="nxt-sec-sub">מסלול האבולוציה של האובייקט</p>
+          {apps.path ? (
+            <ol className="nxt-path" aria-label="מסלול האבולוציה של האובייקט">
+              <li>
+                <span className="nxt-path-s">
+                  <span className="nxt-l">ECC GUI</span>
+                  <span className="nxt-path-v nx-sap">{t.code}</span>
+                </span>
+              </li>
+              <li>
+                <ArrowLeft className="nxt-path-sep" size={16} strokeWidth={1.75} aria-hidden="true" />
+                <span className="nxt-path-s">
+                  <span className="nxt-l">S/4HANA</span>
+                  <span className={apps.path.s4IsCode ? "nxt-path-v nx-sap" : "nxt-path-v"}>{apps.path.s4}</span>
+                </span>
+              </li>
+              <li>
+                <ArrowLeft className="nxt-path-sep" size={16} strokeWidth={1.75} aria-hidden="true" />
+                <span className="nxt-path-s">
+                  <span className="nxt-l">Fiori</span>
+                  <span className="nxt-path-v" lang={enLang(apps.path.fiori)}>{apps.path.fiori}</span>
+                  {apps.path.fioriId ? <span className="nu-chip is-sap">{apps.path.fioriId}</span> : null}
+                </span>
+              </li>
+            </ol>
+          ) : null}
+          {apps.moreApps.length ? (
+            <div className="nxt-block">
+              <p className="nxt-l">אפליקציות נוספות:</p>
+              <ul className="nxt-codes" aria-label="אפליקציות Fiori נוספות">
+                {apps.moreApps.map((x) => <li key={x} className="nu-chip" lang={enLang(x)} dir={enDir(x)}>{x}</li>)}
+              </ul>
+            </div>
+          ) : null}
+          {apps.criticality ? (
+            <p><Status color={apps.criticality === "פעיל / יציב" ? "var(--status-done)" : "var(--status-in-analysis)"}>{apps.criticality}</Status></p>
+          ) : null}
+          {apps.lifecycle.length ? (
+            <div className="nxt-block">
+              <h3 className="nxt-sub">מחזור חיים ומיגרציה</h3>
+              <Lines rows={apps.lifecycle} />
+            </div>
+          ) : null}
+          {apps.catalog.length ? (
+            <div className="nxt-block">
+              <h3 className="nxt-sub">אפליקציית Fiori בקטלוג</h3>
+              <Lines rows={apps.catalog} />
+            </div>
+          ) : null}
+          {apps.compare ? (
+            <More title="השוואה — ECC מול Fiori" note={`${t.code} מול ${apps.compare.app}`}>
+              <div className="nxt-cmp-w">
+                <table className="nxt-cmp">
+                  <thead>
+                    <tr><th scope="col">היבט</th><th scope="col"><span className="nx-sap">{t.code}</span> · SAP GUI</th><th scope="col" lang="en" dir="ltr">{apps.compare.app}</th></tr>
+                  </thead>
+                  <tbody>
+                    {apps.compare.rows.map(([k, ecc, fiori]) => (
+                      <tr key={k}>
+                        <th scope="row">{k}</th>
+                        <td lang={enLang(ecc)} dir={enDir(ecc)}>{ecc}</td>
+                        <td lang={enLang(fiori)} dir={enDir(fiori)}>{fiori}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </More>
+          ) : null}
+        </Section>
+      ) : null}
+
+      {/* --------------------------------------------------- 4. WHAT IT DOES */}
       {has.what ? (
         <Section id="sec-what" icon={<Terminal size={15} strokeWidth={1.75} />} title="תפקיד הטרנזקציה">
           <dl className="nxt-grid">
+            {b?.beginner ? <Fact label="מה אני רואה?">{b.beginner}</Fact> : null}
             {t.purpose ? <Fact label="מטרה עסקית">{t.purpose}</Fact> : null}
             {t.process ? <Fact label="מיקום בתהליך">{t.process}</Fact> : null}
             {t.whenUse ? <Fact label="מתי להשתמש">{t.whenUse}</Fact> : null}
             {t.whenNot ? <Fact label="מתי לא להשתמש">{t.whenNot}</Fact> : null}
             {t.tech ? <Fact label="תיאור טכני">{t.tech}</Fact> : null}
             {t.users.length ? <Fact label="משתמשים">{t.users.join(" · ")}</Fact> : null}
-            {t.prereq.length ? <Fact label="תנאים מקדימים"><Bullets items={t.prereq} /></Fact> : null}
+            {t.prereq.length ? <Fact label="דרישות מקדימות"><Bullets items={t.prereq} /></Fact> : null}
           </dl>
+          {b?.consultant ? (
+            <More title="הסבר ליועץ (טכני)">
+              <p className="nxt-v">{b.consultant}</p>
+            </More>
+          ) : null}
         </Section>
       ) : null}
 
-      {/* ------------------------------------------------------- 4. THE FLOW */}
+      {/* ------------------------------------------------------- 5. THE FLOW */}
       {has.flow ? (
         <Section id="sec-flow" icon={<Workflow size={15} strokeWidth={1.75} />} title="מסך והרצה">
-          <div className="nxt-two">
-            {t.flow.length ? (
-              <div>
-                <h3 className="nxt-sub">זרימה טיפוסית</h3>
-                <ol className="nxt-ol">{t.flow.map((s, i) => <li key={`${i}-${s.slice(0, 20)}`}>{s}</li>)}</ol>
+          {t.flow.length || t.selection.length ? (
+            <div className="nxt-two">
+              {t.flow.length ? (
+                <div>
+                  <h3 className="nxt-sub">זרימה טיפוסית</h3>
+                  <ol className="nxt-ol">{t.flow.map((s, i) => <li key={`${i}-${s.slice(0, 20)}`}>{s}</li>)}</ol>
+                </div>
+              ) : null}
+              {t.selection.length ? (
+                <div>
+                  <h3 className="nxt-sub">מסך בחירה</h3>
+                  <Bullets items={t.selection} />
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+          {b && enterprise.length ? (
+            <More title="פירוט Enterprise" note={enterprise.join(" · ")}>
+              <div className="nxt-two">
+                {b.debug.length ? <div><h3 className="nxt-sub">נתיב Debug</h3><Bullets items={b.debug} ordered /></div> : null}
+                {b.perf.length ? <div><h3 className="nxt-sub">ביצועים</h3><Bullets items={b.perf} /></div> : null}
+                {b.prodTips.length ? <div><h3 className="nxt-sub">טיפים לפרודקשן</h3><Bullets items={b.prodTips} /></div> : null}
               </div>
-            ) : null}
-            {t.selection.length ? (
-              <div>
-                <h3 className="nxt-sub">שדות מסך הבחירה</h3>
-                <Bullets items={t.selection} />
-              </div>
-            ) : null}
-          </div>
+              {b.businessExample ? (
+                <div className="nxt-block">
+                  <h3 className="nxt-sub">דוגמה עסקית</h3>
+                  <p className="nxt-v">{b.businessExample}</p>
+                </div>
+              ) : null}
+              {b.techExample ? (
+                <div className="nxt-block">
+                  <h3 className="nxt-sub">דוגמה טכנית</h3>
+                  <p className="nxt-v" lang={enLang(b.techExample)} dir={enDir(b.techExample)}>{b.techExample}</p>
+                </div>
+              ) : null}
+            </More>
+          ) : null}
         </Section>
       ) : null}
 
-      {/* -------------------------------------------- 5. OBJECTS AND TABLES */}
+      {/* -------------------------------------------- 6. OBJECTS AND TABLES */}
       <Section
         id="sec-obj"
         icon={<Boxes size={15} strokeWidth={1.75} />}
@@ -346,24 +534,53 @@ export function TxDetailView({ t }: { t: TxDetail }) {
           </div>
         ) : null}
 
+        {cdsByTable.length ? (
+          <div className="nxt-block">
+            <h3 className="nxt-sub nxt-sub-st">
+              תצוגות CDS של הטבלאות
+              <Status color="var(--status-in-analysis)">נגזר מהמאגר</Status>
+            </h3>
+            <Codes items={cdsByTable} label="תצוגות CDS של הטבלאות" href={cdsHref} origin={origin} />
+          </div>
+        ) : null}
+
         {t.tables.length === 0 ? (
           <p className="nxt-absent">{NONE} על טבלאות שהטרנזקציה נוגעת בהן.</p>
         ) : (
           <>
             {authored.length ? <h3 className="nxt-sub">טבלאות לפי רשומת הטרנזקציה</h3> : null}
             {authored.length ? <TableList rows={authored} origin={origin} /> : null}
-            {blueprint.length ? <h3 className="nxt-sub">טבלאות לפי תיעוד המקור של PM ו-PP-PI</h3> : null}
-            {blueprint.length ? <TableList rows={blueprint} origin={origin} /> : null}
+            {/* The blueprint's own claim on a table the record already names:
+                the row stays with the record, the derived claim is still said. */}
+            {authored.some((r) => r.inBlueprint) ? (
+              <p className="nxt-absent">
+                טבלאות מקושרות (נגזר מהמאגר): תיעוד המקור של PM ו-PP-PI מציין את הקוד גם על{" "}
+                {authored.filter((r) => r.inBlueprint).map((r, i) => (
+                  <span key={r.name}>{i ? ", " : ""}<span className="nx-sap">{r.name}</span></span>
+                ))}.
+              </p>
+            ) : null}
+            {blueprint.length ? (
+              <h3 className="nxt-sub nxt-sub-st">
+                טבלאות מקושרות לפי תיעוד המקור של PM ו-PP-PI
+                <Status color="var(--status-in-analysis)">נגזר מהמאגר</Status>
+              </h3>
+            ) : null}
+            {blueprint.length ? <TableList rows={blueprint} origin={origin} showModule /> : null}
           </>
         )}
       </Section>
 
-      {/* --------------------------------------------------- 6. INTEGRATION */}
+      {/* ------------------------------- 7. THE KIND PROFILE (blueprint only) */}
+      {t.profile ? <ProfileSection dims={t.profile} origin={origin} /> : null}
+
+      {/* --------------------------------------------------- 8. INTEGRATION */}
       {has.int ? (
         <Section id="sec-int" icon={<Plug size={15} strokeWidth={1.75} />} title="ממשקים והרחבות">
           <dl className="nxt-grid">
-            {t.bapis.length ? <Fact label="BAPI ו-FM"><Codes items={t.bapis} label="BAPI ו-FM" href={funcHref} origin={origin} /></Fact> : null}
-            {t.exits.length ? <Fact label="User Exits"><Codes items={t.exits} label="User Exits" /></Fact> : null}
+            {t.bapis.length ? <Fact label="BAPIs / FM"><Codes items={t.bapis} label="BAPIs / FM" href={funcHref} origin={origin} /></Fact> : null}
+            {b?.classes.length ? <Fact label="Classes / APIs"><Codes items={b.classes} label="Classes / APIs" /></Fact> : null}
+            {ownExits.length ? <Fact label="User Exits"><Codes items={ownExits} label="User Exits" /></Fact> : null}
             {t.badis.length ? <Fact label="BAdIs"><Codes items={t.badis} label="BAdIs" /></Fact> : null}
             {t.enhancements.length ? <Fact label="הרחבות (Enhancements)"><Codes items={t.enhancements} label="הרחבות" /></Fact> : null}
             {t.auth.length ? (
@@ -376,16 +593,17 @@ export function TxDetailView({ t }: { t: TxDetail }) {
         </Section>
       ) : null}
 
-      {/* ---------------------------------------------------- 7. NEIGHBOURS */}
+      {/* ---------------------------------------------------- 9. NEIGHBOURS */}
       <Section
         id="sec-near"
         icon={<GitBranch size={15} strokeWidth={1.75} />}
         title="טרנזקציות קשורות"
         note={t.neighbours.length ? `${nf.format(t.neighbours.length)} קודים` : undefined}
       >
-        {t.neighbours.length === 0 ? (
+        {t.neighbours.length === 0 && !b?.relations.length ? (
           <p className="nxt-absent">{NONE} על טרנזקציות קשורות לקוד זה.</p>
-        ) : (
+        ) : null}
+        {t.neighbours.length ? (
           <ul className="nxt-near">
             {t.neighbours.map((n) => (
               <li key={n.code}>
@@ -408,41 +626,100 @@ export function TxDetailView({ t }: { t: TxDetail }) {
               </li>
             ))}
           </ul>
-        )}
+        ) : null}
+
+        {b?.steps.length ? (
+          <div className="nxt-block">
+            <h3 className="nxt-sub">ציר התהליך העסקי</h3>
+            <ol className="nxt-path" aria-label="ציר התהליך העסקי">
+              {b.steps.map((s, i) => (
+                <li key={`${s.state}-${s.code}`} data-state={s.state} aria-current={s.state === "current" ? "step" : undefined}>
+                  {i ? <ArrowLeft className="nxt-path-sep" size={16} strokeWidth={1.75} aria-hidden="true" /> : null}
+                  <span className="nxt-path-s">
+                    <span className="nx-sr">{s.state === "done" ? "שלב קודם: " : s.state === "todo" ? "שלב הבא: " : "הטרנזקציה הנוכחית: "}</span>
+                    {s.href ? (
+                      <OriginLink href={s.href} origin={origin} className="nu-link nxt-codelink">
+                        <span className="nx-sap">{s.code}</span>
+                        <ArrowLeft className="nu-arw" size={12} strokeWidth={2} aria-hidden="true" />
+                      </OriginLink>
+                    ) : <span className="nxt-path-v nx-sap">{s.code}</span>}
+                    {s.he ? <span className="nxt-path-he" lang={enLang(s.he)}>{s.he}</span> : null}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        ) : null}
+
+        {b?.relations.length ? (
+          <More title="חוקר קשרים" note={`${nf.format(b.relations.reduce((n, r) => n + r.items.length, 0))} קשרים ברשומה`}>
+            <dl className="nxt-rel">
+              {b.relations.map((r) => {
+                // The `obsolete` field is not written in one direction; where the
+                // record's own S/4 note does not confirm the replacement (the
+                // check behind «טרנזקציות שהוחלפו על ידה»), the row says so.
+                const unchecked = r.label === "מיושנות" && r.items.some((x) => !t.s4.replaces.includes(x.code.toUpperCase()));
+                return (
+                  <div key={r.label} className="nxt-rel-r">
+                    <dt className="nxt-l">{r.label}</dt>
+                    <dd>
+                      <Refs items={r.items} label={r.label} origin={origin} />
+                      {unchecked ? <p className="nxt-absent">כיוון הקשר לא אומת: הערת ה-S/4HANA של הרשומה אינה מאשרת החלפה.</p> : null}
+                    </dd>
+                  </div>
+                );
+              })}
+            </dl>
+          </More>
+        ) : null}
       </Section>
 
-      {/* -------------------------------------------------------- 8. ISSUES */}
-      <Section
-        id="sec-iss"
-        icon={<AlertTriangle size={15} strokeWidth={1.75} />}
-        title="תקלות ידועות"
-        note={t.issues.length ? `${nf.format(t.issues.length)} רשומות` : undefined}
-      >
-        {t.issues.length === 0 ? (
-          <p className="nxt-absent">{NONE} על תקלות לקוד זה.</p>
-        ) : (
-          <ul className="nxt-iss">
-            {t.issues.map((x, i) => (
-              <li key={`${x.kind}-${i}`} className="nxt-iss-i">
-                <span className="nxt-iss-k">
-                  {x.kind === "incident" ? "תקלה מתועדת" : x.kind === "mistake" ? "טעות נפוצה" : "שגיאה"}
-                </span>
-                <span className="nxt-iss-t" lang={enLang(x.he)}>{x.he}</span>
-                {x.detail ? <span className="nxt-iss-d">{x.detail}</span> : null}
-              </li>
-            ))}
-          </ul>
-        )}
-      </Section>
+      {/* -------------------------------------------------------- 10. ISSUES */}
+      <IssuesSection t={t} origin={origin} />
 
-      {/* ------------------------------------------------------- 9. HONESTY */}
+      {/* ------------------------------------------------ 11. CONSULTANT NOTES */}
+      {has.notes ? (
+        <Section id="sec-notes" icon={<NotebookPen size={15} strokeWidth={1.75} />} title="הערות יועץ">
+          {b?.bestPractices.length || b?.certTips ? (
+            <div className="nxt-two">
+              {b.bestPractices.length ? <div><h3 className="nxt-sub">Best Practices</h3><Bullets items={b.bestPractices} /></div> : null}
+              {b.certTips ? <div><h3 className="nxt-sub">טיפ הסמכה</h3><p className="nxt-v" lang={enLang(b.certTips)} dir={enDir(b.certTips)}>{b.certTips}</p></div> : null}
+            </div>
+          ) : null}
+          {b?.oss.length ? (
+            <div className="nxt-block">
+              <h3 className="nxt-sub">OSS · SAP Notes — מילות חיפוש</h3>
+              <ul className="nxt-codes" aria-label="מילות חיפוש ל-SAP Notes">
+                {b.oss.map((k) => <li key={k} className="nu-chip" lang={enLang(k)} dir={enDir(k) ?? "auto"}>{k}</li>)}
+              </ul>
+            </div>
+          ) : null}
+          {apps && guidance ? (
+            <More title="טיפים ובדיקות (QA)">
+              {apps.tips.length ? <div className="nxt-block"><h3 className="nxt-sub">טיפים של יועץ SAP</h3><Lines rows={apps.tips} /></div> : null}
+              {apps.qa.length ? <div className="nxt-block"><h3 className="nxt-sub">בדיקות (QA)</h3><Lines rows={apps.qa} /></div> : null}
+            </More>
+          ) : null}
+          {b?.interview.length ? (
+            <More title="ראיון · הסמכה · שאלות נפוצות" note={`${nf.format(b.interview.length)} שאלות`}>
+              <Bullets items={b.interview} ordered />
+            </More>
+          ) : null}
+        </Section>
+      ) : null}
+
+      {/* ------------------------------------------------------- 12. HONESTY */}
       <footer className="nxt-foot nm-fade nm-once">
         {t.sources.length ? (
           <p className="nxt-src">
             <ShieldCheck size={13} strokeWidth={1.75} aria-hidden="true" />
-            מקורות הרשומה: <span lang={enLang(t.sources.join(" "))}>{t.sources.join(" · ")}</span>
+            {/* One flex item for the words: the label and the list as two items
+                squeezed the label into a one-word column beside the icon. */}
+            <span>מקורות הרשומה: <span lang={enLang(t.sources.join(" "))}>{t.sources.join(" · ")}</span></span>
           </p>
         ) : null}
+        {/* The provenance line the tx-intel catalogue's own page carried. */}
+        {b ? <p>ידע טרנזקציות SAP סטנדרטי · trust: curated — קודים ואובייקטים אמיתיים בלבד.</p> : null}
         <p>
           מקור: המאגר המאומת של הפרויקט. שדה שלא תועד מסומן בעמוד או אינו מוצג.
         </p>
@@ -451,11 +728,112 @@ export function TxDetailView({ t }: { t: TxDetail }) {
   );
 }
 
+/* ---------------------------------------------------------------- issues */
+
+function IssueRows({ items, origin }: { items: TxIssue[]; origin: Origin }) {
+  return (
+    <ul className="nxt-iss is-grouped">
+      {items.map((x, i) => (
+        <li key={`${x.kind}-${i}`} className="nxt-iss-i">
+          {/* The kind the ungrouped list printed in its own column, kept for a
+              screen reader that lands on one row out of its group. */}
+          <span className="nx-sr">{x.kind === "incident" ? "תקלה מתועדת: " : x.kind === "mistake" ? "טעות נפוצה: " : "שגיאה: "}</span>
+          {x.href ? (
+            <OriginLink href={x.href} origin={origin} className="nu-link nxt-iss-t">
+              {x.he}
+              <ArrowLeft className="nu-arw" size={12} strokeWidth={2} aria-hidden="true" />
+            </OriginLink>
+          ) : <span className="nxt-iss-t" lang={enLang(x.he)}>{x.he}</span>}
+          {x.detail ? <span className="nxt-iss-d">{x.detail}</span> : null}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/** Grouped by what each entry is, under the legacy pages' own labels. The
+ *  incidents and the catalogue's exits are derived (their own lists name this
+ *  code), and their heading says so. */
+function IssuesSection({ t, origin }: { t: TxDetail; origin: Origin }) {
+  const errors = t.issues.filter((x) => x.kind === "error");
+  const mistakes = t.issues.filter((x) => x.kind === "mistake");
+  const incidents = t.issues.filter((x) => x.kind === "incident");
+  const count = t.issues.length + t.exitsDerived.length;
+  return (
+    <Section
+      id="sec-iss"
+      icon={<AlertTriangle size={15} strokeWidth={1.75} />}
+      title="תקלות ידועות"
+      note={count ? `${nf.format(count)} רשומות` : undefined}
+    >
+      {count === 0 ? <p className="nxt-absent">{NONE} על תקלות לקוד זה.</p> : null}
+      {errors.length ? <div className="nxt-block"><h3 className="nxt-sub">שגיאות נפוצות</h3><IssueRows items={errors} origin={origin} /></div> : null}
+      {mistakes.length ? <div className="nxt-block"><h3 className="nxt-sub">טעויות נפוצות</h3><IssueRows items={mistakes} origin={origin} /></div> : null}
+      {incidents.length || t.exitsDerived.length ? (
+        <div className="nxt-block">
+          <h3 className="nxt-sub nxt-sub-st">
+            תקלות ו-Exits
+            <Status color="var(--status-in-analysis)">נגזר מהמאגר</Status>
+          </h3>
+          {incidents.length ? <IssueRows items={incidents} origin={origin} /> : null}
+          {t.exitsDerived.length ? <Codes items={t.exitsDerived} label="Exits שקטלוג ההרחבות מקשר לקוד" /> : null}
+        </div>
+      ) : null}
+    </Section>
+  );
+}
+
+/* --------------------------------------------------------------- profile */
+
+/** The kind-level profile the legacy page showed for a code only the
+ *  blueprint lists. Each dimension keeps its legacy mark. */
+function ProfileSection({ dims, origin }: { dims: TxProfileDim[]; origin: Origin }) {
+  return (
+    <Section id="sec-prof" icon={<Lightbulb size={15} strokeWidth={1.75} />} title="תבונת אובייקט">
+      <p className="nxt-absent">
+        «אומת» מסמן ממד שנגזר משורות המאגר; «ידע כללי» מסמן ידע נכון על טרנזקציות באופן כללי, לא עובדה על קוד זה.
+      </p>
+      <dl className="nxt-grid">
+        {dims.map((d) => (
+          <div key={d.label} className="nxt-fact">
+            <dt className="nxt-l nxt-l-st">
+              {d.label}
+              {d.mark ? <Status color={d.mark === "אומת" ? "var(--status-done)" : "var(--status-not-started)"}>{d.mark}</Status> : null}
+            </dt>
+            <dd className="nxt-v">
+              {d.text ? <span>{d.text}</span> : null}
+              {d.items.length ? (
+                d.label === "תלויות" ? (
+                  <ul className="nxt-ul">
+                    {d.items.map((x) => {
+                      const [name, ...rest] = x.split(" — ");
+                      return <li key={x}><span className="nx-sap">{name}</span>{rest.length ? ` — ${rest.join(" — ")}` : ""}</li>;
+                    })}
+                  </ul>
+                ) : <Bullets items={d.items} ordered={d.ordered} />
+              ) : null}
+              {d.refs.length ? (
+                <Codes
+                  items={d.refs.map((r) => r.name)}
+                  label={d.label}
+                  href={(n) => d.refs.find((r) => r.name === n)?.href ?? null}
+                  origin={origin}
+                />
+              ) : null}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </Section>
+  );
+}
+
 /* ------------------------------------------------------------ table list */
 
-function TableList({ rows, origin }: {
+function TableList({ rows, origin, showModule }: {
   rows: TxDetail["tables"];
-  origin: { href: string; label: string; detail: string };
+  origin: Origin;
+  showModule?: boolean;
 }) {
   return (
     <ul className="nxt-tbl">
@@ -469,6 +847,7 @@ function TableList({ rows, origin }: {
             <span className="nxt-tbl-n nx-sap">{r.name}</span>
             <span className="nxt-tbl-he">{r.he || "לא קיים תיאור בתיעוד"}</span>
             <span className="nxt-tbl-s">
+              {showModule && r.module ? <span className="nu-chip nxt-tbl-m">{r.module}</span> : null}
               <span className="nu-status" style={{ "--s": RISK_COLOR[r.risk] } as React.CSSProperties}>
                 {r.trust === "needs" ? TRUST_HE.needs : RISK_HE[r.risk]}
               </span>

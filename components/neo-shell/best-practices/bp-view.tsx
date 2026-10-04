@@ -177,6 +177,15 @@ export function BpCatalog({ rows }: { rows: BpRow[] }) {
         </div>
       </header>
 
+      {/* The old solution finder lives on as its own record family (rollout
+          2026-10, P0 §3); this is where a reader of practices finds it. */}
+      <nav className="nxr-also" aria-labelledby="bp-also-h">
+        <h2 className="nxr-also-h" id="bp-also-h">ראו גם</h2>
+        <ul>
+          <li><Link href="/neo/solutions/" prefetch={false} className="nu-link">מאתר הפתרונות</Link></li>
+        </ul>
+      </nav>
+
       {rows.length ? (
         <BpList rows={rows} items={Object.fromEntries(rows.map((r) => [r.slug, <Row key={r.slug} r={r} />]))} />
       ) : (

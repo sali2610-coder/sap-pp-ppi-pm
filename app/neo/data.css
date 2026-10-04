@@ -471,7 +471,11 @@
   /* flex-wrap, not an auto | 1fr grid: a long BAPI name took the auto track and
      pushed the nowrap module chips out of the card at 320px */
   .nx-app .nxd-id { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); min-inline-size: 0; }
-  .nx-app .nxd-id > b { min-inline-size: 0; overflow-wrap: anywhere; }
+  /* The plate keeps its own width (ADMI_RUN broke into "ADMI_R / UN" at 320
+     when the module chip squeezed it: anywhere let it shrink to one letter);
+     the chip wraps instead. Only a code longer than the whole row is capped at
+     the row and broken (API_MAINTENANCENOTIFICATION is one token). */
+  .nx-app .nxd-id > b { flex: 0 0 auto; max-inline-size: 100%; min-inline-size: 0; overflow-wrap: anywhere; }
   .nx-app .nxd-s4 { min-inline-size: 0; }
   .nx-app .nxd-nums { max-inline-size: none; }
   .nx-app .nxd-ctx {
@@ -500,8 +504,10 @@
     flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-inline: contain;
     scrollbar-width: none;
   }
+  /* The views share the row instead of scrolling it: a hidden scrollbar cut
+     the third view ("לפי מר…") with nothing to say it was there. */
+  .nx-app .nxd-tabs .nu-tab { flex: 1 1 0; min-inline-size: 0; justify-content: center; padding-inline: var(--sp-2); white-space: normal; text-align: center; line-height: 1.2; }
   .nx-app .nxd-tabs::-webkit-scrollbar { block-size: 0; }
-  .nx-app .nxd-tabs .nu-tab { flex: none; }
   .nx-app .nxd-sort { justify-content: space-between; }
   .nx-app .nxd-sort select { flex: 1 1 auto; min-block-size: var(--c-tap); }
   .nx-app .nxd-facet-l { min-inline-size: 100%; }
@@ -2084,3 +2090,16 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
    (gate 3, round 3, m11). */
 .nx-app .nxd-stats::before,
 .nx-app .nxt-s4::before { content: none; }
+
+@media (max-width: 30rem) {
+  /* At a phone's width the view icons give their room to the words. */
+  .nx-app .nxd-tabs .nu-tab > svg { display: none; }
+}
+
+/* The blueprint-only codes under the transactions catalogue (rollout 2026-10). */
+.nx-app .nxd-extra { border-block-start: 1px solid var(--hairline); padding-block: var(--sp-3); }
+.nx-app .nxd-extra > summary { min-block-size: 44px; display: flex; align-items: center; gap: var(--sp-2); cursor: pointer; font-weight: 600; color: var(--ink-1); }
+.nx-app .nxd-extra-p { margin: var(--sp-2) 0; font-size: var(--t-sm); color: var(--ink-2); max-inline-size: 70ch; }
+.nx-app .nxd-extra-l { list-style: none; margin: 0; padding: 0; display: grid; gap: 0 var(--sp-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr)); }
+.nx-app .nxd-extra-l li { display: flex; align-items: center; gap: var(--sp-2); min-inline-size: 0; }
+.nx-app .nxd-extra-t { font-family: var(--font-mono); font-size: var(--t-xs); color: var(--ink-3); overflow-wrap: anywhere; }
