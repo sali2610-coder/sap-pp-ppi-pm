@@ -11,6 +11,7 @@ import { HomeScene, type SceneSection } from "@/components/neo-shell/home/home-s
 import { HomeNet } from "@/components/neo-shell/home/home-net";
 import { HomeContinue } from "@/components/neo-shell/home/home-continue";
 import { booksData } from "@/components/neo-shell/books/books-data";
+import { allModuleIds } from "@/lib/academy/model";
 
 // ROOT CUTOVER. `/` 307s here, so this page is the site's public landing page
 // and MUST be indexable. The other noindex declarations under app/neo/ stay
@@ -63,7 +64,7 @@ function ModuleCard({ d, i }: { d: HomeData; i: 0 | 1 }) {
       <span className="nh-mod-nums">
         <span><b className="nh-sap">{nf.format(mo.tables)}</b><em>טבלאות</em></span>
         <span><b className="nh-sap">{nf.format(mo.fields)}</b><em>שדות</em></span>
-        <span><b className="nh-sap">{nf.format(mo.tcodes)}</b><em>טרנזקציות</em></span>
+        <span><b className="nh-sap">{nf.format(mo.tcodes)}</b><em>טרנזקציות בתיעוד המודול</em></span>
         <span><b className="nh-sap">{nf.format(mo.funcs)}</b><em>BAPI · FM · IDoc</em></span>
         <span><b className="nh-sap">{nf.format(mo.cds)}</b><em>CDS Views</em></span>
         <span><b className="nh-sap">{nf.format(mo.fiori)}</b><em>יישומי Fiori</em></span>
@@ -73,7 +74,7 @@ function ModuleCard({ d, i }: { d: HomeData; i: 0 | 1 }) {
           <i className="nm-grow" style={{ "--p": mo.share } as React.CSSProperties} />
         </span>
         <em className="nh-sap">{pct(mo.tables, d.tables)}%</em>
-        <span>מתוך {nf.format(d.tables)} טבלאות SAP מתועדות</span>
+        <span>מתוך {nf.format(d.tables)} טבלאות ייחודיות במודל; יש טבלאות משותפות למודולים</span>
       </span>
       <span className="nh-work-enter">כניסה לסביבת <bdi dir="ltr">{mo.code}</bdi><ArrowUpLeft size={16} aria-hidden="true" /></span>
     </Link>
@@ -96,22 +97,12 @@ export default function NeoHome() {
     { id: "nh-4", label: "מידע", field: "אודות ופרטיות", tone: "#c8102e" },
   ];
 
-  // ONE COUNTING BASIS. The hero states 105 merged-unique tables, so the two
-  // numbers beside it are computed on the same basis: fields as the per-table
-  // max the dots already carry (a shared table's fields counted once), and
-  // relations as the deduplicated undirected ER pairs the page itself draws —
-  // not the 126 per-module relation rows.
-  // THREE NUMBERS THAT LEAD SOMEWHERE (design audit S7-HOME-4: drop the
-  // metrics that do not help choose an action). Each one is the size of the
-  // catalog it opens: the tables, the transactions, and the tables the
-  // blueprints mark for change in the move. The field and ER-relation counts
-  // left the gate: they describe the model, they do not choose a door, and
-  // both are still counted where they are used (the module cards below, the
-  // data model itself).
+  // Three real entry points. Each label states its counting scope; blueprint
+  // migration classifications remain in the scoped transition section below.
   const stats: [number, string, string][] = [
-    [d.tables, "טבלאות SAP", "/neo/tables/"],
-    [d.tcodes, "טרנזקציות", "/neo/transactions/"],
-    [marked, "מסומנות לשינוי במעבר", "/neo/s4hana/"],
+    [d.tables, "טבלאות ייחודיות במודל", "/neo/tables/"],
+    [d.tcodes, "טרנזקציות בקטלוג", "/neo/transactions/"],
+    [allModuleIds().length, "מסלולי לימוד באקדמיה", "/neo/academy/"],
   ];
 
   // The verdict labels are lib/s4-class S4_HE, verbatim — the blueprint's own
@@ -166,7 +157,7 @@ export default function NeoHome() {
           <p className="nh-lede nh-lede--gate">
             פלטפורמת ידע מקצועית למודולי <span className="nh-sap">PM</span> ו-<span className="nh-sap">PP-PI</span>:
             אובייקטים עסקיים, טבלאות, טרנזקציות, קשרי נתונים והמעבר מ-<span className="nh-sap">ECC</span> ל-
-            <span className="nh-sap">S/4HANA</span>. זמינה במלואה גם ללא חיבור לרשת.
+            <span className="nh-sap">S/4HANA</span>. מקום אחד לחיפוש, ללמידה ולהבנת הקשרים בין הנתונים.
           </p>
           <div className="nh-stats nm-seq">
             {stats.map(([n, l, href]) => (
@@ -262,7 +253,7 @@ export default function NeoHome() {
               href="/neo/s4-readiness/"
               prefetch={false}
               className="nh-mod nm-rise nm-lift"
-              aria-label="מוכנות למעבר S/4HANA: סיווג המעבר כפי שהתיעוד מציין"
+              aria-label="כניסה למוכנות S/4HANA; המספרים מציגים סימונים בתיעוד ולא אחוז מוכנות"
               style={{ "--m": "var(--scene-accent, var(--mod-pppi))" } as React.CSSProperties}
             >
               <span className="nh-mod-top">
@@ -270,7 +261,7 @@ export default function NeoHome() {
                 <span className="nh-mod-he">מוכנות למעבר</span>
                 <ArrowUpLeft size={17} strokeWidth={1.75} aria-hidden="true" />
               </span>
-              <span className="nh-work-purpose">סיווג השינויים המתועדים בטבלאות ונקודת פתיחה לבדיקת המוכנות למעבר.</span>
+              <span className="nh-work-purpose">סימוני שינוי בהערות המקור של מודל PM ו־PP-PI. זו נקודת פתיחה לבדיקה, ולא מדד מוכנות למעבר.</span>
               <span className="nh-mod-nums">
                 {impact.map((im) => (
                   <span key={im.k}><b className="nh-sap">{nf.format(im.n)}</b><em>{im.he}</em></span>
@@ -281,7 +272,7 @@ export default function NeoHome() {
                   <i className="nm-grow" style={{ "--p": marked / d.tables } as React.CSSProperties} />
                 </span>
                 <em className="nh-sap">{pct(marked, d.tables)}%</em>
-                <span>מהטבלאות מסומנות לשינוי במעבר</span>
+                <span>מהטבלאות במודל מסומנות לשינוי בתיעוד</span>
               </span>
               <span className="nh-work-enter">בדיקת מוכנות למעבר<ArrowUpLeft size={16} aria-hidden="true" /></span>
             </Link>
@@ -308,13 +299,14 @@ export default function NeoHome() {
               <span className="nh-sap">ECC → S/4HANA</span><i aria-hidden="true" />תמונת המעבר
             </p>
             <h2 className="nh-h2 nm-kin" id="nh-3-h">
-              <span><span>{nf.format(d.tables)} טבלאות SAP מתועדות,</span></span>
-              <span><span className="nh-accent">{nf.format(marked)} מסומנות לשינוי במעבר</span></span>
+              <span><span>מה משתנה בדרך ל־<bdi dir="ltr">S/4HANA</bdi>?</span></span>
+              <span><span className="nh-accent">מתחילים מהתיעוד, ממשיכים לבדיקה</span></span>
             </h2>
             <p className="nh-lede nm-rise">
-              לכל טבלה מוצמדת הערת ה-<span className="nh-sap">S/4HANA</span> מתיעוד הפרויקט, כולל
-              טבלה או טרנזקציה חלופית במקום שבו התיעוד מציין אחת. טבלה ללא סיווג בתיעוד
-              נשארת ללא תווית.
+              מתוך {nf.format(d.tables)} הטבלאות הייחודיות במודל PM ו־PP-PI,
+              הערות המקור מסווגות {nf.format(marked)} כסימוני שינוי. הספירה משקפת את תיעוד הפרויקט,
+              ואינה רשימה מלאה של שינויי SAP או תוצאת בדיקת מוכנות במערכת שלך.
+              נתוני המעבר והחלופות דורשים התאמה לגרסת היעד.
             </p>
           </div>
 
@@ -338,9 +330,12 @@ export default function NeoHome() {
 
           <div className="nh-out nm-rise">
             <p className="nh-out-t">
-              הסיווג המלא עם החלופות המתועדות: בקוקפיט המעבר.
+              בודקים את השינויים והמקורות במרכז S/4HANA, ואת אובייקטי ההסבה בקוקפיט המעבר.
             </p>
             <div className="nh-cta">
+              <Link className="nu-btn2" href="/neo/s4hana/" prefetch={false}>
+                מרכז S/4HANA<ArrowUpLeft size={15} aria-hidden="true" />
+              </Link>
               <Link className="nu-btn" href="/neo/migration-cockpit/" prefetch={false}>
                 <Waypoints size={15} strokeWidth={1.75} aria-hidden="true" />
                 קוקפיט המעבר
