@@ -35,7 +35,7 @@
 // out of the dataset, and a family with no dataset behind it is declared in
 // `gaps` rather than filled with plausible rows.
 
-import { TRANSACTIONS } from "@/data/transactions";
+import { txRegistry } from "@/lib/tx-registry";
 import { PM_DATA, PPPI_DATA } from "@/data/sapData";
 import { moduleTables, overviewStats } from "@/lib/module-portal";
 import { ZONES } from "@/lib/studio-graph";
@@ -111,11 +111,9 @@ function ownership(): { fn: CommandExtra["fn"]; tx: CommandExtra["tx"] } {
   }
 
   const tx: CommandExtra["tx"] = {};
-  // A code the project documents in its own catalog but that the blueprint
-  // does not carry still has a page, so it gets its destination here. Without
-  // this the palette printed "no dedicated page" for IP30H, which had one
-  // (final audit, 2026-09-22).
-  for (const t of TRANSACTIONS) {
+  // Include directory and breadth records as well as authored transactions.
+  // This must cover the same canonical registry as the shell's search index.
+  for (const t of txRegistry().values()) {
     const href = txHref(t.code) || "";
     if (href && !txTables.has(t.code)) tx[t.code] = ["", t.module, href];
   }

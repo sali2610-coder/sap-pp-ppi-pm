@@ -19,6 +19,7 @@ import { TX_INTEL } from "@/data/tx-intel";
 import { TRANSACTIONS } from "@/data/transactions";
 import { TCODE_DIRECTORY } from "@/data/tcode-directory";
 import { TCODE_CATALOG } from "@/data/tcode-catalog";
+import { ID_SYNTAX } from "@/lib/evidence/canonical";
 
 const args = process.argv.slice(2);
 const opt = (n: string) => { const i = args.indexOf(n); return i >= 0 ? args[i + 1] : undefined; };
@@ -42,7 +43,7 @@ const authored = new Set(
 // researched record supersedes the generated one (data/verification/index.ts), so regenerating after
 // a chain batch simply drops the codes the chain has written.
 // Same syntax as lib/evidence/canonical.ts (tx): a registry name outside it cannot carry a record.
-const TX_SYNTAX = /^[A-Z0-9_\/-]{2,20}$/;
+const TX_SYNTAX = ID_SYNTAX.tx;
 const SIMPL = JSON.parse(read("audit/master-completion/simpl-tcode-index.json"));
 const allCodes = [...txRegistry().keys()].sort();
 const skippedSyntax = allCodes.filter((c) => !TX_SYNTAX.test(c));

@@ -9,6 +9,7 @@ import { TX_INTEL } from "@/data/tx-intel";
 import { TRANSACTIONS } from "@/data/transactions";
 import { TCODE_DIRECTORY } from "@/data/tcode-directory";
 import { TCODE_CATALOG } from "@/data/tcode-catalog";
+import { canonicalTxCode, TX_ROUTE_ALIASES } from "@/lib/tx-route-aliases";
 
 export type TxDepth = "deep" | "light";
 export interface RegistryTx {
@@ -45,8 +46,10 @@ function build(): Map<string, RegistryTx> {
 }
 
 export function txRegistry(): Map<string, RegistryTx> { return (_reg ??= build()); }
-export const registryTx = (code: string): RegistryTx | undefined => txRegistry().get((code || "").toUpperCase());
+export const registryTx = (code: string): RegistryTx | undefined => txRegistry().get(canonicalTxCode(code || ""));
 export const registryCodes = (): string[] => [...txRegistry().keys()];
+/** Static routes include historical URLs; the canonical catalog does not. */
+export const registryRouteCodes = (): string[] => [...registryCodes(), ...Object.keys(TX_ROUTE_ALIASES)];
 export const registryStats = () => {
   const all = [...txRegistry().values()];
   const byModule: Record<string, number> = {};

@@ -7,7 +7,9 @@ import "@/app/neo/ui.css";
 import "@/app/neo/data.css";
 import { notFound } from "next/navigation";
 import { TxDetailView } from "@/components/neo-shell/data/tx-detail-view";
-import { txDetail, txDetailCodes } from "@/components/neo-shell/data/tx-detail";
+import { txDetail } from "@/components/neo-shell/data/tx-detail";
+import { TxRouteAlias } from "@/components/neo-shell/data/tx-route-alias";
+import { registryRouteCodes } from "@/lib/tx-registry";
 
 // Static export: every code in the canonical registry becomes a real file, and
 // `dynamicParams = false` makes anything outside it a build-time 404 rather
@@ -17,7 +19,7 @@ import { txDetail, txDetailCodes } from "@/components/neo-shell/data/tx-detail";
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return txDetailCodes().map((code) => ({ code }));
+  return registryRouteCodes().map((code) => ({ code }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ code: string }> }) {
@@ -35,7 +37,8 @@ export async function generateMetadata({ params }: { params: Promise<{ code: str
 
 export default async function NeoTransactionDetail({ params }: { params: Promise<{ code: string }> }) {
   const { code } = await params;
-  const t = txDetail(decodeURIComponent(code));
+  const rawCode = decodeURIComponent(code);
+  const t = txDetail(rawCode);
   if (!t) notFound();
-  return <TxDetailView t={t} />;
+  return <>{rawCode !== t.code && <TxRouteAlias code={t.code} />}<TxDetailView t={t} /></>;
 }

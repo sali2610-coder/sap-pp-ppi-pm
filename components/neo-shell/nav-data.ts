@@ -21,7 +21,7 @@ import {
   transactions,
 } from "@/lib/module-portal";
 import { ZONES, zoneOf, type Zone } from "@/lib/studio-graph";
-import { registryStats, registryCodes } from "@/lib/tx-registry";
+import { registryStats, registryCodes, registryTx } from "@/lib/tx-registry";
 import { registry as funcRegistry } from "@/lib/bapi-registry";
 import { idocMessageTypes } from "@/lib/idoc-intel";
 import { CDS_VIEWS } from "@/data/cds-map";
@@ -410,15 +410,18 @@ function searchIndex(objects: Record<string, ObjectMeta>): SearchRecord[] {
     out.push({ k: "table", t: o.name, s: o.he, m: true, href: "/neo/tables/", obj: o.name, st: tStatus.get(o.name) });
   }
 
-  // The blueprint's codes PLUS the project's own transaction catalog: a code
-  // that has a page must be findable in the palette. IP30H was written into
-  // data/transactions.ts on 2026-09-22 and had a page, but the palette read
-  // only the blueprint and returned nothing for it (final audit finding).
+  // Every canonical catalog code with a detail page must be findable. The
+  // authored/module subset omitted directory entries such as F.01 and UI2.
   const moduleCodes = uniq([
     ...[...transactions(PM_DATA), ...transactions(PPPI_DATA)].map((t) => t.code),
     ...TRANSACTIONS.map((t) => t.code),
+    ...registryCodes(),
   ]);
-  for (const code of moduleCodes) out.push({ k: "tcode", t: code, s: "טרנזקציית SAP בתיעוד הפרויקט", m: true, href: "/neo/transactions/", st: xStatus[code.toUpperCase()] });
+  for (const code of moduleCodes) {
+    const tx = registryTx(code);
+    const description = uniq([tx?.he || "", tx?.area || ""].filter(Boolean)).join(" · ");
+    out.push({ k: "tcode", t: code, s: description || "טרנזקציית SAP בתיעוד הפרויקט", m: true, href: tx ? `/neo/transactions/${encodeURIComponent(tx.code)}/` : null, st: xStatus[code.toUpperCase()] });
+  }
 
   const seenFn = new Set<string>();
   for (const m of [PM_DATA, PPPI_DATA] as SAPModuleData[]) {

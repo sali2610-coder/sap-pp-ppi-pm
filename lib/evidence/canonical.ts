@@ -23,7 +23,8 @@ export const ID_SYNTAX: Record<CanonicalKind, RegExp> = {
   table: /^[A-Z0-9_\/]{2,30}$/,
   // A hyphen is legal in a transaction code: SAP S/4HANA 2025 FPS01 documentation (General Ledger
   // Accounting, loio 6e60d7531a4d424de10000000a174cb4) prints "the alternative standard transaction F-02".
-  tx: /^[A-Z0-9_\/-]{2,20}$/,
+  // F.01 is another documented transaction; retain its dot as part of the id.
+  tx: /^[A-Z0-9_\/.-]{2,20}$/,
   fm: /^[A-Z0-9_\/]{3,30}$/,
   "idoc:msg": /^[A-Z0-9_]{3,30}$/,
   "idoc:basic": /^[A-Z0-9_]{3,28}\d{2}$/,

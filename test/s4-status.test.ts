@@ -232,6 +232,21 @@ test("normalizeAlias('fm', …) equals lib/object-intel cleanFunc on real name s
 
 /* -------------------------- duplicated pure helpers cannot drift apart */
 
+test("transaction punctuation survives canonical validation and successor mapping", () => {
+  for (const code of ["F.01", "F-02", "/UI2/INVAL_CACHES"]) {
+    const id = makeId("tx", ` ${code.toLowerCase()} `);
+    assert.equal(id, `tx:${code}`);
+    assert.ok(isValidId(id), id);
+    assert.ok(validId(id), id);
+    assert.equal(fromLifecycle({ status: "Deprecated", ecc: true, s4: true, alt: code }).successor, id);
+  }
+  for (const code of ["F.01 (report)", "F-02 / F.01", "/UI2/INVALIDATE_GLOBAL_CACHES"]) {
+    assert.equal(isValidId(`tx:${code}`), false, code);
+    assert.equal(validId(`tx:${code}`), false, code);
+    assert.equal(fromLifecycle({ status: "Deprecated", ecc: true, s4: true, alt: code }).successor, undefined);
+  }
+});
+
 test("validate.ts validId agrees with canonical.ts isValidId; RANK agrees with depth", () => {
   const samples = [
     "table:MSEG", "tx:MIGO", "fm:BAPI_TRANSACTION_COMMIT", "idoc:msg:MATMAS", "idoc:basic:MATMAS05",

@@ -727,6 +727,58 @@ const SOAMANAGER_GRP2025: Evidence = {
 };
 
 export const TX_VERIFICATION_E: VerificationRecord[] = [
+  // 2026-10-04: catalog identity gaps. The bodies below establish the names
+  // and documented use, not an ECC-to-S/4 lifecycle verdict.
+  {
+    id: "tx:F.01",
+    evidence: [{
+      sourceType: "sap_help",
+      sourceTitle: "Feature Comparison for Displaying G/L Account Balances",
+      url: "https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/651d8af3ea974ad1a4d74449122c620e/5559bf5b5d634e39adb4358956f7bf2a.html?locale=en-US&state=PRODUCTION&version=2025.001",
+      product: "SAP S/4HANA",
+      edition: "on-premise",
+      release: "2025.001",
+      accessedAt: "2026-10-04",
+      claim: "טבלת ההשוואה בתיעוד SAP S/4HANA 2025 FPS01 מציגה את F.01 לצד S_ALR_87012284 תחת Financial Statements. זהו תיעוד לשם ולשימוש בגרסה זו; הוא אינו מכריע מה השתנה ביחס ל-ECC.",
+      verificationLevel: "sap_official_verified",
+      context: true,
+    }],
+    status: {
+      status: "verification_required",
+      he: "F.01 מתועדת להצגת דוחות כספיים ב-S/4HANA 2025 FPS01 On-Premise. עדיין נדרש אימות של השינויים לעומת מערכת ECC ושל ההתאמה לגרסת היעד.",
+      edition: "on-premise",
+      release: "2025.001",
+      source: null,
+      recommendedAction: "לבדוק את הגדרת F.01 ב-SE93 במערכת היעד ואת התאמת הדוח לדרישות הדיווח. אין להסיק ממקור זה זמינות ב-Public Cloud או היעדר שינויים לעומת ECC.",
+    },
+    lastVerifiedAt: "2026-10-04",
+    notes: "Old → New: רשומת קטלוג ללא overlay, שנפסלה בגנרטור בגלל הנקודה בקוד → רשומה עם מקור SAP מתוארך והכרעת מעמד פתוחה. גוף דף SAP Help וה-metadata נקראו דרך scripts/sap-help-body.mjs: מוצר SAP_S4HANA_ON-PREMISE, גרסה 2025.001, תווית 2025 FPS01 (Feb 2026). נשמרה הנקודה כחלק מהמזהה. לא נבדקה מערכת SAP חיה ולא הוסקה חלופת Fiori מטבלת ההשוואה.",
+  },
+  {
+    id: "tx:/UI2/INVAL_CACHES",
+    evidence: [{
+      sourceType: "sap_help",
+      sourceTitle: "Upgrade Guide for SAP S/4HANA 2022 · Follow-On Activities for SAP Fiori · p. 37",
+      url: "https://help.sap.com/doc/760ce610a2af4174a329d2d8315378e2/2022/en-US/UPGR_OP2022.pdf#page=37",
+      product: "SAP S/4HANA",
+      edition: "on-premise",
+      release: "2022",
+      accessedAt: "2026-10-04",
+      claim: "בסעיף פעולות ההמשך ל-SAP Fiori אחרי שדרוג, המדריך מבחין בין הטרנזקציה /UI2/INVAL_CACHES לבין התוכנית /UI2/INVALIDATE_GLOBAL_CACHES, ומציין שאפשר להשתמש בהן לניקוי מטמוני UI2.",
+      verificationLevel: "sap_official_verified",
+      context: true,
+    }],
+    status: {
+      status: "verification_required",
+      he: "קוד הטרנזקציה מתועד במדריך השדרוג ל-S/4HANA 2022. שם התוכנית הופרד ממנו בקטלוג; שינויי המעמד לעומת ECC והתאמה לגרסאות אחרות עדיין טעונים אימות.",
+      edition: "on-premise",
+      release: "2022",
+      source: null,
+      recommendedAction: "לפעול לפי מדריך השדרוג של גרסת היעד ולבדוק ב-SE93 את /UI2/INVAL_CACHES. את /UI2/INVALIDATE_GLOBAL_CACHES יש לזהות כתוכנית, בהתאם למדריך.",
+    },
+    lastVerifiedAt: "2026-10-04",
+    notes: "Old → New: שם התוכנית /UI2/INVALIDATE_GLOBAL_CACHES סווג כטרנזקציה ב-data/tcode-directory.ts, ולא קיבל overlay עקב מגבלת אורך המזהה → קוד הטרנזקציה /UI2/INVAL_CACHES מתועד בנפרד; שם התוכנית נשמר בהסבר, בחיפוש ובתאימות לכתובת NEO ההיסטורית. נקרא Upgrade Guide for SAP S/4HANA 2022, גרסת מסמך 9.0 מתאריך 2026-07-29, סעיף 4.3, עמוד מודפס 37 (PDF index 36). המקור מתאר שימוש לאחר שדרוג ואינו מכריע מעמד ECC-to-S/4 או תחולת Cloud. לא בוצעה בדיקה במערכת SAP חיה.",
+  },
   {
     id: "tx:CJV4",
     evidence: [

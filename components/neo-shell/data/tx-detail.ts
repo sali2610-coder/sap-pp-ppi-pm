@@ -358,9 +358,8 @@ function issuesFor(code: string, intel: (typeof TX_INTEL)[string] | undefined, a
   return out.slice(0, 14);
 }
 
-/** Every code the NEO transaction registry knows — i.e. exactly the set of
- *  pages /neo/transactions/[code] generates, and exactly the set of codes any
- *  NEO surface is allowed to link at. */
+/** Canonical transaction codes for new links. The route also exports historical
+ *  aliases, which resolve to these records without entering catalog counts. */
 export const txDetailCodes = (): string[] => registryCodes();
 
 /** The canonical S/4HANA status of EVERY registry code, keyed by code, from
@@ -393,9 +392,9 @@ export function txStatusMap(): Record<string, S4Status> {
 }
 
 export function txDetail(rawCode: string): TxDetail | null {
-  const code = clean(rawCode).toUpperCase();
-  const reg = registryTx(code);
+  const reg = registryTx(clean(rawCode));
   if (!reg) return null;
+  const code = reg.code;
 
   const intel = TX_INTEL[code];
   const authored = TRANSACTIONS.find((t) => t.code.toUpperCase() === code);
