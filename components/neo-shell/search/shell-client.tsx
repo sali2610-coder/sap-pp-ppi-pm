@@ -30,6 +30,7 @@
      nine as one enum would have shipped three states that do nothing.
    ========================================================================== */
 
+import { getModule, getLesson } from "@/lib/academy/model";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { flushSync } from "react-dom";
@@ -203,6 +204,14 @@ export function NeoShellClient({
    *  ~thousands of plain rows — cheap to hold, and never rebuilt per keystroke. */
   const index = useMemo(() => buildIndex(data, cmd), [data, cmd]);
   const routeRecord = useMemo(() => {
+    if (path.startsWith("/neo/academy/")) {
+      const [, , , courseId, slug, chapter] = path.split("/");
+      const course = courseId ? getModule(courseId) : undefined;
+      const lesson = slug && slug !== "source" ? getLesson(slug) : undefined;
+      if (course) return { mono: false, title: slug === "source"
+        ? `${course.title} · חומר מלא · פרק ${chapter}`
+        : lesson?.moduleId === courseId ? `${course.title} · ${lesson.title}` : course.title };
+    }
     const destination = path.startsWith("/neo/read/") ? path.replace("/neo/read/", "/neo/books/") : path;
     return index.find((r) => r.href === destination && !["nav", "module", "field", "chapter"].includes(r.k));
   }, [index, path]);

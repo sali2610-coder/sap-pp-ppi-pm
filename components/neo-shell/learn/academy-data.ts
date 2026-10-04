@@ -28,8 +28,10 @@
 
 import { ACADEMY, type AcademyModule } from "@/lib/academy/model";
 import { neoLessonHref } from "./lesson-links";
+import { lessonCodes } from "./lesson-search-data";
 
 export interface AcademyLessonRow {
+  codes: { code: string; kind: string }[];
   slug: string;
   title: string;
   /** 1-based position inside its chapter — the number the reader sees. */
@@ -93,6 +95,7 @@ const levelRank = (l: string) => {
 function courseOf(m: AcademyModule): AcademyCourseRow {
   const chapters: AcademyChapterRow[] = m.chapters.map((ch) => {
     const lessons: AcademyLessonRow[] = ch.lessons.map((l) => ({
+      codes: lessonCodes(l.slug),
       slug: l.slug,
       title: l.title,
       pos: l.posInChapter,
@@ -134,7 +137,7 @@ function courseOf(m: AcademyModule): AcademyCourseRow {
     href: `/neo/academy/${m.moduleId}/`,
     hay: "",
   };
-  row.hay = [m.title, m.titleEn ?? "", m.module, m.moduleId, ...chapters.map((c) => c.title), ...all.map((l) => l.title)]
+  row.hay = [m.title, m.titleEn ?? "", m.module, m.moduleId, ...chapters.map((c) => c.title), ...all.map((l) => l.title), ...new Set(all.flatMap((l) => l.codes.map((r) => r.code)))]
     .join(" ")
     .toLowerCase();
   return row;

@@ -46,7 +46,8 @@ import { SmartReturn, OriginLink, type OriginArg } from "@/components/neo-shell/
 import { orderedBlocks, type BlockKind, type LessonBlock } from "@/lib/academy/lesson-types";
 import { recordBlock, setLastLesson, useLessonProgress } from "@/lib/academy/store";
 import { learnModVar, LEARN_MOD_HE } from "./mod";
-import { academyLessonHref } from "./lesson-links";
+import { SourceFlow } from "./source-flow";
+import { CodeCopy } from "./code-copy";
 import type { NeoLessonData, NeoLessonLink } from "./lesson-data";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -201,6 +202,7 @@ function Body({ b }: { b: LessonBlock }) {
                     {r.href
                       ? <Link className="nu-link nx-sap" href={r.href} prefetch={false}>{r.code}</Link>
                       : <span className="nx-sap">{r.code}</span>}
+                    <CodeCopy code={r.code} />
                   </td>
                   <td>{r.he}</td>
                 </tr>
@@ -217,20 +219,17 @@ function Body({ b }: { b: LessonBlock }) {
       return (
         <>
           <div className="nxs-refs">
-            {b.refs.map((r) =>
-              r.href ? (
-                <Link key={r.code} className="nu-card nxs-ref" href={r.href} prefetch={false}>
-                  <span className="nxs-ref-c nx-sap">{r.code}</span>
-                  {r.label ? <span className="nxs-ref-l">{r.label}</span> : null}
-                  <ArrowLeft size={13} strokeWidth={2} aria-hidden="true" />
-                </Link>
-              ) : (
-                <span key={r.code} className="nu-chip nxs-ref is-flat">
-                  <span className="nxs-ref-c nx-sap">{r.code}</span>
-                  {r.label ? <span className="nxs-ref-l">{r.label}</span> : null}
-                </span>
-              ),
-            )}
+            {b.refs.map((r, i) => <div className="nxa-ref-wrap" key={`${r.code}-${i}`}>
+              {r.href ? <Link className="nu-card nxs-ref" href={r.href} prefetch={false}>
+                <bdi dir="ltr" className="nxs-ref-c nx-sap">{r.code}</bdi>
+                {r.label ? <span className="nxs-ref-l">{r.label}</span> : null}
+                <ArrowLeft size={13} strokeWidth={2} aria-hidden="true" />
+              </Link> : <span className="nu-chip nxs-ref is-flat">
+                <bdi dir="ltr" className="nxs-ref-c nx-sap">{r.code}</bdi>
+                {r.label ? <span className="nxs-ref-l">{r.label}</span> : null}
+              </span>}
+              {b.kind !== "related" ? <CodeCopy code={r.code} /> : null}
+            </div>)}
           </div>
           {b.note ? <p className="nx-muted nxs-note">{b.note}</p> : null}
         </>
@@ -434,6 +433,13 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
         </div>
       )}
 
+      {d.source ? <section className="nxv-sec nxa-lesson-source" aria-labelledby="nxa-lesson-source-h">
+        <h2 className="nx-h2" id="nxa-lesson-source-h">הרחבה מחומר המקור · {d.source.title}</h2>
+        {d.source.intro ? <p className="nxs-p" dir="auto">{d.source.intro}</p> : null}
+        {d.source.flows.map((f) => <details key={f.id} open><summary>{f.title} · התהליך המלא</summary><SourceFlow steps={f.steps} /></details>)}
+        <Link className="nu-link" href={d.source.href} prefetch={false}>לנושא המלא ולכל פרטי המקור</Link>
+      </section> : null}
+
       {/* --------------------------------------------------------- STEPPING */}
       <nav className="nxs-steps" aria-label="מעבר בין שיעורים">
         {prev ? <Step l={prev} dir="prev" origin={origin} /> : <span className="nxs-step is-none">זהו השיעור הראשון בקורס.</span>}
@@ -452,14 +458,7 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
             {" "}התוכן מוצג כפי שנכתב.
           </span>
         </p>
-        <p>
-          <Info size={13} strokeWidth={1.75} aria-hidden="true" />
-          {" "}הגרסה הקודמת של השיעור, במעטפת ובתפריט הישנים:{" "}
-          <Link className="nu-link" href={academyLessonHref(lesson.slug)} prefetch={false}>
-            פתיחה במסך הלמידה הקודם
-          </Link>
-          . ההתקדמות משותפת לשני המסכים.
-        </p>
+
       </div>
     </div>
   );

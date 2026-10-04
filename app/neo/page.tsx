@@ -4,6 +4,7 @@ import { ArrowUpLeft, BookOpen, GitBranch, GraduationCap, Route, Search, ShieldC
 // a control style, it consumes .nu-* and only overrides layout around them.
 import "./ui.css";
 import "./home.css";
+import "./home-workspaces.css";
 import { SiteLogo } from "@/components/site-logo";
 import { homeData, type HomeData } from "@/components/neo-shell/home/home-data";
 import { HomeScene, type SceneSection } from "@/components/neo-shell/home/home-scene";
@@ -58,6 +59,7 @@ function ModuleCard({ d, i }: { d: HomeData; i: 0 | 1 }) {
         <span className="nh-mod-he">{mo.he}</span>
         <ArrowUpLeft size={17} strokeWidth={1.75} aria-hidden="true" />
       </span>
+      <span className="nh-work-purpose">{i === 0 ? "טבלאות, פעולות וקשרים לעבודה עם נתוני האחזקה." : "טבלאות, פעולות וקשרים לעבודה עם נתוני הייצור התהליכי."}</span>
       <span className="nh-mod-nums">
         <span><b className="nh-sap">{nf.format(mo.tables)}</b><em>טבלאות</em></span>
         <span><b className="nh-sap">{nf.format(mo.fields)}</b><em>שדות</em></span>
@@ -73,6 +75,7 @@ function ModuleCard({ d, i }: { d: HomeData; i: 0 | 1 }) {
         <em className="nh-sap">{pct(mo.tables, d.tables)}%</em>
         <span>מתוך {nf.format(d.tables)} טבלאות SAP מתועדות</span>
       </span>
+      <span className="nh-work-enter">כניסה לסביבת <bdi dir="ltr">{mo.code}</bdi><ArrowUpLeft size={16} aria-hidden="true" /></span>
     </Link>
   );
 }
@@ -260,12 +263,14 @@ export default function NeoHome() {
               prefetch={false}
               className="nh-mod nm-rise nm-lift"
               aria-label="מוכנות למעבר S/4HANA: סיווג המעבר כפי שהתיעוד מציין"
+              style={{ "--m": "var(--scene-accent, var(--mod-pppi))" } as React.CSSProperties}
             >
               <span className="nh-mod-top">
                 <b className="nh-sap">S/4HANA</b>
                 <span className="nh-mod-he">מוכנות למעבר</span>
                 <ArrowUpLeft size={17} strokeWidth={1.75} aria-hidden="true" />
               </span>
+              <span className="nh-work-purpose">סיווג השינויים המתועדים בטבלאות ונקודת פתיחה לבדיקת המוכנות למעבר.</span>
               <span className="nh-mod-nums">
                 {impact.map((im) => (
                   <span key={im.k}><b className="nh-sap">{nf.format(im.n)}</b><em>{im.he}</em></span>
@@ -278,6 +283,7 @@ export default function NeoHome() {
                 <em className="nh-sap">{pct(marked, d.tables)}%</em>
                 <span>מהטבלאות מסומנות לשינוי במעבר</span>
               </span>
+              <span className="nh-work-enter">בדיקת מוכנות למעבר<ArrowUpLeft size={16} aria-hidden="true" /></span>
             </Link>
           </div>
         </div>

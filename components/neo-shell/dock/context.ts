@@ -74,7 +74,7 @@ export function contextFromPath(path: string): NeoContext {
     case "erd":         return mk("graph");
     case "books":       return at(2) ? mk("book", at(2)) : mk("reference", "ספריית SAP");
     case "read":        return mk("reader", at(2));
-    case "academy":     return at(3) ? mk("lesson", at(3)) : at(2) ? mk("course", at(2)) : mk("reference", "SAP Academy");
+    case "academy":     return at(3) === "source" ? mk("course", at(2)) : at(3) ? mk("lesson", at(3)) : at(2) ? mk("course", at(2)) : mk("reference", "SAP Academy");
     case "knowledge":   return at(2) ? mk("knowledge", at(2)) : mk("reference", "מרכז הידע");
     case "incidents":   return at(2) ? mk("incident", at(2)) : mk("reference", "תקלות");
     case "bapi": case "cds": case "idoc":
