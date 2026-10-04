@@ -75,3 +75,10 @@ test("a record links a legacy address to its NEO twin first, and never elsewhere
     }
   }
 });
+
+test("legacy offline links lead home while the worker keeps its dedicated NEO offline page", () => {
+  for (const href of ["/offline/", "/offline", "/offline/?retry=1#status"]) {
+    assert.equal(neoOf(href), "/neo/", href);
+  }
+  assert.equal(neoOf("/neo/offline/"), "/neo/offline/");
+});

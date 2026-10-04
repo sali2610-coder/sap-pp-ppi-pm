@@ -93,6 +93,9 @@ const ROOT: Record<string, string> = {
   incidents: "/neo/incidents/", pm: "/neo/pm/", "pp-pi": "/neo/pp-pi/", s4hana: "/neo/s4hana/",
   "migration-cockpit": "/neo/migration-cockpit/", knowledge: "/neo/knowledge/", "fiori-apps": "/neo/fiori-apps/",
   enhancements: "/neo/enhancements/", domain: "/neo/domain-model/",
+  // Match the redirect generator's BEFORE_TWIN exception: online legacy
+  // links go home; /neo/offline/ is reserved for the worker's offline fallback.
+  offline: "/neo/",
 };
 
 /** Legacy pages NEO rebuilt at the same address under /neo/ (a static page,
@@ -103,7 +106,7 @@ const ROOT: Record<string, string> = {
  *  test/legacy-link-maps.test.ts checks this list against vercel.json. */
 const TWIN = new Set([
   "/academy/", "/ai/", "/alm/", "/certification/", "/chat/", "/connector/", "/delivery/", "/domain-model/",
-  "/evolution/", "/fiori/", "/import/", "/integration/", "/knowledge/coverage/", "/notes-graph/", "/offline/",
+  "/evolution/", "/fiori/", "/import/", "/integration/", "/knowledge/coverage/", "/notes-graph/",
   "/onboarding/", "/privacy/", "/quality-audit/", "/s4-readiness/", "/sap-infrastructure/", "/studio/",
   "/transactions/", "/verification/", "/workbench/",
 ]);
