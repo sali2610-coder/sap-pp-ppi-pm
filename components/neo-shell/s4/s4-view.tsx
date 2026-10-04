@@ -26,6 +26,7 @@ import {
   Sparkles, Truck, Waypoints,
 } from "lucide-react";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
+import { SmartReturn } from "@/components/neo-shell/nav-context";
 import { S4Catalog } from "./s4-catalog";
 import {
   APPROACHES, ARCH, ARCH_STATUS, CUSTOM_CODE, CUSTOM_CODE_NOTE, CUTOVER, EXEC_NARRATIVE,
@@ -137,6 +138,7 @@ export function S4HanaCenter() {
 
   return (
     <div className="ns4 nm-scene" data-surface="s4" data-scene="s4">
+      <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
       <Hero
         eyebrow="מרכז S/4HANA · TRANSFORMATION"
         icon={<Rocket size={13} strokeWidth={2} aria-hidden="true" />}
@@ -333,6 +335,7 @@ export function S4ReadinessCenter() {
 
   return (
     <div className="ns4 nm-scene" data-surface="s4" data-scene="s4">
+      <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
       <Hero
         eyebrow="כיסוי תיעוד למעבר · READINESS COVERAGE"
         icon={<Gauge size={13} strokeWidth={2} aria-hidden="true" />}
@@ -459,6 +462,7 @@ export function MigrationCockpit() {
 
   return (
     <div className="ns4 nm-scene" data-surface="s4" data-scene="s4">
+      <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
       <Hero
         eyebrow="קוקפיט המעבר · MIGRATION COCKPIT"
         icon={<Truck size={13} strokeWidth={2} aria-hidden="true" />}

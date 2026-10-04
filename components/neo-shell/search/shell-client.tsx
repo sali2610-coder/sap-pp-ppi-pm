@@ -289,7 +289,7 @@ export function NeoShellClient({ children }: { children: React.ReactNode }) {
   const applyOnly = useCallback((k: CmdKind | null) => { setOnly(k); setCursor(0); setResultLimit(60); }, []);
   const applyMod = useCallback((m: string | null) => { setModOnly(m); setCursor(0); setResultLimit(60); }, []);
   const resetFilters = useCallback(() => {
-    setOnly(null); setModOnly(null); setCursor(0);
+    setOnly(null); setModOnly(null); setCursor(0); setResultLimit(60);
     const field = mInputRef.current;
     field?.focus();
   }, []);
@@ -642,6 +642,7 @@ export function NeoShellClient({ children }: { children: React.ReactNode }) {
 
   /** One handler for both fields — the rail's and the phone sheet's. */
   const onFieldKey = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.nativeEvent.isComposing) return;
     const n = result.flat.length;
     if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); closeSearch(); return; }
     if (searchBusy && ["Enter", "ArrowDown", "ArrowUp", "Home", "End"].includes(e.key)) {
@@ -662,7 +663,7 @@ export function NeoShellClient({ children }: { children: React.ReactNode }) {
   /* -------------------------------------------------------- keyboard */
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.defaultPrevented) return;
+      if (e.defaultPrevented || e.isComposing) return;
       const meta = e.metaKey || e.ctrlKey;
       if (meta && e.key.toLowerCase() === "k") {
         e.preventDefault();
@@ -684,17 +685,8 @@ export function NeoShellClient({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [changeMode, closeSearch, mode]);
 
-  useEffect(() => {
-    if (mode !== "search") return;
-    // Deferred so the spring is not interrupted by the browser scrolling the
-    // field into view mid-animation. Whichever of the two fields the current
-    // device actually displays is the one that takes focus.
-    const t = window.setTimeout(() => {
-      const el = mInputRef.current;
-      el?.focus();
-    }, 200);
-    return () => window.clearTimeout(t);
-  }, [mode]);
+  // The native dialog focuses its autofocus field on showModal(). A delayed
+  // second focus would steal focus back from someone already tabbing to facets.
 
   const onRailKeyDown = (e: React.KeyboardEvent) => {
     const scroll = scrollRef.current;
@@ -734,7 +726,7 @@ export function NeoShellClient({ children }: { children: React.ReactNode }) {
       onKeyDown={(event) => {
         // Search facets and close buttons need the same Escape behavior as
         // the field. Consume it before page focus/fullscreen listeners run.
-        if (!event.defaultPrevented && event.key === "Escape" && mode === "search") {
+        if (!event.defaultPrevented && !event.nativeEvent.isComposing && event.key === "Escape" && mode === "search") {
           event.preventDefault();
           event.stopPropagation();
           closeSearch();

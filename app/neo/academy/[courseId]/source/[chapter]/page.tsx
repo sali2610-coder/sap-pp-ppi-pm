@@ -7,6 +7,7 @@ import "@/app/neo/academy-experience.css";
 import { sourceBook, sourceChapter, sourceChapters, sourceHref, sourceNodes, sourceParams } from "@/components/neo-shell/learn/source-data";
 import { SourceContent } from "@/components/neo-shell/learn/source-content";
 import { learnModVar } from "@/components/neo-shell/learn/mod";
+import { SmartReturn } from "@/components/neo-shell/nav-context";
 
 export const dynamicParams = false;
 export const generateStaticParams = sourceParams;
@@ -25,6 +26,7 @@ export default async function AcademySourceChapter({ params }: { params: Promise
   const i = chapters.indexOf(ch);
   const nodes = sourceNodes(ch.subchapters);
   return <div className="nxv nxa-source" style={{ "--m": learnModVar(book.module) } as React.CSSProperties} id="source-top">
+    <SmartReturn fallback={{ href: "/neo/academy/materials/", label: "תיקיית האקדמיה" }} />
     <nav className="nxa-source-nav" aria-label="מיקום בחומר הלימוד">
       <Link href="/neo/" prefetch={false}>בית</Link><span aria-hidden="true">/</span>
       <Link href="/neo/academy/" prefetch={false}>אקדמיה</Link><span aria-hidden="true">/</span>

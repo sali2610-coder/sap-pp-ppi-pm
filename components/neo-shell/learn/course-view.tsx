@@ -32,11 +32,11 @@
    parent from the route.
    ========================================================================== */
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { ArrowLeft, BookOpen, Blocks, Clock, Info, Layers, Play } from "lucide-react";
 import {
-  OriginLink, SmartReturn, restoreScroll, scrollOffset, useReturnState, type OriginArg,
+  consumeReturn, OriginLink, SmartReturn, restoreScroll, scrollOffset, useReturnPacket, type OriginArg,
 } from "@/components/neo-shell/nav-context";
 import { firstIncomplete } from "@/lib/academy/model";
 import { useIsDone, useModuleProgress } from "@/lib/academy/store";
@@ -65,8 +65,13 @@ export function CourseView({ c, source }: { c: AcademyCourseRow; source?: ReactN
   /* Coming back from a lesson. Non-null exactly once, and only for a packet
      this course left — a course is a long page and returning to the top of it
      after four lessons would be its own small punishment. */
-  const back = useReturnState<CourseReturn>(COURSE_SURFACE);
-  const mine = back && back.id === c.id ? back : null;
+  const packet = useReturnPacket(COURSE_SURFACE);
+  const [restored, setRestored] = useState<typeof packet>(null);
+  if (packet && packet.at !== restored?.at) setRestored(packet);
+  useEffect(() => { if (packet) consumeReturn(COURSE_SURFACE); }, [packet]);
+  // Keep a local snapshot after the one-shot packet is consumed. Otherwise
+  // consuming it closes restored chapters and cancels the pending scroll.
+  const mine = restored?.state.id === c.id ? restored.state as CourseReturn : null;
   /* TWO FRAMES, NOT ONE. `restoreScroll` waits a frame of its own; this waits
      the frame before it, because the App Router resets the canvas to 0 as PART
      of the navigation and does so after the first one. Landing on the chapter

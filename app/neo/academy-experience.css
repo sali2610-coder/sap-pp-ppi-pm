@@ -31,6 +31,18 @@
 .nx-app .nxa-folder > summary { display: flex; align-items: center; gap: 18px; cursor: pointer; padding-block: 24px; }
 .nx-app .nxa-folder > summary > span { flex: 1; }
 .nx-app .nxa-folder > summary > svg { color: var(--m); flex-shrink: 0; }
+.nx-app .nxa-folder > summary { list-style: none; }
+.nx-app .nxa-folder > summary::-webkit-details-marker { display: none; }
+.nx-app .nxa-folder > summary::after { content: '+'; font-size: 24px; color: var(--m); flex: none; }
+.nx-app .nxa-folder[open] > summary::after { content: '−'; }
+.nx-app .nxa-folder > summary > span { min-inline-size: 0; overflow-wrap: anywhere; }
+.nx-app .nxa-results { display: grid; gap: 10px; list-style: none; margin: 16px 0; padding: 0; }
+.nx-app .nxa-results > li { min-inline-size: 0; }
+.nx-app .nxa-materials > .nxa-results { max-block-size: none; overflow: visible; }
+.nx-app .nxa-results .nxa-result { display: flex; justify-content: space-between; gap: 14px; padding: 18px; text-decoration: none; }
+.nx-app .nxa-result > span { min-inline-size: 0; overflow-wrap: anywhere; }
+.nx-app .nxa-result > svg { flex: none; }
+.nx-app .nxa-more { margin-block: 8px 24px; }
 .nx-app .nxa-materials .nx-eyebrow { display: flex; align-items: center; gap: 8px; }
 .nx-app .nxa-material-tools { margin-block: 26px; }
 .nx-app .nxa-materials .nxa-result { min-block-size: 82px; align-items: center; }
