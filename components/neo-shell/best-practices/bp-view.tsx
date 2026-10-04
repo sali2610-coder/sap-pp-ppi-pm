@@ -57,7 +57,7 @@ function ModChip({ module, moduleHe }: { module: string; moduleHe: string }) {
   return (
     <span className="nu-chip nxt-mod" style={{ "--m": modVar(module) } as React.CSSProperties}>
       <i aria-hidden="true" />
-      {module === "Cross" ? moduleHe : `${module} · ${moduleHe}`}
+      {module === "Cross" ? moduleHe : <><bdi dir="ltr">{module}</bdi> · {moduleHe}</>}
     </span>
   );
 }
@@ -126,16 +126,13 @@ export function BpCatalog({ rows }: { rows: BpRow[] }) {
         <p className="nx-eyebrow nxt-eyebrow">ידע ולמידה · המעבר ל-S/4HANA</p>
         <h1 className="nbp-h1">שיטות עבודה מומלצות ל-SAP S/4HANA</h1>
         <p className="nbp-lede">
-          {nf.format(total)} שיטות עבודה מתועדות בקטלוג.{" "}
+          {nf.format(total)} שיטות עבודה מתועדות, מצעד ראשון ועד בדיקות התוצאה.
+          בכל שיטה: צעדי עבודה, דפוסים שגויים שכדאי להכיר וקישורים לרשומות הרלוונטיות באתר.
+        </p>
+        <p className="nbp-source-note">
           {official === 0
             ? "כולן נגזרות מרשומות מתועדות של המאגר, וטרם צורף להן מקור SAP רשמי מקושר."
             : `${nf.format(official)} מהן מגובות במקור SAP רשמי מקושר, והשאר נגזרות מרשומות המאגר.`}
-          {" "}כל שיטה מפרטת צעדי עבודה, דפוסים שגויים ובדיקות, וכל הפניה נפתחת כקישור רק כאשר קיים
-          לה עמוד בפרויקט.
-          {processes > 0
-            ? ` ${nf.format(processes)} מהן הן רשומות תהליך מלאות (מטרה, טריגר, תנאים מוקדמים, נתוני אב, תפקידים, שלבים, טרנזקציות, טבלאות, אינטגרציה, תוצרים, חריגים, בקרות, מדדים, שינויי ECC ל-S/4HANA, הגירה, הפניה רשמית וקישורים צולבים); שדה שהמאגר אינו מתעד מוצג כפער ולא מושלם מהדמיון.`
-            : ""}
-          {" "}הקטלוג מורחב בהדרגה לפי משפחות, וכל שיטה תצורף למקורות SAP רשמיים בשלב האיסוף.
         </p>
         <div className="nxt-meta">
           <span className="nu-chip">
@@ -161,6 +158,11 @@ export function BpCatalog({ rows }: { rows: BpRow[] }) {
             </span>
           ) : null}
         </div>
+        {processes > 0 ? <details className="nbp-coverage">
+          <summary>מה כולל פרופיל תהליך?</summary>
+          <p>{nf.format(processes)} רשומות מציגות פרופיל תהליך: מטרה וטריגר, תנאים מוקדמים, נתוני אב ותפקידים; שלבי עבודה, טרנזקציות וטבלאות; אינטגרציה, תוצרים וחריגים; בקרות ומדדים; שינויי ECC ל־S/4HANA והגירה; מקורות וקישורים צולבים.</p>
+          <p>שדה שלא תועד מוצג כפער. הפניה נפתחת כקישור רק כאשר קיים לה עמוד בפרויקט.</p>
+        </details> : null}
       </header>
 
       {rows.length ? (
@@ -173,12 +175,10 @@ export function BpCatalog({ rows }: { rows: BpRow[] }) {
 
       <footer className="nxt-foot">
         <p>
-          רמת האימות והעומק של כל שיטה נמדדות באותו מנגנון ראיות המשמש את קטלוגי העיון
-          (lib/evidence): סטטוס, רמת אימות, מקורות ועומק תיעוד.
+          בכל שיטה מוצגים רמת האימות, המקורות ועומק התיעוד שלה, כדי שיהיה ברור מה מתועד ומה עדיין דורש בדיקה.
         </p>
         <p>
-          מקור: <span className="nx-sap">data/best-practices</span>: רשומות שנבנו מהפניות מפורשות
-          לרשומות המאגר. נדרש אימות במערכת SAP לפני יישום.
+          התוכן מבוסס על הפניות מפורשות לרשומות המאגר. נדרש אימות במערכת SAP לפני יישום.
         </p>
       </footer>
     </div>

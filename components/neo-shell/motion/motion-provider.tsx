@@ -11,7 +11,8 @@
      ORYZO's 1,595ms main-thread block. Putting a scroll listener here would
      hand all of that back.
 
-     So this component owns exactly three small jobs, and no frame loop:
+     This component publishes motion choices and observes visibility, with no
+     frame loop. It also handles three route-specific jobs:
 
        1. Publish the surface's motion LEVEL onto the shell, so the CSS
           amplitudes resolve. One attribute write per route change.
@@ -41,6 +42,7 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { motionLevel } from "./level";
+import { useMotionReduced } from "./preferences";
 
 /** Elements the fallback path is responsible for revealing. */
 const SEL = ".nm-rise, .nm-fade, .nm-grow, .nm-kin";
@@ -52,6 +54,70 @@ const supportsTimeline = () =>
 
 export function MotionProvider() {
   const path = usePathname() || "/neo";
+  const reduced = useMotionReduced();
+
+  useEffect(() => {
+    const app = document.querySelector<HTMLElement>(".nx-app");
+    if (!app) return;
+    app.dataset.motionReduced = reduced ? "1" : "0";
+    if (reduced) {
+      // CSS is settled by motion.css. Finish only imperative animations, so a
+      // book's closing callback still completes when motion is turned off.
+      for (const animation of app.getAnimations({ subtree: true })) {
+        if (typeof CSSAnimation !== "undefined" && animation instanceof CSSAnimation) continue;
+        if (typeof CSSTransition !== "undefined" && animation instanceof CSSTransition) continue;
+        try { animation.finish(); } catch { animation.cancel(); }
+      }
+    }
+    return () => { delete app.dataset.motionReduced; };
+  }, [path, reduced]);
+
+  useEffect(() => {
+    const app = document.querySelector<HTMLElement>(".nx-app");
+    if (!app) return;
+    const sync = () => { app.dataset.motionPaused = document.hidden ? "1" : "0"; };
+    sync();
+    document.addEventListener("visibilitychange", sync);
+    return () => {
+      document.removeEventListener("visibilitychange", sync);
+      delete app.dataset.motionPaused;
+    };
+  }, []);
+
+  useEffect(() => {
+    const app = document.querySelector<HTMLElement>(".nx-app");
+    const canvas = app?.querySelector<HTMLElement>(".nx-canvas");
+    if (!app || !canvas) return;
+    const selector = ".no-orbit, .nol, .nxq-hero-mark, .nxq-avatar, .nxq-live";
+    const watched = new Set<Element>();
+    let observer: IntersectionObserver | null = null;
+    let mutations: MutationObserver | null = null;
+    try {
+      observer = new IntersectionObserver((entries) => {
+        for (const entry of entries) entry.target.setAttribute("data-motion-visible", entry.isIntersecting ? "1" : "0");
+      }, { root: canvas, threshold: 0 });
+      const watch = (node: Element) => {
+        const elements = [...node.querySelectorAll(selector)];
+        if (node.matches(selector)) elements.push(node);
+        for (const element of elements) {
+          if (watched.has(element)) continue;
+          watched.add(element);
+          observer?.observe(element);
+        }
+      };
+      watch(canvas);
+      mutations = new MutationObserver((records) => {
+        for (const record of records) for (const node of record.addedNodes) {
+          if (node instanceof Element) watch(node);
+        }
+      });
+      mutations.observe(canvas, { childList: true, subtree: true });
+    } catch { /* decoration stays visible if the observer is unavailable */ }
+    return () => {
+      observer?.disconnect(); mutations?.disconnect();
+      for (const element of watched) element.removeAttribute("data-motion-visible");
+    };
+  }, [path]);
 
   /* --- 1. level ---------------------------------------------------------- */
   useEffect(() => {
@@ -132,6 +198,20 @@ export function MotionProvider() {
     const scenes = Array.from(document.querySelectorAll<HTMLElement>("[data-scene]"));
     if (scenes.length === 0) return;
 
+    let activeScene: HTMLElement | null = null;
+    const syncGround = () => {
+      if (!activeScene) return;
+      app.dataset.sceneNow = activeScene.dataset.scene || "base";
+      app.style.setProperty(
+        "--nm-shell-ground",
+        getComputedStyle(activeScene).getPropertyValue("--scene-ground").trim() || "",
+      );
+    };
+    // Changing the theme does not cross an intersection threshold. Re-read
+    // the active scene's colour so the outer canvas changes with its cards.
+    const themeChanges = new MutationObserver(syncGround);
+    themeChanges.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
     let io: IntersectionObserver | null = null;
     try {
       io = new IntersectionObserver(
@@ -142,14 +222,8 @@ export function MotionProvider() {
           // stable because only one element can hold it.
           for (const e of entries) {
             if (!e.isIntersecting) continue;
-            const el = e.target as HTMLElement;
-            const name = el.dataset.scene || "base";
-            if (app.dataset.sceneNow === name) continue;
-            app.dataset.sceneNow = name;
-            app.style.setProperty(
-              "--nm-shell-ground",
-              getComputedStyle(el).getPropertyValue("--scene-ground").trim() || "",
-            );
+            activeScene = e.target as HTMLElement;
+            syncGround();
           }
         },
         { root: scroller, rootMargin: "-50% 0px -50% 0px", threshold: 0 },
@@ -159,6 +233,7 @@ export function MotionProvider() {
 
     return () => {
       io?.disconnect();
+      themeChanges.disconnect();
       delete app.dataset.sceneNow;
       app.style.removeProperty("--nm-shell-ground");
     };

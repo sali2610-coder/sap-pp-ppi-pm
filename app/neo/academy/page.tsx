@@ -9,6 +9,8 @@
 // own placement rules still win.
 import "@/app/neo/ui.css";
 import "@/app/neo/learn.css";
+import "@/app/neo/learn-extensions.css";
+import "@/app/neo/academy-experience.css";
 import { academyData } from "@/components/neo-shell/learn/academy-data";
 import { AcademySurface } from "@/components/neo-shell/learn/academy-surface";
 

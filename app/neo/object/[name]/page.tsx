@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 // buttons. Imported first so each route's own CSS still overrides it.
 import "@/app/neo/ui.css";
 import "@/app/neo/object.css";
+import "@/app/neo/object-lanes.css";
 import { objectView } from "@/components/neo-shell/object/object-data";
 import { objectNames } from "@/components/neo-shell/object/object-names";
 import { auxView } from "@/components/neo-shell/object/object-aux";

@@ -273,7 +273,7 @@ export const TCODE_DIRECTORY: TcodeDir[] = [
   /* ===== FIORI ===== */
   d("/UI2/FLP", "FIORI", "Fiori Launchpad", "Launch Fiori Launchpad.", ["fiori", "launchpad", "FLP"]),
   d("/UI2/FLPD_CUST", "FIORI", "Launchpad designer", "FLP designer (client).", ["fiori", "launchpad designer", "catalog"]),
-  d("/UI2/INVALIDATE_GLOBAL_CACHES", "FIORI", "ניקוי cache", "Invalidate Fiori caches.", ["fiori", "cache", "UI2"]),
+  d("/UI2/INVAL_CACHES", "FIORI", "ניקוי מטמון SAP Fiori", "Invalidate UI2 caches. Related report: /UI2/INVALIDATE_GLOBAL_CACHES.", ["fiori", "cache", "UI2", "/UI2/INVALIDATE_GLOBAL_CACHES"]),
   d("/UI5/THEME_DESIGNER", "FIORI", "Theme designer", "UI5 theme designer.", ["fiori", "theme", "UI5"]),
   d("/IWFND/CACHE_CLEANUP", "FIORI", "Gateway cache cleanup", "Clean metadata cache.", ["fiori", "cache", "gateway"]),
   d("SE80_BSP", "FIORI", "BSP/UI5 apps", "UI5/BSP application repository.", ["UI5", "BSP", "app"]),

@@ -536,8 +536,10 @@ html .nx-app .nx-canvas:has(> .nh) {
    are deliberately more specific than motion.css's so they win the cascade
    regardless of stylesheet order, and reduced motion still wins over both
    because motion.css declares its zeroing with !important. */
-@keyframes nh-gate-line { from { opacity: 0; transform: translate3d(0, 108%, 0); } to { opacity: 1; transform: none; } }
-@keyframes nh-gate-up   { from { opacity: 0; transform: translate3d(0, 16px, 0); } to { opacity: 1; transform: none; } }
+/* Essential first-screen content stays legible from the first frame, including
+   when a remote renderer pauses an entrance. Motion only adds a small settle. */
+@keyframes nh-gate-line { from { opacity: 1; transform: translate3d(0, 6px, 0); } to { opacity: 1; transform: none; } }
+@keyframes nh-gate-up   { from { opacity: 1; transform: translate3d(0, 6px, 0); } to { opacity: 1; transform: none; } }
 
 .nh-gate h1.nm-kin > span > span {
   animation: nh-gate-line 900ms cubic-bezier(.16, 1, .3, 1) both;
@@ -546,6 +548,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nh-gate h1.nm-kin > span:nth-child(1) > span { animation-delay: 90ms; }
 .nh-gate h1.nm-kin > span:nth-child(2) > span { animation-delay: 210ms; }
 
+.nh-gate .nh-brand,
 .nh-gate .nh-eye,
 .nh-gate .nh-lede,
 .nh-gate .nh-cta,
@@ -1772,6 +1775,66 @@ html[data-theme="dark"] #nh-5[data-scene="pppi-full"] {
   align-items: stretch;
 }
 .nh-paths .nh-mod { height: 100%; }
+
+/* The opening pairs a reading area with three direct routes into the product.
+   Container widths account for the space occupied by the navigation rail. */
+.nh .nh-gate {
+  min-block-size: min(86svh, 62rem);
+  padding-block: clamp(2.5rem, 5cqi, 6rem);
+}
+.nh .nh-gate-layout { display: grid; gap: 2.5rem; align-items: center; }
+.nh .nh-gate-copy { min-inline-size: 0; }
+.nh .nh-gate-copy .nh-mega { font-size: clamp(2.5rem, 4.7cqi, 5.7rem); line-height: 1.08; }
+.nh .nh-gate-copy .nh-lede { max-inline-size: 54ch; font-size: clamp(1rem, 1.35cqi, 1.2rem); }
+.nh .nh-gate-copy .nh-stats { margin-block: 1.75rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.nh .nh-gate-copy .nh-stat { padding: 1rem .85rem; background: var(--scene-raised); }
+.nh .nh-gate-copy .nh-stat > b { font-size: clamp(1.6rem, 2.4cqi, 2.4rem); }
+.nh .nh-gate-copy .nh-stat > em { font-size: .78rem; line-height: 1.5; }
+.nh .nh-gate-copy .nh-cta { margin-block-end: 0; }
+.nh .nh-mid { opacity: .35; }
+.nh .nh-start {
+  display: grid; gap: .9rem; min-inline-size: 0;
+  padding: 1.4rem; border: 1px solid var(--scene-hair);
+  border-radius: 1.5rem; background: color-mix(in srgb, var(--scene-raised) 82%, transparent);
+  box-shadow: var(--elev-3);
+}
+.nh .nh-start-eye { margin: 0 0 .25rem; color: var(--scene-ink-2); font-size: .85rem; font-weight: 700; }
+.nh .nh-start-card {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center; gap: .85rem; padding: 1.1rem;
+  color: var(--scene-ink); text-decoration: none;
+  border: 1px solid color-mix(in srgb, var(--entry) 28%, var(--scene-hair));
+  border-inline-start: 3px solid var(--entry); border-radius: 1rem;
+  background: color-mix(in srgb, var(--entry) 7%, var(--scene-raised));
+  transition: transform 200ms var(--ease-out-expo), box-shadow 200ms var(--ease-out-expo);
+}
+.nh .nh-start-icon {
+  display: grid; place-items: center; inline-size: 3rem; block-size: 3rem;
+  border-radius: .85rem; color: var(--entry);
+  background: color-mix(in srgb, var(--entry) 12%, var(--scene-raised));
+}
+.nh .nh-start-copy { display: grid; gap: .35rem; min-inline-size: 0; }
+.nh .nh-start-copy > b { font-size: 1.05rem; font-weight: 750; }
+.nh .nh-start-copy > span { color: var(--scene-ink-2); font-size: .85rem; line-height: 1.6; }
+.nh .nh-start-arrow { color: var(--entry); }
+.nh .nh-start-note { margin: .1rem .15rem 0; color: var(--scene-ink-3); font-size: .8rem; line-height: 1.6; }
+.nh .nh-start-card:focus-visible { outline: 2px solid var(--brand); outline-offset: 4px; }
+@media (hover: hover) and (pointer: fine) {
+  .nh .nh-start-card:hover { transform: translateY(-3px); box-shadow: var(--elev-2); }
+}
+@container nh (min-width: 980px) {
+  .nh .nh-gate-layout { grid-template-columns: minmax(0, 1.45fr) minmax(19rem, 1fr); gap: clamp(2rem, 3cqi, 4rem); }
+}
+@container nh (max-width: 520px) {
+  .nh .nh-start { padding: 1rem; border-radius: 1.1rem; }
+  .nh .nh-start-card { padding: .9rem; gap: .65rem; }
+  .nh .nh-start-icon { inline-size: 2.5rem; block-size: 2.5rem; }
+  .nh .nh-gate-copy .nh-stat { padding: .85rem .55rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nh .nh-start-card { transition: none; }
+  .nh .nh-start-card:hover { transform: none; }
+}
 @media (max-width: 1080px) {
   .nh-paths { grid-template-columns: 1fr; }
 }

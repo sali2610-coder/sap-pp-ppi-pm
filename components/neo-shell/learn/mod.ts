@@ -45,7 +45,7 @@ export const COURSE_SURFACE = "neo:course";
 
 /** What a lesson hands the course screen on the way back. A `type` and not an
  *  `interface`, because the origin store's state is an index signature. */
-export type CourseReturn = { id: string; y: number };
+export type CourseReturn = { id: string; y: number; chapters?: string[] };
 
 /** Hebrew module names, as they are already written across the product. */
 export const LEARN_MOD_HE: Record<string, string> = {

@@ -12,14 +12,15 @@
     "validate:books": "node scripts/validate-books.mjs",
     "audit:tree": "node scripts/audit-tree.mjs",
     "audit:library": "node scripts/audit-library.mjs",
-    "build": "next build && node scripts/gen-sitemap.mjs && next build",
+    "build": "node scripts/clean-next-server.mjs && next build --webpack && node scripts/gen-sitemap.mjs && node scripts/clean-next-server.mjs && next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "check:diag": "node scripts/check-diag.mjs",
-    "prebuild": "node scripts/migrate-books.mjs && node scripts/validate-books.mjs && node scripts/build-ai-tree.mjs && npm run gen:tx-index",
+    "prebuild": "node scripts/migrate-books.mjs && node scripts/validate-books.mjs && node scripts/build-ai-tree.mjs && npm run gen:tx-index && npm run gen:neo-shell",
     "check:sitemap": "node scripts/check-sitemap.mjs",
     "check:prod": "node scripts/check-prod.mjs",
     "check:vercel": "node scripts/check-vercel-json.mjs",
+    "pretest": "npm run gen:neo-shell -- --content-only",
     "test": "node --experimental-strip-types --test test/*.test.ts",
     "typecheck:test": "tsc --noEmit -p tsconfig.test.json",
     "gen:academy-blocks": "node --experimental-strip-types --no-warnings scripts/gen-academy-blocks.mjs",
@@ -29,7 +30,9 @@
     "gen:tx-index": "node --experimental-strip-types --no-warnings --loader ./scripts/alias-loader.mjs scripts/gen-tx-search-index.mjs",
     "report:coverage": "node --experimental-strip-types --no-warnings --loader ./scripts/alias-loader.mjs scripts/report-coverage.mjs",
     "check:evidence": "node --experimental-strip-types --test test/evidence-schema.test.ts test/evidence-xref.test.ts test/s4-status.test.ts",
-    "verify:separation": "node scripts/verify-separation.mjs"
+    "verify:separation": "node scripts/verify-separation.mjs",
+    "gen:neo-shell": "node --experimental-strip-types --no-warnings --loader ./scripts/alias-loader.mjs scripts/gen-neo-shell.mjs",
+    "predev": "npm run gen:neo-shell"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

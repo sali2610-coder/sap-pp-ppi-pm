@@ -23,8 +23,8 @@ import {
   moduleTables,
   overviewStats,
   processSteps,
-  transactions,
 } from "@/lib/module-portal";
+import { registryCodes } from "@/lib/tx-registry";
 import { ZONES, zoneOf, type Zone } from "@/lib/studio-graph";
 import { cdsForTable } from "@/data/cds-map";
 import { LIBRARY, LIBRARY_STATS } from "@/data/library";
@@ -505,7 +505,8 @@ export function homeData(): HomeData {
     tables: total,
     shared: sharedRows.length,
     fields: ALL_TABLES.reduce((a, t) => a + t.fields.length, 0),
-    tcodes: uniq([...transactions(PM_DATA), ...transactions(PPPI_DATA)].map((t) => t.code)).length,
+    // The home metric opens the site-wide catalog, not just blueprint mentions.
+    tcodes: registryCodes().length,
     funcs: uniq([...funcs(PM_DATA, ["BAPI", "FM", "IDoc"]), ...funcs(PPPI_DATA, ["BAPI", "FM", "IDoc"])].map((f) => f.name)).length,
     relations: PM_DATA.relations.length + PPPI_DATA.relations.length,
     topics: PM_DATA.topics.length + PPPI_DATA.topics.length,

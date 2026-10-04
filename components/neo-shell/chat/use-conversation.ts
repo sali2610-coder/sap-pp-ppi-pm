@@ -1,5 +1,7 @@
 "use client";
 
+import { motionIsReduced } from "../motion/preferences";
+
 /* ============================================================================
    PROJECT NEO · CHAT — the conversation machine, shared by both surfaces.
    ----------------------------------------------------------------------------
@@ -131,7 +133,7 @@ export function useConversation(mode: AiMode): Conversation {
     if (!stick.current) return;
     const el = endRef.current?.closest<HTMLElement>(".nx-canvas");
     if (!el) return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduce = motionIsReduced();
     el.scrollTo({ top: el.scrollHeight, behavior: smooth && !reduce ? "smooth" : "auto" });
   }, []);
 

@@ -26,7 +26,7 @@ const ON_PREM: Edition = "on-premise";
 
 /* Same regexes as canonical.ts ID_SYNTAX.tx / .table. Duplicated on purpose
    (pure module); test/s4-status.test.ts asserts they agree. */
-const BARE_TX = /^[A-Z0-9_\/]{2,20}$/;
+const BARE_TX = /^[A-Z0-9_\/.-]{2,20}$/;
 const BARE_TABLE = /^[A-Z0-9_\/]{2,30}$/;
 
 /** The recommended action per unified status. Hebrew, one sentence each. */

@@ -24,6 +24,8 @@
 // starts from where the pixels actually are, not from where they were supposed
 // to end up.
 
+import { motionIsReduced } from "./motion/preferences";
+
 export const SPRING = "cubic-bezier(0.22, 1.2, 0.36, 1)";
 export const EASE_OUT_EXPO = "cubic-bezier(0.16, 1, 0.3, 1)";
 
@@ -40,8 +42,7 @@ export const raf = (fn: () => void): void => {
 export const raf2 = (fn: () => void): void => raf(() => raf(fn));
 
 export function reducedMotion(): boolean {
-  if (typeof window === "undefined") return false;
-  try { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch { return false; }
+  return motionIsReduced();
 }
 
 type Axis = "X" | "Y";

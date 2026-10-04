@@ -32,17 +32,18 @@
    parent from the route.
    ========================================================================== */
 
-import { useEffect } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { ArrowLeft, BookOpen, Blocks, Clock, Info, Layers, Play } from "lucide-react";
 import {
-  OriginLink, SmartReturn, restoreScroll, scrollOffset, useReturnState, type OriginArg,
+  consumeReturn, OriginLink, SmartReturn, restoreScroll, scrollOffset, useReturnPacket, type OriginArg,
 } from "@/components/neo-shell/nav-context";
 import { firstIncomplete } from "@/lib/academy/model";
 import { useIsDone, useModuleProgress } from "@/lib/academy/store";
 import { COURSE_SURFACE, learnModVar, LEARN_MOD_HE, type CourseReturn } from "./mod";
 import { neoLessonHref } from "./lesson-links";
 import type { AcademyCourseRow } from "./academy-data";
+import { LessonFinder } from "./lesson-finder";
 
 const nf = new Intl.NumberFormat("he-IL");
 
@@ -53,7 +54,8 @@ function hoursHe(min: number): string {
   return m ? `${nf.format(h)} שע׳ ${nf.format(m)} דק׳` : `${nf.format(h)} שע׳`;
 }
 
-export function CourseView({ c }: { c: AcademyCourseRow }) {
+export function CourseView({ c, source }: { c: AcademyCourseRow; source?: ReactNode }) {
+  const expanded = useRef(new Set<number>());
   const isDone = useIsDone();
   const p = useModuleProgress(c.id);
   const started = p.completedLessons > 0 || p.blocksDone > 0;
@@ -63,8 +65,13 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
   /* Coming back from a lesson. Non-null exactly once, and only for a packet
      this course left — a course is a long page and returning to the top of it
      after four lessons would be its own small punishment. */
-  const back = useReturnState<CourseReturn>(COURSE_SURFACE);
-  const mine = back && back.id === c.id ? back : null;
+  const packet = useReturnPacket(COURSE_SURFACE);
+  const [restored, setRestored] = useState<typeof packet>(null);
+  if (packet && packet.at !== restored?.at) setRestored(packet);
+  useEffect(() => { if (packet) consumeReturn(COURSE_SURFACE); }, [packet]);
+  // Keep a local snapshot after the one-shot packet is consumed. Otherwise
+  // consuming it closes restored chapters and cancels the pending scroll.
+  const mine = restored?.state.id === c.id ? restored.state as CourseReturn : null;
   /* TWO FRAMES, NOT ONE. `restoreScroll` waits a frame of its own; this waits
      the frame before it, because the App Router resets the canvas to 0 as PART
      of the navigation and does so after the first one. Landing on the chapter
@@ -83,7 +90,7 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
     label: "קורס",
     detail: c.title,
     surface: COURSE_SURFACE,
-    state: { id: c.id, y: scrollOffset() } satisfies CourseReturn,
+    state: { id: c.id, y: scrollOffset(), chapters: [...expanded.current].map(String) } satisfies CourseReturn,
   });
 
   return (
@@ -155,6 +162,13 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
         ) : null}
       </section>
 
+      <nav className="nxa-course-nav" aria-label="תוכן הקורס">
+        <a href="#co-ch">מסלול השיעורים</a>
+        <a href="#co-materials">חומר הלימוד המלא</a>
+        <Link href="/neo/academy/materials/" prefetch={false}>כל תיקיות האקדמיה</Link>
+      </nav>
+      <LessonFinder lessons={c.chapters.flatMap((ch) => ch.lessons)} />
+
       {/* ------------------------------------------------------- CHAPTERS */}
       <section className="nxv-sec" aria-labelledby="co-ch">
         <div className="nxv-sec-h">
@@ -169,8 +183,9 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
             const doneN = authored.filter((l) => isDone(l.slug)).length;
             const chDone = authored.length > 0 && doneN === authored.length;
             return (
-              <div className="nxc-ch" key={ch.index}>
-                <div className="nxc-ch-h">
+              <details className="nxc-ch nxa-chapter" key={ch.index} open={mine?.chapters ? mine.chapters.includes(String(ch.index)) : ch.index === c.chapters[0]?.index || ch.lessons.some((l) => l.slug === next?.slug)}
+                onToggle={(e) => { if (e.currentTarget.open) expanded.current.add(ch.index); else expanded.current.delete(ch.index); }}>
+                <summary className="nxc-ch-h">
                   <i aria-hidden="true" />
                   <span className="nxc-ch-n">{String(ch.index).padStart(2, "0")}</span>
                   <h3 className="nxc-ch-t">{ch.title}</h3>
@@ -186,7 +201,7 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
                       </span>
                     ) : null}
                   </div>
-                </div>
+                </summary>
 
                 <ul className="nxc-lessons">
                   {ch.lessons.map((l) => {
@@ -228,11 +243,13 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
                     );
                   })}
                 </ul>
-              </div>
+              </details>
             );
           })}
         </div>
       </section>
+
+      <div id="co-materials">{source}</div>
 
       <div className="nxv-foot">
         <p className="nxv-src">
@@ -246,14 +263,7 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
           שיעור נחשב מושלם כשכל יחידות התוכן שהוא דורש נקראו.
           {" "}ההתקדמות נשמרת במכשיר בלבד (<span className="nx-sap">neo:academy:v2</span>) ואינה מסונכרנת.
         </p>
-        <p>
-          השיעורים נפתחים בתוך Project NEO (<span className="nx-sap">/neo/academy/{c.id}/</span>).
-          {" "}אותו שיעור זמין גם במסך הלמידה הקודם,{" "}
-          <Link className="nu-link" href="/academy/" prefetch={false}>
-            <span className="nx-sap">/academy/</span>
-          </Link>
-          , וההתקדמות משותפת לשני המסכים.
-        </p>
+
       </div>
     </div>
   );

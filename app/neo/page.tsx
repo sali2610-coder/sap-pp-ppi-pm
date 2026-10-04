@@ -1,13 +1,17 @@
 import Link from "next/link";
-import { ArrowUpLeft, GitBranch, GraduationCap, Route, Table, Terminal, Waypoints } from "lucide-react";
+import { ArrowUpLeft, BookOpen, GitBranch, GraduationCap, Route, Search, ShieldCheck, Sparkles, Table, Terminal, Waypoints } from "lucide-react";
 // The interaction system first, the page's own sheet second: Home never invents
 // a control style, it consumes .nu-* and only overrides layout around them.
 import "./ui.css";
 import "./home.css";
+import "./home-workspaces.css";
 import { SiteLogo } from "@/components/site-logo";
 import { homeData, type HomeData } from "@/components/neo-shell/home/home-data";
 import { HomeScene, type SceneSection } from "@/components/neo-shell/home/home-scene";
 import { HomeNet } from "@/components/neo-shell/home/home-net";
+import { HomeContinue } from "@/components/neo-shell/home/home-continue";
+import { booksData } from "@/components/neo-shell/books/books-data";
+import { allModuleIds } from "@/lib/academy/model";
 
 // ROOT CUTOVER. `/` 307s here, so this page is the site's public landing page
 // and MUST be indexable. The other noindex declarations under app/neo/ stay
@@ -23,16 +27,15 @@ const pct = (a: number, b: number) => Math.round((a / b) * 100);
 
 // THE HOME — a focused professional entrance, not a product manual.
 //
-// Content pass, 2026-08: the page went from eight scenes to four. Every number
-// is rendered on the SERVER from the project dataset via home-data.ts; nothing
-// below is authored, and where the dictionary states no verdict the page says
-// nothing instead of inventing one. The copy speaks to the SAP professional
-// about the work; it does not narrate the page's own design.
+// Five scenes retain Astra's visual system while putting search and direct
+// entry points before the workspaces. Counts come from the project dataset;
+// the resume card reads only Astra's existing local history.
 //
-//   01  deep   the gate: identity, scope, S/4HANA first, one primary action.
-//   02  data   the three work paths: PM, PP-PI, S/4HANA readiness.
-//   03  s4     the transition picture: marked migration verdicts, one door in.
-//   04  deep   the close: global search, and the credit.
+//   01  deep   identity, global search, resume, and the protected entry cards.
+//   02  cream  seven direct links to the content and tools.
+//   03  data   the three work paths: PM, PP-PI, S/4HANA readiness.
+//   04  s4     the transition picture and the cockpit.
+//   05  deep   site information, privacy, and the credit.
 
 /** Split a list into n roughly equal slices, in order — the three parallax
  *  columns of the hero name wall, deterministic. */
@@ -57,10 +60,11 @@ function ModuleCard({ d, i }: { d: HomeData; i: 0 | 1 }) {
         <span className="nh-mod-he">{mo.he}</span>
         <ArrowUpLeft size={17} strokeWidth={1.75} aria-hidden="true" />
       </span>
+      <span className="nh-work-purpose">{i === 0 ? "טבלאות, פעולות וקשרים לעבודה עם נתוני האחזקה." : "טבלאות, פעולות וקשרים לעבודה עם נתוני הייצור התהליכי."}</span>
       <span className="nh-mod-nums">
         <span><b className="nh-sap">{nf.format(mo.tables)}</b><em>טבלאות</em></span>
         <span><b className="nh-sap">{nf.format(mo.fields)}</b><em>שדות</em></span>
-        <span><b className="nh-sap">{nf.format(mo.tcodes)}</b><em>טרנזקציות</em></span>
+        <span><b className="nh-sap">{nf.format(mo.tcodes)}</b><em>טרנזקציות בתיעוד המודול</em></span>
         <span><b className="nh-sap">{nf.format(mo.funcs)}</b><em>BAPI · FM · IDoc</em></span>
         <span><b className="nh-sap">{nf.format(mo.cds)}</b><em>CDS Views</em></span>
         <span><b className="nh-sap">{nf.format(mo.fiori)}</b><em>יישומי Fiori</em></span>
@@ -70,39 +74,35 @@ function ModuleCard({ d, i }: { d: HomeData; i: 0 | 1 }) {
           <i className="nm-grow" style={{ "--p": mo.share } as React.CSSProperties} />
         </span>
         <em className="nh-sap">{pct(mo.tables, d.tables)}%</em>
-        <span>מתוך {nf.format(d.tables)} טבלאות SAP מתועדות</span>
+        <span>מתוך {nf.format(d.tables)} טבלאות ייחודיות במודל; יש טבלאות משותפות למודולים</span>
       </span>
+      <span className="nh-work-enter">כניסה לסביבת <bdi dir="ltr">{mo.code}</bdi><ArrowUpLeft size={16} aria-hidden="true" /></span>
     </Link>
   );
 }
 
 export default function NeoHome() {
   const d = homeData();
+  const resumeBooks = booksData().books.map((b) => ({
+    id: b.id, title: b.titleHe || b.titleEn,
+    chapters: b.chapterRows.map((c) => ({ n: c.n, sections: c.rows.map(([id]) => id) })),
+  }));
   const marked = d.migration.adapted + d.migration.replaced + d.migration.removed;
 
   const sections: SceneSection[] = [
     { id: "nh-1", label: "פתיחה", field: "S/4HANA תחילה", tone: "#c8102e" },
+    { id: "nh-quick", label: "כניסות מהירות", field: "התוכן והכלים", tone: "#c8102e" },
     { id: "nh-2", label: "מסלולים", field: "PM · PP-PI · מעבר", tone: "#47a8ff" },
     { id: "nh-3", label: "S/4HANA", field: "תמונת המעבר", tone: "#47a8ff" },
-    { id: "nh-4", label: "איתור", field: "חיפוש וניווט", tone: "#c8102e" },
+    { id: "nh-4", label: "מידע", field: "אודות ופרטיות", tone: "#c8102e" },
   ];
 
-  // ONE COUNTING BASIS. The hero states 105 merged-unique tables, so the two
-  // numbers beside it are computed on the same basis: fields as the per-table
-  // max the dots already carry (a shared table's fields counted once), and
-  // relations as the deduplicated undirected ER pairs the page itself draws —
-  // not the 126 per-module relation rows.
-  // THREE NUMBERS THAT LEAD SOMEWHERE (design audit S7-HOME-4: drop the
-  // metrics that do not help choose an action). Each one is the size of the
-  // catalog it opens: the tables, the transactions, and the tables the
-  // blueprints mark for change in the move. The field and ER-relation counts
-  // left the gate: they describe the model, they do not choose a door, and
-  // both are still counted where they are used (the module cards below, the
-  // data model itself).
+  // Three real entry points. Each label states its counting scope; blueprint
+  // migration classifications remain in the scoped transition section below.
   const stats: [number, string, string][] = [
-    [d.tables, "טבלאות SAP", "/neo/tables/"],
-    [d.tcodes, "טרנזקציות", "/neo/transactions/"],
-    [marked, "מסומנות לשינוי במעבר", "/neo/s4hana/"],
+    [d.tables, "טבלאות ייחודיות במודל", "/neo/tables/"],
+    [d.tcodes, "טרנזקציות בקטלוג", "/neo/transactions/"],
+    [allModuleIds().length, "מסלולי לימוד באקדמיה", "/neo/academy/"],
   ];
 
   // The verdict labels are lib/s4-class S4_HE, verbatim — the blueprint's own
@@ -140,8 +140,9 @@ export default function NeoHome() {
         </div>
         <span className="nh-glow" aria-hidden="true" />
 
-        <div className="nh-in nh-gate-in">
-          <SiteLogo tone="dark" size="lg" className="nh-brand nm-rise nm-once" />
+        <div className="nh-in nh-gate-in nh-gate-layout">
+         <div className="nh-gate-copy">
+          <SiteLogo tone="dark" size="hero" className="nh-brand nm-rise nm-once" />
 
           <p className="nh-eye nh-eye--gate">
             SAP Enterprise Knowledge Platform
@@ -156,7 +157,7 @@ export default function NeoHome() {
           <p className="nh-lede nh-lede--gate">
             פלטפורמת ידע מקצועית למודולי <span className="nh-sap">PM</span> ו-<span className="nh-sap">PP-PI</span>:
             אובייקטים עסקיים, טבלאות, טרנזקציות, קשרי נתונים והמעבר מ-<span className="nh-sap">ECC</span> ל-
-            <span className="nh-sap">S/4HANA</span>. זמינה במלואה גם ללא חיבור לרשת.
+            <span className="nh-sap">S/4HANA</span>. מקום אחד לחיפוש, ללמידה ולהבנת הקשרים בין הנתונים.
           </p>
           <div className="nh-stats nm-seq">
             {stats.map(([n, l, href]) => (
@@ -166,31 +167,61 @@ export default function NeoHome() {
               </Link>
             ))}
           </div>
-          {/* Design audit §7: the four actions a reader comes for, in the first
-              window — search a table, open a process, check an S/4HANA change,
-              continue learning. The data model stays one link away. */}
           <div className="nh-cta">
-            <Link className="nu-btn" href="/neo/tables/" prefetch={false}>
-              <Table size={15} strokeWidth={1.75} aria-hidden="true" />
-              חיפוש טבלה
-            </Link>
-            <Link className="nu-btn2" href="/neo/domain-model/" prefetch={false}>
-              <Route size={15} strokeWidth={1.75} aria-hidden="true" />
-              פתיחת תהליך עסקי
-            </Link>
-            <Link className="nu-btn2" href="/neo/s4hana/" prefetch={false}>
-              <Waypoints size={15} strokeWidth={1.75} aria-hidden="true" />
-              בדיקת שינוי ב-<span className="nh-sap">S/4HANA</span>
-            </Link>
-            <Link className="nu-btn2" href="/neo/academy/" prefetch={false}>
-              <GraduationCap size={15} strokeWidth={1.75} aria-hidden="true" />
-              המשך ללמוד
-            </Link>
-            <Link className="nu-link" href="/neo/erd/" prefetch={false}>
-              <GitBranch size={14} strokeWidth={1.75} aria-hidden="true" />
-              מודל הנתונים
-            </Link>
+            <button className="nu-btn" type="button" data-neo-open-search aria-label="פתיחת החיפוש הגלובלי">
+              <Search size={15} strokeWidth={1.75} aria-hidden="true" />
+              חיפוש בכל האתר
+            </button>
           </div>
+          <p className="nh-start-note">פתיחה מכל מסך באמצעות <kbd dir="ltr">⌘/Ctrl+K</kbd></p>
+          <HomeContinue objects={d.dots.map(({ n, he }) => ({ name: n, title: he }))} books={resumeBooks} />
+         </div>
+         <nav className="nh-start" aria-label="כניסה לספרייה, לעוזר ולמודל הנתונים">
+          <p className="nh-start-eye">סביבת העבודה שלך</p>
+          <Link href="/neo/books/" prefetch={false} className="nh-start-card" style={{ "--entry": "var(--mod-pm)" } as React.CSSProperties}>
+            <span className="nh-start-icon"><BookOpen size={25} strokeWidth={1.6} aria-hidden="true" /></span>
+            <span className="nh-start-copy"><b>ספריית SAP</b><span>ספרים, פרקים ומקום הקריאה האחרון שלך</span></span>
+            <ArrowUpLeft className="nh-start-arrow" size={18} aria-hidden="true" />
+          </Link>
+          <Link href="/neo/ai/" prefetch={false} className="nh-start-card" style={{ "--entry": "var(--mod-pp)" } as React.CSSProperties}>
+            <span className="nh-start-icon"><Sparkles size={25} strokeWidth={1.6} aria-hidden="true" /></span>
+            <span className="nh-start-copy"><b>שאל את הספרייה</b><span>שאלות על התוכן, עם מקורות לקריאה</span></span>
+            <ArrowUpLeft className="nh-start-arrow" size={18} aria-hidden="true" />
+          </Link>
+          <Link href="/neo/erd/" prefetch={false} className="nh-start-card" style={{ "--entry": "var(--mod-pppi)" } as React.CSSProperties}>
+            <span className="nh-start-icon"><GitBranch size={25} strokeWidth={1.6} aria-hidden="true" /></span>
+            <span className="nh-start-copy"><b>מודל הנתונים</b><span>מודולים, טבלאות והקשרים ביניהם</span></span>
+            <ArrowUpLeft className="nh-start-arrow" size={18} aria-hidden="true" />
+          </Link>
+          <p className="nh-start-note">בחר נקודת כניסה, והמשך משם אל התוכן והכלים.</p>
+         </nav>
+        </div>
+       </div>
+      </section>
+
+      <section className="nh-sec" data-scene="cream" id="nh-quick" data-hsec aria-labelledby="nh-quick-h">
+       <div className="nh-body nm-scene">
+        <div className="nh-in">
+          <div className="nh-head">
+            <p className="nh-eye nm-fade">התוכן והכלים<i aria-hidden="true" />כניסה ישירה</p>
+            <h2 className="nh-h2 nm-kin" id="nh-quick-h"><span><span>כניסות מהירות</span></span></h2>
+          </div>
+          <nav className="nh-paths nm-seq" aria-label="כניסות מהירות">
+            {[
+              { href: "/neo/tables/", label: "טבלאות SAP", text: "טבלאות, שדות וקשרים במודל הנתונים", Icon: Table },
+              { href: "/neo/transactions/", label: "טרנזקציות", text: "איתור קוד והבנת הפעולה העסקית", Icon: Terminal },
+              { href: "/neo/s4hana/", label: "S/4HANA", text: "מה משתנה במעבר מ-ECC והיכן נדרשת בדיקה", Icon: Waypoints },
+              { href: "/neo/domain-model/", label: "תחומים עסקיים", text: "התהליכים והאובייקטים לפי תחום", Icon: Route },
+              { href: "/neo/best-practices/", label: "שיטות עבודה מומלצות", text: "תהליכים מתועדים וצעדים ליישום", Icon: ShieldCheck },
+              { href: "/neo/books/", label: "ספרייה", text: "ספרים, פרקים והמשך הקריאה", Icon: BookOpen },
+              { href: "/neo/academy/", label: "אקדמיה", text: "מסלולי לימוד והעמקה מקצועית", Icon: GraduationCap },
+            ].map(({ href, label, text, Icon }) => (
+              <Link key={href} href={href} prefetch={false} className="nh-mod nm-rise nm-lift" style={{ "--m": "var(--scene-accent, var(--brand))" } as React.CSSProperties}>
+                <span className="nh-mod-top"><Icon size={18} strokeWidth={1.75} aria-hidden="true" /><b><bdi dir="auto">{label}</bdi></b><ArrowUpLeft size={17} strokeWidth={1.75} aria-hidden="true" /></span>
+                <span className="nh-mod-he">{text}</span>
+              </Link>
+            ))}
+          </nav>
         </div>
        </div>
       </section>
@@ -222,13 +253,15 @@ export default function NeoHome() {
               href="/neo/s4-readiness/"
               prefetch={false}
               className="nh-mod nm-rise nm-lift"
-              aria-label="מוכנות למעבר S/4HANA: סיווג המעבר כפי שהתיעוד מציין"
+              aria-label="כניסה למוכנות S/4HANA; המספרים מציגים סימונים בתיעוד ולא אחוז מוכנות"
+              style={{ "--m": "var(--scene-accent, var(--mod-pppi))" } as React.CSSProperties}
             >
               <span className="nh-mod-top">
                 <b className="nh-sap">S/4HANA</b>
                 <span className="nh-mod-he">מוכנות למעבר</span>
                 <ArrowUpLeft size={17} strokeWidth={1.75} aria-hidden="true" />
               </span>
+              <span className="nh-work-purpose">סימוני שינוי בהערות המקור של מודל PM ו־PP-PI. זו נקודת פתיחה לבדיקה, ולא מדד מוכנות למעבר.</span>
               <span className="nh-mod-nums">
                 {impact.map((im) => (
                   <span key={im.k}><b className="nh-sap">{nf.format(im.n)}</b><em>{im.he}</em></span>
@@ -239,8 +272,9 @@ export default function NeoHome() {
                   <i className="nm-grow" style={{ "--p": marked / d.tables } as React.CSSProperties} />
                 </span>
                 <em className="nh-sap">{pct(marked, d.tables)}%</em>
-                <span>מהטבלאות מסומנות לשינוי במעבר</span>
+                <span>מהטבלאות במודל מסומנות לשינוי בתיעוד</span>
               </span>
+              <span className="nh-work-enter">בדיקת מוכנות למעבר<ArrowUpLeft size={16} aria-hidden="true" /></span>
             </Link>
           </div>
         </div>
@@ -265,13 +299,14 @@ export default function NeoHome() {
               <span className="nh-sap">ECC → S/4HANA</span><i aria-hidden="true" />תמונת המעבר
             </p>
             <h2 className="nh-h2 nm-kin" id="nh-3-h">
-              <span><span>{nf.format(d.tables)} טבלאות SAP מתועדות,</span></span>
-              <span><span className="nh-accent">{nf.format(marked)} מסומנות לשינוי במעבר</span></span>
+              <span><span>מה משתנה בדרך ל־<bdi dir="ltr">S/4HANA</bdi>?</span></span>
+              <span><span className="nh-accent">מתחילים מהתיעוד, ממשיכים לבדיקה</span></span>
             </h2>
             <p className="nh-lede nm-rise">
-              לכל טבלה מוצמדת הערת ה-<span className="nh-sap">S/4HANA</span> מתיעוד הפרויקט, כולל
-              טבלה או טרנזקציה חלופית במקום שבו התיעוד מציין אחת. טבלה ללא סיווג בתיעוד
-              נשארת ללא תווית.
+              מתוך {nf.format(d.tables)} הטבלאות הייחודיות במודל PM ו־PP-PI,
+              הערות המקור מסווגות {nf.format(marked)} כסימוני שינוי. הספירה משקפת את תיעוד הפרויקט,
+              ואינה רשימה מלאה של שינויי SAP או תוצאת בדיקת מוכנות במערכת שלך.
+              נתוני המעבר והחלופות דורשים התאמה לגרסת היעד.
             </p>
           </div>
 
@@ -295,9 +330,12 @@ export default function NeoHome() {
 
           <div className="nh-out nm-rise">
             <p className="nh-out-t">
-              הסיווג המלא עם החלופות המתועדות: בקוקפיט המעבר.
+              בודקים את השינויים והמקורות במרכז S/4HANA, ואת אובייקטי ההסבה בקוקפיט המעבר.
             </p>
             <div className="nh-cta">
+              <Link className="nu-btn2" href="/neo/s4hana/" prefetch={false}>
+                מרכז S/4HANA<ArrowUpLeft size={15} aria-hidden="true" />
+              </Link>
               <Link className="nu-btn" href="/neo/migration-cockpit/" prefetch={false}>
                 <Waypoints size={15} strokeWidth={1.75} aria-hidden="true" />
                 קוקפיט המעבר
@@ -309,7 +347,7 @@ export default function NeoHome() {
       </section>
 
       {/* =========================================================== 04 · deep
-          THE CLOSE. One focused action: find the object you came for. */}
+          THE CLOSE. Site information, privacy, and the credit. */}
       <section
         className="nh-sec"
         data-scene="deep"
@@ -321,27 +359,19 @@ export default function NeoHome() {
         <span className="nh-glow" aria-hidden="true" />
         <div className="nh-in">
           <div className="nh-head">
-            <p className="nh-eye nm-fade">איתור<i aria-hidden="true" />טבלה, טרנזקציה, אובייקט</p>
+            <p className="nh-eye nm-fade">Project NEO<i aria-hidden="true" />SAP by Sali</p>
             <h2 className="nh-h2 nm-kin" id="nh-4-h">
-              <span><span>מחפשים אובייקט מסוים?</span></span>
-              <span><span className="nh-dim">חיפוש גלובלי בכל עמודי הפלטפורמה: Ctrl+K</span></span>
+              <span><span>הידע שלך, במקום אחד</span></span>
+              <span><span className="nh-dim">מידע על האתר והפרטיות שלך</span></span>
             </h2>
           </div>
 
-          <div className="nh-cta nm-rise">
-            <Link className="nu-btn" href="/neo/transactions/" prefetch={false}>
-              <Terminal size={15} strokeWidth={1.75} aria-hidden="true" />
-              טרנזקציות
-            </Link>
-            <Link className="nu-btn2" href="/neo/tables/" prefetch={false}>
-              <Table size={15} strokeWidth={1.75} aria-hidden="true" />
-              טבלאות SAP
-            </Link>
-          </div>
-
-          <p className="nh-credit">
-            Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding
-          </p>
+          <footer>
+            <nav className="nh-cta nm-rise" aria-label="מסמכי האתר">
+              <Link className="nu-btn2" href="/neo/privacy/" prefetch={false}><ShieldCheck size={15} strokeWidth={1.75} aria-hidden="true" />מדיניות פרטיות</Link>
+            </nav>
+            <p className="nh-credit">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</p>
+          </footer>
         </div>
        </div>
       </section>

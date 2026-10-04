@@ -26,6 +26,7 @@ import {
   Sparkles, Truck, Waypoints,
 } from "lucide-react";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
+import { SmartReturn } from "@/components/neo-shell/nav-context";
 import { S4Catalog } from "./s4-catalog";
 import {
   APPROACHES, ARCH, ARCH_STATUS, CUSTOM_CODE, CUSTOM_CODE_NOTE, CUTOVER, EXEC_NARRATIVE,
@@ -42,7 +43,7 @@ const RISK_C: Record<string, string> = {
   medium: "var(--status-in-analysis, #d97706)",
   low: "var(--status-done, #16a34a)",
 };
-const TRUST_HE: Record<string, string> = { curated: "תיעוד מאומת", "needs-verification": "נדרש אימות נוסף" };
+const TRUST_HE: Record<string, string> = { curated: "תיעוד הפרויקט", "needs-verification": "נדרש אימות נוסף" };
 
 /* ------------------------------------------------------------- primitives */
 
@@ -137,6 +138,7 @@ export function S4HanaCenter() {
 
   return (
     <div className="ns4 nm-scene" data-surface="s4" data-scene="s4">
+      <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
       <Hero
         eyebrow="מרכז S/4HANA · TRANSFORMATION"
         icon={<Rocket size={13} strokeWidth={2} aria-hidden="true" />}
@@ -158,8 +160,9 @@ export function S4HanaCenter() {
         ]}
         note={
           <>
-            {t.curated} מתוך {t.total} האובייקטים מסומנים כתיעוד מאומת; ליתר נדרש אימות נוסף בהתאם לגרסת המערכת,
-            והסימון מוצג על כל כרטיס. {t.linked} מהם מקושרים לדף אובייקט מלא בפרויקט.
+            {t.curated} מתוך {t.total} האובייקטים מבוססים על תיעוד הפרויקט; הסימון מופיע על כל כרטיס.
+            לפני החלטת מעבר יש לאמת את השינוי מול תיעוד SAP לגרסה ולמהדורה שלך.
+            {" "}{t.linked} מהם מקושרים לדף אובייקט מלא בפרויקט, עם המקורות הזמינים במאגר.
           </>
         }
       />
@@ -332,6 +335,7 @@ export function S4ReadinessCenter() {
 
   return (
     <div className="ns4 nm-scene" data-surface="s4" data-scene="s4">
+      <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
       <Hero
         eyebrow="כיסוי תיעוד למעבר · READINESS COVERAGE"
         icon={<Gauge size={13} strokeWidth={2} aria-hidden="true" />}
@@ -410,7 +414,7 @@ export function S4ReadinessCenter() {
       >
         <ul className="ns4-topics">
           {topics.map((t) => (
-            <li key={t.slug} style={{ "--s": t.statusColor } as React.CSSProperties}>
+            <li key={t.slug} id={`topic-${t.slug}`} style={{ "--s": t.statusColor } as React.CSSProperties}>
               <header>
                 <b>{t.he}</b>
                 <span className="ns4-topic-en nx-sap" dir="ltr">{t.title}</span>
@@ -458,6 +462,7 @@ export function MigrationCockpit() {
 
   return (
     <div className="ns4 nm-scene" data-surface="s4" data-scene="s4">
+      <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
       <Hero
         eyebrow="קוקפיט המעבר · MIGRATION COCKPIT"
         icon={<Truck size={13} strokeWidth={2} aria-hidden="true" />}
@@ -478,8 +483,9 @@ export function MigrationCockpit() {
         ]}
         note={
           <>
-            {t.curated} אובייקטים מסומנים כתיעוד מאומת ו-{t.needsVerification} כנדרש אימות נוסף בהתאם לגרסת המערכת.
-            הסימון מופיע על כל אובייקט. {t.eccLinked} מטבלאות ה-ECC מקושרות לדף טבלה מלא בפרויקט.
+            {t.curated} אובייקטים מבוססים על תיעוד הפרויקט ו-{t.needsVerification} מסומנים כנדרש אימות נוסף.
+            לפני תכנון הטעינה יש לבדוק זמינות ושיטת מעבר בתיעוד SAP לגרסה ולמהדורה שלך.
+            {" "}{t.eccLinked} מטבלאות ה-ECC מקושרות לדף טבלה מלא בפרויקט.
           </>
         }
       />

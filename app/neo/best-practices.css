@@ -30,6 +30,12 @@
   color: var(--ink-2);
 }
 
+.nx-app .nbp-source-note { margin: 0; max-inline-size: 78ch; font-size: var(--t-sm); line-height: var(--lh-he); color: var(--ink-2); }
+.nx-app .nbp-coverage { max-inline-size: 78ch; padding: 14px 18px; border: 1px solid var(--c-hair); border-radius: 14px; background: var(--surface); }
+.nx-app .nbp-coverage summary { cursor: pointer; font-weight: 650; }
+.nx-app .nbp-coverage summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 4px; }
+.nx-app .nbp-coverage p { margin-block: 12px 0; color: var(--ink-2); line-height: var(--lh-he); }
+
 /* ------------------------------------------------------------ the catalog */
 
 .nx-app .nbp-list {

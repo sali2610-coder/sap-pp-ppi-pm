@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { createPortal } from "react-dom";
+import { useMotionReduced } from "../motion/preferences";
 import Link from "next/link";
 import { ArrowUpLeft, Box, ChevronRight, CirclePause, CirclePlay, Crosshair, Database, Expand, Layers3, Link2, List, Maximize2, Minimize2, Minus, Orbit, Plus, RotateCcw, Search, X } from "lucide-react";
 import { SPATIAL_COLORS } from "./erd-spatial-model";
@@ -24,8 +25,10 @@ export function ErdSpatial({ data, onClassic, initialModule, onModuleChange }: {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [focus, setFocus] = useState(false);
-  const [motion, setMotion] = useState(true);
-  const [orbit, setOrbit] = useState(false);
+  const [motionEnabled, setMotion] = useState(true);
+  const reduced = useMotionReduced();
+  const motion = motionEnabled && !reduced;
+  const orbit = false;
   const [analysis, setAnalysis] = useState<NonNullable<SpatialView["analysis"]>>("map");
   const [step, setStep] = useState<number | null>(null);
   const [group, setGroup] = useState<string | null>(null);
@@ -119,11 +122,6 @@ export function ErdSpatial({ data, onClassic, initialModule, onModuleChange }: {
     setAnalysis("map"); setStep(null); setGroup(null); setFilterPanel(false); setPlaying(false); setRelation(null);
     setModule(code as ModCode | null); setSelected(null); setFocus(false); setQuery(""); setTableList(false); setModulePanel(false); setDetailsOpen(false);
   }, []);
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const sync = () => { if (media.matches) { setMotion(false); setOrbit(false); } };
-    sync(); media.addEventListener("change", sync); return () => media.removeEventListener("change", sync);
-  }, []);
   useLayoutEffect(() => { currentView.current = view; scene.current?.update(view); }, [view]);
   useEffect(() => {
     const host = stage.current;
@@ -159,7 +157,7 @@ export function ErdSpatial({ data, onClassic, initialModule, onModuleChange }: {
   };
   const closeDetail = () => setDetailsOpen(false);
   const content = (
-    <div ref={root} className={`e3 ${analysis === "flow" ? "e3-flow-mode" : ""} ${layout.direct ? "e3-focus-mode" : ""} ${active && detailsOpen ? "e3-has-detail" : ""} ${portal ? "e3-full" : ""}`} dir="rtl" data-module={module ?? "all"} data-analysis={analysis} data-group={group ?? "all"} data-selected={selected ?? ""}
+    <div ref={root} className={`e3 ${analysis === "flow" ? "e3-flow-mode" : ""} ${layout.direct ? "e3-focus-mode" : ""} ${active && detailsOpen ? "e3-has-detail" : ""} ${portal ? "e3-full" : ""}`} dir="rtl" data-motion-off={!motion ? "1" : "0"} data-module={module ?? "all"} data-analysis={analysis} data-group={group ?? "all"} data-selected={selected ?? ""}
       onKeyDown={(e) => {
         if ((e.target as HTMLElement).matches("input, textarea, select")) {
           if (e.key === "Escape") { setQuery(""); search.current?.blur(); }
@@ -253,7 +251,7 @@ export function ErdSpatial({ data, onClassic, initialModule, onModuleChange }: {
         <button className={preset === "top" ? "is-active" : ""} onClick={() => setPreset("top")} aria-label="מבט ישר" aria-pressed={preset === "top"}><Expand size={18} /><span>מבט ישר</span></button><i />
         <button onClick={() => scene.current?.zoom(.82)} aria-label="התקרבות"><Plus size={18} /></button><button onClick={() => selected ? clearSelection() : scene.current?.zoom(1.22)} aria-label={selected ? "התרחקות וחזרה לתרשים" : "התרחקות"}><Minus size={18} />{selected && <span>חזרה</span>}</button><button onClick={() => scene.current?.reset()} aria-label="התאמת התרשים למסך" title="התאמת התרשים למסך"><RotateCcw size={17} /><span>התאמה למסך</span></button><i />
         <button className={links ? "is-active" : ""} onClick={() => setLinks(!links)} aria-label={links ? "הסתרת קשרים" : "הצגת קשרים"} aria-pressed={links}><Link2 size={18} /><span>{links ? "קשרים מוצגים" : "קשרים מוסתרים"}</span></button>
-        <button className="e3-motion-control" onClick={() => setMotion(!motion)} aria-label={motion ? "השהיית תנועת החצים" : "הפעלת תנועת החצים"} aria-pressed={motion}>{motion ? <CirclePause size={19} /> : <CirclePlay size={19} />}<span>{motion ? "השהה חצים" : "הנפש חצים"}</span></button>
+        <button className="e3-motion-control" onClick={() => setMotion(!motion)} disabled={reduced} title={reduced ? "התנועה מופחתת לפי העדפות הנגישות" : undefined} aria-label={motion ? "השהיית תנועת החצים" : "הפעלת תנועת החצים"} aria-pressed={motion}>{motion ? <CirclePause size={19} /> : <CirclePlay size={19} />}<span>{motion ? "השהה חצים" : "הנפש חצים"}</span></button>
       </div><div className="e3-s4-legend"><b>S/4 Δ</b><span>{changedCount} טבלאות עם שינוי מתועד</span><small>תג ״חלקי״ מציין מידע שדורש אימות</small></div></footer>
     </div>
   );

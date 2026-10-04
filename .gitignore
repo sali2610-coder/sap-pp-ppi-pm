@@ -72,3 +72,6 @@ screenshots/
 
 # Generated during prebuild by scripts/gen-tx-search-index.mjs (derived data).
 /public/tx-search-index.json
+
+# Rebuilt by gen:neo-shell before build/dev; content corpus is an on-demand chunk.
+/components/neo-shell/search/generated-content-search.json

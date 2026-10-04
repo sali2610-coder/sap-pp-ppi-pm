@@ -250,7 +250,19 @@ html .nx-app .nx-canvas:has(> .nb) {
 /* ==========================================================================
    FILTER — module toggles, in the system's own .nu-filter form
    ========================================================================== */
-.nb-filter { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.nb-filter {
+  display: flex; flex-wrap: wrap; gap: var(--sp-2);
+  padding: var(--sp-3); border: 1px solid var(--hairline);
+  border-radius: 1rem; background: var(--surface); box-shadow: var(--elev-2);
+}
+.nb-filter .nu-filter[aria-pressed="true"] {
+  border-color: var(--m, var(--ink-1));
+  background: color-mix(in srgb, var(--m, var(--ink-1)) 12%, var(--surface));
+  color: var(--ink-1);
+}
+@container nb (min-width: 760px) {
+  .nb-filter { position: sticky; inset-block-start: .75rem; z-index: 5; }
+}
 .nb-f-he { color: var(--ink-3); font-weight: 500; }
 .nb-f-n { font-style: normal; font-weight: 500; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 .nu-filter[aria-pressed="true"] .nb-f-he { color: var(--ink-2); }
@@ -282,10 +294,10 @@ html .nx-app .nx-canvas:has(> .nb) {
   border-block-start: 1px solid var(--hairline);
   /* Module lighting: a single soft corner wash at the bound edge of the shelf,
      under 6% so it reads as air rather than as a panel. */
-  background: radial-gradient(34rem 16rem at 100% 0%, color-mix(in srgb, var(--m) 6%, transparent), transparent 72%);
+  background: radial-gradient(34rem 20rem at 100% 0%, color-mix(in srgb, var(--m) 13%, transparent), transparent 72%);
 }
 [dir="ltr"] .nb-shelf {
-  background: radial-gradient(34rem 16rem at 0% 0%, color-mix(in srgb, var(--m) 6%, transparent), transparent 72%);
+  background: radial-gradient(34rem 20rem at 0% 0%, color-mix(in srgb, var(--m) 13%, transparent), transparent 72%);
 }
 .nb-shelf:first-child { border-block-start: 0; }
 .nb-shelf:last-child { border-block-end: 1px solid var(--hairline); }
@@ -345,7 +357,12 @@ html[data-theme="dark"] .nb-shelf::after {
   opacity: .55;
 }
 
-.nb-shelf-h { display: grid; align-content: start; gap: 4px; }
+.nb-shelf-h {
+  display: grid; align-content: start; gap: 6px;
+  padding: 1rem; border-radius: .85rem;
+  border: 1px solid color-mix(in srgb, var(--m) 28%, var(--hairline));
+  background: color-mix(in srgb, var(--m) 7%, var(--surface));
+}
 .nb-shelf-t { display: grid; gap: 1px; }
 .nb-shelf-code {
   font-size: clamp(1.125rem, 1.6cqi, 1.5rem);
@@ -1413,8 +1430,8 @@ html[data-theme="dark"] .nb-slot::after {
 /* ==========================================================================
    CARD META + THE DIRECT LINK INTO THE READER
    ========================================================================== */
-.nb-card-meta { display: grid; gap: 3px; }
-.nb-card-t { font-size: var(--t-sm); font-weight: 700; line-height: 1.35; letter-spacing: -.01em; }
+.nb-card-meta { display: grid; gap: 6px; }
+.nb-card-t { font-size: 1rem; font-weight: 700; line-height: 1.5; letter-spacing: -.01em; }
 .nb-card-t2 { font-size: var(--t-micro); color: var(--ink-3); line-height: 1.4; }
 .nb-card-n {
   display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2);
