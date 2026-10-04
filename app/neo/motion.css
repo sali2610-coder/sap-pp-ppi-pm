@@ -357,8 +357,10 @@
     animation: none !important;
     animation-timeline: none !important;
     transform: none !important;
-    opacity: 1 !important;
   }
+  /* Parallax layers include the faint table-name wall. Stopping movement must
+     preserve its authored opacity, otherwise decoration becomes solid text. */
+  .nm-kin > span > * { opacity: 1 !important; }
 
   /* A fade is not travel through space, so it is allowed to survive — but it
      is shortened to the point of being a courtesy rather than an effect. */
@@ -407,7 +409,10 @@
   --nm-scale: 1;
   --nm-stagger: 0ms;
 }
-.nx-app[data-motion-reduced="1"] :is(.nm-rise, .nm-fade, .nm-par, .nm-par-slow),
+.nx-app[data-motion-reduced="1"] :is(.nm-par, .nm-par-slow) {
+  transform: none !important;
+}
+.nx-app[data-motion-reduced="1"] :is(.nm-rise, .nm-fade),
 .nx-app[data-motion-reduced="1"] .nm-kin > span > * {
   opacity: 1 !important;
   transform: none !important;

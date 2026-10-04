@@ -31,6 +31,34 @@ const isStaticAsset = (url) => url.pathname.startsWith("/_next/static/");
 const isCacheable = (url) =>
   /\.(?:png|jpg|jpeg|gif|webp|avif|svg|ico|woff2?|json|webmanifest)$/i.test(url.pathname);
 
+// Never persist a transient server/proxy error as an immutable build asset.
+// Also validate old entries on read, without clearing visited pages or data.
+const usable = (request, response) => {
+  if (!response || !response.ok || response.type === "opaque") return false;
+  const type = (response.headers.get("content-type") || "").split(";", 1)[0].trim().toLowerCase();
+  const path = new URL(request.url).pathname;
+  if (request.mode === "navigate" || path === "/offline/") return type === "text/html";
+  if (/\.css$/i.test(path)) return type === "text/css";
+  if (/\.(?:m?js)$/i.test(path)) return /^(?:text|application)\/(?:javascript|ecmascript|x-javascript)$/.test(type);
+  // A successful HTML error/sign-in response is not an image, font or JSON.
+  return type !== "text/html" && type !== "application/xhtml+xml";
+};
+
+const cachedResponse = async (request) => {
+  try {
+    const cached = await caches.match(request);
+    return usable(request, cached) ? cached : undefined;
+  } catch { return undefined; } // Storage may be unavailable in an isolated browser.
+};
+
+const remember = (event, request, response) => {
+  if (!usable(request, response)) return;
+  const copy = response.clone();
+  event.waitUntil(caches.open(RUNTIME).then((cache) => cache.put(request, copy)).catch(() => {
+    // Cache quota/policy failures must not interrupt a successful page load.
+  }));
+};
+
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(PRECACHE).then((cache) => cache.addAll(PRECACHE_URLS)).then(() => self.skipWaiting()),
@@ -62,12 +90,13 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       fetch(request)
         .then((res) => {
-          const copy = res.clone();
-          caches.open(RUNTIME).then((c) => c.put(request, copy));
+          remember(event, request, res);
           return res;
         })
         .catch(() =>
-          caches.match(request).then((cached) => cached || caches.match("/offline/")),
+          cachedResponse(request).then(async (cached) => cached ||
+            await cachedResponse(new Request(new URL("/offline/", self.location.origin))) ||
+            new Response("Offline", { status: 503, headers: { "Content-Type": "text/plain; charset=utf-8" } })),
         ),
     );
     return;
@@ -76,11 +105,10 @@ self.addEventListener("fetch", (event) => {
   // 2) Hashed build assets → cache-first (immutable).
   if (isStaticAsset(url)) {
     event.respondWith(
-      caches.match(request).then((cached) =>
+      cachedResponse(request).then((cached) =>
         cached ||
         fetch(request).then((res) => {
-          const copy = res.clone();
-          caches.open(RUNTIME).then((c) => c.put(request, copy));
+          remember(event, request, res);
           return res;
         }),
       ),
@@ -91,14 +119,14 @@ self.addEventListener("fetch", (event) => {
   // 3) Images / icons / fonts / manifest → stale-while-revalidate.
   if (isCacheable(url)) {
     event.respondWith(
-      caches.match(request).then((cached) => {
+      cachedResponse(request).then((cached) => {
         const network = fetch(request)
           .then((res) => {
-            const copy = res.clone();
-            caches.open(RUNTIME).then((c) => c.put(request, copy));
+            remember(event, request, res);
             return res;
           })
-          .catch(() => cached);
+          .catch(() => cached || Response.error());
+        event.waitUntil(network.then(() => undefined));
         return cached || network;
       }),
     );
