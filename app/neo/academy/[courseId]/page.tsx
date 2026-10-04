@@ -2,6 +2,7 @@
 import "@/app/neo/ui.css";
 import "@/app/neo/learn.css";
 import "@/app/neo/learn-extensions.css";
+import "@/app/neo/academy-experience.css";
 import { notFound } from "next/navigation";
 import { SourceIndex } from "@/components/neo-shell/learn/source-index";
 import { sourceBook, sourceIndex } from "@/components/neo-shell/learn/source-data";

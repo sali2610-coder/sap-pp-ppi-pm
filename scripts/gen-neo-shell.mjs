@@ -5,6 +5,8 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { shellData } from "../components/neo-shell/nav-data.ts";
 import { commandIndex } from "../components/neo-shell/search/command-index.ts";
 
+import { contentIndex } from "../components/neo-shell/search/content-index.ts";
+
 const path = new URL("../components/neo-shell/search/generated-shell-data.json", import.meta.url);
 const output = JSON.stringify({ data: shellData(), cmd: commandIndex() }) + "\n";
 if (process.argv.includes("--check")) {
@@ -16,4 +18,13 @@ if (process.argv.includes("--check")) {
 } else {
   writeFileSync(path, output);
   console.log(`NEO shell: ${Buffer.byteLength(output)} bytes in one shared index.`);
+}
+
+const contentPath = new URL("../components/neo-shell/search/generated-content-search.json", import.meta.url);
+const contentOutput = JSON.stringify(contentIndex()) + "\n";
+if (process.argv.includes("--check")) {
+  if (readFileSync(contentPath, "utf8") !== contentOutput) throw new Error("Content search index is stale. Run gen:neo-shell.");
+} else {
+  writeFileSync(contentPath, contentOutput);
+  console.log(`Content search: ${Buffer.byteLength(contentOutput)} bytes, loaded on search open.`);
 }

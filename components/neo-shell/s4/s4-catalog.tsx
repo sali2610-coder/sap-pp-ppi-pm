@@ -6,7 +6,7 @@
 // groups are <details>: the two that demand action (removed, replaced) open,
 // the rest on demand, so the page stops being 5,000px of blue field.
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, ClipboardList, Code2, Search, X } from "lucide-react";
 import { EDITION_HE } from "@/lib/evidence/types";
@@ -43,6 +43,20 @@ export function S4Catalog({ objs }: { objs: S4ObjView[] }) {
   const [q, setQ] = useState("");
   const [mod, setMod] = useState<string | null>(null);
   const [status, setStatus] = useState<string | null>(null);
+  useEffect(() => {
+    const reveal = () => {
+      let id: string;
+      try { id = decodeURIComponent(window.location.hash.slice(1)); } catch { return; }
+      if (!id.startsWith("s4o-") || !objs.some((o) => `s4o-${o.name}` === id)) return;
+      const target = document.getElementById(id);
+      const group = target?.closest("details");
+      if (group) group.open = true;
+      target?.scrollIntoView({ block: "start", behavior: "instant" });
+    };
+    const frame = requestAnimationFrame(reveal);
+    window.addEventListener("hashchange", reveal);
+    return () => { cancelAnimationFrame(frame); window.removeEventListener("hashchange", reveal); };
+  }, [objs]);
   const mods = useMemo(() => [...new Set(objs.flatMap((o) => o.modules))].sort(), [objs]);
 
   const shown = useMemo(() => {

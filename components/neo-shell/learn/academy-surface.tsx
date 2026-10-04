@@ -171,6 +171,11 @@ export function AcademySurface({ data }: { data: AcademyData }) {
         ) : null}
       </header>
 
+      <nav className="nxa-entry-nav" aria-label="כניסות לאקדמיה">
+        <a href="#academy-courses"><GraduationCap size={22} /><span><strong>מסלולי לימוד</strong><small>קורסים, פרקים ושיעורים בקצב שלך</small></span><ArrowLeft size={16} /></a>
+        <Link href="/neo/academy/materials/" prefetch={false}><BookOpen size={22} /><span><strong>תיקיית חומרי האקדמיה</strong><small>כל חומרי המקור, התהליכים והקודים</small></span><ArrowLeft size={16} /></Link>
+      </nav>
+
       {/* Appears only when the store actually holds a session. No session, no
           card — and no invented "welcome back". */}
       {cont ? (
@@ -234,7 +239,7 @@ export function AcademySurface({ data }: { data: AcademyData }) {
         ))}
       </section>
 
-      <div className="nxl-tools">
+      <div className="nxl-tools" id="academy-courses">
         <div className="nxl-field">
           <Search size={15} strokeWidth={1.75} aria-hidden="true" />
           <input

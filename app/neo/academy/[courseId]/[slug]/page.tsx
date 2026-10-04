@@ -25,6 +25,7 @@ import { notFound } from "next/navigation";
 import "@/app/neo/ui.css";
 import "@/app/neo/learn.css";
 import "@/app/neo/learn-extensions.css";
+import "@/app/neo/academy-experience.css";
 import { neoLessonData, neoLessonParams } from "@/components/neo-shell/learn/lesson-data";
 import { NeoLessonView } from "@/components/neo-shell/learn/lesson-view";
 

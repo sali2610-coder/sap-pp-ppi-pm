@@ -155,6 +155,13 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
       ],
     },
     {
+      id: "academy", label: "אקדמיה · SAP Academy",
+      items: [
+        { id: "academy-materials", href: "/neo/academy/materials/", label: "תיקיית חומרי האקדמיה", icon: "FolderOpen", count: BOOKS.length, countLabel: "תחומי לימוד" },
+        { id: "academy", href: "/neo/academy/", label: "קורסים ומסלולי למידה", icon: "GraduationCap", count: BOOKS.length, countLabel: "קורסים" },
+      ],
+    },
+    {
       /* THE MIGRATION GROUP. Project NEO is an ECC→S/4HANA platform, and until
          now its three S/4 surfaces were reachable from nothing at all. */
       id: "s4",
@@ -215,7 +222,6 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
         /* Owns its route (href ⇒ excluded from NEO_HUBS), like /neo/erd/ and
            /neo/books/. The count is the registry's real length. */
         { id: "best-practices", href: "/neo/best-practices/", label: "שיטות עבודה מומלצות", icon: "ClipboardCheck", count: BEST_PRACTICES.length, countLabel: "שיטות" },
-        { id: "academy", label: "SAP Academy", icon: "GraduationCap", count: BOOKS.length, countLabel: "ספרי לימוד" },
         { id: "incidents", label: "תקלות", icon: "AlertTriangle", count: INCIDENTS.length, countLabel: "תקלות" },
         { id: "certification", label: "תרגול ובדיקת ידע", icon: "Award", count: null, countLabel: "" },
       ],

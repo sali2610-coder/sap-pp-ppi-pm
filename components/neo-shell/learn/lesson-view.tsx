@@ -373,6 +373,12 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
         </div>
       </header>
 
+      <nav className="nxa-lesson-nav" aria-label="ניווט מהיר בשיעור">
+        {prev ? <Link href={prev.href} prefetch={false}>השיעור הקודם</Link> : <span>תחילת הקורס</span>}
+        <Link href={course.href} prefetch={false}>כל שיעורי הקורס</Link>
+        {next ? <Link href={next.href} prefetch={false}>השיעור הבא</Link> : <span>סיום הקורס</span>}
+      </nav>
+
       {/* ------------------------------------------------- WHERE YOU ARE */}
       <section className="nxv-s4" aria-labelledby="nxs-p">
         <div className="nxv-s4-top">

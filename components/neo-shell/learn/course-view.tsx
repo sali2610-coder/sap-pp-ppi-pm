@@ -32,7 +32,8 @@
    parent from the route.
    ========================================================================== */
 
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
+import Link from "next/link";
 import { ArrowLeft, BookOpen, Blocks, Clock, Info, Layers, Play } from "lucide-react";
 import {
   OriginLink, SmartReturn, restoreScroll, scrollOffset, useReturnState, type OriginArg,
@@ -54,6 +55,7 @@ function hoursHe(min: number): string {
 }
 
 export function CourseView({ c, source }: { c: AcademyCourseRow; source?: ReactNode }) {
+  const expanded = useRef(new Set<number>());
   const isDone = useIsDone();
   const p = useModuleProgress(c.id);
   const started = p.completedLessons > 0 || p.blocksDone > 0;
@@ -83,7 +85,7 @@ export function CourseView({ c, source }: { c: AcademyCourseRow; source?: ReactN
     label: "קורס",
     detail: c.title,
     surface: COURSE_SURFACE,
-    state: { id: c.id, y: scrollOffset() } satisfies CourseReturn,
+    state: { id: c.id, y: scrollOffset(), chapters: [...expanded.current].map(String) } satisfies CourseReturn,
   });
 
   return (
@@ -155,8 +157,12 @@ export function CourseView({ c, source }: { c: AcademyCourseRow; source?: ReactN
         ) : null}
       </section>
 
+      <nav className="nxa-course-nav" aria-label="תוכן הקורס">
+        <a href="#co-ch">מסלול השיעורים</a>
+        <a href="#co-materials">חומר הלימוד המלא</a>
+        <Link href="/neo/academy/materials/" prefetch={false}>כל תיקיות האקדמיה</Link>
+      </nav>
       <LessonFinder lessons={c.chapters.flatMap((ch) => ch.lessons)} />
-      {source}
 
       {/* ------------------------------------------------------- CHAPTERS */}
       <section className="nxv-sec" aria-labelledby="co-ch">
@@ -172,8 +178,9 @@ export function CourseView({ c, source }: { c: AcademyCourseRow; source?: ReactN
             const doneN = authored.filter((l) => isDone(l.slug)).length;
             const chDone = authored.length > 0 && doneN === authored.length;
             return (
-              <div className="nxc-ch" key={ch.index}>
-                <div className="nxc-ch-h">
+              <details className="nxc-ch nxa-chapter" key={ch.index} open={mine?.chapters ? mine.chapters.includes(String(ch.index)) : ch.index === c.chapters[0]?.index || ch.lessons.some((l) => l.slug === next?.slug)}
+                onToggle={(e) => { if (e.currentTarget.open) expanded.current.add(ch.index); else expanded.current.delete(ch.index); }}>
+                <summary className="nxc-ch-h">
                   <i aria-hidden="true" />
                   <span className="nxc-ch-n">{String(ch.index).padStart(2, "0")}</span>
                   <h3 className="nxc-ch-t">{ch.title}</h3>
@@ -189,7 +196,7 @@ export function CourseView({ c, source }: { c: AcademyCourseRow; source?: ReactN
                       </span>
                     ) : null}
                   </div>
-                </div>
+                </summary>
 
                 <ul className="nxc-lessons">
                   {ch.lessons.map((l) => {
@@ -231,11 +238,13 @@ export function CourseView({ c, source }: { c: AcademyCourseRow; source?: ReactN
                     );
                   })}
                 </ul>
-              </div>
+              </details>
             );
           })}
         </div>
       </section>
+
+      <div id="co-materials">{source}</div>
 
       <div className="nxv-foot">
         <p className="nxv-src">

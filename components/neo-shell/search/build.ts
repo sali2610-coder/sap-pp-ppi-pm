@@ -13,7 +13,7 @@
 
 import { MOD_HE } from "../mod-var";
 import type { ShellData } from "../types";
-import type { CmdKind, CmdRecord, CmdSection, CommandExtra } from "./types";
+import type { CmdExtraRecord, CmdKind, CmdRecord, CmdSection, CommandExtra } from "./types";
 
 /* ------------------------------------------------------------------ kinds */
 
@@ -32,6 +32,10 @@ export const KINDS: { k: CmdKind; he: string; icon: string }[] = [
   { k: "book", he: "ספר", icon: "BookOpen" },
   { k: "guide", he: "מושג", icon: "ScrollText" },
   { k: "bp", he: "שיטת עבודה", icon: "ClipboardCheck" },
+  { k: "course", he: "קורס", icon: "GraduationCap" },
+  { k: "lesson", he: "שיעור", icon: "BookOpen" },
+  { k: "source", he: "חומר לימוד מלא", icon: "FolderOpen" },
+  { k: "idoc", he: "IDoc", icon: "Cable" },
   { k: "incident", he: "תקלה", icon: "AlertTriangle" },
 ];
 
@@ -60,13 +64,15 @@ export const KIND_SHAPE: Record<CmdKind, CmdShape> = {
   guide: "doc",
   bp: "doc",
   incident: "doc",
+  course: "doc", lesson: "doc", source: "doc", idoc: "code",
 };
 
 /** BAPI vs plain Function Module is decided by the identifier itself, which is
  *  a real SAP naming convention — not by a guess about what the object does. */
 const isBapi = (name: string) => /^BAPI[_ ]/i.test(name.trim());
 
-const low = (s: string) => (s || "").toLowerCase();
+export const normalizeSearch = (s: string) => (s || "").normalize("NFKC").toLocaleLowerCase().replace(/[\u0591-\u05BD\u05BF-\u05C7]/g, "").replace(/[־–—]/g, "-").replace(/\s+/g, " ").trim();
+const low = normalizeSearch;
 
 /* --------------------------------------------------------------- assembly */
 
@@ -76,15 +82,15 @@ const low = (s: string) => (s || "").toLowerCase();
  *  real page, never a hopeful guess. */
 const objectHref = (name: string) => `/neo/object/${encodeURIComponent(name)}/`;
 
-export function buildIndex(data: ShellData, extra: CommandExtra): CmdRecord[] {
+export function buildIndex(data: ShellData, extra: CommandExtra, content: CmdExtraRecord[] = []): CmdRecord[] {
   const out: CmdRecord[] = [];
-  const push = (r: Omit<CmdRecord, "lt" | "hay">) => {
+  const push = (r: Omit<CmdRecord, "lt" | "hay">, keywords = "") => {
     out.push({
       ...r,
       // A row with no page does not get a destination line invented for it.
       dest: r.dest ?? (r.href || undefined),
       lt: low(r.title),
-      hay: low([r.sub, r.rel, r.mod, r.objHe].filter(Boolean).join(" ")),
+      hay: low([r.sub, r.rel, r.mod, r.objHe, keywords].filter(Boolean).join(" ")),
     });
   };
 
@@ -236,17 +242,17 @@ export function buildIndex(data: ShellData, extra: CommandExtra): CmdRecord[] {
   }
 
   /* chapter · flow · guide — the build-time supplement */
-  for (const r of extra.recs) {
+  for (const r of [...extra.recs, ...content]) {
     push({
-      id: `${r.k}:${r.t}:${r.rel ?? ""}`,
+      id: `${r.k}:${r.href ?? ""}:${r.t}:${r.rel ?? ""}`,
       k: r.k,
       title: r.t,
-      mono: false,
+      mono: r.k === "idoc",
       sub: r.s,
       href: r.href,
       mod: r.mod,
       rel: r.rel,
-    });
+    }, r.kw);
   }
 
   return out;
@@ -292,6 +298,8 @@ export interface CmdResult {
   /** true when the surface is listing a whole family rather than answering a
    *  query. Nothing is invented in this mode either: it is the real index. */
   browse: boolean;
+  /** Only offered when there are no exact/partial matches. */
+  suggestions: string[];
 }
 
 const PER_SECTION = 6;
@@ -318,10 +326,11 @@ export function runQuery(
   raw: string,
   only: CmdKind | null,
   modOnly: string | null = null,
+  limit = BROWSE_CAP,
 ): CmdResult {
-  const q = raw.trim().toLowerCase();
+  const q = low(raw);
   const empty: CmdResult = {
-    sections: [], flat: [], total: 0, mods: new Set(), modCounts: {}, browse: false,
+    sections: [], flat: [], total: 0, mods: new Set(), modCounts: {}, browse: false, suggestions: [],
   };
   const keepMod = (r: CmdRecord) => !modOnly || modsOf(r).includes(modOnly);
 
@@ -337,14 +346,14 @@ export function runQuery(
     const modCounts: Record<string, number> = {};
     for (const r of list) for (const m of modsOf(r)) { mods.add(m); modCounts[m] = (modCounts[m] || 0) + 1; }
     const meta = kindMeta(only);
-    const rows = list.slice(0, BROWSE_CAP);
+    const rows = list.slice(0, limit);
     return {
       sections: [{ k: only, he: meta.he, icon: meta.icon, rows, total: list.length, mod: dominantMod(list) }],
       flat: rows,
       total: list.length,
       mods,
       modCounts,
-      browse: true,
+      browse: true, suggestions: [],
     };
   }
 
@@ -381,7 +390,7 @@ export function runQuery(
       k: meta.k,
       he: meta.he,
       icon: meta.icon,
-      rows: list.slice(0, only ? BROWSE_CAP : PER_SECTION).map((x) => x.rec),
+      rows: list.slice(0, only ? limit : PER_SECTION).map((x) => x.rec),
       total: list.length,
       mod: dominantMod(list.map((x) => x.rec)),
     });
@@ -399,9 +408,24 @@ export function runQuery(
     Math.round((s.rows[0] ? score(s.rows[0], q) + (KIND_BOOST[s.k] ?? 0) : 0) / 120);
   sections.sort((a, b) => band(b) - band(a) || (KIND_ORDER.get(a.k) ?? 0) - (KIND_ORDER.get(b.k) ?? 0));
 
-  return { sections, flat: sections.flatMap((s) => s.rows), total, mods, modCounts, browse: false };
+  return { sections, flat: sections.flatMap((s) => s.rows), total, mods, modCounts, browse: false,
+    suggestions: total ? [] : suggestQueries(index.filter((r) => (!only || r.k === only) && keepMod(r)), q) };
 }
 
 /** Hebrew module label when the product has one, otherwise the key as written
  *  in the dataset. Never a translated guess. */
 export const modLabel = (m: string) => MOD_HE[m] || m;
+
+/** Conservative correction: a single edit/transposition of a real title only.
+ * SAP identifiers are never silently rewritten and fabricated codes never open. */
+export function suggestQueries(index: CmdRecord[], q: string): string[] {
+  if (q.length < 3 || q.length > 48 || q.includes(" ")) return [];
+  const close = (a: string, b: string) => {
+    if (Math.abs(a.length - b.length) > 1) return false;
+    let i = 0; while (i < a.length && a[i] === b[i]) i++;
+    if (a.length === b.length) return a.slice(i + 1) === b.slice(i + 1) ||
+      (a[i] === b[i + 1] && a[i + 1] === b[i] && a.slice(i + 2) === b.slice(i + 2));
+    return a.length > b.length ? a.slice(i + 1) === b.slice(i) : a.slice(i) === b.slice(i + 1);
+  };
+  return [...new Set(index.filter((r) => r.href && close(r.lt, q)).map((r) => r.title))].slice(0, 5);
+}

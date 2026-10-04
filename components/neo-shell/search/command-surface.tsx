@@ -1,34 +1,12 @@
 "use client";
 
-// Project NEO · the command surface.
-//
-// It is not a dropdown and it is not a modal. It grows out of the rail's own
-// search slot — the approved idea — and it TRANSFORMS the surface it grew from:
-// the canvas behind it takes the hue of the module the answer lives in, the rail
-// brightens the destinations the query really reaches and steps the rest back,
-// and the panel itself is edged in that same module colour. Close it and the
-// surface returns; nothing was ever covered by an unrelated sheet.
-//
-// WHAT A ROW SAYS, AND WHY EACH PART IS THERE
-//   shape      three of them, not twelve — dictionary data / executable
-//              identifier / something written. The shape of the answer is
-//              readable before the words are.
-//   type       the family icon and its Hebrew name.
-//   module     surface tint, ring and section marker. Never a small dot: the
-//              form rule in globals.css reserves the labelled dot for --status-*
-//              so a blue ring can never be misread as a blue status.
-//   context    the Hebrew line the dataset already carries for the record.
-//   relation   only when the dataset really has one.
-//   action     load the record's table into the context shelf.
-// A field the dataset cannot answer is simply not rendered, and a family with no
-// build-time index is named in the footer instead of being filled with rows.
-//
-// ACCESSIBILITY. The input is the combobox (it lives in the rail on desktop and
-// in this surface's own header on a phone, and only ever one of the two is
-// displayed). This element is the listbox it controls; the active row is
-// pointed at with aria-activedescendant, so focus never leaves the field.
+// Project NEO · spatial command dialog. Native modal focus containment,
+// complete generated content index, first-character search and exact NEO routes.
 
 import "@/app/neo/search.css";
+import "@/app/neo/search-spatial.css";
+import { useEffect, useRef } from "react";
+import { useMotionReduced } from "../motion/preferences";
 
 import { Ico } from "../icon";
 import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
@@ -50,11 +28,12 @@ const isSap = (s: string) => /^[\x20-\x7E]+$/.test(s);
 /* ------------------------------------------------------------------- row */
 
 function Row({
-  r, i, active, onGo, onContext, onHover,
+  r, i, active, query, onGo, onContext, onHover,
 }: {
   r: CmdRecord;
   i: number;
   active: boolean;
+  query: string;
   onGo: (r: CmdRecord) => void;
   onContext: (name: string) => void;
   onHover: (i: number) => void;
@@ -86,13 +65,13 @@ function Row({
 
       <span className="nxc-row-main">
         <span className="nxc-row-t">
-          <span className={r.mono ? "nx-sap" : undefined}>{r.title}</span>
+          <span className={r.mono ? "nx-sap" : undefined}><Match text={r.title} query={query} /></span>
           <span className="nxc-row-kind">{meta.he}</span>
           {r.objHe ? (
             <span className="nxc-cls"><i aria-hidden="true" />{r.objHe}</span>
           ) : null}
         </span>
-        {r.sub ? <span className="nxc-row-s">{r.sub}</span> : null}
+        {r.sub ? <span className="nxc-row-s"><Match text={r.sub} query={query} /></span> : null}
       </span>
 
       <span className="nxc-row-meta">
@@ -236,12 +215,16 @@ function Detail({
 /* --------------------------------------------------------------- surface */
 
 export function CommandSurface({
-  query, busy, onReset, onQuery, onKey, result, only, onOnly, modOnly, onModOnly,
+  contentPending, contentError, onRetry, onMore, query, busy, onReset, onQuery, onKey, result, only, onOnly, modOnly, onModOnly,
   active, onActive, onGo, onContext, onClose,
   contexts, extra, idle, navHits, navTotal, listRef, mobileInputRef, surfaceMod,
 }: {
   query: string;
   busy: boolean;
+  contentPending: boolean;
+  contentError: boolean;
+  onRetry: () => void;
+  onMore: () => void;
   onReset: () => void;
   onQuery: (v: string) => void;
   /** The SAME key handler the rail's field uses. Without it the phone field's
@@ -272,6 +255,14 @@ export function CommandSurface({
    *  into the panel edge, the header wash and the scrim over the canvas. */
   surfaceMod?: string;
 }) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const reduced = useMotionReduced();
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    dialog.showModal();
+    return () => { if (dialog.open) dialog.close(); };
+  }, []);
   const q = query.trim();
   const live = !!q || result.browse;
   const rec = live ? result.flat[active] || null : null;
@@ -284,7 +275,8 @@ export function CommandSurface({
 
   return (
     <div
-      className="nxc nxc--r"
+      className="nxc nxc--r nxc--spatial"
+      data-motion-off={reduced ? "1" : "0"}
       data-live={live ? "1" : "0"}
       data-mod={surfaceMod ? "1" : "0"}
       style={{ "--sm": modVar(surfaceMod) } as React.CSSProperties}
@@ -301,10 +293,17 @@ export function CommandSurface({
         onClick={onClose}
       />
 
-      <div className="nxc-panel">
+      <dialog className="nxc-panel" ref={dialogRef} aria-labelledby="nxc-title"
+        onCancel={(e) => { e.preventDefault(); onClose(); }}
+        onClick={(e) => {
+          if (e.target !== e.currentTarget) return;
+          const r = e.currentTarget.getBoundingClientRect();
+          if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) onClose();
+        }}>
+        <div className="nxc-orbit-head"><span><Ico name="Command" size={17} /> PROJECT NEO</span><h2 id="nxc-title">כל הידע. חיפוש אחד.</h2><p>מקלידים אות, בוחרים תוצאה וממשיכים.</p></div>
         {/* Phone and tablet never get the rail, so the surface carries the field
             itself there. Exactly one of the two inputs is ever displayed. */}
-        <div className="nxc-mfield" data-shell="mobile-only">
+        <div className="nxc-mfield">
           <span className="nxc-mfield-i"><Ico name="Search" size={16} /></span>
           <input
             ref={mobileInputRef}
@@ -313,8 +312,9 @@ export function CommandSurface({
             value={query}
             onChange={(e) => onQuery(e.target.value)}
             onKeyDown={onKey}
-            placeholder="טבלה, שדה, טרנזקציה, BAPI או ספר"
-            aria-label="חיפוש בניווט ובתיעוד הטכני"
+            placeholder="טבלה, טרנזקציה, שיעור, ספר או נושא…"
+            autoFocus
+            aria-label="חיפוש בכל האתר"
             role="combobox"
             aria-expanded
             aria-controls="nxc-list"
@@ -417,11 +417,13 @@ export function CommandSurface({
           </div>
         </header>
 
+        {contentPending ? <p className="nxc-loading" role="status">טוען גם את חומרי הלימוד והידע… הטבלאות והטרנזקציות כבר זמינות.</p> : null}
+        {contentError ? <p className="nxc-loading" role="alert">חומרי הלימוד לא נטענו לחיפוש. <button type="button" onClick={onRetry}>ניסיון נוסף</button></p> : null}
         <div className="nxc-body">
           <div
             className="nxc-results"
             id="nxc-list"
-            role="listbox"
+            role={live && result.flat.length ? "listbox" : undefined}
             aria-label="תוצאות חיפוש"
             aria-busy={busy}
             data-busy={busy ? "1" : "0"}
@@ -456,6 +458,7 @@ export function CommandSurface({
                 <p>לא נמצאו תוצאות עבור «{q}»
                   {modOnly ? ` במודול ${modLabel(modOnly)}` : ""}. החיפוש עובר על כל האינדקס,{" "}
                   {nf.format(indexTotal)} רשומות מנתוני הפרויקט.</p>
+                {result.suggestions.length ? <div className="nxc-suggestions"><span>אולי התכוונת ל־</span>{result.suggestions.map((v) => <button type="button" key={v} onClick={() => onQuery(v)}><bdi>{v}</bdi></button>)}</div> : null}
                 <div className="nxc-none-actions">
                   {only || modOnly ? <button type="button" className="nxc-reset" onClick={onReset}>חיפוש בכל הסוגים והמודולים</button> : null}
                   <button type="button" className="nxc-reset" onClick={() => { onQuery(""); onReset(); }}>ניקוי החיפוש והסינון</button>
@@ -488,6 +491,7 @@ export function CommandSurface({
                         <Row
                           key={r.id}
                           r={r}
+                          query={query}
                           i={base + j}
                           active={base + j === active}
                           onGo={onGo}
@@ -495,9 +499,9 @@ export function CommandSurface({
                           onHover={onActive}
                         />
                       ))}
-                      {sec.total > sec.rows.length && only !== sec.k ? (
-                        <button type="button" className="nxc-more" onClick={() => onOnly(sec.k)}>
-                          הצגת כל {nf.format(sec.total)} התוצאות מסוג {sec.he}
+                      {sec.total > sec.rows.length ? (
+                        <button type="button" className="nxc-more" onClick={() => only === sec.k ? onMore() : onOnly(sec.k)}>
+                          {only === sec.k ? `תוצאות נוספות · ${sec.rows.length} מתוך ${nf.format(sec.total)}` : `הצגת כל ${nf.format(sec.total)} התוצאות מסוג ${sec.he}`}
                         </button>
                       ) : null}
                     </div>
@@ -526,7 +530,15 @@ export function CommandSurface({
             </span>
           ))}
         </footer>
-      </div>
+      </dialog>
     </div>
   );
+}
+
+/** Highlight literal matches only; React escapes every source string. */
+function Match({ text, query }: { text: string; query: string }) {
+  const q = query.trim();
+  if (!q) return <>{text}</>;
+  const i = text.toLocaleLowerCase().indexOf(q.toLocaleLowerCase());
+  return i < 0 ? <>{text}</> : <>{text.slice(0, i)}<mark>{text.slice(i, i + q.length)}</mark>{text.slice(i + q.length)}</>;
 }

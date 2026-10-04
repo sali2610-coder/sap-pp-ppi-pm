@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import "@/app/neo/ui.css";
 import "@/app/neo/learn.css";
 import "@/app/neo/learn-extensions.css";
+import "@/app/neo/academy-experience.css";
 import { sourceBook, sourceChapter, sourceChapters, sourceHref, sourceNodes, sourceParams } from "@/components/neo-shell/learn/source-data";
 import { SourceContent } from "@/components/neo-shell/learn/source-content";
 import { learnModVar } from "@/components/neo-shell/learn/mod";

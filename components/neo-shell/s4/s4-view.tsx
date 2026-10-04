@@ -411,7 +411,7 @@ export function S4ReadinessCenter() {
       >
         <ul className="ns4-topics">
           {topics.map((t) => (
-            <li key={t.slug} style={{ "--s": t.statusColor } as React.CSSProperties}>
+            <li key={t.slug} id={`topic-${t.slug}`} style={{ "--s": t.statusColor } as React.CSSProperties}>
               <header>
                 <b>{t.he}</b>
                 <span className="ns4-topic-en nx-sap" dir="ltr">{t.title}</span>
