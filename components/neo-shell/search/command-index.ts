@@ -35,7 +35,7 @@
 // out of the dataset, and a family with no dataset behind it is declared in
 // `gaps` rather than filled with plausible rows.
 
-import { TRANSACTIONS } from "@/data/transactions";
+import { txRegistry } from "@/lib/tx-registry";
 import { PM_DATA, PPPI_DATA } from "@/data/sapData";
 import { moduleTables, overviewStats } from "@/lib/module-portal";
 import { ZONES } from "@/lib/studio-graph";
@@ -43,6 +43,8 @@ import { classifyFunc, cleanFunc } from "@/lib/object-intel";
 import { CDS_VIEWS } from "@/data/cds-map";
 import { FIORI_APPS } from "@/data/fiori/apps";
 import { LIBRARY } from "@/data/library";
+import { identityByShelfId } from "@/lib/book-identity";
+import { getBook } from "@/lib/library/registry";
 import { DOMAINS } from "@/data/domains";
 import { CONCEPTS } from "@/data/concepts";
 import { BEST_PRACTICES } from "@/data/best-practices";
@@ -109,11 +111,9 @@ function ownership(): { fn: CommandExtra["fn"]; tx: CommandExtra["tx"] } {
   }
 
   const tx: CommandExtra["tx"] = {};
-  // A code the project documents in its own catalog but that the blueprint
-  // does not carry still has a page, so it gets its destination here. Without
-  // this the palette printed "no dedicated page" for IP30H, which had one
-  // (final audit, 2026-09-22).
-  for (const t of TRANSACTIONS) {
+  // Include directory and breadth records as well as authored transactions.
+  // This must cover the same canonical registry as the shell's search index.
+  for (const t of txRegistry().values()) {
     const href = txHref(t.code) || "";
     if (href && !txTables.has(t.code)) tx[t.code] = ["", t.module, href];
   }
@@ -179,6 +179,8 @@ function chapters(): CmdExtraRecord[] {
   const out: CmdExtraRecord[] = [];
   for (const b of LIBRARY) {
     const title = b.titleHe || b.title;
+    const bookId = identityByShelfId(b.id)?.bookId;
+    const book = bookId ? getBook(bookId) : null;
     for (const c of b.chapters) {
       out.push({
         k: "chapter",
@@ -187,7 +189,7 @@ function chapters(): CmdExtraRecord[] {
         // Record-level destination: the reader itself, opened on this chapter —
         // the same `?c=` contract the book hub uses. A chapter hit that landed
         // on the shelf made the reader re-find what the palette already knew.
-        href: `/neo/read/${b.id}/?c=${c.n}`,
+        href: book?.chapters.some((chapter) => chapter.n === c.n) ? `/neo/read/${bookId}/?c=${c.n}` : null,
         mod: b.module,
         rel: c.page ? `${title} · פרק ${c.n} · עמ׳ ${c.page}` : `${title} · פרק ${c.n}`,
       });

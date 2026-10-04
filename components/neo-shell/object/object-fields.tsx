@@ -28,8 +28,9 @@
 // solid/dot form; it carries PK. MODULE hue (--m) stays a line/tint and carries
 // the per-module marker. STATUS never appears in this file.
 
-import { useMemo, useState } from "react";
-import { KeyRound, Link2 } from "lucide-react";
+import { useId, useMemo, useRef, useState } from "react";
+import { KeyRound, Link2, Search, X } from "lucide-react";
+import { CopyId } from "../copy-id";
 import { isFkKey, isPkKey } from "../erd/key-role";
 import type { FieldRow } from "./object-data";
 
@@ -50,6 +51,9 @@ const isFk = (f: FieldRow) => isFkKey(f);
 
 export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: string }) {
   const [scope, setScope] = useState<Scope>("all");
+  const [query, setQuery] = useState("");
+  const queryId = useId();
+  const input = useRef<HTMLInputElement | null>(null);
 
   const counts = useMemo(
     () => ({
@@ -61,7 +65,7 @@ export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: strin
     [fields],
   );
 
-  const rows = useMemo(() => {
+  const scoped = useMemo(() => {
     switch (scope) {
       case "keys": return fields.filter((f) => isPk(f) || isFk(f));
       case "pk": return fields.filter(isPk);
@@ -69,6 +73,17 @@ export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: strin
       default: return fields;
     }
   }, [fields, scope]);
+
+  const rows = useMemo(() => {
+    const terms = query.trim().toLocaleLowerCase("he-IL").split(/\s+/).filter(Boolean);
+    if (!terms.length) return scoped;
+    return scoped.filter((f) => {
+      const hay = [f.tech, f.he, f.en, f.dt, ...f.mods].filter(Boolean).join(" ").toLocaleLowerCase("he-IL");
+      return terms.every((term) => hay.includes(term));
+    });
+  }, [scoped, query]);
+
+  const reset = () => { setQuery(""); setScope("all"); input.current?.focus(); };
 
   const pk = fields.filter(isPk);
   const fk = fields.filter(isFk);
@@ -132,7 +147,27 @@ export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: strin
       </div>
 
       {/* =================================================== 2 · the scope */}
-      <div className="no-scope" role="group" aria-label="סינון השדות">
+      <div className="no-field-tools">
+        <div className="no-field-search">
+          <Search size={16} aria-hidden="true" />
+          <label className="sr-only" htmlFor={queryId}>חיפוש בשדות של {name}</label>
+          <input ref={input} id={queryId} type="search" value={query}
+            placeholder="שם שדה, תיאור, טיפוס או מודול"
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Escape" && query) { e.preventDefault(); e.stopPropagation(); setQuery(""); }
+            }}
+          />
+          {query ? <button type="button" className="nu-ghost" aria-label="ניקוי חיפוש השדות"
+            onClick={() => { setQuery(""); input.current?.focus(); }}><X size={14} aria-hidden="true" /></button> : null}
+        </div>
+        <div className="no-field-summary">
+          <span role="status" aria-live="polite" aria-atomic="true">
+            <b>{nf.format(rows.length)}</b> מתוך {nf.format(fields.length)} שדות
+          </span>
+          {query || scope !== "all" ? <button type="button" className="nu-ghost" onClick={reset}>איפוס הסינון</button> : null}
+        </div>
+        <div className="no-scope" role="group" aria-label="סינון השדות">
         {SCOPES.map((s) => (
           <button
             key={s.k}
@@ -147,6 +182,7 @@ export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: strin
             <em className="nx-sap">{nf.format(s.n)}</em>
           </button>
         ))}
+        </div>
       </div>
 
       {/* =================================================== 3 · the table */}
@@ -177,7 +213,10 @@ export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: strin
                     <span className="no-dim">–</span>
                   )}
                 </td>
-                <th scope="row" className="nx-sap" data-l="שדה">{f.tech}</th>
+                <th scope="row" data-l="שדה"><span className="no-field-id">
+                  <span className="nx-sap">{f.tech}</span>
+                  <CopyId value={f.tech} label="העתקת שם השדה" compact />
+                </span></th>
                 <td data-l="תיאור">{f.he || "–"}</td>
                 <td className="nx-sap no-dim" data-l="אנגלית">{f.en || "–"}</td>
                 <td className="nx-sap" data-l="טיפוס">{f.dt || "–"}</td>
@@ -191,6 +230,9 @@ export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: strin
                 </td>
               </tr>
             ))}
+            {!rows.length ? <tr><td colSpan={7} className="no-field-empty">
+              לא נמצאו שדות שמתאימים לחיפוש ולסינון. אפשר לשנות את החיפוש או לאפס את הסינון.
+            </td></tr> : null}
           </tbody>
         </table>
       </div>

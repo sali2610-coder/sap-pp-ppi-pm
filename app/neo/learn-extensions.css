@@ -1,0 +1,35 @@
+/* Academy additions only; book and Reader styles remain untouched. */
+.nxa-copy-wrap { display: inline-flex; align-items: center; gap: .35rem; vertical-align: middle; }
+.nxa-copy { min-width: 32px; min-height: 32px; flex: none; }
+.nxa-copy-status { font-size: .75rem; color: var(--ink-2); }
+.nxa-ref-wrap { display: flex; align-items: center; gap: .35rem; min-width: 0; }
+.nxa-ref-wrap .nxs-ref { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.nxa-source-nav { display: flex; flex-wrap: wrap; gap: .7rem; align-items: center; margin-block: 1.2rem; }
+.nxa-source-index, .nxa-lesson-finder { margin-block: 2rem; }
+.nxa-source-index .nxl-field, .nxa-lesson-finder .nxl-field { width: 100%; margin-block: 1rem; }
+.nxa-source-chapters { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); gap: .6rem; }
+.nxa-source-chapters details, .nxa-chapter-toc, .nxa-lesson-source details {
+  border: 1px solid var(--hairline); border-radius: var(--r-lg); padding: .9rem 1rem; background: var(--surface);
+}
+.nxa-source-chapters summary, .nxa-chapter-toc summary, .nxa-lesson-source summary { cursor: pointer; font-weight: 700; }
+.nxa-source-chapters summary > span { display: block; font-size: .75rem; font-weight: 400; margin-block-start: .2rem; }
+.nxa-source-chapters li, .nxa-chapter-toc li { margin-block: .5rem; line-height: 1.7; }
+.nxa-source-chapters details > a { display: inline-block; margin-block-start: .8rem; }
+.nxa-results { list-style: none; padding: 0; display: grid; gap: .5rem; max-height: 28rem; overflow: auto; overscroll-behavior: contain; }
+.nxa-result { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem; padding: .8rem 1rem; text-decoration: none; }
+.nxa-source-node { margin-block: 2.5rem; padding: clamp(1rem, 3vw, 2rem); border: 1px solid var(--hairline); border-block-start: 3px solid var(--m); border-radius: var(--r-xl); background: var(--surface); scroll-margin-block-start: 6rem; }
+.nxa-source-node > header { padding-block-end: 1rem; border-block-end: 1px solid var(--hairline); }
+.nxa-source-node h3 { font-size: 1rem; color: var(--ink-1); margin-block: 1.2rem .5rem; }
+.nxa-source-node p, .nxa-source-node li, .nxa-source .nx-lede { white-space: pre-line; overflow-wrap: anywhere; line-height: 1.85; }
+.nxa-source-node details { padding-block: .7rem; }
+.nxa-source-node summary { cursor: pointer; font-weight: 650; }
+.nxa-source-node a:focus-visible, .nxa-source summary:focus-visible, .nxa-source-index summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 4px; }
+.nxa-source-codes { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+.nxa-source-codes li { display: flex; align-items: center; gap: .4rem; padding: .3rem .6rem; border: 1px solid var(--hairline); border-radius: var(--r-md); }
+.nxa-source-flow { list-style: none; padding: 0; display: grid; gap: .7rem; }
+.nxa-source-flow > li { display: flex; align-items: start; gap: .75rem; padding: .8rem; border: 1px solid var(--hairline); border-radius: var(--r-md); background: var(--surface-2); }
+.nxa-source-flow p { margin: 0; white-space: pre-line; line-height: 1.8; overflow-wrap: anywhere; }
+.nxa-source-flow > li > div { min-width: 0; }
+.nxa-step-n { flex: none; font-variant-numeric: tabular-nums; color: var(--ink-3); }
+.nxa-lesson-source details { margin-block: .75rem; }
+@media (max-width: 600px) { .nxa-source-codes li { max-width: 100%; } .nxa-copy-status { max-width: 8rem; } }

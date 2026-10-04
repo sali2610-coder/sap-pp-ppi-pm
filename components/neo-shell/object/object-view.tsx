@@ -337,7 +337,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
             and the whole page around it are the new NEO Object Detail and stay
             exactly as they are. */}
         {v.neighbours.length ? (
-          <ObjectLanes name={v.name} />
+          <ObjectLanes name={v.name} rows={v.rows} flow={v.flow} />
         ) : (
           <Silent what="קשרי ER ממודלים" />
         )}

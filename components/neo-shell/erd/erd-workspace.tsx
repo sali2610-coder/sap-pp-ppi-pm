@@ -1,5 +1,7 @@
 "use client";
 
+import { motionIsReduced } from "../motion/preferences";
+
 // Project NEO · NEO ERD — the data-model workspace.
 //
 // WHAT CHANGED, AND WHY
@@ -638,9 +640,7 @@ export function ErdWorkspace({ data, initialModule, onModuleChange }: { data: Er
   useEffect(() => {
     if (target.pos === live.pos && target.geom === live.geom && target.ego === live.ego) return;
     const g = world.current;
-    const calm =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const calm = motionIsReduced();
     // A change of PICTURE (module opened, scope widened) is a different set of
     // nodes, not a move: it crossfades in CSS. Only an ego re-placement inside
     // one picture is worth tweening.
@@ -660,7 +660,7 @@ export function ErdWorkspace({ data, initialModule, onModuleChange }: { data: Er
     cancelAnimationFrame(tween.current);
     const t0 = performance.now();
     const step = (t: number) => {
-      const e = ease(Math.min(1, (t - t0) / TWEEN));
+      const e = motionIsReduced() ? 1 : ease(Math.min(1, (t - t0) / TWEEN));
       for (const el of nodeEls) {
         const n = el.dataset.node!;
         const a = from.pos.get(n);
@@ -732,9 +732,7 @@ export function ErdWorkspace({ data, initialModule, onModuleChange }: { data: Er
       cancelAnimationFrame(anim.current);
       const end = clamp(to);
       const from = { ...view.current };
-      const calm =
-        typeof window !== "undefined" &&
-        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const calm = motionIsReduced();
       if (calm) {
         view.current = end;
         paint();
@@ -749,7 +747,7 @@ export function ErdWorkspace({ data, initialModule, onModuleChange }: { data: Er
       setZoomPct(Math.round(end.k * 100));
       const t0 = performance.now();
       const step = (t: number) => {
-        const e = ease(Math.min(1, (t - t0) / TWEEN));
+        const e = motionIsReduced() ? 1 : ease(Math.min(1, (t - t0) / TWEEN));
         view.current = {
           x: lerp(from.x, end.x, e),
           y: lerp(from.y, end.y, e),

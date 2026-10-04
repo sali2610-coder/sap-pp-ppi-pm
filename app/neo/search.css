@@ -722,6 +722,18 @@ html[data-device="tablet"] .nx-app .nxc--r::after { display: none; }
 }
 .nx-app .nxc--r .nxc-d-dest[data-none="1"] { color: var(--ink-3); }
 
+.nx-app .nxc--r .nxc-readout { display: flex; align-items: center; gap: var(--sp-2); min-inline-size: 0; }
+.nx-app .nxc--r .nxc-readout .nxc-head-t { flex: 1; min-inline-size: 0; }
+.nx-app .nxc--r .nxc-reset {
+  flex: none; min-block-size: 1.75rem;
+  padding: .3rem .65rem; border: 1px solid var(--c-hair); border-radius: var(--r-sm);
+  background: var(--surface); color: var(--ink-2); font: inherit; font-size: var(--t-xs);
+  cursor: pointer;
+}
+.nx-app .nxc--r .nxc-reset:hover { border-color: var(--sm); color: var(--ink-1); }
+.nx-app .nxc--r .nxc-none-actions { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-block-start: var(--sp-3); }
+.nx-app .nxc--r .nxc-results[data-busy="1"] { pointer-events: none; opacity: .65; }
+
 /* ============================================================================
    17. PROGRESSIVE RESULTS + AN ANCHORED SELECTION
    ----------------------------------------------------------------------------

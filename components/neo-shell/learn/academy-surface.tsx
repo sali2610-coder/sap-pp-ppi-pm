@@ -34,6 +34,7 @@ import { useContinueCourse, useModuleProgress } from "@/lib/academy/store";
 import { neoLessonHref } from "./lesson-links";
 import { learnModVar } from "./mod";
 import type { AcademyCourseRow, AcademyData } from "./academy-data";
+import { LessonResults } from "./lesson-finder";
 
 const nf = new Intl.NumberFormat("he-IL");
 
@@ -240,7 +241,7 @@ export function AcademySurface({ data }: { data: AcademyData }) {
             type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="שם קורס · שם פרק · שם שיעור"
+            placeholder="שם קורס · שם שיעור · קוד SAP"
             aria-label="חיפוש בקורסים"
           />
           {q ? (
@@ -274,11 +275,12 @@ export function AcademySurface({ data }: { data: AcademyData }) {
         {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
       </p>
 
+      <LessonResults lessons={list.flatMap((c) => c.chapters.flatMap((ch) => ch.lessons)).filter((l) => !level || l.level === level)} query={q} />
       {list.length === 0 ? (
         <div className="nx-card nxl-none">
           <p><b>לא נמצאו תוצאות התואמות לסינון שנבחר</b></p>
           <p className="nx-muted">
-            החיפוש מכסה את שמות הקורסים, הפרקים והשיעורים, ולא את תוכן השיעורים.
+            אפשר לחפש לפי שמות הקורסים, הפרקים והשיעורים או לפי הקודים המופיעים בהם.
           </p>
           <div className="nxl-none-a">
             <button type="button" className="nu-btn" onClick={reset}>ניקוי הסינון</button>

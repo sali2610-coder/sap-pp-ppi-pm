@@ -44,9 +44,11 @@
        brand red (globals.css: brand is never a module colour).
    ========================================================================== */
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { kgraph, tableByName } from "@/lib/knowledge-graph";
+import { useMotionReduced } from "../motion/preferences";
+import type { FlowPlace, ModuleRow } from "./object-data";
 
 const MOD_VAR: Record<string, string> = {
   PM: "var(--mod-pm)",
@@ -78,16 +80,24 @@ const descOf = (n: string) => {
   return (t?.descriptionHe || t?.descriptionEn || "").trim();
 };
 
+// HTML bidi layout is intentional: SVG text shaping can reorder Hebrew in
+// Safari. Keep the source strings intact and isolate SAP identifiers separately.
+function HebrewLabel({ x, y, text, className = "" }: { x: number; y: number; text: string; className?: string }) {
+  return <foreignObject x={x - NW / 2} y={y} width={NW} height={20} className="nol-label-box">
+    <div dir="rtl" className={`nol-label ${className}`}>{text}</div>
+  </foreignObject>;
+}
+
 /* The node and the edge are MODULE-SCOPE components on purpose: everything they
    need arrives as a prop, so their identity is stable across renders and a
    hover changes attributes instead of remounting subtrees (which restarted the
    CSS transitions and dropped keyboard focus). */
 
 function LaneNode({
-  x, y, label, module, exists, center, col, haloCol, on, dimVal, desc, setHot, toggleSel, open,
+  x, y, label, module, exists, center, col, haloCol, on, selected, dimVal, desc, setHot, toggleSel, open,
 }: {
   x: number; y: number; label: string; module: string; exists: boolean; center?: boolean;
-  col: string; haloCol?: string | null; on: boolean; dimVal: number; desc: string;
+  col: string; haloCol?: string | null; on: boolean; selected?: boolean; dimVal: number; desc: string;
   setHot: (n: string | null) => void; toggleSel: (n: string) => void; open: (n: string) => void;
 }) {
   return (
@@ -98,10 +108,13 @@ function LaneNode({
       style={{ opacity: center ? 1 : dimVal, cursor: exists && !center ? "pointer" : "default" }}
       onMouseEnter={() => !center && setHot(label)}
       onMouseLeave={() => setHot(null)}
+      onFocus={() => !center && setHot(label)}
+      onBlur={() => setHot(null)}
       onClick={() => { if (!center && exists) toggleSel(label); }}
       onDoubleClick={() => !center && exists && open(label)}
       tabIndex={exists && !center ? 0 : -1}
       role={exists && !center ? "button" : undefined}
+      aria-pressed={exists && !center ? !!selected : undefined}
       onKeyDown={(e) => {
         if (center || !exists) return;
         if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSel(label); }
@@ -124,6 +137,8 @@ function LaneNode({
           className="nol-halo"
         />
       ) : null}
+      <rect className="nol-depth" x={2} y={4} width={NW} height={NH} rx={9}
+        fill={`color-mix(in srgb, ${col} 24%, var(--surface-2))`} stroke={col} strokeOpacity={0.3} />
       <rect
         className="nol-card"
         width={NW} height={NH} rx={9}
@@ -132,12 +147,12 @@ function LaneNode({
         strokeWidth={center ? 2.4 : on ? 2 : 1.2}
       />
       <rect width={3} height={NH} rx={1.5} fill={col} />
-      <text x={NW / 2 + 3} y={15} textAnchor="middle"
+      <text x={NW / 2 + 3} y={15} textAnchor="middle" direction="ltr" unicodeBidi="isolate"
         style={{ font: `${center ? 800 : 700} 14px ui-monospace, monospace`, fill: "var(--ink-1)" }}>{label}</text>
-      <text x={NW / 2 + 3} y={29} textAnchor="middle"
+      {center ? <HebrewLabel x={NW / 2 + 3} y={19} text="האובייקט הנוכחי" className="nol-label--hub" /> : <text x={NW / 2 + 3} y={29} textAnchor="middle" direction="ltr" unicodeBidi="isolate"
         style={{ font: "700 10px sans-serif", fill: col, letterSpacing: ".05em" }}>
-        {center ? "האובייקט הנוכחי" : module}
-      </text>
+        {module}
+      </text>}
     </g>
   );
 }
@@ -171,7 +186,7 @@ function LaneEdge({
         fill={on && card ? col : "var(--surface)"}
         stroke={col} strokeOpacity={card ? (on ? 1 : 0.4) : 0.55} strokeWidth={1}
         strokeDasharray={card ? undefined : "3 3"} />
-      <text x={mx} y={my + 4} textAnchor="middle"
+      <text x={mx} y={my + 4} textAnchor="middle" direction="ltr" unicodeBidi="isolate"
         style={{
           font: "700 11px ui-monospace, monospace",
           fill: card ? (on ? "var(--surface)" : "var(--ink-2)") : "var(--ink-3)",
@@ -180,7 +195,11 @@ function LaneEdge({
   );
 }
 
-export function ObjectLanes({ name }: { name: string }) {
+export function ObjectLanes({ name, rows, flow }: {
+  name: string;
+  rows: Pick<ModuleRow, "mod" | "descHe" | "descEn" | "guide">[];
+  flow: FlowPlace[];
+}) {
   const router = useRouter();
   const g = useMemo(() => kgraph(name), [name]);
   const [exp, setExp] = useState(false);
@@ -188,6 +207,14 @@ export function ObjectLanes({ name }: { name: string }) {
   const [hot, setHot] = useState<string | null>(null);
   /** Click target. Sticky until dismissed, and what the strip reports. */
   const [sel, setSel] = useState<string | null>(null);
+  const plane = useRef<HTMLDivElement>(null);
+  const reduced = useMotionReduced();
+  const [paused, setPaused] = useState(false);
+  const motionOff = reduced || paused;
+  const resetTilt = () => {
+    plane.current?.style.removeProperty("--nol-rx");
+    plane.current?.style.removeProperty("--nol-ry");
+  };
 
   if (!g) return null;
 
@@ -252,8 +279,14 @@ export function ObjectLanes({ name }: { name: string }) {
   const fUp = focus ? g.upstream.includes(focus) : false;
 
   return (
-    <div className="nol">
-      <div className="nol-stage">
+    <div className="nol" data-motion-off={motionOff ? "1" : "0"}>
+      <div className="nol-stage" onPointerLeave={resetTilt} onPointerMove={(e) => {
+        if (motionOff || e.pointerType !== "mouse" || !plane.current) return;
+        const rect = e.currentTarget.getBoundingClientRect();
+        plane.current.style.setProperty("--nol-rx", `${(0.5 - (e.clientY - rect.top) / rect.height) * 2}deg`);
+        plane.current.style.setProperty("--nol-ry", `${((e.clientX - rect.left) / rect.width - 0.5) * 3}deg`);
+      }}>
+       <div className="nol-plane" ref={plane}>
         <svg
           viewBox={`0 0 ${VW} ${H}`}
           width="100%"
@@ -262,9 +295,9 @@ export function ObjectLanes({ name }: { name: string }) {
           style={{ minWidth: 620 }}
           onMouseLeave={() => setHot(null)}
         >
-          {hasUp ? <text x={colX.up} y={20} textAnchor="middle" className="nol-lane">מעלה הזרם</text> : null}
-          <text x={cx} y={20} textAnchor="middle" className="nol-lane">האובייקט</text>
-          {hasDown ? <text x={colX.down} y={20} textAnchor="middle" className="nol-lane">מורד הזרם</text> : null}
+          {hasUp ? <HebrewLabel x={colX.up} y={6} text="מעלה הזרם" /> : null}
+          <HebrewLabel x={cx} y={6} text="האובייקט" />
+          {hasDown ? <HebrewLabel x={colX.down} y={6} text="מורד הזרם" /> : null}
 
           {up.map((n, i) => {
             const y = yFor(i, up.length);
@@ -295,13 +328,13 @@ export function ObjectLanes({ name }: { name: string }) {
           {up.map((n, i) => (
             <LaneNode key={n} x={colX.up} y={yFor(i, up.length)} label={n}
               module={tableByName(n)?.module || "?"} exists={!!tableByName(n)}
-              col={mc(tableByName(n)?.module || "?")} on={isLive(n)} dimVal={dim(n)}
+              col={mc(tableByName(n)?.module || "?")} on={isLive(n)} selected={sel === n} dimVal={dim(n)}
               desc={descOf(n)} setHot={setHot} toggleSel={toggleSel} open={go} />
           ))}
           {down.map((n, i) => (
             <LaneNode key={n} x={colX.down} y={yFor(i, down.length)} label={n}
               module={tableByName(n)?.module || "?"} exists={!!tableByName(n)}
-              col={mc(tableByName(n)?.module || "?")} on={isLive(n)} dimVal={dim(n)}
+              col={mc(tableByName(n)?.module || "?")} on={isLive(n)} selected={sel === n} dimVal={dim(n)}
               desc={descOf(n)} setHot={setHot} toggleSel={toggleSel} open={go} />
           ))}
           <LaneNode x={cx} y={cy(H)} label={g.center.tableName} module={g.center.module} exists center
@@ -309,6 +342,7 @@ export function ObjectLanes({ name }: { name: string }) {
             desc={(g.center.descriptionHe || g.center.descriptionEn || "").trim()}
             setHot={setHot} toggleSel={toggleSel} open={go} />
         </svg>
+       </div>
       </div>
 
       {/* CONTEXT STRIP — validated fields only. */}
@@ -321,12 +355,13 @@ export function ObjectLanes({ name }: { name: string }) {
             <span className="nol-ctx-path nx-sap" dir="ltr">
               {fUp ? `${focus} → ${g.center.tableName}` : `${g.center.tableName} → ${focus}`}
             </span>
-            <span className="nol-ctx-f"><em>יחס</em><b className="nx-sap">{fEdge?.card || "לא מצוין בתיעוד"}</b></span>
-            <span className="nol-ctx-f"><em>מודול</em><b>{tableByName(focus)?.module || "לא ידוע"}</b></span>
+            <span className="nol-ctx-f"><em>יחס</em>{fEdge?.card ? <b className="nx-sap" dir="ltr">{fEdge.card}</b> : <b dir="rtl">לא מצוין בתיעוד</b>}</span>
+            <span className="nol-ctx-f"><em>מודול</em><bdi>{tableByName(focus)?.module || "לא ידוע"}</bdi></span>
+            {descOf(focus) ? <span className="nol-ctx-d" dir="auto">{descOf(focus)}</span> : null}
             {fEdge?.desc ? <span className="nol-ctx-d">{fEdge.desc}</span> : null}
             {sel ? (
               <button type="button" className="nu-btn2 nol-open" onClick={() => go(sel)}>
-                פתיחת {sel}
+                פתיחת <bdi dir="ltr">{sel}</bdi>
               </button>
             ) : null}
           </>
@@ -337,7 +372,32 @@ export function ObjectLanes({ name }: { name: string }) {
         )}
       </div>
 
+      <details className="nol-explain">
+        <summary>על האובייקט והתהליך · <bdi dir="ltr">{name}</bdi></summary>
+        {rows.map((row, i) => <div className="nol-source" key={`${row.mod}-${i}`}>
+          <bdi dir="ltr" className="nx-sap">{row.mod}</bdi>
+          <p dir="auto">{row.descHe || row.descEn}</p>
+          {row.guide ? <p dir="auto">{row.guide}</p> : null}
+        </div>)}
+        {flow.filter((f) => f.idx >= 0).map((f) => <div className="nol-source" key={f.mod}>
+          <p>המיקום בשרשרת המתועדת של <bdi dir="ltr">{f.mod}</bdi></p>
+          <ol className="nol-process">
+            {f.steps.slice(Math.max(0, f.idx - 1), f.idx + 2).map((step) => <li key={step.code} data-here={step.here ? "1" : undefined}>
+              <bdi dir="ltr" className="nx-sap">{step.code}</bdi><span dir="auto">{step.label}</span>
+              {step.here ? <small>האובייקט הנוכחי</small> : null}
+            </li>)}
+          </ol>
+          <a className="nu-link" href="#no-flow">לשרשרת התהליך המלאה</a>
+        </div>)}
+        <p className="nx-muted">המפה מציגה קשרי נתונים מתועדים. כיוון הקשרים כשלעצמו אינו סדר ביצוע של תהליך עסקי.
+          {!flow.some((f) => f.idx >= 0) ? " האובייקט אינו מסומן כשלב בשרשרת התהליך שבמאגר." : ""}</p>
+      </details>
+
       <div className="nol-foot">
+        <button type="button" className="nu-btn2" aria-pressed={motionOff} disabled={reduced}
+          onClick={() => { setPaused((v) => !v); resetTilt(); }}>
+          {reduced ? "תנועה מופחתת" : paused ? "הפעלת תנועה" : "עצירת תנועה"}
+        </button>
         <span className="nol-blast">
           רדיוס השפעה (Blast radius): <b className="nx-sap">{g.upstream.length}</b> במעלה הזרם
           {" · "}<b className="nx-sap">{g.downstream.length}</b> במורד הזרם

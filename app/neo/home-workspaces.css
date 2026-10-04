@@ -1,0 +1,31 @@
+/* The three workspaces share a surface, with Astra's own module accents. */
+#nh-2 .nh-mod {
+  grid-template-rows: auto auto 1fr auto auto;
+  position: relative; overflow: hidden;
+  border-block-start: 3px solid var(--m);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--scene-ink, var(--ink-1)) 7%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--scene-raised, var(--surface)) 70%, transparent);
+}
+#nh-2 .nh-mod-top { flex-wrap: wrap; align-content: start; gap: .35rem .7rem; }
+#nh-2 .nh-mod-he { flex-basis: 100%; order: 2; }
+#nh-2 .nh-work-purpose {
+  color: var(--scene-ink-2, var(--ink-2)); font-size: .9rem; line-height: 1.7;
+  min-block-size: 3.4em; text-wrap: pretty;
+}
+#nh-2 .nh-mod-nums {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: start; gap: 1rem; padding-block: .6rem;
+}
+#nh-2 .nh-mod-nums > span {
+  border-inline-start: 2px solid color-mix(in srgb, var(--m) 35%, transparent);
+  padding-inline-start: .7rem;
+}
+#nh-2 .nh-mod-share { grid-template-columns: minmax(3rem, 1fr) auto; }
+#nh-2 .nh-mod-share > span:last-child { grid-column: 1 / -1; }
+#nh-2 .nh-work-enter {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .5rem;
+  color: var(--scene-ink, var(--ink-1)); font-size: .85rem; font-weight: 750;
+  border-block-start: 1px solid var(--scene-hair, var(--hairline)); padding-block-start: .8rem;
+}
+#nh-2 .nh-work-enter > svg { margin-inline-start: auto; color: var(--m); }
+#nh-2 .nh-mod:hover, #nh-2 .nh-mod:focus-visible { border-color: var(--m); }

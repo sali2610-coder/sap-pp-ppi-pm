@@ -30,6 +30,7 @@
      nine as one enum would have shipped three states that do nothing.
    ========================================================================== */
 
+import { getModule, getLesson } from "@/lib/academy/model";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { flushSync } from "react-dom";
@@ -38,7 +39,8 @@ import {
   useSyncExternalStore,
 } from "react";
 import { mark } from "@/components/defer-mount";
-import { consumeReturn, rememberOrigin, useReturnPacket } from "@/components/neo-shell/nav-context";
+import { SiteLogo } from "@/components/site-logo";
+import { consumeReturn, parentOf, rememberOrigin, useReturnPacket } from "@/components/neo-shell/nav-context";
 import { Ico } from "../icon";
 import {
   GROUP_MS, RAIL_MS, measure, play, playEnter, playScaleX, raf, raf2, reducedMotion,
@@ -103,12 +105,13 @@ export function NeoShellClient({
   cmd: CommandExtra;
   children: React.ReactNode;
 }) {
-  const path = usePathname() || "/neo/";
+  const pathname = usePathname() || "/neo/";
+  const path = pathname.endsWith("/") ? pathname : `${pathname}/`;
   const router = useRouter();
 
   const items = useMemo(() => data.groups.flatMap((g) => g.items), [data.groups]);
   const active = useMemo<NavItem | null>(
-    () => items.find((i) => isActive(path, i.href)) || null,
+    () => items.find((i) => isActive(path, i.href)) || items.find((i) => i.href === parentOf(path).href) || null,
     [items, path],
   );
   const activeMod = active?.mod;
@@ -135,7 +138,12 @@ export function NeoShellClient({
   const [ctxName, setCtxName] = useState<string>(data.defaultContext);
   const [pvId, setPvId] = useState<string | null>(null);
   const [hoverMod, setHoverMod] = useState<ModuleKey | undefined>(undefined);
-  const [sheet, setSheet] = useState(false);
+  const [sheetPath, setSheetPath] = useState<string | null>(null);
+  const sheet = sheetPath === path;
+  // The shell persists across navigation, but an open mobile dialog does not.
+  // Clear its origin as well so Back cannot reopen a stale sheet.
+  if (sheetPath !== null && sheetPath !== path) setSheetPath(null);
+  const closeSheet = useCallback(() => setSheetPath(null), []);
 
   const { names: recent, seen } = useRecent();
   // The shelf collapses to one line while nothing has been opened or pinned
@@ -167,6 +175,9 @@ export function NeoShellClient({
   /** The layout the user was in before ⌘K. Escaping search restores it instead
    *  of silently dropping a compact rail back to expanded. */
   const beforeSearch = useRef<RailMode>("expanded");
+  const searchOpener = useRef<HTMLElement | null>(null);
+  const restoreSearchFocus = useRef(false);
+  const mobileNavTrigger = useRef<HTMLButtonElement>(null);
   const shelfTabsRef = useRef<HTMLDivElement>(null);
   const shelfIndRef = useRef<HTMLSpanElement>(null);
 
@@ -186,11 +197,24 @@ export function NeoShellClient({
      rail's own filter reads the same deferred value, so the tree and the result
      list can never disagree about which query is on screen. */
   const dq = useDeferredValue(query);
+  const searchBusy = query !== dq;
   const q = dq.trim().toLowerCase();
 
   /** The whole command index, assembled once from the two build-time payloads.
    *  ~thousands of plain rows — cheap to hold, and never rebuilt per keystroke. */
   const index = useMemo(() => buildIndex(data, cmd), [data, cmd]);
+  const routeRecord = useMemo(() => {
+    if (path.startsWith("/neo/academy/")) {
+      const [, , , courseId, slug, chapter] = path.split("/");
+      const course = courseId ? getModule(courseId) : undefined;
+      const lesson = slug && slug !== "source" ? getLesson(slug) : undefined;
+      if (course) return { mono: false, title: slug === "source"
+        ? `${course.title} · חומר מלא · פרק ${chapter}`
+        : lesson?.moduleId === courseId ? `${course.title} · ${lesson.title}` : course.title };
+    }
+    const destination = path.startsWith("/neo/read/") ? path.replace("/neo/read/", "/neo/books/") : path;
+    return index.find((r) => r.href === destination && !["nav", "module", "field", "chapter"].includes(r.k));
+  }, [index, path]);
   const result = useMemo(() => runQuery(index, dq, only, modOnly), [index, dq, only, modOnly]);
 
   /** Real per-family totals for the idle state of the surface. */
@@ -250,6 +274,11 @@ export function NeoShellClient({
   const applyQuery = useCallback((v: string) => { setQuery(v); setCursor(0); }, []);
   const applyOnly = useCallback((k: CmdKind | null) => { setOnly(k); setCursor(0); }, []);
   const applyMod = useCallback((m: string | null) => { setModOnly(m); setCursor(0); }, []);
+  const resetFilters = useCallback(() => {
+    setOnly(null); setModOnly(null); setCursor(0);
+    const field = inputRef.current?.offsetParent ? inputRef.current : mInputRef.current;
+    field?.focus();
+  }, []);
 
   /* ---------------------------------------------- the travelling pill */
   const syncInd = useCallback(() => {
@@ -369,12 +398,20 @@ export function NeoShellClient({
   const changeMode = useCallback((next: RailMode) => {
     const cur = mode;
     if (cur === next) return;
-    if (next === "search") beforeSearch.current = cur === "search" ? "expanded" : cur;
+    if (next === "search") {
+      beforeSearch.current = cur === "search" ? "expanded" : cur;
+      // Cmd/Ctrl+K can start inside the mobile dialog. Its focused control is
+      // about to unmount, so Escape must return to the persistent nav trigger.
+      searchOpener.current = sheet ? mobileNavTrigger.current
+        : document.activeElement instanceof HTMLElement ? document.activeElement : null;
+      restoreSearchFocus.current = false;
+    }
     const widthChange =
       (cur === "compact") !== (next === "compact") || (cur === "context") !== (next === "context");
 
     const commit = () => {
       setMode(next);
+      if (next === "search") closeSheet();
       if (next === "context") setShelf("context");
       else if (cur === "context") setShelf("recent");
       if (next !== "search") { setQuery(""); setOnly(null); setModOnly(null); setCursor(0); }
@@ -412,11 +449,19 @@ export function NeoShellClient({
     if (edge && edgeBefore) play(edge, edgeBefore.left - edge.getBoundingClientRect().left, "X", 0, RAIL_MS);
 
     raf2(syncInd);
-  }, [mode, setMode, syncInd]);
+  }, [mode, setMode, syncInd, sheet, closeSheet]);
 
-  const closeSearch = useCallback(() => {
+  const closeSearch = useCallback((restoreFocus = true) => {
+    restoreSearchFocus.current = restoreFocus;
     changeMode(beforeSearch.current === "search" ? "expanded" : beforeSearch.current);
   }, [changeMode]);
+
+  useEffect(() => {
+    if (mode === "search" || !restoreSearchFocus.current) return;
+    restoreSearchFocus.current = false;
+    const opener = searchOpener.current;
+    if (opener?.isConnected) opener.focus({ preventScroll: true });
+  }, [mode]);
 
   /* ------------------------- group expansion that never resets scroll */
   const toggleGroup = useCallback((gid: string) => {
@@ -520,6 +565,7 @@ export function NeoShellClient({
 
   /* ----------------------------------------------- the command surface */
   const goResult = useCallback((r: CmdRecord) => {
+    if (searchBusy) return;
     if (r.ctx) openObject(r.ctx);
     if (r.href) {
       // Activating a result is a router.push and not a link, so the origin is
@@ -533,9 +579,9 @@ export function NeoShellClient({
         state: { q: query, only, mod: modOnly },
       });
       router.push(r.href);
-      closeSearch();
+      closeSearch(false);
     }
-  }, [openObject, router, closeSearch, path, query, only, modOnly]);
+  }, [searchBusy, openObject, router, closeSearch, path, query, only, modOnly]);
 
   /* ------------------------------------------------- returning to the search
 
@@ -583,7 +629,10 @@ export function NeoShellClient({
   /** One handler for both fields — the rail's and the phone sheet's. */
   const onFieldKey = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     const n = result.flat.length;
-    if (e.key === "Escape") { e.preventDefault(); closeSearch(); return; }
+    if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); closeSearch(); return; }
+    if (searchBusy && ["Enter", "ArrowDown", "ArrowUp", "Home", "End"].includes(e.key)) {
+      e.preventDefault(); return;
+    }
     if (e.key === "Enter") {
       const r = result.flat[cursor];
       if (r) { e.preventDefault(); goResult(r); }
@@ -594,11 +643,12 @@ export function NeoShellClient({
     else if (e.key === "ArrowUp") { e.preventDefault(); setCursor((c) => (c - 1 + n) % n); }
     else if (e.key === "Home") { e.preventDefault(); setCursor(0); }
     else if (e.key === "End") { e.preventDefault(); setCursor(n - 1); }
-  }, [result.flat, cursor, closeSearch, goResult]);
+  }, [searchBusy, result.flat, cursor, closeSearch, goResult]);
 
   /* -------------------------------------------------------- keyboard */
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (e.defaultPrevented) return;
       const meta = e.metaKey || e.ctrlKey;
       if (meta && e.key.toLowerCase() === "k") {
         e.preventDefault();
@@ -667,6 +717,22 @@ export function NeoShellClient({
     <div
       ref={appRef}
       className="nx-app"
+      onKeyDown={(event) => {
+        // Search facets and close buttons need the same Escape behavior as
+        // the field. Consume it before page focus/fullscreen listeners run.
+        if (!event.defaultPrevented && event.key === "Escape" && mode === "search") {
+          event.preventDefault();
+          event.stopPropagation();
+          closeSearch();
+        }
+      }}
+      onClickCapture={(event) => {
+        const target = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-neo-open-search]") : null;
+        if (target) {
+          changeMode("search");
+          searchOpener.current = target;
+        }
+      }}
       data-neo-shell=""
       data-nav={mode}
       data-searching={searching ? "1" : "0"}
@@ -691,7 +757,7 @@ export function NeoShellClient({
 
         <div className="nx-rail-head" ref={headRef}>
           <Link prefetch={false} href="/neo/" className="nx-glyph" aria-label="Project NEO: מעבר למסך הבית">
-            <i /><i /><i />
+            <SiteLogo tone="dark" size="sm" wordmark="never" />
           </Link>
           <span className="nx-lock">
             <b>SAP by Sali</b>
@@ -732,7 +798,8 @@ export function NeoShellClient({
                 aria-expanded={searching}
                 aria-controls="nxc-list"
                 aria-autocomplete="list"
-                aria-activedescendant={searching && activeRow ? `nxc-o-${cursor}` : undefined}
+                aria-busy={searchBusy}
+                aria-activedescendant={searching && activeRow && !searchBusy ? `nxc-o-${cursor}` : undefined}
                 tabIndex={searching ? 0 : -1}
               />
               <button
@@ -740,7 +807,7 @@ export function NeoShellClient({
                 className="nx-iconbtn nx-iconbtn--xs"
                 aria-label="סגירת החיפוש"
                 tabIndex={searching ? 0 : -1}
-                onClick={closeSearch}
+                onClick={() => closeSearch()}
               >
                 <Ico name="X" size={13} />
               </button>
@@ -932,6 +999,8 @@ export function NeoShellClient({
                 <span className="nx-cur">{active.label}</span>
               </>
             ) : null}
+            {routeRecord ? <><Ico name="ChevronLeft" size={12} /><span className="nx-cur"><bdi dir={routeRecord.mono ? "ltr" : "auto"}>{routeRecord.title}</bdi></span></> : null}
+            {!active && path === "/neo/privacy/" ? <><Ico name="ChevronLeft" size={12} /><span className="nx-cur">מדיניות פרטיות</span></> : null}
           </nav>
           <button type="button" className="nx-cmdbar" onClick={() => changeMode("search")}>
             <Ico name="Search" size={15} />
@@ -953,12 +1022,13 @@ export function NeoShellClient({
 
         <header className="nx-mtop" data-shell="mobile-only">
           <div className="nx-mtop-in">
-            <span className="nx-glyph" aria-hidden="true"><i /><i /><i /></span>
-            <b>{active?.label || "Project NEO"}</b>
+            <span className="nx-glyph" aria-hidden="true"><SiteLogo tone="dark" size="sm" wordmark="never" /></span>
+            <b><bdi dir={routeRecord?.mono ? "ltr" : "auto"}>{routeRecord?.title || active?.label || (path === "/neo/privacy/" ? "מדיניות פרטיות" : "Project NEO")}</bdi></b>
           </div>
         </header>
 
         <main id="main" className="nx-canvas">{children}</main>
+        <p className="nx-wide-credit">SAP by Sali · סאלי חליף · Web Coding</p>
 
         {/* The mandatory footer credit, on the MOBILE shell. On desktop it
             lives in the rail foot; on a phone the rail never renders, and 12
@@ -970,10 +1040,15 @@ export function NeoShellClient({
         </p>
 
         <MobileTabs
+          navRef={mobileNavTrigger}
+          isHome={path === "/neo/"}
           navOpen={sheet}
           searchOpen={searching}
-          onNav={() => setSheet((s) => !s)}
-          onSearch={() => { setSheet(false); changeMode("search"); }}
+          onNav={() => {
+            if (searching) closeSearch(false);
+            setSheetPath(sheet ? null : path);
+          }}
+          onSearch={() => changeMode("search")}
         />
       </div>
 
@@ -981,6 +1056,8 @@ export function NeoShellClient({
       {searching ? (
         <CommandSurface
           query={query}
+          busy={searchBusy}
+          onReset={resetFilters}
           onQuery={applyQuery}
           onKey={onFieldKey}
           result={result}
@@ -1009,7 +1086,7 @@ export function NeoShellClient({
         {preview ? <PreviewPanel preview={preview} last={lastForPreview} /> : null}
       </div>
 
-      {sheet ? <MobileSheet groups={data.groups} activeId={active?.id ?? null} onClose={() => setSheet(false)} /> : null}
+      {sheet ? <MobileSheet groups={data.groups} activeId={active?.id ?? null} open={open} onToggle={(id) => setLayout({ open: { ...open, [id]: open[id] === false } })} onClose={closeSheet} /> : null}
     </div>
   );
 }

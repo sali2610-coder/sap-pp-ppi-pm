@@ -32,8 +32,7 @@
    parent from the route.
    ========================================================================== */
 
-import { useEffect } from "react";
-import Link from "next/link";
+import { useEffect, type ReactNode } from "react";
 import { ArrowLeft, BookOpen, Blocks, Clock, Info, Layers, Play } from "lucide-react";
 import {
   OriginLink, SmartReturn, restoreScroll, scrollOffset, useReturnState, type OriginArg,
@@ -43,6 +42,7 @@ import { useIsDone, useModuleProgress } from "@/lib/academy/store";
 import { COURSE_SURFACE, learnModVar, LEARN_MOD_HE, type CourseReturn } from "./mod";
 import { neoLessonHref } from "./lesson-links";
 import type { AcademyCourseRow } from "./academy-data";
+import { LessonFinder } from "./lesson-finder";
 
 const nf = new Intl.NumberFormat("he-IL");
 
@@ -53,7 +53,7 @@ function hoursHe(min: number): string {
   return m ? `${nf.format(h)} שע׳ ${nf.format(m)} דק׳` : `${nf.format(h)} שע׳`;
 }
 
-export function CourseView({ c }: { c: AcademyCourseRow }) {
+export function CourseView({ c, source }: { c: AcademyCourseRow; source?: ReactNode }) {
   const isDone = useIsDone();
   const p = useModuleProgress(c.id);
   const started = p.completedLessons > 0 || p.blocksDone > 0;
@@ -155,6 +155,9 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
         ) : null}
       </section>
 
+      <LessonFinder lessons={c.chapters.flatMap((ch) => ch.lessons)} />
+      {source}
+
       {/* ------------------------------------------------------- CHAPTERS */}
       <section className="nxv-sec" aria-labelledby="co-ch">
         <div className="nxv-sec-h">
@@ -246,14 +249,7 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
           שיעור נחשב מושלם כשכל יחידות התוכן שהוא דורש נקראו.
           {" "}ההתקדמות נשמרת במכשיר בלבד (<span className="nx-sap">neo:academy:v2</span>) ואינה מסונכרנת.
         </p>
-        <p>
-          השיעורים נפתחים בתוך Project NEO (<span className="nx-sap">/neo/academy/{c.id}/</span>).
-          {" "}אותו שיעור זמין גם במסך הלמידה הקודם,{" "}
-          <Link className="nu-link" href="/academy/" prefetch={false}>
-            <span className="nx-sap">/academy/</span>
-          </Link>
-          , וההתקדמות משותפת לשני המסכים.
-        </p>
+
       </div>
     </div>
   );

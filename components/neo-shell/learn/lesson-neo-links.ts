@@ -36,6 +36,8 @@
    ========================================================================== */
 
 import type { Lesson } from "@/lib/academy/lesson-types";
+import { getLesson } from "@/lib/academy/model";
+import { neoLessonHref } from "./lesson-links";
 import { bapiHref, cdsHref, fioriHref, idocHref, objectHref, txHref } from "../reference/ref-links";
 
 /** legacy first segment -> the NEO resolver for that family. */
@@ -68,11 +70,31 @@ const DIRECTORY: Record<string, string> = {
 export function neoHrefOf(href: string | undefined): string | null | undefined {
   if (!href) return href;
   if (!href.startsWith("/") || href.startsWith("/neo/")) return href;
-  const [, family, id] = href.split("/");
-  if (!id) return DIRECTORY[family] ?? href;   // a family root, not a record
+  const url = new URL(href, "https://neo.invalid");
+  const [, family, ...parts] = url.pathname.replace(/\/$/, "").split("/");
+  const id = parts.join("/");
+  const suffix = url.search + url.hash;
+  if (family === "academy" && parts[0] === "lesson") {
+    const lesson = getLesson(decodeURIComponent(parts.slice(1).join("/")));
+    return lesson?.hasLesson ? neoLessonHref(lesson.moduleId, lesson.slug) + suffix : null;
+  }
+  if (family === "academy" && !id) return "/neo/academy/" + suffix;
+  if (!id) return DIRECTORY[family] ? DIRECTORY[family] + suffix : href;
   const resolve = FAMILY[family];
   if (!resolve) return href;                   // family NEO does not mirror
-  return resolve(decodeURIComponent(id));      // string, or null → render flat
+  const target = resolve(decodeURIComponent(id));
+  return target ? target + suffix : null;
+}
+
+/** Resolve a code only within its authored reference family. No guessed pages. */
+export function neoCodeHref(kind: string, code: string): string | null {
+  switch (kind) {
+    case "tables": return objectHref(code);
+    case "tcodes": return txHref(code);
+    case "fiori": return fioriHref(code);
+    case "objects": return bapiHref(code) || cdsHref(code) || idocHref(code);
+    default: return null;
+  }
 }
 
 /** A shallow clone of the lesson with every block-level href repointed.
@@ -86,15 +108,16 @@ export function neoHrefOf(href: string | undefined): string | null | undefined {
 export function withNeoLinks(lesson: Lesson): Lesson {
   const seen = new WeakSet<object>();
 
-  const walk = (v: unknown): unknown => {
-    if (Array.isArray(v)) return v.map(walk);
+  const walk = (v: unknown, kind = ""): unknown => {
+    if (Array.isArray(v)) return v.map((item) => walk(item, kind));
     if (!v || typeof v !== "object") return v;
     if (seen.has(v as object)) return v;
     seen.add(v as object);
 
     const o = v as Record<string, unknown>;
+    const family = typeof o.kind === "string" ? o.kind : kind;
     const out: Record<string, unknown> = {};
-    for (const [k, val] of Object.entries(o)) out[k] = k === "href" ? val : walk(val);
+    for (const [k, val] of Object.entries(o)) out[k] = k === "href" ? val : walk(val, family);
 
     if (typeof o.href === "string" && ("code" in o || "label" in o || "name" in o)) {
       const next = neoHrefOf(o.href);
@@ -103,6 +126,9 @@ export function withNeoLinks(lesson: Lesson): Lesson {
       // supported "show it, do not link it" state.
       if (next == null) delete out.href;
       else out.href = next;
+    } else if (typeof o.code === "string" && !o.href) {
+      const next = neoCodeHref(family, o.code);
+      if (next) out.href = next;
     }
     return out;
   };

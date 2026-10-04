@@ -21,7 +21,7 @@ import {
   transactions,
 } from "@/lib/module-portal";
 import { ZONES, zoneOf, type Zone } from "@/lib/studio-graph";
-import { registryStats, registryCodes } from "@/lib/tx-registry";
+import { registryStats, registryCodes, registryTx } from "@/lib/tx-registry";
 import { registry as funcRegistry } from "@/lib/bapi-registry";
 import { idocMessageTypes } from "@/lib/idoc-intel";
 import { CDS_VIEWS } from "@/data/cds-map";
@@ -30,6 +30,7 @@ import { ENHANCEMENTS } from "@/data/enhancements";
 import { INCIDENTS } from "@/data/troubleshooting";
 import { LIBRARY, LIBRARY_STATS } from "@/data/library";
 import { allBookIds } from "@/lib/library/registry";
+import { identityByShelfId } from "@/lib/book-identity";
 import { knowledgeData } from "@/components/neo-shell/learn/knowledge-data";
 import { BOOKS } from "@/data/library/academy-index";
 import { CONCEPTS } from "@/data/concepts";
@@ -409,15 +410,18 @@ function searchIndex(objects: Record<string, ObjectMeta>): SearchRecord[] {
     out.push({ k: "table", t: o.name, s: o.he, m: true, href: "/neo/tables/", obj: o.name, st: tStatus.get(o.name) });
   }
 
-  // The blueprint's codes PLUS the project's own transaction catalog: a code
-  // that has a page must be findable in the palette. IP30H was written into
-  // data/transactions.ts on 2026-09-22 and had a page, but the palette read
-  // only the blueprint and returned nothing for it (final audit finding).
+  // Every canonical catalog code with a detail page must be findable. The
+  // authored/module subset omitted directory entries such as F.01 and UI2.
   const moduleCodes = uniq([
     ...[...transactions(PM_DATA), ...transactions(PPPI_DATA)].map((t) => t.code),
     ...TRANSACTIONS.map((t) => t.code),
+    ...registryCodes(),
   ]);
-  for (const code of moduleCodes) out.push({ k: "tcode", t: code, s: "טרנזקציית SAP בתיעוד הפרויקט", m: true, href: "/neo/transactions/", st: xStatus[code.toUpperCase()] });
+  for (const code of moduleCodes) {
+    const tx = registryTx(code);
+    const description = uniq([tx?.he || "", tx?.area || ""].filter(Boolean)).join(" · ");
+    out.push({ k: "tcode", t: code, s: description || "טרנזקציית SAP בתיעוד הפרויקט", m: true, href: tx ? `/neo/transactions/${encodeURIComponent(tx.code)}/` : null, st: xStatus[code.toUpperCase()] });
+  }
 
   const seenFn = new Set<string>();
   for (const m of [PM_DATA, PPPI_DATA] as SAPModuleData[]) {
@@ -433,8 +437,12 @@ function searchIndex(objects: Record<string, ObjectMeta>): SearchRecord[] {
 
   for (const v of CDS_VIEWS) out.push({ k: "cds", t: v.view, s: v.he, m: true, href: "/neo/cds/", st: cStatus.get(v.view) });
   for (const a of FIORI_APPS) out.push({ k: "fiori", t: a.id, s: a.he || a.name, m: true, href: "/neo/fiori-apps/", st: aStatus.get(a.id) });
-  for (const b of LIBRARY) out.push({ k: "book", t: b.titleHe || b.title, s: b.title, m: false, href: "/neo/books/" });
-  for (const i of INCIDENTS) out.push({ k: "incident", t: i.he, s: i.symptom.slice(0, 90), m: false, href: "/neo/incidents/" });
+  const bookIds = new Set(allBookIds());
+  for (const b of LIBRARY) {
+    const id = identityByShelfId(b.id)?.bookId;
+    out.push({ k: "book", t: b.titleHe || b.title, s: b.title, m: false, href: id && bookIds.has(id) ? `/neo/books/${id}/` : null });
+  }
+  for (const i of INCIDENTS) out.push({ k: "incident", t: i.he, s: i.symptom.slice(0, 90), m: false, href: `/neo/incidents/${encodeURIComponent(i.slug)}/` });
 
   return out;
 }

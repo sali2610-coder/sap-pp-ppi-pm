@@ -1,7 +1,10 @@
 // Project NEO · /neo/academy/<courseId>/ — one page per authored course.
 import "@/app/neo/ui.css";
 import "@/app/neo/learn.css";
+import "@/app/neo/learn-extensions.css";
 import { notFound } from "next/navigation";
+import { SourceIndex } from "@/components/neo-shell/learn/source-index";
+import { sourceBook, sourceIndex } from "@/components/neo-shell/learn/source-data";
 import { CourseView } from "@/components/neo-shell/learn/course-view";
 import { academyCourse, academyCourseIds } from "@/components/neo-shell/learn/academy-data";
 
@@ -30,5 +33,5 @@ export default async function NeoCourse({ params }: { params: Promise<{ courseId
   const { courseId } = await params;
   const c = academyCourse(courseId);
   if (!c) notFound();
-  return <CourseView c={c} />;
+  return <CourseView c={c} source={<SourceIndex title={sourceBook(courseId)?.titleHe ?? c.title} chapters={sourceIndex(courseId)} />} />;
 }

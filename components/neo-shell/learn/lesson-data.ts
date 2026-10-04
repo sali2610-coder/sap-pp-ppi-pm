@@ -32,6 +32,7 @@ import { ALL_LESSONS } from "@/data/academy/lessons";
 import type { Lesson } from "@/lib/academy/lesson-types";
 import { ACADEMY, getLesson } from "@/lib/academy/model";
 import { neoLessonHref } from "./lesson-links";
+import { lessonSource } from "./source-data";
 import { withNeoLinks } from "./lesson-neo-links";
 
 /** A neighbouring lesson, already resolved to a real generated NEO route. */
@@ -57,6 +58,7 @@ export interface NeoLessonData {
     globalTotal: number;
   };
   lesson: Lesson;
+  source: ReturnType<typeof lessonSource>;
   prev: NeoLessonLink | null;
   next: NeoLessonLink | null;
 }
@@ -127,6 +129,7 @@ export function neoLessonData(courseId: string, slug: string): NeoLessonData | n
     // are repointed into /neo/ here, gated. See lesson-neo-links.ts for why the
     // translation lives in NEO's data layer and not in the content files.
     lesson: withNeoLinks(lesson),
+    source: lessonSource(courseId, slug),
     prev: linkOf(place.prev, courseId, place.chapterIndex),
     next: linkOf(place.next, courseId, place.chapterIndex),
   };

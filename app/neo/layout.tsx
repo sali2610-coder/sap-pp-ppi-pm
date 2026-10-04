@@ -11,6 +11,7 @@ import "./dock.css";
 // old neutral canvas and the warmth arrives as a flash. Motion is imported
 // after it because its selectors consume the scene tokens the ground defines.
 import "./ground.css";
+import "./design.css";
 import "./motion.css";
 
 // noindex is not optional here. scripts/gen-sitemap.mjs derives the sitemap from

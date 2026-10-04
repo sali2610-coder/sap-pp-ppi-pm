@@ -1,5 +1,7 @@
 "use client";
 
+import { motionIsReduced } from "../motion/preferences";
+
 /* ============================================================================
    PROJECT NEO · THE SECTION NAV — one component, five surfaces.
    ----------------------------------------------------------------------------
@@ -98,11 +100,7 @@ export interface NeoSection {
 /** Read at the moment of acting rather than at mount: the setting can change
  *  mid-session, and this costs one media query per click. */
 function jumps(): boolean {
-  return (
-    typeof window !== "undefined" &&
-    typeof window.matchMedia === "function" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  );
+  return motionIsReduced();
 }
 
 export function SectionNav({
