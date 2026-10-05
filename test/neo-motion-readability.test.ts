@@ -26,3 +26,26 @@ test("the hero remains readable when its entrance animation is paused at the fir
   });
   assert.equal(checked, 4);
 });
+
+test("reduced motion keeps the book jacket in front of its paper block", () => {
+  const css = postcss.parse(readFileSync(new URL("../app/neo/books.css", import.meta.url), "utf8"));
+  const transforms = new Map<string, string>();
+  css.walkRules((rule) => {
+    const media = rule.parent?.type === "atrule" ? rule.parent.params : "";
+    if (media === "(forced-colors: active)") return;
+    if (rule.selector === ".nb-f-leaf") {
+      rule.walkDecls("transform", (decl) => { transforms.set("paper", decl.value); });
+    }
+    if (media === "(prefers-reduced-motion: reduce)" && rule.selector === ".nb-f-front") {
+      rule.walkDecls("transform", (decl) => { transforms.set("system", decl.value); });
+    }
+    if (rule.selector === '.nx-app[data-motion-reduced="1"] .nb-f-front') {
+      rule.walkDecls("transform", (decl) => { transforms.set("site", decl.value); });
+    }
+  });
+  assert.equal(transforms.get("paper"), "translateZ(calc(var(--d) - var(--bdt)))");
+  for (const setting of ["system", "site"]) {
+    assert.equal(transforms.get(setting), "translateZ(var(--d))",
+      `${setting}: moving the jacket to z=0 exposes blank paper instead of the title`);
+  }
+});

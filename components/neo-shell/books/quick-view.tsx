@@ -24,6 +24,7 @@ import { ArrowUpLeft, BookOpen, Bookmark, Layers, LayoutList, PlayCircle, Table2
 import { OriginLink, type OriginArg } from "@/components/neo-shell/nav-context";
 import { neoReadHref } from "./links";
 import { SPRING, reducedMotion } from "../flip";
+import { afterAnimation } from "../motion/animation-completion";
 import { BookCover } from "./book-cover";
 import { BookToc } from "./book-toc";
 import { noteHandoff } from "./reading-state";
@@ -55,6 +56,8 @@ export function BookQuickView({
   const sheetRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const leaving = useRef(false);
+  const closeCleanup = useRef<(() => void) | null>(null);
+  useEffect(() => () => closeCleanup.current?.(), []);
   /* §3 — the last beat of the opening. The book flies out of the shelf and
      lands square to the reader; THEN its front cover swings back on the
      binding. Splitting the two is the whole point: a cover that hinges while
@@ -78,13 +81,17 @@ export function BookQuickView({
     const sy = from.height / to.height;
     const dx = from.left + from.width / 2 - (to.left + to.width / 2);
     const dy = from.top + from.height / 2 - (to.top + to.height / 2);
-    el.animate(
-      [
-        { transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})` },
-        { transform: "translate3d(0, 0, 0) scale(1, 1)" },
-      ],
-      { duration: OPEN_MS, easing: SPRING, fill: "none" },
-    );
+    let animation: Animation | undefined;
+    try {
+      animation = el.animate(
+        [
+          { transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})` },
+          { transform: "translate3d(0, 0, 0) scale(1, 1)" },
+        ],
+        { duration: OPEN_MS, easing: SPRING, fill: "none" },
+      );
+    } catch { /* The panel remains usable when Web Animations is unavailable. */ }
+    return () => animation?.cancel();
   }, [triggerRef]);
 
   /* The cover opens once the flight has landed. Under reduced motion the flight
@@ -125,19 +132,22 @@ export function BookQuickView({
     /* The panel holds its opacity for the first half of the flight and only
        then lets go, so the cover is still solid while it is travelling and
        fades exactly as it lands back on the shelf slot it came from. */
-    sheet?.animate(
-      [{ opacity: 1 }, { opacity: 1, offset: 0.5 }, { opacity: 0 }],
-      { duration: CLOSE_MS, easing: "linear", fill: "forwards" },
-    );
-    const a = el.animate(
-      [
-        { transform: "translate3d(0, 0, 0) scale(1, 1)" },
-        { transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})` },
-      ],
-      { duration: CLOSE_MS, easing: SPRING, fill: "forwards" },
-    );
-    a.onfinish = onClose;
-    a.oncancel = onClose;
+    try {
+      sheet?.animate(
+        [{ opacity: 1 }, { opacity: 1, offset: 0.5 }, { opacity: 0 }],
+        { duration: CLOSE_MS, easing: "linear", fill: "forwards" },
+      );
+      const a = el.animate(
+        [
+          { transform: "translate3d(0, 0, 0) scale(1, 1)" },
+          { transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})` },
+        ],
+        { duration: CLOSE_MS, easing: SPRING, fill: "forwards" },
+      );
+      closeCleanup.current = afterAnimation(a, onClose, CLOSE_MS + 150);
+    } catch {
+      onClose();
+    }
   }, [onClose, triggerRef]);
 
   /* Escape closes, and Tab is wrapped inside the panel. A modal that lets Tab
