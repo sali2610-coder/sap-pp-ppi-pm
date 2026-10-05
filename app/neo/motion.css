@@ -342,8 +342,11 @@
    -------------------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
-  .nx-app,
-  [data-motion="1"], [data-motion="2"], [data-motion="3"], [data-motion="4"] {
+  :where(html:not([data-neo-motion="full"])) .nx-app,
+  :where(html:not([data-neo-motion="full"])) [data-motion="1"],
+  :where(html:not([data-neo-motion="full"])) [data-motion="2"],
+  :where(html:not([data-neo-motion="full"])) [data-motion="3"],
+  :where(html:not([data-neo-motion="full"])) [data-motion="4"] {
     --nm-rise: 0px;
     --nm-par: 0px;
     --nm-scale: 1;
@@ -351,21 +354,21 @@
   }
 
   /* Detach every scroll timeline. The content is simply present. */
-  .nm-par,
-  .nm-par-slow,
-  .nm-kin > span > * {
+  :where(html:not([data-neo-motion="full"])) .nm-par,
+  :where(html:not([data-neo-motion="full"])) .nm-par-slow,
+  :where(html:not([data-neo-motion="full"])) .nm-kin > span > * {
     animation: none !important;
     animation-timeline: none !important;
     transform: none !important;
   }
   /* Parallax layers include the faint table-name wall. Stopping movement must
      preserve its authored opacity, otherwise decoration becomes solid text. */
-  .nm-kin > span > * { opacity: 1 !important; }
+  :where(html:not([data-neo-motion="full"])) .nm-kin > span > * { opacity: 1 !important; }
 
   /* A fade is not travel through space, so it is allowed to survive — but it
      is shortened to the point of being a courtesy rather than an effect. */
-  .nm-rise,
-  .nm-fade {
+  :where(html:not([data-neo-motion="full"])) .nm-rise,
+  :where(html:not([data-neo-motion="full"])) .nm-fade {
     /* 2026-09-21: `animation-timeline: none` froze the 120ms fade at its first
        keyframe, so every reveal stayed at opacity 0 for reduced-motion readers
        (measured: 8 invisible chapter cards on /neo/pm/). A time-based fade also
@@ -376,10 +379,10 @@
     transform: none !important;
   }
 
-  .nm-grow { animation: none !important; transition: none !important; transform: scaleX(1) !important; }
-  .nm-pin { position: static; min-block-size: 0; }
-  .nm-lift:hover { transform: none !important; }
-  .nm-sel { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nm-grow { animation: none !important; transition: none !important; transform: scaleX(1) !important; }
+  :where(html:not([data-neo-motion="full"])) .nm-pin { position: static; min-block-size: 0; }
+  :where(html:not([data-neo-motion="full"])) .nm-lift:hover { transform: none !important; }
+  :where(html:not([data-neo-motion="full"])) .nm-sel { transition: none; }
 }
 
 /* --------------------------------------------------------------------------

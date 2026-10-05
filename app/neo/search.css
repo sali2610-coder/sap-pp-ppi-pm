@@ -633,12 +633,12 @@ html[data-theme="dark"] .nx-app .nxc--r .nxc-modchip {
    element this file leaves mid-flight is pinned to its end state. */
 
 @media (prefers-reduced-motion: reduce) {
-  .nx-app .nxc--r .nxc-wash { transition: none; }
-  .nx-app .nxc--r[data-live="1"] .nxc-wash { opacity: 1; }
-  .nx-app .nxc--r .nxc-panel::before { transition: none; }
-  .nx-app .nxc--r .nxc-row::before { transform: none; }
-  .nx-app .nxc--r .nxc-modchip:hover { transform: none; }
-  .nx-app[data-live="1"] .nx-group { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxc--r .nxc-wash { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxc--r[data-live="1"] .nxc-wash { opacity: 1; }
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxc--r .nxc-panel::before { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxc--r .nxc-row::before { transform: none; }
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxc--r .nxc-modchip:hover { transform: none; }
+  :where(html:not([data-neo-motion="full"])) .nx-app[data-live="1"] .nx-group { transition: none; }
 }
 
 /* ============================================================================
@@ -797,6 +797,6 @@ html[data-device="tablet"] .nx-app .nxc--r::after { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .nx-app .nxc--r .nxc-row,
-  .nx-app .nxc--r .nxc-sec { animation: none; }
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxc--r .nxc-row,
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxc--r .nxc-sec { animation: none; }
 }

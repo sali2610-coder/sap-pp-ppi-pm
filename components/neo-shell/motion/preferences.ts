@@ -2,7 +2,7 @@
 
 import { useSyncExternalStore } from "react";
 
-export type MotionPreference = "system" | "reduce";
+export type MotionPreference = "system" | "reduce" | "full";
 const KEY = "neo:motion:v1";
 const EVENT = "neo:motion-change";
 const QUERY = "(prefers-reduced-motion: reduce)";
@@ -12,7 +12,10 @@ let media: MediaQueryList | null = null;
 const systemMedia = () => media ??= window.matchMedia(QUERY);
 
 function read(): MotionPreference {
-  try { return localStorage.getItem(KEY) === "reduce" ? "reduce" : "system"; }
+  try {
+    const saved = localStorage.getItem(KEY);
+    return saved === "reduce" || saved === "full" ? saved : "system";
+  }
   catch { return "system"; }
 }
 
@@ -46,7 +49,8 @@ export function setMotionPreference(next: MotionPreference): void {
 
 export function motionIsReduced(): boolean {
   if (typeof window === "undefined") return false;
-  if (snapshot() === "reduce") return true;
+  const preference = snapshot();
+  if (preference !== "system") return preference === "reduce";
   return systemMedia().matches;
 }
 

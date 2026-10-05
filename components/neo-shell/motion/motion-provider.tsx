@@ -42,7 +42,7 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { motionLevel } from "./level";
-import { useMotionReduced } from "./preferences";
+import { useMotionPreference, useMotionReduced } from "./preferences";
 
 /** Elements the fallback path is responsible for revealing. */
 const SEL = ".nm-rise, .nm-fade, .nm-grow, .nm-kin";
@@ -55,10 +55,14 @@ const supportsTimeline = () =>
 export function MotionProvider() {
   const path = usePathname() || "/neo";
   const reduced = useMotionReduced();
+  const preference = useMotionPreference();
 
   useEffect(() => {
     const app = document.querySelector<HTMLElement>(".nx-app");
     if (!app) return;
+    // The root also covers the ERD's full-screen portal outside the shell.
+    // CSS keeps OS reduction unless the reader explicitly chooses full motion.
+    document.documentElement.dataset.neoMotion = preference;
     app.dataset.motionReduced = reduced ? "1" : "0";
     if (reduced) {
       // CSS is settled by motion.css. Finish only imperative animations, so a
@@ -69,8 +73,11 @@ export function MotionProvider() {
         try { animation.finish(); } catch { animation.cancel(); }
       }
     }
-    return () => { delete app.dataset.motionReduced; };
-  }, [path, reduced]);
+    return () => {
+      delete app.dataset.motionReduced;
+      delete document.documentElement.dataset.neoMotion;
+    };
+  }, [path, reduced, preference]);
 
   useEffect(() => {
     const app = document.querySelector<HTMLElement>(".nx-app");

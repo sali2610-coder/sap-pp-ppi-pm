@@ -252,9 +252,9 @@ a.nu-card:active, button.nu-card:active { transform: translateY(0); box-shadow: 
 @keyframes nu-spin { to { transform: rotate(360deg); } }
 
 @media (prefers-reduced-motion: reduce) {
-  .nu-btn, .nu-btn2, .nu-ghost, .nu-tab, .nu-link, .nu-filter, .nu-card { transition: none; }
-  .nu-btn:hover, .nu-btn2:hover, a.nu-card:hover, button.nu-card:hover { transform: none; }
-  .nu-btn[data-busy="1"] .nu-arw { animation: none; }
+  :where(html:not([data-neo-motion="full"])) .nu-btn, :where(html:not([data-neo-motion="full"])) .nu-btn2, :where(html:not([data-neo-motion="full"])) .nu-ghost, :where(html:not([data-neo-motion="full"])) .nu-tab, :where(html:not([data-neo-motion="full"])) .nu-link, :where(html:not([data-neo-motion="full"])) .nu-filter, :where(html:not([data-neo-motion="full"])) .nu-card { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nu-btn:hover, :where(html:not([data-neo-motion="full"])) .nu-btn2:hover, :where(html:not([data-neo-motion="full"])) a.nu-card:hover, :where(html:not([data-neo-motion="full"])) button.nu-card:hover { transform: none; }
+  :where(html:not([data-neo-motion="full"])) .nu-btn[data-busy="1"] .nu-arw { animation: none; }
 }
 
 /* THE ERD EYEBROW.

@@ -311,9 +311,9 @@ html .nx-app .nx-canvas:has(> .nw) .nxs { --nxs-pad: 0px; }
    keeps working — it is a position readout, the same class of thing as a
    scrollbar, and removing it would remove information rather than movement. */
 @media (prefers-reduced-motion: reduce) {
-  .nx-app .nxs::after,
-  .nx-app .nxs-next,
-  .nx-app .nxs-track > i { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxs::after,
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxs-next,
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxs-track > i { transition: none; }
 }
 
 @media (min-width: 1440px) {

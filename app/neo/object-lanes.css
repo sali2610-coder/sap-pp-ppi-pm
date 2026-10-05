@@ -27,9 +27,12 @@
 .nol-foot { flex-wrap: wrap; gap: .75rem; }
 .nol[data-motion-off="1"] .nol-plane { transform: none; transition: none; }
 .nol[data-motion-off="1"] * { animation: none !important; transition: none !important; }
-@media (prefers-reduced-motion: reduce), (pointer: coarse) {
+@media (prefers-reduced-motion: reduce) {
+  :where(html:not([data-neo-motion="full"])) .nol-plane { transform: none; transition: none; }
+}
+@media (pointer: coarse) {
   .nol-plane { transform: none; transition: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .nol * { animation: none !important; transition: none !important; }
+  :where(html:not([data-neo-motion="full"])) .nol * { animation: none !important; transition: none !important; }
 }

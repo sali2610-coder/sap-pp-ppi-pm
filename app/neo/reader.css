@@ -1483,21 +1483,21 @@ html[data-theme="dark"] .nr-tip { box-shadow: 0 10px 30px -12px rgba(0, 0, 0, .7
 @media (prefers-reduced-motion: reduce) {
   /* The lens goes away entirely, not just its easing — a band that stops
      tracking but keeps veiling would be worse than no lens at all. */
-  .nr-lens { display: none !important; }
+  :where(html:not([data-neo-motion="full"])) .nr-lens { display: none !important; }
   /* And so does the page cue. */
-  .nr-sheet { animation: none; }
-  .nr-panel, .nr-scrim { animation: none; }
-  .nr-strip-bar i,
-  .nr-meter-bar i,
-  .nr-track-fill,
-  .nr-tick::before,
-  .nr-rtoc-bar i,
-  .nr-rtoc-fold svg,
-  .nr-rtoc-t,
-  .nr-rtoc-sec,
-  .nr-infig-b { transition: none; }
-  .nr-infig-b:hover { transform: none; }
-  .nr-load svg { animation: none; }
+  :where(html:not([data-neo-motion="full"])) .nr-sheet { animation: none; }
+  :where(html:not([data-neo-motion="full"])) .nr-panel, :where(html:not([data-neo-motion="full"])) .nr-scrim { animation: none; }
+  :where(html:not([data-neo-motion="full"])) .nr-strip-bar i,
+  :where(html:not([data-neo-motion="full"])) .nr-meter-bar i,
+  :where(html:not([data-neo-motion="full"])) .nr-track-fill,
+  :where(html:not([data-neo-motion="full"])) .nr-tick::before,
+  :where(html:not([data-neo-motion="full"])) .nr-rtoc-bar i,
+  :where(html:not([data-neo-motion="full"])) .nr-rtoc-fold svg,
+  :where(html:not([data-neo-motion="full"])) .nr-rtoc-t,
+  :where(html:not([data-neo-motion="full"])) .nr-rtoc-sec,
+  :where(html:not([data-neo-motion="full"])) .nr-infig-b { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nr-infig-b:hover { transform: none; }
+  :where(html:not([data-neo-motion="full"])) .nr-load svg { animation: none; }
 }
 
 /* ---- the chapter's opening passage ---------------------------------------

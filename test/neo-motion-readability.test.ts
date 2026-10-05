@@ -36,7 +36,7 @@ test("reduced motion keeps the book jacket in front of its paper block", () => {
     if (rule.selector === ".nb-f-leaf") {
       rule.walkDecls("transform", (decl) => { transforms.set("paper", decl.value); });
     }
-    if (media === "(prefers-reduced-motion: reduce)" && rule.selector === ".nb-f-front") {
+    if (media === "(prefers-reduced-motion: reduce)" && rule.selector.endsWith(" .nb-f-front")) {
       rule.walkDecls("transform", (decl) => { transforms.set("system", decl.value); });
     }
     if (rule.selector === '.nx-app[data-motion-reduced="1"] .nb-f-front') {

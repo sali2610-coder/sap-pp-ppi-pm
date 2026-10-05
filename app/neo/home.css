@@ -66,7 +66,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   scroll-behavior: smooth;
 }
 @media (prefers-reduced-motion: reduce) {
-  .nx-canvas:has(> .nh) { scroll-behavior: auto; }
+  :where(html:not([data-neo-motion="full"])) .nx-canvas:has(> .nh) { scroll-behavior: auto; }
 }
 
 /* --------------------------------------------------------------------------
@@ -212,7 +212,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nh-index a[aria-current="true"] .nh-index-f { opacity: .78; color: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
-  .nh-index a, .nh-index > div { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nh-index a, :where(html:not([data-neo-motion="full"])) .nh-index > div { transition: none; }
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -793,7 +793,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   .nh-lat-b[data-b="2"] .nh-lat-hi { animation-timeline: --nh-p2; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .nh-lat-hi { animation: none !important; opacity: 0 !important; }
+  :where(html:not([data-neo-motion="full"])) .nh-lat-hi { animation: none !important; opacity: 0 !important; }
 }
 
 .nh-panels { display: grid; }
@@ -1170,12 +1170,12 @@ html .nx-app .nx-canvas:has(> .nh) {
    -------------------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
-  .nh-gate h1.nm-kin > span > span,
-  .nh-gate .nh-eye,
-  .nh-gate .nh-lede,
-  .nh-gate .nh-cta,
-  .nh-gate .nh-legend,
-  .nh-gate .nh-stats > .nm-rise {
+  :where(html:not([data-neo-motion="full"])) .nh-gate h1.nm-kin > span > span,
+  :where(html:not([data-neo-motion="full"])) .nh-gate .nh-eye,
+  :where(html:not([data-neo-motion="full"])) .nh-gate .nh-lede,
+  :where(html:not([data-neo-motion="full"])) .nh-gate .nh-cta,
+  :where(html:not([data-neo-motion="full"])) .nh-gate .nh-legend,
+  :where(html:not([data-neo-motion="full"])) .nh-gate .nh-stats > .nm-rise {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
@@ -1261,7 +1261,7 @@ html .nx-app .nx-canvas:has(> .nh) {
 @keyframes nhn-dots  { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: none } }
 
 @media (prefers-reduced-motion: reduce) {
-  .nhn-edges, .nhn-nodes { animation: none !important; opacity: 1 !important; transform: none !important; }
+  :where(html:not([data-neo-motion="full"])) .nhn-edges, :where(html:not([data-neo-motion="full"])) .nhn-nodes { animation: none !important; opacity: 1 !important; transform: none !important; }
 }
 
 /* THE FIELD'S LEGEND. Three counts, stated as facts under the drawing rather
@@ -1385,13 +1385,13 @@ html .nx-app .nx-canvas:has(> .nh) {
 @media (hover: hover) and (pointer: fine) {
   .nh-spines li:hover { transform: translateY(-8px) rotateX(4deg); }
 }
-@media (prefers-reduced-motion: reduce) { .nh-spines li { transition: none; } }
+@media (prefers-reduced-motion: reduce) { :where(html:not([data-neo-motion="full"])) .nh-spines li { transition: none; } }
 
 /* Motion off: the rail states everything at once rather than animating into it. */
 @media (prefers-reduced-motion: reduce) {
-  .nh-index-l { max-inline-size: 12rem; opacity: 1; transition: none; }
-  .nh-index a::after { transition: none; }
-  .nh-index a { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nh-index-l { max-inline-size: 12rem; opacity: 1; transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nh-index a::after { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nh-index a { transition: none; }
 }
 
 /* ==========================================================================
@@ -1832,8 +1832,8 @@ html[data-theme="dark"] #nh-5[data-scene="pppi-full"] {
   .nh .nh-gate-copy .nh-stat { padding: .85rem .55rem; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .nh .nh-start-card { transition: none; }
-  .nh .nh-start-card:hover { transform: none; }
+  :where(html:not([data-neo-motion="full"])) .nh .nh-start-card { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nh .nh-start-card:hover { transform: none; }
 }
 @media (max-width: 1080px) {
   .nh-paths { grid-template-columns: 1fr; }

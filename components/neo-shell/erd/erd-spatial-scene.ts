@@ -134,7 +134,8 @@ export function createSpatialScene(host:HTMLElement,data:ErdCatalog,initial:Diag
     cancelAnimationFrame(animation);
     const previous=new Map(drawn),previousSizes=new Map(drawnSizes),previousCards=new Map(cards);
     plane.replaceChildren();cards.clear();edgeElements.clear();picture=diagram(data,view);overview=!view.module&&!view.selected;
-    const animate=view.motion&&!window.matchMedia("(prefers-reduced-motion: reduce)").matches&&previousCards.size>0&&!overview;
+    // view.motion already combines the ERD toggle with the shared preference.
+    const animate=view.motion&&previousCards.size>0&&!overview;
     drawn=new Map([...picture.points].map(([n,p])=>[n,animate?previous.get(n)||p:p]));
     drawnSizes=new Map([...picture.sizes].map(([n,h])=>[n,animate?previousSizes.get(n)||h:h]));
     if(overview){const cols=host.clientWidth<600?1:3,list=el("div","e3-module-gallery");list.style.gridTemplateColumns=`repeat(${cols},340px)`;

@@ -75,4 +75,4 @@ html .nx-app .nxc.nxc--r.nxc--spatial dialog.nxc-panel::before {
   .nx-app .nxc.nxc--spatial .nxc-scope { max-block-size: 80px; overflow-y: auto; }
 }
 .nx-app .nxc--spatial[data-motion-off="1"] *, .nx-app .nxc--spatial[data-motion-off="1"] *::before { animation: none !important; transition: none !important; }
-@media (prefers-reduced-motion: reduce) { .nx-app .nxc--spatial * { animation: none !important; transition: none !important; } }
+@media (prefers-reduced-motion: reduce) { :where(html:not([data-neo-motion="full"])) .nx-app .nxc--spatial * { animation: none !important; transition: none !important; } }

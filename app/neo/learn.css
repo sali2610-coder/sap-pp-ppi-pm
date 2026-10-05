@@ -789,7 +789,7 @@ html[data-theme="dark"] .nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--in
 .nx-app .nxl-more-b { display: grid; gap: var(--sp-4); padding: 0 var(--sp-4) var(--sp-4); min-inline-size: 0; }
 .nx-app .nxl-more-b .nxb-claim h3 { margin: 0; font-size: var(--t-h3, 1.05rem); color: var(--ink-1); }
 .nx-app .nxl-more-b .nxb-two h4 { margin: 0 0 var(--sp-2); font-size: var(--t-sm); color: var(--ink-1); }
-@media (prefers-reduced-motion: reduce) { .nx-app .nxl-more > summary svg { transition: none; } }
+@media (prefers-reduced-motion: reduce) { :where(html:not([data-neo-motion="full"])) .nx-app .nxl-more > summary svg { transition: none; } }
 
 .nx-app .nxb-banks { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); }
 .nx-app .nxb-bank {
@@ -1174,9 +1174,9 @@ html[data-theme="dark"] .nx-app .nxb-yes { background: color-mix(in srgb, var(--
    ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
-  .nx-app .nxl-go, .nx-app .nxc-l-go { transition: none; opacity: 1; transform: none; }
-  .nx-app .nxl-field { transition: none; }
-  .nx-app .nxl-bar-f { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxl-go, :where(html:not([data-neo-motion="full"])) .nx-app .nxc-l-go { transition: none; opacity: 1; transform: none; }
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxl-field { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxl-bar-f { transition: none; }
 }
 
 /* ==========================================================================

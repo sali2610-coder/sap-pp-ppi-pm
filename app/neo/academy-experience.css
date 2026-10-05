@@ -54,6 +54,7 @@
 .nx-app #co-ch, .nx-app #co-materials, .nx-app #academy-courses { scroll-margin-block-start: 90px; }
 .nx-app .nxa-entry-nav a:focus-visible, .nx-app .nxa-course-nav a:focus-visible, .nx-app .nxa-lesson-nav a:focus-visible, .nx-app .nxa-chapter summary:focus-visible, .nx-app .nxa-folder summary:focus-visible { outline: 2px solid var(--brand); outline-offset: -3px; }
 @media (hover: hover) and (prefers-reduced-motion: no-preference) { .nx-app .nxa-entry-nav > a:hover { transform: perspective(1000px) translateY(-3px) rotateX(1deg); } }
+@media (hover: hover) and (min-width: 0px) { :where(html[data-neo-motion="full"]) .nx-app .nxa-entry-nav > a:hover { transform: perspective(1000px) translateY(-3px) rotateX(1deg); } }
 @media (max-width: 650px) {
   .nx-app .nxa-entry-nav { grid-template-columns: 1fr; }
   .nx-app .nxa-entry-nav > a { padding: 18px; }
@@ -63,4 +64,4 @@
   .nx-app .nxa-lesson-nav a, .nx-app .nxa-lesson-nav > span { min-inline-size: 0; padding-inline: 8px; font-size: 12px; }
 }
 .nx-app[data-motion-reduced="1"] .nxa-entry-nav > a { transition: none; transform: none; }
-@media (prefers-reduced-motion: reduce) { .nx-app .nxa-entry-nav > a { transition: none; transform: none; } }
+@media (prefers-reduced-motion: reduce) { :where(html:not([data-neo-motion="full"])) .nx-app .nxa-entry-nav > a { transition: none; transform: none; } }
