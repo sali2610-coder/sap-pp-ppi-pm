@@ -27,6 +27,7 @@ import { motionIsReduced } from "../motion/preferences";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { AiMode } from "@/lib/ai/modes";
 import type { Answer, Scope } from "@/lib/ai/types";
+import { followUpTask } from "@/lib/ai/prompts";
 import { type LiveState, ask } from "./engine";
 import { clearChat, loadChat, saveChat, type Turn } from "./store";
 
@@ -213,7 +214,9 @@ export function useConversation(mode: AiMode): Conversation {
   const runAction = useCallback((prompt: string, task?: string) => {
     const topic = turns.length ? turns[turns.length - 1].q : "";
     const q = topic && !scope.bookId ? `${prompt}\n\nהנושא: ${topic}` : prompt;
-    send(q, task);
+    // A suggested follow-up that repeats an answer action sends that action's
+    // task (lib/ai/prompts.FOLLOW_UPS); a button's own task always wins.
+    send(q, task ?? followUpTask(prompt));
   }, [scope.bookId, send, turns]);
 
   const openSource = useCallback((a: Answer) => {

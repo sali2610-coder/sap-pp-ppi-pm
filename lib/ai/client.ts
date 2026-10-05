@@ -11,7 +11,8 @@
 import type { Answer, Citation, Scope } from "./types";
 import { bookById, cachedTree, loadTree } from "./tree";
 import { citationHref } from "./links";
-import { detectDiagramIntent, answerHasDiagram } from "./diagram-intent";
+import { profileFor, answerHasDiagram } from "./diagram-intent";
+import { FOLLOW_UPS, REFUSAL_FOLLOW_UPS } from "./prompts";
 import { StreamError, streamAnswer } from "./stream";
 
 const ORIGIN = (process.env.NEXT_PUBLIC_BOOKS_API_URL || "https://sap-books-api.vercel.app/api/ask-v2")
@@ -130,22 +131,12 @@ function confidenceOf(policy: Answer["policy"], citations: number): number {
 
 /** Suggestions derived from the current scope. Clearly ours, never quoted as the model's. */
 function followUps(scope: Scope, policy: Answer["policy"]): string[] {
-  const general = [
-    "הסבר יותר לעומק",
-    "תן דוגמה מעשית",
-    "השווה ל-S/4HANA",
-    "הצג טרנזקציות קשורות",
-    "הצג טבלאות קשורות",
-    "מהן הטעויות הנפוצות?",
-  ];
+  // Same strings, same order as before; they now live in ./prompts so that a
+  // chip which repeats an answer action can carry that action's task.
   if (policy === "REFUSE") {
-    return [
-      scope.section ? "הרחב את החיפוש לפרק כולו" : "הרחב את החיפוש לספר כולו",
-      "נסח את השאלה במילים אחרות",
-      "חפש את הנושא בספר אחר",
-    ];
+    return [scope.section ? REFUSAL_FOLLOW_UPS[0] : REFUSAL_FOLLOW_UPS[1], REFUSAL_FOLLOW_UPS[2], REFUSAL_FOLLOW_UPS[3]];
   }
-  return general.slice(0, scope.bookId ? 5 : 4);
+  return FOLLOW_UPS.map((f) => f.label).slice(0, scope.bookId ? 5 : 4);
 }
 
 /** Strips the trailing SOURCES line; it is metadata, not prose. */
@@ -174,8 +165,7 @@ export async function askApi(question: string, scope: Scope, task?: string): Pro
   // picture. The routing config already had visual profiles; nothing selected
   // them, so every question was answered as prose. An explicit task from a
   // quick-action button always wins over what we infer.
-  const intent = task ? null : detectDiagramIntent(question);
-  const profile = task ?? intent?.task ?? "HEBREW_EXPLAIN";
+  const { task: profile, intent } = profileFor(question, task);
 
   // Citations resolve their titles from this; make sure it is loaded.
   if (scope.bookId) { try { await loadTree(scope.bookId); } catch { /* titles degrade to null */ } }
@@ -288,8 +278,8 @@ export async function askApiStream(
     return { ...base, text: "", policy: "REFUSE", confidence: 0, citations: [], followUps: [], error: MSG.offline };
   }
 
-  const intent = task ? null : detectDiagramIntent(question);
-  const profile = task ?? intent?.task ?? "HEBREW_EXPLAIN";
+  // An explicit task from a button is authoritative; see profileFor.
+  const { task: profile, intent } = profileFor(question, task);
 
   try {
     const out = await streamAnswer(ENDPOINTS[surface].stream, {

@@ -36,11 +36,17 @@ export interface DiagramIntent {
   unsupported: boolean;
 }
 
-/** Words that mean "draw me something", in both languages the product uses. */
+/**
+ * Words that mean "draw me something", in both languages the product uses.
+ *
+ * Whole words only. As bare substrings, "withdrawal" contained "draw",
+ * "מפתח" (a table KEY) contained "מפת", and "המחשב" (the computer) contained
+ * "המחש", so ordinary SAP questions were read as requests for a picture.
+ */
 const EXPLICIT = [
   "תרשים", "דיאגרמה", "תרשים זרימה", "שרטט", "צייר", "ויזואלי", "ויזואלית",
-  "המחש", "מפת", "מפה של", "גרף",
-  "diagram", "flowchart", "flow chart", "chart", "graph", "visual",
+  "המחשה", "להמחיש", "תמחיש", "מפת תהליך", "מפת זרימה", "מפה של", "גרף",
+  "diagram", "flowchart", "flow chart", "chart", "graph", "visual", "visualization",
   "visualise", "visualize", "draw", "sketch", "map of",
 ];
 
@@ -124,11 +130,20 @@ const NOT_A_GRAPH: { kind: string; hit: string[]; supported?: boolean }[] = [
  * without needing a stemmer or a second copy of every phrase.
  */
 const rx = new Map<string, RegExp>();
+// What may glue onto a Hebrew word and still be the same word: the prefixes
+// ו ב ל מ ש ה כ and the future-tense ת י א נ, and short endings. Anything more
+// is a different word ("מפתח" is not "מפת"). English matches whole words, with
+// an optional plural "s".
+const HE_PRE = "[ובלמשהכתיאנ]{0,2}";
+const HE_SUF = "[ויתה]{0,2}";
 function phraseRe(w: string): RegExp {
   let r = rx.get(w);
   if (!r) {
     const esc = w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    r = new RegExp(esc.split(/\s+/).map((p, i) => (i ? "ה?" + p : p)).join("\\s+"), "i");
+    const body = esc.split(/\s+/).map((p, i) => (i ? "ה?" + p : p)).join("\\s+");
+    r = /[\u0590-\u05FF]/.test(w)
+      ? new RegExp(`(?<![\\p{L}\\p{N}])${HE_PRE}${body}${HE_SUF}(?![\\p{L}\\p{N}])`, "iu")
+      : new RegExp(`(?<![\\p{L}\\p{N}])${body}s?(?![\\p{L}\\p{N}])`, "iu");
     rx.set(w, r);
   }
   return r;
@@ -143,8 +158,12 @@ const hasPair = (q: string, a: string[], b: string[]) => hasAny(q, a) && hasAny(
  * @returns the intent, or null when the question does not want a picture.
  *
  * A false positive is expensive here — routing a plain question to a visual
- * profile would change the answer for no reason — so the bar is a real signal:
- * either an explicit "draw me" word, or clear process/relationship language.
+ * profile would change the answer for no reason. A process flow therefore
+ * needs an explicit request: process language alone ("process", "steps",
+ * "תהליך", "מחזור חיים") used to be enough, and "Process Order" is an SAP
+ * object name, so "What is a Process Order?" went to PROCESS_FLOW. The other
+ * shapes keep their own, stronger signals (paired table + relation words, a
+ * decision phrase, "architecture").
  */
 export function detectDiagramIntent(question: string): DiagramIntent | null {
   const q = question.toLowerCase().trim();
@@ -163,6 +182,9 @@ export function detectDiagramIntent(question: string): DiagramIntent | null {
   }
 
   for (const g of GRAPH_KINDS) {
+    // A sequence of steps is drawn only on request. Process language is how
+    // ordinary SAP questions are asked, and "Process Order" is an object name.
+    if (g.task === "PROCESS_FLOW" && !explicit) continue;
     const hit = hasAny(q, g.hit) || (g.pair ? hasPair(q, g.pair[0], g.pair[1]) : false);
     if (hit) return { explicit, task: g.task, kind: g.kind, unsupported: false };
   }
@@ -171,6 +193,17 @@ export function detectDiagramIntent(question: string): DiagramIntent | null {
   if (explicit) return { explicit, task: "PROCESS_FLOW", kind: "process flow", unsupported: false };
 
   return null;
+}
+
+/**
+ * The task a request carries. A task sent by a button is authoritative and
+ * the heuristic never runs for it; the heuristic speaks only for a typed
+ * question that came with no task.
+ */
+export function profileFor(question: string, task?: string): { task: string; intent: DiagramIntent | null } {
+  if (task) return { task, intent: null };
+  const intent = detectDiagramIntent(question);
+  return { task: intent?.task ?? "HEBREW_EXPLAIN", intent };
 }
 
 /** True when the model's answer actually contains something we can draw. */

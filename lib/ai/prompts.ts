@@ -40,6 +40,38 @@ export const ANSWER_ACTIONS: AnswerAction[] = [
 ];
 
 
+/**
+ * The suggested follow-ups under an answer ("שאלות המשך מוצעות").
+ *
+ * Three of them ask for exactly what an answer action asks for, so they carry
+ * that action's id and route the same way as the button. The rest are plain
+ * questions and take the free-question path, where the backend's classifier
+ * decides. The visible label is never the routing key: it resolves to an
+ * action id here, and the request carries that action's task.
+ */
+export const FOLLOW_UPS: { label: string; action?: string }[] = [
+  { label: "הסבר יותר לעומק", action: "expand" },
+  { label: "תן דוגמה מעשית", action: "example" },
+  { label: "השווה ל-S/4HANA", action: "ecc" },
+  { label: "הצג טרנזקציות קשורות" },
+  { label: "הצג טבלאות קשורות" },
+  { label: "מהן הטעויות הנפוצות?" },
+];
+
+/** Offered under a refusal. Plain questions; none of them changes the scope. */
+export const REFUSAL_FOLLOW_UPS = [
+  "הרחב את החיפוש לפרק כולו",
+  "הרחב את החיפוש לספר כולו",
+  "נסח את השאלה במילים אחרות",
+  "חפש את הנושא בספר אחר",
+];
+
+/** The task a suggested follow-up carries, or undefined for a plain question. */
+export function followUpTask(label: string): string | undefined {
+  const action = FOLLOW_UPS.find((f) => f.label === label)?.action;
+  return action ? ANSWER_ACTIONS.find((a) => a.id === action)?.task : undefined;
+}
+
 export const QUICK_ACTIONS: QuickAction[] = [
   { id: "summarize", label: "סיכום הפרק", prompt: "סכם את הפרק הנוכחי בנקודות מרכזיות.", icon: "list", needsScope: true },
   { id: "simple", label: "הסבר בפשטות", prompt: "הסבר את הנושא במילים פשוטות, כאילו אני חדש ב-SAP.", icon: "sparkles" },

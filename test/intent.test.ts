@@ -8,9 +8,13 @@ import assert from "node:assert/strict";
 import { detectDiagramIntent, answerHasDiagram } from "../lib/ai/diagram-intent.ts";
 
 const cases: [string, string | null][] = [
-  ["מה מחזור החיים של הזמנת תחזוקה?", "process flow"],
+  // A process flow needs an explicit request (2026-10-05): lifecycle and
+  // process language alone is an ordinary question, see lib/ai/diagram-intent.
+  ["מה מחזור החיים של הזמנת תחזוקה?", null],
+  ["צייר את מחזור החיים של הזמנת תחזוקה", "process flow"],
   ["תרשים זרימה של תהליך הזמנת רכש", "process flow"],
-  ["show me the lifecycle of a production order", "process flow"],
+  ["show me the lifecycle of a production order", null],
+  ["draw the lifecycle of a production order", "process flow"],
   ["מתי להשתמש ב-PM ומתי ב-CS?", "decision tree"],
   ["איך הטבלאות EQUI ו-EQKT קשורות?", "entity relationship"],
   ["draw the data model for maintenance orders", "entity relationship"],
@@ -46,8 +50,9 @@ for (const q of negatives) {
 }
 
 test("Hebrew definite article does not defeat matching", () => {
-  // "מחזור חיים" is written "מחזור החיים" in practice.
-  assert.equal(detectDiagramIntent("מה מחזור החיים של ההזמנה?")?.kind, "process flow");
+  // "מחזור חיים" is written "מחזור החיים" in practice. Asked for explicitly,
+  // since a process flow is drawn only on request.
+  assert.equal(detectDiagramIntent("שרטט את מחזור החיים של ההזמנה")?.kind, "process flow");
 });
 
 test("gantt is matched before timeline", () => {
