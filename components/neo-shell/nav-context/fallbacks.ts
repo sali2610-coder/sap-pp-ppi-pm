@@ -45,7 +45,7 @@ const PARENTS: [prefix: string, parent: ParentRef][] = [
   ["/neo/domain/", { href: "/neo/domain-model/", label: "תחומים עסקיים" }],
   ["/neo/domain-model/", { href: "/neo/domain-model/", label: "תחומים עסקיים" }],
   ["/neo/s4hana/", { href: "/neo/s4hana/", label: "מרכז S/4HANA" }],
-  ["/neo/s4-readiness/", { href: "/neo/s4-readiness/", label: "מוכנות ל-S/4HANA" }],
+  ["/neo/s4-readiness/", { href: "/neo/s4-readiness/", label: "כיסוי תיעוד למעבר" }],
   ["/neo/migration-cockpit/", { href: "/neo/migration-cockpit/", label: "קוקפיט המעבר" }],
   // --- library and learning -----------------------------------------------
   // `/neo/library/` is deliberately absent: the Stage-1 placeholder that used to

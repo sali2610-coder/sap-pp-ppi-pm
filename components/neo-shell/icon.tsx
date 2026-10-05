@@ -21,9 +21,9 @@
 import {
   AlertTriangle, Award, BookMarked, BookOpen, BrainCircuit, Cable, ChevronDown,
   ChevronLeft, CircleHelp, ClipboardCheck, Command, Compass, CornerDownLeft, Database,
-  FlaskConical, FolderOpen, GitBranch, GraduationCap, History, Home, Layers, LayoutGrid,
-  Library, MessageSquare, PanelLeft, Pin, Plug, Puzzle, ScrollText, Search,
-  Settings, Sigma, Sparkles, SquareFunction, Table, Terminal, Waypoints,
+  FlaskConical, FolderOpen, Gauge, GitBranch, GraduationCap, History, Home, Layers, LayoutGrid,
+  Library, MessageSquare, PanelLeft, Pin, Plug, Puzzle, Route, ScrollText, Search,
+  Settings, Sigma, Sparkles, SquareFunction, Table, Terminal, Truck, Waypoints,
   Workflow, Wrench, X,
   type LucideIcon,
 } from "lucide-react";
@@ -31,12 +31,15 @@ import {
 const MAP: Record<string, LucideIcon> = {
   AlertTriangle, Award, BookMarked, BookOpen, BrainCircuit, Cable, ChevronDown,
   ChevronLeft, CircleHelp, ClipboardCheck, Command, Compass, CornerDownLeft, Database,
-  FlaskConical, FolderOpen, GitBranch, GraduationCap, History, Home, Layers, LayoutGrid,
-  Library, MessageSquare, PanelLeft, Pin, Plug, Puzzle, ScrollText, Search,
-  Settings, Sigma, Sparkles, SquareFunction, Table, Terminal, Waypoints,
+  FlaskConical, FolderOpen, Gauge, GitBranch, GraduationCap, History, Home, Layers, LayoutGrid,
+  Library, MessageSquare, PanelLeft, Pin, Plug, Puzzle, Route, ScrollText, Search,
+  Settings, Sigma, Sparkles, SquareFunction, Table, Terminal, Truck, Waypoints,
   Workflow, Wrench, X,
 };
 
+/** Every rail icon name must be in MAP: an unknown name falls back to Database,
+ *  which once drew the same cylinder on every S/4HANA tab (Gauge, Truck and
+ *  the domain map were missing). test/rail-icons.test.ts holds nav-data to it. */
 export function Ico({ name, size = 16 }: { name: string; size?: number }) {
   const C = MAP[name] || Database;
   return <C size={size} strokeWidth={1.75} aria-hidden="true" />;
