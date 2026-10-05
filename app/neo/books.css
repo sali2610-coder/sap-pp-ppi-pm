@@ -2060,35 +2060,34 @@ html[data-theme="dark"] .nb-cov-cast {
 }
 
 /* ==========================================================================
-   REDUCED MOTION — the turn and the open are DISABLED, not slowed.
+   REDUCED MOTION — stop movement while preserving the cover's depth.
    --------------------------------------------------------------------------
    book-shelf.tsx never attaches the pointer listener, so --rx/--ry are never
-   written and the FLIP is skipped outright. What CSS still has to do is take
-   the object back to a flat plate: the resting turn goes to zero, the cover
-   stops hinging, and the whole 3D stage stops transforming. The book is then a
-   drawn cover with a title on it — which is the honest fallback, because every
-   piece of information on it was already text.
+   written and the FLIP is skipped outright. Keep the static binding geometry:
+   removing the front's translateZ leaves the paper at d - bdt IN FRONT of the
+   jacket, which makes every book look blank on reduced-motion workstations.
+   The same rules serve the OS preference and NEO's own display setting.
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
   .nb-cov {
-    --turn: 0deg !important;
-    --pitch: 0deg !important;
+    --turn: 21deg !important;
+    --pitch: 2deg !important;
     --out: 0px !important;
     --lift: 0px !important;
     --open: 0deg !important;
     --rx: 0deg !important;
     --ry: 0deg !important;
   }
-  .nb-cov-3d { transform: none !important; transition: none; }
-  .nb-f-front { transform: none !important; transition: none; }
+  .nb-cov-3d { transition: none; }
+  .nb-f-front { transform: translateZ(var(--d)) !important; transition: none; }
   /* The arrival is a REMOVAL, not a slowdown: the book is simply already there,
-     square and open, which is the state it was travelling to anyway. */
+     with its jacket visible and closed. */
   .nb-cov[data-size="entry"] .nb-cov-3d,
   .nb-cov[data-size="entry"] .nb-f-front { animation: none !important; }
   .nb-cov-cast, .nb-cov-board, .nb-cov-gloss, .nb-cov-t { transition: none; }
   .nb-slab:hover .nb-cov-cast, .nb-slab:focus-visible .nb-cov-cast { transform: none; }
   /* Neighbours stop making room, because nothing is moving toward them. */
-  .nb-card, .nb-card:has(+ .nb-card:hover), .nb-card:hover + .nb-card { transform: none !important; transition: none; }
+  .nb-card, .nb-card:has(+ .nb-card:hover), .nb-card:hover + .nb-card { transform: none !important; translate: none !important; transition: none; }
   .nb-scrim { animation: none; }
   .nb-prog i { transition: none; }
   .nb-ch-body { animation: none; }
@@ -2098,6 +2097,18 @@ html[data-theme="dark"] .nb-cov-cast {
   .nb-dict:hover, .nb-dictbar-a:hover { transform: none; }
   .nb-x:hover { transform: none; }
 }
+
+.nx-app[data-motion-reduced="1"] .nb-cov {
+  --turn: 21deg !important;
+  --pitch: 2deg !important;
+  --out: 0px !important;
+  --lift: 0px !important;
+  --open: 0deg !important;
+  --rx: 0deg !important;
+  --ry: 0deg !important;
+}
+.nx-app[data-motion-reduced="1"] .nb-f-front { transform: translateZ(var(--d)) !important; }
+.nx-app[data-motion-reduced="1"] .nb-card { translate: none !important; }
 
 /* Forced colours: the drawn book is built from colour alone, so the geometry is
    removed and one framed plate is left. The title, counts and links underneath
