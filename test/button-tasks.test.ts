@@ -67,3 +67,13 @@ test("the other chips are plain questions", () => {
   for (const f of FOLLOW_UPS.filter((x) => !x.action)) assert.equal(followUpTask(f.label), undefined, f.label);
   for (const r of REFUSAL_FOLLOW_UPS) assert.equal(followUpTask(r), undefined, r);
 });
+
+test("the prompts routed to Haiku name their subject", () => {
+  // Haiku refuses a deictic prompt with no antecedent ("הסבר את זה"), and the
+  // request carries no history to supply one.
+  for (const id of ["simple", "ecc", "example", "onepage"]) {
+    const a = ANSWER_ACTIONS.find((x) => x.id === id)!;
+    assert.match(a.prompt, /חומר שנבחר/, `${a.label}: ${a.prompt}`);
+    assert.doesNotMatch(a.prompt, /(^|\s)(את )?זה[\s,.]|הזה/, `${a.label} is deictic: ${a.prompt}`);
+  }
+});
