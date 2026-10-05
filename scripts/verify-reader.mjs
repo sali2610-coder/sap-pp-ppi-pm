@@ -293,61 +293,85 @@ for (const vp of VIEWPORTS) {
   // is a dotted id; book7's ids are Fiori app ids, which only the NEO reader
   // resolves. A failed check throws, so its evidence is in the report.
   if (vp.label === "desktop") {
-    const at = (href) => page.goto(`http://localhost:${PORT}${href}`, { waitUntil: "networkidle", timeout: 30_000 });
-    const state = (id) => page.evaluate((sid) => {
+    // A fresh context, at the size the defect was found at (1440x1000), with the
+    // reader's default bilingual layout: the language checks above leave this
+    // context's reader in single-language mode, which wraps the text elsewhere.
+    const cctx = await browser.newContext({ viewport: { width: 1440, height: 1000 }, locale: "he-IL" });
+    const cp = await cctx.newPage();
+    const at = (href) => cp.goto(`http://localhost:${PORT}${href}`, { waitUntil: "networkidle", timeout: 30_000 });
+    const state = (id) => cp.evaluate((sid) => {
       const sec = document.getElementById(`nr-sec-${sid}`);
       const marks = [...document.querySelectorAll("mark[data-neo-cited]")];
       const r = sec?.getBoundingClientRect();
+      // The mark's first line, not its bounding box: a mark that wraps has a box
+      // whose centre can fall between two lines. What is painted at that line's
+      // centre must be the mark, not the reader's floating step bar over it.
+      const m = marks[0]?.getClientRects()[0];
+      const top = m ? document.elementFromPoint(m.left + m.width / 2, m.top + m.height / 2) : null;
       return {
         path: location.pathname, search: location.search, neo: Boolean(document.querySelector(".nr")),
         legacy: document.querySelectorAll("[data-section]").length, marks: marks.length,
-        inSection: marks.every((m) => sec?.contains(m)), text: (marks[0]?.textContent ?? "").replace(/\s+/g, " ").trim(),
+        inSection: marks.every((x) => sec?.contains(x)), text: (marks[0]?.textContent ?? "").replace(/\s+/g, " ").trim(),
         landed: r ? r.top < window.innerHeight * 0.5 && r.bottom > 0 : false,
+        seen: m ? m.top >= 0 && m.bottom <= window.innerHeight && Boolean(top && marks[0].contains(top)) : null,
       };
     }, id);
-    const plainSentence = (sid) => page.evaluate((s) => {
+    // Prefers a sentence that sits LOW on the landed page, under the reader's
+    // floating step bar: that is where a real quote was found marked but unseen.
+    // A short section with nothing down there falls back to its first sentence.
+    const plainSentence = (sid) => cp.evaluate((s) => {
       const ps = [...(document.getElementById(`nr-sec-${s}`)?.querySelectorAll(".nr-p") ?? [])]
-        .filter((p) => !p.querySelector("strong, b, em, a")).map((p) => p.innerText.replace(/\s+/g, " ").trim());
-      const p = ps.find((t) => t.length > 60) || "";
-      return (p.match(/^.{40,}?[.!?](?=\s|$)/)?.[0] || p).slice(0, 160);
+        .filter((p) => !p.querySelector("strong, b, em, a") && p.innerText.trim().length > 60);
+      const low = ps.find((p) => p.getBoundingClientRect().top > window.innerHeight * 0.75);
+      const t = (low ?? ps[0])?.innerText.replace(/\s+/g, " ").trim() ?? "";
+      return (t.match(/^.{40,}?[.!?](?=\s|$)/)?.[0] || t).slice(0, 160);
     }, sid);
     // book7: the first Fiori app id in chapter 1 that has a citable sentence.
     await at(citationHref("book7", 1));
-    await page.waitForSelector('[id^="nr-sec-"] .nr-p', { timeout: 20_000 }).catch(() => {});
-    const fioriId = await page.evaluate(() => [...document.querySelectorAll('[id^="nr-sec-"]')]
+    await cp.waitForSelector('[id^="nr-sec-"] .nr-p', { timeout: 20_000 }).catch(() => {});
+    const fioriId = await cp.evaluate(() => [...document.querySelectorAll('[id^="nr-sec-"]')]
       .map((e) => ({ id: e.id.slice(7), p: [...e.querySelectorAll(".nr-p")].filter((p) => !p.querySelector("strong, b, em, a")) }))
       .find((x) => !/^[0-9]+(\.[0-9]+)*$/.test(x.id) && x.p.some((p) => p.innerText.trim().length > 60))?.id ?? "");
 
-    for (const [book, ch, id] of [["book2", 9, "9.1"], ["book7", 1, fioriId]]) {
-      await check(page, `${vp.label}/neo-citation/${book} ${id || "(no app id)"}: opens the NEO reader and marks the sentence once`, async () => {
+    // book2 9.1 carries the sentence a real answer cited on 2026-10-05. It sits
+    // low in the section's one long English paragraph, under the floating step
+    // bar after landing: the case that was marked but not seen.
+    const KANBAN = "Kanban aims to give personnel significant control over the production process and reduce the manual tasks they must perform.";
+    for (const [book, ch, id, fixed] of [["book2", 9, "9.1", KANBAN], ["book7", 1, fioriId, null]]) {
+      await check(cp, `${vp.label}/neo-citation/${book} ${id || "(no app id)"}: opens the NEO reader and marks the sentence once, in view`, async () => {
         if (!id) throw new Error("no non-dotted section with a citable sentence in book7 chapter 1");
         await at(citationHref(book, ch, id));
-        await page.waitForFunction((s) => (document.getElementById(`nr-sec-${s}`)?.innerText || "").length > 60, id, { timeout: 20_000 });
-        const probe = await plainSentence(id);
+        await cp.waitForFunction((s) => (document.getElementById(`nr-sec-${s}`)?.innerText || "").length > 60, id, { timeout: 20_000 });
+        await cp.waitForTimeout(800);   // the reader's own landing jump, before positions are read
+        const probe = fixed ?? await plainSentence(id);
         if (probe.length < 30) throw new Error(`no sentence to cite in ${id}`);
+        const present = await cp.evaluate(([s, q]) => (document.getElementById(`nr-sec-${s}`)?.innerText || "")
+          .replace(/\s+/g, " ").includes(q.slice(0, 40)), [id, probe]);
+        if (!present) throw new Error(`premise: the sentence is not in the rendered ${id}`);
         await at(citationHref(book, ch, id, probe));
-        await page.waitForTimeout(1200);
+        await cp.waitForTimeout(1200);
         const s = await state(id);
         const ok = s.path === `/neo/read/${book}/` && s.neo && s.legacy === 0 && s.marks === 1 && s.inSection
-          && s.landed && s.text.slice(0, 20) === probe.slice(0, 20);
+          && s.landed && s.seen && s.text.slice(0, 20) === probe.slice(0, 20);
         if (!ok) throw new Error(`${JSON.stringify(s)} probe="${probe.slice(0, 50)}"`);
         return `1 mark in nr-sec-${id}: "${s.text.slice(0, 40)}"`;
       });
-      await check(page, `${vp.label}/neo-citation/${book} ${id}: still one mark once settled, and the address drops q`, async () => {
-        await page.waitForTimeout(1500);
+      await check(cp, `${vp.label}/neo-citation/${book} ${id}: still one mark once settled, and the address drops q`, async () => {
+        await cp.waitForTimeout(1500);
         const s = await state(id);
         const p = new URLSearchParams(s.search);
         if (s.marks !== 1 || p.has("q") || !p.get("s")) throw new Error(JSON.stringify(s));
         return `marks=1, address ${s.search}`;
       });
-      await check(page, `${vp.label}/neo-citation/${book} ${id}: a sentence that is not there marks nothing and still lands`, async () => {
+      await check(cp, `${vp.label}/neo-citation/${book} ${id}: a sentence that is not there marks nothing and still lands`, async () => {
         await at(citationHref(book, ch, id, "משפט שהומצא ואינו מופיע בשום מקום בספר הזה"));
-        await page.waitForTimeout(1200);
+        await cp.waitForTimeout(1200);
         const s = await state(id);
         if (s.marks !== 0 || !s.landed || s.path !== `/neo/read/${book}/`) throw new Error(JSON.stringify(s));
         return `marks=0, landed on nr-sec-${id}`;
       });
     }
+    await cctx.close();
   }
 
   // The AI chat, at every viewport. /chat/ is the route the nav, the mobile tab
