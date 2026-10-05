@@ -29,12 +29,16 @@
 import { DOMAINS, type Domain } from "@/data/domains";
 import { DOMAIN_DETAIL, type DomainDetail } from "@/data/domain-detail";
 import type { EccS4 } from "@/components/ecc-s4-block";
-import { bapiHref, objectHref, txHref } from "../reference/ref-links";
+import { bapiHref, objectHref, tableHe, txHref } from "../reference/ref-links";
+import { registryTx } from "@/lib/tx-registry";
+import { registryObject } from "@/lib/bapi-registry";
 import type { ModuleKey } from "../types";
 
 /* ------------------------------------------------------------------ types */
 
-export interface DomLink { t: string; href: string | null }
+/** A named SAP object: its link when the project generates a page for it, and
+ *  its description when the project's own registry holds one ("" otherwise). */
+export interface DomLink { t: string; href: string | null; he: string }
 
 export interface DomStep { step: string; he: string }
 
@@ -83,6 +87,9 @@ export interface DomainView {
 
   /** Sibling domains of the same module, for onward reading. */
   siblings: { slug: string; he: string; tables: number }[];
+  /** Domains of either module that run through at least one of this domain's
+   *  tables, most shared first, with the tables they share by name. */
+  related: { slug: string; he: string; module: ModuleKey; shared: string[] }[];
 }
 
 export interface DomainCard {
@@ -216,9 +223,10 @@ export function domainView(slug: string): DomainView | null {
     summary: d.summary,
 
     flow: d.flow,
-    tables: d.tables.map((t) => ({ t, href: objectHref(t) })),
-    tcodes: d.tcodes.map((t) => ({ t, href: txHref(t) })),
-    bapis: d.bapis.map((t) => ({ t, href: bapiHref(t) })),
+    // One row per name: a record that repeats a name says nothing new by it.
+    tables: [...new Set(d.tables)].map((t) => ({ t, href: objectHref(t), he: tableHe(t) })),
+    tcodes: [...new Set(d.tcodes)].map((t) => ({ t, href: txHref(t), he: registryTx(t)?.he || "" })),
+    bapis: [...new Set(d.bapis)].map((t) => ({ t, href: bapiHref(t), he: registryObject(t)?.shortDescriptionHe || "" })),
     learning: d.learning,
     trouble: d.trouble,
 
@@ -227,7 +235,9 @@ export function domainView(slug: string): DomainView | null {
     diagram: det?.diagram || [],
     masterData: det?.masterData || [],
     objects: det?.objects || [],
-    funcs: (det?.funcs || []).map((t) => ({ t, href: bapiHref(t) })),
+    // The full record's function modules, less the BAPIs the spine already names.
+    funcs: [...new Set(det?.funcs || [])].filter((t) => !d.bapis.includes(t))
+      .map((t) => ({ t, href: bapiHref(t), he: registryObject(t)?.shortDescriptionHe || "" })),
     exits: det?.exits || [],
     badis: det?.badis || [],
     qa: det?.qa || [],
@@ -239,5 +249,13 @@ export function domainView(slug: string): DomainView | null {
 
     siblings: DOMAINS.filter((x) => x.module === d.module && x.slug !== d.slug)
       .map((x) => ({ slug: x.slug, he: x.he, tables: x.tables.length })),
+    related: DOMAINS
+      .filter((x) => x.slug !== d.slug)
+      .map((x) => ({
+        slug: x.slug, he: x.he, module: x.module as ModuleKey,
+        shared: [...new Set(d.tables)].filter((t) => x.tables.includes(t)),
+      }))
+      .filter((x) => x.shared.length > 0)
+      .sort((a, b) => b.shared.length - a.shared.length),
   };
 }
