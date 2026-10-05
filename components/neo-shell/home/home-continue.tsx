@@ -37,7 +37,7 @@ export function HomeContinue({ objects, books }: {
         <span className="nh-start-icon"><History size={25} strokeWidth={1.6} aria-hidden="true" /></span>
         <span className="nh-start-copy">
           <b id="nh-resume-h">להמשיך מאיפה שהפסקת</b>
-          <span>{last.code ? <b className="nh-sap" dir="ltr">{last.code} </b> : null}<bdi dir="auto">{last.title}</bdi></span>
+          <span>{last.code ? <><b className="nh-sap" dir="ltr">{last.code}</b>{" "}</> : null}<bdi dir="auto">{last.title}</bdi></span>
         </span>
         <ArrowUpLeft className="nh-start-arrow" size={18} aria-hidden="true" />
       </Link>

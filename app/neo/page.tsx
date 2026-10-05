@@ -195,6 +195,7 @@ export default function NeoHome() {
   // The rail's own counts (nav-data.ts), so a tile and its rail item agree.
   const rail = new Map(shellData().groups.flatMap((g) => g.items).map((it) => [it.id, it.count] as const));
   const count = (id: string) => rail.get(id) ?? null;
+  const erdLinks = count("erd");
 
   const sections: SceneSection[] = [
     { id: "nh-1", label: "פתיחה", field: "S/4HANA תחילה", tone: "#c8102e" },
@@ -252,13 +253,14 @@ export default function NeoHome() {
 
         <div className="nh-in nh-gate-in nh-gate-layout">
          <div className="nh-gate-copy">
-          <SiteLogo tone="dark" size="hero" className="nh-brand nm-rise nm-once" />
-
-          <p className="nh-eye nh-eye--gate">
-            SAP Enterprise Knowledge Platform
-            <i aria-hidden="true" />
-            CBC Israel
-          </p>
+          <div className="nh-mast">
+            <SiteLogo tone="dark" size="hero" className="nh-brand nm-rise nm-once" />
+            <p className="nh-eye nh-eye--gate">
+              <span>SAP Enterprise</span>
+              <span>Knowledge Platform</span>
+              <span>CBC Israel</span>
+            </p>
+          </div>
 
           <h1 className="nh-mega nm-kin" id="nh-1-h">
             <span><span>מפת הידע</span></span>
@@ -269,38 +271,54 @@ export default function NeoHome() {
             אובייקטים עסקיים, טבלאות, טרנזקציות, קשרי נתונים והמעבר מ-<span className="nh-sap">ECC</span> ל-
             <span className="nh-sap">S/4HANA</span>. מקום אחד לחיפוש, ללמידה ולהבנת הקשרים בין הנתונים.
           </p>
+          <div className="nh-cta">
+            <button className="nh-find" type="button" data-neo-open-search aria-keyshortcuts="Meta+K Control+K">
+              <span className="nh-find-ico"><Search size={19} strokeWidth={2} aria-hidden="true" /></span>
+              <span className="nh-find-t">
+                <b>חיפוש בכל האתר</b>
+                <span>טבלה, שדה, טרנזקציה, BAPI או ספר, מכל מסך</span>
+              </span>
+              <kbd dir="ltr">⌘/Ctrl K</kbd>
+            </button>
+          </div>
           <div className="nh-stats nm-seq">
             {stats.map(([n, l, href]) => (
               <Link className="nh-stat nm-rise" key={l} href={href} prefetch={false}>
-                <b className="nh-sap">{nf.format(n)}</b>
+                <b className="nh-sap">{nf.format(n)}</b>{" "}
                 <em>{l}</em>
               </Link>
             ))}
           </div>
-          <div className="nh-cta">
-            <button className="nu-btn" type="button" data-neo-open-search aria-label="פתיחת החיפוש הגלובלי">
-              <Search size={15} strokeWidth={1.75} aria-hidden="true" />
-              חיפוש בכל האתר
-            </button>
-          </div>
-          <p className="nh-start-note">פתיחה מכל מסך באמצעות <kbd dir="ltr">⌘/Ctrl+K</kbd></p>
           <HomeContinue objects={d.dots.map(({ n, he }) => ({ name: n, title: he }))} books={resumeBooks} />
          </div>
          <nav className="nh-start" aria-label="כניסה לספרייה, לעוזר ולמודל הנתונים">
           <p className="nh-start-eye">סביבת העבודה שלך</p>
           <Link href="/neo/books/" prefetch={false} className="nh-start-card" style={{ "--entry": "var(--mod-pm)" } as React.CSSProperties}>
             <span className="nh-start-icon"><BookOpen size={25} strokeWidth={1.6} aria-hidden="true" /></span>
-            <span className="nh-start-copy"><b>ספריית SAP</b><span>ספרים, פרקים ומקום הקריאה האחרון שלך</span></span>
+            <span className="nh-start-copy">
+              <b>ספריית SAP</b>
+              <span>ספרים, פרקים ומקום הקריאה האחרון שלך</span>
+              <em className="nh-start-meta"><b className="nh-sap">{nf.format(lib.totals.books)}</b> ספרים · <b className="nh-sap">{nf.format(lib.totals.sections)}</b> סעיפים</em>
+            </span>
             <ArrowUpLeft className="nh-start-arrow" size={18} aria-hidden="true" />
           </Link>
           <Link href="/neo/ai/" prefetch={false} className="nh-start-card" style={{ "--entry": "var(--mod-pp)" } as React.CSSProperties}>
             <span className="nh-start-icon"><Sparkles size={25} strokeWidth={1.6} aria-hidden="true" /></span>
-            <span className="nh-start-copy"><b>שאל את הספרייה</b><span>שאלות על התוכן, עם מקורות לקריאה</span></span>
+            <span className="nh-start-copy">
+              <b>שאל את הספרייה</b>
+              <span>שאלות על התוכן, עם מקורות לקריאה</span>
+            </span>
             <ArrowUpLeft className="nh-start-arrow" size={18} aria-hidden="true" />
           </Link>
           <Link href="/neo/erd/" prefetch={false} className="nh-start-card" style={{ "--entry": "var(--mod-pppi)" } as React.CSSProperties}>
             <span className="nh-start-icon"><GitBranch size={25} strokeWidth={1.6} aria-hidden="true" /></span>
-            <span className="nh-start-copy"><b>מודל הנתונים</b><span>מודולים, טבלאות והקשרים ביניהם</span></span>
+            <span className="nh-start-copy">
+              <b>מודל הנתונים</b>
+              <span>מודולים, טבלאות והקשרים ביניהם</span>
+              {erdLinks !== null && (
+                <em className="nh-start-meta"><b className="nh-sap">{nf.format(erdLinks)}</b> קשרים במודל</em>
+              )}
+            </span>
             <ArrowUpLeft className="nh-start-arrow" size={18} aria-hidden="true" />
           </Link>
           <p className="nh-start-note">בחר נקודת כניסה, והמשך משם אל התוכן והכלים.</p>
