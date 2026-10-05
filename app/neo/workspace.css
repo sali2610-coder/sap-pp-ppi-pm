@@ -96,7 +96,8 @@ html .nx-app .nx-canvas:has(> .nw) {
   --nw-row: var(--c-tap);
   container-type: inline-size;
   container-name: nw;
-  padding-block-end: var(--sp-10);
+  /* The last card and the credit must end above the floating dock. */
+  padding-block-end: 6rem;
 
   /* THE GROUND CARRIES THE MODULE.
      module-workspace.tsx puts data-scene="pm" / "pppi" on this node, and
@@ -195,14 +196,12 @@ html .nx-app .nx-canvas:has(> .nw) {
    ========================================================================== */
 .nw-hero {
   display: grid;
-  gap: var(--sp-4);
+  gap: var(--sp-6) var(--sp-10);
   align-content: start;
-  padding: var(--sp-10) var(--nw-gut) var(--sp-8);
-  /* The module edge. A LINE of module colour — the sanctioned form. It sits on
-     the canvas edge rather than inside the gutter, so the hero's text baseline
-     lines up with every block below it instead of sitting a step in. */
-  border-inline-start: 3px solid var(--m);
+  padding: var(--sp-8) var(--nw-gut) var(--sp-6);
 }
+.nw-hero-main { display: grid; gap: var(--sp-4); align-content: start; min-inline-size: 0; }
+.nw-go-why { flex-basis: 100%; }
 .nw-hero > * { min-inline-size: 0; }
 
 .nw-eye {
@@ -291,8 +290,6 @@ html .nx-app .nx-canvas:has(> .nw) {
 /* --- the counts. A rail of figures, not a grid of cards ------------------- */
 .nw-figs { display: flex; flex-wrap: wrap; gap: var(--sp-4) var(--sp-8); margin-block-start: var(--sp-2); }
 .nw-fig { display: grid; gap: 2px; }
-.nw-fig dt { font-size: var(--t-xs); color: var(--ink-3); order: 2; }
-.nw-fig dd { display: flex; align-items: baseline; gap: var(--sp-2); flex-wrap: wrap; }
 .nw-fig b {
   font-variant-numeric: tabular-nums;
   font-size: clamp(1.375rem, 2.4cqi, 2rem);
@@ -367,8 +364,7 @@ html .nx-app .nx-canvas:has(> .nw) {
    heavier title here, the same three signals the running bar draws. All three
    are sanctioned module forms; none of them is a coloured dot. */
 .nw-idx-i[data-key="1"] {
-  border-inline-start-width: 3px;
-  border-inline-start-color: var(--m);
+  border-color: color-mix(in srgb, var(--m) 55%, var(--hairline));
   background: color-mix(in srgb, var(--m) 7%, var(--surface));
 }
 .nw-idx-i[data-key="1"] .nw-idx-t { font-weight: 750; }
@@ -435,36 +431,6 @@ html .nx-app .nx-canvas:has(> .nw) {
   color: color-mix(in srgb, var(--m) 26%, transparent);
   padding-block-start: .1em;
 }
-.nw-ch-k {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-2);
-  font-size: var(--t-micro);
-  font-weight: 650;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-}
-.nw-ch-ico {
-  display: grid;
-  place-items: center;
-  inline-size: 1.75rem;
-  block-size: 1.75rem;
-  border-radius: var(--r-sm);
-  color: var(--m);
-  /* MODULE as a surface tint + ring. */
-  background: color-mix(in srgb, var(--m) 10%, transparent);
-  border: 1px solid color-mix(in srgb, var(--m) 24%, var(--hairline));
-  flex: none;
-}
-.nw-ch-k::after {
-  content: '';
-  flex: 0 0 2.5rem;
-  block-size: 2px;
-  border-radius: var(--r-pill);
-  /* MODULE as a section marker. */
-  background: color-mix(in srgb, var(--m) 55%, transparent);
-}
 .nw-ch-t {
   font-size: clamp(1.5rem, 3cqi, 2.5rem);
   font-weight: 700;
@@ -481,9 +447,6 @@ html .nx-app .nx-canvas:has(> .nw) {
 }
 .nw-ch-s b { color: var(--ink-1); font-variant-numeric: tabular-nums; }
 .nw-ch-go { display: flex; gap: var(--sp-4); flex-wrap: wrap; margin-block-start: var(--sp-2); }
-/* a collapsed chapter's lead, outside its <summary>: the number is a spacer only */
-.nw-ch-h--lead > .nw-ch-n { visibility: hidden; block-size: 0; overflow: hidden; }
-.nw-ch-h--lead > .nw-ch-go { margin-block-start: 0; }
 .nw-ch-body { display: grid; gap: var(--sp-8); align-content: start; }
 .nw-ch-body > * { min-inline-size: 0; }
 
@@ -828,7 +791,7 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw-c-n { inline-size: 12.5rem; }
 .nw-c-he { inline-size: auto; }
 .nw-c-tp { inline-size: 9rem; }
-.nw-c-f { inline-size: 6rem; }
+.nw-c-f { inline-size: 7.5rem; }
 .nw-c-tc { inline-size: 10rem; }
 .nw-c-fn { inline-size: 5rem; }
 .nw-c-rel { inline-size: 5rem; }
@@ -847,7 +810,7 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw-c-n .nu-chip { margin-inline-start: var(--sp-2); }
 .nw-c-he span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nw-c-tp { color: var(--ink-3); }
-.nw-c-tp .nw-sap { font-size: 10px; }
+.nw-c-tp .nw-sap { font-size: 11px; }
 .nw-tp-t {
   display: inline-block;
   max-inline-size: 6.5rem;
@@ -859,11 +822,11 @@ html .nx-app .nx-canvas:has(> .nw) {
   font-size: var(--t-xs);
 }
 .nw-c-f b, .nw-c-fn b, .nw-c-rel b { font-size: var(--t-sm); color: var(--ink-1); font-variant-numeric: tabular-nums; }
-.nw-c-f em { font-style: normal; font-size: 10px; color: var(--ink-3); margin-inline-start: 5px; }
+.nw-c-f em { font-style: normal; font-size: 11px; color: var(--ink-3); margin-inline-start: 5px; }
 .nw-c-tc .nu-chip { margin-inline-end: 3px; }
-.nw-c-tc em { font-style: normal; font-size: 10px; color: var(--ink-3); }
+.nw-c-tc em { font-style: normal; font-size: 11px; color: var(--ink-3); }
 .nw-c-cv .nw-sap { font-variant-numeric: tabular-nums; color: var(--ink-1); }
-.nw-c-cv em { font-style: normal; font-size: 10px; color: var(--ink-3); margin-inline-start: 5px; }
+.nw-c-cv em { font-style: normal; font-size: 11px; color: var(--ink-3); margin-inline-start: 5px; }
 .nw-none { color: var(--ink-3); }
 
 .nw-x {
@@ -1096,18 +1059,15 @@ html .nx-app .nx-canvas:has(> .nw) {
   padding: var(--sp-5) var(--sp-5) var(--sp-5) var(--sp-5);
   border-radius: var(--r-lg);
   background: var(--surface);
-  border: 1px solid var(--hairline);
-  /* MODULE as the leading edge. Thicker for a high-risk row: WEIGHT carries the
-     severity, because the hue may not. */
-  border-inline-start: 3px solid color-mix(in srgb, var(--m) 45%, var(--hairline));
+  border: 1px solid color-mix(in srgb, var(--m) 22%, var(--hairline));
 }
+/* Severity as WEIGHT: a high-risk table stands on a module tint, a stronger
+   ring and a raised shadow. The hue never carries it; the status dot does. */
 .nw-move[data-risk="high"] {
-  border-inline-start-width: 6px;
-  border-inline-start-color: var(--m);
-  background: color-mix(in srgb, var(--m) 4%, var(--surface));
+  border-color: color-mix(in srgb, var(--m) 50%, var(--hairline));
+  background: color-mix(in srgb, var(--m) 5%, var(--surface));
   box-shadow: var(--elev-2);
 }
-.nw-move[data-risk="medium"] { border-inline-start-width: 4px; }
 .nw-move-h { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
 .nw-move-h .nu-status { font-size: var(--t-xs); font-weight: 700; }
 .nw-move-n { padding-block: 0; }
@@ -1177,9 +1137,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   padding: var(--sp-4);
   border-radius: var(--r-md);
   background: var(--surface);
-  border: 1px solid var(--hairline);
-  /* MODULE as an edge — the record is of this module's blueprint. */
-  border-inline-start: 3px solid color-mix(in srgb, var(--m) 38%, var(--hairline));
+  border: 1px solid color-mix(in srgb, var(--m) 22%, var(--hairline));
 }
 .nw-sheet-h {
   display: flex;
@@ -1341,7 +1299,6 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
   .nw-ch-body { gap: var(--sp-6); }
   .nw-ch-h { grid-template-columns: minmax(0, 1fr); gap: var(--sp-2); }
   .nw-ch-n { grid-row: auto; font-size: 2rem; }
-  .nw-ch-h--lead > .nw-ch-n { display: none; }
   .nw-ch-s { font-size: var(--t-body); }
   .nw-ch-go { flex-direction: column; align-items: stretch; gap: var(--sp-2); }
   .nw-ch-go > .nu-btn, .nw-ch-go > .nu-btn2 { inline-size: 100%; }
@@ -1588,3 +1545,336 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
 .nw-ch[data-collapsed="open"] .nw-ch-toggle::after { content: "▴"; }
 .nw-ch[data-collapsed="closed"] > .nw-ch-d > summary .nw-ch-h { margin-block-end: 0; }
 .nw-ch-d[open] > .nw-ch-body { margin-block-start: var(--sp-6); }
+
+/* ==========================================================================
+   REFINED · 2026-10 — the module page as rooms you can see into.
+   The hero carries the module's process as a route; every chapter head is a
+   compact band with its own count; the secondary chapters close into slim
+   cards; the working table and the S/4HANA callouts open on their first
+   entries. Same data, same chapters, a third of the scroll.
+   ========================================================================== */
+
+/* --- the identity lockup ------------------------------------------------ */
+.nw-mark {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: .35rem;
+  inline-size: clamp(4.5rem, 7cqi, 5.75rem);
+  block-size: clamp(4.5rem, 7cqi, 5.75rem);
+  border-radius: 1.25rem;
+  border: 1px solid color-mix(in srgb, var(--m) 40%, transparent);
+  background: color-mix(in srgb, var(--m) 13%, var(--surface));
+  box-shadow: var(--elev-2), inset 0 1px 0 color-mix(in srgb, #fff 18%, transparent);
+  color: color-mix(in srgb, var(--m) 82%, var(--ink-1));
+  font-size: 1rem;
+}
+.nw-mark b { font-size: .95rem; font-weight: 800; letter-spacing: .02em; line-height: 1; }
+.nw-title { font-size: clamp(2.2rem, 4.6cqi, 3.9rem); }
+.nw-en {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--t-sm);
+  letter-spacing: .02em;
+  color: var(--ink-2);
+}
+.nw-en .nw-sap { font-weight: 700; color: color-mix(in srgb, var(--m) 80%, var(--ink-1)); }
+.nw-eye > span { white-space: nowrap; }
+.nw-eye > span[lang="he"], .nw-idx-k { letter-spacing: 0; }
+/* The topic meta is Hebrew words around a number: sans and RTL, not a mono run. */
+.nw-rank-n em { font-family: var(--font-sans); direction: rtl; unicode-bidi: isolate; letter-spacing: 0; }
+/* A Latin gloss in a sheet label moves to the next line whole. */
+.nw-gloss { white-space: nowrap; }
+.nw-en > i { inline-size: 1.25rem; block-size: 1px; background: color-mix(in srgb, var(--m) 55%, transparent); }
+
+/* --- the route ------------------------------------------------------------ */
+.nw-route {
+  --route-bg: color-mix(in srgb, var(--m) 4%, var(--surface));
+  align-self: start;
+  display: grid;
+  gap: var(--sp-3);
+  min-inline-size: 0;
+  padding: var(--sp-5) var(--sp-4) var(--sp-4);
+  border-radius: 1.25rem;
+  border: 1px solid color-mix(in srgb, var(--m) 24%, var(--hairline));
+  background: var(--route-bg);
+  box-shadow: var(--elev-3);
+}
+.nw-route-k { display: grid; gap: 2px; padding-inline: .5rem; font-size: var(--t-sm); font-weight: 750; color: var(--ink-1); }
+.nw-route-k em { font-style: normal; font-size: var(--t-micro); font-weight: 500; color: var(--ink-3); }
+.nw-route ol { display: grid; margin: 0; padding: 0; list-style: none; }
+.nw-route li { position: relative; }
+/* The line the stations sit on, from the first station to the last and no
+   further: a line into nothing would be a step nobody documented. */
+.nw-route li::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: calc(.5rem + .625rem - 1px);
+  inline-size: 2px;
+  background: color-mix(in srgb, var(--m) 38%, var(--hairline));
+}
+.nw-route li:first-child::before { inset-block-start: 50%; }
+.nw-route li:last-child::before { inset-block-end: 50%; }
+.nw-stop {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.25rem 3.9rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: .55rem;
+  min-block-size: 2.4rem;
+  padding-inline: .5rem;
+  border-radius: .65rem;
+  color: var(--ink-2);
+  text-decoration: none;
+  font-size: var(--t-sm);
+  line-height: 1.35;
+}
+.nw-stop b { font-size: .8rem; color: var(--ink-1); }
+.nw-stop-t { min-inline-size: 0; }
+.nw-stop-t em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
+/* OBJECT hue — the step table's own class, as a marker. */
+.nw-stop-dot {
+  position: relative;
+  z-index: 1;
+  justify-self: center;
+  inline-size: .75rem;
+  block-size: .75rem;
+  border-radius: 50%;
+  background: var(--o, var(--m));
+  box-shadow: 0 0 0 3px var(--route-bg), 0 0 0 4px color-mix(in srgb, var(--o, var(--m)) 45%, transparent);
+}
+.nw-route li[data-gap] .nw-stop-dot {
+  background: var(--route-bg);
+  border: 1.5px dashed color-mix(in srgb, var(--ink-3) 80%, transparent);
+  box-shadow: 0 0 0 3px var(--route-bg);
+}
+.nw-route li[data-gap] .nw-stop b { color: var(--ink-3); }
+a.nw-stop:hover { background: color-mix(in srgb, var(--m) 9%, transparent); color: var(--ink-1); }
+a.nw-stop:focus-visible { outline: 2px solid var(--m); outline-offset: 1px; }
+a.nw-stop .nu-arw { opacity: 0; color: var(--m); transition: opacity var(--dur-fast) linear; }
+a.nw-stop:hover .nu-arw, a.nw-stop:focus-visible .nu-arw { opacity: 1; }
+
+/* --- the counts, as a ledger: each one opens the chapter it counts --------- */
+.nw-figs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin: var(--sp-2) 0 0;
+  padding: 0;
+  list-style: none;
+  border-block-start: 1px solid color-mix(in srgb, var(--m) 20%, var(--hairline));
+}
+.nw-figs > li { display: grid; min-inline-size: 0; border-block-end: 1px solid var(--hairline); }
+.nw-figs > li:not(:nth-child(4n + 1)) { border-inline-start: 1px solid var(--hairline); }
+.nw-fig {
+  display: grid;
+  align-content: start;
+  gap: 3px;
+  padding: var(--sp-3) var(--sp-4);
+  color: var(--ink-2);
+  text-decoration: none;
+  transition: background-color var(--dur-fast) linear;
+}
+.nw-figs > li:nth-child(4n + 1) > .nw-fig { padding-inline-start: 0; }
+.nw-fig > b { justify-self: start; }
+.nw-fig-l { font-size: var(--t-xs); color: var(--ink-2); }
+.nw-fig > em { justify-self: start; font-style: normal; font-size: 11px; color: var(--ink-3); }
+/* A part such as "34 FM" is one unit: the line may break between parts only. */
+.nw-fig > em bdi { white-space: nowrap; }
+.nw-fig:hover { background: color-mix(in srgb, var(--m) 6%, transparent); }
+.nw-fig:hover .nw-fig-l { color: var(--ink-1); text-decoration: underline; text-underline-offset: 3px; }
+.nw-fig:focus-visible { outline: 2px solid var(--m); outline-offset: -2px; border-radius: .4rem; }
+
+@container nw (min-width: 1100px) {
+  .nw-hero { grid-template-columns: minmax(0, 1fr) minmax(20rem, 25rem); align-items: start; }
+}
+
+/* --- the index band, quieter --------------------------------------------- */
+.nw-idx { padding-block: var(--sp-5); }
+
+/* --- the chapter head: badge, title, count -------------------------------- */
+.nw-ch { gap: var(--sp-5); padding: var(--sp-8) var(--nw-gut) var(--sp-10); }
+/* The working table runs edge to edge; its head brings its own gutter. */
+.nw-ch--wide { padding-inline: 0; }
+.nw-ch-h {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: var(--sp-2) var(--sp-4);
+  max-inline-size: none;
+}
+.nw-ch-n {
+  grid-row: auto;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 3px;
+  inline-size: 3.1rem;
+  block-size: 3.1rem;
+  padding: 0;
+  border-radius: .9rem;
+  font-size: .72rem;
+  font-weight: 750;
+  line-height: 1;
+  letter-spacing: 0;
+  color: color-mix(in srgb, var(--m) 82%, var(--ink-1));
+  background: color-mix(in srgb, var(--m) 12%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--m) 30%, var(--hairline));
+}
+.nw-ch-n b { font-weight: 750; }
+.nw-ch-head { display: grid; gap: var(--sp-2); min-inline-size: 0; max-inline-size: 80ch; align-self: center; }
+/* An open chapter states its counts in its own lede and controls; the separate
+   figure belongs to the closed card, where it is the summary. */
+.nw-ch:not([data-collapsed]) .nw-ch-c { display: none; }
+.nw-ch-t { font-size: clamp(1.35rem, 2.1cqi, 1.85rem); line-height: 1.22; }
+.nw-ch-s { font-size: .95rem; line-height: 1.65; }
+.nw-ch-tl { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .75rem; }
+.nw-ch-c {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: .2rem .65rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--m) 26%, var(--hairline));
+  background: color-mix(in srgb, var(--m) 10%, var(--surface));
+}
+.nw-ch-c > b { font-size: .95rem; font-weight: 750; line-height: 1.2; color: var(--ink-1); }
+.nw-ch-c > em { font-style: normal; font-size: var(--t-xs); color: var(--ink-2); white-space: nowrap; }
+.nw-ch--wide > .nw-ch-h { margin-block-end: var(--sp-5); }
+
+/* --- secondary chapters close into slim cards ------------------------------ */
+.nw-ch[data-collapsed] {
+  gap: 0;
+  margin: var(--sp-3) var(--nw-gut) 0;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--m) 20%, var(--hairline));
+  border-radius: 1.1rem;
+  background: var(--surface);
+  box-shadow: var(--elev-1);
+  transition: border-color var(--dur-fast) linear, box-shadow var(--dur-base) var(--ease-out-expo);
+}
+.nw-ch[data-collapsed]:hover { border-color: color-mix(in srgb, var(--m) 46%, var(--hairline)); box-shadow: var(--elev-2); }
+.nw-ch[data-collapsed="open"] { border-color: color-mix(in srgb, var(--m) 40%, var(--hairline)); box-shadow: var(--elev-2); }
+.nw > section.nw-ch[data-collapsed]::before { display: none; }
+.nw-ch:not([data-collapsed]) + .nw-ch[data-collapsed] { margin-block-start: var(--sp-10); }
+.nw-ch[data-collapsed]:has(+ .nw-credit) { margin-block-end: var(--sp-10); }
+.nw-ch[data-collapsed] .nw-ch-sum { display: block; padding: var(--sp-4) var(--sp-5); border-radius: 1.1rem; }
+.nw-ch[data-collapsed] .nw-ch-sum:focus-visible { border-radius: 1.1rem; }
+.nw-ch[data-collapsed] .nw-ch-t { font-size: clamp(1.1rem, 1.6cqi, 1.3rem); }
+.nw-ch[data-collapsed] .nw-ch-s { font-size: var(--t-sm); }
+.nw-ch[data-collapsed] .nw-ch-body { padding: 0 var(--sp-5) var(--sp-5); }
+.nw-ch[data-collapsed] > .nw-ch-d[open] > .nw-ch-body {
+  margin-block-start: 0;
+  padding-block-start: var(--sp-5);
+  border-block-start: 1px solid var(--hairline);
+}
+.nw-ch-toggle {
+  align-self: center;
+  margin: 0;
+  padding: .4rem .75rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--m) 26%, var(--hairline));
+  font-size: var(--t-xs);
+  color: color-mix(in srgb, var(--m) 80%, var(--ink-1));
+}
+.nw-ch[data-collapsed]:hover .nw-ch-toggle { background: color-mix(in srgb, var(--m) 8%, transparent); }
+.nw-ch-toggle::after,
+.nw-ch[data-collapsed="open"] .nw-ch-toggle::after { content: none; }
+.nw-ch-toggle svg { transition: transform var(--dur-base) var(--ease-out-expo); }
+.nw-ch[data-collapsed="open"] .nw-ch-toggle svg { transform: rotate(180deg); }
+.nw-ch-go--out {
+  margin: 0;
+  padding: 0 var(--sp-5) var(--sp-4);
+  padding-inline-start: calc(var(--sp-5) + 3.1rem + var(--sp-4));
+}
+.nw-ch[data-collapsed="open"] > .nw-ch-go--out { padding-block-start: var(--sp-4); border-block-start: 1px solid var(--hairline); }
+.nw-ch-go--out .nu-btn2 {
+  min-block-size: 0;
+  padding: .35rem 0;
+  border: 0;
+  border-radius: .25rem;
+  background: transparent;
+  box-shadow: none;
+  color: color-mix(in srgb, var(--m) 86%, var(--ink-1));
+  font-weight: 650;
+}
+.nw-ch-go--out .nu-btn2:hover { background: transparent; text-decoration: underline; text-underline-offset: 3px; }
+
+/* --- the working table's first rows, and the way to all of them ----------- */
+.nw-more { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3); padding: var(--sp-4) var(--nw-gut) 0; }
+.nw-more svg[data-up] { transform: rotate(180deg); }
+
+/* --- the S/4HANA callouts, compact ----------------------------------------- */
+.nw-s4stage { padding-block: var(--sp-8); }
+.nw-moves { grid-template-columns: minmax(0, 1fr); gap: var(--sp-4); align-items: stretch; }
+.nw-move { display: flex; flex-direction: column; gap: var(--sp-2); padding: var(--sp-4) var(--sp-5); }
+.nw-move-w { font-size: 1rem; line-height: 1.6; }
+.nw-move-t { padding-block-start: 0; border-block-start: 0; }
+.nw-move-x {
+  align-self: flex-start;
+  margin-block-start: auto;
+  gap: 4px;
+  min-block-size: 2rem;
+  padding-inline: .5rem;
+  font-size: var(--t-xs);
+  font-weight: 650;
+  color: color-mix(in srgb, var(--m) 80%, var(--ink-1));
+}
+.nw-move-x svg { transition: transform var(--dur-base) var(--ease-out-expo); }
+.nw-move-x[aria-expanded="true"] svg { transform: rotate(180deg); }
+.nw-move-more { display: grid; gap: var(--sp-3); padding-block-start: var(--sp-3); border-block-start: 1px solid var(--hairline); }
+.nw-move-more[hidden] { display: none; }
+.nw-sheet-r { padding: var(--sp-3) var(--sp-4); }
+.nw-sub > .nu-btn2 { justify-self: start; }
+.nw-s4verdict { display: grid; gap: var(--sp-3); align-content: start; min-inline-size: 0; }
+.nw-s4verdict-h { display: flex; align-items: center; gap: 6px; font-size: var(--t-xs); font-weight: 700; color: var(--ink-1); }
+.nw-s4verdict-h svg { color: var(--m); flex: none; }
+.nw-s4foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3) var(--sp-6);
+  padding-block-start: var(--sp-3);
+  border-block-start: 1px solid var(--hairline);
+}
+.nw-s4foot .nw-s4trust { padding: 0; border: 0; }
+.nw-s4refs { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); }
+.nw-s4refs-k { display: inline-flex; align-items: center; gap: 6px; font-size: var(--t-xs); color: var(--ink-2); }
+.nw-s4refs-k svg { color: var(--m); }
+
+@container nw (min-width: 1100px) {
+  .nw-moves { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nw-s4stage .nw-s4top { grid-template-columns: minmax(0, 14rem) minmax(0, 1fr) minmax(0, 1fr); }
+  .nw-s4foot { grid-column: 1 / -1; }
+  .nw-sheet-l { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+}
+@container nw (min-width: 1200px) {
+  .nw-ch { padding-block: var(--sp-10) var(--sp-12); }
+  .nw-ch[data-collapsed] { padding: 0; }
+  .nw-ch:not([data-collapsed]) + .nw-ch[data-collapsed] { margin-block-start: var(--sp-12); }
+  .nw-view .nw-rank { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* --- touch canvas ----------------------------------------------------------- */
+@container nw (max-width: 899px) {
+  .nw-mark { inline-size: 3.75rem; block-size: 3.75rem; border-radius: 1rem; }
+  .nw-mark svg { inline-size: 20px; block-size: 20px; }
+  .nw-mark b { font-size: .78rem; }
+  .nw-route { padding: var(--sp-4) var(--sp-3) var(--sp-3); }
+  .nw-figs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nw-figs > li:not(:nth-child(4n + 1)) { border-inline-start: 0; }
+  .nw-figs > li:nth-child(2n) { border-inline-start: 1px solid var(--hairline); }
+  .nw-figs > li:nth-child(2n + 1) > .nw-fig { padding-inline-start: 0; }
+  .nw-figs > li:nth-child(2n) > .nw-fig { padding-inline-start: var(--sp-3); }
+  .nw-ch-h { grid-template-columns: auto minmax(0, 1fr); }
+  .nw-ch-toggle { grid-column: 2; justify-self: start; }
+  .nw-ch[data-collapsed] .nw-ch-sum { padding: var(--sp-3) var(--sp-4); }
+  .nw-ch[data-collapsed] .nw-ch-body { padding: 0 var(--sp-3) var(--sp-4); }
+  .nw-ch-go--out { padding-inline: var(--sp-4); }
+  .nw-move { padding: var(--sp-4); }
+  /* The eyebrow wraps as two plain lines rather than around a stranded rule. */
+  .nw-eye { flex-wrap: wrap; row-gap: 4px; }
+  .nw-eye i { display: none; }
+}

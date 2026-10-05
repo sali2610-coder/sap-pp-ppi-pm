@@ -39,6 +39,14 @@ const FIRST = 3;
  *  mixes both inside one column (`SPRO; OIOA`, then a paragraph). */
 const isCode = (s: string) => /^[A-Z0-9_\-/;.,()\s]+$/.test(s.trim()) && /[A-Z0-9]/.test(s);
 
+/** "השפעה והמלצה (Impact & Action)": the Latin gloss is one LTR unit that may
+ *  move to the next line whole, never split with its brackets mirrored. */
+function Label({ h }: { h: string }) {
+  const m = h.match(/^(.*?)\s*(\([A-Za-z][^)]*\))\s*$/);
+  if (!m) return <>{h}</>;
+  return <>{m[1]} <bdi dir="ltr" className="nw-gloss">{m[2]}</bdi></>;
+}
+
 export function WorkspaceSheet({ sheet, lede }: { sheet: WsSheet; lede: string }) {
   const [all, setAll] = useState(false);
   const rows = all ? sheet.rows : sheet.rows.slice(0, FIRST);
@@ -65,7 +73,7 @@ export function WorkspaceSheet({ sheet, lede }: { sheet: WsSheet; lede: string }
                   if (!v || c === sheet.keyCol || /^מס'/.test(h)) return null;
                   return (
                     <div key={h + c}>
-                      <dt>{h}</dt>
+                      <dt><Label h={h} /></dt>
                       <dd className={isCode(v) ? "nw-sap" : undefined}>{v}</dd>
                     </div>
                   );

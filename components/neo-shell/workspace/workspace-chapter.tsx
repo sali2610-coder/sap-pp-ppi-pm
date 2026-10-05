@@ -47,6 +47,9 @@
 // ground back after a section has taken a different one.
 
 import { useEffect, useState, type ReactNode } from "react";
+import { ChevronDown } from "lucide-react";
+
+const nf = new Intl.NumberFormat("he-IL");
 
 export interface ChapterMeta {
   /** Anchor id. The page index jumps to it, so it is also the scroll target. */
@@ -78,9 +81,20 @@ function useHashOpen(id: string, collapsed: boolean | undefined): [boolean, (v: 
   useEffect(() => {
     if (!collapsed) return;
     const sync = () => { if (window.location.hash === `#${id}`) setOpen(true); };
+    // The running section bar scrolls with JS and never touches the hash, so a
+    // jump from it would land on a closed card. Any link to this chapter opens
+    // it, caught on the way down before the bar's own handler runs.
+    const jump = (e: MouseEvent) => {
+      const a = e.target instanceof Element ? e.target.closest("a[href]") : null;
+      if (a && a.getAttribute("href") === `#${id}`) setOpen(true);
+    };
     sync();
     window.addEventListener("hashchange", sync);
-    return () => window.removeEventListener("hashchange", sync);
+    document.addEventListener("click", jump, true);
+    return () => {
+      window.removeEventListener("hashchange", sync);
+      document.removeEventListener("click", jump, true);
+    };
   }, [collapsed, id]);
   return [open, setOpen];
 }
@@ -103,22 +117,34 @@ export function Chapter({
   wide?: boolean;
 }) {
   const [open, setOpen] = useHashOpen(meta.id, meta.collapsed);
+  // THE COMPACT HEAD (2026-10). A numbered badge instead of a display numeral,
+  // the title at section size, and the chapter's own count at the far edge: the
+  // same information in a third of the height, so the page reads as a set of
+  // rooms you can see into rather than a scroll of banners.
   const header = (
       <header className="nw-ch-h">
-        <span className="nw-ch-n nm-par-slow" aria-hidden="true">{String(meta.n).padStart(2, "0")}</span>
-        <p className="nw-ch-k nm-fade">
-          <span className="nw-ch-ico" aria-hidden="true">{icon}</span>
-          {meta.kicker}
-        </p>
-        {/* The span/span is the shape .nm-kin requires and not decoration: the
-            outer one is the mask the line rises out of. */}
-        <h2 className="nw-ch-t nm-kin" id={`${meta.id}-h`}><span><span>{meta.title}</span></span></h2>
-        <p className="nw-ch-s nm-rise">{lede}</p>
-        {/* A collapsed chapter's header is a <summary>, i.e. a button: its lead is
-            rendered after the <details> instead, so no link sits inside a button. */}
-        {lead && !meta.collapsed ? <p className="nw-ch-go nm-rise">{lead}</p> : null}
+        <span className="nw-ch-n" aria-hidden="true">
+          {icon}
+          <b className="nw-sap">{String(meta.n).padStart(2, "0")}</b>
+        </span>
+        <div className="nw-ch-head">
+          <div className="nw-ch-tl">
+            <h2 className="nw-ch-t" id={`${meta.id}-h`}>{meta.title}</h2>
+            <span className="nw-ch-c">
+              <b className="nw-sap">{nf.format(meta.count)}</b>{" "}
+              <em>{meta.countLabel}</em>
+            </span>
+          </div>
+          <p className="nw-ch-s">{lede}</p>
+          {/* A collapsed chapter's header is a <summary>, i.e. a button: its lead is
+              rendered after the <details> instead, so no link sits inside a button. */}
+          {lead && !meta.collapsed ? <p className="nw-ch-go">{lead}</p> : null}
+        </div>
         {meta.collapsed ? (
-          <span className="nw-ch-toggle" aria-hidden="true">{open ? "צמצום הפרק" : "הצגת הפרק"}</span>
+          <span className="nw-ch-toggle" aria-hidden="true">
+            {open ? "צמצום" : "הצגה"}
+            <ChevronDown size={15} strokeWidth={2} />
+          </span>
         ) : null}
       </header>
   );
@@ -137,14 +163,8 @@ export function Chapter({
           <summary className="nw-ch-sum">{header}</summary>
           <div className="nw-ch-body">{children}</div>
         </details>
-        {/* Same grid as the header, with an invisible copy of the number, so the
-            lead lines up with the header's text column at every width. */}
-        {lead ? (
-          <div className="nw-ch-h nw-ch-h--lead">
-            <span className="nw-ch-n" aria-hidden="true">{String(meta.n).padStart(2, "0")}</span>
-            <p className="nw-ch-go">{lead}</p>
-          </div>
-        ) : null}
+        {/* The chapter's route, under its card and aligned with its title. */}
+        {lead ? <p className="nw-ch-go nw-ch-go--out">{lead}</p> : null}
         </>
       ) : (
         <>

@@ -36,7 +36,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, BadgeCheck, FileText, Layers, TriangleAlert } from "lucide-react";
+import { ArrowLeft, BadgeCheck, ChevronDown, FileText, Layers, TriangleAlert } from "lucide-react";
 import { OriginLink } from "@/components/neo-shell/nav-context";
 import { RISK_COLOR } from "@/lib/s4";
 import { pushRecentObject } from "../store";
@@ -111,9 +111,9 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
         </>
       }
       lead={
-        <Link className="nu-btn2" href="/neo/tables/" prefetch={false}>
-          <Layers size={15} strokeWidth={1.75} aria-hidden="true" />
+        <Link className="nu-link" href="/neo/tables/" prefetch={false}>
           כל טבלאות SAP של הפרויקט
+          <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
         </Link>
       }
     >
@@ -158,12 +158,62 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
             ))}
           </ul>
 
-          <p className="nw-s4trust">
-            <BadgeCheck size={13} strokeWidth={1.75} aria-hidden="true" />
-            מקור ההכרעה: <b className="nw-sap">{nf.format(d.s4x.trust.verified)}</b> מאומת ·{" "}
-            <b className="nw-sap">{nf.format(d.s4x.trust.partial)}</b> נגזר מהתיעוד ·{" "}
-            <b className="nw-sap">{nf.format(d.s4x.trust.needs)}</b> נדרש אימות SAP
-          </p>
+          {/* The blueprint's own verdict, the same column read the other way: kept,
+              changed, replaced, removed, undecided. Side by side with the risk
+              mix rather than a second set of bars a screen further down. */}
+          <div className="nw-s4verdict">
+            <p className="nw-s4verdict-h">
+              <Layers size={13} strokeWidth={1.75} aria-hidden="true" />
+              הכרעת התיעוד לפי עמודת S/4HANA
+            </p>
+            <ul className="nw-verdicts">
+              {split.map((sp) => (
+                <li key={sp.k}>
+                  <span className="nu-status" style={{ "--s": s4Dot(sp.k) } as React.CSSProperties}>
+                    {s4He(sp.k)}
+                  </span>
+                  <span className="nw-bar nw-bar--ink nm-grow" aria-hidden="true">
+                    <i style={{ "--p": sp.n / total } as React.CSSProperties} />
+                  </span>
+                  <b className="nw-sap">{nf.format(sp.n)}</b>
+                  <em className="nw-sap">{Math.round((sp.n / total) * 100)}%</em>
+                </li>
+              ))}
+            </ul>
+            <p className="nw-fine">
+              {notKept.length
+                ? `${nf.format(notKept.length)} טבלאות אינן מסומנות "ללא שינוי". כולן מופיעות בטבלת העבודה, עם אותה הכרעה.`
+                : "התיעוד מסמן את כל טבלאות המודול ללא שינוי."}
+            </p>
+          </div>
+
+          <div className="nw-s4foot">
+            <p className="nw-s4trust">
+              <BadgeCheck size={13} strokeWidth={1.75} aria-hidden="true" />
+              מקור ההכרעה: <b className="nw-sap">{nf.format(d.s4x.trust.verified)}</b> מאומת ·{" "}
+              <b className="nw-sap">{nf.format(d.s4x.trust.partial)}</b> נגזר מהתיעוד ·{" "}
+              <b className="nw-sap">{nf.format(d.s4x.trust.needs)}</b> נדרש אימות SAP
+            </p>
+            {/* The references the project holds: only ids that exist in its own
+                Simplification List, never one written here. */}
+            {d.s4x.notes.length ? (
+              <div className="nw-s4refs">
+                {/* The curated field holds a Simplification item or an SAP Note,
+                    whichever the project recorded; the label names neither alone. */}
+                <span className="nw-s4refs-k">
+                  <FileText size={13} strokeWidth={1.75} aria-hidden="true" />
+                  הפניות SAP שבפרויקט
+                </span>
+                <ul className="nw-notes" aria-label="הפניות SAP שבפרויקט">
+                  {d.s4x.notes.map((n) => (
+                    <li key={n}>
+                      <span className="nu-chip is-sap">{n}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+          </div>
         </div>
       </div>
 
@@ -207,52 +257,6 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
         </Sub>
       ) : null}
 
-      {/* ==================================== 3 · the blueprint's own verdict */}
-      <Sub
-        id={`${meta.id}-verdict`}
-        icon={<Layers size={13} strokeWidth={1.75} />}
-        title="הכרעת התיעוד לפי עמודת S/4HANA"
-        note={`חלוקת עמודת S/4HANA בתיעוד על ${nf.format(d.counts.tables)} הטבלאות הייחודיות, לצד פילוח הסיכון.`}
-      >
-        <ul className="nw-verdicts">
-          {split.map((s) => (
-            <li key={s.k}>
-              <span className="nu-status" style={{ "--s": s4Dot(s.k) } as React.CSSProperties}>
-                {s4He(s.k)}
-              </span>
-              <span className="nw-bar nw-bar--ink nm-grow" aria-hidden="true">
-                <i style={{ "--p": s.n / total } as React.CSSProperties} />
-              </span>
-              <b className="nw-sap">{nf.format(s.n)}</b>
-              <em className="nw-sap">{Math.round((s.n / total) * 100)}%</em>
-            </li>
-          ))}
-        </ul>
-        <p className="nw-fine">
-          {notKept.length
-            ? `${nf.format(notKept.length)} טבלאות אינן מסומנות "ללא שינוי". כולן מופיעות בטבלת העבודה שמתחת, עם אותה הכרעה.`
-            : "התיעוד מסמן את כל טבלאות המודול ללא שינוי."}
-        </p>
-      </Sub>
-
-      {/* ================================= 4 · the references the project holds */}
-      {d.s4x.notes.length ? (
-        <Sub
-          id={`${meta.id}-notes`}
-          icon={<FileText size={13} strokeWidth={1.75} />}
-          title="הפניות SAP Note בפרויקט"
-          note="המזהים שנרשמו ב-Simplification List המתוחזק בפרויקט עבור טבלאות המודול. הרשימה כוללת רק מזהים שקיימים בתיעוד הפרויקט."
-        >
-          <ul className="nw-notes">
-            {d.s4x.notes.map((n) => (
-              <li key={n}>
-                <span className="nu-chip is-sap">{n}</span>
-              </li>
-            ))}
-          </ul>
-        </Sub>
-      ) : null}
-
       {/* ------------------------------------- what the blueprint left empty */}
       <p className="nw-fine">
         עמודות המקור במודול זה: הערת S/4HANA על {nf.format(d.s4x.has.note)} טבלאות · טבלה או טרנזקציה חלופית
@@ -263,12 +267,16 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
   );
 }
 
-/** One table that materially moves. Deliberately the heaviest unit on the page
- *  after the hero: the brief asks for a callout, not a cell. */
+/** One table that materially moves. A compact callout (2026-10): the verdict,
+ *  the table, and the one sentence that says what changes are always on screen;
+ *  the evidence behind it (the blueprint's note, the replacement, SUM, Fiori,
+ *  transactions, compatibility views) opens in place. Nothing is dropped. */
 function Move({ r }: { r: WsS4Row }) {
   const origin = useWsOrigin();
+  const [more, setMore] = useState(false);
+  const detailsId = `nw-mv-${r.n}`;
   return (
-    <li className="nw-move nm-rise nm-lift" data-risk={r.risk}>
+    <li className="nw-move" data-risk={r.risk} data-open={more ? "1" : undefined}>
       <div className="nw-move-h">
         <span className="nu-status" style={{ "--s": RISK_COLOR[r.risk] } as React.CSSProperties}>
           {r.riskHe}
@@ -294,59 +302,72 @@ function Move({ r }: { r: WsS4Row }) {
       <p className="nw-move-w">
         {r.changed || r.s4Note || "לא קיים בתיעוד ניסוח של השינוי בטבלה זו."}
       </p>
-      {r.why ? <p className="nw-move-y">{r.why}</p> : null}
-
-      <dl className="nw-move-kv">
-        {r.changed && r.s4Note && r.changed !== r.s4Note ? (
-          <div>
-            <dt>הערת התיעוד</dt>
-            <dd>{r.s4Note}</dd>
-          </div>
-        ) : null}
-        {r.s4Alt ? (
-          <div>
-            <dt>חלופה לפי התיעוד</dt>
-            <dd className="nw-sap">{r.s4Alt}</dd>
-          </div>
-        ) : null}
-        {r.sum ? (
-          <div>
-            <dt>המרה ב-SUM</dt>
-            <dd>{r.sum}</dd>
-          </div>
-        ) : null}
-        {r.fiori ? (
-          <div>
-            <dt>יישום Fiori עוקב</dt>
-            <dd className="nw-sap">{r.fiori}</dd>
-          </div>
-        ) : null}
-        {r.tcodes.length ? (
-          <div>
-            <dt>טרנזקציות לבדיקה</dt>
-            <dd>
-              {r.tcodes.map((c) => (
-                <span key={c} className="nu-chip is-sap">{c}</span>
-              ))}
-            </dd>
-          </div>
-        ) : null}
-        {r.cds.length ? (
-          <div>
-            <dt>תצוגות תאימות</dt>
-            <dd>
-              {r.cds.map((c) => (
-                <span key={c} className="nu-chip is-sap">{c}</span>
-              ))}
-            </dd>
-          </div>
-        ) : null}
-      </dl>
-
       <p className="nw-move-t">
         <BadgeCheck size={12} strokeWidth={1.75} aria-hidden="true" />
         {r.trustHe} · {TRUST_WHY[r.trust]}
       </p>
+
+      <button
+        type="button"
+        className="nu-ghost nw-move-x"
+        aria-expanded={more}
+        aria-controls={detailsId}
+        onClick={() => setMore((v) => !v)}
+      >
+        {more ? "הסתרת פרטי ההכרעה" : "פרטי ההכרעה"}
+        <ChevronDown size={14} strokeWidth={2} aria-hidden="true" />
+      </button>
+
+      <div className="nw-move-more" id={detailsId} hidden={!more}>
+        {r.why ? <p className="nw-move-y">{r.why}</p> : null}
+
+        <dl className="nw-move-kv">
+          {r.changed && r.s4Note && r.changed !== r.s4Note ? (
+            <div>
+              <dt>הערת התיעוד</dt>
+              <dd>{r.s4Note}</dd>
+            </div>
+          ) : null}
+          {r.s4Alt ? (
+            <div>
+              <dt>חלופה לפי התיעוד</dt>
+              <dd className="nw-sap">{r.s4Alt}</dd>
+            </div>
+          ) : null}
+          {r.sum ? (
+            <div>
+              <dt>המרה ב-SUM</dt>
+              <dd>{r.sum}</dd>
+            </div>
+          ) : null}
+          {r.fiori ? (
+            <div>
+              <dt>יישום Fiori עוקב</dt>
+              <dd className="nw-sap">{r.fiori}</dd>
+            </div>
+          ) : null}
+          {r.tcodes.length ? (
+            <div>
+              <dt>טרנזקציות לבדיקה</dt>
+              <dd>
+                {r.tcodes.map((c) => (
+                  <span key={c} className="nu-chip is-sap">{c}</span>
+                ))}
+              </dd>
+            </div>
+          ) : null}
+          {r.cds.length ? (
+            <div>
+              <dt>תצוגות תאימות</dt>
+              <dd>
+                {r.cds.map((c) => (
+                  <span key={c} className="nu-chip is-sap">{c}</span>
+                ))}
+              </dd>
+            </div>
+          ) : null}
+        </dl>
+      </div>
     </li>
   );
 }

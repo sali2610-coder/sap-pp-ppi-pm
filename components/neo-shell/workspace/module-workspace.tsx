@@ -47,7 +47,7 @@
 // object class) are driven from the map chapter, where they are legible.
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Search, SlidersHorizontal, Table2, X } from "lucide-react";
+import { ChevronDown, Search, SlidersHorizontal, Table2, X } from "lucide-react";
 import {
   SmartReturn, consumeReturn, restoreScroll, scrollOffset, useReturnPacket,
 } from "@/components/neo-shell/nav-context";
@@ -72,6 +72,12 @@ const S4_FILTERS: (S4Class | null)[] = [...S4_ORDER, null];
 import { SectionNav } from "./section-nav";
 
 const nf = new Intl.NumberFormat("he-IL");
+
+/** The working table opens on its first rows, ranked by the active sort. A search
+ *  or a filter always works on the whole module, and one button lists every row:
+ *  nothing is dropped, the page simply stops being four thousand pixels of table
+ *  before the reader has asked for any of it. */
+const FIRST_ROWS = 12;
 
 /* --------------------------------------------------------------- returning
 
@@ -134,6 +140,7 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
   const [sort, setSort] = useState<SortKey>("f");
   const [dir, setDir] = useState<1 | -1>(-1);
   const [panel, setPanel] = useState(false);
+  const [allRows, setAllRows] = useState(false);
   // The map's reading (topics · process · object classes) lives here rather
   // than inside WorkspaceMap, because it is part of "the view I was in" and a
   // return has to be able to put it back.
@@ -200,6 +207,9 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
     sharedOnly ? `משותפות עם ${data.key === "PM" ? "PP-PI" : "PM"}` : null,
     q.trim() ? `חיפוש · ${q.trim()}` : null,
   ].filter((x): x is string => !!x);
+  // Any scope means the reader is looking for something: then every match shows.
+  const unfiltered = active.length === 0;
+  const capped = unfiltered && !allRows && rows.length > FIRST_ROWS;
 
   /** One sort control, two surfaces: the column headers on a wide canvas and
    *  the chip row inside the filter panel on a touch canvas. Picking the
@@ -256,6 +266,8 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
     setTab(s.tab === "flow" || s.tab === "classes" ? s.tab : "topics");
     setTopic(typeof s.topic === "number" ? s.topic : null);
     setQ(typeof s.q === "string" ? s.q : "");
+    // The row the reader left must be on the page for the return to land on it.
+    if (s.name) setAllRows(true);
   }
   // Spend the packet. A write to an external store and nothing else.
   useEffect(() => {
@@ -510,7 +522,7 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
         </div>
 
         <WorkspaceTable
-          rows={rows}
+          rows={capped ? rows.slice(0, FIRST_ROWS) : rows}
           topics={data.topics}
           total={data.rows.length}
           onClear={clear}
@@ -518,6 +530,21 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
           dir={dir}
           onSort={pickSort}
         />
+        {unfiltered && rows.length > FIRST_ROWS ? (
+          <div className="nw-more">
+            <button type="button" className="nu-btn2" aria-expanded={!capped} onClick={() => setAllRows((v) => !v)}>
+              <ChevronDown size={15} strokeWidth={1.75} aria-hidden="true" data-up={capped ? undefined : "1"} />
+              {capped
+                ? `הצגת כל ${nf.format(rows.length)} הרשומות`
+                : `הצגת ${nf.format(FIRST_ROWS)} הראשונות בלבד`}
+            </button>
+            {capped ? (
+              <span className="nw-fine">
+                מוצגות {nf.format(FIRST_ROWS)} הרשומות הראשונות לפי המיון. חיפוש וסינון פועלים על כל {nf.format(rows.length)}.
+              </span>
+            ) : null}
+          </div>
+        ) : null}
       </Chapter>
 
       <WorkspaceS4 d={data} meta={ch.s4} />

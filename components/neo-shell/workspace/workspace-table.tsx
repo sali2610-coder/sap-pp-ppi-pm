@@ -23,7 +23,7 @@ import { Fragment, useState } from "react";
 import { ArrowLeft, ChevronDown } from "lucide-react";
 import { OriginLink } from "@/components/neo-shell/nav-context";
 import { pushRecentObject } from "../store";
-import type { S4Class, WsRow, WsTopic } from "./workspace-data";
+import type { WsRow, WsTopic } from "./workspace-data";
 import { S4_HE, S4_UNDECIDED_HE, s4Dot } from "@/lib/s4-class";
 import { useWsOrigin } from "./workspace-origin";
 
@@ -161,7 +161,7 @@ export function WorkspaceTable({
                   </td>
 
                   <td className="nw-c-f" data-l="שדות">
-                    <b className="nw-sap">{r.f}</b>
+                    <b className="nw-sap">{r.f}</b>{" "}
                     {r.pk || r.fk ? (
                       <em className="nw-sap">
                         {r.pk ? `${r.pk} PK` : ""}

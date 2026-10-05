@@ -1,5 +1,12 @@
 // Project NEO · the module HERO.
 //
+// 2026-10 · THE ROUTE. The hero now carries the module's own business process as
+// its signature: the steps of lib/studio-graph's FLOWS for this module, drawn as
+// a line of stations, each one the table the step lives in and each one a route
+// to that table's object page. A step the module's dictionary does not document
+// is drawn hollow and says so, and is not a link to nowhere. The identity is one
+// lockup (plate, name, code and English name) and the counts are a ledger.
+//
 // This band is the approved part of the workspace and it stays what it was: an
 // editorial masthead, not a dashboard. The only thing added to it is the answer
 // to "what do I open first" — three real routes, in descending weight, using
@@ -17,6 +24,7 @@
 //   STATUS hue → does not appear in this file at all.
 //   OBJECT hue → the entry object's class marker.
 
+import { Fragment } from "react";
 import Link from "next/link";
 import { ArrowLeft, FlaskConical, GitBranch, Wrench } from "lucide-react";
 import { OriginLink } from "@/components/neo-shell/nav-context";
@@ -31,11 +39,13 @@ export function WorkspaceHero({ d }: { d: WsData }) {
   // Every figure is read straight off the server-built object. The four
   // "second numbers" sit next to their headline rather than instead of it,
   // because the dictionary genuinely holds two different counts.
-  const stats: { n: number; l: string; sub?: string }[] = [
-    { n: d.counts.topics, l: "נושאים" },
-    { n: d.counts.rows, l: "רשומות תיעוד", sub: `${nf.format(d.counts.tables)} טבלאות ייחודיות` },
-    { n: d.counts.fields, l: "שדות מתועדים", sub: `${nf.format(d.counts.pk)} PK · ${nf.format(d.counts.fk)} FK` },
+  // Each count is also the door to the chapter that holds what it counts.
+  const stats: { n: number; l: string; sub?: string[]; to: string }[] = [
+    { n: d.counts.topics, l: "נושאים", to: "#nw-map" },
+    { n: d.counts.rows, l: "רשומות תיעוד", sub: [`${nf.format(d.counts.tables)} טבלאות ייחודיות`], to: "#nw-tbl" },
+    { n: d.counts.fields, l: "שדות מתועדים", sub: [`${nf.format(d.counts.pk)} PK`, `${nf.format(d.counts.fk)} FK`], to: "#nw-tbl" },
     {
+      to: "#nw-if",
       n: d.counts.funcEntries,
       l: "רשומות ממשק",
       // The kind split is over the NORMALISED objects, so when normalisation
@@ -49,41 +59,43 @@ export function WorkspaceHero({ d }: { d: WsData }) {
         d.counts.fms ? `${nf.format(d.counts.fms)} FM` : null,
         d.counts.idocs ? `${nf.format(d.counts.idocs)} IDoc` : null,
       ]
-        .filter(Boolean)
-        .join(" · "),
+        .filter((x): x is string => !!x),
     },
-    { n: d.counts.tcodes, l: "טרנזקציות" },
-    { n: d.counts.edges, l: "קשרים ממודלים" },
-    { n: d.counts.cds, l: "CDS Views" },
-    { n: d.counts.fiori, l: "יישומי Fiori" },
+    { n: d.counts.tcodes, l: "טרנזקציות", to: "#nw-ops" },
+    { n: d.counts.edges, l: "קשרים ממודלים", to: "#nw-rel" },
+    { n: d.counts.cds, l: "CDS Views", to: "#nw-if" },
+    { n: d.counts.fiori, l: "יישומי Fiori", to: "#nw-if" },
   ];
+
+  const gaps = d.flow.filter((s) => !s.exists).length;
 
   return (
     <header className="nw-hero">
-      <p className="nw-eye nm-fade">
-        CBC ISRAEL · PROJECT NEO
+     <div className="nw-hero-main">
+      <p className="nw-eye">
+        <span>CBC ISRAEL · PROJECT NEO</span>
         <i aria-hidden="true" />
-        סביבת עבודה · מודול
+        <span lang="he">סביבת עבודה · מודול</span>
       </p>
 
       <div className="nw-id">
-        {/* The outlined module code is the one thing in the hero carrying no
-            information the reader has to hold, so it is the one thing allowed to
-            drift against the scroll. At L3 that is 6px and 0 on touch. */}
-        <span className="nw-mark nw-sap nm-par-slow" aria-hidden="true">{d.code}</span>
-        <div className="nw-idtext">
-          <h1 className="nw-title">
-            {d.he}
-            <span className="nw-code nw-sap">{d.code}</span>
-          </h1>
-          <p className="nw-en nw-sap">{d.en}</p>
-        </div>
-        <span className="nw-idicon" aria-hidden="true">
-          {d.key === "PM" ? <Wrench size={22} strokeWidth={1.5} /> : <FlaskConical size={22} strokeWidth={1.5} />}
+        {/* The plate: the module's tool and its code, one fixed footprint for
+            every module so PM and PP-PI get the same stature. */}
+        <span className="nw-mark" aria-hidden="true">
+          {d.key === "PM" ? <Wrench size={26} strokeWidth={1.6} /> : <FlaskConical size={26} strokeWidth={1.6} />}
+          <b className="nw-sap">{d.code}</b>
         </span>
+        <div className="nw-idtext">
+          <h1 className="nw-title">{d.he}</h1>
+          <p className="nw-en">
+            <span className="nw-sap">{d.code}</span>
+            <i aria-hidden="true" />
+            <bdi dir="ltr">{d.en}</bdi>
+          </p>
+        </div>
       </div>
 
-      <p className="nw-lede nm-rise">{d.lede}</p>
+      <p className="nw-lede">{d.lede}</p>
 
       {/* ---------------------------------------------------- where to start.
           Three destinations, ranked, all of them real generated routes. The
@@ -107,24 +119,72 @@ export function WorkspaceHero({ d }: { d: WsData }) {
         </Link>
         {d.entry ? (
           <span className="nw-go-why">
-            הטבלה המקושרת ביותר במודול, עם <span className="nw-sap">{nf.format(d.entry.deg)}</span> טבלאות מקושרות ישירות בתיעוד.
+            <span className="nw-sap">{d.entry.n}</span> היא הטבלה המקושרת ביותר במודול, עם{" "}
+            <span className="nw-sap">{nf.format(d.entry.deg)}</span> טבלאות מקושרות ישירות בתיעוד.
           </span>
         ) : null}
       </nav>
 
-      {/* The counts arrive as a sequence rather than as a wall. .nm-seq spends
-          the stagger as a staggered scroll RANGE, so there is no timer. */}
-      <dl className="nw-figs nm-seq">
+      <ul className="nw-figs" aria-label="המודול במספרים">
         {stats.map((s) => (
-          <div key={s.l} className="nw-fig nm-rise">
-            <dt>{s.l}</dt>
-            <dd>
-              <b className="nw-sap">{nf.format(s.n)}</b>
-              {s.sub ? <em>{s.sub}</em> : null}
-            </dd>
-          </div>
+          <li key={s.l}>
+            <a className="nw-fig" href={s.to}>
+              <b className="nw-sap">{nf.format(s.n)}</b>{" "}
+              <span className="nw-fig-l">{s.l}</span>
+              {/* Each part isolates its own direction: "106 PK" stays a Latin run
+                  and "53 אובייקטים אחרי נרמול" a Hebrew one, in reading order. */}
+              {s.sub?.length ? (
+                <em>
+                  {s.sub.map((x, i) => (
+                    <Fragment key={x}>
+                      {i ? " · " : ""}
+                      <bdi>{x}</bdi>
+                    </Fragment>
+                  ))}
+                </em>
+              ) : null}
+            </a>
+          </li>
         ))}
-      </dl>
+      </ul>
+     </div>
+
+      {/* ------------------------------------------------------- the route */}
+      {d.flow.length ? (
+        <nav className="nw-route" aria-labelledby="nw-route-h">
+          <p className="nw-route-k" id="nw-route-h">
+            <span>התהליך העסקי של <span className="nw-sap">{d.code}</span></span>
+            <em>
+              {nf.format(d.flow.length)} צעדים{gaps ? ` · ${nf.format(gaps)} ללא טבלה בתיעוד המודול` : ""}
+            </em>
+          </p>
+          <ol>
+            {d.flow.map((s) => (
+              <li key={s.code} data-gap={s.exists ? undefined : "1"} style={{ "--o": s.obj } as React.CSSProperties}>
+                {s.href ? (
+                  <OriginLink className="nw-stop" href={s.href} origin={() => origin(s.code)}>
+                    <i className="nw-stop-dot" aria-hidden="true" />
+                    <b className="nw-sap">{s.code}</b>
+                    <span className="nw-stop-t">{s.label}</span>
+                    <ArrowLeft className="nu-arw" size={13} strokeWidth={2} aria-hidden="true" />
+                  </OriginLink>
+                ) : (
+                  <span className="nw-stop">
+                    <i className="nw-stop-dot" aria-hidden="true" />
+                    <b className="nw-sap">{s.code}</b>
+                    <span className="nw-stop-t">
+                      {s.label}
+                      <em> · לא מתועד במודול</em>
+                    </span>
+                  </span>
+                )}
+              </li>
+            ))}
+          </ol>
+        </nav>
+      ) : null}
+
+
     </header>
   );
 }

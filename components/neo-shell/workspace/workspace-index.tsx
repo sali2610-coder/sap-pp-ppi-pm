@@ -24,7 +24,7 @@ export function WorkspaceIndex({ chapters }: { chapters: ChapterMeta[] }) {
     // Closed by default (design audit §7: the hero, the counts, the index cards
     // and the chapter bar stacked up to ~17,000px). The running SectionNav below
     // is the always-visible index; these cards open on demand, nothing removed.
-    <nav className="nw-idx" aria-label="פרקי המודול">
+    <nav className="nw-idx" aria-label="תוכן העמוד">
       <details className="nw-idx-d">
       <summary className="nw-idx-h">
         <span className="nw-idx-k">תוכן העמוד · {nf.format(chapters.length)} פרקים</span>
