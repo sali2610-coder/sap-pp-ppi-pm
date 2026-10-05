@@ -7,26 +7,31 @@
  */
 
 /**
- * The URL a citation actually navigates to.
+ * The URL a citation actually navigates to: the NEO reader, on the cited
+ * subchapter, carrying the verified sentence so the reader can mark it.
  *
- * Built here rather than by concatenating onto `sectionHref`, because that is
- * precisely how it broke: the query was appended AFTER the `#s-…` fragment,
- * which makes the query part of the fragment. `location.search` was therefore
- * always empty, the reader parsed neither section nor quote, and every citation
- * in the product opened a book at the top with nothing highlighted.
+ *   book       /neo/read/<id>/
+ *   chapter    /neo/read/<id>/?c=<n>
+ *   section    /neo/read/<id>/?s=<sectionId>
+ *   + quote    /neo/read/<id>/?s=<sectionId>&q=<sentence>
  *
- * Query first, fragment last — the only order the URL grammar allows.
+ * These are the NEO reader's own forms (neoReadHref, neoChapterHref and
+ * neoSectionHref in components/neo-shell/books/links.ts). They are mirrored
+ * here rather than imported because the test runner loads this file directly
+ * and cannot resolve an extensionless import; test/citation-href.test.ts pins
+ * the two together so they cannot drift into a third convention.
+ *
+ * Relative, so a Preview stays on its own host. No fragment: the reader lands
+ * from the query and nothing may follow it. A quote travels only with a
+ * section, the one place the reader can check it against.
  */
 export function citationHref(
-  bookId: string, chapter: number, section?: string, quote?: string | null,
-) {
-  const base = `/library/${bookId}/`;
-  if (!section) return `${base}#ch-${chapter}`;
-  const q = quote ? `&q=${encodeURIComponent(String(quote).slice(0, 300))}` : "";
-  // `sec-<id>` is the id the canonical bespoke reader gives a section. The
-  // fragment used to be `s-<id>`, which is what the generic reader used, so the
-  // browser's own jump matched nothing on the page citations actually open.
-  // Keeping it means a native jump lands before hydration and the link still
-  // works with JS disabled.
-  return `${base}?s=${encodeURIComponent(section)}${q}#sec-${section}`;
+  bookId: string, chapter?: number | null, section?: string | null, quote?: string | null,
+): string {
+  const book = `/neo/read/${bookId}/`;
+  if (section) {
+    const q = quote ? `&q=${encodeURIComponent(String(quote).slice(0, 300))}` : "";
+    return `${book}?s=${encodeURIComponent(section)}${q}`;
+  }
+  return chapter && chapter > 0 ? `${book}?c=${chapter}` : book;
 }

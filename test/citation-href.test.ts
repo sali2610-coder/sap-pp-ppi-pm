@@ -1,28 +1,71 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { citationHref } from "../lib/ai/links.ts";
+import { neoChapterHref, neoReadHref, neoSectionHref } from "../components/neo-shell/books/links.ts";
 import { bringIntoView, readDeepLink, sectionElementId } from "../lib/library/deep-link.ts";
 
-/** How the reader actually parses an incoming link. */
+/** How the NEO reader parses an incoming link: the query, read on the client.
+ *  The base is a stand-in host, to show the link never names one itself. */
 const parse = (href: string) => {
-  const u = new URL(href, "https://sapbysali.app");
+  const u = new URL(href, "https://preview.example");
   const p = new URLSearchParams(u.search);
-  return { section: p.get("s"), quote: p.get("q"), hash: u.hash };
+  return { host: u.host, path: u.pathname, section: p.get("s"), chapter: p.get("c"), quote: p.get("q"), hash: u.hash };
 };
 
-test("a citation link carries a readable query, not a query buried in the hash", () => {
-  // The regression that made every citation in the product inert: the query was
-  // concatenated after `#s-…`, so it became part of the fragment and
-  // `location.search` was empty. No chapter switch, no scroll, no highlight.
-  const href = citationHref("book8", 3, "3.1", "משפט התומך בתשובה הזאת בדיוק");
-  const got = parse(href);
-  assert.equal(got.section, "3.1");
-  assert.equal(got.quote, "משפט התומך בתשובה הזאת בדיוק");
-  assert.ok(href.indexOf("?") < href.indexOf("#"), `query must precede fragment: ${href}`);
+const KANBAN = "Kanban is a procedure for controlling production and material flow";
+
+test("a citation opens the NEO reader, never the legacy /library/ reader", () => {
+  // The defect: every source link opened /library/<id>/, the old site shell.
+  for (const href of [
+    citationHref("book2", 9, "9.1", KANBAN),
+    citationHref("book2", 9, "9.1"),
+    citationHref("book2", 9),
+    citationHref("book2"),
+    citationHref("book7", 1, "F1393", "Account Balance Audit Trail shows every posting"),
+  ]) {
+    assert.ok(href.startsWith("/neo/read/"), href);
+    assert.ok(!href.includes("/library/"), href);
+  }
 });
 
-test("the section anchor survives, so the browser can jump before hydration", () => {
-  assert.equal(parse(citationHref("book1", 2, "2.4", null)).hash, "#sec-2.4");
+test("a book-only citation opens the book in the NEO reader", () => {
+  assert.equal(citationHref("book2"), "/neo/read/book2/");
+});
+
+test("a chapter citation opens that chapter with ?c=", () => {
+  assert.equal(citationHref("book2", 9), "/neo/read/book2/?c=9");
+});
+
+test("a section citation lands on the subchapter with ?s=: book2, chapter 9, section 9.1", () => {
+  assert.equal(citationHref("book2", 9, "9.1"), "/neo/read/book2/?s=9.1");
+});
+
+test("the verified quote follows the section as &q=, encoded, with no fragment after it", () => {
+  const href = citationHref("book2", 9, "9.1", KANBAN);
+  assert.equal(href, `/neo/read/book2/?s=9.1&q=${encodeURIComponent(KANBAN)}`);
+  const got = parse(href);
+  assert.deepEqual([got.path, got.section, got.quote, got.hash], ["/neo/read/book2/", "9.1", KANBAN, ""]);
+});
+
+test("a non-dotted section id lands too: book7's Fiori app F1393", () => {
+  // The NEO reader resolves ?s= against the book's real section list, so an
+  // app id is as good as a dotted number there.
+  assert.equal(citationHref("book7", 1, "F1393"), "/neo/read/book7/?s=F1393");
+  assert.equal(parse(citationHref("book7", 1, "F1393", "Account Balance Audit Trail shows every posting")).section, "F1393");
+});
+
+test("the link is relative, so a Preview stays on its own host", () => {
+  const href = citationHref("book2", 9, "9.1", KANBAN);
+  assert.ok(href.startsWith("/") && !href.startsWith("//"), href);
+  assert.doesNotMatch(href, /https?:|vercel\.app|sapbysali\.app/);
+  assert.equal(parse(href).host, "preview.example");
+});
+
+test("the forms are the NEO reader's own route contract, not a third convention", () => {
+  assert.equal(citationHref("book2"), neoReadHref("book2"));
+  assert.equal(citationHref("book2", 9), neoChapterHref("book2", 9));
+  assert.equal(citationHref("book7", 1, "F1393"), neoSectionHref("book7", "F1393"));
+  assert.ok(citationHref("book2", 9, "9.1", KANBAN).startsWith(`${neoSectionHref("book2", "9.1")}&q=`));
 });
 
 test("no quote means no q parameter rather than an empty one", () => {
@@ -31,8 +74,12 @@ test("no quote means no q parameter rather than an empty one", () => {
   assert.equal(got.section, "2.4");
 });
 
-test("a chapter-only citation still lands on the chapter", () => {
-  assert.equal(citationHref("book1", 5), "/library/book1/#ch-5");
+test("a quote without a section is not sent: it can only be checked inside a subchapter", () => {
+  assert.equal(citationHref("book2", 9, null, KANBAN), "/neo/read/book2/?c=9");
+});
+
+test("a section id that needs encoding stays one parameter", () => {
+  assert.equal(parse(citationHref("book2", 9, "A&B 1")).section, "A&B 1");
 });
 
 test("hebrew and special characters survive the round trip", () => {
@@ -77,7 +124,6 @@ test("the element id matches what the bespoke reader renders", () => {
   // The reader gives sections `sec-4.4.1`. Citations previously pointed at
   // `s-4.4.1`, so the browser jump matched nothing and the feature was dead.
   assert.equal(sectionElementId("4.4.1"), "sec-4.4.1");
-  assert.match(citationHref("book2", 4, "4.4.1", null), /#sec-4\.4\.1$/);
 });
 
 test("a long jump is instant; a short one keeps the reader's smooth motion", () => {

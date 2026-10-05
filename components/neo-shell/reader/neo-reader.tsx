@@ -55,6 +55,8 @@ import {
 } from "lucide-react";
 import type { SectionBody } from "@/lib/library/book";
 import { loadChapterBodies } from "@/lib/library/book";
+import { markQuote } from "@/lib/library/deep-link";
+import { findQuote } from "@/lib/library/highlight";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
 import {
   isBookmarked,
@@ -65,6 +67,7 @@ import {
 } from "@/components/neo-shell/books/reading-state";
 import { FigureViewer, type ViewerFigure } from "@/components/figure-viewer";
 import type { NRBook, NRChapter } from "./types";
+import { askedFor } from "./opening";
 import { computeProgress, n, pct, stepSection, stepView, type NRProgress } from "./progress";
 import { ProgressRail, ProgressStrip } from "./progress-rail";
 import { ReaderPanel } from "./reader-panel";
@@ -156,10 +159,7 @@ function resolveOpening(
   url: string | null,
   stored: { chapter: number | null; section: string | null } | null,
 ): Opening {
-  const [search, hash = ""] = (url ?? "").split("#");
-  const p = new URLSearchParams(search);
-  const askedSection = p.get("s") || (hash.startsWith("sec-") ? hash.slice(4) : "");
-  const askedChapter = Number(p.get("c") || (hash.startsWith("ch-") ? hash.slice(3) : ""));
+  const { section: askedSection, chapter: askedChapter } = askedFor(url);
 
   if (askedSection) {
     const owner = book.chapters.find((c) => c.sections.some((s) => s.id === askedSection));
@@ -530,6 +530,35 @@ export function NeoReader({ book }: { book: NRBook }) {
     return () => window.clearTimeout(t);
   }, [load, url, opening, chapterN, goTo, measure, schedule]);
 
+  /* A CITATION'S SENTENCE, MARKED WHERE IT WAS CITED.
+     Only for an address that resolved to a real subchapter of THIS book, and
+     only inside that subchapter: the same sentence found anywhere else is not
+     the one the answer rested on, and a wrong highlight is worse than none. Not
+     found means not marked; the landing above happens either way.
+     Marked once, by the Library's own tested matcher (markQuote over
+     findQuote), never stored: it is not reading progress, and the address
+     drops `q` as soon as it follows the reader. */
+  const quote = useMemo(() => askedFor(url).quote, [url]);
+  const cited = useRef(false);
+  useEffect(() => {
+    if (cited.current || load === "loading" || url === null) return;
+    const id = opening.source === "url" ? opening.section : null;
+    if (!quote || !id) { cited.current = true; return; }
+    // After the landing's own jump (60 ms above), so the section is in place.
+    const t = window.setTimeout(() => {
+      cited.current = true;
+      const el = document.getElementById(`nr-sec-${id}`);
+      if (!el || el.querySelector("mark[data-neo-cited]")) return;
+      const hit = markQuote(el, quote, document, findQuote);
+      if (!hit) return;
+      // A single-language view keeps the other text in a closed disclosure.
+      const box = hit.closest("details");
+      if (box && !box.open) box.open = true;
+      if (hit.getBoundingClientRect().bottom > window.innerHeight) hit.scrollIntoView({ block: "center" });
+    }, 120);
+    return () => window.clearTimeout(t);
+  }, [load, url, quote, opening.source, opening.section]);
+
   /* ------------------------------------------------------------ bookmark */
 
   /* A BOOKMARK IS NOT A READING POSITION, AND THE READER KEEPS THEM APART.
@@ -578,6 +607,9 @@ export function NeoReader({ book }: { book: NRBook }) {
       next.searchParams.set("c", String(chapter.n));
       if (activeSection) next.searchParams.set("s", activeSection);
       else next.searchParams.delete("s");
+      // The cited sentence belongs to the opening only. Carried along, it would
+      // ask a reload to mark a sentence in a subchapter the reader has left.
+      next.searchParams.delete("q");
       next.hash = "";
       window.history.replaceState(window.history.state, "", next.toString());
     }, 700);
