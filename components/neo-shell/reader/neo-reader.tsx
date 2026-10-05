@@ -554,7 +554,12 @@ export function NeoReader({ book }: { book: NRBook }) {
       // A single-language view keeps the other text in a closed disclosure.
       const box = hit.closest("details");
       if (box && !box.open) box.open = true;
-      if (hit.getBoundingClientRect().bottom > window.innerHeight) hit.scrollIntoView({ block: "center" });
+      // Centred unless it already sits in the upper part of the page: the lower
+      // part is under the reader's floating step bar, so "inside the viewport"
+      // is not the same as seen. The sentence is inside the cited subchapter,
+      // so centring it keeps the reading line in that subchapter.
+      const r = hit.getBoundingClientRect();
+      if (r.top < 0 || r.bottom > window.innerHeight * 0.6) hit.scrollIntoView({ block: "center" });
     }, 120);
     return () => window.clearTimeout(t);
   }, [load, url, quote, opening.source, opening.section]);
