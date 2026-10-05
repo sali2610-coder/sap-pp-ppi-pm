@@ -1026,42 +1026,6 @@ html .nx-app .nx-canvas:has(> .nh) {
 
 .nh-close { overflow: clip; }
 
-.nh-imp {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-  gap: .75rem;
-  margin-block: clamp(1.5rem, 3cqi, 2.5rem);
-}
-.nh-impcol {
-  display: grid;
-  gap: .45rem;
-  padding: 1rem 1.1rem;
-  border: 1px solid var(--scene-hair, var(--hairline));
-  border-radius: .85rem;
-  background: color-mix(in oklab, var(--scene-raised) 70%, transparent);
-}
-.nh-impcol[data-empty="1"] { opacity: .62; }
-/* STATUS colour, in the one form the design system allows: a small filled dot
-   immediately followed by its word. The card, its edge and its bar stay
-   neutral. */
-.nh-impcol-k {
-  display: flex;
-  align-items: center;
-  gap: .4rem;
-  font-size: .82rem;
-  /* 13.1px normal weight measured 4.29:1 on --scene-ink-2 in the light scene
-     (final audit, 2026-09-22). Mixing toward the scene's strongest ink clears
-     4.5:1 and keeps the label below the number it labels. */
-  color: color-mix(in srgb, var(--scene-ink-2, var(--ink-2)) 55%, var(--scene-ink, var(--ink-1)));
-}
-.nh-impcol-k > i { inline-size: .5rem; block-size: .5rem; border-radius: 50%; flex: none; }
-.nh-impcol[data-k="kept"] .nh-impcol-k > i { background: var(--status-done); }
-.nh-impcol[data-k="adapted"] .nh-impcol-k > i { background: var(--status-in-analysis); }
-.nh-impcol[data-k="replaced"] .nh-impcol-k > i { background: var(--status-in-conversion); }
-.nh-impcol[data-k="removed"] .nh-impcol-k > i { background: var(--status-removed); }
-.nh-impcol > b { font-size: clamp(1.6rem, 3.2cqi, 2.4rem); font-weight: 800; line-height: 1; color: var(--scene-ink, var(--ink-1)); }
-.nh-impcol-p { font-size: .76rem; color: var(--scene-ink-3, var(--ink-3)); }
-
 .nh-hot { display: grid; gap: .5rem; margin: 0 0 1.4rem; padding: 0; list-style: none; }
 .nh-hot > li {
   display: grid;
@@ -1098,18 +1062,6 @@ html .nx-app .nx-canvas:has(> .nh) {
   background: color-mix(in oklab, var(--m) 12%, transparent);
   color: var(--scene-ink-2, var(--ink-2));
 }
-
-.nh-out {
-  display: grid;
-  gap: 1.1rem;
-  padding: clamp(1.1rem, 2.6cqi, 1.8rem);
-  border: 1px solid var(--scene-hair, var(--hairline));
-  border-radius: 1rem;
-  background: color-mix(in oklab, var(--scene-raised) 62%, transparent);
-  margin-block-start: 1.5rem;
-}
-.nh-out-t { margin: 0; font-size: 1rem; line-height: 1.7; color: var(--scene-ink-2, var(--ink-2)); }
-.nh-out .nh-cta { margin-block-end: 0; }
 
 .nh-credit {
   margin: clamp(2rem, 4cqi, 3rem) 0 0;
@@ -1555,26 +1507,6 @@ html .nx-app .nx-canvas:has(> .nh) {
    hundred and five.
    ========================================================================== */
 
-[data-scene="s4"] .nh-impcol {
-  padding: var(--sp-4) var(--sp-5);
-  border-radius: 1rem;
-  background: color-mix(in oklab, var(--vc) 18%, var(--scene-ground));
-  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--vc) 42%, transparent);
-}
-[data-scene="s4"] .nh-impcol[data-k="kept"]     { --vc: var(--scene-cool, #22d3ee); }
-[data-scene="s4"] .nh-impcol[data-k="adapted"]  { --vc: var(--scene-cool, #22d3ee); }
-[data-scene="s4"] .nh-impcol[data-k="replaced"] { --vc: var(--scene-hot, #ff6f57); }
-[data-scene="s4"] .nh-impcol[data-k="removed"]  { --vc: var(--scene-ink-3); }
-/* A zero band is drawn as a real zero rather than hidden — the dictionary
-   marks nothing as removed, and that is a finding, not a gap. */
-[data-scene="s4"] .nh-impcol[data-empty="1"] { opacity: .55; }
-[data-scene="s4"] .nh-impcol .nh-sap {
-  color: color-mix(in oklab, var(--vc) 62%, var(--scene-ink));
-  font-size: clamp(2rem, 3.6vw, 3rem);
-  line-height: 1;
-}
-[data-scene="s4"] .nh-impcol-k i { background: var(--vc); }
-[data-scene="s4"] .nh-bar i { background: var(--vc); }
 
 /* The five that move. Each row is a findable object, not another dark bar. */
 [data-scene="s4"] .nh-hot > li {
@@ -1765,13 +1697,12 @@ html[data-theme="dark"] #nh-5[data-scene="pppi-full"] {
    card edge on every scene; only the value changes. */
 .nz-count { color: var(--scene-ink); }
 
-/* THE WORK-PATH GRID (content pass, 2026-08).
-   Three primary entries — PM, PP-PI, S/4HANA readiness — as one row of the
-   existing .nh-mod cards. Layout only; the card itself is untouched. */
+/* THE WORK-PATH GRID. The two module environments, PM and PP-PI, side by
+   side as .nh-mod cards; a single column once the canvas cannot hold two. */
 .nh-paths {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--sp-4);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 2.4cqi, 1.75rem);
   align-items: stretch;
 }
 .nh-paths .nh-mod { height: 100%; }
@@ -1835,9 +1766,243 @@ html[data-theme="dark"] #nh-5[data-scene="pppi-full"] {
   :where(html:not([data-neo-motion="full"])) .nh .nh-start-card { transition: none; }
   :where(html:not([data-neo-motion="full"])) .nh .nh-start-card:hover { transform: none; }
 }
-@media (max-width: 1080px) {
-  .nh-paths { grid-template-columns: 1fr; }
+@container nh (max-width: 46rem) {
+  .nh-paths { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* a11y sample 2026-09-21: the text link in the gate measured 4.2:1 on the deep scene. */
 .nh-gate-in .nu-link { color: var(--scene-ink, #fff); }
+
+/* ==========================================================================
+   02 · WHAT THE SITE HOLDS
+   The library as its real shelf, then eight collections. Each entry wears one
+   of the gate's three start-card hues through --m, as a tint and an icon tile,
+   never as a stripe. Counts sit in mono because they are data.
+   ========================================================================== */
+
+.nh-hub {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(.75rem, 1.6cqi, 1.1rem);
+}
+
+/* One collection. */
+.nh-tile {
+  display: grid;
+  align-content: start;
+  gap: .75rem;
+  min-inline-size: 0;
+  padding: clamp(1rem, 1.8cqi, 1.3rem);
+  border: 1px solid var(--scene-hair);
+  border-radius: 1rem;
+  background: var(--scene-raised);
+  box-shadow: var(--elev-1);
+  color: var(--scene-ink);
+  text-decoration: none;
+  /* `translate`, not `transform`: .nm-rise holds `transform` through its
+     scroll-driven fill, and an animation outranks a :hover declaration. */
+  transition: translate var(--dur-base) var(--ease-out-expo),
+              box-shadow var(--dur-base) var(--ease-out-expo),
+              border-color var(--dur-fast) linear;
+}
+.nh-tile-top { display: flex; align-items: center; gap: .7rem; min-inline-size: 0; }
+.nh-tile-ico {
+  display: grid;
+  place-items: center;
+  flex: none;
+  inline-size: 2.6rem;
+  block-size: 2.6rem;
+  border-radius: .75rem;
+  color: var(--m);
+  background: color-mix(in srgb, var(--m) 12%, var(--scene-raised));
+}
+.nh-tile-t { min-inline-size: 0; font-size: 1rem; font-weight: 750; line-height: 1.3; }
+.nh-tile-n { display: flex; flex-wrap: wrap; align-items: baseline; gap: .15rem .5rem; }
+.nh-tile-go { flex: none; align-self: center; margin-inline-start: auto; color: var(--m); }
+.nh-tile-n > b {
+  font-size: clamp(1.6rem, 2.5cqi, 2.15rem);
+  font-weight: 760;
+  line-height: 1;
+  letter-spacing: -.02em;
+  color: var(--scene-ink);
+}
+.nh-tile-n > em { font-style: normal; font-size: .8rem; font-weight: 600; color: var(--scene-ink-2); }
+.nh-tile-d { font-size: .84rem; line-height: 1.6; color: var(--scene-ink-2); text-wrap: pretty; }
+
+.nh-tile:hover,
+.nh-lib:hover { border-color: color-mix(in srgb, var(--m) 48%, var(--scene-hair)); box-shadow: var(--elev-3); }
+.nh-tile:focus-visible,
+.nh-lib:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+
+/* The library band: copy and numbers on the reading side, the shelf opposite. */
+.nh-lib {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  align-items: end;
+  gap: clamp(1.25rem, 3cqi, 2.75rem);
+  padding: clamp(1.1rem, 2.4cqi, 1.75rem);
+  border: 1px solid color-mix(in srgb, var(--m) 24%, var(--scene-hair));
+  border-radius: 1.25rem;
+  background: color-mix(in srgb, var(--m) 5%, var(--scene-raised));
+  box-shadow: var(--elev-2);
+  color: var(--scene-ink);
+  text-decoration: none;
+  transition: box-shadow var(--dur-base) var(--ease-out-expo), border-color var(--dur-fast) linear;
+}
+.nh-lib-copy { display: grid; align-content: start; gap: .9rem; min-inline-size: 0; }
+.nh-lib .nh-tile-t { font-size: 1.15rem; }
+.nh-lib-d { max-inline-size: 42ch; font-size: .92rem; line-height: 1.7; color: var(--scene-ink-2); text-wrap: pretty; }
+.nh-lib-n { display: flex; flex-wrap: wrap; gap: .5rem clamp(1.1rem, 2.4cqi, 2rem); }
+.nh-lib-n > span { display: grid; gap: .3rem; }
+.nh-lib-n b {
+  font-size: clamp(1.7rem, 3cqi, 2.4rem);
+  font-weight: 760;
+  line-height: 1;
+  letter-spacing: -.02em;
+  color: var(--scene-ink);
+}
+.nh-lib-n em { font-style: normal; font-size: .8rem; font-weight: 600; color: var(--scene-ink-2); }
+.nh-lib-go { display: inline-flex; align-items: center; gap: .45rem; font-size: .88rem; font-weight: 750; }
+.nh-lib-go > svg { color: var(--m); }
+
+/* The shelf. Column widths are set inline from each book's thickness. */
+.nh-shelf {
+  display: grid;
+  align-items: end;
+  gap: clamp(3px, .45cqi, 6px);
+  block-size: clamp(8rem, 15cqi, 11.5rem);
+  padding-inline: .35rem;
+  border-block-end: 3px solid color-mix(in srgb, var(--scene-ink) 24%, transparent);
+}
+.nh-shelf > i {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  block-size: calc(var(--h, 1) * 100%);
+  padding-block-start: .75rem;
+  overflow: hidden;
+  border-radius: 3px 3px 1px 1px;
+  background: var(--cloth);
+  /* An edge catching light, the other in shade, and the headband: depth from
+     three hard insets on the book's own cloth, not a gradient. */
+  box-shadow: inset 1px 0 0 rgb(255 255 255 / .14), inset -1px 0 0 rgb(0 0 0 / .28), inset 0 7px 0 rgb(0 0 0 / .16);
+  font-style: normal;
+  transition: translate 260ms var(--ease-out-expo) calc(var(--i, 0) * 18ms);
+}
+.nh-shelf > i::after {
+  content: "";
+  position: absolute;
+  inset-inline: 22%;
+  inset-block-end: .8rem;
+  block-size: 2px;
+  background: rgb(246 239 226 / .45);
+}
+.nh-shelf > i > span {
+  /* A Latin code on a spine runs head to foot; in an RTL page the inline
+     direction of vertical text would otherwise start at the foot. */
+  direction: ltr;
+  writing-mode: vertical-rl;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: clamp(.56rem, .85cqi, .7rem);
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: #f6efe2;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nh-tile:hover { translate: 0 -3px; }
+  .nh-lib:hover .nh-shelf > i { translate: 0 -6px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :where(html:not([data-neo-motion="full"])) .nh-tile,
+  :where(html:not([data-neo-motion="full"])) .nh-shelf > i { transition: none; translate: none !important; }
+}
+
+@container nh (max-width: 62rem) {
+  .nh-hub { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@container nh (max-width: 46rem) {
+  .nh-lib { grid-template-columns: minmax(0, 1fr); align-items: stretch; }
+  .nh-shelf { block-size: 7.5rem; }
+}
+/* A phone reads the eight collections as a list: icon, name and count on one
+   line, the description under them. */
+@container nh (max-width: 34rem) {
+  .nh-hub { grid-template-columns: minmax(0, 1fr); }
+  .nh-tile {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "ico t n" "ico d d";
+    align-items: center;
+    gap: .25rem .85rem;
+    padding: .9rem 1rem;
+  }
+  .nh-tile > .nh-tile-top { display: contents; }
+  .nh-tile .nh-tile-ico { grid-area: ico; align-self: start; inline-size: 2.4rem; block-size: 2.4rem; }
+  .nh-tile .nh-tile-t { grid-area: t; }
+  .nh-tile .nh-tile-go { display: none; }
+  .nh-tile > .nh-tile-n { grid-area: n; flex-direction: column; align-items: end; gap: .1rem; }
+  .nh-tile > .nh-tile-n > b { font-size: 1.35rem; }
+  .nh-tile > .nh-tile-n > em { font-size: .72rem; }
+  .nh-tile > .nh-tile-d { grid-area: d; font-size: .8rem; }
+  .nh-lib-n b { font-size: 1.6rem; }
+}
+
+/* ==========================================================================
+   04 · THE CLOSE
+   The identity and the one sentence, then the privacy facts as /neo/privacy
+   states them in one row, then the credit across the full width.
+   ========================================================================== */
+
+.nh-end-copy {
+  display: grid;
+  justify-items: start;
+  gap: 1.1rem;
+  margin-block-end: clamp(1.75rem, 3.5cqi, 2.75rem);
+}
+.nh-end-copy .nh-h2 { margin: 0; }
+.nh-end-copy .nh-cta { margin: .3rem 0 0; }
+.nh-end-logo { display: inline-flex; color: var(--scene-ink); }
+
+.nh-priv {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--scene-hair);
+  border-radius: 1.25rem;
+  background: color-mix(in srgb, var(--scene-raised) 88%, transparent);
+  box-shadow: var(--elev-2);
+}
+.nh-priv > li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-content: start;
+  gap: .25rem .9rem;
+  padding: clamp(1rem, 2cqi, 1.35rem) clamp(1rem, 2cqi, 1.5rem);
+}
+.nh-priv > li + li { border-inline-start: 1px solid var(--scene-hair); }
+.nh-priv-ico {
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  border-radius: .75rem;
+  color: var(--scene-accent);
+  background: color-mix(in srgb, var(--scene-accent) 10%, var(--scene-raised));
+}
+.nh-priv > li > b { align-self: end; font-size: .98rem; font-weight: 750; color: var(--scene-ink); }
+.nh-priv > li > span:last-child { font-size: .85rem; line-height: 1.6; color: var(--scene-ink-2); }
+
+@container nh (max-width: 46rem) {
+  .nh-priv { grid-template-columns: minmax(0, 1fr); }
+  .nh-priv > li + li { border-inline-start: 0; border-block-start: 1px solid var(--scene-hair); }
+}
+/* The last scene ends under the floating dock on a phone; the credit keeps
+   clear of it at full scroll. */
+@container nh (max-width: 34rem) {
+  #nh-4 > .nh-body { padding-block-end: 6.5rem; }
+}

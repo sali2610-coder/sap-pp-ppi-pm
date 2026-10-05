@@ -1,31 +1,79 @@
-/* The three workspaces share a surface, with Astra's own module accents. */
+/* The two module workspaces share a surface, with Astra's own module accents. */
 #nh-2 .nh-mod {
-  grid-template-rows: auto auto 1fr auto auto;
+  grid-template-rows: auto auto auto 1fr auto auto;
+  gap: 1.1rem;
   position: relative; overflow: hidden;
+  margin-block-end: 0;
   border-block-start: 3px solid var(--m);
   box-shadow: 0 8px 24px color-mix(in srgb, var(--scene-ink, var(--ink-1)) 7%, transparent),
     inset 0 1px 0 color-mix(in srgb, var(--scene-raised, var(--surface)) 70%, transparent);
+  transition: translate var(--dur-base) var(--ease-out-expo), box-shadow var(--dur-base) var(--ease-out-expo),
+    border-color var(--dur-fast) linear;
 }
 #nh-2 .nh-mod-top { flex-wrap: wrap; align-content: start; gap: .35rem .7rem; }
-#nh-2 .nh-mod-he { flex-basis: 100%; order: 2; }
+#nh-2 .nh-mod-top > b { font-size: clamp(1.9rem, 3.6cqi, 2.6rem); }
+#nh-2 .nh-mod-he { flex-basis: 100%; order: 2; font-weight: 650; color: var(--scene-ink, var(--ink-1)); }
+#nh-2 .nh-mod-en { display: block; margin-block-start: .2rem; font-size: .78rem; font-weight: 500; color: var(--scene-ink-3, var(--ink-3)); }
 #nh-2 .nh-work-purpose {
-  color: var(--scene-ink-2, var(--ink-2)); font-size: .9rem; line-height: 1.7;
-  min-block-size: 3.4em; text-wrap: pretty;
+  color: var(--scene-ink-2, var(--ink-2)); font-size: .9rem; line-height: 1.7; text-wrap: pretty;
 }
+
+/* The module's process steps, numbered in their own order: code, then the
+   step's name. A step with no table in the module's dictionary keeps its
+   place and is drawn dashed and muted, with its words saying why. */
+#nh-2 .nh-flow {
+  display: grid; gap: .6rem; padding: .85rem .95rem; border-radius: .85rem;
+  border: 1px solid color-mix(in srgb, var(--m) 22%, transparent);
+  background: color-mix(in srgb, var(--m) 7%, var(--scene-raised, var(--surface)));
+}
+#nh-2 .nh-flow > em { font-style: normal; font-size: .78rem; font-weight: 700; color: var(--scene-ink-2, var(--ink-2)); }
+#nh-2 .nh-flow-steps {
+  margin: 0; padding-inline-start: 1.35rem; list-style: decimal;
+  columns: 9rem 2; column-gap: 1.25rem;
+  font-size: .8rem; line-height: 1.35;
+}
+/* A list item, not a flex box: the number is the item's own marker. */
+#nh-2 .nh-flow-steps > li {
+  break-inside: avoid; padding-block: .22rem;
+  color: var(--scene-ink-2, var(--ink-2));
+}
+#nh-2 .nh-flow-steps > li::marker { font-size: .7rem; font-weight: 700; color: var(--scene-ink-3, var(--ink-3)); }
+/* Code and name side by side; a long name wraps inside its own column. */
+#nh-2 .nh-step { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: baseline; gap: .45rem; }
+#nh-2 .nh-flow-steps i {
+  min-inline-size: 3.4rem; text-align: center;
+  font-style: normal; font-size: .72rem; font-weight: 700; line-height: 1;
+  padding: .28rem .35rem; border-radius: .35rem;
+  border: 1px solid color-mix(in srgb, var(--m) 32%, var(--scene-hair, var(--hairline)));
+  background: var(--scene-raised, var(--surface)); color: var(--scene-ink, var(--ink-1));
+}
+#nh-2 .nh-flow-steps em { font-style: normal; color: var(--scene-ink-3, var(--ink-3)); }
+#nh-2 .nh-flow-steps > li[data-gap] i { border-style: dashed; background: transparent; color: var(--scene-ink-2, var(--ink-2)); }
+
 #nh-2 .nh-mod-nums {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-content: start; gap: 1rem; padding-block: .6rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-content: start; gap: 1rem .75rem;
+  padding-block-start: 1rem;
+  border-block-start: 1px solid var(--scene-hair, var(--hairline));
 }
-#nh-2 .nh-mod-nums > span {
-  border-inline-start: 2px solid color-mix(in srgb, var(--m) 35%, transparent);
-  padding-inline-start: .7rem;
-}
+#nh-2 .nh-mod-nums > span { gap: .3rem; }
+/* An LTR number in an RTL cell keeps the cell's reading edge. */
+#nh-2 .nh-mod-nums b { justify-self: start; font-size: 1.35rem; }
 #nh-2 .nh-mod-share { grid-template-columns: minmax(3rem, 1fr) auto; }
-#nh-2 .nh-mod-share > span:last-child { grid-column: 1 / -1; }
+#nh-2 .nh-mod-share > span:last-child { grid-column: 1 / -1; line-height: 1.6; }
 #nh-2 .nh-work-enter {
   display: flex; flex-wrap: wrap; align-items: center; gap: .5rem;
-  color: var(--scene-ink, var(--ink-1)); font-size: .85rem; font-weight: 750;
-  border-block-start: 1px solid var(--scene-hair, var(--hairline)); padding-block-start: .8rem;
+  color: var(--scene-ink, var(--ink-1)); font-size: .88rem; font-weight: 750;
+  border-block-start: 1px solid var(--scene-hair, var(--hairline)); padding-block-start: .85rem;
 }
 #nh-2 .nh-work-enter > svg { margin-inline-start: auto; color: var(--m); }
 #nh-2 .nh-mod:hover, #nh-2 .nh-mod:focus-visible { border-color: var(--m); }
+@media (hover: hover) and (pointer: fine) {
+  #nh-2 .nh-mod:hover { translate: 0 -3px; box-shadow: var(--elev-3); }
+}
+@media (prefers-reduced-motion: reduce) {
+  :where(html:not([data-neo-motion="full"])) #nh-2 .nh-mod { transition: none; translate: none !important; }
+}
+@container nh (max-width: 34rem) {
+  #nh-2 .nh-mod-nums { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
