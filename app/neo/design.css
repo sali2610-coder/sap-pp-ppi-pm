@@ -231,20 +231,6 @@ html[data-theme="dark"] .nx-app [data-scene="books"] {
 .nx-app .nh-brand .text-ink-1 { color: var(--scene-ink); }
 .nx-app .nh-brand .text-ink-3 { color: var(--scene-ink-2); }
 
-/* S/4 differences are readable as labelled before/after blocks. Status and
-   verification remain the data's own; this changes emphasis, not assertions. */
-.nx-app .ns4 .ns4-h1 { line-height: 1.2; font-size: clamp(1.875rem, 3.4vw, 2.75rem); }
-.nx-app .ns4 .ns4-h2 { font-size: clamp(1.25rem, 2vw, 1.625rem); line-height: 1.4; }
-.nx-app .ns4 :is(.ns4-h3, .ns4-obj-n) { font-size: 1.0625rem; line-height: 1.5; }
-.nx-app .ns4 :is(.ns4-eye, .ns4-sec-k, .ns4-h4, .ns4-stat em, .ns4-ba dt) { font-size: .8125rem; letter-spacing: 0; }
-.nx-app .ns4 :is(.ns4-sec-s, .ns4-obj-he, .ns4-ba dd, .ns4-why) { font-size: .9375rem; line-height: 1.75; }
-.nx-app .ns4 .ns4-obj { background: var(--surface); box-shadow: var(--elev-2); padding: 1.25rem; }
-.nx-app .ns4 .ns4-objs { grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr)); }
-.nx-app .ns4 .ns4-ba { gap: .6rem; margin-block: .875rem; }
-.nx-app .ns4 .ns4-ba > div { grid-template-columns: minmax(5rem, auto) minmax(0, 1fr); padding: .65rem .75rem; border-radius: .5rem; background: var(--background); }
-.nx-app .ns4 .ns4-ba > div:last-child { border-inline-start: 3px solid var(--mod-s4); background: color-mix(in srgb, var(--mod-s4) 8%, var(--surface)); }
-.nx-app .ns4 .ns4-ba > div:last-child :is(dt, dd) { color: var(--ink-1); font-weight: 650; }
-.nx-app .ns4 .ns4-why { border: 1px solid var(--hairline); }
 .nx-app .no .no-s4flag { border-inline-start-width: 4px; }
 
 /* The expanded book keeps the full contents usable beside its cover. */
@@ -253,9 +239,6 @@ html[data-theme="dark"] .nx-app [data-scene="books"] {
 .nx-app .nb-ch-row { min-block-size: 3rem; }
 @media (min-width: 1200px) {
   .nx-app .nb-sheet { inline-size: min(84rem, 100%); max-block-size: 94dvh; grid-template-columns: minmax(0, 17rem) minmax(0, 1fr); }
-}
-@media (max-width: 480px) {
-  .nx-app .ns4 .ns4-ba > div { grid-template-columns: minmax(0, 1fr); gap: .25rem; }
 }
 
 /* Expanded view leaves the user's saved navigation mode untouched. The exit

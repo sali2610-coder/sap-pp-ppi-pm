@@ -24,6 +24,7 @@ import {
   Table2, Terminal, Workflow,
 } from "lucide-react";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
+import { Rtl } from "@/components/neo-shell/rtl-text";
 import { domainCards, domainTotals, tableLines, type DomLink, type DomainView } from "./domain-data";
 import { DomainHubList } from "./domain-hub-list";
 
@@ -99,25 +100,6 @@ export function DomainsHub() {
 }
 
 /* ------------------------------------------------------------------ detail */
-
-/** A record sentence as it should read in an RTL page. Two display-only fixes,
- *  the text itself untouched:
- *  · every maximal Latin run ("OData API_PROCESS_ORDER_2_SRV; PP-DS/aATP",
- *    "_INTERN") is isolated as one LTR unit, so its own punctuation stays put
- *    and a multi-word phrase keeps its order;
- *  · an arrow between Hebrew words is drawn pointing forward in RTL (←); an
- *    arrow inside a Latin run (CRTD→REL) keeps its own direction. */
-const LATIN = /([_A-Za-z0-9][^\u0590-\u05FF]*[_A-Za-z0-9]|[_A-Za-z0-9])/;
-function Rtl({ s }: { s: string }) {
-  const parts = s.split(LATIN);
-  return (
-    <>
-      {parts.map((x, i) =>
-        i % 2 ? <bdi key={i} dir="ltr">{x}</bdi> : <Fragment key={i}>{x.replace(/→/g, "←")}</Fragment>,
-      )}
-    </>
-  );
-}
 
 /** "רשימות פעולות (Task Lists)": the Latin gloss is one LTR unit that moves to
  *  the next line whole instead of splitting with its brackets mirrored. */

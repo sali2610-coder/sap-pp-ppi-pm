@@ -3,457 +3,799 @@
    ----------------------------------------------------------------------------
    Shared by /neo/s4hana/, /neo/s4-readiness/ and /neo/migration-cockpit/.
 
-   COLOUR. The `s4` scene supplies the ground and the ink (app/neo/ground.css).
-   Everything else is STATUS, and status colour comes from the datasets
-   themselves — data/s4-objects, data/s4-architecture, data/ecc-s4 and
-   data/migration-cockpit each carry a status→hex map that the legacy pages
-   already rendered. Those hexes arrive here through inline `--s`, which is why
-   this file names almost no colours of its own: re-mapping them onto product
-   tokens would make "removed" a different colour in NEO than in the legacy site
-   for no reader benefit.
+   THE SHAPE is the one the module and domain pages already use: a hero with a
+   ledger whose counts open their sections, compact section heads, and raised
+   sections on the scene's ground. Each page then has ONE signature that shows
+   the whole subject at once: the board of the 29 changes, the matrix of the
+   15 modules, the route of the 24 migration objects.
 
-   The card, the section and the hero are the same shapes the Domains and
-   Centers surfaces use, so a reader moving between them is not learning a third
-   layout.
+   COLOUR. The `s4` scene (app/neo/ground.css) supplies the ground, the ink and
+   the cobalt accent; the accent marks the S/4HANA side of every comparison.
+   STATUS keeps one form only: a small dot followed by its word (.ns4-st). The
+   dot takes the dataset's own hex; a status hex is never a stripe, a fill or a
+   text colour, so no border here is wider than 1px.
+
+   LAYOUT. Every grid and table answers to the width it is actually given
+   (container queries on inner blocks, never on the page root, whose width
+   must not depend on its content).
    ========================================================================== */
 
 .ns4 {
-  --s: var(--ink-3);
+  /* The cobalt as computed HERE, so the section bar can take it without the
+     bar's own `--scene-accent: var(--nxs-on)` closing a loop. */
+  --ns4-on: var(--scene-accent);
+  /* 11%: measured against --surface-2, which is itself blue on this scene;
+     at 7% the "after" read greyer than the neutral "before". */
+  --ns4-tint: color-mix(in srgb, var(--scene-accent) 11%, var(--surface));
   /* The section bar bleeds by its own padding; on a 390px phone that pushed the
      scene to 427px and the canvas scrolled sideways (screen matrix 2026-09-21). */
   min-inline-size: 0; overflow-x: clip;
-  /* Auto margins made the scene fit-content; on a 390px phone that meant 427px.
-     Explicit: the track, capped at the reading width. */
+  /* Auto margins made the scene fit-content; explicit: the track, capped. */
   inline-size: min(78rem, 100%);
+  box-sizing: border-box;
   padding: clamp(1.25rem, 3vw, 2.5rem) clamp(1rem, 3vw, 2.5rem) 5rem;
   max-inline-size: 78rem;
   margin-inline: auto;
   color: var(--scene-ink, var(--ink-1));
+  /* A long SAP token ("Foundation→Master→Transactional",
+     "BSIS/BSAS/BSIK/BSAK/BSID/BSAD/FAGLFLEXA") has no break point. `anywhere`
+     (not `break-word`) also lowers the min-content, so no grid track or flex
+     item grows to fit one: on a 320px phone it breaks instead of leaving its
+     cell. */
+  overflow-wrap: anywhere;
 }
+
+/* The running section bar takes the cobalt and this page's ground. */
+.nx-app .ns4 .nxs {
+  --nxs-on: var(--ns4-on);
+  background: color-mix(in srgb, var(--scene-ground) 84%, transparent);
+}
+
+/* SAP identifiers have no break opportunity, so on a narrow canvas a code may
+   break where it must rather than push the page sideways. */
+.ns4 .nx-sap { overflow-wrap: anywhere; }
 
 /* ------------------------------------------------------------------- hero */
 
 .ns4-hero { margin-block-end: clamp(1.25rem, 3vw, 2rem); }
 .ns4-eye {
-  display: flex; align-items: center; gap: .5rem; margin: 0 0 .6rem;
-  font-size: .74rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
-  color: var(--ink-3);
+  display: flex; align-items: center; gap: .5rem;
+  margin: 0 0 .6rem;
+  font-size: .78rem; font-weight: 700;
+  color: var(--ink-2);
 }
+.ns4-eye svg { color: var(--scene-accent); flex: none; }
+.ns4-eye i { inline-size: 14px; block-size: 1px; background: currentColor; opacity: .45; flex: none; }
+.ns4-eye [lang="en"] { font-size: .72rem; letter-spacing: .09em; color: var(--ink-3); }
 .ns4-h1 {
-  margin: 0; font-size: clamp(1.75rem, 3.4vw, 2.5rem);
-  font-weight: 700; line-height: 1.08; letter-spacing: -.025em; text-wrap: balance;
+  margin: 0;
+  font-size: clamp(1.75rem, 3.4vw, 2.6rem);
+  font-weight: 720; line-height: 1.12; letter-spacing: -.022em;
+  text-wrap: balance;
 }
-.ns4-lede { margin: .8rem 0 0; max-inline-size: 68ch; font-size: .97rem; line-height: 1.68; color: var(--ink-2); }
+.ns4-lede { margin: .8rem 0 0; max-inline-size: 70ch; font-size: .98rem; line-height: 1.7; color: var(--ink-2); }
+
+/* The executive verdict: the one paragraph the whole page argues for. */
 .ns4-narr {
-  margin: 1.2rem 0 0; max-inline-size: 72ch;
-  padding: 1rem 1.1rem; border-radius: .9rem;
-  font-size: .92rem; line-height: 1.75; color: var(--ink-2);
-  background: var(--surface); border: 1px solid var(--hairline);
+  margin: 1rem 0 0; max-inline-size: 78ch;
+  padding: .95rem 1.15rem;
+  border-radius: .95rem;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--elev-1);
+  font-size: .97rem; line-height: 1.78; color: var(--ink-1);
 }
 
-.ns4-stats {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); gap: 1.1rem;
-  margin-block-start: 1.4rem; padding-block-start: 1rem; border-block-start: 1px solid var(--hairline);
+/* The ledger: a row of counts, each the door to the section that holds it. */
+.ns4-led {
+  display: grid; grid-template-columns: repeat(6, minmax(0, 1fr));
+  margin: 1.1rem 0 0; padding: 0; list-style: none;
+  border-block: 1px solid var(--hairline);
 }
-.ns4-stat { display: grid; gap: 2px; }
-.ns4-stat b {
-  font-family: var(--font-mono); font-size: 1.45rem; direction: ltr;
+.ns4-led > li { display: grid; min-inline-size: 0; }
+.ns4-led > li + li { border-inline-start: 1px solid var(--hairline); }
+.ns4-led a {
+  display: grid; gap: 3px; align-content: start;
+  padding: .75rem .85rem; color: inherit; text-decoration: none;
+  transition: background-color .14s linear;
+}
+.ns4-led > li:first-child a { padding-inline-start: 0; }
+.ns4-led b {
+  justify-self: start;
+  font-size: 1.5rem; font-weight: 760; line-height: 1.1;
   font-variant-numeric: tabular-nums; color: var(--ink-1);
 }
-.ns4-stat em { font-size: .72rem; color: var(--ink-3); font-style: normal; }
+.ns4-led span { font-size: .76rem; line-height: 1.45; color: var(--ink-2); }
+.ns4-led a:hover { background: color-mix(in srgb, var(--scene-accent) 7%, transparent); }
+.ns4-led a:hover span { color: var(--ink-1); text-decoration: underline; text-underline-offset: 3px; }
+.ns4-led a:focus-visible { outline: 2px solid var(--scene-accent); outline-offset: -2px; border-radius: .4rem; }
 
 .ns4-gap {
-  display: flex; align-items: flex-start; gap: .45rem;
-  margin: 1rem 0 0; max-inline-size: 70ch; font-size: .85rem; line-height: 1.65; color: var(--ink-3);
+  display: flex; gap: .45rem; align-items: baseline;
+  margin: .85rem 0 0; max-inline-size: 86ch;
+  font-size: .82rem; line-height: 1.65; color: var(--ink-3);
 }
-.ns4-gap svg { flex: none; margin-block-start: .25em; }
+.ns4-gap svg { flex: none; transform: translateY(2px); }
 
 /* --------------------------------------------------------------- sections */
 
 .ns4-sec {
-  margin-block-start: 1.6rem; padding: 1.15rem 1.25rem 1.25rem;
-  border-radius: 1rem; background: var(--surface);
-  border: 1px solid var(--hairline); box-shadow: var(--elev-1);
+  margin-block-start: 1.25rem;
+  padding: 1.2rem 1.3rem 1.35rem;
+  border-radius: 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--elev-1);
+  scroll-margin-block-start: calc(var(--nxs-h, 0px) + 1rem);
 }
-.ns4-sec-h { display: grid; gap: .3rem; margin-block-end: 1rem; position: relative; }
-.ns4-sec-n {
-  position: absolute; inset-block-start: 0; inset-inline-end: 0;
-  font-family: var(--font-mono); font-size: .78rem; direction: ltr; color: var(--ink-3); opacity: .6;
+.ns4-sec-h { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: .9rem; margin-block-end: 1.05rem; }
+.ns4-badge {
+  display: grid; place-items: center; align-content: center; gap: 2px;
+  inline-size: 2.9rem; block-size: 2.9rem; border-radius: .85rem;
+  color: var(--scene-accent);
+  background: var(--ns4-tint);
+  border: 1px solid color-mix(in srgb, var(--scene-accent) 26%, var(--hairline));
 }
-.ns4-sec-k {
-  display: flex; align-items: center; gap: .45rem; margin: 0;
-  font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3);
+.ns4-badge b { font-family: var(--font-mono); font-size: .66rem; font-weight: 750; line-height: 1; }
+.ns4-sec-t { display: grid; gap: .22rem; min-inline-size: 0; }
+.ns4-h2 {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .7rem;
+  margin: 0; font-size: 1.24rem; font-weight: 720; line-height: 1.35; letter-spacing: -.012em;
 }
-.ns4-sec-ico {
-  display: grid; place-items: center; inline-size: 1.5rem; block-size: 1.5rem; border-radius: 8px;
-  color: var(--sec-transactions, #1d5fd0);
-  background: color-mix(in srgb, var(--sec-transactions, #1d5fd0) 10%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sec-transactions, #1d5fd0) 24%, transparent);
+.ns4-pill {
+  display: inline-block;
+  padding: .1rem .55rem; border-radius: 999px;
+  font-size: .72rem; font-weight: 650; line-height: 1.5; letter-spacing: 0;
+  color: var(--ink-2); white-space: nowrap;
+  background: var(--ns4-tint);
+  border: 1px solid color-mix(in srgb, var(--scene-accent) 22%, var(--hairline));
 }
-.ns4-h2 { margin: 0; font-size: 1.18rem; font-weight: 700; letter-spacing: -.015em; }
-.ns4-sec-s { margin: .25rem 0 0; font-size: .84rem; line-height: 1.6; color: var(--ink-3); max-inline-size: 72ch; }
-.ns4-sec-b { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; }
-/* Every list here that is a grid takes a shrinkable track unless its own rule
-   sets columns (zero specificity, so any class rule wins): an implicit track
-   took the widest item's min-content and cut the Migration Cockpit steps at a
-   320px desktop window (400% zoom). */
-:where(.ns4) :where(ul, ol) { grid-template-columns: minmax(0, 1fr); }
+.ns4-sec-s { margin: 0; font-size: .86rem; line-height: 1.6; color: var(--ink-3); max-inline-size: 80ch; }
+.ns4-sec-b { container-type: inline-size; display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; }
 
-.ns4-h3 {
-  display: flex; align-items: center; gap: .45rem; margin: 0 0 .6rem;
-  font-size: .9rem; font-weight: 700; color: var(--ink-1);
+/* A titled block inside a section (an area, the objects, the run). */
+.ns4-area { display: grid; gap: .75rem; margin-block-start: .6rem; scroll-margin-block-start: calc(var(--nxs-h, 0px) + 1rem); }
+.ns4-area-h {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .6rem;
+  margin: 0; font-size: 1.02rem; font-weight: 720; line-height: 1.4;
 }
-.ns4-h3 i { inline-size: 9px; block-size: 9px; border-radius: 3px; flex: none; }
-.ns4-h3-n {
-  margin-inline-start: auto; font-family: var(--font-mono); font-size: .74rem;
-  direction: ltr; color: var(--ink-3);
-}
-.ns4-h4 {
-  display: flex; align-items: center; gap: .3rem;
-  margin: .7rem 0 .3rem; font-size: .74rem; font-weight: 700;
-  letter-spacing: .04em; text-transform: uppercase; color: var(--ink-3);
-}
-.ns4-silent { margin: 0; font-size: .87rem; line-height: 1.6; color: var(--ink-3); font-style: italic; }
-.ns4-group + .ns4-group { margin-block-start: 1.4rem; }
 
-/* ------------------------------------------------------------ status bits */
+/* ------------------------------------------------------------ primitives */
 
-.ns4-kind, .ns4-rel, .ns4-cat, .ns4-band, .ns4-topic-area, .ns4-wave-b {
-  font-size: .66rem; font-weight: 700; letter-spacing: .03em;
-  padding: .12rem .4rem; border-radius: 5px; white-space: nowrap;
-  color: var(--ink-3); background: var(--surface-2); border: 1px solid var(--hairline);
+/* STATUS: a small dot immediately followed by its word. Inline, never flex:
+   the word may be a sentence with isolated SAP names inside it. */
+.ns4-st { font-size: .8rem; font-weight: 650; color: var(--ink-1); white-space: nowrap; }
+.ns4-st::before {
+  content: "";
+  display: inline-block;
+  inline-size: .5rem; block-size: .5rem; border-radius: 50%;
+  margin-inline-end: .38rem;
+  vertical-align: .06em;
+  background: var(--c, var(--ink-3));
 }
-.ns4-rel, .ns4-wave-b { unicode-bidi: isolate; }
 
-.ns4-risk {
-  font-size: .72rem; font-weight: 700; white-space: nowrap;
-  padding: .12rem .4rem; border-radius: 5px;
-  /* Coloured text on its own tint measured 2.1:1; darkened towards the ink
-     (lightened on the dark theme below) to clear 4.5:1. The 60% mix measured
-     exactly 4.5:1 at 11.5px once the sampler could read oklab colours, which
-     is the boundary rather than a pass, so it leans further (2026-09-22). */
-  color: color-mix(in srgb, var(--r, var(--ink-3)) 45%, var(--ink-1));
-  background: color-mix(in srgb, var(--r, var(--ink-3)) 10%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--r, var(--ink-3)) 30%, transparent);
+.ns4-tag {
+  display: inline-block;
+  font-size: .7rem; font-weight: 650; line-height: 1.5;
+  padding: .06rem .45rem; border-radius: .4rem;
+  color: var(--ink-2); background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  max-inline-size: 100%; unicode-bidi: isolate;
 }
-/* TRUST. `needs-verification` is dashed, never red — it is not an error, it is
-   a stated limit of the project's own knowledge. */
+
+/* TRUST is a shape, not a colour: a solid edge for what the project documents,
+   a dashed one for what still needs verifying. */
 .ns4-trust {
-  margin-inline-start: auto;
-  font-size: .8125rem; font-weight: 600; white-space: nowrap;
-  padding: .12rem .4rem; border-radius: 5px; color: var(--ink-2);
+  display: inline-block;
+  font-size: .7rem; font-weight: 650; line-height: 1.5;
+  padding: .06rem .45rem; border-radius: .4rem;
+  color: var(--ink-2);
   border: 1px solid var(--hairline);
+  white-space: nowrap;
 }
-.ns4-trust[data-t="needs-verification"] { border-style: dashed; color: color-mix(in srgb, var(--status-in-analysis, #d97706) 40%, var(--ink-1)); }
+.ns4-trust[data-t="needs-verification"] { border-style: dashed; border-color: color-mix(in srgb, var(--ink-1) 45%, transparent); color: var(--ink-1); }
 
-.ns4-lbl {
-  display: inline-block; min-inline-size: 4.6rem;
-  font-size: .66rem; font-weight: 700; letter-spacing: .04em;
-  text-transform: uppercase; color: var(--ink-3); unicode-bidi: isolate;
-}
+.ns4-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem; margin: 0; }
 
-/* ------------------------------------------------------------- ECC vs S/4 */
+.ns4-lbl { font-size: .72rem; font-weight: 700; color: var(--ink-3); }
+.ns4-kv { display: grid; gap: .32rem; justify-items: start; }
 
-.ns4-ba { display: grid; gap: .45rem; margin: .5rem 0 0; }
-.ns4-ba > div {
-  display: grid; grid-template-columns: 4.6rem 1fr; gap: .5rem; align-items: baseline;
-}
-.ns4-ba dt {
-  font-size: .66rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
-  color: var(--ink-3); unicode-bidi: isolate;
-}
-.ns4-ba dd { margin: 0; font-size: .88rem; line-height: 1.65; color: var(--ink-2); }
-
-/* ---------------------------------------------------------- object cards */
-
-.ns4-objs {
-  display: grid; gap: .8rem;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr));
-}
-.ns4-obj {
-  display: flex; flex-direction: column;
-  padding: .95rem 1.05rem 1rem;
-  border-radius: .9rem;
-  background: var(--surface-2);
-  border: 1px solid var(--hairline);
-  border-inline-start: 3px solid var(--s);
-}
-.ns4-obj-h { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; }
-.ns4-obj-n { font-size: .98rem; font-weight: 700; color: var(--ink-1); unicode-bidi: isolate; text-decoration: none; }
-a.ns4-obj-n { border-block-end: 1px solid color-mix(in srgb, var(--s) 45%, transparent); }
-a.ns4-obj-n:hover { border-block-end-color: var(--s); }
-.ns4-obj-en { font-size: .74rem; color: var(--ink-3); unicode-bidi: isolate; }
-.ns4-obj-he { margin: .4rem 0 0; font-size: .88rem; line-height: 1.6; color: var(--ink-2); }
-.ns4-why {
-  margin: .55rem 0 0; padding: .5rem .65rem; border-radius: .6rem;
-  font-size: .85rem; line-height: 1.6; color: var(--ink-2);
-  background: color-mix(in srgb, var(--s) 6%, var(--surface));
-}
-.ns4-why b { color: var(--ink-1); }
-.ns4-obj-f {
-  display: flex; flex-wrap: wrap; align-items: center; gap: .5rem;
-  margin-block-start: .7rem; padding-block-start: .6rem; border-block-start: 1px solid var(--hairline);
-}
-.ns4-mods { font-size: .7rem; color: var(--ink-3); unicode-bidi: isolate; }
-
-/* ------------------------------------------------------------------ abap */
-
-.ns4-abap { margin: 0; padding: 0; list-style: none; display: grid; gap: .45rem; }
-.ns4-abap li { display: grid; grid-template-columns: auto 1fr; gap: .5rem; align-items: baseline; }
-.ns4-abap-k {
-  font-size: .66rem; font-weight: 700; padding: .1rem .35rem; border-radius: 4px;
-  color: var(--s); background: color-mix(in srgb, var(--s) 12%, transparent); white-space: nowrap;
-}
-.ns4-abap-b { display: grid; gap: .3rem; font-size: .84rem; line-height: 1.6; color: var(--ink-2); }
-.ns4-code {
-  display: block; padding: .4rem .55rem; border-radius: .45rem;
-  font-family: var(--font-mono); font-size: .74rem; line-height: 1.5;
+.ns4-chips { display: flex; flex-wrap: wrap; gap: .32rem; }
+.ns4-chip {
+  display: inline-flex; align-items: center;
+  min-block-size: 1.6rem; padding: 0 .5rem; border-radius: .45rem;
+  font-size: .76rem; font-weight: 650;
   color: var(--ink-1); background: var(--surface);
   border: 1px solid var(--hairline);
-  overflow-x: auto; white-space: pre; unicode-bidi: isolate;
+  text-decoration: none;
+}
+.ns4-chip[data-live="1"] { border-color: color-mix(in srgb, var(--scene-accent) 34%, var(--hairline)); }
+.ns4-chip[data-live="1"]:hover { border-color: var(--scene-accent); background: var(--ns4-tint); }
+.ns4-chip[data-live="1"]:focus-visible { outline: 2px solid var(--scene-accent); outline-offset: 2px; }
+/* A name the project has no page for: the same chip, dashed, no pointer. */
+.ns4-chip[data-live="0"] { border-style: dashed; color: var(--ink-2); }
+
+.ns4-fine { margin: 0; font-size: .8rem; line-height: 1.65; color: var(--ink-3); max-inline-size: 92ch; }
+.ns4-silent { margin: 0; font-size: .82rem; color: var(--ink-3); }
+.ns4-free { font-size: .8rem; color: var(--ink-2); }
+
+.ns4-legend { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem 1.1rem; margin: 0; font-size: .8rem; color: var(--ink-2); }
+.ns4-legend b { font-weight: 750; color: var(--ink-1); }
+
+/* A neutral meter: length is the value, the cobalt is only the ink. */
+.ns4-meter {
+  display: block; inline-size: 4.25rem; block-size: .4rem; flex: none;
+  border-radius: 999px; overflow: hidden;
+  background: color-mix(in srgb, var(--scene-accent) 13%, var(--surface-2));
+}
+.ns4-meter i { display: block; block-size: 100%; border-radius: inherit; background: var(--scene-accent); }
+
+/* BEFORE AND AFTER. A labelled pair; the S/4HANA side (or the fix) carries the
+   emphasis as a cobalt tint, not as a stripe. */
+.ns4-ft { display: grid; gap: .45rem; margin: 0; }
+.ns4-ft > div {
+  display: grid; gap: .15rem; min-inline-size: 0;
+  padding: .55rem .7rem; border-radius: .6rem;
+  background: transparent;
+  border: 1px solid var(--hairline);
+}
+.ns4-ft > :is([data-k="s4"], [data-k="fix"]) {
+  background: var(--ns4-tint);
+  border-color: color-mix(in srgb, var(--scene-accent) 28%, transparent);
+}
+.ns4-ft dt { font-size: .7rem; font-weight: 700; color: var(--ink-3); }
+.ns4-ft > :is([data-k="s4"], [data-k="fix"]) dt { color: var(--scene-accent); }
+.ns4-ft dd { margin: 0; font-size: .87rem; line-height: 1.62; color: var(--ink-1); overflow-wrap: anywhere; }
+.ns4-ft--meta > div { background: none; padding: .1rem 0; border: 0; }
+.ns4-ft--meta > div { grid-template-columns: 7.5rem minmax(0, 1fr); gap: .6rem; }
+.ns4-ft--meta dd { font-size: .82rem; color: var(--ink-2); }
+
+/* -------------------------------------------------------------- the cards */
+
+.ns4-grid { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 25rem), 1fr)); margin: 0; padding: 0; list-style: none; }
+.ns4-grid--2 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr)); }
+.ns4-grid--3 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); }
+
+.ns4-card,
+.ns4-obj {
+  container-type: inline-size;
+  /* An explicit track: a long tag or code may wrap, never widen the card. */
+  display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: .65rem; min-inline-size: 0;
+  padding: 1rem 1.05rem 1.05rem;
+  border-radius: .95rem;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--elev-1);
+  scroll-margin-block-start: calc(var(--nxs-h, 0px) + 1rem);
+}
+/* A card one of the page's own links pointed at. */
+.ns4-obj:target,
+.ns4-card:target { box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--scene-accent); }
+
+/* The before/after pair goes side by side once a card can hold two columns. */
+@container (min-width: 30rem) {
+  .ns4-ft:not(.ns4-ft--meta):has(> div + div) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ns4-err .ns4-ft:has(> div + div) { grid-template-columns: minmax(0, 1fr); }
+}
+/* A load error reads as three labelled lines: what you see, why, the fix. */
+.ns4-err .ns4-ft { gap: 0; }
+.ns4-err .ns4-ft > div { grid-template-columns: 4.4rem minmax(0, 1fr); gap: .6rem; padding: .5rem .6rem; border-radius: 0; background: none; border: 0; border-block-start: 1px solid var(--hairline); }
+.ns4-err .ns4-ft > div:first-child { border-block-start: 0; }
+.ns4-err .ns4-ft > [data-k="fix"] { margin-block-start: .2rem; border-radius: .55rem; border: 1px solid color-mix(in srgb, var(--scene-accent) 18%, transparent); background: var(--ns4-tint); }
+.ns4-err .ns4-ft dt { padding-block-start: .12rem; }
+
+.ns4-card-h,
+.ns4-obj-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem .75rem; }
+.ns4-card-t,
+.ns4-obj-t { margin: 0; margin-inline-end: auto; font-size: 1rem; font-weight: 720; line-height: 1.4; color: var(--ink-1); }
+.ns4-obj-t .nx-sap { font-size: 1.05rem; font-weight: 760; letter-spacing: -.01em; }
+.ns4-obj-t a { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--scene-accent) 40%, transparent); text-underline-offset: 4px; }
+.ns4-obj-t a:hover { color: var(--scene-accent); text-decoration-color: currentColor; }
+.ns4-obj-he { margin: -.35rem 0 0; font-size: .9rem; font-weight: 600; color: var(--ink-2); }
+.ns4-card-en { display: block; margin: -.4rem 0 0; font-size: .76rem; font-weight: 600; color: var(--ink-3); }
+.ns4-card-p { margin: 0; font-size: .87rem; line-height: 1.65; color: var(--ink-2); }
+.ns4-card-f { margin: 0; margin-block-start: auto; }
+
+.ns4-why { margin: 0; font-size: .86rem; line-height: 1.65; color: var(--ink-2); }
+.ns4-why b, .ns4-impact b { font-weight: 700; color: var(--ink-1); }
+.ns4-impact { margin: 0; font-size: .86rem; line-height: 1.65; color: var(--ink-2); }
+
+.ns4-src-line { display: flex; gap: .45rem; align-items: baseline; margin: 0; font-size: .8rem; line-height: 1.6; color: var(--ink-2); }
+.ns4-src-line svg { flex: none; transform: translateY(2px); color: var(--ink-3); }
+.ns4-src-line b { color: var(--ink-1); }
+/* A source title is a link inside a sentence: it wraps with the sentence. */
+.ns4-src-line > span { min-inline-size: 0; }
+.ns4-src-line a { color: var(--scene-accent); font-weight: 650; text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--scene-accent) 40%, transparent); text-underline-offset: 3px; }
+.ns4-src-line a:hover { text-decoration-color: currentColor; }
+
+.ns4-sub { display: grid; gap: .45rem; padding-block-start: .7rem; border-block-start: 1px solid var(--hairline); }
+.ns4-h4 { display: flex; align-items: center; gap: .35rem; margin: 0; font-size: .78rem; font-weight: 700; color: var(--ink-2); }
+
+.ns4-abap { display: grid; grid-template-columns: minmax(0, 1fr); gap: .55rem; margin: 0; padding: 0; list-style: none; }
+.ns4-abap li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .6rem; align-items: start; }
+.ns4-abap-k {
+  justify-self: start;
+  padding: .05rem .4rem; border-radius: .35rem;
+  font-size: .7rem; font-weight: 700; color: var(--ink-1);
+  background: var(--surface-2); border: 1px solid var(--hairline);
+}
+.ns4-abap-b { display: grid; gap: .35rem; min-inline-size: 0; }
+.ns4-abap-b p { margin: 0; font-size: .84rem; line-height: 1.6; color: var(--ink-2); }
+.ns4-code {
+  display: block; justify-self: start; max-inline-size: 100%;
+  padding: .4rem .6rem; border-radius: .5rem;
+  font-family: var(--font-mono); font-size: .76rem; line-height: 1.55;
+  white-space: pre-wrap; overflow-wrap: anywhere;
+  color: var(--ink-1); background: var(--surface-2);
+  border: 1px solid var(--hairline);
 }
 
-.ns4-check { margin: 0; padding: 0; list-style: none; display: grid; gap: .3rem; }
-.ns4-check li {
-  position: relative; padding-inline-start: 1.05rem;
-  font-size: .84rem; line-height: 1.6; color: var(--ink-2);
-}
+/* A checklist: a small square, the box the reader ticks in the project. */
+.ns4-check { display: grid; gap: .32rem; margin: 0; padding: 0; list-style: none; }
+.ns4-check li { position: relative; padding-inline-start: 1.15rem; font-size: .85rem; line-height: 1.6; color: var(--ink-1); }
 .ns4-check li::before {
-  content: ""; position: absolute; inset-inline-start: 0; inset-block-start: .55em;
-  inline-size: 5px; block-size: 5px; border-radius: 1px;
-  background: color-mix(in srgb, var(--s) 70%, transparent);
+  content: "";
+  position: absolute; inset-inline-start: .1rem; inset-block-start: .5em;
+  inline-size: .5rem; block-size: .5rem; border-radius: 2px;
+  border: 1.5px solid color-mix(in srgb, var(--scene-accent) 70%, var(--ink-3));
 }
 
-/* ------------------------------------------------------------ chips */
+.ns4-obj-f {
+  display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: .6rem 1rem;
+  margin-block-start: auto; padding-block-start: .75rem;
+  border-block-start: 1px solid var(--hairline);
+}
+.ns4-act { display: inline-flex; align-items: center; gap: .3rem; min-block-size: 1.75rem; font-size: .82rem; font-weight: 650; white-space: nowrap; color: var(--scene-accent); }
+/* The honest absence. Not a link, so it must not look like one. */
+.ns4-act--none { font-weight: 500; color: var(--ink-3); cursor: default; white-space: normal; }
 
-.ns4-chips { display: flex; flex-wrap: wrap; gap: .35rem; }
-.ns4-chip {
-  display: inline-flex; align-items: center; padding: .18rem .5rem;
-  border-radius: 6px; font-size: .74rem; text-decoration: none;
-  color: var(--ink-2); background: var(--surface); border: 1px solid var(--hairline);
-  transition: transform .14s ease, border-color .14s ease;
-}
-.ns4-chip[data-live="1"] { border-inline-start: 2px solid var(--s); color: var(--ink-1); }
-.ns4-chip[data-live="1"]:hover { transform: translateY(-1px); border-color: color-mix(in srgb, var(--s) 45%, var(--hairline)); }
-.ns4-chip[data-live="0"] { border-style: dashed; color: var(--ink-3); }
+/* ---------------------------------------------------- the transformation board */
 
-/* ------------------------------------------------------------ generic rows */
+.ns4-board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: start; gap: .7rem; }
+.ns4-board-c {
+  display: grid; align-content: start; gap: .55rem; min-inline-size: 0;
+  padding: .85rem .75rem .75rem;
+  border-radius: .95rem;
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+}
+.ns4-board-h {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline;
+  gap: 0 .5rem; padding-inline: .25rem;
+}
+.ns4-board-h h3 { margin: 0; font-size: .95rem; line-height: 1.4; }
+.ns4-board-h h3 .ns4-st { font-size: .95rem; font-weight: 720; }
+.ns4-board-h > b { grid-row: 1 / span 2; grid-column: 2; align-self: center; font-size: 1.7rem; font-weight: 760; line-height: 1; color: var(--ink-1); }
+.ns4-board-h > span { font-size: .74rem; color: var(--ink-3); }
+.ns4-board ul { display: grid; gap: 3px; margin: 0; padding: 0; list-style: none; }
+.ns4-board li a {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 .45rem; min-inline-size: 0;
+  padding: .36rem .55rem; border-radius: .55rem;
+  color: inherit; text-decoration: none;
+  background: var(--surface);
+  border: 1px solid transparent;
+  transition: border-color .14s linear, background-color .14s linear;
+}
+.ns4-board li a b { font-size: .82rem; font-weight: 750; color: var(--ink-1); }
+.ns4-board li a span { font-size: .76rem; line-height: 1.4; color: var(--ink-2); }
+.ns4-board li a:hover { border-color: var(--scene-accent); }
+.ns4-board li a:hover b { color: var(--scene-accent); }
+.ns4-board li a:focus-visible { outline: 2px solid var(--scene-accent); outline-offset: 1px; }
+/* A filter quiets what it leaves out and rings what it keeps; the picture
+   stays the same picture. Quiet, not faded: the left-out names are still
+   links and still read at 4.5:1 (ink-3), so no opacity here. */
+.ns4-board li[data-dim="1"] a { background: transparent; }
+.ns4-board li[data-dim="1"] a :is(b, span) { color: var(--ink-3); font-weight: 500; }
+.ns4-board[data-filter="1"] li:not([data-dim]) a { border-color: var(--scene-accent); }
 
-.ns4-rows, .ns4-errs, .ns4-topics, .ns4-mods-list { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: minmax(0, 1fr); gap: .65rem; }
-.ns4-rows > li, .ns4-errs > li, .ns4-topics > li {
-  padding: .8rem .95rem; border-radius: .8rem;
-  background: var(--surface-2); border: 1px solid var(--hairline); overflow-wrap: anywhere;
-  border-inline-start: 3px solid var(--r, var(--s));
-}
-.ns4-rows > li header, .ns4-errs > li header, .ns4-topics > li header {
-  display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; margin-block-end: .4rem;
-}
-.ns4-rows > li header b, .ns4-errs > li header b, .ns4-topics > li header b {
-  font-size: .9rem; color: var(--ink-1);
-}
-.ns4-rows > li p, .ns4-errs > li p {
-  margin: 0 0 .25rem; font-size: .86rem; line-height: 1.62; color: var(--ink-2);
-}
-.ns4-note-x { color: var(--ink-3) !important; font-style: italic; }
+/* ----------------------------------------------------- the catalogue filter */
 
-/* ---------------------------------------------------------------- topics */
+.ns4-tools { display: flex; flex-wrap: wrap; align-items: center; gap: .55rem .8rem; }
+.ns4-find {
+  display: flex; align-items: center; gap: .5rem; flex: 1 1 16rem; min-inline-size: 0;
+  min-block-size: 2.5rem; padding: 0 .7rem;
+  border: 1px solid var(--hairline); border-radius: .7rem;
+  background: var(--surface); color: var(--ink-3);
+}
+.ns4-find:focus-within { border-color: var(--scene-accent); color: var(--ink-1); box-shadow: 0 0 0 3px color-mix(in srgb, var(--scene-accent) 18%, transparent); }
+.ns4-find input { flex: 1 1 auto; min-inline-size: 0; border: 0; background: transparent; font: inherit; font-size: .88rem; color: var(--ink-1); outline: none; }
+.ns4-find input::placeholder { color: var(--ink-3); }
+.ns4-fgroup { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .5rem; }
+.ns4-seg { display: flex; flex-wrap: wrap; gap: .3rem; }
+.ns4-seg button {
+  display: inline-flex; align-items: center; gap: .35rem;
+  min-block-size: 2rem; padding: 0 .65rem; border-radius: .55rem;
+  font: inherit; font-size: .8rem; font-weight: 650; color: var(--ink-2);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  cursor: pointer;
+  transition: border-color .14s linear, background-color .14s linear;
+}
+.ns4-seg button em { font-style: normal; font-size: .72rem; color: var(--ink-3); }
+.ns4-seg button:hover:not(:disabled) { border-color: color-mix(in srgb, var(--scene-accent) 50%, var(--hairline)); }
+.ns4-seg button[aria-pressed="true"] { color: var(--ink-1); background: var(--ns4-tint); border-color: var(--scene-accent); }
+.ns4-seg button[aria-pressed="true"] em { color: var(--ink-1); }
+.ns4-seg button:focus-visible { outline: 2px solid var(--scene-accent); outline-offset: 2px; }
+.ns4-seg button:disabled { opacity: .45; cursor: default; }
+.ns4-count { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .9rem; margin: -.3rem 0 0; font-size: .82rem; color: var(--ink-3); }
+.ns4-none { display: grid; gap: .8rem; justify-items: start; padding: 1.1rem; background: var(--surface); }
+.ns4-none p { margin: 0; }
 
-.ns4-topics > li { border-inline-start-color: var(--s); }
-.ns4-topic-en { font-size: .74rem; color: var(--ink-3); unicode-bidi: isolate; }
-.ns4-topic-st {
-  font-size: .72rem; font-weight: 700; padding: .12rem .4rem; border-radius: 5px; white-space: nowrap;
-  color: color-mix(in srgb, var(--s) 45%, var(--ink-1)); background: color-mix(in srgb, var(--s) 12%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--s) 30%, transparent);
-}
-.ns4-topic-area { margin-inline-start: auto; }
-.ns4-note { margin: .4rem 0 0; font-size: .84rem; line-height: 1.6; color: var(--ink-2); }
-.ns4-impact {
-  margin: .5rem 0 0; padding: .5rem .65rem; border-radius: .55rem;
-  font-size: .85rem; line-height: 1.62; color: var(--ink-2);
-  background: color-mix(in srgb, var(--s) 6%, var(--surface));
-}
-.ns4-impact b { color: var(--ink-1); }
+/* ------------------------------------------------- collapsible card groups */
 
-/* ---------------------------------------------------------- architecture */
+.ns4-group { display: grid; gap: .8rem; }
+.ns4-group > summary {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .7rem;
+  min-block-size: 2.75rem; padding: .35rem .2rem;
+  list-style: none; cursor: pointer;
+  border-block-end: 1px solid var(--hairline);
+  font-size: .95rem; font-weight: 720;
+}
+.ns4-group > summary::-webkit-details-marker { display: none; }
+.ns4-group > summary .ns4-st { font-size: .95rem; font-weight: 720; }
+.ns4-group > summary:hover .ns4-sum-hint { color: var(--ink-1); }
+.ns4-group > summary:focus-visible { outline: 2px solid var(--scene-accent); outline-offset: 2px; border-radius: .45rem; }
+.ns4-sum-hint { margin-inline-start: auto; font-size: .74rem; font-weight: 600; color: var(--ink-3); }
+.ns4-sum-hint::after { content: " ▾"; }
+.ns4-group[open] > summary .ns4-sum-hint::after { content: " ▴"; }
 
-.ns4-arch { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr)); }
-.ns4-arch-c {
-  padding: .95rem 1.05rem; border-radius: .9rem;
-  background: var(--surface-2); border: 1px solid var(--hairline); overflow-wrap: anywhere;
-  border-block-start: 3px solid var(--s);
-}
-.ns4-arch-h { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; }
-.ns4-arch-layer { font-size: .74rem; font-weight: 700; color: var(--ink-3); }
-.ns4-arch-st {
-  font-size: .72rem; font-weight: 700; padding: .12rem .4rem; border-radius: 5px;
-  color: color-mix(in srgb, var(--s) 45%, var(--ink-1)); background: color-mix(in srgb, var(--s) 12%, transparent);
-}
-.ns4-arch-pair {
-  display: flex; flex-wrap: wrap; align-items: center; gap: .4rem;
-  margin: .5rem 0 0; font-size: .88rem;
-}
-.ns4-arch-pair b { color: var(--ink-1); unicode-bidi: isolate; }
-.ns4-arch-pair svg { color: var(--s); flex: none; }
-.ns4-sg { margin: .6rem 0 0; padding: 0; list-style: none; display: grid; gap: .35rem; }
-.ns4-sg li { display: grid; grid-template-columns: 3.4rem 1fr; gap: .5rem; align-items: baseline; }
-.ns4-sg li b { font-size: .68rem; font-weight: 700; letter-spacing: .03em; }
-.ns4-sg li[data-k="stay"] b { color: color-mix(in srgb, var(--status-done, #16a34a) 40%, var(--ink-1)); }
-.ns4-sg li[data-k="gone"] b { color: color-mix(in srgb, var(--status-blocked, #dc2626) 40%, var(--ink-1)); }
-.ns4-sg li span { font-size: .84rem; line-height: 1.6; color: var(--ink-2); }
+/* ------------------------------------------------------------- the tables */
 
-/* ------------------------------------------------------------- readiness */
-
-.ns4-mods { margin: 0; padding: 0; list-style: none; display: grid; gap: .7rem; }
-.ns4-mods > li {
-  padding: .85rem 1rem; border-radius: .85rem;
-  background: var(--surface-2); border: 1px solid var(--hairline); overflow-wrap: anywhere;
-  border-inline-start: 3px solid var(--s);
+/* The wrapper is the container: each table becomes cards when the width it is
+   GIVEN cannot hold its columns, whatever the viewport. */
+.ns4-tbl-w { container-type: inline-size; min-inline-size: 0; }
+.ns4-tbl { inline-size: 100%; border-collapse: collapse; font-size: .86rem; }
+.ns4-tbl thead th {
+  padding: .5rem .65rem;
+  font-size: .72rem; font-weight: 700; line-height: 1.35; text-align: start; vertical-align: bottom;
+  color: var(--ink-3);
+  border-block-end: 1px solid color-mix(in srgb, var(--ink-1) 22%, transparent);
 }
-.ns4-mods > li header { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; }
-.ns4-mods > li header b { font-size: .95rem; color: var(--ink-1); }
-.ns4-mod-code { font-size: .72rem; color: var(--ink-3); unicode-bidi: isolate; }
-.ns4-band { unicode-bidi: isolate; }
-.ns4-score, .nx-app .ns4-score.nx-sap {
-  margin-inline-start: auto;
-  /* Ink, not the status hue: green at 16.8px measured 3.2:1. */
+.ns4-tbl tbody th,
+.ns4-tbl td {
+  padding: .7rem .65rem;
+  text-align: start; vertical-align: top;
+  border-block-end: 1px solid var(--hairline);
+  line-height: 1.58;
+}
+.ns4-tbl tbody th { font-weight: 680; color: var(--ink-1); }
+.ns4-tbl td { color: var(--ink-2); }
+/* In a comparison the S/4HANA column is the answer: ink, not grey. */
+.ns4-tbl td[data-l="S/4HANA"] { color: var(--ink-1); }
+.ns4-tbl tbody tr:last-child > * { border-block-end: 0; }
+@container (width > 40rem) {
+  .ns4-tbl:not(.ns4-mx) tbody tr:hover > * { background: color-mix(in srgb, var(--scene-accent) 4%, transparent); }
+}
+@container (width > 44rem) {
+  .ns4-mx tbody tr:hover > * { background: color-mix(in srgb, var(--scene-accent) 4%, transparent); }
+}
+.ns4-tbl .ns4-card-en { margin: .1rem 0 0; }
+.ns4-cell-note { display: block; margin-block-start: .3rem; font-size: .78rem; color: var(--ink-3); }
+
+@container (max-width: 40rem) {
+  .ns4-tbl:not(.ns4-mx),
+  .ns4-tbl:not(.ns4-mx) tbody,
+  .ns4-tbl:not(.ns4-mx) tr,
+  .ns4-tbl:not(.ns4-mx) tr > * { display: block; }
+  .ns4-tbl:not(.ns4-mx) thead { display: none; }
+  .ns4-tbl:not(.ns4-mx) tbody { display: grid; grid-template-columns: minmax(0, 1fr); gap: .55rem; }
+  .ns4-tbl:not(.ns4-mx) tr {
+    display: grid; grid-template-columns: minmax(0, 1fr); gap: .4rem;
+    padding: .8rem .85rem; border-radius: .8rem;
+    background: var(--surface-2); border: 1px solid var(--hairline);
+  }
+  .ns4-tbl:not(.ns4-mx) tr > * { padding: 0; border: 0; }
+  .ns4-tbl:not(.ns4-mx) td::before {
+    content: attr(data-l);
+    display: block;
+    font-size: .68rem; font-weight: 700; color: var(--ink-3);
+  }
+}
+
+/* THE MATRIX. One row per module; the four documentation shares sit under one
+   head so the table fits a laptop (min-content 40rem, measured), and below that each module becomes a
+   card with the same labelled values. */
+.ns4-mx { font-size: .82rem; }
+.ns4-mx thead th { padding: .45rem .35rem; }
+.ns4-mx thead tr + tr th { padding-block-start: .15rem; }
+.ns4-mx .ns4-th-g { text-align: center; border-block-end: 1px solid var(--hairline); padding-block-end: .3rem; }
+.ns4-th-sub { display: block; font-weight: 500; color: var(--ink-3); }
+.ns4-mx tbody th, .ns4-mx td { padding: .55rem .35rem; vertical-align: middle; white-space: nowrap; }
+.ns4-mx tbody th { white-space: normal; min-inline-size: 7.5rem; }
+.ns4-mx-eff { display: block; font-size: .76rem; color: var(--ink-2); }
+.ns4-mx tbody th b { display: block; font-weight: 700; }
+.ns4-mx-sub { display: block; font-size: .74rem; font-weight: 500; color: var(--ink-3); }
+.ns4-mx-note { display: block; max-inline-size: 15rem; margin-block-start: .2rem; font-size: .72rem; font-weight: 500; line-height: 1.45; color: var(--ink-2); }
+.ns4-mx td .nx-sap { font-variant-numeric: tabular-nums; color: var(--ink-1); }
+.ns4-sc { display: inline-flex; align-items: center; gap: .45rem; }
+.ns4-sc .ns4-meter { inline-size: 3.25rem; }
+.ns4-sc .nx-sap { flex: none; font-weight: 750; }
+/* A number never breaks, whatever the wrapping rule around it. */
+.ns4-mx .nx-sap, .ns4-led b, .ns4-board-h > b { white-space: nowrap; overflow-wrap: normal; }
+.ns4-mx .ns4-st { font-size: .8rem; }
+.ns4-mx-link { display: inline-flex; align-items: center; min-block-size: 1.5rem; min-inline-size: 1.5rem; color: var(--scene-accent); text-underline-offset: 3px; }
+.ns4-mx td .ns4-mx-link .nx-sap { color: inherit; }
+.ns4-mx-link:focus-visible { outline: 2px solid var(--scene-accent); outline-offset: 2px; border-radius: .3rem; }
+
+@container (max-width: 44rem) {
+  .ns4-mx, .ns4-mx tbody, .ns4-mx tr, .ns4-mx tr > * { display: block; }
+  .ns4-mx thead { display: none; }
+  .ns4-mx tbody { display: grid; gap: .6rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); }
+  /* Four columns: the module and its score; the band and the risk; the four
+     documentation shares; custom code, migration objects and the estimate. */
+  .ns4-mx tr {
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .65rem .6rem;
+    padding: .8rem .85rem; border-radius: .85rem;
+    background: var(--surface-2); border: 1px solid var(--hairline);
+  }
+  /* Same specificity as the table-mode cell rule, and later, so it wins. */
+  .ns4-mx tbody tr > * { padding: 0; border: 0; white-space: normal; }
+  .ns4-mx tbody th { grid-column: 1 / 4; min-inline-size: 0; }
+  .ns4-mx td[data-l="ציון"] { grid-column: 4; }
+  .ns4-mx td:is([data-l="מצב"], [data-l="סיכון"], [data-l="מורכבות ואומדן"]) { grid-column: span 2; }
+  .ns4-mx td::before {
+    content: attr(data-l);
+    display: block;
+    font-size: .66rem; font-weight: 700; line-height: 1.35; color: var(--ink-3);
+  }
+  .ns4-mx .ns4-sc { display: grid; gap: .3rem; justify-items: start; }
+  .ns4-mx .ns4-sc .nx-sap { font-size: 1rem; }
+  .ns4-mx .ns4-sc .ns4-meter { inline-size: 100%; }
+  .ns4-mx-note { max-inline-size: none; }
+}
+
+/* How the values are computed: one quiet disclosure under the matrix. */
+.ns4-how { font-size: .82rem; }
+.ns4-how > summary {
+  display: inline-flex; align-items: center; gap: .3rem;
+  min-block-size: 2rem; cursor: pointer; list-style: none;
+  font-weight: 650; color: var(--scene-accent);
+}
+.ns4-how > summary::-webkit-details-marker { display: none; }
+.ns4-how > summary::after { content: "▾"; font-size: .7rem; }
+.ns4-how[open] > summary::after { content: "▴"; }
+.ns4-how > summary:focus-visible { outline: 2px solid var(--scene-accent); outline-offset: 2px; border-radius: .3rem; }
+.ns4-defs { display: grid; gap: .35rem; margin: .4rem 0 0; padding: .8rem .95rem; border-radius: .75rem; background: var(--surface-2); border: 1px solid var(--hairline); }
+.ns4-defs > div { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: .8rem; }
+.ns4-defs dt { font-weight: 700; color: var(--ink-1); }
+.ns4-defs dd { margin: 0; line-height: 1.6; color: var(--ink-2); }
+
+/* The area × status overview: counts only, the zeros recede. */
+.ns4-amx td { font-weight: 700; }
+.ns4-amx td .nx-sap { color: var(--ink-1); }
+.ns4-amx td[data-zero="1"] .nx-sap { color: var(--ink-3); font-weight: 500; }
+.ns4-amx thead th .ns4-st { font-size: .74rem; color: var(--ink-2); }
+.ns4-amx tbody th a { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--scene-accent) 40%, transparent); text-underline-offset: 3px; }
+.ns4-amx tbody th a:hover { color: var(--scene-accent); }
+@container (max-width: 40rem) {
+  .ns4-amx tr { grid-template-columns: repeat(auto-fill, minmax(5.5rem, 1fr)); }
+  .ns4-amx tbody th { grid-column: 1 / -1; }
+}
+
+/* -------------------------------------------------------- architecture */
+
+/* The two systems named, side by side: the change at a glance. */
+.ns4-pair {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .55rem;
+  margin: 0; padding: .5rem .65rem; border-radius: .6rem;
+  font-family: var(--font-mono); font-size: .86rem; font-weight: 700;
+  background: var(--surface-2);
+}
+.ns4-pair svg { flex: none; color: var(--scene-accent); }
+.ns4-pair bdi:last-child { color: var(--scene-accent); }
+
+.ns4-sg { display: grid; gap: .3rem; margin: 0; padding: 0; list-style: none; }
+.ns4-sg li { display: grid; grid-template-columns: 3.4rem minmax(0, 1fr); gap: .5rem; font-size: .84rem; line-height: 1.6; }
+.ns4-sg b { font-size: .74rem; font-weight: 700; color: var(--ink-3); padding-block-start: .1rem; }
+.ns4-sg span { color: var(--ink-2); }
+
+/* ---------------------------------------------------------- numbered tiles */
+
+.ns4-tiles { display: grid; gap: .7rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); margin: 0; padding: 0; list-style: none; }
+.ns4-tiles--3 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr)); }
+.ns4-tiles > li {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .7rem; align-items: start;
+  padding: .85rem .9rem; border-radius: .85rem;
+  background: var(--surface-2); border: 1px solid var(--hairline);
+}
+.ns4-tiles i,
+.ns4-steps i,
+.ns4-phase header i {
+  display: grid; place-items: center; flex: none;
+  inline-size: 1.75rem; block-size: 1.75rem; border-radius: 50%;
+  font-family: var(--font-mono); font-size: .74rem; font-style: normal; font-weight: 750;
+  color: var(--scene-accent);
+  background: var(--surface);
+  border: 1px solid color-mix(in srgb, var(--scene-accent) 40%, var(--hairline));
+}
+.ns4-tiles b { display: block; font-size: .9rem; font-weight: 700; line-height: 1.45; color: var(--ink-1); }
+.ns4-tiles p { margin: .25rem 0 0; font-size: .82rem; line-height: 1.6; color: var(--ink-2); }
+
+/* --------------------------------------------------------------- cutover */
+
+.ns4-phases { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); margin: 0; padding: 0; list-style: none; }
+.ns4-phase {
+  display: grid; align-content: start; gap: .7rem;
+  padding: .9rem .95rem 1rem; border-radius: .9rem;
+  background: var(--surface-2); border: 1px solid var(--hairline);
+}
+.ns4-phase header { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .6rem; }
+.ns4-phase h3 { margin: 0; margin-inline-end: auto; font-size: 1rem; line-height: 1.4; }
+.ns4-phase h3 .ns4-st { font-size: 1rem; font-weight: 720; }
+
+/* ---------------------------------------------------- the load-sequence route */
+
+.ns4-route { container-type: inline-size; display: grid; gap: .7rem; }
+.ns4-route-l {
+  position: relative;
+  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: .8rem;
+  margin: 0; padding: 0; list-style: none;
+}
+.ns4-route-w { position: relative; display: grid; align-content: start; gap: .55rem; min-inline-size: 0; }
+/* The rail: each station draws the stretch to the next one, so the line
+   starts at the first station and ends at the last. */
+.ns4-route-w:not(:last-child)::before {
+  content: "";
+  position: absolute; inset-block-start: .7rem; inset-inline-start: .375rem;
+  inline-size: calc(100% + .8rem); block-size: 1px;
+  background: color-mix(in srgb, var(--scene-accent) 35%, var(--hairline));
+}
+.ns4-route-w > header { display: flex; flex-wrap: wrap; align-items: center; gap: .2rem .45rem; line-height: 1.4rem; }
+.ns4-route-w > header::before {
+  content: "";
+  inline-size: .75rem; block-size: .75rem; border-radius: 50%; flex: none;
+  background: var(--surface);
+  border: 2px solid var(--scene-accent);
+  position: relative; z-index: 1;
+  box-shadow: 0 0 0 3px var(--surface);
+}
+.ns4-route-w > header b { position: relative; padding-inline: .2rem; font-size: .95rem; font-weight: 750; background: var(--surface); }
+.ns4-route-w > header .ns4-pill { position: relative; background: color-mix(in srgb, var(--scene-accent) 7%, var(--surface)); }
+.ns4-route-w > header em { flex-basis: 100%; font-style: normal; font-size: .74rem; line-height: 1.45; color: var(--ink-3); }
+.ns4-route-w ul { display: grid; gap: .6rem; margin: 0; padding: 0; list-style: none; }
+.ns4-route-w li a {
+  position: relative;
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 1px .45rem; min-inline-size: 0;
+  padding: .5rem .6rem .55rem; border-radius: .65rem;
+  color: inherit; text-decoration: none;
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  transition: border-color .14s linear, background-color .14s linear;
+}
+.ns4-route-w li a b { font-size: .85rem; font-weight: 700; line-height: 1.4; color: var(--ink-1); }
+.ns4-route-w li a .nx-sap { font-size: .7rem; color: var(--ink-3); }
+.ns4-route-m { display: flex; flex-wrap: wrap; align-items: center; gap: .2rem .45rem; flex-basis: 100%; margin-block-start: .25rem; }
+.ns4-route-m em { font-style: normal; font-size: .7rem; color: var(--ink-3); }
+.ns4-route-w li a:focus-visible { outline: 2px solid var(--scene-accent); outline-offset: 2px; }
+
+/* Pointing at a stop: the stop, what loads before it, what waits for it. The
+   relation is named in words on the stop as well as coloured. */
+.ns4-route-w li[data-rel="self"] a { border-color: var(--scene-accent); background: var(--ns4-tint); box-shadow: 0 0 0 1px var(--scene-accent) inset; }
+/* Before it: a solid cobalt edge. Waiting for it: a dashed one. Never the
+   status hues (hot and cool mean "replaced" and "kept" on this scene). */
+.ns4-route-w li[data-rel="up"] a { border-color: var(--scene-accent); background: var(--surface); }
+.ns4-route-w li[data-rel="down"] a { border-color: var(--scene-accent); border-style: dashed; background: var(--surface); }
+/* The stops outside the relation go quiet the same way: no opacity, so every
+   stop still reads at 4.5:1. */
+.ns4-route-w li[data-rel="dim"] a { background: transparent; border-color: color-mix(in srgb, var(--hairline) 60%, transparent); }
+.ns4-route-w li[data-rel="dim"] a :is(b, .nx-sap, em) { color: var(--ink-3); font-weight: 500; }
+.ns4-route-w li:is([data-rel="up"], [data-rel="down"]) a::after {
+  position: absolute; inset-block-start: -.5rem; inset-inline-end: .5rem;
+  padding: 0 .3rem; border-radius: .3rem;
+  font-size: .66rem; font-weight: 700; line-height: 1.5;
   color: var(--ink-1);
-  font-family: var(--font-mono); font-size: 1.05rem; font-weight: 700;
-   font-variant-numeric: tabular-nums;
+  border: 1px solid var(--scene-accent);
+  background: var(--surface);
 }
-.ns4-bar {
-  margin-block-start: .5rem; block-size: 6px; border-radius: 999px;
-  background: var(--hairline); overflow: hidden;
+.ns4-route-w li[data-rel="up"] a::after { content: "נטען לפניו"; }
+.ns4-route-w li[data-rel="down"] a::after { content: "ממתין לו"; border-style: dashed; }
+
+/* Three lines reserved: the longest relation (9 objects wait for the
+   material master) takes two at desktop widths, so hovering never moves a stop. */
+.ns4-route-cap { margin: 0; min-block-size: calc(3 * 1.65em); font-size: .8rem; line-height: 1.65; color: var(--ink-2); }
+.ns4-route-cap b { color: var(--ink-1); }
+.ns4-k-up, .ns4-k-down { font-weight: 650; color: var(--ink-1); }
+.ns4-k-up::before, .ns4-k-down::before {
+  content: ""; display: inline-block; inline-size: .8rem; block-size: .55rem; border-radius: .15rem;
+  border: 1.5px solid var(--scene-accent);
+  margin-inline-end: .3rem; vertical-align: -.02em;
 }
-.ns4-bar span { display: block; block-size: 100%; background: var(--s); border-radius: 999px; }
-.ns4-mod-kv {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr));
-  gap: .5rem; margin: .7rem 0 0;
-}
-.ns4-mod-kv > div { display: grid; gap: 1px; }
-.ns4-mod-kv dt { font-size: .66rem; color: var(--ink-3); }
-.ns4-mod-kv dd {
-  margin: 0; font-size: .84rem; font-weight: 600; color: var(--ink-1);
-  font-variant-numeric: tabular-nums;
+.ns4-k-down::before { border-style: dashed; }
+
+/* Narrow: the stations stack and the rail runs down the inline start. */
+@container (max-width: 44rem) {
+  .ns4-route-l { grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: minmax(0, 1fr); gap: 1.1rem; padding-inline-start: 1.3rem; }
+  .ns4-route-w:not(:last-child)::before { inset-inline-start: -.925rem; inset-block: .7rem -1.8rem; inline-size: 1px; block-size: auto; }
+  .ns4-route-w > header { margin-inline-start: -1.3rem; }
+  .ns4-route-w > header::before { margin-inline-end: .55rem; }
+  .ns4-route-w ul { grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr)); }
 }
 
-/* ------------------------------------------------------------- cockpit */
+.ns4-objs-h { display: grid; gap: .3rem; margin-block-start: .8rem; scroll-margin-block-start: calc(var(--nxs-h, 0px) + 1rem); }
 
-.ns4-waves { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
-.ns4-wave {
-  padding: .8rem .9rem; border-radius: .85rem;
-  background: var(--surface-2); border: 1px solid var(--hairline); overflow-wrap: anywhere;
+.ns4-dep { display: flex; flex-wrap: wrap; gap: .1rem .7rem; margin: 0; padding: 0; list-style: none; font-size: .84rem; }
+.ns4-dep li a {
+  /* One dependency per line of its own target: 24px minimum box
+     (design audit S10-3). */
+  display: inline-flex; align-items: center;
+  min-block-size: 1.5rem; min-inline-size: 1.5rem;
+  color: var(--ink-1);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--scene-accent) 40%, transparent);
+  text-underline-offset: 3px;
 }
-.ns4-wave-l { margin: 0; padding: 0; list-style: none; display: grid; gap: .4rem; }
-.ns4-wave-l li {
-  display: grid; gap: 1px;
-  padding-inline-start: .6rem;
-  border-inline-start: 3px solid var(--s);
-}
-.ns4-wave-l li b { font-size: .84rem; color: var(--ink-1); }
-.ns4-wave-l li em { font-style: normal; font-size: .7rem; color: var(--ink-3); unicode-bidi: isolate; }
-.ns4-wave-l li .ns4-cat { justify-self: start; margin-block-start: 2px; }
+.ns4-dep li a:hover { color: var(--scene-accent); text-decoration-color: currentColor; }
 
-.ns4-dep { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: .3rem; }
-.ns4-dep li {
-  font-size: .74rem; padding: .14rem .45rem; border-radius: 6px;
-  color: var(--ink-2); background: var(--surface); border: 1px solid var(--hairline);
-}
-.ns4-dep[data-tone="fwd"] li { color: var(--ink-3); border-style: dashed; }
-.ns4-free {
-  display: flex; align-items: center; gap: .3rem;
-  margin: .5rem 0 0; font-size: .8rem; color: color-mix(in srgb, var(--status-done, #16a34a) 45%, var(--ink-1));
-}
+/* --------------------------------------------------- readiness and the run */
 
-/* ------------------------------------------------------------- steps */
+.ns4-two { display: grid; gap: 1.4rem; grid-template-columns: minmax(0, 1fr); }
+@container (width > 50rem) {
+  .ns4-two { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
+}
+.ns4-two > div { display: grid; align-content: start; gap: .7rem; min-inline-size: 0; scroll-margin-block-start: calc(var(--nxs-h, 0px) + 1rem); }
 
-.ns4-steps { margin: 0; padding: 0; list-style: none; display: grid; gap: .5rem; }
-.ns4-steps li { display: flex; gap: .6rem; align-items: flex-start; }
-.ns4-steps li > span:last-child { display: grid; gap: 1px; min-inline-size: 0; overflow-wrap: anywhere; }
-.ns4-steps li b { font-size: .87rem; color: var(--ink-1); font-weight: 600; }
-.ns4-steps li em { font-style: normal; font-size: .84rem; line-height: 1.6; color: var(--ink-2); }
-.ns4-step-n {
-  flex: none; inline-size: 1.5rem; block-size: 1.5rem; border-radius: .55rem;
-  display: grid; place-items: center;
-  font-family: var(--font-mono); font-size: .72rem; font-weight: 700;
-  color: var(--sec-transactions, #1d5fd0);
-  background: color-mix(in srgb, var(--sec-transactions, #1d5fd0) 12%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sec-transactions, #1d5fd0) 28%, transparent);
+.ns4-weights { display: grid; gap: .5rem; margin: 0; padding: 0; list-style: none; }
+.ns4-weights li { display: grid; grid-template-columns: minmax(0, 1fr) 6.5rem 2rem; gap: .7rem; align-items: center; font-size: .86rem; }
+.ns4-w-he { color: var(--ink-1); }
+.ns4-weights .ns4-meter { inline-size: 100%; }
+.ns4-w-n { justify-self: end; font-weight: 750; font-variant-numeric: tabular-nums; color: var(--ink-1); }
+
+/* The run: numbered stations joined by one line. */
+.ns4-steps { display: grid; gap: .45rem; margin: 0; padding: 0; list-style: none; }
+.ns4-steps li { position: relative; display: grid; grid-template-columns: 1.75rem minmax(0, 1fr); gap: .7rem; align-items: start; font-size: .87rem; line-height: 1.6; color: var(--ink-1); }
+.ns4-steps li > span { padding-block-start: .12rem; }
+.ns4-steps li:not(:last-child)::before {
+  content: "";
+  position: absolute; inset-inline-start: calc(.875rem - .5px); inset-block: 1.75rem -.45rem;
+  inline-size: 1px;
+  background: color-mix(in srgb, var(--scene-accent) 30%, var(--hairline));
 }
 
-.ns4-cut { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
-.ns4-cut-p {
-  padding: .85rem .95rem; border-radius: .85rem;
-  background: var(--surface-2); border: 1px solid var(--hairline); overflow-wrap: anywhere;
+/* ------------------------------------------------------------------ foot */
+
+.ns4-foot { display: grid; gap: .35rem; margin-block-start: 2rem; padding-block-start: 1rem; border-block-start: 1px solid var(--hairline); }
+.ns4-src, .ns4-credit { margin: 0; font-size: .8rem; color: var(--ink-3); }
+.ns4-credit { color: var(--ink-2); }
+
+/* ------------------------------------------------------------ responsive */
+
+/* The board answers to the width the section gives it (rail open or not). */
+@container (max-width: 56rem) {
+  .ns4-board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
-
-/* ------------------------------------------------------------- weights */
-
-.ns4-weights { margin: 0; padding: 0; list-style: none; display: grid; gap: .45rem; }
-.ns4-weights li { display: grid; grid-template-columns: 1fr 7rem 2rem; gap: .6rem; align-items: center; }
-.ns4-w-he { font-size: .85rem; color: var(--ink-2); }
-.ns4-w-bar { block-size: 6px; border-radius: 999px; background: var(--hairline); overflow: hidden; }
-.ns4-w-bar i { display: block; block-size: 100%; background: var(--sec-transactions, #1d5fd0); }
-.ns4-w-n { font-size: .78rem; color: var(--ink-3); text-align: end; font-variant-numeric: tabular-nums; }
-
-.ns4-credit {
-  display: flex; align-items: center; gap: .4rem;
-  margin: 2rem 0 0; font-size: .8125rem; color: var(--ink-2);
+@container (max-width: 20rem) {
+  .ns4-board { grid-template-columns: minmax(0, 1fr); }
 }
-
+@media (max-width: 900px) {
+  .ns4-led { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ns4-led > li:nth-child(3n + 1) { border-inline-start: 0; }
+  .ns4-led > li:nth-child(3n + 1) a { padding-inline-start: 0; }
+  .ns4-led > li:nth-child(n + 4) { border-block-start: 1px solid var(--hairline); }
+}
 @media (max-width: 720px) {
   .ns4 { padding-inline: .9rem; }
   .ns4-sec { padding-inline: .95rem; }
-  .ns4-sec-n { position: static; }
-  .ns4-objs, .ns4-arch, .ns4-cut, .ns4-waves { grid-template-columns: minmax(0, 1fr); }
-  .ns4-ba > div { grid-template-columns: 1fr; gap: .1rem; }
-  .ns4-weights li { grid-template-columns: 1fr 4rem 2rem; }
+  .ns4-sec-h { gap: .7rem; }
+  .ns4-badge { inline-size: 2.5rem; block-size: 2.5rem; border-radius: .75rem; }
+  .ns4-narr { padding: .8rem .9rem; font-size: .93rem; }
+  .ns4-led b { font-size: 1.3rem; }
+  .ns4-defs > div { grid-template-columns: minmax(0, 1fr); gap: .1rem; }
+  .ns4-ft--meta > div { grid-template-columns: minmax(0, 1fr); gap: .1rem; }
+  .ns4-weights li { grid-template-columns: minmax(0, 1fr) 4rem 2rem; }
+}
+@media (max-width: 380px) {
+  .ns4-led { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ns4-led > li:nth-child(3n + 1) { border-inline-start: 1px solid var(--hairline); }
+  .ns4-led > li:nth-child(3n + 1) a { padding-inline-start: .85rem; }
+  .ns4-led > li:nth-child(2n + 1) { border-inline-start: 0; }
+  .ns4-led > li:nth-child(2n + 1) a { padding-inline-start: 0; }
+  .ns4-led > li:nth-child(n + 3) { border-block-start: 1px solid var(--hairline); }
+}
+@media (pointer: coarse) {
+  .ns4-seg button { min-block-size: 2.75rem; }
+  .ns4-how > summary { min-block-size: 2.75rem; }
 }
 
-/* ---------------------------------------------------------------------------
-   Design audit §7 (2026-09-21): catalogue filter, grouped details, the action
-   on every change, the cockpit's wave → card anchors and :target highlight. */
-.ns4-tools { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem .9rem; margin-block-end: .7rem; }
-.ns4-find {
-  display: flex; align-items: center; gap: .5rem; flex: 1 1 18rem; min-inline-size: 0;
-  padding: .45rem .7rem; border: 1px solid var(--scene-hair, var(--hairline)); border-radius: .7rem;
-  background: var(--scene-raised, var(--surface)); color: var(--ink-3);
+@media (prefers-reduced-motion: reduce) {
+  :where(html:not([data-neo-motion="full"])) :is(.ns4-led a, .ns4-board li a, .ns4-seg button, .ns4-route-w li a) { transition: none; }
 }
-.ns4-find:focus-within { border-color: var(--scene-accent, var(--brand)); color: var(--ink-1); }
-.ns4-find input { flex: 1 1 auto; min-inline-size: 0; border: 0; background: transparent; font: inherit; color: var(--ink-1); outline: none; }
-.ns4-chipsrow { display: flex; flex-wrap: wrap; gap: .4rem; }
-.ns4-chipsrow .nu-tab em { font-style: normal; margin-inline-start: .3rem; color: var(--ink-3); }
-.ns4-count { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .9rem; margin: 0 0 .9rem; font-size: .86rem; color: var(--ink-3); }
-.ns4-none { padding: 1.2rem; display: grid; gap: .8rem; justify-items: start; background: var(--scene-raised, var(--surface)); }
-.ns4-group-d > summary { list-style: none; cursor: pointer; }
-.ns4-group-d > summary::-webkit-details-marker { display: none; }
-.ns4-group-d > summary:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--scene-raised, var(--surface)), 0 0 0 4px var(--scene-accent, var(--brand)); border-radius: .5rem; }
-.ns4-h3-hint { margin-inline-start: .6rem; font-size: .72rem; font-weight: 600; color: var(--ink-3); }
-.ns4-h3-hint::after { content: " ▾"; }
-.ns4-group-d[open] > summary .ns4-h3-hint::after { content: " ▴"; }
-.ns4-act { margin-inline-start: auto; font-size: .82rem; white-space: nowrap; }
-.ns4-act--none { color: var(--ink-3); font-size: .8125rem; }
-.ns4-wave-a { display: grid; gap: 1px; color: inherit; text-decoration: none; border-radius: .4rem; }
-.ns4-wave-a:hover b, .ns4-wave-a:focus-visible b { color: var(--scene-accent, var(--brand)); text-decoration: underline; }
-.ns4-dep li a {
-  /* One dependency per line, so the row is a target of its own rather than a
-     link inside a sentence: 24px minimum box (design audit S10-3). */
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-block-size: 1.5rem;
-  min-inline-size: 1.5rem;
-  color: inherit;
-  text-decoration: underline;
-  text-decoration-color: var(--scene-hair, var(--hairline));
-  text-underline-offset: 3px;
-}
-.ns4-dep li a:hover { text-decoration-color: currentColor; }
-.ns4-obj { scroll-margin-block-start: calc(var(--nxs-pad, 0px) + 4.5rem); }
-.ns4-obj:target { box-shadow: 0 0 0 2px var(--scene-raised, var(--surface)), 0 0 0 4px var(--s); }
-
-/* Dark theme: the same chips lighten towards white instead (a11y sample 2026-09-21). */
-html[data-theme="dark"] .ns4-risk { color: color-mix(in srgb, var(--r, var(--ink-3)) 45%, #fff); }
-html[data-theme="dark"] .ns4-topic-st, html[data-theme="dark"] .ns4-arch-st { color: color-mix(in srgb, var(--s) 45%, #fff); }
-html[data-theme="dark"] .ns4-free { color: color-mix(in srgb, var(--status-done, #16a34a) 45%, #fff); }
-.ns4-act { color: var(--scene-accent, var(--brand)); }
-html[data-theme="dark"] .ns4-abap-k { color: var(--scene-ink); }
