@@ -107,9 +107,11 @@ export function GeneralChat() {
           <NeoMark size={44} state={markState} />
         </span>
         <div className="nxg-head-text nm-rise nm-once">
-          <span className="nxq-eyebrow">
+          <span className="nxq-eyebrow nxg-eye">
             <Terminal size={13} strokeWidth={2} aria-hidden="true" />
-            NEO AI · לא מוגבל לספרייה · רמת ביסוס בכל תשובה
+            <span>עוזר SAP</span>
+            <i aria-hidden="true" />
+            <span lang="en">NEO AI</span>
           </span>
           {/* The name says what it is (design audit S7-AI-4): a general
               conversation, distinct from the library help and from the
@@ -117,6 +119,9 @@ export function GeneralChat() {
               eyebrow. */}
           <h1 className="nxq-h1">שיחה כללית על SAP</h1>
           <p className="nxq-lede">{M.tagline}</p>
+          <p className="nxg-facts">
+            לא מוגבל לספרייה{" "}<span className="nxg-dot" aria-hidden="true">·</span>{" "}רמת ביסוס בכל תשובה
+          </p>
         </div>
         {turns.length ? (
           <div className="nxg-head-acts">
@@ -181,6 +186,8 @@ export function GeneralChat() {
       </div>
 
       {!idle ? composer : null}
+
+      <p className="nxg-credit">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</p>
     </div>
   );
 }
@@ -191,21 +198,19 @@ export function GeneralChat() {
 function Intro({ onPick }: { onPick: (q: string) => void }) {
   return (
     <section className="nxg-intro" aria-label="מבוא">
+      {/* The header already carries the mark; the introduction is words. */}
       <div className="nxg-intro-top">
-        <NeoMark size={68} className="nxg-intro-mark" />
-        <div>
-          <h2 className="nxg-intro-h">{WHO}</h2>
-          <p className="nxg-intro-p">
-            שיחה כללית על SAP: ארכיטקטורה, יישום, אינטגרציה ואבחון תקלות.
-            התשובות מבוססות על ידע כללי. כאשר נמצאו מקורות בספרייה הם מוצגים מתחת לתשובה,
-            ואחרת התשובה מסומנת כידע כללי. לשאלות על ספרי הספרייה משמש המסך שאל את הספרייה.
-          </p>
-        </div>
+        <h2 className="nxg-intro-h">{WHO}</h2>
+        <p className="nxg-intro-p">
+          שיחה כללית על SAP: ארכיטקטורה, יישום, אינטגרציה ואבחון תקלות.
+          התשובות מבוססות על ידע כללי. כאשר נמצאו מקורות בספרייה הם מוצגים מתחת לתשובה,
+          ואחרת התשובה מסומנת כידע כללי. לשאלות על ספרי הספרייה משמש המסך שאל את הספרייה.
+        </p>
       </div>
 
       <div className="nxg-cols nm-seq">
         <div className="nxg-col nm-rise nm-once" data-tone="does">
-          <h3 className="nxg-col-h">יכולות זמינות</h3>
+          <h3 className="nxg-col-h">יכולות זמינות <span className="nxg-n">{DOES.length}</span></h3>
           <ul className="nxg-col-list">
             {DOES.map((d) => (
               <li key={d} className="nxg-col-i">
@@ -216,7 +221,7 @@ function Intro({ onPick }: { onPick: (q: string) => void }) {
           </ul>
         </div>
         <div className="nxg-col nm-rise nm-once" data-tone="not" style={{ "--nm-i": 1 } as React.CSSProperties}>
-          <h3 className="nxg-col-h">מגבלות</h3>
+          <h3 className="nxg-col-h">מגבלות <span className="nxg-n">{DOES_NOT.length}</span></h3>
           <ul className="nxg-col-list">
             {DOES_NOT.map((d) => (
               <li key={d} className="nxg-col-i">

@@ -1210,6 +1210,23 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
 }
 
 .nxg-head-text { display: grid; gap: var(--sp-2); justify-items: start; min-inline-size: 0; }
+/* the eyebrow as the catalogs write it: the group, a short rule, the name */
+.nxg-eye > i { inline-size: 14px; block-size: 1px; background: currentColor; opacity: .45; flex: none; }
+.nxg-eye > [lang="en"] { letter-spacing: .09em; }
+.nxg .nxq-h1 { font-size: clamp(1.6rem, 1.1rem + 1.3vw, 2.2rem); font-weight: 720; letter-spacing: -.02em; }
+.nxg-facts { margin: 0; font-size: .82rem; line-height: 1.6; color: var(--ink-3); }
+.nxg-dot { opacity: .6; }
+/* the return link and the secondary actions (a new conversation, a retry, the
+   suggested follow-ups) in ink: brand red is the send button's, the one action */
+.nxg .nxr-link,
+.nxg .nu-btn2 { --m: var(--ink-3); }
+/* the composer's fade belongs to this scene's ground, not the shell's (it drew
+   a beige band under the field on the blue ground) */
+.nxg .nxq-composer { background: linear-gradient(to top, var(--scene-ground, var(--background)) 62%, transparent); }
+/* the mandatory credit, at the end of the conversation column */
+.nxg-credit { margin: var(--sp-2) 0 0; font-size: .78rem; line-height: 1.6; color: var(--ink-2); }
+/* a failed answer is said by its glyph and its title; no 3px stripe on this surface */
+.nxg .nxq-fail { border-inline-start-width: 1px; }
 .nxg-head-acts {
   grid-column: 1 / -1;
   display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap;
@@ -1254,19 +1271,15 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   box-shadow: none;
 }
 
+/* 2026-10: the introduction sits on the scene's own ground, in the catalogs'
+   language: no card around it, no second mark (the header carries one), the
+   two lists as hairline-ruled lanes with their real counts. Visual only. */
 .nxg-intro {
   display: grid; gap: var(--sp-5);
-  padding: var(--sp-5);
-  border-radius: var(--r-2xl);
-  border: 1px solid var(--hairline);
-  background: var(--surface);
+  padding: var(--sp-2) 0 0;
 }
-.nxg-intro-top {
-  display: grid; grid-template-columns: auto minmax(0, 1fr);
-  gap: var(--sp-4); align-items: start;
-}
-.nxg-intro-mark { color: var(--ink-2); }
-.nxg-intro-h { margin: 0 0 var(--sp-2); font-size: var(--t-h2); font-weight: 800; color: var(--ink-1); }
+.nxg-intro-top { display: grid; gap: var(--sp-2); }
+.nxg-intro-h { margin: 0; font-size: 1.12rem; font-weight: 720; color: var(--ink-1); }
 .nxg-intro-p {
   margin: 0; max-inline-size: 64ch;
   font-size: var(--t-sm); line-height: var(--lh-he); color: var(--ink-2);
@@ -1278,16 +1291,18 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
 }
 .nxg-col {
   display: grid; gap: var(--sp-2); align-content: start;
-  padding: var(--sp-4);
-  border-radius: var(--r-lg);
-  border: 1px solid var(--hairline);
-  background: var(--surface-2);
+  padding: var(--sp-3) 0 0;
+  border-block-start: 1px solid var(--hairline);
 }
-.nxg-col[data-tone="not"] { border-style: dashed; }
 .nxg-col-h {
+  display: flex; align-items: center; gap: .5rem;
   margin: 0;
-  font-size: var(--t-micro); font-weight: 800; letter-spacing: 0.06em;
-  text-transform: uppercase; color: var(--ink-3);
+  font-size: .9rem; font-weight: 720; color: var(--ink-1);
+}
+.nxg-n {
+  padding: .05rem .5rem; border-radius: 999px;
+  font-family: var(--font-mono); font-size: .72rem; font-weight: 650; line-height: 1.5;
+  color: var(--ink-2); background: var(--surface-2); border: 1px solid var(--hairline);
 }
 .nxg-col-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }
 .nxg-col-i {
@@ -1296,7 +1311,7 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   font-size: var(--t-xs); line-height: 1.7; color: var(--ink-2);
 }
 .nxg-col-i svg { margin-block-start: 0.28em; }
-.nxg-col[data-tone="does"] .nxg-col-i svg { color: var(--brand); }
+.nxg-col[data-tone="does"] .nxg-col-i svg { color: var(--ink-2); }
 .nxg-col[data-tone="not"] .nxg-col-i svg { color: var(--ink-3); }
 .nxg-col[data-tone="not"] .nxg-col-i { color: var(--ink-3); }
 
@@ -1420,10 +1435,10 @@ html[data-device="phone"] .nxq-hint { white-space: normal; }
   .nxq-hero-count { flex-basis: 100%; margin-inline-end: 0; }
   .nxq-hero-b, .nxq-scope-cta-b { flex: 1 1 auto; }
 
-  .nxq-welcome, .nxg-intro { padding: var(--sp-4); gap: var(--sp-4); border-radius: var(--r-xl); }
-  .nxq-welcome-top, .nxg-intro-top { grid-template-columns: minmax(0, 1fr); gap: var(--sp-3); }
+  .nxq-welcome { padding: var(--sp-4); gap: var(--sp-4); border-radius: var(--r-xl); }
+  .nxg-intro { gap: var(--sp-4); }
+  .nxq-welcome-top { grid-template-columns: minmax(0, 1fr); gap: var(--sp-3); }
   .nxq-welcome-mark { --nxm-size: 52px; }
-  .nxg-intro-mark { --nxm-size: 48px; }
   .nxq-steps { grid-template-columns: minmax(0, 1fr); }
   .nxq-fail { grid-template-columns: minmax(0, 1fr); gap: var(--sp-2); padding: var(--sp-3); }
 
