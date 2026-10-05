@@ -6,13 +6,10 @@
 // still the right answer for the rail — there is no single number that honestly
 // describes this destination.
 //
-// ui.css is imported per route, not by the layout. Imported FIRST so learn.css's
-// own placement rules still win.
+// ui.css is imported per route, not by the layout. The entry is drawn by the
+// catalog kit (data.css); the runner under it keeps learn.css and cert.css.
 import "@/app/neo/ui.css";
-import "@/app/neo/learn.css";
-// The selection pickers (bank, level, length) are the runner's; their sheet
-// comes along so the entry asks the same three questions in the same clothes.
-import "@/app/neo/cert.css";
+import "@/app/neo/data.css";
 import { certData } from "@/components/neo-shell/learn/cert-data";
 import { CertSurface } from "@/components/neo-shell/learn/cert-surface";
 

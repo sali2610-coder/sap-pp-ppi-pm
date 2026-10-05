@@ -6,9 +6,7 @@
 // and /neo/books/ already use.
 import "@/app/neo/ui.css";
 import "@/app/neo/data.css";
-import "@/app/neo/reference.css";
-import "@/app/neo/best-practices.css";
-import { BpCatalog } from "@/components/neo-shell/best-practices/bp-view";
+import { BpCatalog } from "@/components/neo-shell/best-practices/bp-catalog";
 import { bpList } from "@/components/neo-shell/best-practices/bp-data";
 
 // noindex, like every other page in the namespace: scripts/gen-sitemap.mjs
@@ -22,7 +20,7 @@ export const metadata = {
 };
 
 // Server component. bpList() reads data/best-practices at BUILD time and hands
-// the server view one small plain object.
+// the client catalog 35 small plain rows.
 export default function NeoBestPractices() {
   return <BpCatalog rows={bpList()} />;
 }

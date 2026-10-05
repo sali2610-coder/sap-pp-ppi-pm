@@ -1,9 +1,10 @@
 /* ============================================================================
-   PROJECT NEO · /neo/best-practices — the catalog and the record.
+   PROJECT NEO · /neo/best-practices/<slug>/ — the record.
    ----------------------------------------------------------------------------
    SERVER components. The SAP facts are rendered to HTML at build time and the
    browser receives two islands only: the contextual return and the running
-   section bar — the same budget the reference record keeps.
+   section bar — the same budget the reference record keeps. The catalog that
+   lists the records is the client island in ./bp-catalog.tsx (2026-10).
 
    The composition is the .nxt record family (app/neo/data.css +
    app/neo/reference.css): identity header, running SectionNav, .nxt-sec
@@ -22,7 +23,7 @@ import { SmartReturn } from "@/components/neo-shell/nav-context";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { EvidenceBlock } from "@/components/neo-shell/evidence/evidence-block";
 import { modVar } from "../mod-var";
-import type { BpDetail, BpLineV, BpRow, BpXrefV } from "./bp-data";
+import type { BpDetail, BpLineV, BpXrefV } from "./bp-data";
 
 const nf = new Intl.NumberFormat("he-IL");
 const NONE = "לא קיים תיעוד מאומת במאגר";
@@ -59,129 +60,6 @@ function ModChip({ module, moduleHe }: { module: string; moduleHe: string }) {
       <i aria-hidden="true" />
       {module === "Cross" ? moduleHe : <><bdi dir="ltr">{module}</bdi> · {moduleHe}</>}
     </span>
-  );
-}
-
-/* ------------------------------------------------------------ the catalog */
-
-function Row({ r }: { r: BpRow }) {
-  return (
-    <li className="nbp-item" style={{ "--m": modVar(r.module) } as React.CSSProperties}>
-      <Link href={r.href} prefetch={false} className="nu-card nbp-row">
-        <span className="nbp-mark" aria-hidden="true" />
-        <span className="nbp-body">
-          <span className="nbp-t">
-            <b>{r.he}</b>
-            <em className="nbp-en" dir="ltr">{r.en}</em>
-          </span>
-          <span className="nbp-sum">{r.summary}</span>
-          <span className="nbp-meta">
-            <ModChip module={r.module} moduleHe={r.moduleHe} />
-            <span className="nu-chip">
-              <ListChecks size={11} strokeWidth={1.75} aria-hidden="true" />
-              {nf.format(r.steps)} צעדים
-            </span>
-            <span className="nu-chip">
-              <ShieldCheck size={11} strokeWidth={1.75} aria-hidden="true" />
-              {nf.format(r.sources)} מקורות
-            </span>
-            <span className="nu-chip">
-              <Link2 size={11} strokeWidth={1.75} aria-hidden="true" />
-              {nf.format(r.xrefsLinked)}/{nf.format(r.xrefs)} הפניות מקושרות לעמוד
-            </span>
-            {r.profile ? (
-              <span className="nu-chip nbp-prof-chip">
-                <LayoutList size={11} strokeWidth={1.75} aria-hidden="true" />
-                פרופיל תהליך · {nf.format(r.profile.filled)} מתוך {nf.format(r.profile.total)} שדות
-              </span>
-            ) : null}
-          </span>
-        </span>
-        <span className="nbp-side">
-          <span className="nu-status" style={{ "--s": r.levelDot } as React.CSSProperties}>
-            {r.levelHe}
-          </span>
-          <span className="nu-chip">עומק L{r.depth} · {r.depthHe}</span>
-        </span>
-        <span className="nbp-go" aria-hidden="true"><ArrowLeft size={15} strokeWidth={2} /></span>
-      </Link>
-    </li>
-  );
-}
-
-export function BpCatalog({ rows }: { rows: BpRow[] }) {
-  const total = rows.length;
-  const steps = rows.reduce((a, r) => a + r.steps, 0);
-  const sources = rows.reduce((a, r) => a + r.sources, 0);
-  const xrefs = rows.reduce((a, r) => a + r.xrefs, 0);
-  const linked = rows.reduce((a, r) => a + r.xrefsLinked, 0);
-  const official = rows.filter((r) => r.officialWithUrl > 0).length;
-  const processes = rows.filter((r) => r.profile).length;
-
-  return (
-    <div className="nxt" data-surface="best-practices">
-      <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
-
-      <header className="nxt-head">
-        <p className="nx-eyebrow nxt-eyebrow">ידע ולמידה · המעבר ל-S/4HANA</p>
-        <h1 className="nbp-h1">שיטות עבודה מומלצות ל-SAP S/4HANA</h1>
-        <p className="nbp-lede">
-          {nf.format(total)} שיטות עבודה מתועדות, מצעד ראשון ועד בדיקות התוצאה.
-          בכל שיטה: צעדי עבודה, דפוסים שגויים שכדאי להכיר וקישורים לרשומות הרלוונטיות באתר.
-        </p>
-        <p className="nbp-source-note">
-          {official === 0
-            ? "כולן נגזרות מרשומות מתועדות של המאגר, וטרם צורף להן מקור SAP רשמי מקושר."
-            : `${nf.format(official)} מהן מגובות במקור SAP רשמי מקושר, והשאר נגזרות מרשומות המאגר.`}
-        </p>
-        <div className="nxt-meta">
-          <span className="nu-chip">
-            <ClipboardCheck size={11} strokeWidth={1.75} aria-hidden="true" />
-            {nf.format(total)} שיטות עבודה
-          </span>
-          <span className="nu-chip">
-            <ListChecks size={11} strokeWidth={1.75} aria-hidden="true" />
-            {nf.format(steps)} צעדי עבודה
-          </span>
-          <span className="nu-chip">
-            <ShieldCheck size={11} strokeWidth={1.75} aria-hidden="true" />
-            {nf.format(sources)} מקורות ברשומות
-          </span>
-          <span className="nu-chip">
-            <Link2 size={11} strokeWidth={1.75} aria-hidden="true" />
-            {nf.format(linked)}/{nf.format(xrefs)} הפניות מקושרות לעמוד
-          </span>
-          {processes > 0 ? (
-            <span className="nu-chip">
-              <LayoutList size={11} strokeWidth={1.75} aria-hidden="true" />
-              {nf.format(processes)} רשומות תהליך
-            </span>
-          ) : null}
-        </div>
-        {processes > 0 ? <details className="nbp-coverage">
-          <summary>מה כולל פרופיל תהליך?</summary>
-          <p>{nf.format(processes)} רשומות מציגות פרופיל תהליך: מטרה וטריגר, תנאים מוקדמים, נתוני אב ותפקידים; שלבי עבודה, טרנזקציות וטבלאות; אינטגרציה, תוצרים וחריגים; בקרות ומדדים; שינויי ECC ל־S/4HANA והגירה; מקורות וקישורים צולבים.</p>
-          <p>שדה שלא תועד מוצג כפער. הפניה נפתחת כקישור רק כאשר קיים לה עמוד בפרויקט.</p>
-        </details> : null}
-      </header>
-
-      {rows.length ? (
-        <ul className="nbp-list">
-          {rows.map((r) => <Row key={r.slug} r={r} />)}
-        </ul>
-      ) : (
-        <p className="nxt-absent">{NONE} · שיטות עבודה</p>
-      )}
-
-      <footer className="nxt-foot">
-        <p>
-          בכל שיטה מוצגים רמת האימות, המקורות ועומק התיעוד שלה, כדי שיהיה ברור מה מתועד ומה עדיין דורש בדיקה.
-        </p>
-        <p>
-          התוכן מבוסס על הפניות מפורשות לרשומות המאגר. נדרש אימות במערכת SAP לפני יישום.
-        </p>
-      </footer>
-    </div>
   );
 }
 

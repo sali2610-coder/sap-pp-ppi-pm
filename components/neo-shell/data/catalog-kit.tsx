@@ -126,7 +126,10 @@ export interface RankItem {
   swatch?: string;
   /** Present only when the bar is a filter. */
   on?: boolean;
-  onClick: () => void;
+  /** A bar is a filter (onClick), a place on the page (href), or, with
+   *  neither, a value: a server page has no state to filter with. */
+  onClick?: () => void;
+  href?: string;
   title?: string;
 }
 
@@ -151,14 +154,9 @@ export function RankList({
       data-open={folds && open ? "1" : undefined}
       aria-label={label}
     >
-      {items.map((it) => (
-        <li key={it.id}>
-          <button
-            type="button"
-            onClick={it.onClick}
-            aria-pressed={it.on === undefined ? undefined : it.on}
-            title={it.title}
-          >
+      {items.map((it) => {
+        const inner = (
+          <>
             <span className="nxd-rank-l">
               {it.swatch ? <i className="nxd-sw" style={{ "--o": it.swatch } as React.CSSProperties} aria-hidden="true" /> : null}
               <span>{it.label}</span>
@@ -169,9 +167,27 @@ export function RankList({
             </span>
             <b className="nx-sap">{fmt(it.n)}</b>
             {it.sub ? <span className="nxd-rank-s">{it.sub}</span> : null}
-          </button>
-        </li>
-      ))}
+          </>
+        );
+        return (
+          <li key={it.id}>
+            {it.onClick ? (
+              <button
+                type="button"
+                onClick={it.onClick}
+                aria-pressed={it.on === undefined ? undefined : it.on}
+                title={it.title}
+              >
+                {inner}
+              </button>
+            ) : it.href ? (
+              <a href={it.href} title={it.title}>{inner}</a>
+            ) : (
+              <span className="nxd-rank-v">{inner}</span>
+            )}
+          </li>
+        );
+      })}
     </ul>
     {folds ? (
       <button type="button" className="nu-btn2 nxd-fold" aria-expanded={!!open} onClick={onToggle}>
@@ -204,9 +220,12 @@ export function Cell({ k, l, sr, children }: { k: string; l: string; sr?: string
   );
 }
 
-export function CatalogFoot({ children }: { children: ReactNode }) {
+/** The source sentence, any rule the page's numbers follow (`notes`, each its
+ *  own line, before it), and the mandatory credit. */
+export function CatalogFoot({ children, notes }: { children: ReactNode; notes?: ReactNode[] }) {
   return (
     <footer className="nxd-foot">
+      {notes?.map((n, i) => <p key={i} className="nxd-src">{n}</p>)}
       <p className="nxd-src">{children}</p>
       <p className="nxd-credit">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</p>
     </footer>

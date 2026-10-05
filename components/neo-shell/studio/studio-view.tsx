@@ -42,17 +42,43 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useShellFocus } from "../focus";
 import {
-  Crosshair, Expand, Filter, Maximize2, Minus, Plus, Presentation, RotateCcw, Search, X, Focus,
+  ArrowRightLeft, Ban, Braces, Cable, Check, CircleHelp, Crosshair, Diff, Expand, Filter, LayoutGrid, Maximize2, Minus, Plug,
+  Plus, Presentation, RotateCcw, Search, Sigma, Table, Terminal, X, Focus, type LucideIcon,
 } from "lucide-react";
+import { modVar } from "../mod-var";
+import { S4_DOT, S4_HE, S4_ORDER, S4_UNDECIDED_HE, type S4Class } from "@/lib/s4-class";
 import {
-  KIND_META, MODES, S4_COLOR, ZONES, buildHetero, layoutSubset, layoutZoned,
+  KIND_META, MODES, ZONES, buildHetero, layoutSubset, layoutZoned,
   nodeTier, zoneOf, type LEdge, type LNode, type SKind, type SNode,
 } from "@/lib/studio-graph";
 
 type Mod = "PM" | "PP-PI";
 const MODULES: Mod[] = ["PM", "PP-PI"];
 
-const S4_HE: Record<string, string> = { kept: "ללא החלפה מתועדת", replaced: "הוחלפה", removed: "הוסרה" };
+
+/* OBJECT KIND IS A GLYPH, NOT A COLOUR (2026-10). The kind palette in
+   lib/studio-graph is shared with the home page and the module map and is not
+   touched; this surface simply stops painting it, so seven kinds and eight
+   zones no longer compete as hues. The glyphs are the rail's own for the same
+   catalogs. The S/4 verdict is the blueprint's own class (lib/s4-class.ts),
+   in its own words, ללא שינוי / מותאם / הוחלף / הוסר, each with the glyph the
+   status pill uses for that reading and the status token's colour; a table
+   whose row decides nothing says "לא הוכרע במקור". */
+const KIND_ICON: Record<SKind, LucideIcon> = {
+  table: Table, tcode: Terminal, bapi: Plug, fm: Braces, idoc: Cable, cds: Sigma, fiori: LayoutGrid,
+};
+const S4_ICON: Record<S4Class, LucideIcon> = { 0: Check, 1: Diff, 2: ArrowRightLeft, 3: Ban };
+const s4Word = (k: S4Class | undefined) => (k === undefined ? S4_UNDECIDED_HE : S4_HE[k]);
+
+function KindGlyph({ kind, size = 12 }: { kind: SKind; size?: number }) {
+  const I = KIND_ICON[kind];
+  return <I size={size} strokeWidth={2} aria-hidden="true" className="nst-kg" />;
+}
+function S4Glyph({ k, size = 12 }: { k: S4Class | undefined; size?: number }) {
+  if (k === undefined) return <CircleHelp size={size} strokeWidth={2.2} aria-hidden="true" className="nst-s4g" style={{ color: "var(--status-not-started)" }} />;
+  const I = S4_ICON[k];
+  return <I size={size} strokeWidth={2.4} aria-hidden="true" className="nst-s4g" style={{ color: S4_DOT[k] }} />;
+}
 
 /** The first layer of a module: the first zone (in ZONES order) that has at
  *  least one table in the module's graph. The studio opens on it (design
@@ -151,14 +177,17 @@ export function StudioView() {
        width of whatever sits in the last column — so "fit to screen" left the
        right-most nodes outside the canvas. Measured: 10 of 56 still off-screen
        after a fit. The true extent is the union of the node boxes. */
-    let maxX = 0, maxY = 0;
+    /* The layouts place a node by its CENTRE (dagre's convention, and
+       layoutZoned's), so a node's box is centre ± half its size. */
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
     for (const n of laid.nodes) {
-      if (n.x + n.w > maxX) maxX = n.x + n.w;
-      if (n.y + n.h > maxY) maxY = n.y + n.h;
+      minX = Math.min(minX, n.x - n.w / 2); maxX = Math.max(maxX, n.x + n.w / 2);
+      minY = Math.min(minY, n.y - n.h / 2); maxY = Math.max(maxY, n.y + n.h / 2);
     }
-    if (!maxX || !maxY) return;
+    const bw = maxX - minX, bh = maxY - minY;
+    if (!(bw > 0) || !(bh > 0)) return;
     const PAD = 48;
-    const raw = Math.min((el.clientWidth - PAD) / maxX, (el.clientHeight - PAD) / maxY, 1.4);
+    const raw = Math.min((el.clientWidth - PAD) / bw, (el.clientHeight - PAD) / bh, 1.4);
     // PRESENTATION (design audit S6-3): a fit never lands below 90%, so the
     // labels stay legible from across a room; the presenter pans to the rest.
     // Otherwise a fit never shrinks the smallest node below a 24px target
@@ -166,7 +195,7 @@ export function StudioView() {
     // narrow canvas the reader pans instead; wide screens fit above the floor.
     const floor = 24 / Math.min(...laid.nodes.map((n) => n.h));
     const k = present ? Math.max(raw, 0.9) : Math.max(raw, floor);
-    setCam({ k, x: (el.clientWidth - maxX * k) / 2, y: (el.clientHeight - maxY * k) / 2 });
+    setCam({ k, x: (el.clientWidth - bw * k) / 2 - minX * k, y: (el.clientHeight - bh * k) / 2 - minY * k });
   }, [laid.nodes, present]);
 
   const centerOn = useCallback((id: string) => {
@@ -174,7 +203,7 @@ export function StudioView() {
     const n = laid.nodes.find((x) => x.id === id);
     if (!el || !n) return;
     const k = Math.max(cam.k, 0.9);
-    setCam({ k, x: el.clientWidth / 2 - (n.x + n.w / 2) * k, y: el.clientHeight / 2 - (n.y + n.h / 2) * k });
+    setCam({ k, x: el.clientWidth / 2 - n.x * k, y: el.clientHeight / 2 - n.y * k });
   }, [laid.nodes, cam.k]);
 
   const zoom = useCallback((f: number) => {
@@ -226,8 +255,8 @@ export function StudioView() {
         if (!el || !n) { fit(); return; }
         setCam((c) => ({
           k: c.k,
-          x: el.clientWidth / 2 - (n.x + n.w / 2) * c.k,
-          y: el.clientHeight / 2 - (n.y + n.h / 2) * c.k,
+          x: el.clientWidth / 2 - n.x * c.k,
+          y: el.clientHeight / 2 - n.y * c.k,
         }));
       });
     });
@@ -272,8 +301,9 @@ export function StudioView() {
       .sort((a, b) => a.kind.localeCompare(b.kind) || a.id.localeCompare(b.id));
   }, [sel, hetero]);
 
-  const colorOf = (n: LNode) =>
-    mode.colorBy === "s4" && n.s4 ? S4_COLOR[n.s4] : KIND_META[n.kind].c;
+  const s4Mode = mode.colorBy === "s4";
+  /** Several kinds on stage: each node says which it is. */
+  const mixed = mode.kinds.length > 1;
 
   /* The layer strip: which layer is on stage, how much of the module it is,
      and the two ways out — the next layer, or everything. Counted from the
@@ -318,9 +348,10 @@ export function StudioView() {
               {results.map((r) => (
                 <li key={r.id}>
                   <button type="button" onClick={() => { pick(r.id); setQ(""); }}>
+                    <KindGlyph kind={r.kind} />
                     <b className="nx-sap" dir="ltr">{r.id}</b>
                     <span>{r.he}</span>
-                    <i style={{ background: KIND_META[r.kind].c }} aria-hidden="true" />
+                    <em>{KIND_META[r.kind].he}</em>
                   </button>
                 </li>
               ))}
@@ -378,7 +409,8 @@ export function StudioView() {
         <aside className="nst-side" aria-label="תצוגות ומסננים">
           <div className="nst-mods">
             {MODULES.map((m) => (
-              <button key={m} type="button" className="nst-mod" data-on={mod === m ? "1" : "0"}
+              <button key={m} type="button" className="nst-mod" data-on={mod === m ? "1" : "0"} aria-pressed={mod === m}
+                style={{ "--m": modVar(m) } as React.CSSProperties}
                 onClick={() => { setMod(m); setSel(null); setZones(firstZoneOf(m)); }}>{m}</button>
             ))}
           </div>
@@ -387,7 +419,7 @@ export function StudioView() {
           <ul className="nst-modes">
             {MODES.map((m) => (
               <li key={m.id}>
-                <button type="button" className="nst-mode" data-on={modeId === m.id ? "1" : "0"}
+                <button type="button" className="nst-mode" data-on={modeId === m.id ? "1" : "0"} aria-pressed={modeId === m.id}
                   onClick={() => { setModeId(m.id); setSel(null); }}>
                   {m.he}
                 </button>
@@ -399,14 +431,17 @@ export function StudioView() {
           <ul className="nst-zones">
             {ZONES.map((z) => {
               const on = zones.has(z.id);
+              const n = zoneCounts.get(z.id) ?? 0;
               return (
                 <li key={z.id}>
                   <button type="button" className="nst-zone" data-on={on ? "1" : "0"}
                     aria-pressed={on}
+                    disabled={!n && !on}
+                    aria-label={`${z.he}: ${n} טבלאות במודול`}
                     onClick={() => setZones((s) => {
-                      const n = new Set(s); n.has(z.id) ? n.delete(z.id) : n.add(z.id); return n;
+                      const next = new Set(s); if (next.has(z.id)) next.delete(z.id); else next.add(z.id); return next;
                     })}>
-                    <i style={{ background: z.c }} aria-hidden="true" />{z.he}
+                    <span>{z.he}</span><b>{n}</b>
                   </button>
                 </li>
               );
@@ -433,12 +468,14 @@ export function StudioView() {
           <div className="nst-stage" style={{ transform: `translate(${cam.x}px, ${cam.y}px) scale(${cam.k})` }}>
             <svg className="nst-edges" width={laid.width || 1} height={laid.height || 1} aria-hidden="true">
               {laid.edges.map((e) => {
-                const lit = !near || (near.has(e.from) && near.has(e.to));
+                // A line is lit only while a selection gives it a meaning; with
+                // nothing selected every line is the same quiet ink.
+                const lit = near ? (near.has(e.from) && near.has(e.to) ? "1" : "0") : undefined;
                 return (
                   <polyline
                     key={e.id}
                     className="nst-edge"
-                    data-lit={lit ? "1" : "0"}
+                    data-lit={lit}
                     points={e.points.map((p) => `${p.x},${p.y}`).join(" ")}
                   />
                 );
@@ -458,17 +495,19 @@ export function StudioView() {
                   data-on={on ? "1" : "0"}
                   data-dim={dim ? "1" : "0"}
                   data-tier={nodeTier(n, hetero)}
-                  style={{
-                    left: n.x, top: n.y, width: n.w, height: n.h,
-                    "--c": colorOf(n),
-                  } as React.CSSProperties}
+                  /* The layouts give a node's CENTRE; the box is drawn around it,
+                     so a line meets the middle of a node and not its corner. */
+                  style={{ left: n.x - n.w / 2, top: n.y - n.h / 2, width: n.w, height: n.h } as React.CSSProperties}
                   onClick={() => setSel(on ? null : n.id)}
                   onDoubleClick={() => pick(n.id)}
                   aria-pressed={on}
+                  aria-label={`${KIND_META[n.kind].he} ${n.label}${n.he ? `, ${n.he}` : ""}${n.kind === "table" ? `. S/4HANA: ${s4Word(n.s4k)}` : ""}`}
+                  title={s4Mode ? n.he : undefined}
                 >
-                  <b className="nx-sap" dir="ltr">{n.label}</b>
-                  <span>{n.he}</span>
-                  {n.s4 ? <i className="nst-s4" style={{ background: S4_COLOR[n.s4] }} aria-hidden="true" /> : null}
+                  <b className="nx-sap" dir="ltr">{mixed ? <KindGlyph kind={n.kind} size={11} /> : null}{n.label}</b>
+                  {s4Mode && n.kind === "table"
+                    ? <span className={n.s4k === undefined ? "nst-node-s4 is-none" : "nst-node-s4"}><S4Glyph k={n.s4k} size={11} />{s4Word(n.s4k)}</span>
+                    : <span>{n.he}</span>}
                 </button>
               );
             })}
@@ -483,16 +522,16 @@ export function StudioView() {
         {selNode ? (
           <aside className="nst-ctx" aria-label="פרטי האובייקט הנבחר">
             <header>
-              <span className="nst-kind" style={{ background: KIND_META[selNode.kind].c }}>{KIND_META[selNode.kind].he}</span>
+              <span className="nst-kind"><KindGlyph kind={selNode.kind} />{KIND_META[selNode.kind].he}</span>
               <button type="button" className="nst-x" aria-label="סגירה" onClick={() => setSel(null)}><X size={14} /></button>
             </header>
             <h2 className="nst-ctx-id nx-sap" dir="ltr">{selNode.id}</h2>
             <p className="nst-ctx-he">{selNode.he}</p>
 
-            {selNode.s4 ? (
-              <p className="nst-ctx-s4" style={{ "--s4": S4_COLOR[selNode.s4] } as React.CSSProperties}>
-                <i aria-hidden="true" />
-                <b>S/4HANA</b> {S4_HE[selNode.s4]}
+            {selNode.kind === "table" ? (
+              <p className="nst-ctx-s4">
+                <S4Glyph k={selNode.s4k} />
+                <b>S/4HANA</b> {s4Word(selNode.s4k)}
               </p>
             ) : (
               <p className="nst-ctx-none">לאובייקט זה לא קיימת הכרעת מעבר מתועדת.</p>
@@ -502,8 +541,8 @@ export function StudioView() {
             <ul className="nst-rel">
               {selNeighbours.map((n) => (
                 <li key={n.id}>
-                  <button type="button" onClick={() => pick(n.id)}>
-                    <i style={{ background: KIND_META[n.kind].c }} aria-hidden="true" />
+                  <button type="button" onClick={() => pick(n.id)} aria-label={`${KIND_META[n.kind].he} ${n.id}${n.he ? `, ${n.he}` : ""}`}>
+                    <KindGlyph kind={n.kind} />
                     <b className="nx-sap" dir="ltr">{n.id}</b>
                     <span>{n.he}</span>
                   </button>
@@ -517,12 +556,20 @@ export function StudioView() {
 
       {/* legend — colours mean something, so they are stated */}
       <footer className="nst-legend">
-        {(mode.colorBy === "s4"
-          ? Object.entries(S4_COLOR).map(([k, c]) => ({ c, he: S4_HE[k] }))
-          : [...new Set(laid.nodes.map((n) => n.kind))].map((k) => ({ c: KIND_META[k as SKind].c, he: KIND_META[k as SKind].he }))
-        ).map((x) => (
-          <span key={x.he}><i style={{ background: x.c }} aria-hidden="true" />{x.he}</span>
-        ))}
+        {s4Mode
+          ? <>
+            {S4_ORDER.filter((k) => laid.nodes.some((n) => n.kind === "table" && n.s4k === k)).map((k) => (
+              <span key={k}><S4Glyph k={k} />{S4_HE[k]}</span>
+            ))}
+            {laid.nodes.some((n) => n.kind === "table" && n.s4k === undefined)
+              ? <span><S4Glyph k={undefined} />{S4_UNDECIDED_HE}</span>
+              : null}
+          </>
+          : [...new Set(laid.nodes.map((n) => n.kind))].map((k) => (
+            <span key={k}><KindGlyph kind={k} />{KIND_META[k].he}</span>
+          ))}
+        {/* The mandatory credit, on the workspace's own bottom line. */}
+        <span className="nst-credit">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</span>
       </footer>
     </div>
   );

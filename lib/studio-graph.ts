@@ -8,9 +8,18 @@ import { ALL_TABLES } from "@/data/sapData";
 import { cdsForTable } from "@/data/cds-map";
 import { classifyFunc, cleanFunc } from "@/lib/object-intel";
 import type { Module } from "@/lib/types";
+import { s4ClassOf, type S4Class } from "./s4-class";
 
 export type SKind = "table" | "tcode" | "bapi" | "fm" | "idoc" | "cds" | "fiori";
-export interface SNode { id: string; kind: SKind; label: string; he: string; s4?: "kept" | "replaced" | "removed"; href?: string }
+export interface SNode {
+  id: string; kind: SKind; label: string; he: string;
+  /** Three-state verdict, kept for the legacy /studio route. */
+  s4?: "kept" | "replaced" | "removed";
+  /** The blueprint's own class (lib/s4-class.ts): 0 ללא שינוי · 1 מותאם ·
+   *  2 הוחלף · 3 הוסר; absent when the row decides nothing. */
+  s4k?: S4Class;
+  href?: string;
+}
 export interface SHetero { nodes: Map<string, SNode>; adj: Map<string, Set<string>>; tables: string[]; master: Set<string> }
 
 export const KIND_META: Record<SKind, { he: string; c: string }> = {
@@ -36,8 +45,15 @@ export function buildHetero(module: Module): SHetero {
   const tset = new Set(tables.map((t) => t.tableName));
 
   for (const t of tables) {
-    const s4: SNode["s4"] = t.s4AltTable ? "replaced" : /הוסר|בוטל|removed|deprecat/i.test(t.s4Note || "") ? "removed" : "kept";
-    add({ id: t.tableName, kind: "table", label: t.tableName, he: t.descriptionHe || t.descriptionEn || "", s4, href: `/object/${encodeURIComponent(t.tableName)}/` });
+    // The verdict is the blueprint's own, read where the product decides it
+    // (lib/s4-class.ts). It used to be "has an alternative table => replaced",
+    // which read the wrong column: the PM blueprint fills s4AltTable on every
+    // table, so EQUI ("EQUI (זהה)", "ללא שינוי במודל הנתונים") was drawn as
+    // replaced. Unchanged and adapted both mean no documented replacement; a
+    // table whose source decides nothing gets no verdict at all.
+    const k = s4ClassOf(t);
+    const s4: SNode["s4"] = k === 2 ? "replaced" : k === 3 ? "removed" : k === 0 || k === 1 ? "kept" : undefined;
+    add({ id: t.tableName, kind: "table", label: t.tableName, he: t.descriptionHe || t.descriptionEn || "", s4, s4k: k ?? undefined, href: `/object/${encodeURIComponent(t.tableName)}/` });
   }
   for (const t of tables) {
     // table ↔ table

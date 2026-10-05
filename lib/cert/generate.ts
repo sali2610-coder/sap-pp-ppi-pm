@@ -58,7 +58,11 @@ export function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 const uniq = <T,>(a: T[]) => [...new Set(a)];
-const pickN = <T,>(pool: T[], n: number, exclude: Set<T> = new Set()) => shuffle(pool.filter((x) => !exclude.has(x))).slice(0, n);
+/** n DISTINCT values from the pool. The PM blueprint lists QMEL and AUFK twice
+ *  (58 entries, 56 tables), so a draw from the raw pool could return one name
+ *  twice; mc() then saw two distractors, dropped the question, and the size of
+ *  the bank depended on the shuffle (PM measured 618 or 619 between runs). */
+const pickN = <T,>(pool: T[], n: number, exclude: Set<T> = new Set()) => shuffle(uniq(pool).filter((x) => !exclude.has(x))).slice(0, n);
 const purpose = (t: SAPTable) => t.descriptionHe || knowledgeFor(t.tableName)?.role || t.descriptionEn;
 const txOf = (t: SAPTable) => (t.tcodes || "").split(/[^A-Za-z0-9_/]+/).map((s) => s.trim()).filter((s) => s.length >= 2 && /^[A-Z]/i.test(s)).slice(0, 6);
 

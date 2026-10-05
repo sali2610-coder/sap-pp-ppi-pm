@@ -9,9 +9,10 @@
 //
 // ui.css is imported per route, not by the layout, so a route that omits it
 // ships without the interaction system and its controls fall back to bare
-// buttons. Imported FIRST so learn.css's placement rules still win.
+// buttons. The list is drawn by the catalog kit (data.css); the concept page
+// under it still by learn.css.
 import "@/app/neo/ui.css";
-import "@/app/neo/learn.css";
+import "@/app/neo/data.css";
 import { knowledgeData } from "@/components/neo-shell/learn/knowledge-data";
 import { KnowledgeSurface } from "@/components/neo-shell/learn/knowledge-surface";
 

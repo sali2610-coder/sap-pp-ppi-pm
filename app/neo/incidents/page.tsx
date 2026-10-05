@@ -6,10 +6,10 @@
 // Stage-1 hub frame no longer does. nav-data.ts is untouched.
 //
 // ui.css is imported per route, not by the layout, so a route that omits it
-// ships without the interaction system. Imported FIRST so learn.css's own
-// placement rules still win.
+// ships without the interaction system. The list is drawn by the catalog kit
+// (data.css), the record page under it still by learn.css.
 import "@/app/neo/ui.css";
-import "@/app/neo/learn.css";
+import "@/app/neo/data.css";
 import { incidentsData } from "@/components/neo-shell/learn/incidents-data";
 import { IncidentsSurface } from "@/components/neo-shell/learn/incidents-surface";
 
