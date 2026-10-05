@@ -30,38 +30,8 @@
              materially changes in S/4HANA.
    ========================================================================== */
 
-/* ------------------------------------------------------------- 1. THE ROW */
-
-/* The record's own class, next to the module chips. A value: ui.css already
-   gives .nu-chip no pointer and no hover, so this is placement only. */
-.nx-app .nxr-kind {
-  color: var(--ink-3);
-  background: transparent;
-  border-style: dashed;
-}
-
-/* ACCENT — a row whose data says it changes in S/4HANA. An inset edge on the
-   inline start, which is the one form brand red takes on a list. It is NOT a
-   module colour and NOT a status colour, which is what lets it be the loudest
-   thing in the list without breaking the form rule. */
-.nx-app .nxr-row[data-impacted="1"] {
-  border-color: color-mix(in srgb, var(--brand) 30%, var(--hairline));
-  box-shadow: inset 3px 0 0 0 var(--brand);
-}
-[dir="ltr"] .nx-app .nxr-row[data-impacted="1"] {
-  box-shadow: inset -3px 0 0 0 var(--brand);
-}
-.nx-app .nxr-row[data-impacted="1"]:hover {
-  border-color: color-mix(in srgb, var(--brand) 55%, var(--hairline));
-}
-html[data-theme="dark"] .nx-app .nxr-row[data-impacted="1"] {
-  background: linear-gradient(to inline-start, color-mix(in srgb, var(--brand) 7%, transparent), transparent 38%), var(--surface);
-}
-
-/* The directory rows carry no object-class hue — that encoding belongs to the
-   dictionary. Reset the gradient data.css applies on [data-surface="tables"] so
-   the edge here is one clean module line. */
-.nx-app .nxr-dir .nxd-mark { background: var(--m); }
+/* 1. THE ROW moved to app/neo/data.css with the catalog redesign (2026-10):
+   the five directories render the same aligned row as /neo/tables. */
 
 /* --------------------------------------------------------- 2. THE RECORD */
 
@@ -278,11 +248,7 @@ html[data-theme="dark"] .nx-app .nxr-st-i {
    ROUND 6 · the catalog cards (design audit S7-CAT-2 … CAT-7)
    ========================================================================== */
 
-/* CAT-6 · a row that leads with the business action (Fiori). */
-.nx-app .nxd-id[data-lead="name"] .nxd-lead {
-  font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); line-height: 1.35;
-  overflow-wrap: anywhere;
-}
+/* CAT-6 · a record that leads with the business action (Fiori). */
 .nx-app .nxr-title[data-lead="name"] { display: grid; gap: var(--sp-2); }
 .nx-app .nxt-lead {
   margin: 0;
@@ -332,31 +298,3 @@ html[data-theme="dark"] .nx-app .nxr-st-i {
 .nx-app .nxr-pre-w { position: relative; display: grid; gap: var(--sp-2); }
 .nx-app .nxr-pre-w .nx-copy { justify-self: start; }
 
-/* CAT-7 · the comparison table, behind a disclosure. */
-.nx-app .nxr-compare {
-  margin-block-start: var(--sp-5);
-  border: 1px solid var(--hairline); border-radius: var(--r-md); background: var(--surface);
-  min-inline-size: 0;
-}
-.nx-app .nxr-compare > summary {
-  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-2) var(--sp-3);
-  min-block-size: var(--c-tap, 2.75rem); padding: var(--sp-2) var(--sp-4);
-  cursor: pointer; list-style: none; font-size: var(--t-sm); font-weight: 700; color: var(--ink-1);
-  border-radius: var(--r-md);
-}
-.nx-app .nxr-compare > summary::-webkit-details-marker { display: none; }
-.nx-app .nxr-compare > summary em { font-style: normal; font-weight: 400; font-size: var(--t-xs); color: var(--ink-3); }
-.nx-app .nxr-compare > summary:hover { background: color-mix(in srgb, var(--ink-1) 4%, transparent); }
-.nx-app .nxr-compare > summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
-.nx-app .nxr-compare-w { overflow-x: auto; padding: 0 var(--sp-4) var(--sp-4); }
-.nx-app .nxr-compare-t { border-collapse: collapse; inline-size: 100%; min-inline-size: 56rem; font-size: var(--t-xs); }
-.nx-app .nxr-compare-t th, .nx-app .nxr-compare-t td {
-  padding: 8px 10px; text-align: start; vertical-align: top;
-  border-block-end: 1px solid var(--hairline); line-height: 1.5;
-}
-.nx-app .nxr-compare-t thead th { font-size: var(--t-micro); color: var(--ink-3); font-weight: 700; position: sticky; inset-block-start: 0; background: var(--surface); }
-.nx-app .nxr-compare-t tbody th a { display: grid; gap: 2px; color: inherit; text-decoration: none; min-inline-size: 9rem; }
-.nx-app .nxr-compare-t tbody th a span { font-size: var(--t-micro); font-weight: 400; color: var(--ink-3); }
-.nx-app .nxr-compare-t tbody th a:hover b { text-decoration: underline; }
-.nx-app .nxr-compare-t tbody th a:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
-.nx-app .nxr-compare-t td { color: var(--ink-2); max-inline-size: 26rem; }

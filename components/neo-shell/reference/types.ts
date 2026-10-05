@@ -219,6 +219,11 @@ export interface RefStat {
   v: number;
   l: string;
   i: RefIcon;
+  /** The filter (a RefFacet id in `caps`) this number counts, when it is one:
+   *  the catalog's ledger then shows it once, as that filter. */
+  cap?: string;
+  /** A place on the page that holds what this number counts. */
+  href?: string;
 }
 
 /** A measured value carried on a row. The unit travels with the number so a

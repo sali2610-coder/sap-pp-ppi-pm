@@ -8,37 +8,40 @@
 // connected each one is — and its data layer is imported unchanged by
 // tables-data.ts. This surface keeps those three answers and adds the ones the
 // blueprint already contains and the live table drops: key-field counts, the
-// real transaction list, the ER cardinality, the BAPI/IDoc count, the Fiori app
-// and the S/4 replacement transaction.
+// real transaction list, the ER cardinality, the CDS view and the S/4 standing.
 //
-// CONTROL LANGUAGE (app/neo/ui.css, loaded globally)
+// THE SHAPE (2026-10), shared by the seven Reference catalogs through
+// catalog-kit.tsx: a hero on the scene's ground whose ledger counts are the
+// filters themselves, one signature band (here: the eight object classes, each
+// a filter), the search and view bar, and the tables as ALIGNED ROWS under a
+// column head, the PM working table's density. Each row is still one link to
+// the table's page, and becomes a card when the width cannot hold the columns.
+//
+// CONTROL LANGUAGE (app/neo/ui.css)
 //   .nu-tab     switches the view in place — list, by topic, by object class.
 //   .nu-filter  narrows what is on screen. Every one carries its real count.
-//   .nu-chip    a value. Not clickable, no hover, no pointer.
-//   .nu-card    the row — a whole selectable region that opens the object page.
-//   .nu-ghost   the row's second action: load this object into the rail's shelf.
-//   .nu-btn2    a real secondary action (reset the query, expand a facet group).
+//   .nu-ghost   the row's second action (load this table into the rail's shelf)
+//               and the removable filter tokens on the count line.
 // There is no control on this surface that does nothing.
 //
-// COLOUR. Module identity is an edge, a ring and a surface tint — never a dot.
-// Object class is the one small marker globals.css sanctions on a visualisation
-// surface. Status form (dot + word) is used once, for the S/4 disposition of a
-// table, which is a real state of the record.
+// COLOUR. Module identity is a ring and a tint on its own chip, never a dot and
+// never a stripe. Object class is the one small swatch globals.css sanctions on
+// a visualisation surface. Status form (dot + word) is used once, for the S/4
+// disposition of a table, which is a real state of the record.
 
 import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 import { useEffect, useMemo, useState } from "react";
 import {
-  ArrowLeft, Boxes, Database, GitBranch, KeyRound, Layers, LayoutGrid,
-  ListTree, Search, Sigma, Table as TableIcon, Terminal, X,
+  Boxes, Layers, LayoutGrid, ListTree, Search, Table as TableIcon, X,
 } from "lucide-react";
 import {
   OriginLink, SmartReturn, consumeReturn, restoreScroll, scrollOffset, useReturnPacket,
 } from "@/components/neo-shell/nav-context";
+import { Rtl } from "@/components/neo-shell/rtl-text";
 import { MOD_HE, modVar } from "../mod-var";
 import type { NeoTableRow, NeoTablesData } from "./types";
 import { ViewTabs } from "./view-tabs";
-
-const nf = new Intl.NumberFormat("he-IL");
+import { CatalogFoot, CatalogHero, Cell, Cols, Ledger, RankList, Sig, fmt } from "./catalog-kit";
 
 /* --------------------------------------------------------------- returning
 
@@ -59,7 +62,7 @@ const SURFACE = "neo:tables";
  *  signature that lets it satisfy the module's OriginState contract. */
 type TablesListState = {
   view: string; sort: string; q: string;
-  mods: string[]; caps: string[]; zones: string[]; zonesOpen: boolean;
+  mods: string[]; caps: string[]; zones: string[];
   y: number; name: string;
 };
 
@@ -80,23 +83,24 @@ const SORTS: { s: Sort; he: string }[] = [
   { s: "tcodes", he: "מספר טרנזקציות" },
 ];
 
-const CAPS: { id: Cap; he: string }[] = [
-  { id: "s4", he: "הוחלף ב-S/4HANA" },
-  { id: "cds", he: "עם תצוגת CDS" },
-  { id: "fiori", he: "עם יישום Fiori" },
-  { id: "hub", he: "צומת קשרים (6+)" },
-  { id: "shared", he: "משותפת לשני המודולים" },
-];
+const CAP_HE: Record<Cap, string> = {
+  s4: "עם טבלה חלופית ב-S/4HANA",
+  cds: "עם תצוגת CDS",
+  fiori: "עם יישום Fiori",
+  hub: "צמתי קשרים (6+)",
+  shared: "משותפות לשני המודולים",
+};
 
-/** The S/4 status of a table: the canonical status the row was built with in
- *  tables-data.ts, which is the SAME resolver the table's own page renders in
- *  its evidence block. This used to be a local reading of the blueprint column
- *  ("מוחלפת" whenever a replacement table was named), which is how the design
- *  audit found AFKO marked one way in this list and another way on its page.
- *  STATUS FORM: a small dot plus its word, never a ring. */
-function s4State(r: NeoTableRow): { he: string; s: string } {
-  return { he: r.status.label, s: r.status.dot };
-}
+const COLS = [
+  { k: "id", l: "טבלה" },
+  { k: "he", l: "תיאור" },
+  { k: "mod", l: "מודול" },
+  { k: "fields", l: "שדות" },
+  { k: "rels", l: "קשרים" },
+  { k: "tx", l: "טרנזקציות" },
+  { k: "s4", l: "S/4HANA" },
+  { k: "act", l: "" },
+];
 
 const openContext = (name: string) =>
   window.dispatchEvent(new CustomEvent("neo:nx:object", { detail: name }));
@@ -111,96 +115,83 @@ type MakeOrigin = (name: string) => {
 };
 
 function Row({ r, q, makeOrigin, landed }: { r: NeoTableRow; q: string; makeOrigin: MakeOrigin; landed?: boolean }) {
-  const st = s4State(r);
-
   // The row's whole body. It is identical whether the row is a destination or a
   // value, so the two cannot drift apart.
   const body = (
     <>
-      <span className="nxd-mark" aria-hidden="true" />
+      <span className="nxd-c" data-k="id">
+        <i className="nxd-sw" aria-hidden="true" />
+        <b className="nx-sap">{r.name}</b>
+      </span>
 
-        <span className="nxd-id">
-          <b className="nx-sap">{r.name}</b>
-          <span className="nxd-mods">
-            {r.mods.map((m) => (
-              <span key={m} className="nu-chip nxd-mod" style={{ "--m": modVar(m) } as React.CSSProperties}>
-                <i aria-hidden="true" />
-                {m}
-                {MOD_HE[m] ? <em>{MOD_HE[m]}</em> : null}
-              </span>
-            ))}
-          </span>
+      <span className="nxd-c" data-k="he">
+        <span className="nxd-he"><Rtl s={r.he || "לא קיים תיאור מאומת בתיעוד המקור"} /></span>
+        <span className="nxd-sub"><Rtl s={[r.zoneHe, ...r.topics].filter(Boolean).join(" · ")} /></span>
+      </span>
+
+      <Cell k="mod" l="מודול" sr="מודול ">
+        <span className="nxd-mods">
+          {r.mods.map((m) => (
+            <span key={m} className="nxd-mod" style={{ "--m": modVar(m) } as React.CSSProperties} title={MOD_HE[m]}>{m}</span>
+          ))}
         </span>
+      </Cell>
 
-        <span className="nxd-body">
-          <span className="nxd-he">{r.he || "לא קיים תיאור מאומת בתיעוד המקור"}</span>
-          <span className="nxd-sub">
-            <span className="nxd-zone"><i aria-hidden="true" />{r.zoneHe}</span>
-            <span className="nxd-dot" aria-hidden="true">·</span>
-            <span>{r.topics.join(" · ")}</span>
-          </span>
-        </span>
+      <Cell k="fields" l="שדות" sr="שדות ">
+        <b className="nx-sap">{fmt(r.fields)}</b>
+        <small><span className="nx-sap">{fmt(r.keys)}</span> מפתח</small>
+      </Cell>
+      <Cell k="rels" l="קשרים" sr="קשרי ER ">
+        <b className="nx-sap">{fmt(r.rels.length)}</b>
+      </Cell>
+      <Cell k="tx" l="טרנזקציות" sr="טרנזקציות ">
+        <b className="nx-sap">{fmt(r.tcodes.length)}</b>
+      </Cell>
 
-        {/* Values, not controls: .nu-chip has no hover and no pointer. The unit
-            is carried for the screen reader so a bare number is never read out
-            on its own. */}
-        <span className="nxd-nums">
-          <span className="nu-chip"><Database size={11} strokeWidth={1.75} /><span className="nx-sr">שדות </span>{nf.format(r.fields)}</span>
-          <span className="nu-chip"><KeyRound size={11} strokeWidth={1.75} /><span className="nx-sr">שדות מפתח </span>{nf.format(r.keys)}</span>
-          <span className="nu-chip"><GitBranch size={11} strokeWidth={1.75} /><span className="nx-sr">קשרי ER </span>{nf.format(r.rels.length)}</span>
-          <span className="nu-chip"><Terminal size={11} strokeWidth={1.75} /><span className="nx-sr">טרנזקציות </span>{nf.format(r.tcodes.length)}</span>
-          {r.cds.length ? (
-            <span className="nu-chip is-sap"><Sigma size={11} strokeWidth={1.75} /><span className="nx-sr">תצוגת CDS </span>{r.cds[0]}</span>
-          ) : null}
-        </span>
-
-        <span className="nxd-s4">
-          <StatusPill status={r.status.key} label={st.he} dot={st.s} />
+      <span className="nxd-c" data-k="s4">
+        <StatusPill status={r.status.key} label={r.status.label} dot={r.status.dot} />
+        {r.s4Alt || r.s4 ? (
           <span className="nxd-s4-t">
-            {r.s4Alt ? <b className="nx-sap">{r.s4Alt}</b> : null}
-            {r.s4 || (r.s4Alt ? "" : "תיעוד המקור אינו מציין הערת S/4HANA לטבלה זו")}
+            {r.s4Alt ? <bdi className="nx-sap nxd-alt">{r.s4Alt}</bdi> : null}
+            {r.s4Alt && r.s4 ? <>{" "}<span className="nxd-dot" aria-hidden="true">·</span>{" "}</> : null}
+            {r.s4 ? <Rtl s={r.s4} /> : null}
           </span>
-        </span>
-
-      {/* The arrow is the "this leaves for another route" signal, so a row that
-          is only a value must not carry one. */}
-      {r.href ? <span className="nxd-go" aria-hidden="true"><ArrowLeft size={15} strokeWidth={2} /></span> : null}
+        ) : (
+          <span className="nxd-s4-t">תיעוד המקור אינו מציין הערת S/4HANA לטבלה זו</span>
+        )}
+        {/* The CDS view the S/4 map associates with the table, as the row
+            always showed it, and how many more it names. */}
+        {r.cds.length ? (
+          <span className="nxd-cds">
+            <span>CDS</span>{" "}
+            <bdi className="nx-sap">{r.cds[0]}</bdi>
+            {r.cds.length > 1 ? <>{" "}+{fmt(r.cds.length - 1)}</> : null}
+          </span>
+        ) : null}
+      </span>
     </>
   );
 
   return (
     <li
-      // nm-rise + nm-once are app/neo/motion.css primitives. This route resolves
-      // to [data-motion="2"], where the rise is 8px and the whole thing is a CSS
-      // scroll-driven animation on .nx-canvas's own view timeline — no listener,
-      // no rAF, nothing on the main thread. nm-once finishes the reveal while
-      // the row is still ENTERING, so scrolling back up never replays it.
-      className="nxd-item nm-rise nm-once"
+      className="nxd-item"
       data-name={r.name}
-      // SmartReturn landed on this row. data.css draws a module-hued ring that
-      // fades itself out, so the reader is told WHICH of a hundred rows they
-      // left instead of only being scrolled near it.
+      // SmartReturn landed on this row: data.css draws a ring that fades itself
+      // out, so the reader is told WHICH of a hundred rows they left.
       data-back={landed ? "1" : undefined}
       style={{ "--m": modVar(r.mods[0]), "--o": r.obj } as React.CSSProperties}
     >
       {r.href ? (
-        <OriginLink
-          href={r.href}
-          className="nu-card nxd-row"
-          // Record the view being left, at the moment it is left. `to` is this
-          // one page, so the return the detail screen shows is this exact view
-          // and not "the tables directory" in general.
-          origin={() => makeOrigin(r.name)}
-        >
+        <OriginLink href={r.href} className="nxd-row" origin={() => makeOrigin(r.name)}>
           {body}
         </OriginLink>
       ) : (
         // No page was generated for this table, so the row is a RECORD: same
-        // information, no anchor, no pointer, no hover lift, not in the tab
-        // order. This is the shape that keeps the dead-link crawler green.
-        <div className="nu-card nxd-row is-flat">
+        // information, no anchor, no pointer, not in the tab order. This is the
+        // shape that keeps the dead-link crawler green.
+        <div className="nxd-row is-flat">
           {body}
-          <span className="nxd-s4-t nxd-noent">לטבלה זו אין עמוד פרטים במאגר</span>
+          <span className="nxd-noent">לטבלה זו אין עמוד פרטים במאגר</span>
         </div>
       )}
 
@@ -215,11 +206,11 @@ function Row({ r, q, makeOrigin, landed }: { r: NeoTableRow; q: string; makeOrig
       </button>
 
       {q && r.tcodes.length ? (
-        <p className="nxd-tc" dir="ltr">
+        <p className="nxd-tc">
           {r.tcodes.slice(0, 8).map((c) => (
-            <span key={c} className="nu-chip is-sap">{c}</span>
+            <bdi key={c} className="nu-chip is-sap">{c}</bdi>
           ))}
-          {r.tcodes.length > 8 ? <span className="nu-chip">+{r.tcodes.length - 8}</span> : null}
+          {r.tcodes.length > 8 ? <span className="nu-chip">+{fmt(r.tcodes.length - 8)}</span> : null}
         </p>
       ) : null}
     </li>
@@ -235,7 +226,7 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
   const [mods, setMods] = useState<string[]>([]);
   const [caps, setCaps] = useState<Cap[]>([]);
   const [zones, setZones] = useState<string[]>([]);
-  const [zonesOpen, setZonesOpen] = useState(false);
+  const [allZones, setAllZones] = useState(false);
 
   const toggle = <T,>(list: T[], v: T): T[] =>
     list.includes(v) ? list.filter((x) => x !== v) : [...list, v];
@@ -278,6 +269,18 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
     return [...map.entries()].sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0], "he"));
   }, [rows, view]);
 
+  /* ------------------------------------------------- the eight object classes
+     The signature: every class with its real count, its colour and how the
+     two blueprints share it, each one the class filter itself. */
+  const board = useMemo(() => data.zones.map((z) => {
+    const inZone = data.rows.filter((r) => r.zone === z.id);
+    const pm = inZone.filter((r) => r.mods.includes("PM")).length;
+    const pp = inZone.filter((r) => r.mods.includes("PP-PI")).length;
+    return { ...z, obj: inZone[0]?.obj || "var(--ink-3)", pm, pp };
+  }).sort((a, b) => b.n - a.n), [data.zones, data.rows]);
+
+  const hub = useMemo(() => data.rows.filter((r) => r.rels.length >= 6).length, [data.rows]);
+
   /* ------------------------------------------------------- smart return */
 
   // Rebuilt every render on purpose, and deliberately NOT memoised: it has to
@@ -291,7 +294,7 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
     const parts = [
       mods.join(" · "),
       zones.map((z) => data.zones.find((x) => x.id === z)?.he || "").filter(Boolean).join(" · "),
-      caps.map((c) => CAPS.find((x) => x.id === c)?.he || "").filter(Boolean).join(" · "),
+      caps.map((c) => CAP_HE[c]).join(" · "),
       q.trim() ? `חיפוש "${q.trim()}"` : "",
       view === "list" ? "" : VIEWS.find((v) => v.v === view)?.he || "",
     ].filter(Boolean);
@@ -300,11 +303,7 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
       label: "טבלאות SAP",
       detail: parts.join(" · "),
       surface: SURFACE,
-      state: {
-        view, sort, q, mods, caps, zones, zonesOpen,
-        y: scrollOffset(),
-        name,
-      },
+      state: { view, sort, q, mods, caps, zones, y: scrollOffset(), name },
     };
   };
 
@@ -312,9 +311,7 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
   // return and is applied DURING that render — adjusting state to a changed
   // external value, which is the one place React sanctions a set during render.
   // An effect instead would be a cascading render on a prerendered page, and
-  // the list would visibly rebuild itself in front of the reader. `seededAt` is
-  // state and not a ref, because the guard is part of what this component
-  // renders and a ref read during render is not.
+  // the list would visibly rebuild itself in front of the reader.
   const packet = useReturnPacket(SURFACE);
   const [seededAt, setSeededAt] = useState(0);
   const [back, setBack] = useState<TablesListState | null>(null);
@@ -328,16 +325,13 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
     setMods(Array.isArray(s.mods) ? s.mods : []);
     setCaps((Array.isArray(s.caps) ? s.caps : []) as Cap[]);
     setZones(Array.isArray(s.zones) ? s.zones : []);
-    setZonesOpen(!!s.zonesOpen);
   }
   // Spend the packet. A write to an external store and nothing else.
   useEffect(() => { if (packet) consumeReturn(SURFACE); }, [packet]);
 
   // Restoring the viewport is a second step on purpose: the row can only be
   // scrolled to once the restored filters have actually rendered it. The ROW
-  // wins over the raw offset — a list is not a canvas, and "where I was" means
-  // the record, not the pixel. `back` is set exactly once per return, so this
-  // runs exactly once and needs no guard flag.
+  // wins over the raw offset — a list is not a canvas.
   useEffect(() => {
     if (!back) return;
     return restoreScroll(Number(back.y) || 0, back.name ? `.nxd-item[data-name="${CSS.escape(back.name)}"]` : undefined);
@@ -352,40 +346,86 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
 
   const t = data.totals;
 
+  // The view's own copy of a table that a topic view lists twice is marked as
+  // the landing row only once.
+  const landedOnce = new Set<string>();
+  const isLanded = (name: string) => {
+    if (name !== back?.name || landedOnce.has(name)) return false;
+    landedOnce.add(name);
+    return true;
+  };
+
+  const tokens = [
+    ...mods.map((m) => ({ k: `m-${m}`, he: MOD_HE[m] ? `${m} · ${MOD_HE[m]}` : m, off: () => setMods((v) => v.filter((x) => x !== m)) })),
+    ...caps.map((c) => ({ k: `c-${c}`, he: CAP_HE[c], off: () => setCaps((v) => v.filter((x) => x !== c)) })),
+    ...zones.map((z) => ({ k: `z-${z}`, he: data.zones.find((x) => x.id === z)?.he || z, off: () => setZones((v) => v.filter((x) => x !== z)) })),
+    ...(q.trim() ? [{ k: "q", he: `«${q.trim()}»`, off: () => setQ("") }] : []),
+  ];
+
   return (
     <div
-      className="nxd"
+      className="nxd nm-scene"
+      data-scene="cream"
       data-surface="tables"
       style={surfaceMod ? ({ "--m": modVar(surfaceMod) } as React.CSSProperties) : undefined}
     >
-      {/* Where the reader came from, when the session knows — the rail, a module
-          workspace, the ERD, a search. With no memory it falls back to the NEO
-          home, which is this page's real parent. Never dead, never blank. */}
+      {/* Where the reader came from, when the session knows. With no memory it
+          falls back to the NEO home, which is this page's real parent. */}
       <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
 
-      {/* THE REVEAL LADDER, at L2.
-          Only the blocks that carry information rise (8px, scrubbed against
-          their own passage through the canvas). The two CONTROL bands fade
-          without travelling: a filter that slides while you are reaching for it
-          is a filter you miss, and this surface is a tool before it is a page. */}
-      <header className="nxd-head nm-rise nm-once">
-        {surfaceMod ? <span className="nx-modbar" aria-hidden="true" /> : null}
-        <span className="nx-eyebrow">תיעוד טכני · Data Dictionary</span>
-        {/* "טבלאות SAP" named a category rather than this surface — every SAP
-            screen in the product is about SAP tables. The eyebrow above already
-            says מילון נתונים and the route's own metadata calls it the table
-            dictionary, so the title now agrees with both. */}
-        <h1 className="nx-h1">טבלאות SAP</h1>
-        <p className="nx-lede">
-          {nf.format(t.tables)} טבלאות SAP מתיעוד המקור של PM ו-PP-PI, עם {nf.format(t.fields)} שדות מתועדים,
-          {" "}{nf.format(t.rels)} קשרי ER ו-{nf.format(t.tcodes)} טרנזקציות.
-          {" "}
-          {t.linked === t.tables
-            ? <>לכל אחת מ-{nf.format(t.linked)} הטבלאות עמוד פרטים משלה: שדות ומפתחות, קשרים ו-JOIN, טרנזקציות, תצוגות CDS והמעבר ל-S/4HANA.</>
-            : <>ל-{nf.format(t.linked)} מהן עמוד פרטים משלהן: שדות ומפתחות, קשרים ו-JOIN, טרנזקציות, תצוגות CDS והמעבר ל-S/4HANA. השאר מוצגות כרשומה בלבד.</>}
-        </p>
-      </header>
+      <CatalogHero
+        icon={<TableIcon size={14} strokeWidth={1.75} aria-hidden="true" />}
+        eyebrow="תיעוד טכני · Data Dictionary"
+        title="טבלאות SAP"
+        lede={
+          <>
+            {fmt(t.tables)} טבלאות SAP מתיעוד המקור של PM ו-PP-PI, עם {fmt(t.fields)} שדות מתועדים
+            {" "}ו-{fmt(t.keys)} שדות מפתח, {fmt(t.rels)} קשרי ER ו-{fmt(t.tcodes)} טרנזקציות.
+            {" "}
+            {t.linked === t.tables
+              ? <>לכל אחת מהן עמוד פרטים משלה: שדות ומפתחות, קשרים ו-JOIN, טרנזקציות, תצוגות CDS והמעבר ל-S/4HANA.</>
+              : <>ל-{fmt(t.linked)} מהן עמוד פרטים משלהן: שדות ומפתחות, קשרים ו-JOIN, טרנזקציות, תצוגות CDS והמעבר ל-S/4HANA. השאר מוצגות כרשומה בלבד.</>}
+          </>
+        }
+      >
+        <Ledger
+          label="המאגר במספרים. כל מספר מסנן את הרשימה"
+          items={[
+            { v: t.tables, l: "טבלאות", on: !dirty, onClick: reset },
+            { v: t.s4, l: CAP_HE.s4, on: caps.includes("s4"), onClick: () => setCaps((v) => toggle(v, "s4" as Cap)) },
+            { v: t.cds, l: CAP_HE.cds, on: caps.includes("cds"), onClick: () => setCaps((v) => toggle(v, "cds" as Cap)) },
+            { v: t.fiori, l: CAP_HE.fiori, on: caps.includes("fiori"), onClick: () => setCaps((v) => toggle(v, "fiori" as Cap)) },
+            { v: hub, l: CAP_HE.hub, on: caps.includes("hub"), onClick: () => setCaps((v) => toggle(v, "hub" as Cap)) },
+            { v: t.shared, l: CAP_HE.shared, on: caps.includes("shared"), onClick: () => setCaps((v) => toggle(v, "shared" as Cap)) },
+          ]}
+        />
+      </CatalogHero>
 
+      <Sig
+        id="nxd-sig"
+        icon={<Boxes size={15} strokeWidth={1.75} />}
+        title="מחלקות האובייקט"
+        count={`${fmt(data.zones.length)} מחלקות`}
+        lede="כל טבלה שייכת למחלקת אובייקט אחת. לחיצה על מחלקה מסננת את הרשימה."
+      >
+        <RankList
+          label="מחלקות האובייקט לפי מספר הטבלאות"
+          cols
+          fold
+          open={allZones}
+          onToggle={() => setAllZones((o) => !o)}
+          moreLabel={`הצגת כל ${fmt(board.length)} המחלקות`}
+          items={board.map((z) => ({
+            id: z.id,
+            label: z.he,
+            n: z.n,
+            swatch: z.obj,
+            sub: <><bdi>PM</bdi> {fmt(z.pm)} · <bdi>PP-PI</bdi> {fmt(z.pp)}</>,
+            on: zones.includes(z.id),
+            onClick: () => setZones((v) => toggle(v, z.id)),
+          }))}
+        />
+      </Sig>
 
       <div className="nxd-tools nm-fade nm-once">
         <div className="nxd-field">
@@ -420,9 +460,7 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
             {SORTS.map((s) => <option key={s.s} value={s.s}>{s.he}</option>)}
           </select>
         </label>
-      </div>
 
-      <div className="nxd-facets nm-fade nm-once">
         <div className="nxd-facet" role="group" aria-label="סינון לפי מודול">
           <span className="nxd-facet-l">מודול</span>
           {data.mods.map((m) => (
@@ -434,115 +472,67 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
               aria-pressed={mods.includes(m.id)}
               onClick={() => setMods((v) => toggle(v, m.id))}
             >
-              {m.he}<b>{nf.format(m.n)}</b>
+              {m.he}<b>{fmt(m.n)}</b>
             </button>
           ))}
         </div>
+      </div>
 
-        <div className="nxd-facet" role="group" aria-label="סינון לפי מאפיין">
-          <span className="nxd-facet-l">מאפיין</span>
-          {CAPS.map((c) => (
-            <button
-              key={c.id}
-              type="button"
-              className="nu-filter"
-              aria-pressed={caps.includes(c.id)}
-              onClick={() => setCaps((v) => toggle(v, c.id))}
-            >
-              {c.he}
-            </button>
-          ))}
-          <button
-            type="button"
-            className="nu-btn2 nxd-more"
-            aria-expanded={zonesOpen}
-            onClick={() => setZonesOpen((o) => !o)}
-          >
-            <Boxes size={13} strokeWidth={1.75} />
-            מחלקת אובייקט
-            {zones.length ? <b>{zones.length}</b> : null}
-          </button>
-        </div>
-
-        {zonesOpen ? (
-          <div className="nxd-facet" role="group" aria-label="סינון לפי מחלקת אובייקט">
-            <span className="nxd-facet-l">מחלקה</span>
-            {data.zones.map((z) => (
-              <button
-                key={z.id}
-                type="button"
-                className="nu-filter"
-                aria-pressed={zones.includes(z.id)}
-                onClick={() => setZones((v) => toggle(v, z.id))}
-              >
-                {z.he}<b>{nf.format(z.n)}</b>
+      <div className="nxd-count">
+        <p>
+          <b aria-live="polite">{fmt(rows.length)}</b> מתוך {fmt(t.tables)} טבלאות
+        </p>
+        {tokens.length ? (
+          <div className="nxd-toks" role="group" aria-label="הסינון הפעיל">
+            {tokens.map((tk) => (
+              <button key={tk.k} type="button" className="nu-ghost nxd-tok" onClick={tk.off} aria-label={`הסרת הסינון ${tk.he}`}>
+                <X size={12} strokeWidth={2} aria-hidden="true" />{tk.he}
               </button>
             ))}
+            <button type="button" className="nu-ghost nxd-tok-all" onClick={reset}>ניקוי הסינון</button>
           </div>
         ) : null}
       </div>
 
-      <section className="nx-card nxd-stats nxd-stats--after nm-rise nm-once" aria-label="מספרי מאגר הטבלאות">
-        {[
-          { v: t.tables, l: "טבלאות", i: <TableIcon size={14} strokeWidth={1.75} /> },
-          { v: t.fields, l: "שדות", i: <Database size={14} strokeWidth={1.75} /> },
-          { v: t.keys, l: "שדות מפתח", i: <KeyRound size={14} strokeWidth={1.75} /> },
-          { v: t.rels, l: "קשרי ER", i: <GitBranch size={14} strokeWidth={1.75} /> },
-          { v: t.tcodes, l: "טרנזקציות", i: <Terminal size={14} strokeWidth={1.75} /> },
-          { v: t.shared, l: "משותפות לשני המודולים", i: <Boxes size={14} strokeWidth={1.75} /> },
-          { v: t.s4, l: "עם טבלה חלופית ב-S/4HANA", i: <ArrowLeft size={14} strokeWidth={1.75} /> },
-          { v: t.cds, l: "עם תצוגת CDS", i: <Sigma size={14} strokeWidth={1.75} /> },
-        ].map((s) => (
-          <div key={s.l} className="nxd-stat">
-            <span className="nxd-stat-i" aria-hidden="true">{s.i}</span>
-            <b>{nf.format(s.v)}</b>
-            <span>{s.l}</span>
+      <div className="nxd-results" data-cols="tables" id="neo-table-view-panel" role="tabpanel" aria-labelledby={`neo-table-view-${view}`}>
+        {rows.length === 0 ? (
+          <div className="nxd-none">
+            <p><b>לא נמצאו טבלאות מתאימות. נסה חיפוש אחר או נקה מסננים.</b></p>
+            <p className="nx-muted">
+              החיפוש מכסה {fmt(t.tables)} טבלאות SAP מתיעוד המקור: שם, תיאור, נושא, טרנזקציה ותצוגת CDS.
+            </p>
+            <div className="nxd-none-a">
+              <button type="button" className="nu-btn" onClick={reset}>הצגת כל הטבלאות</button>
+              {q ? <button type="button" className="nu-btn2" onClick={() => setQ("")}>ניקוי החיפוש בלבד</button> : null}
+            </div>
           </div>
-        ))}
-      </section>
-
-      <p className="nxd-count nm-fade nm-once" aria-live="polite">
-        <b>{nf.format(rows.length)}</b> מתוך {nf.format(t.tables)} טבלאות
-        {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
-      </p>
-
-      <div className="nxd-results" id="neo-table-view-panel" role="tabpanel" aria-labelledby={`neo-table-view-${view}`}>
-      {rows.length === 0 ? (
-        <div className="nx-card nxd-none nm-rise nm-once">
-          <p><b>לא נמצאו טבלאות מתאימות. נסה חיפוש אחר או נקה מסננים.</b></p>
-          <p className="nx-muted">
-            החיפוש מכסה {nf.format(t.tables)} טבלאות SAP מתיעוד המקור: שם, תיאור, נושא, טרנזקציה ותצוגת CDS.
-          </p>
-          <div className="nxd-none-a">
-            <button type="button" className="nu-btn" onClick={reset}>הצגת כל הטבלאות</button>
-            {q ? <button type="button" className="nu-btn2" onClick={() => setQ("")}>ניקוי החיפוש בלבד</button> : null}
-          </div>
-        </div>
-      ) : groups ? (
-        <div className="nxd-groups">
-          {groups.map(([label, list]) => (
-            <section key={label} className="nxd-group" aria-label={label}>
-              <h2 className="nxd-group-h">
-                <i aria-hidden="true" />
-                <span>{label}</span>
-                <em>{nf.format(list.length)}</em>
-              </h2>
+        ) : (
+          <div className="nxd-table">
+            <Cols cols={COLS} />
+            {groups ? (
+              groups.map(([label, list]) => (
+                <section key={label} className="nxd-group" aria-label={label}>
+                  <h2 className="nxd-group-h">
+                    <span>{label}</span>
+                    <em>{fmt(list.length)}</em>
+                  </h2>
+                  <ul className="nxd-list">
+                    {list.map((r) => <Row key={r.name} r={r} q={q} makeOrigin={makeOrigin} landed={isLanded(r.name)} />)}
+                  </ul>
+                </section>
+              ))
+            ) : (
               <ul className="nxd-list">
-                {list.map((r) => <Row key={r.name} r={r} q={q} makeOrigin={makeOrigin} landed={r.name === back?.name} />)}
+                {rows.map((r) => <Row key={r.name} r={r} q={q} makeOrigin={makeOrigin} landed={isLanded(r.name)} />)}
               </ul>
-            </section>
-          ))}
-        </div>
-      ) : (
-        <ul className="nxd-list">
-          {rows.map((r) => <Row key={r.name} r={r} q={q} makeOrigin={makeOrigin} landed={r.name === back?.name} />)}
-        </ul>
-      )}
-
+            )}
+          </div>
+        )}
       </div>
-      <p className="nxd-foot nm-fade nm-once">
+
+      <CatalogFoot>
         המקור: שני קובצי תיעוד המקור של הפרויקט, PM ו-PP-PI. שדה שאינו מתועד מוצג כ&quot;לא צוין&quot;.
-      </p>
+      </CatalogFoot>
     </div>
   );
 }

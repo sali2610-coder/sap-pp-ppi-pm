@@ -1,32 +1,36 @@
 /* ============================================================================
-   PROJECT NEO · THE DATA SURFACES — /neo/tables and /neo/transactions
+   PROJECT NEO · THE DATA SURFACES — the seven Reference catalogs
+   (/neo/tables, /neo/transactions, /neo/bapi, /neo/cds, /neo/idoc,
+   /neo/fiori-apps, /neo/enhancements) and the table and transaction screens
    ----------------------------------------------------------------------------
-   Loaded by the two pages that render these classes. It styles ONE composition
-   used by both surfaces, because they answer the same shape of question: a very
-   long list of real SAP records, each of which has an identity, a module, some
-   measured facts and exactly one real destination.
+   Loaded by every page that renders these classes. Sections 1–11 style ONE
+   composition used by all seven catalogs (components/neo-shell/data/catalog-
+   kit.tsx), because they answer the same shape of question: a long list of real
+   SAP records, each of which has an identity, a module, some measured facts and
+   exactly one real destination. Sections 12 and 13 are the two detail screens.
 
    WHAT THIS FILE IS ALLOWED TO DO
      · It never redeclares a token. Everything reads --mod-* / --obj-* /
        --status-* / --surface / --ink-* / --sp-* / --r-* / --elev-* / --dur-* /
        --c-* from app/globals.css.
-     · It never restyles a .nu-* control. app/neo/ui.css owns every interactive
-       control's four states; this sheet only ever PLACES them, and adds the two
-       modifiers ui.css deliberately leaves open: .nxd-mod (a module value inside
-       a .nu-chip) and the row's own geometry inside .nu-card.
-     · transform and opacity are the only animated properties.
+     · It never restyles a .nu-* control's states. app/neo/ui.css owns every
+       interactive control's four states; this sheet places them. The catalog's
+       own controls (the ledger, the signature bars, the stations, the aligned
+       rows) are drawn here, in the same language.
+     · Nothing travels: hover and selection change colour and border only.
      · Logical properties only, so RTL and LTR both come out right with no
        direction-specific rule except the two that genuinely mirror.
 
    COLOUR, PER THE FORM RULE ABOVE --mod-pm IN globals.css
-     MODULE  arrives as an EDGE (.nxd-mark), a RING and a TINT (.nxd-mod,
-             .nu-filter's own pressed state) and as the surface wash when a
-             single module is selected. Never a small standalone dot.
-     STATUS  arrives only as .nu-status — a small dot plus its word. It says how
-             the S/4 blueprint disposes of a table, and how deeply the registry
-             documents a transaction. Nothing else on these surfaces is a dot.
-     OBJECT  the object-class hue is the row's leading marker on /neo/tables,
-             which globals.css sanctions on a visualisation surface.
+     MODULE  a RING and a TINT on the module's own chip (.nxd-mod, .nu-filter's
+             pressed state), the row's hover tint and the column head's line
+             when a single module is selected. Never a dot, never a stripe.
+     STATUS  only the S/4 standing (StatusPill) and how deeply a transaction is
+             documented (.nu-status): a small dot or glyph plus its word.
+     OBJECT  the object-class hue is a small square on /neo/tables, which
+             globals.css sanctions on a visualisation surface.
+     ACCENT  brand ink, once: the S/4 sentence of a record the data says
+             materially changes in S/4HANA.
    ========================================================================== */
 
 /* --------------------------------------------------------------- 0. THE HAIR
@@ -59,69 +63,275 @@
   /* No module is selected by default, and a surface with no owning module is
      drawn in neutral ink rather than borrowing a colour it has no claim to. */
   --m: var(--ink-3);
-  /* How hard module identity pushes into each kind of plane. One place. */
-  --nxd-edge: 62%;
-  --nxd-tint: 6%;
-  --nxd-ring: 26%;
+  /* The S/4HANA side of a comparison, as the S/4 scene draws it. */
+  --nxd-s4: #17398f;
+  /* The canvas's own top padding (app/globals.css .nx-canvas), the same three
+     values section-nav.css reads: a sticky head offset by it sits flush with
+     the top of the canvas instead of a padding's height below it. */
+  --nxd-pad: var(--sp-6);
 }
-
-/* --------------------------------------------------------------- 1. HEADER */
-
-.nx-app .nxd-head { display: grid; gap: var(--sp-2); }
-.nx-app .nxd-head .nx-h1 {
-  /* A WORK SCREEN's title: 28–36px (design audit §4), never the gate's 86px.
-     Measured 44px at 1363 before this line; 36px after. */
-  font-size: clamp(1.75rem, 1.1rem + 1.6vw, 2.25rem);
-  line-height: 1.14; letter-spacing: -.022em; text-wrap: balance;
-}
-.nx-app .nxd-head .nx-lede { max-inline-size: 68ch; }
+@media (min-width: 1440px) { .nx-app .nxd { --nxd-pad: var(--sp-8); } }
+html[data-device="phone"] .nx-app .nxd { --nxd-pad: var(--sp-4); }
+html[data-theme="dark"] .nx-app .nxd { --nxd-s4: #8dbcff; }
 .nx-app .nxd .nx-sap { unicode-bidi: isolate; direction: ltr; }
+/* SAP identifiers have no break opportunity, so on a narrow canvas a name may
+   break where it must rather than push the page sideways. */
+.nx-app .nxd.nm-scene { overflow-wrap: anywhere; }
 
-/* ---------------------------------------------------------------- 2. STATS
-   Information, not a control: no hover, no pointer, no lift. The numbers are
-   the real totals the builder counted, so they are allowed to be the largest
-   type on the surface. */
+/* --------------------------------------------------------------- 1. HERO
+   On the scene's own ground: no card, no stripe, no wash. */
 
-.nx-app .nxd-stats {
+.nx-app .nxd-hero { display: grid; gap: .55rem; padding-block-start: var(--sp-2); }
+.nx-app .nxd-eye {
+  display: flex; align-items: center; gap: .5rem;
+  margin: 0;
+  font-size: .78rem; font-weight: 700; color: var(--ink-2);
+}
+.nx-app .nxd-eye > svg { flex: none; color: var(--ink-2); }
+.nx-app .nxd-eye > i { inline-size: 14px; block-size: 1px; background: currentColor; opacity: .45; flex: none; }
+.nx-app .nxd-eye > [lang="en"] { font-size: .72rem; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-3); }
+.nx-app .nxd-h1 {
+  margin: 0;
+  /* A WORK SCREEN's title: 28–38px (design audit §4), never the gate's 86px. */
+  font-size: clamp(1.75rem, 1.1rem + 1.6vw, 2.4rem);
+  font-weight: 720; line-height: 1.12; letter-spacing: -.022em; text-wrap: balance;
+}
+.nx-app .nxd-lede { margin: 0; max-inline-size: 74ch; font-size: .98rem; line-height: 1.72; color: var(--ink-2); }
+.nx-app .nxd-facts { margin: 0; max-inline-size: 90ch; font-size: .84rem; line-height: 1.7; color: var(--ink-3); }
+.nx-app .nxd-facts b { font-weight: 750; color: var(--ink-1); }
+.nx-app .nxd-facts a { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--ink-1) 30%, transparent); text-underline-offset: 3px; }
+.nx-app .nxd-facts a:hover { color: var(--ink-1); text-decoration-color: currentColor; }
+
+/* THE LEDGER. A ruled row of counts, and every count is a door: it applies the
+   filter it counts, switches to the view it names, or jumps to its section. */
+.nx-app .nxd-led {
   display: grid;
-  gap: var(--sp-4) var(--sp-5);
-  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
-  padding: var(--sp-5);
-  position: relative;
-  overflow: hidden;
+  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+  gap: 0 .25rem;
+  margin: .55rem 0 0; padding: .3rem 0;
+  list-style: none;
+  border-block: 1px solid var(--hairline);
 }
-/* MODULE AS LINE — the top edge of the stats plate takes the selected module. */
-.nx-app .nxd-stats::before {
-  content: '';
-  position: absolute; inset-block-start: 0; inset-inline: 0;
-  block-size: 2px;
-  background: linear-gradient(to inline-end, var(--m), color-mix(in srgb, var(--m) 12%, transparent));
+.nx-app .nxd-led > li { display: grid; min-inline-size: 0; }
+.nx-app .nxd-led :is(button, a, .nxd-led-v) {
+  display: grid; gap: 3px; align-content: start;
+  inline-size: 100%; padding: .6rem .7rem;
+  border: 1px solid transparent; border-radius: .65rem;
+  background: transparent; color: inherit;
+  font: inherit; text-align: start; text-decoration: none;
+  transition: background-color .14s linear, border-color .14s linear;
 }
-.nx-app .nxd-stat {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-areas: "i v" "i l";
-  align-items: center;
-  gap: 0 var(--sp-3);
-}
-.nx-app .nxd-stat-i {
-  grid-area: i;
-  inline-size: 2.25rem; block-size: 2.25rem;
-  display: inline-grid; place-items: center;
-  border-radius: var(--r-sm);
-  color: var(--m);
-  background: color-mix(in srgb, var(--m) 10%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m) 20%, transparent);
-}
-.nx-app .nxd-stat b {
-  grid-area: v;
-  font-family: var(--font-mono); font-size: var(--t-h1);
-  line-height: 1.15; letter-spacing: -.02em;
-  direction: ltr; unicode-bidi: isolate;
+.nx-app .nxd-led :is(button, a) { cursor: pointer; }
+.nx-app .nxd-led b {
+  justify-self: start;
+  font-family: var(--font-mono); font-size: 1.45rem; font-weight: 760; line-height: 1.1;
   font-variant-numeric: tabular-nums; color: var(--ink-1);
+  white-space: nowrap; overflow-wrap: normal;
 }
-.nx-app .nxd-stat > span:last-child {
-  grid-area: l; font-size: var(--t-micro); color: var(--ink-3); line-height: 1.35;
+.nx-app .nxd-led span { font-size: .76rem; line-height: 1.4; color: var(--ink-2); }
+.nx-app .nxd-led :is(button, a):hover { background: color-mix(in srgb, var(--ink-1) 5%, transparent); }
+.nx-app .nxd-led :is(button, a):hover span { color: var(--ink-1); }
+.nx-app .nxd-led button[aria-pressed="true"] {
+  background: var(--surface);
+  border-color: color-mix(in srgb, var(--ink-1) 55%, var(--hairline));
+  box-shadow: var(--elev-1);
+}
+.nx-app .nxd-led button[aria-pressed="true"] span { color: var(--ink-1); font-weight: 650; }
+.nx-app .nxd-led :is(button, a):focus-visible { outline: 2px solid var(--ink-1); outline-offset: -2px; }
+
+/* -------------------------------------------------------- 2. THE SIGNATURE
+   One band per catalog: its shape at a glance, every part of it a way in. */
+
+.nx-app .nxd-sig,
+.nx-app .nxd-ref-sec {
+  container-type: inline-size;
+  display: grid; gap: .9rem;
+  padding: 1.1rem 1.2rem 1.2rem;
+  border-radius: 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--elev-1);
+  scroll-margin-block-start: 1rem;
+}
+.nx-app .nxd-sig-h { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: .85rem; }
+.nx-app .nxd-badge {
+  display: grid; place-items: center;
+  inline-size: 2.6rem; block-size: 2.6rem; border-radius: .8rem;
+  color: var(--ink-1);
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+}
+.nx-app .nxd-sig-tt { display: grid; gap: .2rem; min-inline-size: 0; }
+.nx-app .nxd-sig-t {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .65rem;
+  margin: 0; font-size: 1.12rem; font-weight: 720; line-height: 1.35;
+}
+.nx-app .nxd-pill {
+  display: inline-block;
+  padding: .08rem .55rem; border-radius: 999px;
+  font-size: .72rem; font-weight: 650; line-height: 1.5; white-space: nowrap;
+  color: var(--ink-2); background: var(--surface-2);
+  border: 1px solid var(--hairline);
+}
+.nx-app .nxd-sig-s { margin: 0; max-inline-size: 84ch; font-size: .84rem; line-height: 1.6; color: var(--ink-3); }
+.nx-app .nxd-sig-more { justify-self: start; min-block-size: 2.25rem; font-size: .8rem; }
+
+/* RANKED BARS — a neutral ink meter: length is the value, never a hue. */
+.nx-app .nxd-rank { display: grid; gap: .2rem .9rem; margin: 0; padding: 0; list-style: none; }
+@container (min-width: 44rem) { .nx-app .nxd-rank[data-cols] { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container (min-width: 72rem) { .nx-app .nxd-rank[data-cols] { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.nx-app .nxd-rank button {
+  display: grid;
+  /* the label's floor gives way on a 320px phone instead of the page */
+  grid-template-columns: minmax(min(7rem, 42%), max-content) minmax(3rem, 1fr) 2.75rem;
+  grid-template-areas: "l m n" "s m n";
+  align-items: center; gap: 1px .75rem;
+  inline-size: 100%; min-block-size: 2.75rem;
+  padding: .4rem .55rem;
+  border: 1px solid transparent; border-radius: .6rem;
+  background: transparent; color: inherit;
+  font: inherit; text-align: start; cursor: pointer;
+  transition: background-color .14s linear, border-color .14s linear;
+}
+.nx-app .nxd-rank-l { grid-area: l; display: flex; align-items: center; gap: .45rem; min-inline-size: 0; font-size: .86rem; font-weight: 650; color: var(--ink-1); }
+.nx-app .nxd-rank-he { font-weight: 500; color: var(--ink-2); }
+.nx-app .nxd-rank-m {
+  grid-area: m; position: relative;
+  block-size: .45rem; border-radius: 999px; overflow: hidden;
+  background: color-mix(in srgb, var(--ink-1) 9%, transparent);
+}
+.nx-app .nxd-rank-m > i { position: absolute; inset-block: 0; inset-inline-start: 0; border-radius: inherit; background: color-mix(in srgb, var(--ink-1) 30%, transparent); }
+.nx-app .nxd-rank-m > i.is-part { background: color-mix(in srgb, var(--ink-1) 78%, transparent); }
+.nx-app .nxd-rank button > b {
+  grid-area: n; justify-self: end;
+  font-family: var(--font-mono); font-size: .9rem; font-weight: 750;
+  font-variant-numeric: tabular-nums; color: var(--ink-1);
+  white-space: nowrap; overflow-wrap: normal;
+}
+.nx-app .nxd-rank-s { grid-area: s; font-size: .72rem; line-height: 1.4; color: var(--ink-3); }
+/* A phone sees the first four bars until it asks for all of them. */
+.nx-app .nxd-fold { display: none; }
+@container (max-width: 44rem) {
+  .nx-app .nxd-rank[data-fold]:not([data-open]) > li:nth-child(n + 5) { display: none; }
+  .nx-app .nxd-fold { display: inline-flex; justify-self: start; min-block-size: var(--c-tap); font-size: .8rem; }
+}
+.nx-app .nxd-rank button:hover { background: color-mix(in srgb, var(--ink-1) 4%, transparent); }
+.nx-app .nxd-rank button[aria-pressed="true"] { background: var(--surface-2); border-color: color-mix(in srgb, var(--ink-1) 55%, var(--hairline)); }
+.nx-app .nxd-rank button:focus-visible { outline: 2px solid var(--ink-1); outline-offset: -2px; }
+/* An object class's own colour: a small square, never a dot. */
+.nx-app .nxd-sw { display: inline-block; inline-size: .6rem; block-size: .6rem; border-radius: 2px; flex: none; background: var(--o, var(--ink-3)); }
+
+/* A ROUTE of stations on one line (the CDS VDM route, the IDoc message route). */
+.nx-app .nxd-route {
+  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr);
+  gap: .9rem; margin: 0; padding: 0; list-style: none;
+}
+.nx-app .nxd-route > li { position: relative; display: grid; min-inline-size: 0; }
+/* the connector to the next station */
+.nx-app .nxd-route > li:not(:last-child)::after {
+  content: "";
+  position: absolute; inset-block-start: 50%; inset-inline-end: -.9rem;
+  inline-size: .9rem; block-size: 1px;
+  background: color-mix(in srgb, var(--ink-1) 35%, var(--hairline));
+}
+.nx-app .nxd-stn {
+  display: grid; align-content: start; gap: .2rem;
+  inline-size: 100%; padding: .75rem .8rem;
+  border: 1px solid var(--hairline); border-radius: .8rem;
+  background: var(--surface-2); color: inherit;
+  font: inherit; text-align: start; text-decoration: none;
+}
+.nx-app :is(a, button).nxd-stn { cursor: pointer; transition: border-color .14s linear, background-color .14s linear; }
+.nx-app :is(a, button).nxd-stn:hover { border-color: color-mix(in srgb, var(--ink-1) 45%, var(--hairline)); }
+.nx-app .nxd-stn > b {
+  justify-self: start;
+  font-family: var(--font-mono); font-size: 1.4rem; font-weight: 760; line-height: 1.15;
+  color: var(--ink-1); white-space: nowrap; overflow-wrap: normal;
+}
+.nx-app .nxd-stn > span { font-size: .84rem; font-weight: 650; line-height: 1.4; color: var(--ink-1); }
+.nx-app .nxd-stn > em { font-style: normal; font-size: .72rem; color: var(--ink-3); }
+.nx-app .nxd-stn[aria-pressed="true"] { border-color: var(--ink-1); box-shadow: inset 0 0 0 1px var(--ink-1); }
+.nx-app .nxd-stn:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; }
+/* The S/4 side of the route takes the S/4 scene's cobalt. */
+.nx-app .nxd-route > li[data-side="s4"] .nxd-stn {
+  border-color: color-mix(in srgb, var(--nxd-s4) 30%, var(--hairline));
+  background: color-mix(in srgb, var(--nxd-s4) 6%, var(--surface));
+}
+.nx-app .nxd-route > li[data-side="s4"] .nxd-stn > em { color: var(--nxd-s4); }
+.nx-app .nxd-route > li[data-side="s4"] .nxd-stn[aria-pressed="true"] { border-color: var(--nxd-s4); box-shadow: inset 0 0 0 1px var(--nxd-s4); }
+/* The IDoc route: numbered stations, the message travelling station by station.
+   The number sits above its words, so a station's whole width is for its
+   label ("יישום (PO/DELVRY/MATMAS)" never breaks inside the code). */
+.nx-app .nxd-route--flow .nxd-stn { gap: .45rem; }
+.nx-app .nxd-route--flow .nxd-stn > span { font-size: .82rem; }
+@container (46rem < width <= 74rem) {
+  .nx-app .nxd-route--flow { grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .nx-app .nxd-route--flow > li:nth-child(3n)::after { display: none; }
+}
+.nx-app .nxd-route--flow .nxd-stn > i,
+.nx-app .nxd-rung-h > i {
+  display: grid; place-items: center; flex: none;
+  inline-size: 1.6rem; block-size: 1.6rem; border-radius: 50%;
+  font-family: var(--font-mono); font-size: .72rem; font-style: normal; font-weight: 750;
+  color: var(--ink-1); background: var(--surface);
+  border: 1px solid color-mix(in srgb, var(--ink-1) 35%, var(--hairline));
+}
+@container (max-width: 46rem) {
+  .nx-app .nxd-route { grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: minmax(0, 1fr); gap: .55rem; }
+  .nx-app .nxd-route > li:not(:last-child)::after {
+    inset-block-start: auto; inset-block-end: -.55rem; inset-inline-end: auto; inset-inline-start: 1.4rem;
+    inline-size: 1px; block-size: .55rem;
+  }
+}
+
+/* THE DEPLOYMENT MATRIX (Fiori): module × deployment, a cell is a slice. */
+.nx-app .nxd-mxw { min-inline-size: 0; }
+.nx-app .nxd-mx { inline-size: 100%; border-collapse: collapse; font-size: .86rem; }
+.nx-app .nxd-mx :is(th, td) { padding: .25rem; text-align: start; vertical-align: middle; border-block-end: 1px solid var(--hairline); }
+.nx-app .nxd-mx thead th { font-size: .74rem; font-weight: 700; color: var(--ink-3); }
+.nx-app .nxd-mx tbody tr:last-child > * { border-block-end: 0; }
+.nx-app .nxd-mx button {
+  display: flex; align-items: center; gap: .55rem;
+  inline-size: 100%; min-block-size: 2.5rem; padding: .3rem .55rem;
+  border: 1px solid transparent; border-radius: .55rem;
+  background: transparent; color: var(--ink-1);
+  font: inherit; text-align: start; cursor: pointer;
+}
+.nx-app .nxd-mx button b { font-family: var(--font-mono); font-weight: 750; white-space: nowrap; overflow-wrap: normal; }
+.nx-app .nxd-mx button:hover:not(:disabled) { background: color-mix(in srgb, var(--ink-1) 4%, transparent); }
+.nx-app .nxd-mx button[aria-pressed="true"] { background: var(--surface-2); border-color: color-mix(in srgb, var(--ink-1) 55%, var(--hairline)); }
+.nx-app .nxd-mx button:disabled { cursor: default; color: var(--ink-3); }
+.nx-app .nxd-mx button:focus-visible { outline: 2px solid var(--ink-1); outline-offset: -2px; }
+.nx-app .nxd-mx td > b { display: block; padding-inline: .55rem; font-family: var(--font-mono); font-weight: 750; }
+.nx-app .nxd-mx-bar { flex: 1 1 auto; min-inline-size: 1.5rem; block-size: .4rem; border-radius: 999px; overflow: hidden; background: color-mix(in srgb, var(--ink-1) 9%, transparent); }
+.nx-app .nxd-mx-bar > i { display: block; block-size: 100%; background: color-mix(in srgb, var(--ink-1) 40%, transparent); }
+
+/* THE TECHNIQUE LADDER (enhancements): three rungs, in the record's order. */
+.nx-app .nxd-ladder { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); align-items: start; gap: .9rem; margin: 0; padding: 0; list-style: none; }
+.nx-app .nxd-rung { display: grid; align-content: start; gap: .5rem; padding: .7rem; border-radius: .9rem; background: var(--surface-2); border: 1px solid var(--hairline); }
+.nx-app .nxd-rung-h {
+  display: flex; align-items: center; gap: .55rem;
+  inline-size: 100%; min-block-size: 2.5rem; padding: .3rem .4rem;
+  border: 1px solid transparent; border-radius: .6rem;
+  background: transparent; color: var(--ink-1);
+  font: inherit; font-size: .95rem; font-weight: 720; text-align: start; cursor: pointer;
+}
+.nx-app .nxd-rung-h > b { margin-inline-start: auto; font-family: var(--font-mono); font-size: .9rem; white-space: nowrap; }
+.nx-app .nxd-rung-h[aria-pressed="true"] { background: var(--surface); border-color: color-mix(in srgb, var(--ink-1) 55%, var(--hairline)); }
+.nx-app .nxd-rung-h:focus-visible { outline: 2px solid var(--ink-1); outline-offset: -2px; }
+.nx-app .nxd-rung ul { display: flex; flex-wrap: wrap; gap: .35rem; margin: 0; padding: 0; list-style: none; }
+.nx-app .nxd-rung a {
+  display: inline-flex; align-items: center;
+  min-block-size: 2.25rem; padding: .3rem .65rem;
+  border: 1px solid var(--hairline); border-radius: .6rem;
+  background: var(--surface); color: inherit; text-decoration: none;
+  transition: border-color .14s linear;
+}
+.nx-app .nxd-rung a:hover { border-color: color-mix(in srgb, var(--ink-1) 45%, var(--hairline)); }
+.nx-app .nxd-rung a:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 1px; }
+.nx-app .nxd-rung-n { font-size: .82rem; font-weight: 700; color: var(--ink-1); }
+@container (max-width: 46rem) {
+  .nx-app .nxd-ladder { grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: minmax(0, 1fr); }
 }
 
 /* -------------------------------------------------------------- 3. TOOLBAR */
@@ -130,64 +340,57 @@
 .nx-app .nxd-tools input[type="search"], .nx-app .nxd-tools input[type="text"] { min-block-size: 1.75rem; }
 .nx-app .nxd-tools {
   display: flex; flex-wrap: wrap; align-items: center;
-  gap: var(--sp-3) var(--sp-4);
+  gap: .6rem .9rem;
+  padding-block-end: .8rem;
+  border-block-end: 1px solid var(--hairline);
 }
-
 .nx-app .nxd-field {
   display: flex; align-items: center; gap: var(--sp-2);
   flex: 1 1 18rem; min-inline-size: 0;
-  min-block-size: var(--c-tap);
+  min-block-size: 2.85rem;
   padding-inline: var(--sp-3);
   border: 1px solid color-mix(in srgb, var(--m) 22%, var(--c-hair));
-  border-radius: var(--r-md);
+  border-radius: .75rem;
   background: var(--surface);
   transition: border-color var(--dur-fast) linear, box-shadow var(--dur-fast) linear;
 }
-.nx-app .nxd-field > svg { color: var(--m); flex: none; }
+.nx-app .nxd-field > svg { color: var(--ink-3); flex: none; }
 .nx-app .nxd-field:focus-within {
-  border-color: var(--m);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--m) 14%, transparent);
+  border-color: var(--ink-1);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--ink-1) 22%, transparent);
 }
+/* The visible ring is the field's; this transparent outline is the one a
+   forced-colors (high-contrast) theme draws, where box-shadow is removed. */
+.nx-app .nxd-field input:focus-visible { outline: 2px solid transparent; outline-offset: 2px; }
 .nx-app .nxd-field input {
   flex: 1 1 auto; min-inline-size: 0;
   background: transparent; border: 0; outline: none;
-  font: inherit; font-size: var(--t-sm); color: var(--ink-1);
+  font: inherit; font-size: .95rem; color: var(--ink-1);
 }
 .nx-app .nxd-field input::placeholder { color: var(--ink-3); }
 .nx-app .nxd-field input::-webkit-search-cancel-button { display: none; }
 .nx-app .nxd-clear { min-block-size: 1.9rem; padding-inline: var(--sp-2); flex: none; }
 
-.nx-app .nxd-tabs {
-  display: flex; align-items: center; flex-wrap: wrap;
-  border-block-end: 1px solid var(--c-hair);
-}
+.nx-app .nxd-tabs { display: flex; align-items: center; flex-wrap: wrap; border-block-end: 1px solid var(--c-hair); }
+.nx-app .nxd-tabs .nu-tab { min-block-size: 2.75rem; margin-inline-end: .35rem; }
 .nx-app .nxd-tabs .nu-tab b {
   font-family: var(--font-mono); font-size: 10px; direction: ltr;
   unicode-bidi: isolate; color: var(--ink-3); padding-inline-start: 4px;
 }
 
-.nx-app .nxd-sort {
-  display: inline-flex; align-items: center; gap: var(--sp-2);
-  font-size: var(--t-micro); color: var(--ink-3);
-}
+.nx-app .nxd-sort { display: inline-flex; align-items: center; gap: var(--sp-2); font-size: .78rem; color: var(--ink-3); }
 .nx-app .nxd-sort select {
-  font: inherit; font-size: var(--t-xs); font-weight: 600; color: var(--ink-1);
+  font: inherit; font-size: .82rem; font-weight: 600; color: var(--ink-1);
   min-block-size: 2.5rem; padding-inline: var(--sp-3);
-  border: 1px solid var(--c-hair); border-radius: var(--r-sm);
+  border: 1px solid var(--c-hair); border-radius: .6rem;
   background: var(--surface); cursor: pointer;
 }
 .nx-app .nxd-sort select:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
-/* --------------------------------------------------------------- 4. FACETS */
-
-.nx-app .nxd-facets { display: grid; gap: var(--sp-2); }
-.nx-app .nxd-facet {
-  display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2);
-}
-.nx-app .nxd-facet-l {
-  font-size: var(--t-micro); font-weight: 700; letter-spacing: .05em;
-  color: var(--ink-3); min-inline-size: 4.25rem;
-}
+/* A facet row is a line of its own inside the toolbar. */
+.nx-app .nxd-tools > .nxd-facet { flex: 1 1 100%; }
+.nx-app .nxd-facet { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; }
+.nx-app .nxd-facet-l { font-size: .74rem; font-weight: 700; color: var(--ink-2); min-inline-size: 3.75rem; }
 /* The count a filter carries is a value, so it is set in the numeric face and
    never competes with the label for weight. */
 .nx-app .nxd-facet .nu-filter b,
@@ -197,286 +400,336 @@
   color: var(--ink-3); padding-inline-start: 5px;
 }
 .nx-app .nxd-facet .nu-filter[aria-pressed="true"] b { color: var(--ink-2); }
-.nx-app .nxd-more { min-block-size: 2.25rem; padding-inline: var(--sp-3); font-size: var(--t-micro); }
+.nx-app .nxd-more { min-block-size: 2.25rem; padding-inline: var(--sp-3); font-size: .78rem; }
 
-/* --------------------------------------------------------- 5. COUNT + FOOT */
+/* --------------------------------------------------------- 4. COUNT + FOOT */
 
-.nx-app .nxd-count {
-  display: flex; align-items: center; gap: var(--sp-2);
-  font-size: var(--t-xs); color: var(--ink-3);
-  margin-block-end: calc(var(--sp-3) * -1);
-}
+.nx-app .nxd-count { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .9rem; margin-block-end: calc(var(--sp-3) * -1); }
+.nx-app .nxd-count > p { margin: 0; font-size: .86rem; color: var(--ink-3); }
 .nx-app .nxd-count b {
-  font-family: var(--font-mono); font-size: var(--t-sm); color: var(--ink-1);
+  font-family: var(--font-mono); font-size: .95rem; font-weight: 750; color: var(--ink-1);
   direction: ltr; unicode-bidi: isolate; font-variant-numeric: tabular-nums;
 }
-.nx-app .nxd-count .nu-ghost { min-block-size: 1.9rem; font-size: var(--t-micro); }
-
-.nx-app .nxd-foot {
-  font-size: var(--t-xs); color: var(--ink-3); line-height: var(--lh-he);
-  padding-block-start: var(--sp-3);
-  border-block-start: 1px solid var(--c-hair);
+.nx-app .nxd-toks { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem; }
+.nx-app .nxd-tok {
+  min-block-size: 1.9rem; padding-inline: .55rem; gap: .3rem;
+  border: 1px solid var(--hairline); border-radius: 999px;
+  font-size: .76rem; color: var(--ink-1); background: var(--surface);
 }
+.nx-app .nxd-tok-all { min-block-size: 1.9rem; font-size: .76rem; text-decoration: underline; text-underline-offset: 3px; }
 
-/* ----------------------------------------------------------- 6. THE GROUPS */
+.nx-app .nxd-foot { display: grid; gap: .35rem; padding-block-start: var(--sp-3); border-block-start: 1px solid var(--hairline); }
+.nx-app .nxd-src, .nx-app .nxd-credit { margin: 0; font-size: .8rem; line-height: 1.6; color: var(--ink-3); }
+.nx-app .nxd-credit { color: var(--ink-2); }
 
-.nx-app .nxd-groups { display: grid; gap: var(--sp-5); }
-.nx-app .nxd-group { display: grid; gap: var(--sp-2); }
-.nx-app .nxd-group-h {
-  display: flex; align-items: center; gap: var(--sp-2);
-  position: sticky; inset-block-start: 0; z-index: 2;
-  padding: var(--sp-2) var(--sp-3);
-  border-radius: var(--r-sm);
-  background: color-mix(in srgb, var(--ink-3) 7%, var(--surface));
-  box-shadow: inset 0 0 0 1px var(--c-hair);
-  font-size: var(--t-xs); font-weight: 700; color: var(--ink-1);
+/* ----------------------------------------------------- 5. THE ALIGNED ROWS
+   The PM working table's density. Every column but the description is a fixed
+   width, so the column head and every row line up through one subgrid; the
+   whole row stays ONE link, and its second action sits in the last column as a
+   sibling (a button inside an anchor is not valid). */
+
+.nx-app .nxd-results {
+  min-inline-size: 0;
+  display: grid; gap: var(--sp-4);
+  container-type: inline-size; container-name: nxdr;
 }
-/* group marker: a LINE, so a heading can never be read as a status dot */
-.nx-app .nxd-group-h > i {
-  inline-size: 3px; block-size: 1rem; border-radius: 2px; flex: none;
-  background: var(--m);
+/* The description and the S/4HANA standing share the free width, 1.3 : 1;
+   every other column is as wide as its values. */
+.nx-app .nxd-results[data-cols="tables"] { --cols: 8rem minmax(9.5rem, 1.3fr) 5rem 4.5rem 3.75rem 4.75rem minmax(10.5rem, 1fr) 5rem; }
+.nx-app .nxd-results[data-cols="tx"] { --cols: 6.5rem minmax(0, 1fr) 5.25rem 11rem 7.5rem 10rem 6.25rem; }
+.nx-app .nxd-results[data-cols="ref"] { --cols: 14rem minmax(10rem, 1.3fr) 5.5rem 15rem minmax(10rem, 1fr); }
+.nx-app .nxd-results[data-cols="ref"][data-mods="0"] { --cols: 14rem minmax(10rem, 1.3fr) 15rem minmax(10rem, 1fr); }
+
+.nx-app .nxd-table {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 1rem;
+  box-shadow: var(--elev-1);
+  /* clip, not hidden: no scroll container, so the head can still stick */
+  overflow: clip;
 }
-.nx-app .nxd-group-h em {
-  margin-inline-start: auto;
-  font-style: normal; font-family: var(--font-mono); font-size: 10px;
-  direction: ltr; unicode-bidi: isolate; color: var(--ink-3);
-}
-
-/* -------------------------------------------------------------- 7. THE ROW
-   One row, two surfaces. It is a .nu-card, so ui.css already owns its hover,
-   active and focus states; everything below is geometry plus module identity. */
-
-.nx-app .nxd-list { display: grid; gap: var(--sp-2); }
-.nx-app .nxd-item { position: relative; display: grid; }
-
-.nx-app .nxd-row {
+.nx-app .nxd-cols,
+.nx-app .nxd-item {
   display: grid;
-  align-items: center;
-  gap: var(--sp-2) var(--sp-3);
-  grid-template-columns: 3px minmax(7rem, auto) minmax(0, 1fr) auto auto auto;
-  grid-template-areas: "mark id body nums s4 go";
-  padding: var(--sp-3);
-  padding-inline-end: 6.5rem;   /* room for the row's second action */
-  border-radius: var(--r-md);
-  overflow: hidden;
+  grid-template-columns: var(--cols);
+  column-gap: .8rem;
+  padding-inline: 1rem;
 }
-.nx-app .nxd-row--tx {
-  grid-template-columns: 3px minmax(6.5rem, auto) minmax(0, 1fr) auto auto;
-  grid-template-areas: "mark id body nums go";
-}
-
-/* A dictionary row the detail route generated no page for. Same information,
-   deliberately inert: no anchor, no pointer, no hover lift, no focus ring and
-   no leaving-arrow. The form itself says "this is a value, not a destination" —
-   which is also what keeps scripts/crawl-dead-links.mjs green, because a value
-   has no href to be dead. */
-.nx-app .nxd-row.is-flat {
-  cursor: default;
+.nx-app .nxd-cols {
+  position: sticky; inset-block-start: calc(-1 * var(--nxd-pad)); z-index: 3;
+  padding-block: .6rem .5rem;
   background: var(--surface-2);
-  border: 1px dashed var(--hairline);
+  /* the module selected on the surface colours the head line */
+  border-block-end: 2px solid color-mix(in srgb, var(--m) 45%, var(--hairline));
+  font-size: .72rem; font-weight: 700; color: var(--ink-3);
 }
-.nx-app .nxd-row.is-flat:hover { transform: none; box-shadow: none; border-color: var(--hairline); }
-.nx-app .nxd-noent {
+.nx-app .nxd-list { display: grid; margin: 0; padding: 0; list-style: none; }
+.nx-app .nxd-item {
+  position: relative;
+  border-block-end: 1px solid var(--hairline);
+  transition: background-color .12s linear;
+}
+.nx-app .nxd-list > .nxd-item:last-child { border-block-end: 0; }
+.nx-app .nxd-item:has(> a.nxd-row:hover) { background: color-mix(in srgb, var(--m) 6%, transparent); }
+.nx-app .nxd-item > .nxd-row {
   grid-column: 1 / -1;
-  font-size: var(--t-micro);
-  color: var(--ink-3);
-  font-style: italic;
+  display: grid; grid-template-columns: subgrid;
+  align-items: center;
+  min-block-size: 3.25rem;
+  padding-block: .55rem;
+  color: inherit; text-decoration: none;
 }
+.nx-app .nxd-item:has(> .nxd-ctx) > .nxd-row { grid-column: 1 / -2; }
+.nx-app .nxd-item > a.nxd-row:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; border-radius: .4rem; }
+.nx-app .nxd-row.is-flat { cursor: default; }
+.nx-app .nxd-noent { grid-column: 1 / -1; font-size: .72rem; color: var(--ink-3); }
 
-/* MODULE AS EDGE — the spine the row grows out of, full bleed on the inline
-   start. The one strongest identity signal, and it is never a dot. */
-.nx-app .nxd-mark {
-  grid-area: mark;
-  align-self: stretch;
-  inline-size: 3px;
-  margin-inline-start: calc(var(--sp-3) * -1);
-  margin-block: calc(var(--sp-3) * -1);
-  background: var(--m);
-  opacity: .85;
-}
-/* OBJECT CLASS — the dictionary rows carry a second, quieter encoding. It is a
-   short bar, not a dot: the dot form is reserved for --status-*. */
-.nx-app .nxd[data-surface="tables"] .nxd-mark {
-  background: linear-gradient(to bottom, var(--m) 0 55%, var(--o, var(--ink-3)) 55% 100%);
-}
-
-.nx-app .nxd-row:hover { border-color: color-mix(in srgb, var(--m) 45%, var(--c-hair)); }
-.nx-app .nxd-row:hover .nxd-go { opacity: 1; transform: none; }
-
-.nx-app .nxd-id {
-  grid-area: id;
-  display: grid; gap: 4px; justify-items: start;
-}
-.nx-app .nxd-id > b {
-  font-family: var(--font-mono); font-size: var(--t-sm); font-weight: 700;
-  letter-spacing: -.01em; color: var(--ink-1);
-}
-.nx-app .nxd-mods { display: flex; flex-wrap: wrap; gap: 4px; }
-
-/* A module VALUE inside a chip: ring + tint + leading line. */
-.nx-app .nxd-mod {
-  color: color-mix(in srgb, var(--m) 80%, var(--ink-1)); /* axe: pure --m on its own 10% tint measured 4.31-4.38 for PP and PM */
-  background: color-mix(in srgb, var(--m) 10%, transparent);
-  border-color: color-mix(in srgb, var(--m) var(--nxd-ring), transparent);
-}
-.nx-app .nxd-mod > i {
-  inline-size: 2px; block-size: .7rem; border-radius: 1px; flex: none;
-  background: var(--m);
-}
-.nx-app .nxd-mod em {
-  font-style: normal; font-weight: 600; color: var(--ink-2); /* ink-3 on the module tint: 4.39:1 (axe) */
-  padding-inline-start: 3px;
-}
-.nx-app .nxd-mod:empty { display: none; }
-
-.nx-app .nxd-body { grid-area: body; display: grid; gap: 3px; min-inline-size: 0; }
-.nx-app .nxd-he {
-  font-size: var(--t-sm); color: var(--ink-1); line-height: 1.45;
-  overflow: hidden; text-overflow: ellipsis;
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-}
-.nx-app .nxd-sub {
-  display: flex; flex-wrap: wrap; align-items: center; gap: 4px;
-  /* Secondary prose on a row reads at the 13px floor (design audit §4). */
-  font-size: var(--t-xs); color: var(--ink-3); line-height: 1.4;
-}
-.nx-app .nxd-en { direction: ltr; unicode-bidi: isolate; }
-.nx-app .nxd-dot { opacity: .5; }
-.nx-app .nxd-zone { display: inline-flex; align-items: center; gap: 5px; }
-.nx-app .nxd-zone > i {
-  inline-size: 3px; block-size: .7rem; border-radius: 1px; flex: none;
-  background: var(--o, var(--ink-3));
-}
-
-.nx-app .nxd-nums {
-  grid-area: nums;
-  display: flex; flex-wrap: wrap; align-items: center; gap: 4px;
-  max-inline-size: 22rem;
-}
-.nx-app .nxd-nums .nu-chip svg { color: var(--ink-3); flex: none; }
-
-.nx-app .nxd-s4 {
-  grid-area: s4;
-  display: grid; gap: 3px; justify-items: start;
-  inline-size: 13rem;
-}
-.nx-app .nxd-s4-t {
-  font-size: var(--t-xs); color: var(--ink-3); line-height: 1.4;
-  min-inline-size: 0; overflow-wrap: anywhere; /* API_MAINTENANCENOTIFICATION is one token */
-  overflow: hidden; text-overflow: ellipsis;
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-}
-.nx-app .nxd-s4-t b {
-  font-family: var(--font-mono); color: var(--ink-2);
-  padding-inline-end: 5px;
-}
-
-.nx-app .nxd-go {
-  grid-area: go;
-  color: var(--m); flex: none;
-  opacity: .45; transform: translateX(4px);
-  transition: transform var(--dur-fast) var(--ease-out-expo), opacity var(--dur-fast) linear;
-}
-[dir="ltr"] .nx-app .nxd-go { transform: translateX(-4px); }
-
-/* The row's SECOND action lives outside the link — a button inside an anchor is
-   not valid, and this one has to be reachable on its own. */
-/* Anchored to the TOP of the item rather than its middle: a row that opens a
-   second line (the transaction list, while a query is running) must not drag
-   this button down with it. */
-.nx-app .nxd-ctx {
-  position: absolute;
-  inset-block-start: var(--sp-3);
-  inset-inline-end: var(--sp-3);
-  min-block-size: 2rem;
-  font-size: var(--t-micro);
-  z-index: 1;
-}
-.nx-app .nxd-star[aria-pressed="true"] {
-  color: var(--m);
-  background: color-mix(in srgb, var(--m) 12%, transparent);
-}
+/* the row's second action: the context shelf, or the favourite star */
+.nx-app .nxd-item > .nxd-ctx { grid-column: -2 / -1; grid-row: 1; align-self: center; justify-self: end; min-block-size: 2.25rem; font-size: .74rem; padding-inline: .5rem; }
+.nx-app .nxd-star[aria-pressed="true"] { color: var(--ink-1); background: color-mix(in srgb, var(--m) 12%, transparent); }
 .nx-app .nxd-star[aria-pressed="true"] svg { fill: currentColor; }
 
-/* the transaction list a table really carries — only while a query is running,
-   because that is the only time the reader is looking for a code */
-.nx-app .nxd-tc {
-  display: flex; flex-wrap: wrap; gap: 4px;
-  padding: 0 var(--sp-3) var(--sp-3);
-  margin-block-start: calc(var(--sp-2) * -1);
+/* the transaction list a table really carries, while a query is running */
+.nx-app .nxd-item > .nxd-tc { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 4px; margin: 0; padding-block-end: .6rem; }
+
+/* cells */
+.nx-app .nxd-c { min-inline-size: 0; }
+.nx-app .nxd-l { display: none; }
+.nx-app .nxd-c[data-k="id"] { display: flex; flex-wrap: wrap; align-items: center; gap: 2px .45rem; }
+.nx-app .nxd-c[data-k="id"] > b.nx-sap { min-inline-size: 0; font-family: var(--font-mono); font-size: .88rem; font-weight: 750; letter-spacing: -.01em; color: var(--ink-1); overflow-wrap: anywhere; }
+.nx-app .nxd-c[data-k="id"] > .nxd-lead { font-size: .9rem; font-weight: 700; line-height: 1.4; color: var(--ink-1); }
+.nx-app .nxd-c[data-k="id"] > .nxd-sub { flex-basis: 100%; }
+.nx-app .nxd-c[data-k="he"] { display: grid; gap: 2px; }
+.nx-app .nxd-he {
+  font-size: .9rem; font-weight: 600; line-height: 1.45; color: var(--ink-1);
+  overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+}
+.nx-app .nxd-sub {
+  font-size: .76rem; line-height: 1.4; color: var(--ink-3);
+  overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;
+}
+.nx-app .nxd-en { unicode-bidi: isolate; }
+.nx-app .nxd-dot { opacity: .6; }
+.nx-app .nxd-nil { color: var(--ink-3); }
+
+/* A module VALUE: ring + tint, never a dot. */
+.nx-app .nxd-mods { display: flex; flex-wrap: wrap; gap: 3px; }
+.nx-app .nxd-mod {
+  display: inline-flex; align-items: center;
+  padding: .06rem .4rem; border-radius: .35rem;
+  font-family: var(--font-mono); font-size: .7rem; font-weight: 700; line-height: 1.5;
+  direction: ltr; unicode-bidi: isolate; white-space: nowrap; overflow-wrap: normal;
+  color: color-mix(in srgb, var(--m) 72%, var(--ink-1));
+  background: color-mix(in srgb, var(--m) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--m) 28%, transparent);
 }
 
-.nx-app .nxd-page { display: flex; justify-content: center; }
+/* numbers */
+.nx-app .nxd-c:is([data-k="fields"], [data-k="rels"], [data-k="tx"]) > b.nx-sap { font-family: var(--font-mono); font-size: .9rem; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ink-1); white-space: nowrap; overflow-wrap: normal; }
+.nx-app .nxd-c > small { display: block; font-size: .7rem; color: var(--ink-3); white-space: nowrap; }
+
+/* the S/4HANA standing: one pill, and one quiet line under it */
+.nx-app .nxd-c[data-k="s4"] { display: grid; gap: 2px; justify-items: start; }
+.nx-app .nxd-s4-t {
+  font-size: .72rem; line-height: 1.45; color: var(--ink-2);
+  overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+}
+.nx-app .nxd-cds { font-size: .72rem; line-height: 1.45; color: var(--ink-3); }
+.nx-app .nxd-cds > bdi { font-weight: 700; color: var(--ink-2); }
+.nx-app .nxd-alt { font-family: var(--font-mono); font-weight: 700; color: var(--nxd-s4); margin-inline-end: .3rem; }
+/* A record the project data says materially changes in S/4HANA: its own
+   sentence in full weight, the standing in the pill. No stripe, no colour. */
+.nx-app .nxd-row[data-impacted="1"] .nxd-s4-t { color: var(--ink-1); font-weight: 650; }
+
+/* transactions: the Fiori successor */
+.nx-app .nxd-fiori {
+  font-size: .78rem; line-height: 1.45; color: var(--ink-2);
+  overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+}
+
+/* reference directories: the record's own figures */
+.nx-app .nxd-nums { display: flex; flex-wrap: wrap; gap: .15rem .8rem; }
+.nx-app .nxd-num { display: inline-flex; align-items: baseline; gap: .3rem; font-size: .78rem; color: var(--ink-1); }
+.nx-app .nxd-num-l { font-size: .7rem; color: var(--ink-3); }
+.nx-app .nxd-num > b { font-weight: 700; }
+
+/* groups: a sticky heading under the sticky column head */
+.nx-app .nxd-group { display: grid; }
+.nx-app .nxd-group-h {
+  position: sticky; inset-block-start: calc(2.2rem - var(--nxd-pad)); z-index: 2;
+  display: flex; align-items: center; gap: .5rem;
+  margin: 0; padding: .5rem 1rem;
+  background: color-mix(in srgb, var(--ink-1) 4%, var(--surface));
+  border-block-end: 1px solid var(--hairline);
+  font-size: .86rem; font-weight: 720; color: var(--ink-1);
+}
+.nx-app .nxd-group-h em { margin-inline-start: auto; font-style: normal; font-family: var(--font-mono); font-size: .76rem; color: var(--ink-3); }
+
+.nx-app .nxd-page { display: flex; justify-content: center; margin: 0; }
 .nx-app .nxd-page-n {
   font-family: var(--font-mono); font-size: 10px; direction: ltr;
   unicode-bidi: isolate; color: var(--ink-3); padding-inline-start: 5px;
 }
 
-/* --------------------------------------------------------- 8. EMPTY STATE */
+/* CARDS. When the width the list is given cannot hold the columns, every row
+   becomes a compact card: the name (with the row's action at the corner), the
+   meaning, the values on ONE labelled line, then the S/4HANA standing. */
+@container nxdr (max-width: 56rem) {
+  .nx-app .nxd-table { background: transparent; border: 0; border-radius: 0; box-shadow: none; overflow: visible; }
+  .nx-app .nxd-cols { display: none; }
+  .nx-app .nxd-list { gap: .5rem; }
+  .nx-app .nxd-item {
+    display: block; padding: 0;
+    background: var(--surface);
+    border: 1px solid var(--hairline); border-radius: .85rem;
+    box-shadow: var(--elev-1);
+  }
+  .nx-app .nxd-list > .nxd-item:last-child { border-block-end: 1px solid var(--hairline); }
+  .nx-app .nxd-item > .nxd-row {
+    display: flex; flex-wrap: wrap; align-items: baseline;
+    gap: .3rem .9rem;
+    min-block-size: 0;
+    padding: .75rem .85rem .8rem;
+  }
+  .nx-app .nxd-item > .nxd-row > :is([data-k="id"], [data-k="he"], [data-k="s4"], [data-k="nums"], [data-k="fiori"]) { flex: 1 1 100%; }
+  /* room for the action in the corner */
+  .nx-app .nxd-item:has(> .nxd-ctx) > .nxd-row > [data-k="id"] { padding-inline-end: 5.5rem; }
+  .nx-app .nxd-item > .nxd-ctx {
+    position: absolute; inset-block-start: .5rem; inset-inline-end: .5rem;
+    margin: 0; min-block-size: 2.25rem;
+  }
+  /* a value and its label on one line */
+  .nx-app .nxd-c:is([data-k="fields"], [data-k="rels"], [data-k="tx"], [data-k="doc"], [data-k="mod"]) { flex: 0 1 auto; }
+  .nx-app .nxd-l { display: inline; margin-inline-end: .3rem; font-size: .7rem; font-weight: 700; color: var(--ink-3); }
+  .nx-app .nxd-c > small { display: inline; margin-inline-start: .25rem; }
+  .nx-app .nxd-c:is([data-k="mod"], [data-k="nums"]) > .nxd-l { display: none; }
+  .nx-app .nxd-c[data-k="mod"] > .nxd-mods { display: inline-flex; }
+  .nx-app .nxd-c[data-k="s4"] { margin-block-start: .2rem; padding-block-start: .45rem; border-block-start: 1px solid var(--hairline); }
+  /* the figures share a line with the module chip when they fit */
+  .nx-app .nxd-item > .nxd-row > [data-k="nums"] { flex: 1 1 auto; }
+  /* a transaction's standing is a short pill: it joins the module and depth line */
+  .nx-app .nxd-results[data-cols="tx"] .nxd-c[data-k="s4"] { flex: 0 1 auto; margin: 0; padding: 0; border: 0; }
+  .nx-app .nxd-results[data-cols="tx"] .nxd-c[data-k="s4"] > .nxd-l { display: none; }
+  .nx-app .nxd-c[data-k="fiori"] > .nxd-fiori { display: inline; }
+  .nx-app .nxd-item > .nxd-tc { padding: 0 .85rem .75rem; }
+  .nx-app .nxd-he { -webkit-line-clamp: 2; }
+  .nx-app .nxd-sub { -webkit-line-clamp: 1; }
+  .nx-app .nxd-s4-t { -webkit-line-clamp: 2; }
+  .nx-app .nxd-group { gap: .5rem; }
+  .nx-app .nxd-group-h { inset-block-start: calc(-1 * var(--nxd-pad)); border-radius: .6rem; border: 1px solid var(--hairline); }
+}
+
+/* ----------------------------------------------------------- 6. THE EMPTY STATE */
 
 .nx-app .nxd-none {
-  display: grid; gap: var(--sp-3);
-  padding: var(--sp-6) var(--sp-5);
-  border-style: dashed;
+  display: grid; gap: .7rem;
+  padding: 1.5rem 1.25rem;
+  border: 1px dashed var(--hairline); border-radius: 1rem;
+  background: var(--surface);
 }
-.nx-app .nxd-none b { color: var(--ink-1); font-size: var(--t-sm); }
+.nx-app .nxd-none p { margin: 0; }
+.nx-app .nxd-none b { color: var(--ink-1); font-size: .95rem; }
 .nx-app .nxd-none-a { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
 
-/* ----------------------------------------------------- 9. RESPONSIVE 390→ */
+/* ------------------------------------------------- 7. THE COMPARISON (enh.) */
 
-/* Tablet: the S/4 column stops being a column and joins the body, so the row
-   never has to scroll sideways. */
-@container nxd-row (max-width: 78rem) {
-  .nx-app .nxd-row {
-    grid-template-columns: 3px minmax(7rem, auto) minmax(0, 1fr) auto 1rem;
-    grid-template-areas:
-      "mark id   body nums go"
-      "mark .    s4   s4   s4";
-    row-gap: var(--sp-2);
-  }
-  .nx-app .nxd-s4 { inline-size: auto; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--sp-2); }
-  .nx-app .nxd-s4-t { -webkit-line-clamp: 1; }
+.nx-app .nxd-compare {
+  border-radius: 1rem; background: var(--surface);
+  border: 1px solid var(--hairline); box-shadow: var(--elev-1);
+  container-type: inline-size;
 }
-
-@container nxd-row (max-width: 54rem) {
-  .nx-app .nxd-row,
-  .nx-app .nxd-row--tx {
-    grid-template-columns: 3px minmax(0, 1fr) auto;
-    grid-template-areas:
-      "mark id   go"
-      "mark body body"
-      "mark nums nums"
-      "mark s4   s4";
-    padding-inline-end: var(--sp-3);
-    padding-block-end: 3.25rem;   /* the second action drops under the row */
-  }
-  /* flex-wrap, not an auto | 1fr grid: a long BAPI name took the auto track and
-     pushed the nowrap module chips out of the card at 320px */
-  .nx-app .nxd-id { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); min-inline-size: 0; }
-  .nx-app .nxd-id > b { min-inline-size: 0; overflow-wrap: anywhere; }
-  .nx-app .nxd-s4 { min-inline-size: 0; }
-  .nx-app .nxd-nums { max-inline-size: none; }
-  .nx-app .nxd-ctx {
-    inset-block-start: auto;
-    inset-block-end: var(--sp-2);
-    inset-inline-start: var(--sp-3);
-    inset-inline-end: auto;
-    transform: none;
-    min-block-size: var(--c-tap);
-    padding-inline: var(--sp-3);
-  }
-  .nx-app .nxd-go { opacity: 1; transform: none; }
+.nx-app .nxd-compare > summary {
+  display: grid; gap: .2rem;
+  padding: .95rem 1.1rem; cursor: pointer; list-style: none;
+  font-size: 1rem; font-weight: 720;
+  border-radius: 1rem;
 }
+.nx-app .nxd-compare > summary::-webkit-details-marker { display: none; }
+.nx-app .nxd-compare > summary::after { content: "הצגה ▾"; justify-self: start; font-size: .74rem; font-weight: 600; color: var(--ink-3); }
+.nx-app .nxd-compare[open] > summary::after { content: "צמצום ▴"; }
+.nx-app .nxd-compare > summary em { font-style: normal; font-weight: 400; font-size: .84rem; color: var(--ink-3); }
+.nx-app .nxd-compare > summary:hover { background: color-mix(in srgb, var(--ink-1) 3%, transparent); }
+.nx-app .nxd-compare > summary:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; }
+.nx-app .nxd-cmp {
+  display: grid; gap: .7rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
+  margin: 0; padding: 0 1.1rem 1.1rem; list-style: none;
+}
+.nx-app .nxd-cmp > li {
+  display: grid; align-content: start; gap: .5rem;
+  padding: .8rem .9rem; border-radius: .85rem;
+  background: var(--surface-2); border: 1px solid var(--hairline);
+}
+.nx-app .nxd-cmp-h { display: grid; gap: 1px; color: var(--ink-1); text-decoration: none; }
+.nx-app .nxd-cmp-h > bdi { justify-self: start; font-family: var(--font-mono); font-size: .95rem; font-weight: 750; }
+.nx-app .nxd-cmp-h > span { font-size: .8rem; color: var(--ink-2); }
+.nx-app .nxd-cmp-h:hover > bdi { text-decoration: underline; text-underline-offset: 3px; }
+.nx-app .nxd-cmp-h:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; border-radius: .3rem; }
+.nx-app .nxd-cmp dl { display: grid; gap: .35rem; margin: 0; }
+.nx-app .nxd-cmp dl > div { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: .6rem; }
+.nx-app .nxd-cmp dt { font-size: .72rem; font-weight: 700; color: var(--ink-3); padding-block-start: .1rem; }
+.nx-app .nxd-cmp dd { margin: 0; font-size: .82rem; line-height: 1.55; color: var(--ink-1); }
 
-/* Phone: its own composition. Every target is at least 44px, the toolbar
-   becomes one column, and the stats plate becomes two columns rather than a
-   squeezed eight. */
+/* ------------------------------------------------ 8. THE IDoc REFERENCE */
+
+.nx-app .nxd-ref { display: grid; gap: var(--sp-5); }
+.nx-app .nxd-anat { display: grid; gap: .6rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr)); margin: 0; padding: 0; list-style: none; }
+.nx-app .nxd-anat-c {
+  display: grid; gap: .2rem; align-content: start;
+  padding: .75rem .85rem; border-radius: .8rem;
+  border: 1px solid var(--hairline); background: var(--surface-2);
+  color: inherit; text-decoration: none;
+}
+.nx-app a.nxd-anat-c:hover { border-color: color-mix(in srgb, var(--ink-1) 45%, var(--hairline)); }
+.nx-app a.nxd-anat-c:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; }
+.nx-app .nxd-anat-c > bdi { justify-self: start; font-family: var(--font-mono); font-size: .95rem; font-weight: 750; color: var(--ink-1); }
+.nx-app .nxd-anat-c > b { font-size: .86rem; color: var(--ink-1); }
+.nx-app .nxd-anat-c > span { font-size: .78rem; line-height: 1.5; color: var(--ink-2); }
+.nx-app .nxd-lanes { display: grid; gap: 1rem; }
+@container (min-width: 46rem) { .nx-app .nxd-lanes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.nx-app .nxd-lane { display: grid; align-content: start; gap: .5rem; }
+.nx-app .nxd-lane-h { display: flex; align-items: center; gap: .55rem; margin: 0; font-size: .95rem; font-weight: 720; }
+.nx-app .nxd-lane ul { display: grid; gap: .45rem; margin: 0; padding: 0; list-style: none; }
+.nx-app .nxd-st {
+  display: grid; grid-template-columns: 2.6rem minmax(0, 1fr); gap: .7rem; align-items: start;
+  padding: .7rem .8rem; border-radius: .8rem;
+  background: var(--surface-2); border: 1px solid var(--hairline);
+}
+.nx-app .nxd-st-c { font-family: var(--font-mono); font-size: 1.25rem; font-weight: 760; line-height: 1.2; color: var(--ink-1); }
+.nx-app .nxd-st-b > b { display: block; font-size: .88rem; line-height: 1.45; color: var(--ink-1); }
+.nx-app .nxd-st-b > p { margin: .25rem 0 0; font-size: .8rem; line-height: 1.55; color: var(--ink-2); }
+.nx-app .nxd-st-b > .nxd-st-fix { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .45rem; }
+.nx-app .nxd-st-fix > span { font-size: .72rem; font-weight: 700; color: var(--ink-3); }
+.nx-app .nxd-code {
+  display: inline-flex; align-items: center; gap: .25rem;
+  min-block-size: 1.75rem; padding: 0 .45rem;
+  border: 1px solid var(--hairline); border-radius: .4rem;
+  background: var(--surface); color: var(--ink-1);
+  font-size: .76rem; font-weight: 700; text-decoration: none;
+}
+.nx-app .nxd-code:hover { border-color: color-mix(in srgb, var(--ink-1) 45%, var(--hairline)); }
+.nx-app .nxd-code:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; }
+.nx-app .nxd-mon { display: grid; margin: 0; padding: 0; list-style: none; }
+.nx-app .nxd-mon > li {
+  display: grid; grid-template-columns: 7rem minmax(0, 1fr); align-items: center; gap: .8rem;
+  min-block-size: 2.75rem; padding-block: .3rem;
+  border-block-end: 1px solid var(--hairline);
+}
+.nx-app .nxd-mon > li:last-child { border-block-end: 0; }
+.nx-app .nxd-mon > li > span { font-size: .84rem; line-height: 1.5; color: var(--ink-2); }
+.nx-app .nxd-mon > li > :first-child { justify-self: start; }
+
+/* --------------------------------------------------- 9. PHONE AND TABLET */
+
 @container nxd (max-width: 44rem) {
   .nx-app .nxd { gap: var(--sp-4); }
-  .nx-app .nxd-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: var(--sp-4); gap: var(--sp-3); }
-  .nx-app .nxd-stat-i { inline-size: 2rem; block-size: 2rem; }
-  .nx-app .nxd-stat b { font-size: var(--t-h2); }
-  .nx-app .nxd-tools { flex-direction: column; align-items: stretch; gap: var(--sp-2); }
+  .nx-app .nxd-led b { font-size: 1.25rem; }
+  .nx-app .nxd-sig, .nx-app .nxd-ref-sec { padding-inline: .9rem; }
+  .nx-app .nxd-badge { inline-size: 2.3rem; block-size: 2.3rem; }
+  /* one column, and NO wrap: in a wrapping column flexbox a full-basis facet
+     row starts a new flex COLUMN, laid out beside the first, off the canvas */
+  .nx-app .nxd-tools { flex-direction: column; flex-wrap: nowrap; align-items: stretch; gap: var(--sp-2); }
+  .nx-app .nxd-tools > .nxd-facet { flex: none; }
   .nx-app .nxd-field { flex: none; min-block-size: var(--c-tap); }
   .nx-app .nxd-tabs {
     flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-inline: contain;
@@ -487,74 +740,29 @@
   .nx-app .nxd-sort { justify-content: space-between; }
   .nx-app .nxd-sort select { flex: 1 1 auto; min-block-size: var(--c-tap); }
   .nx-app .nxd-facet-l { min-inline-size: 100%; }
-  /* Every control in the facet bar, not only the filters: the object-class
-     expander is a .nu-btn2 and was the one target on this surface that came in
-     under 44px on a phone. */
+  /* Every control in the facet bar is at least 44px on a phone. */
   .nx-app .nxd-facet .nu-filter,
-  .nx-app .nxd-more { min-block-size: var(--c-tap); }
-  .nx-app .nxd-he { -webkit-line-clamp: 3; }
-  .nx-app .nxd-row, .nx-app .nxd-row--tx { padding: var(--sp-3); padding-block-end: 3.5rem; }
-
-  /* The row kept its six-track desktop grid at phone width, and a grid item's
-     automatic minimum is its content — so `minmax(7rem, auto)` plus the 6.5rem
-     end padding floored the whole surface at 520px min-content inside a 390px
-     canvas. The DOCUMENT did not overflow, which is why a document-level check
-     reported clean while .nx-canvas scrolled sideways by 162px. Recomposed into
-     stacked areas, and the padding that reserved room for the desktop-only
-     second action is released. */
-  .nx-app .nxd-row,
-  .nx-app .nxd-row--tx {
-    grid-template-columns: 3px minmax(0, 1fr);
-    grid-template-areas:
-      "mark id"
-      "mark body"
-      "mark nums"
-      "mark s4"
-      "mark go";
-    padding-inline-end: var(--sp-3);
-    row-gap: var(--sp-2);
-  }
-  .nx-app .nxd-row--tx {
-    grid-template-areas:
-      "mark id"
-      "mark body"
-      "mark nums"
-      "mark go";
-  }
-  /* Releasing the automatic minimum. Without this the tracks above are still
-     floored by the widest SAP identifier in the row. */
+  .nx-app .nxd-more,
+  .nx-app .nxd-tok,
+  .nx-app .nxd-tok-all { min-block-size: var(--c-tap); }
+  .nx-app .nxd-cmp dl > div { grid-template-columns: minmax(0, 1fr); gap: .1rem; }
+  .nx-app .nxd-mon > li { grid-template-columns: minmax(0, 1fr); gap: .2rem; padding-block: .5rem; }
+  /* Releasing the automatic minimum: a grid item's minimum is its content, and
+     the widest SAP identifier would otherwise floor the whole surface. */
   .nx-app .nxd,
-  .nx-app .nxd > *,
-  .nx-app .nxd-row > *,
-  .nx-app .nxd-row--tx > * { min-inline-size: 0; }
-}
-
-/* Ultrawide: the list gets a second column rather than 3000px-long rows. */
-@container nxd (min-width: 88rem) {
-  .nx-app .nxd-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .nx-app .nxd-stats { grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); }
+  .nx-app .nxd > * { min-inline-size: 0; }
 }
 
 /* ---------------------------------------------------------------- 10. DARK */
 
-html[data-theme="dark"] .nx-app .nxd-group-h {
-  background: color-mix(in srgb, var(--ink-1) 6%, var(--surface));
-}
 html[data-theme="dark"] .nx-app .nxd-field { background: var(--surface-2); }
 html[data-theme="dark"] .nx-app .nxd-sort select { background: var(--surface-2); }
-html[data-theme="dark"] .nx-app .nxd-stat-i {
-  background: color-mix(in srgb, var(--m) 15%, transparent);
-}
-html[data-theme="dark"] .nx-app .nxd-mod {
-  background: color-mix(in srgb, var(--m) 14%, transparent);
-}
-html[data-theme="dark"] .nx-app .nxd-mark { opacity: 1; }
+html[data-theme="dark"] .nx-app .nxd-mod { background: color-mix(in srgb, var(--m) 14%, transparent); color: color-mix(in srgb, var(--m) 55%, #fff); }
 
 /* -------------------------------------------------------- 11. REDUCED MOTION */
 
 @media (prefers-reduced-motion: reduce) {
-  :where(html:not([data-neo-motion="full"])) .nx-app .nxd-go { transition: none; opacity: 1; transform: none; }
-  :where(html:not([data-neo-motion="full"])) .nx-app .nxd-field { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nx-app :is(.nxd-field, .nxd-item, .nxd-led :is(button, a), .nxd-rank button, .nxd-stn, .nxd-rung a) { transition: none; }
 }
 
 /* ============================================================================
@@ -1673,11 +1881,10 @@ html[data-theme="dark"] .nx-app .nxb-mods > li { background: color-mix(in srgb, 
 .nx-app .nxd-item[data-back="1"]::after {
   content: "";
   position: absolute;
-  inset: calc(var(--sp-2) * -1);
-  border-radius: var(--r-lg);
-  box-shadow:
-    0 0 0 2px var(--m),
-    0 0 0 6px color-mix(in srgb, var(--m) 20%, transparent);
+  /* inside the row: the table plate clips anything drawn outside it */
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 2px var(--m);
   pointer-events: none;
   opacity: 0;
   animation: nxd-land 1700ms var(--ease-out-expo) both;
@@ -1692,30 +1899,12 @@ html[data-theme="dark"] .nx-app .nxb-mods > li { background: color-mix(in srgb, 
   transition: background-color var(--dur-base) var(--ease-out-expo);
 }
 
-/* LOCAL NAVIGATION — the leaving arrow on a row.
-   ui.css owns the row's four states; this is the one signal it has no opinion
-   about, because the arrow is a data.css element. It already slides in on
-   hover (section 7); at L2 it also answers the KEYBOARD, which it did not,
-   so a row reached by Tab reads exactly like a row reached by pointer. */
-.nx-app .nxd-row:focus-visible .nxd-go { opacity: 1; transform: none; }
-
 @media (prefers-reduced-motion: reduce) {
   /* A fade is a courtesy rather than travel, so the landing mark survives —
      but it is cut to the shortest length that still registers. */
   :where(html:not([data-neo-motion="full"])) .nx-app .nxd-item[data-back="1"]::after { animation-duration: 900ms; }
   :where(html:not([data-neo-motion="full"])) .nx-app .nxb-tbl tbody tr[data-k]:not([data-k="none"]) { transition: none; }
 }
-
-/* Catalog order after the design audit (§7, 2026-09-21): title → search and
-   tools → facets → the numbers → rows. The stats plate becomes a compact strip
-   so the first thing under the title is the search, not a wall of numbers. */
-.nx-app .nxd-stats--after {
-  gap: var(--sp-2) var(--sp-4);
-  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
-  padding: var(--sp-3) var(--sp-4);
-}
-.nx-app .nxd-stats--after .nxd-stat-i { inline-size: 1.75rem; block-size: 1.75rem; }
-.nx-app .nxd-stats--after .nxd-stat b { font-size: var(--t-h3); }
 
 /* One line under the table page's actions saying what each destination gives
    (design audit §7: "table page" vs "object page" were two unexplained targets). */

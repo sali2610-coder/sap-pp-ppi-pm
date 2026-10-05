@@ -152,60 +152,9 @@ html[data-theme="dark"] .nx-app [data-scene="books"] {
   container-type: inline-size;
   container-name: nxd;
 }
-.nx-app .nxd .nxd-head {
-  padding: clamp(1.25rem, 3cqi, 2rem);
-  border: 1px solid var(--hairline);
-  border-inline-start: 4px solid var(--m);
-  border-radius: var(--r-xl);
-  background: linear-gradient(120deg, color-mix(in srgb, var(--m) 7%, var(--surface)), var(--surface) 70%);
-}
-.nx-app .nxd .nxd-head .nx-lede { font-size: var(--t-body); line-height: 1.75; }
-.nx-app .nxd .nxd-tools {
-  padding: .875rem;
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-  border-radius: var(--r-lg);
-}
-.nx-app .nxd .nxd-field { min-block-size: 3rem; background: var(--background); }
-.nx-app .nxd .nxd-field input { font-size: var(--t-body); }
-.nx-app .nxd .nxd-facets {
-  padding: 1rem;
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-  border-radius: var(--r-lg);
-}
-.nx-app .nxd .nxd-facet-l { color: var(--ink-2); font-weight: 700; }
-.nx-app .nxd .nxd-tabs .nu-tab { min-block-size: 2.75rem; margin-inline-end: .35rem; }
-.nx-app .nxd .nxd-stats--after {
-  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-  padding: 1.25rem;
-  gap: 1.25rem;
-}
-.nx-app .nxd .nxd-stats--after .nxd-stat b { font-size: 1.5rem; }
-.nx-app .nxd .nxd-stat > span:last-child { font-size: .8125rem; }
-.nx-app .nxd .nxd-stats--after .nxd-stat-i { inline-size: 2.25rem; block-size: 2.25rem; }
-.nx-app .nxd .nxd-results { min-inline-size: 0; display: grid; gap: var(--sp-4); }
-.nx-app .nxd .nxd-list { gap: .875rem; }
-.nx-app .nxd .nxd-item { min-inline-size: 0; container-type: inline-size; container-name: nxd-row; }
-.nx-app .nxd .nxd-row { min-block-size: 6rem; box-shadow: var(--elev-1); }
-.nx-app .nxd .nxd-id > b { font-size: 1rem; line-height: 1.4; }
-.nx-app .nxd .nxd-he { font-size: var(--t-body); font-weight: 600; line-height: 1.6; }
-.nx-app .nxd .nxd-body { gap: .375rem; }
-.nx-app .nxd .nxd-nums .nu-chip { font-size: .75rem; padding: .3rem .45rem; }
-.nx-app .nxd .nxd-nums .nu-chip svg { inline-size: .875rem; block-size: .875rem; }
-.nx-app .nxd .nxd-go { opacity: 1; transform: none; }
-.nx-app .nxd .nxd-group-h { min-block-size: 3rem; font-size: .9375rem; }
-.nx-app .nxd .nxd-group-h em { font-size: .8125rem; }
-.nx-app .nxd .nxd-count { font-size: .875rem; }
-
-@container nxd (max-width: 44rem) {
-  .nx-app .nxd .nxd-stats--after { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 1rem; gap: 1rem; }
-  .nx-app .nxd .nxd-stat { gap: 0 .5rem; min-inline-size: 0; }
-  .nx-app .nxd .nxd-stats--after .nxd-stat-i { inline-size: 1.75rem; block-size: 1.75rem; }
-  .nx-app .nxd .nxd-stats--after .nxd-stat b { font-size: 1.25rem; }
-  .nx-app .nxd .nxd-head { padding: 1.25rem; }
-  .nx-app .nxd .nxd-tools { padding: .75rem; }
-}
+/* The catalog's hero, toolbar, rows and phone composition live in app/neo/data.css
+   since the catalog redesign (2026-10); only the root above stays here, because
+   the privacy page wears the same root. */
 
 /* Work tables gain a clearer reading rhythm, preserving PK/FK encoding. */
 .nx-app .no .no-hero { box-shadow: var(--elev-2); border-inline-start: 4px solid var(--o); }
@@ -219,12 +168,7 @@ html[data-theme="dark"] .nx-app [data-scene="books"] {
   .nx-app :is(.nu-btn, .nu-btn2, .nu-ghost, .nu-tab, .nu-link, .nu-filter) { min-block-size: 2.75rem; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  :where(html:not([data-neo-motion="full"])) .nx-app .nxd .nxd-row { transition: none; }
-}
-
 /* Hierarchy and the original brand mark, from the existing offline SVG. */
-.nx-app .nxd .nx-h1 { font-size: clamp(1.75rem, 3.2cqi, 2.5rem); line-height: 1.2; text-wrap: balance; }
 .nx-app .nx-glyph { padding: 0; background: none; align-items: center; }
 .nx-app .nh-brand svg { inline-size: clamp(3.25rem, 5.5cqi, 4.875rem); block-size: auto; }
 .nx-app .nh-brand { color: var(--scene-ink); }

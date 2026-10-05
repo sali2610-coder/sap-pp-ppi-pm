@@ -133,10 +133,10 @@ export function idocDir(): RefDir {
       `וטרנזקציות הניטור.`,
     stats: [
       { v: rows.length, l: "סוגי הודעה במאגר", i: "cable" },
-      { v: IDOC_RECORDS.length, l: "רשומות פיזיות", i: "database" },
-      { v: IDOC_STATUSES.length, l: "קודי סטטוס מתועדים", i: "shieldCheck" },
-      { v: IDOC.monitoring.length, l: "טרנזקציות ניטור", i: "terminal" },
-      { v: uniq(rows.flatMap((r) => r.mods)).length, l: "מודולים", i: "boxes" },
+      { v: IDOC_RECORDS.length, l: "רשומות פיזיות", i: "database", href: "#idoc-anat" },
+      { v: IDOC_STATUSES.length, l: "קודי סטטוס מתועדים", i: "shieldCheck", href: "#idoc-status" },
+      { v: IDOC.monitoring.length, l: "טרנזקציות ניטור", i: "terminal", href: "#idoc-mon" },
+      { v: uniq(rows.flatMap((r) => r.mods)).length, l: uniq(rows.flatMap((r) => r.mods)).length === 1 ? "מודול" : "מודולים", i: "boxes" },
     ],
     rows,
     mods: [...byMod.entries()].sort((a, b) => b[1] - a[1])

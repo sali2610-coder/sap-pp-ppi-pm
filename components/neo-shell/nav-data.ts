@@ -176,10 +176,14 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
       id: "reference",
       label: "עיון · Reference",
       items: [
-        { id: "tables", label: "טבלאות SAP", icon: "Table", count: ALL_TABLES.length, countLabel: "טבלאות" },
+        // Unique tables, the number /neo/tables lists. ALL_TABLES holds one entry
+        // per blueprint (a table both PM and PP-PI document is listed twice).
+        { id: "tables", label: "טבלאות SAP", icon: "Table", count: new Set(ALL_TABLES.map((t) => t.tableName)).size, countLabel: "טבלאות" },
         { id: "erd", href: "/neo/erd/", label: "מודל הנתונים · ERD", icon: "GitBranch", count: modelStats().edges, countLabel: "קשרים" },
         { id: "transactions", label: "טרנזקציות", icon: "Terminal", count: registryStats().total, countLabel: "טרנזקציות" },
-        { id: "bapi", label: "BAPI ו-FM", icon: "Plug", count: funcRegistry().length, countLabel: "אובייקטי פונקציה" },
+        // The rows /neo/bapi lists. The registry also holds the IDoc message
+        // types (BOMMAT, LOIPRO, MATMAS), which live on /neo/idoc.
+        { id: "bapi", label: "BAPI ו-FM", icon: "Plug", count: bapiDir().rows.length, countLabel: "רשומות בקטלוג" },
         { id: "idoc", label: "IDocs", icon: "Cable", count: idocMessageTypes().length, countLabel: "סוגי הודעה" },
         { id: "cds", label: "CDS Views", icon: "Sigma", count: CDS_VIEWS.length, countLabel: "תצוגות CDS" },
         { id: "fiori-apps", label: "יישומי Fiori", icon: "LayoutGrid", count: FIORI_APPS.length, countLabel: "יישומים" },
