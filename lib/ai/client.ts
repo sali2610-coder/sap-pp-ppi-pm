@@ -155,6 +155,17 @@ function stripSourcesLine(text: string): string {
 
 let seq = 0;
 
+/**
+ * One id per question, sent in the body: a browser cannot send `x-request-id`
+ * cross-origin, because the API's CORS policy allows only Content-Type. The
+ * server echoes it on every event and logs it, so a failure a reader reports
+ * can be found in the function log.
+ */
+const newRequestId = () =>
+  `neo-${typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+    ? crypto.randomUUID()
+    : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`}`;
+
 export async function askApi(question: string, scope: Scope, task?: string): Promise<Answer> {
   const id = `a${++seq}`;
   const started = Date.now();
@@ -288,6 +299,7 @@ export async function askApiStream(
       section: scope.section,
       scope: scopeMode(scope),
       task: profile,
+      requestId: newRequestId(),
       ...(intent && !intent.unsupported ? { diagramKind: intent.kind } : {}),
     }, handlers, signal);
 
@@ -309,6 +321,9 @@ export async function askApiStream(
       confidence: confidenceOf(policy, citations.length),
       followUps: followUps(scope, policy),
       model: out.model ?? undefined,
+      // Read by the turn's truncation note. Never inferred from the text: only
+      // the engine knows whether generation stopped at its ceiling.
+      truncated: out.truncated === true,
       ...(intent ? {
         diagram: {
           kind: intent.kind,

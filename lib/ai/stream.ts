@@ -31,6 +31,12 @@ export interface StreamResult {
   ms?: number;
   /** The preview was thrown away — the gates replaced it. */
   replaced?: boolean;
+  /** The answer stopped at the engine's length ceiling: shown, never as complete. */
+  truncated?: boolean;
+  /** How generation ended, as the engine reported it ("stop", "max_output_tokens"…). */
+  finishReason?: string | null;
+  /** The id this client sent, echoed back. */
+  requestId?: string | null;
 }
 
 export class StreamError extends Error {
