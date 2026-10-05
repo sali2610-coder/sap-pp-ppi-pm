@@ -18,6 +18,13 @@ import path from "node:path";
 // URL shape the app never generates.
 import { citationHref } from "../lib/ai/links.ts";
 
+// The canonical reader's own deep link, still honoured by components/book-reader
+// (readDeepLink). Citations no longer point at it, they open the NEO reader
+// (checked below), so it is spelled out here to keep the canonical reader's
+// own landing under test.
+const legacyHref = (book, id, q) =>
+  `/library/${book}/?s=${encodeURIComponent(id)}${q ? `&q=${encodeURIComponent(q)}` : ""}#sec-${id}`;
+
 const ROOT = path.resolve(import.meta.dirname, "..");
 const OUT = path.join(ROOT, "out");
 const SHOTS = path.join(ROOT, "screenshots");
@@ -187,8 +194,8 @@ for (const vp of VIEWPORTS) {
 
     // Priority 2: a deep link must open the right chapter AND mark the exact
     // sentence — not merely open the chapter.
-    await check(page, `${vp.label}/${book}: a citation link exposes a readable query`, async () => {
-      const href = citationHref(book, 1, "1.1", "בדיקת מבנה כתובת");
+    await check(page, `${vp.label}/${book}: a deep link exposes a readable query`, async () => {
+      const href = legacyHref(book, "1.1", "בדיקת מבנה כתובת");
       await page.goto(`http://localhost:${PORT}${href}`, { waitUntil: "domcontentloaded", timeout: 30_000 });
       const search = await page.evaluate(() => location.search);
       return search.includes("s=1.1") ? "" : `location.search was ${JSON.stringify(search)}`;
@@ -206,8 +213,7 @@ for (const vp of VIEWPORTS) {
           return { id: sec?.getAttribute("data-section") ?? "", text: (lines[1] || lines[0] || "").slice(0, 80) };
         });
         if (!probe.id || probe.text.length < 25) return false;
-        const url = `http://localhost:${PORT}`
-          + citationHref(book, Number(probe.id.split(".")[0]) || 1, probe.id, probe.text);
+        const url = `http://localhost:${PORT}` + legacyHref(book, probe.id, probe.text);
         await page.goto(url, { waitUntil: "networkidle", timeout: 30_000 });
         await page.waitForTimeout(1200);
         const marks = await page.evaluate(() => {
@@ -218,8 +224,7 @@ for (const vp of VIEWPORTS) {
       });
 
       await check(page, `${vp.label}/${book}: a bogus quote highlights nothing`, async () => {
-        const url = `http://localhost:${PORT}`
-          + citationHref(book, 1, "1.1", "משפט שהומצא ואינו מופיע בשום מקום בספר הזה");
+        const url = `http://localhost:${PORT}` + legacyHref(book, "1.1", "משפט שהומצא ואינו מופיע בשום מקום בספר הזה");
         await page.goto(url, { waitUntil: "networkidle", timeout: 30_000 });
         await page.waitForTimeout(700);
         const n = await page.evaluate(() => document.querySelectorAll("mark").length);
@@ -279,6 +284,71 @@ for (const vp of VIEWPORTS) {
     await dctx.close();
     return m.theme === "dark" && m.paras > 0 && m.over <= 2 && derr.length === 0 ? `dark, paras=${m.paras}, bg=${m.bg}` : `theme=${m.theme} paras=${m.paras} over=${m.over} errs=${derr.length}`;
   });
+
+  // ---- A CITATION OPENS THE NEO READER (desktop: the landing is not a layout
+  // concern). It must land on the cited subchapter and mark the verified
+  // sentence there exactly once; a sentence that is not there marks nothing and
+  // still lands. The sentence is read off the reader's own rendering, from a
+  // paragraph with no inline markup, so the premise cannot be wrong. book2 9.1
+  // is a dotted id; book7's ids are Fiori app ids, which only the NEO reader
+  // resolves. A failed check throws, so its evidence is in the report.
+  if (vp.label === "desktop") {
+    const at = (href) => page.goto(`http://localhost:${PORT}${href}`, { waitUntil: "networkidle", timeout: 30_000 });
+    const state = (id) => page.evaluate((sid) => {
+      const sec = document.getElementById(`nr-sec-${sid}`);
+      const marks = [...document.querySelectorAll("mark[data-neo-cited]")];
+      const r = sec?.getBoundingClientRect();
+      return {
+        path: location.pathname, search: location.search, neo: Boolean(document.querySelector(".nr")),
+        legacy: document.querySelectorAll("[data-section]").length, marks: marks.length,
+        inSection: marks.every((m) => sec?.contains(m)), text: (marks[0]?.textContent ?? "").replace(/\s+/g, " ").trim(),
+        landed: r ? r.top < window.innerHeight * 0.5 && r.bottom > 0 : false,
+      };
+    }, id);
+    const plainSentence = (sid) => page.evaluate((s) => {
+      const ps = [...(document.getElementById(`nr-sec-${s}`)?.querySelectorAll(".nr-p") ?? [])]
+        .filter((p) => !p.querySelector("strong, b, em, a")).map((p) => p.innerText.replace(/\s+/g, " ").trim());
+      const p = ps.find((t) => t.length > 60) || "";
+      return (p.match(/^.{40,}?[.!?](?=\s|$)/)?.[0] || p).slice(0, 160);
+    }, sid);
+    // book7: the first Fiori app id in chapter 1 that has a citable sentence.
+    await at(citationHref("book7", 1));
+    await page.waitForSelector('[id^="nr-sec-"] .nr-p', { timeout: 20_000 }).catch(() => {});
+    const fioriId = await page.evaluate(() => [...document.querySelectorAll('[id^="nr-sec-"]')]
+      .map((e) => ({ id: e.id.slice(7), p: [...e.querySelectorAll(".nr-p")].filter((p) => !p.querySelector("strong, b, em, a")) }))
+      .find((x) => !/^[0-9]+(\.[0-9]+)*$/.test(x.id) && x.p.some((p) => p.innerText.trim().length > 60))?.id ?? "");
+
+    for (const [book, ch, id] of [["book2", 9, "9.1"], ["book7", 1, fioriId]]) {
+      await check(page, `${vp.label}/neo-citation/${book} ${id || "(no app id)"}: opens the NEO reader and marks the sentence once`, async () => {
+        if (!id) throw new Error("no non-dotted section with a citable sentence in book7 chapter 1");
+        await at(citationHref(book, ch, id));
+        await page.waitForFunction((s) => (document.getElementById(`nr-sec-${s}`)?.innerText || "").length > 60, id, { timeout: 20_000 });
+        const probe = await plainSentence(id);
+        if (probe.length < 30) throw new Error(`no sentence to cite in ${id}`);
+        await at(citationHref(book, ch, id, probe));
+        await page.waitForTimeout(1200);
+        const s = await state(id);
+        const ok = s.path === `/neo/read/${book}/` && s.neo && s.legacy === 0 && s.marks === 1 && s.inSection
+          && s.landed && s.text.slice(0, 20) === probe.slice(0, 20);
+        if (!ok) throw new Error(`${JSON.stringify(s)} probe="${probe.slice(0, 50)}"`);
+        return `1 mark in nr-sec-${id}: "${s.text.slice(0, 40)}"`;
+      });
+      await check(page, `${vp.label}/neo-citation/${book} ${id}: still one mark once settled, and the address drops q`, async () => {
+        await page.waitForTimeout(1500);
+        const s = await state(id);
+        const p = new URLSearchParams(s.search);
+        if (s.marks !== 1 || p.has("q") || !p.get("s")) throw new Error(JSON.stringify(s));
+        return `marks=1, address ${s.search}`;
+      });
+      await check(page, `${vp.label}/neo-citation/${book} ${id}: a sentence that is not there marks nothing and still lands`, async () => {
+        await at(citationHref(book, ch, id, "משפט שהומצא ואינו מופיע בשום מקום בספר הזה"));
+        await page.waitForTimeout(1200);
+        const s = await state(id);
+        if (s.marks !== 0 || !s.landed || s.path !== `/neo/read/${book}/`) throw new Error(JSON.stringify(s));
+        return `marks=0, landed on nr-sec-${id}`;
+      });
+    }
+  }
 
   // The AI chat, at every viewport. /chat/ is the route the nav, the mobile tab
   // bar and every object page link to, so it is the one that must be right.
