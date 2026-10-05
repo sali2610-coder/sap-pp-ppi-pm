@@ -27,7 +27,8 @@ import { motionIsReduced } from "../motion/preferences";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { AiMode } from "@/lib/ai/modes";
 import type { Answer, Scope } from "@/lib/ai/types";
-import { followUpTask } from "@/lib/ai/prompts";
+import { actionRequest } from "@/lib/ai/prompts";
+import { profileFor } from "@/lib/ai/diagram-intent";
 import { type LiveState, ask } from "./engine";
 import { clearChat, loadChat, saveChat, type Turn } from "./store";
 
@@ -212,11 +213,11 @@ export function useConversation(mode: AiMode): Conversation {
    * supplies the subject when there is one; otherwise the conversation does.
    */
   const runAction = useCallback((prompt: string, task?: string) => {
-    const topic = turns.length ? turns[turns.length - 1].q : "";
-    const q = topic && !scope.bookId ? `${prompt}\n\nהנושא: ${topic}` : prompt;
-    // A suggested follow-up that repeats an answer action sends that action's
-    // task (lib/ai/prompts.FOLLOW_UPS); a button's own task always wins.
-    send(q, task ?? followUpTask(prompt));
+    // lib/ai/prompts.actionRequest: the task comes from what was pressed, the
+    // topic from the conversation's own question.
+    const r = actionRequest(prompt, task, turns.length ? turns[turns.length - 1].q : "",
+      Boolean(scope.bookId), (q) => profileFor(q).task);
+    send(r.question, r.task);
   }, [scope.bookId, send, turns]);
 
   const openSource = useCallback((a: Answer) => {

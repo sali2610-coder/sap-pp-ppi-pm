@@ -77,3 +77,16 @@ test("the prompts routed to Haiku name their subject", () => {
     assert.doesNotMatch(a.prompt, /(^|\s)(את )?זה[\s,.]|הזה/, `${a.label} is deictic: ${a.prompt}`);
   }
 });
+
+test("a chip's task comes from the chip, never from the topic it carries", async () => {
+  const { profileFor } = await import("../lib/ai/diagram-intent.ts");
+  const { actionRequest } = await import("../lib/ai/prompts.ts");
+  const classify = (q: string) => profileFor(q).task;
+  const lastQ = "תאר את התהליך כתרשים זרימה שלב אחר שלב.\n\nהנושא: מה ההבדל בין Process Order ל-Production Order?";
+  const r = actionRequest("הצג טרנזקציות קשורות", undefined, lastQ, false, classify);
+  assert.equal(r.task, "HEBREW_EXPLAIN", "a plain chip turned into a diagram request");
+  assert.equal(r.question, "הצג טרנזקציות קשורות\n\nהנושא: מה ההבדל בין Process Order ל-Production Order?", "topics nested");
+  assert.equal(actionRequest("השווה ל-S/4HANA", undefined, lastQ, false, classify).task, "COMPARE_ECC_S4");
+  assert.equal(actionRequest("x", "QUIZ", lastQ, true, classify).task, "QUIZ");
+  assert.equal(actionRequest("x", "QUIZ", lastQ, true, classify).question, "x", "a scoped action carries no topic");
+});

@@ -101,3 +101,11 @@ test("every block consumes input — the invariant the bug violated", () => {
     }
   }, 4000);
 });
+
+test("a direction written on the fence line still makes a flowchart", () => {
+  // Gemini writes "```flowchart TD" on one line. Read as a language that was
+  // "flowchart td", and a valid diagram was shown as raw code.
+  const [b] = parseAnswerBlocks("```flowchart TD\n A[שלב] --> B[שלב 2]\n```").filter((x) => x.t === "code");
+  assert.equal(b.t === "code" && b.lang, "flowchart");
+  assert.ok(b.t === "code" && b.text.startsWith("flowchart TD\n"), "the direction line was kept");
+});

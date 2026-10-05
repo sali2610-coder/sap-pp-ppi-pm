@@ -39,8 +39,13 @@ export function parseAnswerBlocks(src: string): Block[] {
 
     // fenced code
     if (trimmed.startsWith("```")) {
-      const lang = trimmed.slice(3).trim().toLowerCase() || undefined;
-      const buf: string[] = [];
+      const info = trimmed.slice(3).trim();
+      // "```flowchart TD": the direction written on the fence line belongs to
+      // the diagram. Read as a language it was "flowchart td", which no renderer
+      // knows, so a valid flowchart was shown as raw code.
+      const dir = /^(flowchart|graph)\s+(TB|TD|LR|RL|BT)\b/i.exec(info);
+      const lang = (dir ? dir[1] : info).toLowerCase() || undefined;
+      const buf: string[] = dir ? [dir[0]] : [];
       i++;
       while (i < lines.length && !lines[i].trim().startsWith("```")) buf.push(lines[i++]);
       i++;

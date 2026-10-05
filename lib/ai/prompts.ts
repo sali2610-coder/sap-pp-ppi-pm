@@ -77,6 +77,32 @@ export function followUpTask(label: string): string | undefined {
   return action ? ANSWER_ACTIONS.find((a) => a.id === action)?.task : undefined;
 }
 
+/** How a follow-up names its subject when no book is selected. */
+export const TOPIC = "\n\nהנושא: ";
+
+/**
+ * The request an action or a chip sends.
+ *
+ * The task comes from what was PRESSED: the button's own task, else the chip's
+ * (FOLLOW_UPS), else `classify` on the pressed text alone. Classifying the
+ * composed question let an earlier action's wording in the topic ("תאר את
+ * התהליך כתרשים זרימה") turn a plain chip into a diagram request.
+ *
+ * The topic is the conversation's own question, unwrapped from any earlier
+ * follow-up, so chained follow-ups no longer nest "הנושא:" inside "הנושא:".
+ * `classify` is passed in (lib/ai/diagram-intent.profileFor) so this file
+ * stays free of runtime imports.
+ */
+export function actionRequest(prompt: string, task: string | undefined, lastQuestion: string,
+  scoped: boolean, classify: (q: string) => string): { question: string; task: string } {
+  const at = lastQuestion.lastIndexOf(TOPIC);
+  const topic = at >= 0 ? lastQuestion.slice(at + TOPIC.length) : lastQuestion;
+  return {
+    question: topic && !scoped ? `${prompt}${TOPIC}${topic}` : prompt,
+    task: task || followUpTask(prompt) || classify(prompt),
+  };
+}
+
 export const QUICK_ACTIONS: QuickAction[] = [
   { id: "summarize", label: "סיכום הפרק", prompt: "סכם את הפרק הנוכחי בנקודות מרכזיות.", icon: "list", needsScope: true },
   { id: "simple", label: "הסבר בפשטות", prompt: "הסבר את הנושא במילים פשוטות, כאילו אני חדש ב-SAP.", icon: "sparkles" },
