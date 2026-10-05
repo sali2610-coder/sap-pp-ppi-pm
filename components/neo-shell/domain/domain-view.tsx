@@ -23,7 +23,7 @@ import {
   Table2, Terminal,
 } from "lucide-react";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
-import { domainCards, domainTotals, type DomLink, type DomainView } from "./domain-data";
+import { domainCards, domainTotals, tableLines, type DomLink, type DomainView } from "./domain-data";
 import { DomainHubList } from "./domain-hub-list";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -47,51 +47,50 @@ const TONE: Record<string, string> = {
 export function DomainsHub() {
   const t = domainTotals();
   const cards = domainCards();
+  const lines = tableLines();
 
   return (
     <div className="ndm nm-scene" data-surface="domains" data-scene="cream">
       <header className="ndm-hero">
         <p className="ndm-eye">
           <Boxes size={13} strokeWidth={2} aria-hidden="true" />
-          תחומים עסקיים · BUSINESS DOMAINS
+          <span>תחומים עסקיים</span>
+          <i aria-hidden="true" />
+          <span lang="en">BUSINESS DOMAINS</span>
         </p>
         <h1 className="ndm-h1">התחומים העסקיים של PM ו-PP-PI</h1>
+        {/* What a full record holds is stated beside the depth filter, where the
+            reader chooses between the two, in the same words. */}
         <p className="ndm-lede">
           {t.domains} תחומים פונקציונליים של PM ו-PP-PI. לכל תחום: הזרימה העסקית שלב אחר שלב,
           טבלאות SAP והטרנזקציות התומכות בה, נקודות למידה ותקלות נפוצות.
-          {" "}<b>{t.deep}</b> מהם כוללים גם רשומה מלאה: נתוני אב, User Exits ו-BAdIs, תרחישי בדיקה,
-          תקלות מהשטח, תרחיש מהמפעל והכרעת מעבר ל-S/4HANA.
         </p>
         <p className="nx-gate-note">
-          כאן: איפה זה קורה בתהליך. <b>מרכז הידע</b> מסביר מה זה (מושגי SAP), <b>מרכזי הידע</b> מסבירים איך עושים (יחידות עבודה).
+          כאן: איפה זה קורה בתהליך. מרכז הידע מסביר מה זה (<Link href="/neo/knowledge/" prefetch={false}>מושגי SAP</Link>),
+          מרכזי הידע מסבירים איך עושים (<Link href="/neo/centers/" prefetch={false}>יחידות עבודה</Link>).
         </p>
         <div className="ndm-stats">
+          {/* Each label states its scope: these are the tables, codes and BAPIs
+              the domains name, not the catalogues the rail counts. */}
           {([
-            [t.domains, "תחומים"],
-            [t.steps, "שלבי תהליך"],
-            [t.tables, "טבלאות SAP"],
-            [t.tcodes, "טרנזקציות"],
-            [t.bapis, "BAPIs"],
-            [t.trouble, "תקלות מתועדות"],
-          ] as [number, string][]).map(([n, l]) => (
+            [t.domains, "תחומים", `PM ${nf.format(t.pm)} · PP-PI ${nf.format(t.pppi)}`],
+            [t.steps, "שלבי תהליך", ""],
+            [t.tables, "טבלאות SAP בתחומים", ""],
+            [t.tcodes, "טרנזקציות בתחומים", ""],
+            [t.bapis, "BAPIs בתחומים", ""],
+            [t.trouble, "תקלות מתועדות", ""],
+          ] as [number, string, string][]).map(([n, l, sub]) => (
             <span key={l} className="ndm-stat">
-              <b className="nx-sap">{nf.format(n)}</b>
+              <b className="nx-sap">{nf.format(n)}</b>{" "}
               <em>{l}</em>
+              {sub ? <small><bdi dir="ltr">{sub}</bdi></small> : null}
             </span>
           ))}
         </div>
-        {/* THE GAP, NAMED. 7 of 39 carry no deep record. Saying it here costs
-            nothing and stops the hub from over-promising. */}
-        {t.domains > t.deep ? (
-          <p className="ndm-gap">
-            <ShieldQuestion size={14} strokeWidth={1.75} aria-hidden="true" />
-            {" "}{t.domains - t.deep} תחומים כוללים רשומת בסיס בלבד, והם מסומנים כך בכרטיס ובעמוד.
-            לרשומה המלאה שלהם לא קיים תיעוד מאומת במאגר.
-          </p>
-        ) : null}
+
       </header>
 
-      <DomainHubList cards={cards} />
+      <DomainHubList cards={cards} lines={lines} tables={t.tables} />
 
       <p className="ndm-credit">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</p>
     </div>
@@ -171,7 +170,9 @@ export function DomainDetailView({ v }: { v: DomainView }) {
           <span className="ndm-sap" dir="ltr">{v.module}</span>
         </p>
         <h1 className="ndm-h1">{v.he}</h1>
-        <p className="ndm-h1-en" dir="ltr">{v.title}</p>
+        {/* An LTR block would align to the far side of an RTL page; the name is an
+            isolated run inside a block that keeps the page's direction. */}
+        <p className="ndm-h1-en"><bdi dir="ltr">{v.title}</bdi></p>
         <p className="ndm-lede">{v.summary}</p>
         <div className="ndm-hero-tags">
           <span className="ndm-tag ndm-tag--mod">{v.moduleHe}</span>

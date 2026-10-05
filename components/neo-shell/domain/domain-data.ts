@@ -94,6 +94,15 @@ export interface DomainCard {
   tables: number;
   tcodes: number;
   steps: number;
+  /** The SAP tables the domain runs through, by name, in the dataset's order. */
+  tableNames: string[];
+  /** T-Code names. Searched, not drawn: the card states only their count. */
+  tcodeNames: string[];
+  bapis: number;
+  /** Other domains that run through at least one of the same tables. */
+  ties: number;
+  /** This domain's tables that some other domain also runs through. */
+  sharedTables: string[];
   deep: boolean;
   /** true when the deep record carries any ECC↔S/4 line at all. */
   s4: boolean;
@@ -128,8 +137,12 @@ const s4Rows = (e?: EccS4): DomS4Row[] =>
 const detailOf = (slug: string): DomainDetail | undefined => DOMAIN_DETAIL[slug];
 
 export function domainCards(): DomainCard[] {
+  const users = new Map<string, Set<string>>();
+  for (const d of DOMAINS) for (const t of d.tables) users.set(t, (users.get(t) || new Set()).add(d.slug));
   return DOMAINS.map((d) => {
     const det = detailOf(d.slug);
+    const others = new Set(d.tables.flatMap((t) => [...(users.get(t) || [])]));
+    others.delete(d.slug);
     return {
       slug: d.slug,
       module: d.module as ModuleKey,
@@ -139,6 +152,11 @@ export function domainCards(): DomainCard[] {
       tables: d.tables.length,
       tcodes: d.tcodes.length,
       steps: d.flow.length,
+      tableNames: [...new Set(d.tables)],
+      tcodeNames: d.tcodes,
+      bapis: d.bapis.length,
+      ties: others.size,
+      sharedTables: [...new Set(d.tables)].filter((t) => (users.get(t)?.size || 0) > 1),
       deep: !!det,
       s4: s4Rows(det?.eccS4).length > 0,
     };
@@ -161,6 +179,25 @@ export function domainTotals() {
     learning: DOMAINS.reduce((a, d) => a + d.learning.length, 0),
     trouble: DOMAINS.reduce((a, d) => a + d.trouble.length, 0),
   };
+}
+
+/** A table more than one domain runs through: the threads between domains.
+ *  The only place the 39 records really differ from each other, so it is what
+ *  the hub draws. Order: most-shared first, then by name. */
+export interface TableLine { t: string; slugs: string[]; pm: number; pp: number }
+
+export function tableLines(): TableLine[] {
+  const by = new Map<string, Domain[]>();
+  for (const d of DOMAINS) for (const t of new Set(d.tables)) by.set(t, [...(by.get(t) || []), d]);
+  return [...by]
+    .filter(([, ds]) => ds.length > 1)
+    .map(([t, ds]) => ({
+      t,
+      slugs: ds.map((d) => d.slug),
+      pm: ds.filter((d) => d.module === "PM").length,
+      pp: ds.filter((d) => d.module === "PP-PI").length,
+    }))
+    .sort((a, b) => b.slugs.length - a.slugs.length || a.t.localeCompare(b.t));
 }
 
 export const domainSlugs = (): string[] => DOMAINS.map((d) => d.slug);

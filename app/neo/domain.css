@@ -34,6 +34,8 @@
   color: var(--ink-3);
 }
 .ndm-eye i { inline-size: 14px; block-size: 1px; background: currentColor; opacity: .5; flex: none; }
+.ndm-eye { letter-spacing: 0; }
+.ndm-eye [lang="en"] { letter-spacing: .09em; }
 .ndm-sap { unicode-bidi: isolate; color: var(--ink-2); }
 .ndm-back {
   color: var(--m); font: inherit; text-decoration: none;
@@ -58,17 +60,35 @@
 .ndm-lede b { color: var(--ink-1); }
 
 .ndm-stats {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
-  gap: 1.1rem;
-  margin-block-start: 1.4rem; padding-block-start: 1rem;
-  border-block-start: 1px solid var(--hairline);
+  display: grid; grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0;
+  margin-block-start: 1.4rem;
+  border-block: 1px solid var(--hairline);
 }
-.ndm-stat { display: grid; gap: 2px; }
+.ndm-stat { display: grid; align-content: start; gap: 3px; padding: .85rem 1rem; border-inline-start: 1px solid var(--hairline); }
+.ndm-stat:first-child { padding-inline-start: 0; border-inline-start: 0; }
+/* Fewer columns on a narrower canvas; the divider sits only between cells of
+   one row, and rows after the first take a rule above them. */
+@media (max-width: 1199px) {
+  .ndm-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ndm-stat:nth-child(3n + 1) { padding-inline-start: 0; border-inline-start: 0; }
+  .ndm-stat:nth-child(n + 4) { border-block-start: 1px solid var(--hairline); }
+}
+@media (max-width: 599px) {
+  .ndm-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ndm-stat:nth-child(3n + 1) { padding-inline-start: 1rem; border-inline-start: 1px solid var(--hairline); }
+  .ndm-stat:nth-child(odd) { padding-inline-start: 0; border-inline-start: 0; }
+  .ndm-stat:nth-child(n + 3) { border-block-start: 1px solid var(--hairline); }
+}
+/* An LTR number in an RTL cell: justify-self puts it on the reading edge, with
+   its label, instead of at the far side of the cell. */
 .ndm-stat b {
-  font-family: var(--font-mono); font-size: 1.45rem; direction: ltr;
+  justify-self: start;
+  font-family: var(--font-mono); font-size: 1.55rem; direction: ltr;
   font-variant-numeric: tabular-nums; color: var(--ink-1);
 }
-.ndm-stat em { font-size: .72rem; color: var(--ink-3); font-style: normal; }
+.ndm-stat em { font-size: .76rem; color: var(--ink-2); font-style: normal; }
+.ndm-stat small { font-size: .7rem; color: var(--ink-3); }
 
 /* THE COVERAGE STATEMENT. Not a warning box — a quiet line in the reading
    colour, because a stated gap is information, not an error. */
@@ -121,52 +141,189 @@
 
 .ndm-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17.5rem), 1fr));
   gap: .85rem;
 }
+/* The hub is a catalogue: it takes the canvas width the reading pages do not. */
+.ndm[data-surface="domains"] { max-inline-size: 96rem; }
 
+/* One domain: a heading link that covers the card, its English name and its
+   depth, what it is, the tables it runs through and how much it holds. */
 .ndm-card {
-  display: flex; flex-direction: column; gap: .3rem;
-  padding: 1.05rem 1.1rem 1rem;
+  position: relative;
+  display: flex; flex-direction: column; gap: .4rem;
+  padding: 1rem 1.05rem .95rem;
   border-radius: 1rem;
-  text-decoration: none; color: inherit;
+  color: inherit;
   background: var(--surface);
-  border: 1px solid var(--hairline);
-  border-inline-start: 3px solid var(--m);
+  border: 1px solid color-mix(in srgb, var(--m) 18%, var(--hairline));
   box-shadow: var(--elev-1);
-  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  transition: box-shadow .18s ease, border-color .18s ease;
 }
-.ndm-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--elev-3);
-  border-color: color-mix(in srgb, var(--m) 40%, var(--hairline));
+.ndm-card:hover { box-shadow: var(--elev-2); border-color: color-mix(in srgb, var(--m) 50%, var(--hairline)); }
+
+.ndm-card-top { display: flex; align-items: flex-start; gap: .5rem .75rem; }
+.ndm-card-h { margin: 0; flex: 1 1 auto; min-inline-size: 0; font-size: 1rem; font-weight: 700; line-height: 1.35; }
+.ndm-card-a { color: var(--ink-1); text-decoration: none; }
+.ndm-card-a:focus-visible { outline: none; }
+.ndm-card-a::after { content: ""; position: absolute; inset: 0; border-radius: 1rem; }
+.ndm-card-a:focus-visible::after { outline: 2px solid var(--m); outline-offset: 3px; }
+.ndm-card-en { margin: 0; font-size: .76rem; font-weight: 600; color: var(--ink-3); }
+/* DEPTH as a status: a small dot immediately followed by its word. */
+.ndm-mark {
+  display: inline-flex; align-items: center; gap: .35rem;
+  flex: none; margin-block-start: .2rem;
+  font-size: .72rem; font-weight: 650; color: var(--ink-2); white-space: nowrap;
 }
-.ndm-card:active { transform: translateY(0); }
-.ndm-card-top { display: flex; align-items: center; gap: .5rem; }
-.ndm-card-mod { font-size: .68rem; font-weight: 700; letter-spacing: .05em; color: var(--m); }
-.ndm-card-top .ndm-depth { margin-inline-start: auto; }
-.ndm-card-he { font-size: 1.02rem; font-weight: 700; line-height: 1.3; }
-.ndm-card-en { font-size: .76rem; font-weight: 600; color: var(--ink-3); unicode-bidi: isolate; }
+.ndm-mark::before {
+  content: ""; inline-size: .5rem; block-size: .5rem; border-radius: 50%;
+  background: var(--status-done);
+}
+.ndm-mark[data-deep="0"]::before { background: transparent; box-shadow: inset 0 0 0 1.5px var(--ink-3); }
 .ndm-card-sum {
-  margin-block-start: .3rem; font-size: .84rem; line-height: 1.6; color: var(--ink-2);
-  display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3;
+  margin: 0; font-size: .82rem; line-height: 1.6; color: var(--ink-2);
+  display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2;
   -webkit-box-orient: vertical; overflow: hidden;
 }
-.ndm-card-nums { display: flex; flex-wrap: wrap; gap: .55rem; margin-block-start: .6rem; }
-.ndm-card-nums em { font-style: normal; font-size: .72rem; color: var(--ink-3); }
-.ndm-card-nums em b {
-  font-family: var(--font-mono); color: var(--ink-1); direction: ltr;
-  font-variant-numeric: tabular-nums;
+/* The tables by name: the same identifiers the map above draws as lines. */
+.ndm-card-tabs { margin: .1rem 0 0; font-size: .74rem; line-height: 1.6; color: var(--ink-3); }
+.ndm-card-tabs .nx-sap { color: var(--ink-2); font-weight: 500; }
+/* A table this domain shares with another one: its threads on the map. */
+.ndm-card-tabs .nx-sap[data-shared="1"] { color: color-mix(in srgb, var(--m) 72%, var(--ink-1)); font-weight: 700; }
+.ndm-card-tabs [data-hit="1"] {
+  padding: 0 .25rem; border-radius: .3rem;
+  background: color-mix(in srgb, var(--m) 16%, transparent);
+  color: var(--ink-1);
 }
-.ndm-card-s4 {
-  font-size: .68rem !important; font-weight: 700;
-  color: var(--sec-transactions, #1d5fd0) !important;
-  padding: 0 .35rem; border-radius: 5px;
-  border: 1px solid color-mix(in srgb, var(--sec-transactions, #1d5fd0) 34%, transparent);
+.ndm-card-nums { margin: auto 0 0; padding-block-start: .3rem; font-size: .74rem; color: var(--ink-3); }
+.ndm-card-nums b { font-family: var(--font-mono); color: var(--ink-1); font-variant-numeric: tabular-nums; }
+.ndm-gloss { white-space: nowrap; }
+
+/* ---------------------------------------------------------- the table lines */
+.ndm-map {
+  --dot-pm: var(--mod-pm);
+  --dot-pp: var(--mod-pppi);
+  display: grid; gap: .9rem;
+  margin-block: 1.6rem .4rem;
+  padding: 1.2rem 1.25rem 1rem;
+  border-radius: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--elev-2);
 }
-.ndm-card-go {
+.ndm-map-head { display: grid; gap: .3rem; }
+.ndm-map-h { margin: 0; font-size: 1.15rem; font-weight: 750; letter-spacing: -.01em; }
+.ndm-map-s { margin: 0; max-inline-size: 78ch; font-size: .85rem; line-height: 1.65; color: var(--ink-2); }
+.ndm-map-body { display: grid; gap: 2px; }
+.ndm-map-row {
+  display: grid;
+  grid-template-columns: minmax(7.5rem, 9.5rem) minmax(0, 1fr);
+  align-items: center; gap: .9rem;
+  min-block-size: 1.9rem;
+  border-radius: .55rem;
+}
+.ndm-map-row[data-on="1"] { background: color-mix(in srgb, var(--ink-1) 5%, transparent); }
+.ndm-map-track {
+  display: grid;
+  grid-template-columns: repeat(var(--pm), minmax(0, 1fr)) 1rem repeat(var(--pp), minmax(0, 1fr));
+  align-items: center;
+  min-inline-size: 0;
+}
+.ndm-map-track > * { grid-row: 1; }
+.ndm-map-row--mods .ndm-map-track { align-items: end; }
+.ndm-map-mod {
+  --c: var(--dot-pm);
+  display: inline-flex; align-items: center; gap: .3rem;
+  padding-block-end: .3rem;
+  border-block-end: 2px solid color-mix(in srgb, var(--c) 55%, transparent);
+  font-size: .72rem; font-weight: 700; color: color-mix(in srgb, var(--c) 80%, var(--ink-1));
+}
+.ndm-map-mod[data-mod="PP-PI"] { --c: var(--dot-pp); }
+.ndm-map-mod svg { color: var(--c); }
+/* The key: PM is a circle, PP-PI a diamond, so the two never depend on hue alone. */
+.ndm-map-key { inline-size: .55rem; block-size: .55rem; border-radius: 50%; background: var(--dot-pm); flex: none; }
+.ndm-map-key[data-mod="PP-PI"] { border-radius: 1.5px; background: var(--dot-pp); rotate: 45deg; inline-size: .48rem; block-size: .48rem; }
+.ndm-map-t {
+  display: flex; align-items: baseline; gap: .45rem;
+  min-block-size: 1.9rem; padding: 0 .5rem;
+  border: 0; border-radius: .5rem; background: transparent;
+  font: inherit; color: var(--ink-1); text-align: start; cursor: pointer;
+}
+.ndm-map-t b { font-size: .82rem; font-weight: 700; }
+.ndm-map-t em { font-style: normal; font-size: .72rem; color: var(--ink-3); white-space: nowrap; }
+.ndm-map-t:hover { background: color-mix(in srgb, var(--ink-1) 6%, transparent); }
+.ndm-map-t:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+.ndm-map-t[aria-pressed="true"] { background: var(--ink-1); color: var(--surface); }
+.ndm-map-t[aria-pressed="true"] em { color: color-mix(in srgb, var(--surface) 80%, transparent); }
+.ndm-map-line {
+  justify-self: stretch; align-self: center;
+  block-size: 2px; margin-inline: .35rem;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--ink-3) 38%, transparent);
+}
+.ndm-map-row[data-on="1"] .ndm-map-line { block-size: 3px; background: var(--ink-2); }
+/* A dot never outgrows its column, so neighbouring domains stay two dots
+   on a narrow canvas instead of merging into one clump. */
+.ndm-map-dot {
+  justify-self: center; position: relative; z-index: 1;
+  inline-size: min(.6rem, calc(100% - 3px)); aspect-ratio: 1; block-size: auto;
+  border-radius: 50%;
+  background: var(--dot-pm);
+  box-shadow: 0 0 0 1.5px var(--surface);
+}
+.ndm-map-dot[data-mod="PP-PI"] {
+  inline-size: min(.5rem, calc(100% - 4px));
+  border-radius: 1.5px; rotate: 45deg;
+  background: var(--dot-pp);
+}
+.ndm-map-row[data-peek="1"]:not([data-on="1"]) { background: color-mix(in srgb, var(--ink-1) 3%, transparent); }
+.ndm-map-dot[data-peek="1"] { outline: 2px solid var(--ink-1); outline-offset: 1px; }
+.ndm-map-row[data-on="1"] .ndm-map-dot { inline-size: min(.8rem, calc(100% - 2px)); }
+.ndm-map-foot { display: flex; flex-wrap: wrap; align-items: baseline; gap: .4rem 1.2rem; }
+.ndm-map-cap { margin: 0; min-block-size: 1.3rem; font-size: .82rem; line-height: 1.6; color: var(--ink-2); }
+
+/* -------------------------------------------------------------- the toolbar */
+.ndm-seg {
+  display: inline-flex; align-items: stretch; flex-wrap: wrap;
+  padding: 3px; gap: 2px;
+  border-radius: .8rem;
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+}
+.ndm-seg > button {
   display: inline-flex; align-items: center; gap: .35rem;
-  margin-block-start: .7rem; font-size: .79rem; font-weight: 600; color: var(--m);
+  min-block-size: 2.25rem; padding: 0 .75rem;
+  border: 0; border-radius: .6rem; background: transparent;
+  font: inherit; font-size: .8rem; font-weight: 650; color: var(--ink-2);
+  cursor: pointer;
+}
+.ndm-seg > button em { font-style: normal; font-size: .72rem; color: var(--ink-3); }
+.ndm-seg > button svg { color: var(--m, var(--ink-3)); }
+.ndm-seg > button:hover { color: var(--ink-1); }
+.ndm-seg > button[aria-pressed="true"] { background: var(--surface); color: var(--ink-1); box-shadow: var(--elev-1); }
+.ndm-seg > button:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+.ndm-find input::-webkit-search-cancel-button { display: none; }
+
+.ndm-more { margin-block-start: .9rem; }
+.ndm-hero .nx-gate-note a { color: var(--ink-1); font-weight: 650; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: color-mix(in srgb, var(--ink-1) 35%, transparent); }
+.ndm-hero .nx-gate-note a:hover { text-decoration-color: currentColor; }
+.ndm-legend { display: grid; gap: .25rem; margin: .9rem 0 0; padding: 0; list-style: none; }
+.ndm-legend li { display: flex; align-items: baseline; gap: .45rem; font-size: .8rem; line-height: 1.6; color: var(--ink-3); }
+.ndm-legend li::before {
+  content: ""; flex: none; inline-size: .5rem; block-size: .5rem; border-radius: 50%;
+  background: var(--status-done); translate: 0 -.05em;
+}
+.ndm-legend li[data-deep="0"]::before { background: transparent; box-shadow: inset 0 0 0 1.5px var(--ink-3); }
+.ndm-legend li[data-key]::before { display: none; }
+.ndm-key-shared { font-size: .74rem; font-weight: 700; color: color-mix(in srgb, var(--mod-pm) 72%, var(--ink-1)); }
+.ndm-legend b { color: var(--ink-1); font-family: var(--font-mono); }
+
+@media (max-width: 560px) {
+  .ndm-map { padding: 1rem .8rem .9rem; }
+  .ndm-map-row { grid-template-columns: minmax(0, 1fr); gap: .1rem; padding-block: .2rem; }
+  .ndm-map-row--mods > span:first-child { display: none; }
+  .ndm-map-track { grid-template-columns: repeat(var(--pm), minmax(0, 1fr)) .5rem repeat(var(--pp), minmax(0, 1fr)); }
+  .ndm-map-line { margin-inline: .15rem; }
 }
 
 /* ---------------------------------------------------------------- sections */
@@ -212,7 +369,7 @@
   border-radius: .8rem;
   font-size: .9rem; line-height: 1.72; color: var(--ink-2);
   background: color-mix(in srgb, var(--m) 5%, var(--surface-2));
-  border-inline-start: 3px solid color-mix(in srgb, var(--m) 45%, transparent);
+  border: 1px solid color-mix(in srgb, var(--m) 22%, var(--hairline));
 }
 .ndm-silent { margin: 0; font-size: .88rem; line-height: 1.65; color: var(--ink-3); font-style: italic; }
 
@@ -239,8 +396,7 @@
   border-radius: .75rem;
   color: var(--ink-2);
   background: var(--surface-2);
-  border: 1px solid var(--hairline);
-  border-inline-start: 3px solid color-mix(in srgb, var(--m) 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--m) 30%, var(--hairline));
 }
 .ndm-step-n {
   inline-size: 1.55rem; block-size: 1.55rem; border-radius: .55rem;
@@ -296,7 +452,7 @@
   transition: transform .14s ease, border-color .14s ease, background .14s ease;
 }
 .ndm-chip[data-live="1"] {
-  border-inline-start: 2px solid var(--m);
+  border-color: color-mix(in srgb, var(--m) 40%, var(--hairline));
   color: var(--ink-1);
 }
 .ndm-chip[data-live="1"]:hover {
@@ -328,9 +484,13 @@
   border-radius: .7rem;
   background: var(--surface-2);
   border: 1px solid var(--hairline);
-  border-inline-start: 3px solid color-mix(in srgb, var(--status-in-analysis) 60%, transparent);
 }
-.ndm-trb li b { font-size: .86rem; color: var(--ink-1); }
+/* A known issue is a STATUS: a small dot immediately followed by its words. */
+.ndm-trb li b { display: flex; align-items: baseline; gap: .45rem; font-size: .86rem; color: var(--ink-1); }
+.ndm-trb li b::before {
+  content: ""; flex: none; inline-size: .5rem; block-size: .5rem; border-radius: 50%;
+  background: var(--status-in-analysis); translate: 0 -.05em;
+}
 .ndm-trb li span { font-size: .85rem; line-height: 1.6; color: var(--ink-2); }
 
 /* -------------------------------------------------------------------- s4 */
@@ -338,10 +498,18 @@
 .ndm-s4 { margin: 0; padding: 0; list-style: none; display: grid; gap: .5rem; }
 .ndm-s4 li {
   display: grid; gap: 2px;
-  padding-inline-start: .75rem;
-  border-inline-start: 3px solid var(--t, var(--ink-3));
+  padding-block: .1rem;
 }
-.ndm-s4 li b { font-size: .78rem; font-weight: 700; color: color-mix(in srgb, var(--t, var(--ink-2)) 62%, var(--ink-1)); }
+/* The verdict's tone as a STATUS dot immediately followed by its own word. */
+.ndm-s4 li b {
+  display: flex; align-items: baseline; gap: .45rem;
+  font-size: .78rem; font-weight: 700; color: color-mix(in srgb, var(--t, var(--ink-2)) 62%, var(--ink-1));
+}
+.ndm-s4 li b::before {
+  content: ""; flex: none; inline-size: .5rem; block-size: .5rem; border-radius: 50%;
+  background: var(--t, var(--ink-3)); translate: 0 -.05em;
+}
+.ndm-s4 li span { padding-inline-start: .95rem; }
 html[data-theme="dark"] .ndm-s4 li b { color: color-mix(in srgb, var(--t, var(--ink-2)) 65%, #fff); }
 .ndm-s4 li span { font-size: .88rem; line-height: 1.68; color: var(--ink-2); }
 
@@ -381,7 +549,9 @@ html[data-theme="dark"] .ndm-s4 li b { color: color-mix(in srgb, var(--t, var(--
 }
 .ndm-find:focus-within { border-color: var(--m, var(--brand)); color: var(--ink-1); }
 .ndm-find input { flex: 1 1 auto; min-inline-size: 0; border: 0; background: transparent; font: inherit; color: var(--ink-1); outline: none; }
-.ndm-modchips { display: flex; flex-wrap: wrap; gap: .4rem; }
-.ndm-modchips .nu-tab em { font-style: normal; margin-inline-start: .3rem; color: var(--ink-3); }
 .ndm-count { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .9rem; margin: .8rem 0 0; font-size: .86rem; color: var(--ink-3); }
 .ndm-none { padding: 1.2rem; display: grid; gap: .8rem; justify-items: start; margin-block-start: 1rem; }
+
+/* Dark: the two module tokens are both pale cyan at dot size, so the map takes
+   its own pair with a real hue gap (the shapes still carry the module too). */
+html[data-theme="dark"] .ndm-map { --dot-pm: #2dd4bf; --dot-pp: #60a5fa; }
