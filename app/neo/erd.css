@@ -572,7 +572,7 @@ html[data-theme="dark"] .ne {
 /* A moving dash on every edge is exactly what a vestibular user cannot have,
    and the graph loses nothing by being still. */
 @media (prefers-reduced-motion: reduce) {
-  .ne-edge-p { animation: none !important; }
+  :where(html:not([data-neo-motion="full"])) .ne-edge-p { animation: none !important; }
 }
 /* Above the presentation breakpoint the same rule as everywhere else applies:
    a 4K canvas repainting dozens of dashed strokes every frame costs more than
@@ -1631,14 +1631,14 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ne *,
-  .ne *::before,
-  .ne *::after {
+  :where(html:not([data-neo-motion="full"])) .ne *,
+  :where(html:not([data-neo-motion="full"])) .ne *::before,
+  :where(html:not([data-neo-motion="full"])) .ne *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
-  .ne-pulse { display: none; }
+  :where(html:not([data-neo-motion="full"])) .ne-pulse { display: none; }
 }
 
 /* ==========================================================================
@@ -1717,7 +1717,7 @@ html[data-theme="dark"] .ne {
 @media (hover: hover) and (pointer: fine) {
   .ne-node:hover .ne-node-hint { opacity: .85; }
 }
-@media (prefers-reduced-motion: reduce) { .ne-node-hint { transition: none; } }
+@media (prefers-reduced-motion: reduce) { :where(html:not([data-neo-motion="full"])) .ne-node-hint { transition: none; } }
 
 /* ------------------------------------------- comparing several modules
 

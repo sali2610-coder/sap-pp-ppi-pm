@@ -207,8 +207,12 @@ export function NeoDock() {
                 onClick={() => setMotionPreference("reduce")}>
                 תנועה מופחתת
               </button>
+              <button type="button" className="nu-filter" aria-pressed={motion === "full"}
+                onClick={() => setMotionPreference("full")}>
+                תנועה מלאה
+              </button>
             </div>
-            <p className="nxk-note">מפחית הנפשות ותנועה בגלילה, ומשאיר את התוכן והפעולות זמינים.</p>
+            <p className="nxk-note">תנועה מלאה מפעילה את אנימציות האתר גם כשהמכשיר מבקש להפחית תנועה. הבחירה נשמרת במכשיר הזה וחלה על הספרים, דף הבית והתרשימים. תנועה מופחתת משאירה את התוכן והפעולות זמינים ללא הנפשות.</p>
           </fieldset>
 
           <button type="button" className="nu-btn2 nxk-reset" onClick={() => {

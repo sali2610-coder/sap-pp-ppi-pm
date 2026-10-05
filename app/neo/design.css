@@ -220,7 +220,7 @@ html[data-theme="dark"] .nx-app [data-scene="books"] {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .nx-app .nxd .nxd-row { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxd .nxd-row { transition: none; }
 }
 
 /* Hierarchy and the original brand mark, from the existing offline SVG. */

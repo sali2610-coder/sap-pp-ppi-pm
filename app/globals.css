@@ -171,7 +171,7 @@ body {
 @keyframes studio-breathe { 0%,100% { opacity: .55; } 50% { opacity: .8; } }
 .studio-breathe { animation: studio-breathe 6s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) {
-  .studio-flow, .studio-halo, .studio-breathe { animation: none; }
+  :where(html:not([data-neo-motion="full"])) .studio-flow, :where(html:not([data-neo-motion="full"])) .studio-halo, :where(html:not([data-neo-motion="full"])) .studio-breathe { animation: none; }
 }
 
 /* Creator signature — one faint glow every 20s. No blink, no bounce. */
@@ -180,7 +180,7 @@ body {
   94% { box-shadow: 0 0 14px 1px rgba(255,255,255,0.35), inset 0 0 6px rgba(255,255,255,0.12); }
 }
 .credit-glow { animation: credit-glow 20s ease-in-out infinite; }
-@media (prefers-reduced-motion: reduce) { .credit-glow { animation: none; } }
+@media (prefers-reduced-motion: reduce) { :where(html:not([data-neo-motion="full"])) .credit-glow { animation: none; } }
 
 /* Creator credit — on-white RED glowing variant (lives under the header bar) */
 @keyframes credit-red-glow {
@@ -188,7 +188,7 @@ body {
   50% { text-shadow: 0 0 16px rgba(214,32,39,0.6), 0 0 3px rgba(214,32,39,0.5); box-shadow: 0 2px 18px -6px rgba(214,32,39,0.7); }
 }
 .credit-red-glow { animation: credit-red-glow 3s ease-in-out infinite; }
-@media (prefers-reduced-motion: reduce) { .credit-red-glow { animation: none; } }
+@media (prefers-reduced-motion: reduce) { :where(html:not([data-neo-motion="full"])) .credit-red-glow { animation: none; } }
 
 /* Monospace SQL / tech-field snippets keep LTR even inside RTL flow */
 .tech,
@@ -331,8 +331,8 @@ html[data-theme="dark"] .tint-ink { color: var(--tint-ink-dark); }
 html[data-theme="dark"] .card-premium { border-color: var(--hairline); }
 
 @media (prefers-reduced-motion: reduce) {
-  .card-premium, .lift, .tap, .surface { transition: none !important; }
-  .card-premium:hover, .lift:hover, .surface-hover { transform: none !important; }
+  :where(html:not([data-neo-motion="full"])) .card-premium, :where(html:not([data-neo-motion="full"])) .lift, :where(html:not([data-neo-motion="full"])) .tap, :where(html:not([data-neo-motion="full"])) .surface { transition: none !important; }
+  :where(html:not([data-neo-motion="full"])) .card-premium:hover, :where(html:not([data-neo-motion="full"])) .lift:hover, :where(html:not([data-neo-motion="full"])) .surface-hover { transform: none !important; }
 }
 
 /* Thin premium scrollbar */
@@ -461,7 +461,7 @@ h1, h2, h3 {
 
 /* Respect OS "reduce motion" — kill non-essential animation/transition */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  :where(html:not([data-neo-motion="full"])) *, :where(html:not([data-neo-motion="full"])) *::before, :where(html:not([data-neo-motion="full"])) *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
@@ -604,7 +604,7 @@ button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: t
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes drawerIn { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: translateX(0); } }
 @keyframes confettiFall { 0% { transform: translateY(-10vh) rotate(0); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { [style*="fadeUp"], [style*="fadeIn"], [style*="drawerIn"] { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { :where(html:not([data-neo-motion="full"])) [style*="fadeUp"], :where(html:not([data-neo-motion="full"])) [style*="fadeIn"], :where(html:not([data-neo-motion="full"])) [style*="drawerIn"] { animation: none !important; } }
 @keyframes shimmer { 100% { transform: translateX(100%); } }
 
 /* ===== JS-free entrance animations =====================================
@@ -638,7 +638,7 @@ button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: t
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .neo-rise, .neo-fade { animation: none; }
+  :where(html:not([data-neo-motion="full"])) .neo-rise, :where(html:not([data-neo-motion="full"])) .neo-fade { animation: none; }
 }
 
 /* ===== Presentation / PowerPoint-export print layout ===== */
@@ -668,7 +668,7 @@ button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: t
 /* D5-parity · staggered row entrance (CSS, GPU, reduced-motion safe) */
 @keyframes rowIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 .row-in { animation: rowIn 0.4s var(--ease-out-expo) both; }
-@media (prefers-reduced-motion: reduce) { .row-in { animation: none; } }
+@media (prefers-reduced-motion: reduce) { :where(html:not([data-neo-motion="full"])) .row-in { animation: none; } }
 
 /* D6 · Search "jump to match" — bright yellow pulse on the located element */
 @keyframes findFlash {
@@ -681,7 +681,7 @@ button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: t
   scroll-margin-top: 6rem;
 }
 @media (prefers-reduced-motion: reduce) {
-  .find-flash { animation: none; background-color: rgba(250, 204, 21, 0.55); box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.9); }
+  :where(html:not([data-neo-motion="full"])) .find-flash { animation: none; background-color: rgba(250, 204, 21, 0.55); box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.9); }
 }
 
 /* ===== D5 · Loading skeleton (shimmer) ===== */
@@ -854,7 +854,7 @@ button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: t
 .neo-reader :where(li):not([class]) { margin: 0.2em 0; line-height: 1.7; }
 
 @media (prefers-reduced-motion: reduce) {
-  .neo-reader { scroll-behavior: auto; }
+  :where(html:not([data-neo-motion="full"])) .neo-reader { scroll-behavior: auto; }
 }
 
 /* ============================================================= */
@@ -889,7 +889,7 @@ button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: t
 
 /* reader entrance — gently reveal the reading column on open (once, on mount) */
 .reader-enter { animation: fadeUpSoft var(--motion-page) var(--ease-emphasized) both; }
-@media (prefers-reduced-motion: reduce) { .reader-enter { animation: fadeIn 120ms both; } }
+@media (prefers-reduced-motion: reduce) { :where(html:not([data-neo-motion="full"])) .reader-enter { animation: fadeIn 120ms both; } }
 
 /* ---- Page View (paginated mode) — CSS multi-column, horizontal pages ---- */
 .neo-pageframe { block-size: calc(100dvh - 13rem); overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; scrollbar-width: thin; }
@@ -926,8 +926,8 @@ button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: t
 .neo-pagecols .reader-figure > button { max-block-size: calc(100dvh - 18rem); block-size: auto; }
 
 @media (prefers-reduced-motion: reduce) {
-  .neo-flash { animation: none; }
-  .neo-skel::after { animation: none; display: none; }
+  :where(html:not([data-neo-motion="full"])) .neo-flash { animation: none; }
+  :where(html:not([data-neo-motion="full"])) .neo-skel::after { animation: none; display: none; }
 }
 
 /* ============================================================= */
@@ -1034,7 +1034,7 @@ html[data-device="phone"]  [data-shell="mobile-only"] { display: block !importan
 @keyframes sheetUp { from { transform: translateY(12px); opacity: 0 } to { transform: translateY(0); opacity: 1 } }
 /* fadeIn is already defined above (line ~566); reused, not redefined. */
 @media (prefers-reduced-motion: reduce) {
-  [class*="animate-[sheetUp"], [class*="animate-[fadeIn"] { animation: none !important; }
+  :where(html:not([data-neo-motion="full"])) [class*="animate-[sheetUp"], :where(html:not([data-neo-motion="full"])) [class*="animate-[fadeIn"] { animation: none !important; }
 }
 
 /* AI workspace motion. All short (180-260ms) and all disabled under the global
@@ -1983,7 +1983,7 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
    same media query itself and returns without animating; these rules cover the
    declarative half. */
 @media (prefers-reduced-motion: reduce) {
-  .nx-app *, .nx-app *::before, .nx-app *::after {
+  :where(html:not([data-neo-motion="full"])) .nx-app *, :where(html:not([data-neo-motion="full"])) .nx-app *::before, :where(html:not([data-neo-motion="full"])) .nx-app *::after {
     animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }

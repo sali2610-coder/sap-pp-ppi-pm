@@ -1510,11 +1510,11 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
    remove the one thing a zero duration cannot: a bar that scales from nothing.
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
-  .nw-bar > i { transition: none; }
-  .nw-steparw, .nw-name .nu-arw { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nw-bar > i { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nw-steparw, :where(html:not([data-neo-motion="full"])) .nw-name .nu-arw { transition: none; }
   /* The ground still CHANGES between PM, PP-PI and the S/4HANA band — colour is
      information here, not movement — it simply stops drifting into place. */
-  .nw { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nw { transition: none; }
 }
 
 /* Forced colours: the ambient light and the section lighting are decoration and

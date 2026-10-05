@@ -596,6 +596,6 @@ html[data-theme="dark"] [data-scene="ai"] {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .nm-scene,
-  .nx-app[data-scene-now] { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nm-scene,
+  :where(html:not([data-neo-motion="full"])) .nx-app[data-scene-now] { transition: none; }
 }

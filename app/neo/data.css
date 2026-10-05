@@ -553,8 +553,8 @@ html[data-theme="dark"] .nx-app .nxd-mark { opacity: 1; }
 /* -------------------------------------------------------- 11. REDUCED MOTION */
 
 @media (prefers-reduced-motion: reduce) {
-  .nx-app .nxd-go { transition: none; opacity: 1; transform: none; }
-  .nx-app .nxd-field { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxd-go { transition: none; opacity: 1; transform: none; }
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxd-field { transition: none; }
 }
 
 /* ============================================================================
@@ -1613,7 +1613,7 @@ html[data-theme="dark"] .nx-app .nxb-mods > li { background: color-mix(in srgb, 
 /* ---------------------------------------------------- 13.11 REDUCED MOTION */
 
 @media (prefers-reduced-motion: reduce) {
-  .nx-app .nxb-txcard, .nx-app .nxb-sibcard, .nx-app .nxb-bookcard { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxb-txcard, :where(html:not([data-neo-motion="full"])) .nx-app .nxb-sibcard, :where(html:not([data-neo-motion="full"])) .nx-app .nxb-bookcard { transition: none; }
 }
 
 /* ---------------------------------------------------------------------------
@@ -1702,8 +1702,8 @@ html[data-theme="dark"] .nx-app .nxb-mods > li { background: color-mix(in srgb, 
 @media (prefers-reduced-motion: reduce) {
   /* A fade is a courtesy rather than travel, so the landing mark survives —
      but it is cut to the shortest length that still registers. */
-  .nx-app .nxd-item[data-back="1"]::after { animation-duration: 900ms; }
-  .nx-app .nxb-tbl tbody tr[data-k]:not([data-k="none"]) { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxd-item[data-back="1"]::after { animation-duration: 900ms; }
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxb-tbl tbody tr[data-k]:not([data-k="none"]) { transition: none; }
 }
 
 /* Catalog order after the design audit (§7, 2026-09-21): title → search and

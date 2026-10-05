@@ -875,9 +875,9 @@ html[data-device="tablet"] .nx-app:has(.nw-credit, .nxb-credit, .nb-credit, .no-
    their end state here rather than left mid-flight.
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
-  .nx-app .nxc-panel { animation: none; opacity: 1; transform: none; }
-  .nx-app .nxc-act,
-  .nx-app .nxc-go { opacity: 1; transform: none; }
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxc-panel { animation: none; opacity: 1; transform: none; }
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxc-act,
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxc-go { opacity: 1; transform: none; }
 }
 
 /* Empty shelf = one short line (design audit §3, 2026-09-21). The tabs and the

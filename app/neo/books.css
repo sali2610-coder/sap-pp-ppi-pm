@@ -170,7 +170,7 @@ html .nx-app .nx-canvas:has(> .nb) {
 .nb-more > summary:hover { color: var(--ink-1); }
 .nb-more > summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 .nb-more-b { display: grid; gap: var(--sp-2); padding-block: var(--sp-1) var(--sp-2); }
-@media (prefers-reduced-motion: reduce) { .nb-more > summary::before { transition: none; } }
+@media (prefers-reduced-motion: reduce) { :where(html:not([data-neo-motion="full"])) .nb-more > summary::before { transition: none; } }
 
 .nb-stats { display: flex; flex-wrap: wrap; gap: var(--sp-5) var(--sp-8); }
 .nb-stat { display: grid; gap: 2px; }
@@ -2069,7 +2069,7 @@ html[data-theme="dark"] .nb-cov-cast {
    The same rules serve the OS preference and NEO's own display setting.
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
-  .nb-cov {
+  :where(html:not([data-neo-motion="full"])) .nb-cov {
     --turn: 21deg !important;
     --pitch: 2deg !important;
     --out: 0px !important;
@@ -2078,24 +2078,24 @@ html[data-theme="dark"] .nb-cov-cast {
     --rx: 0deg !important;
     --ry: 0deg !important;
   }
-  .nb-cov-3d { transition: none; }
-  .nb-f-front { transform: translateZ(var(--d)) !important; transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nb-cov-3d { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nb-f-front { transform: translateZ(var(--d)) !important; transition: none; }
   /* The arrival is a REMOVAL, not a slowdown: the book is simply already there,
      with its jacket visible and closed. */
-  .nb-cov[data-size="entry"] .nb-cov-3d,
-  .nb-cov[data-size="entry"] .nb-f-front { animation: none !important; }
-  .nb-cov-cast, .nb-cov-board, .nb-cov-gloss, .nb-cov-t { transition: none; }
-  .nb-slab:hover .nb-cov-cast, .nb-slab:focus-visible .nb-cov-cast { transform: none; }
+  :where(html:not([data-neo-motion="full"])) .nb-cov[data-size="entry"] .nb-cov-3d,
+  :where(html:not([data-neo-motion="full"])) .nb-cov[data-size="entry"] .nb-f-front { animation: none !important; }
+  :where(html:not([data-neo-motion="full"])) .nb-cov-cast, :where(html:not([data-neo-motion="full"])) .nb-cov-board, :where(html:not([data-neo-motion="full"])) .nb-cov-gloss, :where(html:not([data-neo-motion="full"])) .nb-cov-t { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nb-slab:hover .nb-cov-cast, :where(html:not([data-neo-motion="full"])) .nb-slab:focus-visible .nb-cov-cast { transform: none; }
   /* Neighbours stop making room, because nothing is moving toward them. */
-  .nb-card, .nb-card:has(+ .nb-card:hover), .nb-card:hover + .nb-card { transform: none !important; translate: none !important; transition: none; }
-  .nb-scrim { animation: none; }
-  .nb-prog i { transition: none; }
-  .nb-ch-body { animation: none; }
-  .nb-ch-chev { transition: none; }
-  .nb-mark, .nb-mark-t { transition: none; }
-  .nb-mark:hover, .nb-mark:focus-visible { transform: none; }
-  .nb-dict:hover, .nb-dictbar-a:hover { transform: none; }
-  .nb-x:hover { transform: none; }
+  :where(html:not([data-neo-motion="full"])) .nb-card, :where(html:not([data-neo-motion="full"])) .nb-card:has(+ .nb-card:hover), :where(html:not([data-neo-motion="full"])) .nb-card:hover + .nb-card { transform: none !important; translate: none !important; transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nb-scrim { animation: none; }
+  :where(html:not([data-neo-motion="full"])) .nb-prog i { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nb-ch-body { animation: none; }
+  :where(html:not([data-neo-motion="full"])) .nb-ch-chev { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nb-mark, :where(html:not([data-neo-motion="full"])) .nb-mark-t { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nb-mark:hover, :where(html:not([data-neo-motion="full"])) .nb-mark:focus-visible { transform: none; }
+  :where(html:not([data-neo-motion="full"])) .nb-dict:hover, :where(html:not([data-neo-motion="full"])) .nb-dictbar-a:hover { transform: none; }
+  :where(html:not([data-neo-motion="full"])) .nb-x:hover { transform: none; }
 }
 
 .nx-app[data-motion-reduced="1"] .nb-cov {

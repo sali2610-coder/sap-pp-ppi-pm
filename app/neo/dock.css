@@ -196,8 +196,8 @@ html[data-theme="dark"] .nxk-scrim { background: color-mix(in srgb, var(--backgr
 /* --- motion off ----------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
-  .nxk, .nxk-b, .nxk-p, .nxk-scrim { transition: none; animation: none; }
-  .nxk-b:hover { transform: none; }
+  :where(html:not([data-neo-motion="full"])) .nxk, :where(html:not([data-neo-motion="full"])) .nxk-b, :where(html:not([data-neo-motion="full"])) .nxk-p, :where(html:not([data-neo-motion="full"])) .nxk-scrim { transition: none; animation: none; }
+  :where(html:not([data-neo-motion="full"])) .nxk-b:hover { transform: none; }
 }
 
 /* --- applying the choice -------------------------------------------------- */

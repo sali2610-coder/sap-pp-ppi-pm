@@ -68,7 +68,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .nx-app .nxr-a { transition: none; }
-  .nx-app .nxr-link:hover .nxr-a,
-  [dir="ltr"] .nx-app .nxr-link:hover .nxr-a { transform: none; }
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxr-a { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxr-link:hover .nxr-a,
+  :where(html:not([data-neo-motion="full"])) [dir="ltr"] .nx-app .nxr-link:hover .nxr-a { transform: none; }
 }

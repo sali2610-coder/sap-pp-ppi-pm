@@ -271,7 +271,7 @@ html[data-theme="dark"] .nx-app .nxr-st-i {
 /* ------------------------------------------------------ 5. REDUCED MOTION */
 
 @media (prefers-reduced-motion: reduce) {
-  .nx-app .nxr-codelink .nu-arw { transition: none; transform: none; }
+  :where(html:not([data-neo-motion="full"])) .nx-app .nxr-codelink .nu-arw { transition: none; transform: none; }
 }
 
 /* ==========================================================================

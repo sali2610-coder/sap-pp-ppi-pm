@@ -1206,14 +1206,14 @@ html[data-theme="dark"] .no-core-r {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .no *,
-  .no *::before,
-  .no *::after {
+  :where(html:not([data-neo-motion="full"])) .no *,
+  :where(html:not([data-neo-motion="full"])) .no *::before,
+  :where(html:not([data-neo-motion="full"])) .no *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
-  .no-edge-p { display: none; }
+  :where(html:not([data-neo-motion="full"])) .no-edge-p { display: none; }
 }
 
 /* ==========================================================================
@@ -1303,8 +1303,8 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
 /* Motion off: the graph is a measurement instrument first. The dashes stop and
    the strokes hold still; nothing about the composition depends on them. */
 @media (prefers-reduced-motion: reduce) {
-  .nol-flow { animation: none; }
-  .nol-n, .nol-e, .nol-n rect:first-of-type { transition: none; }
+  :where(html:not([data-neo-motion="full"])) .nol-flow { animation: none; }
+  :where(html:not([data-neo-motion="full"])) .nol-n, :where(html:not([data-neo-motion="full"])) .nol-e, :where(html:not([data-neo-motion="full"])) .nol-n rect:first-of-type { transition: none; }
 }
 
 /* ==========================================================================
@@ -1571,7 +1571,7 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
   transition: stroke 260ms var(--ease-out-expo);
 }
 @media (prefers-reduced-motion: reduce) {
-  .nol-halo { animation: none; opacity: .3; }
+  :where(html:not([data-neo-motion="full"])) .nol-halo { animation: none; opacity: .3; }
 }
 
 /* A live cardinality chip is filled, so its label must not also be tinted. */
