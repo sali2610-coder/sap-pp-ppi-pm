@@ -54,6 +54,8 @@ const PASS = 80;
 
 type Phase = "setup" | "run" | "done";
 type Answer = { picked: number; correct: boolean };
+/** Reading a finished exam again: every question, or only the wrong ones. */
+type Review = "" | "all" | "wrong";
 
 export function CertExam() {
   const [phase, setPhase] = useState<Phase>("setup");
@@ -64,36 +66,56 @@ export function CertExam() {
   const [qs, setQs] = useState<Question[]>([]);
   const [at, setAt] = useState(0);
   const [answers, setAnswers] = useState<Record<number, Answer>>({});
-  const [reviewWrongOnly, setReviewWrongOnly] = useState(false);
+  const [review, setReview] = useState<Review>("");
   const liveRef = useRef<HTMLParagraphElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const verdictRef = useRef<HTMLHeadingElement>(null);
+  const whyRef = useRef<HTMLDivElement>(null);
+  const recorded = useRef(false);
+  const scrollNav = useRef(false);
 
   const answered = Object.keys(answers).length;
   const correct = Object.values(answers).filter((a) => a.correct).length;
   const score = qs.length ? Math.round((correct / qs.length) * 100) : 0;
   const q = qs[at];
   const given = answers[at];
+  const wrong = useMemo(() => qs.map((_, i) => i).filter((i) => !answers[i]?.correct), [qs, answers]);
+  /* The questions the arrows and the two buttons walk through: all of them, or
+     only the wrong ones when that is the review the reader asked for. */
+  const seq = useMemo(() => (review === "wrong" ? wrong : qs.map((_, i) => i)), [review, wrong, qs]);
+  const pos = seq.indexOf(at);
+  const step = useCallback((dir: 1 | -1) => {
+    setAt((v) => {
+      const k = seq.indexOf(v) + dir;
+      return k >= 0 && k < seq.length ? seq[k] : v;
+    });
+  }, [seq]);
 
   const start = useCallback(() => {
     const bank = pickExam(mod, level, len);
     setQs(bank);
     setAnswers({});
     setAt(0);
+    setReview("");
+    recorded.current = false;
     setPhase(bank.length ? "run" : "setup");
   }, [mod, level, len]);
 
   /* Commit on selection. See the header note on why this locks. */
   const answer = useCallback((i: number) => {
-    setAnswers((prev) => {
-      if (prev[at]) return prev;                        // already locked
-      const ok = i === qs[at].answer;
-      return { ...prev, [at]: { picked: i, correct: ok } };
-    });
-  }, [at, qs]);
+    // locked once answered; and a review is read-only — the result is recorded
+    if (answers[at] || review) return;
+    scrollNav.current = true;
+    setAnswers((prev) => (prev[at] ? prev : { ...prev, [at]: { picked: i, correct: i === qs[at].answer } }));
+  }, [at, qs, answers, review]);
 
   const finish = useCallback(() => {
     setPhase("done");
-    /* The reader's own record. Written once, on finish, through the existing
-       store — this file does not invent a persistence layer. */
+    /* The reader's own record, written through the existing store — this file
+       does not invent a persistence layer. ONCE per exam: coming back to the
+       result from a review must not count a second attempt. */
+    if (recorded.current) return;
+    recorded.current = true;
     try { recordExam(mod, score, qs.length, correct); } catch { /* device storage off */ }
   }, [mod, score, qs.length, correct]);
 
@@ -121,20 +143,48 @@ export function CertExam() {
     return () => window.clearTimeout(id);
   }, []);
 
-  /* Keyboard: 1-9 answer, arrows move, Enter advances. A question surface that
+  /* Keyboard: 1-9 answer, arrows move, Enter advances — and on the last
+     question, once all are answered, Enter finishes. A question surface that
      needs a mouse is a question surface half the readers cannot use quickly. */
   useEffect(() => {
     if (phase !== "run") return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLElement && /input|textarea/i.test(e.target.tagName)) return;
+      const t = e.target instanceof HTMLElement ? e.target : null;
+      if (t && /input|textarea|select/i.test(t.tagName)) return;
       const n = Number(e.key);
       if (n >= 1 && n <= (q?.choices.length ?? 0)) { answer(n - 1); return; }
-      if (e.key === "ArrowLeft" || e.key === "Enter") { setAt((v) => Math.min(v + 1, qs.length - 1)); }
-      if (e.key === "ArrowRight") { setAt((v) => Math.max(v - 1, 0)); }
+      if (e.key === "Enter") {
+        // A focused button or link already acts on Enter; acting here as well
+        // moved two questions at a time after a single click on "next".
+        if (t?.closest("button, a")) return;
+        if (!review && pos === seq.length - 1 && answered === qs.length) { finish(); return; }
+        step(1);
+      }
+      if (e.key === "ArrowLeft") step(1);
+      if (e.key === "ArrowRight") step(-1);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [phase, q, qs.length, answer]);
+  }, [phase, q, qs.length, answer, step, review, pos, seq.length, answered, finish]);
+
+  /* A new phase starts at the top of the canvas — the result used to open where
+     the last question had been scrolled to (the trophy off screen on a phone) —
+     and the result takes focus at its own heading, so it is also announced. */
+  useEffect(() => {
+    document.querySelector(".nx-canvas")?.scrollTo({ top: 0 });
+    if (phase === "done") verdictRef.current?.focus({ preventScroll: true });
+  }, [phase]);
+
+  /* Right after an answer locks: the choices are disabled, so focus would fall
+     to the page; it moves to the explanation instead, which is read next, and
+     Enter then goes on. On a phone the explanation pushes the next control below
+     the fold and under the floating dock, so that is brought into view. */
+  useEffect(() => {
+    if (!scrollNav.current) return;
+    scrollNav.current = false;
+    whyRef.current?.focus({ preventScroll: true });
+    navRef.current?.scrollIntoView({ block: "nearest" });
+  }, [answers]);
 
   /* Screen readers get the verdict in words, not only as colour. */
   useEffect(() => {
@@ -146,7 +196,7 @@ export function CertExam() {
 
   if (phase === "setup") {
     return (
-      <div className="nce" data-phase="setup">
+      <div className="nce nm-scene" data-scene="cream" data-phase="setup">
         <header className="nce-hero">
           <p className="nce-eye"><Target size={13} strokeWidth={2} aria-hidden="true" />הערכת ידע</p>
           <h1 className="nce-h1">הגדרת המבחן</h1>
@@ -156,34 +206,36 @@ export function CertExam() {
           </p>
         </header>
 
-        <Picker label="מאגר" >
-          {MODULES.map((m) => (
-            <Opt key={m.id} on={mod === m.id} onClick={() => setMod(m.id)}>
-              <b>{m.id}</b><span>{m.he}</span>
-            </Opt>
-          ))}
-        </Picker>
+        <div className="nce-card">
+          <Picker label="מאגר">
+            {MODULES.map((m) => (
+              <Opt key={m.id} on={mod === m.id} onClick={() => setMod(m.id)}>
+                <b>{m.id}</b><span>{m.he}</span>
+              </Opt>
+            ))}
+          </Picker>
 
-        <Picker label="רמה">
-          {LEVELS.map((l) => (
-            <Opt key={l} on={level === l} onClick={() => setLevel(l)}>
-              <b>{l}</b><span>{LEVEL_HE[l]}</span>
-            </Opt>
-          ))}
-        </Picker>
+          <Picker label="רמה">
+            {LEVELS.map((l) => (
+              <Opt key={l} on={level === l} onClick={() => setLevel(l)}>
+                <b>{l}</b><span>{LEVEL_HE[l]}</span>
+              </Opt>
+            ))}
+          </Picker>
 
-        <Picker label="מספר שאלות">
-          {LENGTHS.map((n) => (
-            <Opt key={n} on={len === n} onClick={() => setLen(n)}><b>{n}</b><span>שאלות</span></Opt>
-          ))}
-        </Picker>
+          <Picker label="מספר שאלות">
+            {LENGTHS.map((n) => (
+              <Opt key={n} on={len === n} onClick={() => setLen(n)}><b>{n}</b><span>שאלות</span></Opt>
+            ))}
+          </Picker>
 
-        <div className="nce-go">
-          <button type="button" className="nu-btn nce-start" onClick={start}>
-            התחלת המבחן
-            <ArrowLeft size={15} strokeWidth={2} aria-hidden="true" />
-          </button>
-          <Link href="/neo/certification/" prefetch={false} className="nu-ghost">חזרה לתרגול ובדיקת ידע</Link>
+          <div className="nce-go">
+            <button type="button" className="nu-btn nce-start" onClick={start}>
+              התחלת המבחן
+              <ArrowLeft size={15} strokeWidth={2} aria-hidden="true" />
+            </button>
+            <Link href="/neo/certification/" prefetch={false} className="nu-ghost">חזרה לתרגול ובדיקת ידע</Link>
+          </div>
         </div>
       </div>
     );
@@ -200,10 +252,9 @@ export function CertExam() {
       byType.set(k, cur);
     });
     const pass = score >= PASS;
-    const wrong = qs.map((_, i) => i).filter((i) => !answers[i]?.correct);
 
     return (
-      <div className="nce" data-phase="done">
+      <div className="nce nm-scene" data-scene="cream" data-phase="done">
         <section className="nce-result" data-pass={pass ? "1" : "0"}>
           <span className="nce-trophy" aria-hidden="true">
             <Award size={38} strokeWidth={1.6} />
@@ -214,9 +265,9 @@ export function CertExam() {
             <b>{score}<i>%</i></b>
           </div>
           <p className="nce-score-a11y">ציון {score} אחוז, {correct} נכונות מתוך {qs.length}.</p>
-          <p className="nce-verdict">
+          <h1 className="nce-verdict" ref={verdictRef} tabIndex={-1}>
             {pass ? "הציון עובר את הרף הפנימי" : "הציון מתחת לרף הפנימי"}
-          </p>
+          </h1>
           <p className="nce-note">
             הרף הוא {PASS}%, כלל פנימי של הפרויקט ולא ציון עובר של SAP. התוצאה נשמרה במכשיר זה בלבד.
           </p>
@@ -232,8 +283,8 @@ export function CertExam() {
             {[...byType.entries()].map(([k, v]) => (
               <li key={k}>
                 <span className="nce-topic-n">{k}</span>
-                <span className="nce-bar" aria-hidden="true">
-                  <i style={{ width: `${Math.round((v.ok / v.n) * 100)}%` }} />
+                <span className="nce-meter" aria-hidden="true">
+                  <i style={{ "--p": v.ok / v.n } as React.CSSProperties} />
                 </span>
                 <span className="nce-topic-v">{v.ok}/{v.n}</span>
               </li>
@@ -242,11 +293,11 @@ export function CertExam() {
         </section>
 
         <div className="nce-go">
-          <button type="button" className="nu-btn" onClick={() => { setPhase("run"); setAt(0); setReviewWrongOnly(false); }}>
+          <button type="button" className="nu-btn" onClick={() => { setPhase("run"); setAt(0); setReview("all"); }}>
             סקירת השאלות
           </button>
           {wrong.length ? (
-            <button type="button" className="nu-btn2" onClick={() => { setPhase("run"); setAt(wrong[0]); setReviewWrongOnly(true); }}>
+            <button type="button" className="nu-btn2" onClick={() => { setPhase("run"); setAt(wrong[0]); setReview("wrong"); }}>
               סקירת {wrong.length} התשובות השגויות
             </button>
           ) : null}
@@ -263,15 +314,20 @@ export function CertExam() {
 
   const pct = Math.round((answered / qs.length) * 100);
   return (
-    <div className="nce" data-phase="run">
+    <div className="nce nm-scene" data-scene="cream" data-phase="run">
       <header className="nce-bar">
         <span className="nce-count">
-          <b>{at + 1}</b><i>/{qs.length}</i>
+          <span className="nce-sr" role="status">שאלה {at + 1} מתוך {qs.length}</span>
+          <b aria-hidden="true">{at + 1}</b><i aria-hidden="true">/{qs.length}</i>
         </span>
-        <span className="nce-prog" aria-hidden="true"><i style={{ width: `${pct}%` }} /></span>
+        <span className="nce-prog" aria-hidden="true"><i style={{ "--p": pct / 100 } as React.CSSProperties} /></span>
         <span className="nce-live">
-          <span className="nce-t nce-t--ok">{correct}</span>
-          <span className="nce-t nce-t--no">{answered - correct}</span>
+          <span className="nce-t nce-t--ok">
+            <Check size={12} strokeWidth={2.6} aria-hidden="true" />{correct}<span className="nce-sr"> נכונות</span>
+          </span>
+          <span className="nce-t nce-t--no">
+            <X size={12} strokeWidth={2.6} aria-hidden="true" />{answered - correct}<span className="nce-sr"> שגויות</span>
+          </span>
         </span>
       </header>
 
@@ -286,26 +342,35 @@ export function CertExam() {
           {q.context ? <p className="nce-ctx">{q.context}</p> : null}
           {q.code ? <pre className="nce-code" dir="ltr">{q.code}</pre> : null}
 
-          <ul className="nce-choices" role="listbox" aria-label="אפשרויות התשובה">
+          <ul className="nce-choices" aria-label="אפשרויות התשובה">
             {q.choices.map((c, i) => {
               const isPicked = given?.picked === i;
               const isAnswer = i === q.answer;
-              const state = !given ? "idle" : isAnswer ? "right" : isPicked ? "wrong" : "muted";
+              // A review shows the answer even for a question left unanswered
+              // at an early finish (it counted as wrong).
+              const shown = !!given || !!review;
+              const state = !shown ? "idle" : isAnswer ? "right" : isPicked ? "wrong" : "muted";
               return (
                 <li key={i}>
+                  {/* Plain buttons: a listbox needs arrow-key option focus this
+                      surface does not have (axe: required children/parent). The
+                      locked state is said in words as well as in colour. */}
                   <button
                     type="button"
-                    role="option"
-                    aria-selected={isPicked}
-                    disabled={!!given}
+                    disabled={shown}
                     className="nce-choice"
                     data-state={state}
                     onClick={() => answer(i)}
                   >
                     <span className="nce-key" aria-hidden="true">{i + 1}</span>
                     <span className="nce-choice-t">{c}</span>
-                    {given && isAnswer ? <Check size={16} strokeWidth={2.4} aria-hidden="true" /> : null}
-                    {given && isPicked && !isAnswer ? <X size={16} strokeWidth={2.4} aria-hidden="true" /> : null}
+                    {shown && (isPicked || isAnswer) ? (
+                      <span className="nce-sr">
+                        {isPicked ? " · התשובה שנבחרה" : ""}{isAnswer ? " · התשובה הנכונה" : ""}
+                      </span>
+                    ) : null}
+                    {shown && isAnswer ? <Check size={16} strokeWidth={2.4} aria-hidden="true" /> : null}
+                    {shown && isPicked && !isAnswer ? <X size={16} strokeWidth={2.4} aria-hidden="true" /> : null}
                   </button>
                 </li>
               );
@@ -314,9 +379,13 @@ export function CertExam() {
 
           <p ref={liveRef} className="nce-sr" role="status" aria-live="polite" />
 
-          {given ? (
-            <div className="nce-why" data-ok={given.correct ? "1" : "0"}>
-              <b>{given.correct ? "תשובה נכונה" : "תשובה שגויה · ההסבר לתשובה הנכונה"}</b>
+          {given || review ? (
+            <div className="nce-why" data-ok={given?.correct ? "1" : "0"} ref={whyRef} tabIndex={-1}>
+              <b>
+                {given?.correct ? "תשובה נכונה"
+                  : given ? "תשובה שגויה · ההסבר לתשובה הנכונה"
+                    : "השאלה לא נענתה · ההסבר לתשובה הנכונה"}
+              </b>
               <p>{q.why}</p>
               {/* Silence when the record has no note. Nothing is authored here. */}
               {q.wrongNote ? <p className="nce-why-2">{q.wrongNote}</p> : null}
@@ -330,24 +399,26 @@ export function CertExam() {
         </article>
       ) : null}
 
-      <nav className="nce-nav" aria-label="מעבר בין השאלות">
-        <button type="button" className="nu-ghost" disabled={at === 0}
-          onClick={() => setAt((v) => Math.max(0, v - 1))}>
+      <nav className="nce-nav" aria-label="מעבר בין השאלות" ref={navRef}>
+        <button type="button" className="nu-ghost" disabled={pos <= 0} onClick={() => step(-1)}>
           <ArrowRight size={15} strokeWidth={2} aria-hidden="true" />השאלה הקודמת
         </button>
-        {at < qs.length - 1 ? (
-          <button type="button" className="nu-btn2"
-            onClick={() => setAt((v) => Math.min(qs.length - 1, v + 1))}>
-            השאלה הבאה<ArrowLeft size={15} strokeWidth={2} aria-hidden="true" />
-          </button>
-        ) : (
-          <button type="button" className="nu-btn" onClick={finish}>
-            {answered === qs.length ? "סיום המבחן והצגת התוצאה" : `סיום המבחן (${answered}/${qs.length} נענו)`}
-          </button>
-        )}
-        {reviewWrongOnly ? (
-          <button type="button" className="nu-ghost" onClick={() => setPhase("done")}>חזרה לתוצאה</button>
-        ) : null}
+        {/* "Next" keeps its place at the end; in a review, the way back to the
+            result stands before it rather than taking that place. */}
+        <span className="nce-nav-end">
+          {review ? (
+            <button type="button" className="nu-ghost" onClick={() => setPhase("done")}>חזרה לתוצאה</button>
+          ) : null}
+          {pos < seq.length - 1 ? (
+            <button type="button" className="nu-btn2" onClick={() => step(1)}>
+              השאלה הבאה<ArrowLeft size={15} strokeWidth={2} aria-hidden="true" />
+            </button>
+          ) : review ? null : (
+            <button type="button" className="nu-btn" onClick={finish}>
+              {answered === qs.length ? "סיום המבחן והצגת התוצאה" : `סיום המבחן (${answered}/${qs.length} נענו)`}
+            </button>
+          )}
+        </span>
       </nav>
     </div>
   );

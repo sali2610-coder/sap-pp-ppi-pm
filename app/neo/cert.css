@@ -1,131 +1,228 @@
 /* ============================================================================
-   PROJECT NEO · ASSESSMENT RUNNER
+   PROJECT NEO · ASSESSMENT RUNNER — /neo/certification/exam/
    ----------------------------------------------------------------------------
-   Certification is an EXPERIENTIAL surface, so it carries more motion than
-   Tables or Transactions. It still obeys the product's rules: the accent is
-   CBC red, module colour is never a status dot, and every state that means
-   something is carried by fill and contrast rather than by a 1px ring.
+   The runner wears the catalogs' language (app/neo/data.css), so the step from
+   /neo/certification/ into a question does not change products:
 
-   Success green and error red here are STATE, not decoration — they only ever
-   appear on a locked answer, where the meaning is unambiguous.
+     · the cream scene, one reading column, cards on the scene's raised tone —
+       radius 1.1rem, one hairline, the first elevation, never a stripe;
+     · neutral ink for everything that is chrome: the progress meter, a picked
+       option, a key square, the results meters;
+     · brand red once: the one primary action of the screen (.nu-btn, ui.css).
+
+   Success green and error orange are STATE, not decoration. They appear only on
+   a locked answer and on the running tally, always beside a glyph or a word,
+   so no verdict is carried by colour alone.
+
+   A sticky element has to live in BLOCK flow: a sticky grid item is clamped to
+   its own grid area and would never travel. So .nce stays block, and the
+   rhythm is spent as margins.
    ========================================================================== */
 
 .nce {
-  --ok: #1a7f4f;
-  --no: #c2410c;
+  /* the tallies are 12.8px bold text on their own 12% tint: #1a7f4f / #c2410c
+     measured 4.22 / 4.30:1 there, these 4.65 / 4.65:1 */
+  --ok: #18774a;
+  --no: #b83e0b;
   --gold: #a97e17;
-  max-inline-size: 56rem;
+  /* inline-size as well as the max: as a grid item with auto margins the column
+     shrank to its content, so it changed width from one question to the next. */
+  inline-size: 100%;
+  max-inline-size: 54rem;
   margin-inline: auto;
-  padding: clamp(1.25rem, 3vw, 2.5rem) clamp(1rem, 3vw, 2rem) 6rem;
+  padding-block: clamp(.25rem, 1.5vw, 1rem) 6rem;
+  /* No owning module: the secondary controls draw in neutral ink (as .nxd does)
+     and only the primary action takes the brand. */
+  --m: var(--ink-3);
 }
+.nce .nu-btn { --m: var(--brand); }
 html[data-theme="dark"] .nce { --ok: #4ec98a; --no: #ff8a5c; --gold: #e0bd5c; }
 
-.nce-eye {
-  display: flex; align-items: center; gap: .45rem;
-  margin: 0 0 .5rem; font-size: .74rem; font-weight: 700;
-  letter-spacing: .09em; text-transform: uppercase; color: var(--ink-3);
+/* The card. One shape for every block of the runner. */
+.nce-card,
+.nce-q,
+.nce-result,
+.nce-topics {
+  padding: 1.1rem 1.25rem 1.3rem;
+  border-radius: 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--elev-1);
 }
-.nce-h1 { margin: 0; font-size: clamp(1.7rem, 4vw, 2.6rem); font-weight: 700; letter-spacing: -.025em; line-height: 1.1; }
-.nce-h2 { margin: 0 0 .7rem; font-size: 1rem; font-weight: 700; }
-.nce-lede { margin: .7rem 0 0; max-inline-size: 58ch; font-size: .95rem; line-height: 1.68; color: var(--ink-2); }
-.nce-hero { margin-bottom: 1.8rem; }
 
-/* --------------------------------------------------------------- setup */
+/* --------------------------------------------------------------- hero */
 
-.nce-pick { margin-bottom: 1.15rem; }
-.nce-pick-h { margin: 0 0 .5rem; font-size: .78rem; font-weight: 700; color: var(--ink-3); letter-spacing: .04em; }
+.nce-hero { display: grid; gap: .55rem; margin-block-end: 1.4rem; }
+.nce-eye {
+  display: flex; align-items: center; gap: .5rem;
+  margin: 0; font-size: .78rem; font-weight: 700; color: var(--ink-2);
+}
+.nce-eye > svg { flex: none; }
+.nce-h1 {
+  margin: 0;
+  font-size: clamp(1.75rem, 1.1rem + 1.6vw, 2.4rem);
+  font-weight: 720; line-height: 1.12; letter-spacing: -.022em; text-wrap: balance;
+}
+.nce-h2 { margin: 0 0 .8rem; font-size: 1.05rem; font-weight: 720; line-height: 1.35; }
+.nce-lede { margin: 0; max-inline-size: 74ch; font-size: .98rem; line-height: 1.72; color: var(--ink-2); }
+
+/* -------------------------------------------------------------- setup */
+
+.nce-pick + .nce-pick {
+  margin-block-start: 1.1rem; padding-block-start: 1.1rem;
+  border-block-start: 1px solid var(--hairline);
+}
+.nce-pick-h { margin: 0 0 .6rem; font-size: .8rem; font-weight: 700; color: var(--ink-2); }
+.nce-pick-hint { font-weight: 400; color: var(--ink-3); }
 .nce-pick-row { display: flex; flex-wrap: wrap; gap: .5rem; }
 
+/* A choice of bank, level or length. Picked is the catalogs' pressed state:
+   the raised tone, an ink ring, the first elevation and a short ink bar — no
+   fill colour of its own, so red stays the start button's. Nothing moves. */
 .nce-opt {
-  display: inline-flex; align-items: baseline; gap: .45rem;
-  min-block-size: 46px; padding: .5rem .9rem;
-  border-radius: .8rem; cursor: pointer;
+  display: inline-flex; align-items: center; gap: .5rem;
+  min-block-size: 2.75rem; padding: .5rem .95rem;
+  border-radius: .75rem; cursor: pointer;
   font: inherit; color: var(--ink-2);
-  background: var(--surface); border: 1px solid var(--hairline);
-  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, color .16s ease;
+  background: var(--surface-2); border: 1px solid var(--hairline);
+  transition: background-color .14s linear, border-color .14s linear, box-shadow .14s linear;
 }
-.nce-opt b { font-size: .98rem; font-weight: 700; color: var(--ink-1); }
-.nce-opt span { font-size: .8rem; color: var(--ink-1); }
-.nce-opt:hover { transform: translateY(-1px); box-shadow: var(--elev-2); }
-/* Selected is a FILL, per the product's selection language. */
+.nce-opt b { font-size: .98rem; font-weight: 760; color: var(--ink-1); unicode-bidi: isolate; }
+.nce-opt span { font-size: .8rem; color: var(--ink-2); }
+.nce-opt:hover { border-color: color-mix(in srgb, var(--ink-1) 35%, var(--hairline)); }
+.nce-opt:hover span { color: var(--ink-1); }
 .nce-opt[data-on="1"] {
-  color: #fff; border-color: transparent;
-  /* A shade under brand red: white at 12.8px on #d62027 measured 3.6:1; on
-     #b21a20 it is 5.9:1. A plain hex, so contrast tools read it too. */
-  background: #b21a20;
-  box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--brand) 70%, transparent);
+  background: var(--surface);
+  border-color: color-mix(in srgb, var(--ink-1) 62%, var(--hairline));
+  box-shadow: var(--elev-1), inset 0 0 0 1px color-mix(in srgb, var(--ink-1) 62%, var(--hairline));
 }
-.nce-opt[data-on="1"] b, .nce-opt[data-on="1"] span { color: #fff; }
+.nce-opt[data-on="1"]::before {
+  content: ""; inline-size: 2px; block-size: .9em; border-radius: 1px;
+  background: var(--ink-1); flex: none;
+}
+.nce-opt[data-on="1"] span { color: var(--ink-1); font-weight: 650; }
+.nce-opt:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; }
 
-.nce-go { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin-top: 1.6rem; }
+.nce-go { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin-block-start: 1.25rem; }
+.nce-card .nce-go { padding-block-start: 1.1rem; border-block-start: 1px solid var(--hairline); }
 .nce-start { font-size: .95rem; }
 
-/* ----------------------------------------------------------------- run */
+/* ---------------------------------------------------------------- run */
 
+/* The exam bar: where am I, how far, how well. It floats over the question as
+   its own small card, so it needs no gradient to stay legible. */
 .nce-bar {
-  position: sticky; inset-block-start: 0; z-index: 4;
-  display: flex; align-items: center; gap: .8rem;
-  padding-block: .7rem; margin-bottom: 1.1rem;
-  background: linear-gradient(to bottom, var(--background) 72%, transparent);
+  position: sticky; inset-block-start: .5rem; z-index: 4;
+  display: flex; align-items: center; gap: .9rem;
+  margin-block-end: 1rem;
+  padding: .55rem .6rem .55rem 1rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--elev-2);
 }
-.nce-count b { font-size: 1.15rem; font-weight: 700; }
-.nce-count i { font-style: normal; color: var(--ink-3); font-size: .85rem; }
-.nce-prog {
+.nce-count {
+  display: inline-flex; align-items: baseline; gap: 1px; flex: none;
+  direction: ltr; unicode-bidi: isolate;
+  font-family: var(--font-mono); font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.nce-count b { font-size: 1.1rem; font-weight: 760; color: var(--ink-1); }
+.nce-count i { font-style: normal; font-size: .84rem; color: var(--ink-3); }
+
+/* A neutral ink meter: length is the value, never a hue (data.css §2). Scaled,
+   not resized, so the fill moves on the compositor. RTL: it grows from the
+   inline start, which is the right edge. */
+.nce-prog,
+.nce-meter {
   flex: 1 1 auto; block-size: 6px; border-radius: 999px;
-  background: var(--surface-2); overflow: hidden;
+  background: color-mix(in srgb, var(--ink-1) 9%, var(--surface-2)); overflow: hidden;
 }
-.nce-prog i { display: block; block-size: 100%; background: var(--brand); transition: width .45s cubic-bezier(.16,1,.3,1); }
-.nce-live { display: flex; gap: .35rem; }
-.nce-t { display: inline-flex; align-items: center; gap: .25rem; font-size: .78rem; font-weight: 700; padding: .12rem .45rem; border-radius: 6px; }
+.nce-prog i,
+.nce-meter i {
+  display: block; block-size: 100%; border-radius: inherit;
+  background: var(--ink-1);
+  transform-origin: 100% 50%;
+  transform: scaleX(var(--p, 0));
+  transition: transform .45s cubic-bezier(.16, 1, .3, 1);
+}
+[dir="ltr"] :is(.nce-prog, .nce-meter) i { transform-origin: 0 50%; }
+
+.nce-live { display: flex; gap: .35rem; flex: none; }
+.nce-t {
+  display: inline-flex; align-items: center; justify-content: center; gap: .3rem;
+  min-inline-size: 2.6rem; padding: .22rem .6rem; border-radius: 999px;
+  font-size: .8rem; font-weight: 700; font-variant-numeric: tabular-nums;
+}
+.nce-t > svg { flex: none; }
 .nce-t--ok { color: var(--ok); background: color-mix(in srgb, var(--ok) 12%, transparent); }
 .nce-t--no { color: var(--no); background: color-mix(in srgb, var(--no) 12%, transparent); }
 
-.nce-q-meta { display: flex; flex-wrap: wrap; gap: .35rem; margin: 0 0 .8rem; }
+/* The question. */
+.nce-q-meta { display: flex; flex-wrap: wrap; gap: .35rem; margin: 0 0 .95rem; }
 .nce-chip {
-  font-size: .7rem; font-weight: 700; padding: .16rem .5rem; border-radius: 6px;
+  display: inline-flex; align-items: center;
+  padding: .08rem .6rem; border-radius: 999px;
+  font-size: .72rem; font-weight: 650; line-height: 1.6;
   color: var(--ink-2); background: var(--surface-2); border: 1px solid var(--hairline);
   unicode-bidi: isolate;
 }
-.nce-chip--lvl { color: var(--brand); border-color: color-mix(in srgb, var(--brand) 32%, transparent); }
+.nce-chip--lvl { color: var(--ink-1); border-color: color-mix(in srgb, var(--ink-1) 32%, var(--hairline)); }
 
-.nce-stem { margin: 0 0 .7rem; font-size: clamp(1.1rem, 2.4vw, 1.5rem); font-weight: 700; line-height: 1.4; letter-spacing: -.01em; }
-.nce-ctx { margin: 0 0 .8rem; font-size: .89rem; line-height: 1.62; color: var(--ink-2); }
+.nce-stem {
+  margin: 0 0 .65rem;
+  font-size: clamp(1.2rem, 1rem + .9vw, 1.6rem);
+  font-weight: 720; line-height: 1.42; letter-spacing: -.01em; text-wrap: pretty;
+}
+.nce-ctx { margin: 0 0 1rem; max-inline-size: 72ch; font-size: .93rem; line-height: 1.66; color: var(--ink-2); }
 .nce-code {
-  margin: 0 0 1rem; padding: .8rem .9rem; border-radius: .7rem; overflow-x: auto;
+  margin: 0 0 1rem; padding: .85rem 1rem; border-radius: .75rem; overflow-x: auto;
   font-size: .8rem; line-height: 1.55;
   background: var(--surface-2); border: 1px solid var(--hairline); color: var(--ink-1);
 }
 
-.nce-choices { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+.nce-choices { list-style: none; margin: 1.1rem 0 0; padding: 0; display: grid; gap: .55rem; }
 .nce-choice {
-  inline-size: 100%; display: flex; align-items: center; gap: .7rem;
-  min-block-size: 52px; padding: .7rem .9rem;
-  border-radius: .85rem; text-align: start; cursor: pointer;
-  font: inherit; font-size: .93rem; color: var(--ink-1);
+  inline-size: 100%; display: flex; align-items: center; gap: .8rem;
+  min-block-size: 3.35rem; padding: .65rem .9rem;
+  border-radius: .9rem; text-align: start; cursor: pointer;
+  font: inherit; font-size: .95rem; line-height: 1.5; color: var(--ink-1);
   background: var(--surface); border: 1px solid var(--hairline);
-  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background .2s ease;
+  transition: border-color .14s linear, background-color .2s linear;
 }
-.nce-choice:hover:not(:disabled) { transform: translateY(-1px); box-shadow: var(--elev-2); border-color: color-mix(in srgb, var(--brand) 34%, var(--hairline)); }
+.nce-choice:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--ink-1) 40%, var(--hairline));
+  background: color-mix(in srgb, var(--ink-1) 3%, var(--surface));
+}
 .nce-choice:disabled { cursor: default; }
-.nce-choice:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.nce-choice:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; }
 .nce-key {
-  flex: none; inline-size: 1.6rem; block-size: 1.6rem; border-radius: .5rem;
-  display: grid; place-items: center; font-size: .72rem; font-weight: 700;
-  color: var(--ink-3); background: var(--surface-2);
+  flex: none; inline-size: 2rem; block-size: 2rem; border-radius: .6rem;
+  display: grid; place-items: center;
+  font-family: var(--font-mono); font-size: .8rem; font-weight: 760;
+  color: var(--ink-2); background: var(--surface-2); border: 1px solid var(--hairline);
 }
-.nce-choice-t { flex: 1 1 auto; }
+.nce-choice:hover:not(:disabled) .nce-key { color: var(--ink-1); border-color: color-mix(in srgb, var(--ink-1) 35%, var(--hairline)); }
+.nce-choice-t { flex: 1 1 auto; min-inline-size: 0; overflow-wrap: anywhere; }
+.nce-choice > svg { flex: none; }
 
-/* Locked states. Fill carries the verdict; the icon repeats it for anyone who
-   does not read colour. */
+/* Locked states. The tint and the key carry the verdict; the glyph repeats it
+   for anyone who does not read colour, and the live region says it in words. */
 .nce-choice[data-state="right"] {
-  color: var(--ok); border-color: color-mix(in srgb, var(--ok) 46%, transparent);
-  background: color-mix(in srgb, var(--ok) 10%, var(--surface));
+  font-weight: 650;
+  border-color: color-mix(in srgb, var(--ok) 50%, transparent);
+  background: color-mix(in srgb, var(--ok) 9%, var(--surface));
 }
-.nce-choice[data-state="right"] .nce-key { color: var(--ok); background: color-mix(in srgb, var(--ok) 18%, transparent); }
 .nce-choice[data-state="wrong"] {
-  color: var(--no); border-color: color-mix(in srgb, var(--no) 46%, transparent);
-  background: color-mix(in srgb, var(--no) 9%, var(--surface));
+  border-color: color-mix(in srgb, var(--no) 50%, transparent);
+  background: color-mix(in srgb, var(--no) 8%, var(--surface));
 }
+/* the scene's raised tone on the verdict colour: light on the light theme's
+   deep green/orange, dark on the dark theme's lifted ones */
+.nce-choice[data-state="right"] .nce-key { color: var(--surface); background: var(--ok); border-color: transparent; }
+.nce-choice[data-state="wrong"] .nce-key { color: var(--surface); background: var(--no); border-color: transparent; }
+.nce-choice[data-state="right"] > svg { color: var(--ok); }
+.nce-choice[data-state="wrong"] > svg { color: var(--no); }
 .nce-choice[data-state="muted"] { opacity: .55; }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -140,50 +237,64 @@ html[data-theme="dark"] .nce { --ok: #4ec98a; --no: #ff8a5c; --gold: #e0bd5c; }
 @keyframes nce-pop { 0% { transform: scale(1); } 45% { transform: scale(1.018); } 100% { transform: scale(1); } }
 @keyframes nce-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
+/* The explanation. Its verdict is a status — a dot and a word — not a stripe. */
+/* focused by the runner when an answer locks, so the explanation is read next;
+   it is not a control, so it draws no ring */
+.nce-why:focus { outline: none; }
 .nce-why {
-  margin-top: .9rem; padding: .85rem 1rem; border-radius: .85rem;
+  margin-block-start: 1rem; padding: .9rem 1.05rem; border-radius: .9rem;
   background: var(--surface-2); border: 1px solid var(--hairline);
-  border-inline-start: 3px solid var(--ok);
-  font-size: .89rem; line-height: 1.66; color: var(--ink-2);
+  font-size: .9rem; line-height: 1.68; color: var(--ink-2);
 }
-.nce-why[data-ok="0"] { border-inline-start-color: var(--no); }
-.nce-why b { display: block; margin-bottom: .3rem; color: var(--ink-1); font-size: .82rem; }
+.nce-why b {
+  display: flex; align-items: center; gap: .45rem;
+  margin-block-end: .3rem; color: var(--ink-1); font-size: .84rem;
+}
+.nce-why b::before {
+  content: ""; inline-size: 8px; block-size: 8px; border-radius: 50%; flex: none;
+  background: var(--ok);
+}
+.nce-why[data-ok="0"] b::before { background: var(--no); }
 .nce-why p { margin: 0; }
-.nce-why-2 { margin-top: .45rem !important; color: var(--ink-3); }
-.nce-rel { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .6rem !important; }
+.nce-why-2 { margin-block-start: .45rem !important; color: var(--ink-3); }
+.nce-rel { display: flex; flex-wrap: wrap; gap: .3rem; margin-block-start: .6rem !important; }
 
-.nce-nav { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-top: 1.5rem; }
+.nce-nav {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem;
+  margin-block-start: 1.25rem;
+  /* room above the floating dock when the runner scrolls it into view */
+  scroll-margin-block-end: 5.5rem;
+}
+.nce-nav-end { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-inline-start: auto; }
 
 /* Visually hidden, still announced. */
 .nce-sr { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 /* -------------------------------------------------------------- result */
 
-.nce-result {
-  text-align: center; padding: 2rem 1.25rem 1.6rem; border-radius: 1.3rem;
-  background:
-    radial-gradient(80% 70% at 50% 0%, color-mix(in srgb, var(--gold) 14%, transparent), transparent 70%),
-    var(--surface);
-  border: 1px solid var(--hairline);
-  box-shadow: var(--elev-3);
-}
+.nce-result { text-align: center; padding-block: 2rem 1.6rem; }
 .nce-result[data-pass="0"] { --gold: var(--ink-3); }
-.nce-trophy { display: inline-grid; place-items: center; inline-size: 68px; block-size: 68px; border-radius: 50%;
+/* rem, not px: the number inside grows with the root size (17.5→21.5px on a
+   wall display), so the ring has to grow with it — at 3840 a fixed 148px ring
+   held a 121px-wide "100%" in a 126px hole. */
+.nce-trophy {
+  display: inline-grid; place-items: center; inline-size: 4.25rem; block-size: 4.25rem; border-radius: 50%;
   color: var(--gold); background: color-mix(in srgb, var(--gold) 14%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 34%, transparent); }
-.nce-result .nce-eye { justify-content: center; margin-top: .8rem; }
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 34%, transparent);
+}
+.nce-result .nce-eye { justify-content: center; margin-block-start: .8rem; }
 
 /* Score ring. conic-gradient so no SVG and no layout work per frame. */
 .nce-ring {
-  inline-size: 148px; block-size: 148px; margin: .4rem auto .2rem;
+  inline-size: 9.25rem; block-size: 9.25rem; margin: .4rem auto .2rem;
   border-radius: 50%; display: grid; place-items: center;
   background: conic-gradient(var(--gold) calc(var(--p) * 1%), var(--surface-2) 0);
   position: relative;
 }
 .nce-ring::after {
-  content: ""; position: absolute; inset: 11px; border-radius: 50%; background: var(--surface);
+  content: ""; position: absolute; inset: .7rem; border-radius: 50%; background: var(--surface);
 }
-.nce-ring b { position: relative; z-index: 1; font-size: 2.5rem; font-weight: 700; letter-spacing: -.03em; }
+.nce-ring b { position: relative; z-index: 1; font-size: 2.5rem; font-weight: 720; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
 .nce-ring i { font-style: normal; font-size: 1.1rem; color: var(--ink-3); }
 @media (prefers-reduced-motion: no-preference) {
   .nce-ring { animation: nce-ring .9s cubic-bezier(.16,1,.3,1); }
@@ -197,24 +308,37 @@ html[data-theme="dark"] .nce { --ok: #4ec98a; --no: #ff8a5c; --gold: #e0bd5c; }
 @keyframes nce-tro { from { transform: scale(.7) rotate(-8deg); opacity: 0; } }
 
 .nce-score-a11y { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); }
-.nce-verdict { margin: .3rem 0 0; font-size: 1.05rem; font-weight: 700; }
-.nce-note { margin: .45rem auto 0; max-inline-size: 44ch; font-size: .78rem; color: var(--ink-3); line-height: 1.55; }
-.nce-tally { display: flex; justify-content: center; gap: .5rem; margin-top: .9rem; }
+.nce-verdict { margin: .3rem 0 0; font-size: 1.1rem; font-weight: 720; }
+.nce-verdict:focus { outline: none; }   /* focused by the runner to announce the result, not by the reader */
+.nce-trophy > svg { inline-size: 56%; block-size: 56%; }
+.nce-note { margin: .45rem auto 0; max-inline-size: 46ch; font-size: .8rem; color: var(--ink-3); line-height: 1.6; }
+.nce-tally { display: flex; justify-content: center; gap: .5rem; margin-block-start: 1rem; }
 
-.nce-topics { margin-top: 1.4rem; }
-.nce-topics ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .45rem; }
-.nce-topics li { display: flex; align-items: center; gap: .6rem; font-size: .85rem; }
-.nce-topic-n { inline-size: 8.5rem; flex: none; color: var(--ink-2); }
-.nce-bar { flex: 1 1 auto; block-size: 7px; border-radius: 999px; background: var(--surface-2); overflow: hidden; }
-.nce-bar i { display: block; block-size: 100%; background: var(--ok); transition: width .5s cubic-bezier(.16,1,.3,1); }
-.nce-topic-v { flex: none; font-variant-numeric: tabular-nums; color: var(--ink-3); }
+.nce-topics { margin-block-start: 1rem; }
+.nce-topics ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+.nce-topics li {
+  display: grid; grid-template-columns: minmax(6.5rem, 11rem) minmax(0, 1fr) auto;
+  align-items: center; gap: .85rem; font-size: .86rem;
+}
+.nce-topic-n { color: var(--ink-2); line-height: 1.4; }
+.nce-meter { block-size: 7px; }
+.nce-topic-v { font-family: var(--font-mono); font-variant-numeric: tabular-nums; color: var(--ink-3); direction: ltr; unicode-bidi: isolate; }
 
 /* -------------------------------------------------------------- mobile */
 
 @media (max-width: 640px) {
-  .nce { padding-inline: .9rem; }
-  .nce-topic-n { inline-size: 6rem; font-size: .78rem; }
-  .nce-nav > * { flex: 1 1 auto; justify-content: center; }
-  .nce-ring { inline-size: 124px; block-size: 124px; }
+  .nce-card, .nce-q, .nce-topics { padding: 1rem .95rem 1.1rem; }
+  .nce-bar { gap: .6rem; padding-inline: .8rem .45rem; }
+  .nce-t { min-inline-size: 2.3rem; padding-inline: .45rem; }
+  .nce-topics li { grid-template-columns: minmax(5.5rem, 7.5rem) minmax(0, 1fr) auto; gap: .6rem; font-size: .8rem; }
+  .nce-nav > *, .nce-nav-end > * { flex: 1 1 auto; justify-content: center; }
+  .nce-ring { inline-size: 7.75rem; block-size: 7.75rem; }
   .nce-ring b { font-size: 2.1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :where(html:not([data-neo-motion="full"])) .nce-prog i,
+  :where(html:not([data-neo-motion="full"])) .nce-meter i,
+  :where(html:not([data-neo-motion="full"])) .nce-opt,
+  :where(html:not([data-neo-motion="full"])) .nce-choice { transition: none; }
 }
