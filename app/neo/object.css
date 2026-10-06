@@ -1576,3 +1576,7 @@ html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4p
 
 /* A live cardinality chip is filled, so its label must not also be tinted. */
 .nol-e[data-on="1"] text { paint-order: stroke; }
+
+/* The running section bar in ink, as on the table and transaction records one
+   click back (data.css §12): its lit chip is chrome, not a second red. */
+.nx-app .no > .nxs { --nxs-on: var(--ink-1); }

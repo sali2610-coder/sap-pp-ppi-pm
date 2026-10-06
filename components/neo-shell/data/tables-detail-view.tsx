@@ -141,7 +141,8 @@ export function TableDetailView({ t }: { t: TableDetail }) {
 
   return (
     <article
-      className="nxb"
+      className="nxb nm-scene"
+      data-scene="cream"
       data-surface="table"
       data-s4={t.s4.impacted ? "1" : "0"}
       style={{ "--m": m, "--o": t.obj } as React.CSSProperties}
@@ -156,7 +157,6 @@ export function TableDetailView({ t }: { t: TableDetail }) {
 
       {/* ==================================================== 1. IDENTITY */}
       <header className="nxb-head nm-rise nm-once">
-        <span className="nx-modbar" aria-hidden="true" />
 
         <p className="nx-eyebrow nxb-eyebrow">
           טבלת SAP
@@ -180,11 +180,10 @@ export function TableDetailView({ t }: { t: TableDetail }) {
           </div>
         </div>
 
-        {/* Module ownership. A bar and a ring, never a dot. */}
+        {/* Module ownership. A ring and a tint, never a bar or a dot. */}
         <ul className="nxb-mods" aria-label="שיוך למודול">
           {t.mods.map((mod) => (
             <li key={mod} style={{ "--m": MOD_VAR[mod] } as React.CSSProperties}>
-              <span className="nxb-mod-bar" aria-hidden="true" />
               <b>{mod}</b>
               <em>{MOD_HE[mod]}</em>
               <span className="nxb-mod-n">
@@ -551,7 +550,6 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             {t.s4.rows.map((r, i) => (
               <article key={`${r.mod}-${i}`} style={{ "--m": MOD_VAR[r.mod] } as React.CSSProperties}>
                 <header>
-                  <span className="nxb-row-bar" aria-hidden="true" />
                   <b>{r.mod} · {MOD_HE[r.mod]}</b>
                   {r.topic ? <em>{r.topic}</em> : null}
                 </header>
@@ -588,7 +586,6 @@ export function TableDetailView({ t }: { t: TableDetail }) {
           {t.rows.map((r, i) => (
             <article className="nxb-row" key={`${r.mod}-${r.topicIdx}-${i}`} style={{ "--m": MOD_VAR[r.mod] } as React.CSSProperties}>
               <header>
-                <span className="nxb-row-bar" aria-hidden="true" />
                 <b>{r.mod} · {MOD_HE[r.mod]}</b>
                 <em>{r.topic || "ללא נושא"}</em>
               </header>

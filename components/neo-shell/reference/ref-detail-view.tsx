@@ -20,15 +20,15 @@
    colour, so the level is readable without reading the words:
      page        .nxt-code   display, monospace, the technical name
      headline    .nxt-s4-h   the S/4 verdict, second largest thing on screen
-     section     .nxt-sec-h  .nx-h2 plus a module-coloured leading tile
+     section     .nxt-sec-h  a card's title beside a neutral icon square
      subsection  .nxt-sub    small, ink-2, no rule
      data label  .nxt-l      micro, tracked, ink-3 — metadata, never content
      value       .nxt-v      body, ink-1 — content, never metadata
 
    FORM RULE (app/globals.css, above --mod-pm), obeyed exactly
      STATUS  every .nu-status — S/4 standing, trust, verification. Dot + word.
-     MODULE  the header bar, a plate's top rule, the module chip's ring, a
-             neighbour card's leading edge. Line / edge / ring / tint only.
+     MODULE  the module chip's ring and tint only — no bar, rule or edge
+             (the catalogs' rule, app/neo/data.css §12).
      ACCENT  brand red marks ONE condition: tone === "changed".
    ========================================================================== */
 
@@ -99,7 +99,8 @@ function Fact({ f }: { f: RefFact }) {
             preformatted block carries its own copy control. */}
         {f.pre ? (
           <div className="nxr-pre-w">
-            <pre className="nxr-pre" dir="ltr">{f.pre}</pre>
+            {/* it scrolls sideways, so it takes keyboard focus (axe: scrollable region) */}
+            <pre className="nxr-pre" dir="ltr" tabIndex={0} aria-label={f.label}>{f.pre}</pre>
             <CopyId value={f.pre} label="העתקת הקוד" />
           </div>
         ) : null}
@@ -112,7 +113,7 @@ function Section({ s }: { s: RefSection }) {
   const nothing =
     !s.facts?.length && !s.subs?.length && !s.cards?.length;
   return (
-    <section className="nxt-sec" aria-labelledby={`sec-${s.id}`}>
+    <section className="nxt-sec nm-rise nm-once" aria-labelledby={`sec-${s.id}`}>
       <h2 className="nx-h2 nxt-sec-h" id={`sec-${s.id}`}>
         <span className="nxt-sec-i" aria-hidden="true"><Glyph i={s.icon} size={15} /></span>
         {s.title}
@@ -137,12 +138,11 @@ function Section({ s }: { s: RefSection }) {
           {s.cards.map((c) => {
             const inner = (
               <>
-                <span className="nxt-near-e" aria-hidden="true" />
                 <span className="nxt-near-c1">
                   <b className="nx-sap">{c.code}</b>
                   {c.mod ? (
                     <span className="nu-chip nxt-mod" style={{ "--m": modVar(c.mod) } as React.CSSProperties}>
-                      <i aria-hidden="true" />{c.mod}
+                      {c.mod}
                     </span>
                   ) : null}
                 </span>
@@ -189,15 +189,19 @@ export function RefDetailView({ d }: { d: RefDetail }) {
   const impacted = d.s4.tone === "changed";
 
   return (
-    <article className="nxt nxr-rec" data-surface={d.kind} style={{ "--m": m } as React.CSSProperties}>
+    <article
+      className="nxt nxr-rec nm-scene"
+      data-scene="cream"
+      data-surface={d.kind}
+      style={{ "--m": m } as React.CSSProperties}
+    >
       <SmartReturn
         fallback={{ href: `/neo/${d.kind}/`, label: DIR_HE[d.kind] || "קטלוג" }}
         hint="לא נשמר מסלול הגעה בביקור הזה"
       />
 
       {/* ------------------------------------------------------ 1. IDENTITY */}
-      <header className="nxt-head">
-        <span className="nx-modbar" aria-hidden="true" />
+      <header className="nxt-head nm-rise nm-once">
         <p className="nx-eyebrow nxt-eyebrow">{d.eyebrow}</p>
 
         {d.lead === "name" ? (
@@ -235,7 +239,7 @@ export function RefDetailView({ d }: { d: RefDetail }) {
           {d.statuses.map((s) => <Status key={s.he} s={s} />)}
           {d.mod ? (
             <span className="nu-chip nxt-mod" style={{ "--m": m } as React.CSSProperties}>
-              <i aria-hidden="true" />{d.mod}{modHe ? ` · ${modHe}` : ""}
+              {d.mod}{modHe ? ` · ${modHe}` : ""}
             </span>
           ) : null}
           {d.chips.map((c) => <span key={c} className="nu-chip">{c}</span>)}
@@ -279,7 +283,7 @@ export function RefDetailView({ d }: { d: RefDetail }) {
           the dataset is silent: "we do not know" is decision-relevant for a
           migration, and hiding it would be the lie. */}
       <section
-        className="nxt-s4"
+        className="nxt-s4 nm-rise nm-once"
         data-tone={d.s4.tone}
         data-impacted={impacted ? "1" : undefined}
         aria-labelledby="s4-h"
@@ -340,6 +344,7 @@ export function RefDetailView({ d }: { d: RefDetail }) {
           </p>
         ) : null}
         <p>{d.foot}</p>
+        <p className="nxd-credit">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</p>
       </footer>
     </article>
   );

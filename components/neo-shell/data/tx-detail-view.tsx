@@ -20,8 +20,8 @@
    FORM RULE (app/globals.css, above --mod-pm), obeyed exactly
      STATUS  — S/4 risk, verification trust and registry depth. Each is a small
                dot plus its word (.nu-status), never a surface and never a ring.
-     MODULE  — the header's bar, the top rule of a plate, the ring on the module
-               chip, the row edges. Line / edge / ring / tint only.
+     MODULE  — the ring and tint on the module chip, and nothing else: no bar,
+               no plate rule, no card edge (the catalogs' rule, data.css §12).
      ACCENT  — brand red marks ONE thing: that this transaction materially
                changes in S/4HANA. It is not a module colour and not a status.
    ========================================================================== */
@@ -129,7 +129,12 @@ export function TxDetailView({ t }: { t: TxDetail }) {
   ];
 
   return (
-    <article className="nxt" data-surface="transaction" style={{ "--m": m } as React.CSSProperties}>
+    <article
+      className="nxt nm-scene"
+      data-scene="cream"
+      data-surface="transaction"
+      style={{ "--m": m } as React.CSSProperties}
+    >
       <SmartReturn
         fallback={{ href: "/neo/transactions/", label: "טרנזקציות SAP" }}
         hint="לא נשמר מסלול הגעה בביקור הזה"
@@ -137,7 +142,6 @@ export function TxDetailView({ t }: { t: TxDetail }) {
 
       {/* ------------------------------------------------------ 1. IDENTITY */}
       <header className="nxt-head nm-rise nm-once">
-        <span className="nx-modbar" aria-hidden="true" />
         <p className="nx-eyebrow nxt-eyebrow">
           טרנזקציה · {t.module}{modHe ? ` · ${modHe}` : ""}
         </p>
@@ -157,7 +161,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
           </Status>
           {t.verified ? <Status color="var(--status-done)">רשומה מסומנת כמאומתת</Status> : null}
           <span className="nu-chip nxt-mod" style={{ "--m": m } as React.CSSProperties}>
-            <i aria-hidden="true" />{t.module}
+            {t.module}
           </span>
           {t.area ? <span className="nu-chip">{t.area}</span> : null}
           {t.popularity > 0 ? (
@@ -356,11 +360,10 @@ export function TxDetailView({ t }: { t: TxDetail }) {
                   className="nu-card nxt-near-c"
                   style={{ "--m": modVar(n.module) } as React.CSSProperties}
                 >
-                  <span className="nxt-near-e" aria-hidden="true" />
                   <span className="nxt-near-c1">
                     <b className="nx-sap">{n.code}</b>
                     <span className="nu-chip nxt-mod" style={{ "--m": modVar(n.module) } as React.CSSProperties}>
-                      <i aria-hidden="true" />{n.module}
+                      {n.module}
                     </span>
                   </span>
                   <span className="nxt-near-he">{n.he || "אין כותרת במאגר"}</span>
@@ -408,6 +411,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
           כל שדה בעמוד זה נלקח מהמאגר המאומת של הפרויקט. שדה שאינו מתועד אינו מוצג, או מסומן במפורש
           {" "}&quot;{NONE}&quot;. מספר SAP Note מוצג רק כאשר הוא קיים ברשומה עצמה.
         </p>
+        <p className="nxd-credit">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</p>
       </footer>
     </article>
   );

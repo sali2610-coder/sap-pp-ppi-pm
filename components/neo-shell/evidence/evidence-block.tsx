@@ -36,17 +36,20 @@ const SOURCE_HE: Record<SourceType, string> = {
 
 const MAX_VISIBLE_SOURCES = 6;
 
-export function EvidenceBlock({ e }: { e: EvidenceBlockData }) {
+/** `bare`: the block sits in a section whose own heading already says
+ *  "אימות ומקורות" — it then drops its eyebrow and its region name, so the
+ *  title is neither shown nor announced twice. */
+export function EvidenceBlock({ e, bare = false }: { e: EvidenceBlockData; bare?: boolean }) {
   const visible = e.sources.slice(0, MAX_VISIBLE_SOURCES);
   const hidden = e.sources.length - visible.length;
 
   return (
     <section
       className="nev"
-      aria-label="אימות ומקורות"
+      aria-label={bare ? undefined : "אימות ומקורות"}
       data-needs={e.needsVerification ? "1" : undefined}
     >
-      <p className="nev-eyebrow">אימות ומקורות</p>
+      {bare ? null : <p className="nev-eyebrow">אימות ומקורות</p>}
 
       {/* status pill, the claim's scope, the verification tier, the depth */}
       <div className="nev-head">

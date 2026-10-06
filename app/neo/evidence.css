@@ -36,6 +36,7 @@
 
 .nev-exp {
   margin: 0;
+  max-inline-size: 80ch;
   font-size: 0.8125rem;
   line-height: 1.55;
   color: var(--ink-2);
@@ -43,6 +44,7 @@
 
 .nev-act {
   margin: 0;
+  max-inline-size: 80ch;   /* a reading measure: it ran to 200ch at 3840 */
   font-size: 0.8125rem;
   line-height: 1.55;
   color: var(--ink-1);
@@ -96,6 +98,10 @@
   text-decoration: none;
   /* A 24px target (design audit §10): the link box, not only its glyphs. */
   display: inline-block; padding-block: 2px; min-block-size: 1.5rem; line-height: 1.25rem;
+}
+@media (pointer: coarse) {
+  /* the project's phone floor for a target, not only WCAG's 24px */
+  .nev-a { display: inline-flex; align-items: center; min-block-size: var(--c-tap); }
 }
 .nev-a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .nev-meta { font-size: 0.6875rem; color: var(--ink-3); }

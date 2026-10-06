@@ -57,7 +57,6 @@ function Ref({ r }: { r: BpXrefV }) {
 function ModChip({ module, moduleHe }: { module: string; moduleHe: string }) {
   return (
     <span className="nu-chip nxt-mod" style={{ "--m": modVar(module) } as React.CSSProperties}>
-      <i aria-hidden="true" />
       {module === "Cross" ? moduleHe : <><bdi dir="ltr">{module}</bdi> · {moduleHe}</>}
     </span>
   );
@@ -95,7 +94,7 @@ function Line({ l, label }: { l: BpLineV; label: string }) {
  *  instead of silently absent. */
 function ProcessProfile({ p }: { p: NonNullable<BpDetail["process"]> }) {
   return (
-    <section className="nxt-sec" id="bp-process" aria-labelledby="bp-process-h">
+    <section className="nxt-sec nm-rise nm-once" id="bp-process" aria-labelledby="bp-process-h">
       <SecHead
         id="bp-process-h"
         icon={<LayoutList size={15} strokeWidth={1.75} />}
@@ -168,15 +167,19 @@ export function BpDetailView({ d }: { d: BpDetail }) {
   ];
 
   return (
-    <article className="nxt" data-surface="best-practice" style={{ "--m": m } as React.CSSProperties}>
+    <article
+      className="nxt nm-scene"
+      data-scene="cream"
+      data-surface="best-practice"
+      style={{ "--m": m } as React.CSSProperties}
+    >
       <SmartReturn
         fallback={{ href: "/neo/best-practices/", label: "שיטות עבודה מומלצות" }}
         hint="לא נשמר מסלול הגעה בביקור הזה"
       />
 
       {/* ------------------------------------------------------ 1. IDENTITY */}
-      <header className="nxt-head">
-        <span className="nx-modbar" aria-hidden="true" />
+      <header className="nxt-head nm-rise nm-once">
         <p className="nx-eyebrow nxt-eyebrow">שיטות עבודה מומלצות · {d.moduleHe}</p>
         <h1 className="nbp-h1">{d.he}</h1>
         <p className="nxt-en" dir="ltr">{d.en}</p>
@@ -202,7 +205,7 @@ export function BpDetailView({ d }: { d: BpDetail }) {
       <SectionNav sections={nav} />
 
       {/* ------------------------------------------------------ 2. THE WHAT */}
-      <section className="nxt-sec" id="bp-about" aria-labelledby="bp-about-h">
+      <section className="nxt-sec nm-rise nm-once" id="bp-about" aria-labelledby="bp-about-h">
         <SecHead id="bp-about-h" icon={<Info size={15} strokeWidth={1.75} />} title="מהות השיטה" />
         <p className="nxr-text nbp-sumline">{d.summary}</p>
         <div className="nbp-fact">
@@ -215,7 +218,7 @@ export function BpDetailView({ d }: { d: BpDetail }) {
       {d.process ? <ProcessProfile p={d.process} /> : null}
 
       {/* ------------------------------------------------------- 3. THE HOW */}
-      <section className="nxt-sec" id="bp-steps" aria-labelledby="bp-steps-h">
+      <section className="nxt-sec nm-rise nm-once" id="bp-steps" aria-labelledby="bp-steps-h">
         <SecHead
           id="bp-steps-h"
           icon={<ListChecks size={15} strokeWidth={1.75} />}
@@ -241,7 +244,7 @@ export function BpDetailView({ d }: { d: BpDetail }) {
       </section>
 
       {/* ------------------------------------------------- 4. ANTI-PATTERNS */}
-      <section className="nxt-sec" id="bp-anti" aria-labelledby="bp-anti-h">
+      <section className="nxt-sec nm-rise nm-once" id="bp-anti" aria-labelledby="bp-anti-h">
         <SecHead
           id="bp-anti-h"
           icon={<AlertTriangle size={15} strokeWidth={1.75} />}
@@ -258,7 +261,7 @@ export function BpDetailView({ d }: { d: BpDetail }) {
       </section>
 
       {/* ------------------------------------------------------- 5. CHECKS */}
-      <section className="nxt-sec" id="bp-checks" aria-labelledby="bp-checks-h">
+      <section className="nxt-sec nm-rise nm-once" id="bp-checks" aria-labelledby="bp-checks-h">
         <SecHead
           id="bp-checks-h"
           icon={<ClipboardCheck size={15} strokeWidth={1.75} />}
@@ -275,7 +278,7 @@ export function BpDetailView({ d }: { d: BpDetail }) {
       </section>
 
       {/* -------------------------------------------------------- 6. XREFS */}
-      <section className="nxt-sec" id="bp-xrefs" aria-labelledby="bp-xrefs-h">
+      <section className="nxt-sec nm-rise nm-once" id="bp-xrefs" aria-labelledby="bp-xrefs-h">
         <SecHead
           id="bp-xrefs-h"
           icon={<Link2 size={15} strokeWidth={1.75} />}
@@ -297,9 +300,9 @@ export function BpDetailView({ d }: { d: BpDetail }) {
       </section>
 
       {/* ----------------------------------------------------- 7. EVIDENCE */}
-      <section className="nxt-sec" id="bp-evidence" aria-labelledby="bp-evidence-h">
+      <section className="nxt-sec nm-rise nm-once" id="bp-evidence" aria-labelledby="bp-evidence-h">
         <SecHead id="bp-evidence-h" icon={<ShieldCheck size={15} strokeWidth={1.75} />} title="אימות ומקורות" />
-        <EvidenceBlock e={d.evidence} />
+        <EvidenceBlock e={d.evidence} bare />
         {d.claims.length ? (
           <div className="nxt-block">
             <h3 className="nxt-sub">הטענה שכל מקור תומך בה</h3>
@@ -340,6 +343,7 @@ export function BpDetailView({ d }: { d: BpDetail }) {
           מקור: <span className="nx-sap">data/best-practices</span> · סוקר: {d.reviewer}.
           {" "}נדרש אימות במערכת SAP לפני יישום.
         </p>
+        <p className="nxd-credit">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</p>
       </footer>
     </article>
   );
