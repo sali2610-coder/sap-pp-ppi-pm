@@ -6551,7 +6551,7 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       release: "2025.001",
       source: MR21_SIMPL2025,
       recommendedAction:
-        "לאמת בסביבת S/4HANA של CBC אם Material Ledger פעיל ואם אפשרות הגברת התפוקה הטרנזקציונית בתנועות מלאי " +
+        "לאמת בסביבת S/4HANA של הארגון אם Material Ledger פעיל ואם אפשרות הגברת התפוקה הטרנזקציונית בתנועות מלאי " +
         "הופעלה, כדי לדעת אם שדה המחיר הממוצע הנע הסטטיסטי אכן מוצג ב-MR21 בפועל אצלם (פריט 15.3.10, בחירה בלתי " +
         "הפיכה); לוודא שתחזוקת מחיר במספר מטבעות דרך MR21/MM02 מתאימה לתהליך (פריט 15.3.2); לבחון את F6489 " +
         "'Change Material Prices' כאפליקציית Fiori נוספת לשינוי מחירים, בלי לראות בה מחליפה, שכן רשומת הספרייה " +
@@ -13039,7 +13039,7 @@ export const TX_VERIFICATION_B: VerificationRecord[] = [
       source: VOFM_HELP2025,
       recommendedAction:
         "לפני ההסבה: לרשום במערכת המקור את שגרות הדרישה והנוסחה שהלקוח יצר ב-VOFM ואת נוהלי התמחור שאליהם הן " +
-        "משויכות. אם ב-CBC מותקן ה-Add-on OGSD ונעשה שימוש ב-'Classic Interfaces' (IS-OIL-DS-OGSD), יש לקרוא את " +
+        "משויכות. אם בארגון מותקן ה-Add-on OGSD ונעשה שימוש ב-'Classic Interfaces' (IS-OIL-DS-OGSD), יש לקרוא את " +
         "פריט הפישוט 'S4TWL - OGSD - Classic OGSD Interfaces' ולתכנן את המעבר ל-'New Interfaces' שהפריט נוקב בו; " +
         "פריט זה עוסק בתוסף OGSD ולא בטרנזקציה VOFM הכללית. לאמת ב-SE93 במערכת היעד את התוכנית והמסך של VOFM מול " +
         "ECC.",

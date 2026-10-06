@@ -36,7 +36,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import {
-  AlertTriangle, ArrowLeft, ArrowRight, Award, Blocks, Boxes, Braces, Building2,
+  AlertTriangle, ArrowLeft, ArrowRight, Award, Blocks, Boxes, Braces,
   BookCheck, CircleCheck, CircleHelp, Check, Clock, GraduationCap, HelpCircle, Info, KeyRound,
   LayoutDashboard, Lightbulb, Link2, Lock, MapPin, Network, Settings, ShieldCheck,
   StickyNote, Table2, Target, Terminal, TrendingUp, Workflow, Wrench,
@@ -69,7 +69,6 @@ const KIND_HE: Record<BlockKind, string> = {
   "business-value": "ערך עסקי",
   "where-used": "היכן בשימוש",
   "key-concepts": "מושגי מפתח",
-  "cbc-example": "דוגמה מ-CBC",
   flow: "התהליך",
   diagram: "תרשים",
   tables: "טבלאות SAP",
@@ -91,7 +90,7 @@ const KIND_HE: Record<BlockKind, string> = {
 
 const KIND_ICON: Record<BlockKind, LucideIcon> = {
   objective: Target, why: HelpCircle, "business-value": TrendingUp, "where-used": MapPin,
-  "key-concepts": KeyRound, "cbc-example": Building2, flow: Workflow, diagram: Network,
+  "key-concepts": KeyRound, flow: Workflow, diagram: Network,
   tables: Table2, tcodes: Terminal, fiori: LayoutDashboard, spro: Settings, objects: Boxes,
   odata: Braces, authorizations: Lock, notes: StickyNote, "common-mistakes": AlertTriangle,
   troubleshooting: Wrench, "best-practices": Award, tips: Lightbulb, related: Link2,
@@ -158,7 +157,6 @@ function Body({ b }: { b: LessonBlock }) {
     case "why":
     case "business-value":
     case "where-used":
-    case "cbc-example":
     case "spro":
     case "troubleshooting":
     case "notes":

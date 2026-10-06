@@ -35,7 +35,6 @@ export const PM_MAINTENANCE_ORDER: Lesson = {
       "רכיבים (Components) — חלקי חילוף שנצרכים מהמלאי.",
       "סטטוסים: CRTD → REL → CNF → TECO → CLSD.",
     ] },
-    { kind: "cbc-example", trust: "curated", md: "ב-CBC, תקלת מסוע במילוי בקבוקים נפתחת כהודעה M2, מומרת לפקודת PM01, משוחררת, מבצע האחזקה מדווח 3 שעות + חלק חילוף, והפקודה נסגרת TECO — הכל תוך משמרת." },
     { kind: "flow", trust: "verified-docs", source: HELP, lastReviewed: LV, steps: ["הודעה", "פקודה", "שחרור", "דיווח", "TECO"], activeIndex: 1 },
     { kind: "diagram", trust: "curated", md: "", caption: "הודעה → פקודה → פעולות/רכיבים → אישור → סילוק (TECO)" },
     { kind: "tables", trust: "verified-docs", source: HELP, lastReviewed: LV, rows: [

@@ -1595,7 +1595,7 @@ export const CROSS_PROCESS_PRACTICES_2: BestPracticeLike[] = [
         { he: "ממשק תוכניתי: BAPI_RESERVATION_CREATE1 ו-RESERVATION_READ לרזרבציה, ‏BAPI_GOODSMVT_CREATE לניפוק, ‏BAPI_ALM_ORDER_MAINTAIN עם שיטת COMPONENT לרכיבי פקודת תחזוקה; אחרי כתיבה BAPI_TRANSACTION_COMMIT.", xrefs: ["fm:BAPI_RESERVATION_CREATE1", "fm:RESERVATION_READ", "fm:BAPI_GOODSMVT_CREATE", "fm:BAPI_ALM_ORDER_MAINTAIN", "fm:BAPI_TRANSACTION_COMMIT"] },
         { he: "שירות OData רשמי: Reservation Document (API_RESERVATION_DOCUMENT) ליצירה, קריאה, עדכון ומחיקה של מסמכי רזרבציה." },
         { he: "הרחבות לפי רשומות המאגר: IWO10009 בפקודת התחזוקה, ‏MBCF0002 ו-MB_MIGO_BADI בתנועת החומר, ‏WORKORDER_GOODSMVT בתנועות הפקודה, ‏CONFPP05 ו-PPCO0001 בצד הייצור.", xrefs: ["enh:exit:IWO10009", "enh:exit:MBCF0002", "enh:badi:MB_MIGO_BADI", "enh:badi:WORKORDER_GOODSMVT", "enh:exit:CONFPP05", "enh:exit:PPCO0001"] },
-        { he: "ממשק פרויקטלי: ה-blueprint של PP-PI מציין סנכרון עם מסופי Zetes בפליטה, בלי פירוט הממשק." },
+        { he: "ממשק פרויקטלי: ה-blueprint של PP-PI מציין סנכרון עם מסופי הסריקה בפליטה, בלי פירוט הממשק." },
       ],
       interfaces: [
         { he: "יצירת רזרבציה ב-RFC, ECC ו-S/4HANA לפי רשומות המאגר: BAPI_RESERVATION_CREATE1 (אובייקט BUS2093, טבלאות RESB ו-RKPF, טרנזקציה MB21) מקבל כותרת עם סוג התנועה ויעד השיוך ופריטי רזרבציה, מחזיר RESERVATION ו-RETURN, ואחרי הצלחה נדרש BAPI_TRANSACTION_COMMIT; שמות הפרמטרים שונים בין רשומות המאגר ויש לאמת אותם במערכת היעד. בצד ECC השם מופיע ברשימת ה-BAPIs של נושא What's New ל-EHP7 של ERP 6.0.", xrefs: ["fm:BAPI_RESERVATION_CREATE1", "fm:BAPI_TRANSACTION_COMMIT", "tx:MB21", "table:RESB", "obj:reservation", "bp:bapi-commit-discipline"] },
@@ -1729,7 +1729,7 @@ export const CROSS_PROCESS_PRACTICES_2: BestPracticeLike[] = [
         claim:
           "שורת RESB ב-PP-PI: טרנזקציות 'COR3, MB21, MB22, CO27', Fiori 'Manage Reservations', הערת S/4 'ללא " +
           "שינוי; תנועת מלאי ב-MATDOC', והסבר: הזמנות חומרי הגלם והאריזה לפק\"ע מפיצוץ עץ המוצר, כל פליטת חומר " +
-          "(261) מעדכנת RESB, סנכרון עם מסופי Zetes בפליטה; פונקציות BAPI_RESERVATION_CREATE1 ו-BAPI_GOODSMVT_CREATE.",
+          "(261) מעדכנת RESB, סנכרון עם מסופי הסריקה בפליטה; פונקציות BAPI_RESERVATION_CREATE1 ו-BAPI_GOODSMVT_CREATE.",
         verificationLevel: "repository_verified",
         repoRef: "data/sapData.pppi.ts#PP-PI:RESB",
       },
@@ -2444,7 +2444,7 @@ export const CROSS_PROCESS_PRACTICES_2: BestPracticeLike[] = [
       "ל-F4839 Manage Manual Reservations); F0843 מקושר כרשומת קטלוג ולא כחלופה ל-MIGO (ראו הערות " +
       "bp:goods-movement-process). הטרנזקציות MB21 עד MB26, ‏CO27 ו-MF60 אינן נושאות רשומת אימות רשמית. רשומות " +
       "המאגר חלוקות בשמות הפרמטרים של BAPI_RESERVATION_CREATE1, ורשומת RESERVATION_READ מסומנת inferred. סנכרון " +
-      "Zetes מוזכר ב-blueprint בלי פירוט. לא בוצעה בדיקה במערכת SAP חיה. עדכון 2026-09-28 (השלמת שדות): נוספו " +
+      "מסופי הסריקה מוזכר ב-blueprint בלי פירוט. לא בוצעה בדיקה במערכת SAP חיה. עדכון 2026-09-28 (השלמת שדות): נוספו " +
       "process.interfaces ו-process.kpis בלבד, ושאר השדות הועתקו כלשונם; המשפט הקודם על השמטת kpis נשמר כהיסטוריה. " +
       "המדד היחיד שהמקור מגדיר כ-Measures הוא Goods Movement Analysis ‏(W0055); שאר השורות הן אינדיקציות ניטור של " +
       "אפליקציות ושל סטטוס הזמינות, בלי ערכי יעד; אף מקור אינו קובע ערכי יעד, ומדד ייעודי לאספקה לקו (MF60, ‏CO27) " +

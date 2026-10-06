@@ -29,7 +29,7 @@ export function FioriAppsCenter({ fullNames = {} }: { fullNames?: Record<string,
       <Breadcrumb items={[{ label: "Fiori Apps" }, { label: "מרכז ידע" }]} />
       <div className="mt-1.5 text-[11px] font-extrabold uppercase tracking-[0.13em] text-ink-3">מוצר · מרכז ידע Fiori</div>
       <h1 className="mt-1 text-[26px] font-extrabold tracking-tight text-ink-1">Fiori Apps</h1>
-      <p className="mt-1 max-w-2xl text-[13.5px] text-ink-3">מרכז הידע לאפליקציות SAP Fiori — עמוד מלא לכל אפליקציה: מטרה עסקית, Business Role, Catalog, OData/CDS, ECC↔S/4, שגיאות נפוצות ודוגמת CBC.</p>
+      <p className="mt-1 max-w-2xl text-[13.5px] text-ink-3">מרכז הידע לאפליקציות SAP Fiori — עמוד מלא לכל אפליקציה: מטרה עסקית, Business Role, Catalog, OData/CDS, ECC↔S/4 ושגיאות נפוצות.</p>
 
       <SearchField value={q} onChange={(e) => setQ(e.target.value)} placeholder="חפש: שם · Fiori ID · Role · Catalog · OData · CDS · T-Code · טבלה · מודול…" containerClassName="mt-4" aria-label="חיפוש אפליקציות Fiori" />
 

@@ -49,7 +49,7 @@ export default function HomePage() {
     { code: "PM", label: "אחזקה", he: "Plant Maintenance", href: "/pm/", tint: "#f97316", tables: pm.length, fields: fieldsOf(pm),
       desc: "ציוד, מיקומים פונקציונליים, הודעות ופקודות עבודה, אחזקה מונעת — ומיפוי ECC→S/4HANA." },
     { code: "PP-PI", label: "ייצור תהליכי", he: "Process Industries", href: "/pp-pi/", tint: "#6d28d9", tables: ppi.length, fields: fieldsOf(ppi),
-      desc: "אב חומר, עצי מוצר, מתכוני ייצור, פקודות תהליך, מתכון בקרה וממשקי Zetes/Daymax." },
+      desc: "אב חומר, עצי מוצר, מתכוני ייצור, פקודות תהליך, מתכון בקרה וממשקים חיצוניים." },
     { code: "DM", label: "מודל נתונים", he: "Cross-module data model", href: "/sap-infrastructure/", tint: "#2563eb", tables: ALL_TABLES.length, fields: fieldsOf(ALL_TABLES),
       desc: "מפת התשתית: אזורי מודל → מודולי SAP → אובייקטים, קשרים ותהליכים חוצי-מודול." },
   ];

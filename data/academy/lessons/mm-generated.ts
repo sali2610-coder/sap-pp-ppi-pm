@@ -61,12 +61,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: התרכיז (Concentrate) נרכש ספק-יחיד מ-The Example Product Company — סורסינג אסטרטגי טהור עם חוזה ארוך-טווח. לעומתו, חומרי-אריזה (פקקים, תוויות) הם רכש תפעולי שוטף מספקים מרובים דרך Ariba. הסוכר וה-CO2 נמצאים באמצע — חוזי-מסגרת שנתיים עם Release Orders שבועיים.\n\nארגון מזהה חומר עתיר-הוצאה. הסורסינג מנהל RFQ (ME41), בוחר ספק, חותם חוזה-מסגרת (ME31K). מאותו רגע הרכש התפעולי רק מבצע: PR נוצר, Source Determination שולפת את החוזה, ה-PO מופק כ-Release Order כנגד החוזה — בלי משא-ומתן חוזר.\n\n**סורסינג (Sourcing)** — בארגון הסורסינג של בקבוקי-PET וחומרי-אריזה מנוהל ב-SAP Ariba: RFQ דיגיטלי, השוואת-הצעות וניהול חוזים. התרכיז עצמו אינו עובר סורסינג תחרותי — Single Source מחוזה The Example Product Company.\n\nקטגוריה חדשה: שולחים RFQ למספר ספקים (ME41), מקבלים הצעות (ME47), משווים (ME49), בוחרים, מעריכים ספק, וחותמים חוזה. התוצאה: Info Record + Source List שמהם ימשיך הרכש התפעולי.\n\n**רכש תפעולי (Operational Procurement)** — בארגון הזמנות-אריזה שבועיות הן רכש תפעולי טהור: PR נוצר מ-MRP, Auto-PO מפיק PO כנגד חוזה-המסגרת, GR בקבלה לקו-המילוי, ו-ERS מסלק חשבונית ללא חשבונית-נייר מהספק.\n\nמשתמש יוצר PR (ME51N) ל-1,000 יח'. Source Determination מצמידה ספק מ-Source List. הרכש ממיר ל-PO (ME21N) או שזה קורה אוטומטית. ה-PO נשלח, הסחורה מתקבלת ב-MIGO (101), והחשבונית מאומתת ב-MIRO מול ה-PO וה-GR."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -327,12 +321,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון השרשרת מקצה-לקצה: MRP מזהה צורך-אריזה ➔ חוזה-מסגרת (S2P, נחתם פעם בשנה) ➔ PR➔PO שבועי ➔ GR בקו-המילוי ➔ ERS/MIRO ➔ תשלום. Ariba מכסה את צד-ה-S2P; S/4HANA Core את ה-P2P.\n\nצורך מזוהה ➔ סורסינג בוחר ספק וחותם חוזה (S2P) ➔ PR נוצר ➔ Source Determination שולפת את החוזה ➔ PO מופק ➔ GR ➔ IR ➔ תשלום. דוח Overview מציג את כל הצנרת בזמן-אמת ומתריע על פריטים תקועים.\n\n**רכש אידיאלי (Ideal Procurement)** — בארגון הזמנות-אריזה החוזרות שואפות ל-Touchless: MRP➔Auto-PO כנגד חוזה➔GR➔ERS. רק שינוי-מחיר חריג או ספק-חדש מצריך התערבות-קניין.\n\nמשתמש בוחר פריט מקטלוג ➔ PR נוצר ➔ אישור אוטומטי (בתוך מדיניות) ➔ Auto-PO ➔ GR ➔ ERS ➔ תשלום, ללא נגיעת-רכש אחת. רק חריג (חוסר-מקור/חריגת-מחיר) מנותב לאדם.\n\n**Source-to-Pay ו-Procure-to-Pay** — בארגון: S2P מנהל את חוזי-האריזה והסוכר ב-Ariba; P2P מבצע את ההזמנות השבועיות ב-S/4HANA כנגד אותם חוזים. התרכיז = P2P בלבד מול חוזה Single-Source קיים.\n\nS2P: סורסינג בוחר ספק ➔ חוזה נחתם ➔ (כאן מתחיל P2P) PR ➔ PO כנגד החוזה ➔ GR ➔ IR ➔ תשלום. החוזה מ-S2P הוא ה'גשר' שמזין את ה-P2P.\n\n**תחומי תהליך מרכזיים** — בארגון: צוות-סורסינג מנהל חוזי-תרכיז/סוכר ב-Ariba; קנייני-תפעול מוציאים PO-ים; מחסן קו-המילוי מבצע GR; AP מטפל בחשבוניות ובתשלום — חמישה תחומים, גבולות-הרשאה ברורים.\n\nPR נוצר (תפעולי) ➔ Source Determination מסתמכת על הסורסינג (אסטרטגי) ➔ PO (תפעולי) ➔ GR (ניהול-מלאי) ➔ IR (אימות-חשבונית) ➔ תשלום (חשבונאות-ספקים). כל חץ הוא מעבר בין תחומי-אחריות."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -588,12 +576,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "סוגים: Transactional, Analytical, Fact Sheet — על CDS+OData.",
      "הקצאה דרך Roles + Spaces & Pages, תוך שמירת-SoD."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון המעבר ל-S/4HANA איחד את הרכש: ניהול-מלאי קו-המילוי על MATDOC, ספקי-התרכיז/סוכר כ-Business Partners, ודוחות-הוצאה בזמן-אמת. הסורסינג של אריזה רץ ב-Ariba המקושר ל-Core.\n\nקניין פותח את Procurement Overview Page (Fiori), רואה PR-ים פתוחים וחריגי-אספקה בזמן-אמת, ממיר PR ל-PO בכמה קליקים, וה-Embedded Analytics מציג מיד את השפעת-ההוצאה — הכל במערכת אחת ללא Data Warehouse נפרד.\n\n**ענן רב-דייר מול סביבה חד-דייר** — בארגון, בהיותו חלק מרשת-בקבוק גלובלית עם תהליכי-תרכיז ייחודיים ואינטגרציות (Zetes/Daymax בלוגיסטיקה), Private Cloud / Single-Tenant מתאים — שליטה בעדכונים והתאמות-עומק לצד אימוץ-סטנדרט בליבת-הרכש.\n\nארגון 'Fit-to-Standard' בוחר Public Cloud: מאמץ Best-Practice לרכש, מסתפק ב-Key-User extensibility, ומקבל עדכונים רבעוניים. ארגון עם תהליכי-רכש ייחודיים בוחר Private Cloud לשמירת ההתאמות.\n\n**סורסינג אסטרטגי** — בארגון הסורסינג האסטרטגי מנהל את חוזי-הסוכר ארוכי-הטווח (מחירי-סחורה תנודתיים), מכרזי-אריזה ב-Ariba, והערכת ספקי-CO2. התרכיז = Single Source מחוזה גלובלי, ללא מכרז.\n\nניתוח-הוצאה מזהה קטגוריה עתירת-הוצאה ➔ מכרז ב-Ariba ➔ בחירת ספק ➔ חוזה ➔ קישור ל-Source List ב-Core ➔ הערכת-ספק שוטפת (SLP). מאז, P2P מבצע מול החוזה.\n\n**רכש (Procurement)** — בארגון הרכש התפעולי מפיק PO-ים שבועיים לאריזה/סוכר כנגד חוזי-המסגרת; הזמנות-תרכיז מול ספק-יחיד; הכל ב-Fiori עם Auto-PO ל-SKU-ים יציבים.\n\nמשתמש בוחר פריט מקטלוג (Self-Service) ➔ PR ➔ Flexible Workflow מאשר ➔ Auto-PO כנגד חוזה ➔ נשלח לספק דרך Ariba Network ➔ GR. כל זה מנוטר ב-Procurement Overview Page.\n\n**חשבונאות-ספקים וחשבוניות** — בארגון חשבוניות-אריזה השוטפות מסולקות ב-ERS (ללא חשבונית-נייר) כנגד GR; חשבוניות-תרכיז (סכומים גבוהים) עוברות MIRO עם 3-Way Match ובקרת-Tolerance הדוקה.\n\nחשבונית מתקבלת ➔ MIRO מאמת מול PO ו-GR ➔ אם בתוך Tolerance, נרשם מסמך-FI ופריט-פתוח ב-AP ➔ F110 משלם בתאריך-הפירעון. אם מחוץ-לטולרנס — חסימה לבירור.\n\n**תפקידים ויישומי SAP Fiori** — בארגון קנייני-האריזה מקבלים Business Role 'Purchaser' עם אפליקציות-PO ו-Overview Page; מנהל-הרכש מקבל 'Purchasing Manager' עם דוחות-הוצאה ו-KPI; צוות-AP מקבל אפליקציות-חשבונית.\n\nקניין מקבל את Business Role 'Purchaser' ➔ ה-Launchpad מציג Manage PR, Manage PO, Overview Page ו-Sources of Supply ➔ הוא מבצע ומנתח באותו מקום, על נתוני-זמן-אמת."
    },
    {
     "kind": "flow",
@@ -918,12 +900,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון הפרק הניח את התשתית: תרכיז (Single Source), סוכר/CO2 (חוזי-מסגרת), אריזה (Ariba + Auto-PO) — מקרי-מבחן שילוו את כל הספר להמחשת התהליכים.\n\nמבט-על על מחזור שלם: צורך ➔ סורסינג/חוזה (S2P) ➔ PR➔PO➔GR➔IR➔תשלום (P2P) ➔ ניתוח-הוצאה ➔ חזרה לסורסינג. כל חוליה תפורט בפרק ייעודי."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -1108,12 +1084,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "Conversion = SUM/DMO + התאמת-Z-קוד; New = Fit-to-Standard + Migration Cockpit.",
      "Selective Data Transition מאזנת בין השתיים."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון (מפעל-בקבוק מוצר לדוגמה): תהליכי-הרכש (חומרי-גלם, אריזה, חלפי-PM) סטנדרטיים ברובם, אך יש אינטגרציות-ספקים ואצוות-מנוהלות ייחודיות. ההחלטה: Private Cloud (RISE with SAP) עם System Conversion — לשמר את ההיסטוריה והאינטגרציות, אך לעבור לתשתית-ענן מנוהלת.\n\nועדת-היגוי ממפה: כמה Z-תהליכים יש ברכש? כמה אינטגרציות לספקים? מה רמת-הסיכון לעצירת-ייצור? לפי התשובות נבחר השילוב — למשל ארגון עם רכש סטנדרטי בוחר Public Cloud + New Implementation; ארגון עם רכש מותאם-מאוד והיסטוריה ארוכה בוחר Private Cloud + System Conversion.\n\n**אפשרויות פריסה** — בארגון נבחר Private Cloud (RISE with SAP) — שילוב של תחזוקה-מנוהלת עם גמישות לשמר את אינטגרציות-הספקים והאצוות הייחודיות לתעשיית-המשקאות.\n\nארגון רב-לאומי עם דרישות-ריבונות-נתונים בוחר Private Cloud באזור-גיאוגרפי מסוים; חברה צעירה עם תהליכים סטנדרטיים בוחרת Public Cloud להאצה ולעלות-תפעול נמוכה.\n\n**ענן** — בארגון מודל-הענן (Private) מסיר מהארגון את תחזוקת-ה-Basis וה-HANA, ומאפשר לצוות-ה-IT להתמקד בתהליכי-הרכש ולא בתשתית.\n\nארגון מאמץ Public Cloud: כל רבעון SAP דוחפת עדכון; צוות-הבדיקות מריץ test automation על תהליכי-הרכש לפני הפעלת-העדכון בפרודקשן.\n\n**On-Premise** — בארגון לא נבחר On-Premise טהור — אך הוא היה החלופה אילו דרישות-הריבונות חייבו אחסון מקומי-מלא; במצב זה כל תחזוקת-ה-Basis הייתה על צוות-ה-IT הפנימי.\n\nארגון-ביטחוני עם דרישות-רגולציה מחמירות מתקין On-Premise באתר-מאובטח, מבצע התאמות-Z עמוקות ושולט במלואו במועדי-השדרוג.\n\n**מימוש חדש מול המרת מערכת** — בארגון נבחר System Conversion — שימור אינטגרציות-הספקים, היסטוריית-רכש ואצוות-מנוהלות, תוך מעבר ל-S/4HANA והפעלת Material Ledger החובה.\n\nארגון עם Z-רכש מועט וחזון תהליכי-חדש בוחר New Implementation: מגדיר תהליכי-רכש מ-Best Practices, מעביר רק נתוני-אב פעילים. ארגון עם התאמות-עומק והיסטוריה ארוכה בוחר System Conversion: מריץ SUM/DMO ומתאים את ה-Z-קוד."
    },
    {
     "kind": "flow",
@@ -1325,12 +1295,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "שלבים: Pre-Checks ► Custom Code ► SUM ► CVI ► Material Ledger.",
      "ב-MM: MATDOC, Business Partner ו-Material Ledger הם נקודות-המפתח."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון ה-On-Premise היה מספק את כל היקף-ה-MM (רכש-אצוות, אינטגרציות-ספקים, חלפי-PM) — אך נטל-התחזוקה הוביל לבחירת Private Cloud (RISE) המספק היקף-זהה כמעט-במלואו בתשתית-מנוהלת.\n\nארגון-ייצור-מורכב מממש On-Premise: מגדיר תהליכי-רכש מותאמים, אינטגרציות-EDI לספקים דרך SAP PI/PO, ומפעיל Material Ledger לתמחיר רב-מטבעי — הכל בשליטה-מלאה.\n\n**היקף פונקציונלי מלא** — בארגון היקף ה-On-Premise כיסה רכש-אצוות, subcontracting אריזה, ו-consignment חומרי-גלם — תרחישים שנשמרו גם תחת Private Cloud (RISE).\n\nארגון מפעיל subcontracting מורכב עם רכיבים-מסופקים, consignment מספקים, ו-pipeline — כולם נתמכים-מלא ב-On-Premise.\n\n**התקנה** — בארגון (תחת RISE) ההתקנה בוצעה על-ידי SAP/Hyperscaler — הארגון קיבל סביבה-מוכנה במקום להקים שרתים בעצמו.\n\nצוות-Basis מבצע Quick Sizer, מקים DEV/QAS/PRD, מגדיר STMS, ומתקין Fiori embedded — ואז מוסר את הסביבה לצוות-הפונקציונלי.\n\n**Activated Appliance** — בארגון ה-Appliance שימש ל-Fit-to-Standard workshops — היועצים הדגימו תהליכי-רכש סטנדרטיים על נתוני-הדגמה לפני קונפיגורציית-הסביבה האמיתית.\n\nצוות-המכירות פורס Appliance מ-SAP CAL לענן, ותוך שעות מציג תהליכי-רכש מקצה-לקצה ללקוח על נתוני-הדגמה.\n\n**שיקולי IT** — בארגון תחת RISE רוב שיקולי-ה-IT (HA/DR, גיבוי, monitoring תשתיתי) עברו ל-SAP; הארגון נותר אחראי על אבטחת-יישום, SOD-ברכש ו-transport governance.\n\nצוות-ה-IT מגדיר HANA System Replication ל-DR, מקים מטריצת-SOD ברכש ב-GRC, ומנהל תעבורות דרך ChaRM — שכבת-תפעול שמלווה את המערכת לאורך-חייה.\n\n**אפשרויות אינטגרציה** — בארגון ספקי-חומרי-הגלם מחוברים ב-EDI (ORDERS/INVOIC) דרך SAP Integration Suite; ספקי-MRO אינדירקטיים מחוברים ל-Ariba Network — שתי שכבות-אינטגרציה ברכש.\n\nהזמנת-רכש נשלחת לספק כ-IDoc ORDERS דרך SAP PI/PO; אישור-ההזמנה חוזר כ-ORDRSP; החשבונית מגיעה כ-INVOIC ל-MIRO אוטומטית — מחזור-EDI מלא.\n\n**המרת מערכת ל-SAP S/4HANA** — בארגון ה-System Conversion שימר את אינטגרציות-הספקים, היסטוריית-הרכש והאצוות; הצוות טיפל ב-MM-IM simplification (MATDOC), המיר vendor ל-Business Partner והפעיל Material Ledger.\n\nהצוות מריץ Readiness Check ➔ מטפל ב-Simplification Items ➔ מתאים Z-קוד דרך ATC/SPAU ➔ מבצע CVI ל-Business Partner ➔ מריץ SUM/DMO בסוף-שבוע ➔ מפעיל Material Ledger ➔ go-live על המערכת-הממירה."
    },
    {
     "kind": "flow",
@@ -1666,12 +1630,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון (מוצר לדוגמה) ה-Public Cloud לא נבחר לליבה (בשל אינטגרציות ואצוות-ייחודיות), אך Best-Practice scope items שימשו כבסיס-עיצוב גם תחת ה-Private Cloud — 'fit-to-standard first'.\n\nחברה צעירה מאמצת Public Cloud: מפעילה scope items לרכש סטנדרטי, מבצעת Fit-to-Standard, מגדירה דרך הארגון, ועולה-לאוויר תוך חודשים — עם עדכונים-רבעוניים אוטומטיים.\n\n**היקף SAP Best Practices** — בארגון scope items לרכש-ישיר ועקיף שימשו כבסיס-עיצוב; הצוות בחן אותם ב-Best Practices Explorer לפני קונפיגורציה.\n\nצוות-הרכש בוחן את scope item J45, מריץ את test script המצורף, ומאשר שהוא תואם את תהליך-הרכש-הישיר — או מזהה פער לטיפול.\n\n**שיקולי IT** — בארגון המודל-הענני (גם תחת Private) הפחית את עומס-ה-IT התשתיתי; הצוות התמקד בהרשאות-רכש (SOD), באינטגרציות ובבדיקות-עדכון.\n\nצוות-ה-IT מגדיר business roles דרך business catalogs, מחבר identity ל-IAS, ומריץ test automation לפני כל עדכון-רבעוני — ללא נגיעה בתשתית.\n\n**אינטגרציה והתאמה סטנדרטיות** — בארגון הרחבות-רכש (שדות ולוגיקה) תוכננו דרך key-user extensibility; אינטגרציות-הספקים דרך Integration Suite — שמירה על upgrade-stability.\n\nהוספת שדה לרכש: דרך key-user Custom Fields and Logic; הוספת לוגיקה דרך BAdI ב-Custom Logic app; חיבור לספק דרך Integration Suite — הכל נשמר אחרי ה-upgrade."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -1835,12 +1793,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון רשת-המפעלים האזורית (כמה אתרי-בקבוק, חלקם עדיין ECC) משתמשת ב-Central Procurement לניהול חוזי-אריזה וחומרי-גלם מרוכזים מעל כל האתרים, עם Ariba Network ל-MRO אינדירקטי.\n\nמשתמש במפעל יוצר Central Purchase Requisition ב-hub; היא מנותבת ל-backend הנכון (S/4 או ECC) ליצירת PO; חוזה-מרכזי מנוהל ב-hub ומופץ ל-backends — רכש-מאוחד מעל מערכות-מרובות."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -1998,12 +1950,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "Explore/Fit-to-Standard הוא הלב — שם נחתכים סיכון ועלות.",
      "מנוהל ב-SAP Cloud ALM, עם roadmap לכל סוג-מעבר."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון הפרויקט נשען על Best Practices לרכש, על Enterprise Management Layer כ-baseline, ועל SAP Activate כמתודולוגיה — קיצור-משמעותי של שלב-העיצוב.\n\nפרויקט מתחיל מ-Best Practices scope items, מקים Appliance/EML כ-baseline, מריץ Fit-to-Standard workshops עם ה-process flows, ומנהל הכל לפי roadmap של SAP Activate ב-Cloud ALM.\n\n**תוכן ותבניות מוכנים-מראש** — בארגון ה-process flows ו-test scripts לרכש שימשו ב-Fit-to-Standard; ה-migration templates האיצו טעינת ספקים וחומרים.\n\nצוות-הבדיקות מריץ את test script של scope item רכש כפי-שהוא; צוות-הנתונים ממלא את ה-migration template לחומרים ולספקים — שניהם מוכנים-מראש.\n\n**SAP Best Practices** — בארגון Best-Practice scope items לרכש-ישיר ועקיף היו בסיס-העיצוב; הפרויקט סטה מהם רק היכן שאצוות/אינטגרציות חייבו.\n\nפרויקט מפעיל scope items של requisition-to-pay; מריץ את ה-test scripts המצורפים; ומתאים רק את הפערים שעלו ב-Fit-to-Standard.\n\n**מודל Appliance ושכבת Enterprise Management** — בארגון ה-Enterprise Management Layer שימש baseline למבנה הרב-חברתי (אתרי-בקבוק אזוריים), וה-Appliance שימש ל-Fit-to-Standard לפני הקמת-הפרודקשן.\n\nצוות מקים Appliance ל-Fit-to-Standard workshops, ובמקביל מאמץ Enterprise Management Layer כ-baseline לסביבת-הפרודקשן — חוסך שבועות של config ראשוני.\n\n**SAP Activate** — בארגון הפרויקט נוהל לפי SAP Activate: Fit-to-Standard לרכש ב-Explore, התאמות-אצוות ב-Realize, cutover ב-Deploy ו-hypercare ב-Run — הכל ב-SAP Cloud ALM.\n\nפרויקט-רכש עובר את הפאזות: Explore — Fit-to-Standard workshops על scope items של רכש, רישום-פערים ל-backlog; Realize — config ובדיקות ב-sprints; Deploy — cutover ו-go-live; Run — hypercare."
    },
    {
     "kind": "flow",
@@ -2166,12 +2112,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון ההחלטות התלכדו: Private Cloud (RISE) + System Conversion לשימור אינטגרציות, אצוות והיסטוריה; Best Practices + EML כבסיס; SAP Activate כמתודולוגיה; Central Procurement לרשת-האתרים האזורית עם Ariba ל-MRO — דרך-מימוש מותאמת לתעשיית-המשקאות.\n\nארגון מסכם: Readiness Check ➔ בחירת Private Cloud (RISE) + System Conversion ➔ שימור scope-items כבסיס-עיצוב ➔ EML כ-baseline ➔ ניהול ב-SAP Activate/Cloud ALM ➔ Central Procurement לרשת-האתרים. מסלול-מימוש שלם נגזר מההחלטות שבפרק."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -2299,12 +2239,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "Company Code = ישות משפטית; Plant = אתר פיזי המשויך לה.",
      "Valuation Level = Plant הוא סטנדרט S/4HANA — החלטה חד-פעמית."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: ה-Client הוא מערכת SAP של הבקבוקאי; Company Code 'MFG1' = הישות המשפטית הישראלית המפיקה מאזן בשקלים; ה-Plants הם אתרי המילוי והמחסנים. כל מפעל-מילוי משויך לארגון1 ומדווח אליו כספית.\n\nבהזמנת-רכש: המערכת גוזרת את ה-Company Code מתוך ה-Plant שהוזן בשורה, קובעת לפיו את המטבע, את לוח-השנה הפיננסי ואת חשבונות-ה-GL לפקודת-היומן בקבלת-הטובין. כל פעולה לוגיסטית 'יודעת' באיזו ישות משפטית היא נרשמת — בזכות שרשרת Client→Company Code→Plant."
    },
    {
     "kind": "flow",
@@ -2485,12 +2419,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: Purchasing Organization 'MFG1' מנהלת חוזים מרכזיים מול ספקי תרכיז, סוכר ואריזה; Purchasing Groups נפרדות לחומרי-גלם, אריזה, ו-MRO; Storage Locations מפרידים בין מחסן-תרכיז מקורר, מחסן-אריזה ומחסן-חלפים.\n\nבהזמנת-רכש: ה-Purchasing Organization קובעת אילו תנאי-חוזה ומחירים חלים (Info Records לפי PurchOrg), ה-Purchasing Group מזוהה כקונה-האחראי לצורך מעקב ואישורים, וה-Storage Location בשורה קובעת לאן ייכנס המלאי בקבלת-הטובין."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -2669,12 +2597,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: Company Code 'MFG1' = הישות הישראלית, מטבע ILS, לוח-שנה ינואר–דצמבר. כל מפעלי-המילוי והמחסנים בישראל מדווחים אליו; ישות במדינה אחרת תהיה Company Code נפרד.\n\nבחשבונית-ספק (MIRO): המערכת רושמת זכות ל-Vendor וחובה ל-GR/IR Clearing, הכול במטבע ובלוח-השנה של ה-Company Code שנגזר מה-Plant שבהזמנה — ומעדכנת את ספרי החברה הנכונים."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -2851,12 +2773,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "כל הזמנה נושאת Plant; ממנו נגזרים Company Code ומסירה.",
      "שיוך ל-Purchasing Org (OX17) הוא תנאי-סף לרכש."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: כל מפעל-מילוי הוא Plant נפרד (למשל 'PL10' אשקלון, 'PL20' באר-טוביה); מרכז-הפצה ומחסן-תרכיז מרכזי הם Plants לוגיסטיים. כולם משויכים לארגון1 ול-Purchasing Org MFG1.\n\nבהזמנת-רכש לתרכיז: ה-Plant בשורה הוא מפעל-המילוי. בקבלת-הטובין (MIGO) המלאי נכנס לאותו Plant ומוערך לפי ה-Material Master שלו ב-Plant זה; ה-FI נרשם ל-Company Code שאליו ה-Plant משויך."
    },
    {
     "kind": "flow",
@@ -3038,12 +2954,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "Warehouse Number (T300) משויך ל-Plant+SLoc (T320).",
      "EWM Embedded הוא הסטנדרט ב-S/4HANA."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: בכל מפעל-מילוי — Storage Locations נפרדים לתרכיז (מקורר), לסוכר, לאריזה, ולמוצר-מוגמר. מחסן המוצר-המוגמר מנוהל ב-EWM עם Bins למשטחים; מחסן-החומרים הפשוטים נשאר IM-only.\n\nבקבלת-טובין: ה-Storage Location בשורת-ההזמנה קובעת לאן נכנס המלאי. אם ה-Storage Location מנוהלת-מחסן, נוצרת משימת-מחסן (Warehouse Task) להעברת הטובין ל-Bin פיזי; אחרת המלאי נרשם ישירות ברמת-הכמות.\n\n**מיקום אחסון (Storage Location)** — בארגון: RM01 תרכיז-מקורר, RM02 סוכר, PK01 אריזה, FG01 מוצר-מוגמר. הפרדה זו מאפשרת ספירת-מלאי וניהול-תוקף נפרדים לכל סוג-חומר.\n\nבקבלת-טובין (MIGO 101): המלאי נכנס ל-Storage Location שבשורת-ההזמנה (למשל RM01). בהוצאה לייצור (261) המלאי יוצא מ-SLoc זה. דוח-מלאי (MMBE) מציג את היתרה לפי Plant + Storage Location.\n\n**יצירת מחסן (Warehouse Creation)** — בארגון: מחסן המוצר-המוגמר בכל מפעל-מילוי מנוהל ב-EWM עם Bins למשטחי-משקאות, אסטרטגיית FIFO לפי תוקף; מחסני חומרי-גלם פשוטים נשארים IM-only ללא Warehouse.\n\nקבלת-טובין למוצר-מוגמר ב-SLoc מנוהלת-EWM: רישום ה-101 יוצר Inbound Delivery; EWM מפיק Warehouse Task להעלאת המשטח ל-Bin לפי Putaway strategy; עם אישור-המשימה המלאי 'נח' ב-Bin הפיזי ונראה במלואו."
    },
    {
     "kind": "flow",
@@ -3266,12 +3176,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: Purchasing Organization מרכזית 'MFG1' מנהלת חוזי-מסגרת ארציים מול ספקי תרכיז וסוכר; היא משויכת לארגון1 ולכל מפעלי-המילוי, כך שכל מפעל נהנה מתנאי-החוזה המרכזיים.\n\nביצירת הזמנת-רכש: בוחרים Purchasing Organization; המערכת שולפת את ה-Info Record ותנאי-המחיר השמורים ל-PurchOrg+Vendor+Material, ומאכלסת אוטומטית מחיר ותנאים. PurchOrg אחרת עשויה לשלוף תנאים שונים לאותו ספק."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -3443,12 +3347,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: Purchasing Group 'R01' לחומרי-גלם (תרכיז/סוכר), 'P01' לאריזה, 'M01' ל-MRO/חלפים. כל קבוצה נושאת את פרטי-הקשר של הקונה האחראי ומסננת את דוחות-הרכש שלו.\n\nב-MRP: דרישת-חומר יוצרת הזמנה-מתוכננת ש-Purchasing Group שלה נגזרת מ-Material Master (MRP view). בהמרה להזמנת-רכש, ה-Purchasing Group עוברת אוטומטית ומשמשת לניתוב-האישור (Release strategy) ולמעקב הקונה-האחראי."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -3611,12 +3509,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "ציר-רכש: Purchasing Organization (חוזית) + Purchasing Group (תפעולית).",
      "השיוכים (OX18/OX01/OX17) ו-Valuation Level הם תנאי-הסף לכל ה-P2P."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון המבנה השלם: Company Code MFG1 → Plants (מפעלי-מילוי + מחסנים) → Storage Locations (תרכיז/סוכר/אריזה/מוגמר) + Warehouses (EWM למוגמר); Purchasing Org MFG1 מרכזית + Purchasing Groups לפי קטגוריה. זהו השלד שעליו רץ כל הרכש של הבקבוקאי.\n\nהזמנת-רכש לדוגמה מאחדת הכול: Purchasing Org MFG1 (חוזה) + Purchasing Group R01 (קונה) + Plant PL10 (מסירה) + Storage Location RM01 (אחסון) → קבלה ל-Warehouse (אם מנוהל) → FI ל-Company Code MFG1. כל ששת האובייקטים נוכחים בכל מסמך."
    },
    {
     "kind": "flow",
@@ -3834,12 +3726,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "הפעלה מודעת בלבד, אחרי ניתוח Custom Code.",
      "בדוק IDocs וממשקים מפני קיצוץ."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: התרכיז (Concentrate) והסוכר = ROH מנוהלי-אצווה; בקבוקים, פקקים, תוויות וקרטונים = ROH/VERP חומרי-אריזה. כל ROH נדרש לתצוגות Basic + Purchasing + MRP + Accounting. קבוצות-חומר: 'Concentrate', 'Sugar', 'Packaging-Glass', 'Packaging-PET' — מאפשרות ניתוח-הוצאות מול הספקים ובקרת-עלות-חומר למשקה.\n\nרכש מתחיל מ-Purchase Requisition לחומר: המערכת קוראת את אב-החומר, שולפת Material Group, Purchasing Group ו-Order Unit, מבצעת Source Determination (Info Record/Contract), ויוצרת Purchase Order. ב-Goods Receipt תנועת-המלאי מעדכנת את MARD ואת MBEW לפי ה-Valuation Class הנגזר מקבוצת-החומר.\n\n**הפעלת שדה באב-החומר** — בארגון שדה Batch Management Indicator הופך לחובה עבור ROH (תרכיז/סוכר) דרך Field Selection, כדי שאף חומר-גלם לא ייפתח בלי ניהול-אצווה.\n\nמנהל-נתונים קובע ש-Purchasing Group יהיה חובה ל-ROH. מרגע זה, יצירת ROH ב-MM01 ללא Purchasing Group נחסמת בהודעת-שגיאה, ומבטיחה רכש תקין.\n\n**יצירת אב-חומר** — בארגון פתיחת בקבוק-PET חדש: Material Type ROH/VERP, Material Group 'Packaging-PET', יחידת-בסיס EA, Batch Management כבוי לאריזה אך מופעל לתרכיז. נוצר ברמת-המפעל של מתקן-המילוי.\n\nמנהל-נתונים פותח ROH חדש: בוחר Material Type ROH, מפעל, מחסן ו-Purchasing Org; ממלא Basic (שם, UoM), Purchasing (Purchasing Group, Material Group), MRP ו-Accounting (Valuation Class, מחיר). מתקבל מספר-חומר זמין לרכש מיידי.\n\n**יצירת קבוצת-חומר** — בארגון נפתחות קבוצות 'Concentrate', 'Sugar', 'Packaging-Glass', 'Packaging-PET', 'CO2'. הן מאפשרות לנתח עלות-חומר למשקה ולנהל מו\"מ-ספקים לפי קטגוריה.\n\nרכש-שירות ללא אב-חומר נוצר עם Material Group 'Cleaning-Services'; ה-Account Determination גוזר חשבון-G/L מהקבוצה, וה-Spend Report מקבץ את כל ההוצאה תחת אותה קבוצה.\n\n**Lean Services** — בארגון שירותי-ניקוי-מתקנים ותחזוקת-קווי-מילוי נרכשים כ-Lean Services: אב-חומר SERV לכל שירות, PO עם פריט-שירות, ו-Lean Service Entry Sheet לאישור הביצוע במקום ML81N הישן.\n\nרכש שירות-תחזוקה: יוצרים PO עם פריט-שירות (חומר SERV), נותן-השירות מבצע, ומוזן Lean Service Entry Sheet המאשר את הביצוע; קליטת-השירות מפעילה את חשבונית-הספק.\n\n**הגדרת Lean Services: סוג-מוצר שירות (SERV)** — בארגון נפתח Material Type לשירותי-תחזוקה עם Product Type SERV; שירותי כיול-מכונות וניקוי-מתקנים נפתחים תחתיו ונרכשים כשירותים רזים.\n\nמגדירים Material Type 'SRVC' עם Product Type SERV; כל חומר שנפתח תחתיו מתנהג כשירות — PO עם פריט-שירות ו-Lean Service Entry Sheet במקום קליטת-מלאי.\n\n**בחירת אפשרויות-קונפיגורציה לאב-החומר** — בארגון נבחר: ROH פנימי, חובה על Batch Management ו-Purchasing Group, הסתרת תצוגות-מכירה לחומרי-גלם, ופורמט מספר-חומר אחיד מול הקבוצה הגלובלית של Example Product.\n\nצוות-המימוש מחליט: ROH עם טווח-מספרים פנימי, Purchasing Group חובה, מסכי-MRP מוסתרים לחומרי-מסחר, ופורמט מספר-חומר ללא Lexicographical — ומגדיר הכל ב-OMS2/OMS9/OMT3E.\n\n**הרחבת תווי-שדה באב-החומר ב-SAP S/4HANA** — בארגון הרחבת MATNR נשקלת כדי ליישר מספרי-חומר עם מערך-קוד גלובלי של Example Product; לפני הפעלה נבדקים ה-IDocs MATMAS וממשקי ה-Zetes/Daymax שאינם מניחים 18 תווים.\n\nארגון מחליט להרחיב MATNR ל-40 תווים: מפעיל את ה-Extended Material Number, מריץ Custom Code Analysis, מתקן פיתוחים שמניחים 18 תווים, ובודק IDocs/ממשקים מול מערכות-לוויין."
    },
    {
     "kind": "flow",
@@ -4152,12 +4038,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון כל ROH (תרכיז/סוכר/CO2) מנוהל-אצווה לעקיבות-מזון; כל אצווה נושאת תוקף ומקור-ספק, ובחירת-אצווה FEFO מבטיחה צריכת-המלאי הקרוב-לפוג ראשון. ציוד-מילוי קריטי מסוריאלי לעקיבות-תחזוקה.\n\nGR לתרכיז: נקלטת אצווה חדשה עם תאריך-ייצור, תוקף ומספר-אצווה-ספק; Batch Determination בוחר את האצווה ב-FEFO לצריכה; אם מתגלה בעיה — Recall מזהה את כל המוצרים שצרכו אותה אצווה.\n\n**הגדרת מספרי-אצווה** — בארגון Batch Level=Material והקצאה פנימית; אצוות-תרכיז נקלטות ב-Restricted עד שחרור-QA, ורק אז זמינות לצריכה בקווי-המילוי.\n\nGR לתרכיז יוצר אצווה אוטומטית (Internal Assignment) מתוך טווח-מספרים; האצווה נכנסת בסטטוס Unrestricted, אך QA יכול להעבירה ל-Restricted עד אישור-בדיקה.\n\n**הגדרת מספרי-סיריאל** — בארגון חלקי-ציוד קריטיים בקווי-המילוי (משאבות, ראשי-מילוי) מסוריאליים: כל יחידה מקושרת ל-Equipment, וכך עקיבות-תחזוקה והחלפות מנוהלות ברמת-היחידה.\n\nGR לרכיב-ציוד יקר: ה-Profile (Obligatory) מחייב הזנת סיריאל; נוצרת רשומת-Equipment; בהוצאה למתקן הסיריאל עוקב, ובתחזוקה מאוחרת ההיסטוריה זמינה לפי אותו סיריאל."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -4384,12 +4264,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "Number Range Sync 'Same' שומר מספרי-ספק היסטוריים.",
      "MDS_LOAD_COCKPIT ממיר בכמות; PPO מטפל בשגיאות."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון כל ספקי-התרכיז, הסוכר והאריזות מנוהלים כ-Business Partners: רשומת-BP אחת לכל ספק, עם תפקיד Supplier ל-Purchasing Org של מתקן-המילוי. ספק שהוא גם לקוח (החזרי-בקבוקים) מקבל גם תפקיד Customer — באותה רשומת-BP.\n\nפתיחת ספק חדש: ב-BP transaction בוחרים Organization, ממלאים נתונים כלליים (BUT000), מוסיפים BP Role 'Supplier (FLVN00)' ו-'Supplier (Fin.Accounting) FLVN01', ממלאים Purchasing/Company Code data; ה-CVI מייצר אוטומטית את LFA1/LFB1/LFM1 והספק זמין ל-PO.\n\n**ספקים כ-Business Partners** — בארגון ספק-הסוכר מנוהל כ-BP עם תפקיד Supplier ל-Purchasing Org של המתקן; אם אותו ספק קונה מ-הארגון בקבוקים-ריקים, מוסיפים לו תפקיד Customer — באותו BP.\n\nספק-תרכיז קיים כ-BP; מוסיפים תפקיד FLVN00 ל-Purchasing Org ו-FLVN01 ל-Company Code; ה-CVI מייצר LFA1/LFM1/LFB1, והספק זמין מיידית ל-PO ולתשלום.\n\n**טעינת רשומות-ספק** — בארגון כל ספקי-הקבוצה הועברו מ-ECC דרך Migration Cockpit כ-BPs; ספקי-תרכיז גלובליים נטענו עם תפקידי Purchasing לכל Purchasing Org של מתקני-המילוי.\n\nצוות-המיגרציה טוען קובץ-ספקים ל-Migration Cockpit (object Supplier); המערכת יוצרת BP לכל ספק עם תפקידי FLVN00/FLVN01; ה-CVI מסנכרן ל-LFA1/LFM1, ושגיאות נבדקות ב-PPO לפני אישור.\n\n**הקמת אב-הספק** — בארגון ספק-הבקבוקים מוקם עם Purchasing data לכל מתקן-מילוי (מטבע, Incoterms), Company Code data לחברת-הבת המקומית, ו-Partner Functions (OA הזמנה, PI חשבונית, RS נמען-תשלום).\n\nהקמת ספק-אריזות: General — כתובת ובנק; Company Code — Recon.Account 160000 ו-Payment Terms NT30; Purchasing Org — מטבע EUR, Incoterms FOB, GR-Based IV פעיל; הספק מוכן ל-PO ולתשלום.\n\n**ביצוע Customer/Vendor Integration** — בארגון במהלך ה-Conversion הופעל CVI ונבדק ב-PPO; כל ספקי-התרכיז והאריזה הומרו ל-BPs עם Number Range Synchronization 'Same', כך שמספר-הספק נשמר זהה למספר-ה-BP.\n\nבפרויקט-המרה: מריצים Pre-Checks ב-ECC, מתקנים ספקים פגומים, מפעילים CVI ב-S/4HANA, מריצים MDS_LOAD_COCKPIT להמרת כל הספקים ל-BPs, ובודקים PPO עד אפס-שגיאות לפני go-live."
    },
    {
     "kind": "flow",
@@ -4630,12 +4504,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: ROH (תרכיז/סוכר/אריזה) מנוהלי-אצווה, מסווגים בקבוצות-חומר, נרכשים מספקים שכולם Business Partners מסונכרני-CVI — תשתית-נתוני-האב המלאה שעליה רץ רכש-מתקני-המילוי.\n\nמסלול שלם: פותחים אב-חומר ROH מנוהל-אצווה, משייכים Material Group, מקימים את הספק כ-BP עם תפקידי-ספק ו-CVI, ואז יוצרים PO — כל נתוני-האב מתכנסים לכדי עסקת-רכש אחת."
-   },
-   {
     "kind": "tables",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -4813,12 +4681,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "שני פרצופים: רכש-קלאסי (ME) ו-Self-Service (Shopping Cart).",
      "S/4HANA מדגיש Fiori, flexible workflow ו-SAP Business Network."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון (מפעל-בקבוק של מוצר לדוגמה) הרכש התפעולי מזין את קו-הייצור: תרכיז מ-The Example Product Company, סוכר, CO2, בקבוקי-PET, פקקים ותוויות מספקי-אריזה, וחלפי-MRO לתחזוקת קווי-המילוי. דרישות-הסוכר נוצרות אוטומטית מ-MRP, הופכות להזמנות-רכש מול חוזי-מסגרת, ונשלחות דרך SAP Business Network. רכש-MRO (חלפים) לרוב מתחיל כ-Shopping Cart של טכנאי-תחזוקה.\n\nתהליך מלא: מחלקת-ייצור מזהה מחסור בסוכר ► נוצרת דרישת-רכש (ME51N / Fiori) עם חומר, כמות, מפעל ותאריך ► רוכש ממיר אותה להזמנת-רכש (ME21N) לספק-החוזה ► ההזמנה עוברת flexible workflow לאישור ► נשלחת לספק (הדפסה / IDoc / SAP Business Network) ► הסחורה מגיעה ונרשמת GR (MIGO, תנועה 101) ► הספק שולח חשבונית, נרשמת MIRO ► ה-Three-Way-Match (PO↔GR↔Invoice) משחרר לתשלום."
    },
    {
     "kind": "flow",
@@ -5030,12 +4892,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "תרחישים: חיזוי-אספקה, סיווג-מקור, זיהוי-חריגות.",
      "נשען על ISLM ו-Business AI; שמור אדם-בלולאה."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון טכנאי-תחזוקה זקוק לאטם ולמסנן לקו-מילוי. הוא פותח Shopping Cart, בוחר מקטלוג-ה-MRO, ומאשר; הדרישה מנותבת לראש-צוות-התחזוקה לאישור, ואז הופכת ל-PO מול ספק-החלפים. כך טכנאים מזמינים MRO ללא תלות יומיומית במחלקת-הרכש.\n\nעובד פותח 'My Shopping Cart' (Fiori) ► בוחר 5 פריטי-משרד מקטלוג פנימי ► מוסיף free-text item לכבל-מיוחד ► מאשר ► נוצרת דרישת-רכש (EBAN) ► flexible workflow מנתב למנהל לאישור-תקציבי ► לאחר אישור, הדרישה מומרת ל-PO אוטומטית (אם יש מקור) ► נשלחת לספק ► העובד מבצע Confirmation עם קבלת-הפריטים.\n\n**יצירת דרישה או עגלת-קניות** — בארגון רוב דרישות-חומרי-הגלם (סוכר, תרכיז, CO2) נוצרות אוטומטית מ-MRP לפי תכנון-הייצור; דרישות-MRO נוצרות ידנית כ-Shopping Cart על-ידי טכנאים.\n\nמתכנן-ייצור פותח ME51N ► חומר 'סוכר', כמות 20 טון, מפעל 1000, תאריך-אספקה בעוד שבוע, Account Assignment ריק (מלאי) ► שומר ► נוצרת PR מספר 10xxxxxx ב-EBAN, ממתינה לבחירת-מקור והמרה.\n\n**מעקב טביעת-רגל פחמנית** — בארגון, מוצר לדוגמה מציבה יעדי-קיימות לאריזה; מעקב-הפחמן מאפשר להעדיף ספקי-PET ממוחזר עם טביעת-רגל נמוכה, ולדווח על פליטות שרשרת-האספקה (Scope 3).\n\nרוכש בוחר בין שני ספקי-בקבוקים: המחיר זהה, אך אפליקציית-הרכש מציגה לספק A פליטה של 0.8 kg CO2e ליחידה ולספק B 0.5 — הרוכש בוחר ב-B מתוך שיקול-קיימות, והבחירה מתועדת.\n\n**מכירות בין-חברתיות מתקדמות** — בארגון קבוצת-הבקבוק כוללת ישויות-ייצור וישויות-הפצה נפרדות; משקאות 'נמכרים' ממפעל-הייצור לישות-ההפצה האזורית דרך תרחיש בין-חברתי מתקדם, עם תמחור-העברה פנימי.\n\nחברת-ההפצה (CC 2000) מזמינה מוצר ממפעל-הייצור (CC 1000) ► PO ב-2000 יוצר אוטומטית SO ב-1000 ► המפעל מספק ► Intercompany Billing מ-1000 ל-2000 לפי transfer price ► כל ישות רושמת רווח/עלות נפרדים.\n\n**אישור ומשלוח-החזרה** — בארגון ספקי-תרכיז שולחים Order Acknowledgements שמעדכנים את תכנון-המילוי; אצוות-אריזה שנכשלו בבדיקת-QA מוחזרות לספק כ-Return Delivery (122) עם תיעוד-איכות.\n\nPO ל-100 בקבוקים עם Confirmation Control Key 0004 ► הספק שולח Order Acknowledgement (AB) ל-100 ב-20 בחודש ► נרשמת Confirmation, MRP מעדכן תאריך ► בקבלה מתגלים 10 פגומים ► נרשמת Return Delivery (122) ל-10, החשבונית תשולם רק על 90.\n\n**Shopping Cart מול Requisition-to-Pay והגירה** — בארגון, אם ישות הסתמכה על SRM ל-MRO, ההגירה ל-S/4HANA תעביר את עגלות-ה-MRO ל-Self-Service Requisitioning המובְנֵה, ותשמור על חוויית-המשתמש של הטכנאים.\n\nארגון על SRM נכנס לפרויקט-S/4HANA ► ממפה את תהליכי-ה-Shopping-Cart ל-Self-Service Requisitioning ► מהגר קטלוגים ל-OCI ► בונה flexible workflow מקביל לאישורי-SRM ► מכבה את SRM לאחר העברת-עגלות פתוחות.\n\n**תהליך אישורים (Workflow)** — בארגון הזמנות-רכש לחומרי-גלם בשווי-גבוה מנותבות ל-flexible workflow רב-שלבי (ראש-רכש ► מנהל-מפעל ► כספים), בעוד דרישות-MRO זניחות מאושרות אוטומטית מתחת לסף.\n\nדרישת-רכש ב-50,000 ₪ נשמרת ► start condition מזהה שווי>10,000 ► ה-workflow מנתב למנהל-המחלקה (Inbox) ► הוא מאשר ► שווי>40,000 מפעיל שלב-שני למנהל-כספים ► אישור ► הדרישה משוחררת ומומרת ל-PO.\n\n**פונקציונליות-רכש מבוססת למידת-מכונה** — בארגון ML מציע אוטומטית את ספק-הסוכר המתאים לפי עונתיות ומחיר, וחוזה עיכובי-אספקה אפשריים בתקופות-שיא — מה שמאפשר תכנון-מילוי יציב.\n\nרוכש פותח PR ללא מקור ► מנוע-ה-ML מציע ספק מומלץ לפי היסטוריה, מחיר ואמינות-אספקה ► הרוכש מאשר בלחיצה ► בעת רישום-חשבונית, ה-ML מסמן חריגת-מחיר של 18% מעל הממוצע — הרוכש בודק לפני אישור."
    },
    {
     "kind": "flow",
@@ -5330,12 +5186,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון זרם דרישות-ה-MRP (סוכר, תרכיז, CO2, אריזה) מעובד יומית: בחירת-מקור אוטומטית מחוזי-מסגרת, והמרה אצווה ל-POs דרך ME59N — מבטיח אספקה רציפה לקווי-המילוי.\n\nMRP יוצר 30 דרישות-רכש לסוכר ► רוכש פותח 'Manage Purchase Requisitions' ► לכל דרישה המערכת מציעה מקור מ-Source List ► הרוכש מאשר את הבחירה ► מריץ ME59N להמרה-אוטומטית ל-POs ► 30 הזמנות נוצרות ונשלחות לספקי-החוזה."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -5515,12 +5365,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "מחיר מ-Pricing Procedure; שליחה דרך Output/IDoc/Business Network.",
      "ה-PO היא עוגן ה-Three-Way-Match."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון הזמנות-רכש לתרכיז, סוכר, CO2 ובקבוקים מבוססות על חוזי-מסגרת; הזמנות-MRO לחלפי-קווים נוצרות מ-Shopping Carts. כל PO נשלחת דרך SAP Business Network, ומעקב-האספקה מתבצע מול ה-EKET.\n\nרוכש פותח ME21N ► ספק, ארגון-רכש 1000 ► שורה: 100 בקבוקים, 2 ₪, מפעל 1000, תאריך-אספקה ► מחיר נקבע אוטומטית מ-Info Record ► שמירה ► flexible workflow מאשר ► ה-PO נשלחת לספק (Output) ► בקבלה: GR 101 (EKBE) ► בחשבונית: MIRO, Three-Way-Match משחרר לתשלום."
    },
    {
     "kind": "flow",
@@ -5709,12 +5553,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון שירותי-תחזוקה לקווי-המילוי (כיול, תיקונים, ניקוי-CIP חיצוני) נרכשים כשירותים; הטכנאי מאשר את השעות שבוצעו ב-Service Entry Sheet, ורק אז משוחררת החשבונית לתשלום.\n\nPO-שירות (Item Category D) ל-'תחזוקת קו-מילוי, 40 שעות, 300 ₪/שעה' ► הקבלן מבצע 35 שעות ► נרשם Service Entry Sheet ל-35 שעות (ML81N / Fiori) ► אישור ה-Entry Sheet יוצר GR-equivalent ► הספק שולח חשבונית, MIRO מתאים מול ה-Entry Sheet ► תשלום על 35 שעות בלבד."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -5887,12 +5725,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "SAP Business Network מזרים PO/Confirmation/ASN/Invoice.",
      "מפחית טעויות ומקצר זמני-מחזור עם נראות בזמן-אמת."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון ספקי-תרכיז, סוכר ואריזה מחוברים ל-SAP Business Network; הזמנות-רכש, אישורים, ASNs וחשבוניות זורמים אוטומטית — מבטיח אספקה רציפה ושקופה לקווי-המילוי ללא טיפול-נייר ידני.\n\nPO נשלחת דרך SAP Business Network ► הספק רואה אותה בפורטל, מאשר ומחזיר Order Confirmation (EKES) ► לקראת-משלוח שולח ASN, שיוצר Inbound Delivery ב-SAP ► בקבלה GR מתבצע מול ה-ASN ► הספק שולח חשבונית אלקטרונית, שנכנסת ישירות ל-MIRO ל-Three-Way-Match."
    },
    {
     "kind": "flow",
@@ -6085,12 +5917,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "מזין agent determination ב-flexible workflow.",
      "דורש employee↔BP mapping."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון הקונפיגורציה מותאמת לתרחישי-הרכש: חומרי-גלם (MRP→PO אוטומטי), אריזה (חוזי-מסגרת), MRO (Self-Service), ושירותי-תחזוקה (Lean Services) — כל אחד עם סוגי-מסמכים, שיוכי-חשבון ו-workflow משלו.\n\nצוות-המימוש מגדיר ב-SPRO: Document Type לדרישות-Self-Service, Account Assignment ברירת-מחדל, Source List, flexible workflow לאישור, ו-Output ל-Business Network ► בודק תהליך מקצה-לקצה ► מעלה לפרודקשן.\n\n**קונפיגורציה של דרישות בשירות-עצמי** — בארגון מוגדר קטלוג-MRO לטכנאים, עם Account Assignment ל-Cost Center של התחזוקה ו-workflow לאישור ראש-הצוות.\n\nAdmin מפעיל את התרחיש, מגדיר Document Type 'ZSC', מקצה קטלוג-משרד, קובע K כברירת-מחדל, ובונה workflow מבוסס-שווי ► משתמש פותח Shopping Cart ומבקש ► PR נוצרת ומנותבת.\n\n**קונפיגורציה של פונקציות-רכש מבוססות-ML** — בארגון נפרס תרחיש חיזוי-אספקה לספקי-סוכר עונתיים, עם ניטור-drift לעדכון המודל לפי שינויי-שוק.\n\nצוות מפעיל תרחיש 'source prediction' ב-ISLM ► מאמן על שנתיים של נתוני-PO ► פורס עם threshold 80% ► ההמלצות מופיעות ב-'Manage Purchase Requisitions'.\n\n**קונפיגורציה של עיבוד-דרישות** — בארגון מוגדר Source List לסוכר/תרכיז + Auto-PO, כך שדרישות-MRP הופכות אוטומטית ל-POs מול חוזי-המסגרת.\n\nמגדירים Document Type 'NB', שדות-חובה, Source List חובה, Auto-PO לחומרים נבחרים, ו-flexible workflow מעל סף-שווי ► דרישות-MRP זורמות ל-PO אוטומטית.\n\n**קונפיגורציה של עיבוד הזמנת-רכש** — בארגון מוגדר Document Type 'FO' לחוזי-מסגרת-אריזה, Pricing מ-Info Record, ו-Output אוטומטי ל-Business Network לספקי-חומרי-הגלם.\n\nמגדירים Document Type 'NB', Screen Layout עם שדות-חובה, Pricing Procedure RM0000, Output ל-Business Network, ו-flexible workflow ► כל PO נוצרת, מתומחרת, נשלחת ומאושרת לפי ההגדרה.\n\n**קונפיגורציה של שיתוף-פעולה בהזמנות-רכש** — בארגון מחוברים ספקי-תרכיז/סוכר/אריזה ל-Business Network עם mapping מלא — כל מסמכי-הרכש זורמים אוטומטית.\n\nמגדירים Output ORDERS ל-Business Network, Trading Partner לספק, ו-inbound processing ל-ORDRSP/DESADV/INVOIC ► PO נשלחת, אישור/ASN/חשבונית חוזרים אוטומטית.\n\n**אינטגרציה ל-SAP SuccessFactors** — בארגון נתוני-העובדים מ-SuccessFactors מזינים את ניתוב-האישורים: דרישות-MRO מנותבות אוטומטית לראש-צוות-התחזוקה לפי ההיררכיה הארגונית המעודכנת.\n\nעובד-חדש נקלט ב-SuccessFactors עם מנהל ומרכז-עלות ► הנתונים מסונכרנים ל-S/4HANA ► כשהעובד פותח Shopping Cart, ה-workflow מנתב אוטומטית למנהל-הישיר, וה-Account Assignment ברירת-המחדל הוא מרכז-העלות שלו."
    },
    {
     "kind": "flow",
@@ -6365,12 +6191,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון הפרק כולו משרת מטרה אחת: שקווי-מילוי-המשקאות לעולם לא יעצרו ממחסור — תרכיז, סוכר, CO2, אריזה ו-MRO זמינים בזמן, במחיר-חוזה, ובאופן מבוקר ומתועד, עם אוטומציה מקסימלית מול הספקים.\n\nמקצה-לקצה: צורך ► דרישה (EBAN) ► בחירת-מקור ► הזמנה (EKKO/EKPO) ► אישור (flexible workflow) ► שליחה (Business Network) ► קבלה (GR/Service Entry Sheet) ► חשבונית (MIRO) ► Three-Way-Match ► תשלום — כל הפרק בתרשים אחד."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -6545,12 +6365,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "ME59N + 'Autom. PO' + Fixed Source = המרה אוטומטית.",
      "משתלם לפריטים חוזרים בהיקף גבוה עם ספקים קבועים."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון הרכש האוטומטי מזין את קווי-המילוי: תרכיז מ-The Example Product Company, סוכר, CO2 ובקבוקי-PET נרכשים בהיקפים-קבועים מספקים-קבועים. MRP מייצר את הדרישות, Source Lists ו-Scheduling Agreements קובעים את הספק והמחיר, ו-ME59N ממיר להזמנות אוטומטית מדי בוקר. רכש-MRO (חלפים) נשאר ידני/Self-Service ואינו חלק מהזרימה האוטומטית-הישירה.\n\nMRP רץ בלילה ► מזהה שמלאי-הסוכר יירד מתחת לנקודת-ההזמנה-מחדש ► יוצר דרישת-רכש (EBAN) עם מקור-קבוע מ-Source List ► בבוקר רץ ME59N וממיר את כל ה-PRs בעלי מקור חד-משמעי להזמנות-רכש (EKKO/EKPO) ► ההזמנות נשלחות אוטומטית דרך SAP Business Network ► הספק מאשר, מספק, וה-GR נרשם — הכל ללא רוכש שנגע בהזמנה."
    },
    {
     "kind": "flow",
@@ -6755,12 +6569,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "Monitor + Manage Material Coverage = הליבה.",
      "נשען על CDS חי מעל HANA, משלים את MD04."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון ה-MRP רץ לילית על כל החומרים: סוכר/CO2/תרכיז (רכש חיצוני, F → דרישות-רכש), משקאות-מוגמרים (ייצור, E → הזמנות-מתוכננות). תחזית-המכירות לעונת-הקיץ מזינה דרישות, וה-MRP מתרגם אותן לרכש-אוטומטי של אריזה וחומרי-גלם מראש, כדי שקווי-המילוי לא ייעצרו בשיא-הביקוש.\n\nהזמנת-מכירה ל-10,000 משקאות ► MRP מפצץ את ה-BOM ► מזהה דרישה ל-2 טון סוכר ► בודק מלאי (1 טון) + הזמנות-פתוחות (0) ► חוסר נטו 1 טון ► יוצר דרישת-רכש (EBAN) לסוכר עם תאריך-נדרש, ובמקביל הזמנה-מתוכננת לייצור המשקה. ה-PR מגיעה לרכש האוטומטי וההזמנה-המתוכננת להמרה לפק\"ע.\n\n**MRP ב-SAP ERP מול SAP S/4HANA** — בארגון המעבר ל-MRP Live מאפשר תכנון-מחדש מהיר כשעולה הזמנת-רשת-שיווק גדולה לקראת סוף-שבוע — האריזה והסוכר נרכשים מיד, בלי להמתין לריצה הלילית.\n\nבמקום הרצת-MRP לילית בלבד, ב-S/4HANA רצים MD01N כמה פעמים ביום; שינוי בהזמנת-מכירה גדולה מתוכנן-מחדש תוך דקות, וה-PR לסוכר מתעדכנת באותו יום.\n\n**תכנון חיזוי (pMRP)** — בארגון pMRP בודק את עונת-הקיץ: האם קווי-המילוי והסוכר יספיקו לשיא? אם לא — בנייה-מוקדמת של מלאי-משקאות ביוני וקידום הזמנות-סוכר, הכל מדומה ומאומת לפני התחייבות.\n\nתחזית-קיץ מצביעה על קפיצת-ביקוש ביולי ► pMRP מריץ סימולציה ► מזהה שקו-המילוי יהיה בעומס-יתר ► המתכנן 'בונה-מראש' מלאי ביוני ומקדים רכש-אריזה ► הבעיה נפתרת לפני שהגיעה.\n\n**אפליקציות SAP Fiori ל-MRP** — בארגון מתכנן-החומרים פותח בבוקר את Monitor Material Coverage, מסנן לפי MRP Controller של חומרי-אריזה, ומטפל רק בחריגות — הסוכר והבקבוקים בעודף לא מציקים לו, רק החוסרים.\n\nמתכנן פותח Monitor Material Coverage ► רואה 8 חומרים בחוסר ► נכנס ל-Manage Material Coverage ► לכל חומר בוחר פתרון (הקדמת-אספקה / הזמנה-חדשה) ► ממיר את ההצעות ל-PR בלחיצה אחת."
    },
    {
     "kind": "flow",
@@ -7001,12 +6809,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "הספק מאשר קיבולת מראש.",
      "מצמצם חוסרים ו-Bullwhip Effect."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון חיזוי קריטי בגלל עונתיות: צריכת-משקאות מזנקת בקיץ. הארגון משתמש ב-Seasonal Forecast Model לחומרי-גלם ואריזה, וב-Reorder Point לחומרי-MRO. התחזיות העונתיות משותפות לספקי-הסוכר וה-PET כדי שיבטיחו קיבולת לשיא.\n\nצריכת-סוכר היסטורית מוזנת ל-Forecast Model ► המודל מזהה מגמת-עלייה עונתית ► חוזה צריכה ל-3 חודשים קדימה ► MRP משתמש בתחזית כדרישה ► יוצר דרישות-רכש מראש ► התחזית משותפת לספק-הסוכר דרך Business Network כדי שיתכונן.\n\n**תכנון מבוסס-תחזית** — בארגון תוויות וחומרי-עזר בצריכה-יציבה מתוכננים Forecast-Based; המודל חוזה את הצריכה-החודשית והרכש-האוטומטי מזמין מראש.\n\nצריכת-תווית חודשית ~10,000 ► המודל חוזה 11,000 לחודש הבא (מגמת-עלייה) ► MRP יוצר דרישת-רכש מראש ► צריכה-בפועל של 9,000 מצמצמת את יתרת-התחזית.\n\n**תכנון נקודת-הזמנה-מחדש** — בארגון חומרי-MRO (חלפים, חומרי-ניקוי) וחומרי-עזר זולים מנוהלים Reorder Point — סף פשוט שמבטיח זמינות בלי תכנון-תחזית כבד.\n\nROP לפקקים = 50,000. מלאי יורד ל-48,000 ► MRP יוצר דרישת-רכש אוטומטית לכמות-Lot ► הרכש-האוטומטי ממיר ל-PO ► המלאי מתחדש לפני שאזל.\n\n**תכנון מבוסס-זמן** — בארגון ספק-הסוכר מספק פעמיים-בשבוע בימים קבועים; Time-Phased Planning מיישר את הזמנות-הסוכר לחלונות-המשלוח, מצבר צורך, וחוסך משלוחים מיותרים.\n\nספק-תרכיז מספק כל יום-שלישי. Planning Cycle = שלישי ► MRP מתכנן רק בשלישי ► מצבר את צורך-השבוע ► יוצר דרישת-רכש אחת לאספקה ביום-המשלוח.\n\n**שיתוף-פעולה בתחזית** — בארגון התחזיות העונתיות (קיץ) משותפות לספקי-הסוכר וה-PET דרך SAP Business Network; הספקים מאשרים קיבולת מראש, ו-הארגון מבטיח אספקה לשיא-הביקוש בלי הפתעות.\n\nתחזית-קיץ לסוכר משותפת לספק דרך Business Network ► הספק מאשר 80% מהכמות וצופה מגבלה ביולי ► הארגון מקדים הזמנות ומחפש ספק-משלים ► החוסר נמנע מבעוד-מועד."
    },
    {
     "kind": "flow",
@@ -7277,12 +7079,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "מאזן חיסכון (קונסולידציה) מול עמידות (פיזור-סיכון).",
      "מתורגם ל-Source Lists/Quotas/Contracts."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון קביעת-המקור קריטית: תרכיז = ספק-יחיד (The Example Product Company, Fixed Source); סוכר = שני ספקים ב-Quota 60/40; PET = חוזה-מסגרת שנתי. Info Records מחזיקים את המחירים המוסכמים, ו-Source Lists מבטיחים שרק ספקים מאושרים יזכו בהזמנות-האוטומטיות.\n\nMRP יוצר דרישה לסוכר ► Source Determination בודק Source List (שני ספקים מאושרים) ► Quota Arrangement מחלק 70/30 ► בוחר ספק לפי היתרה ► מושך תנאי-מחיר מ-Info Record ► ה-PR מקבלת מקור חד-משמעי ► ME59N ממירה ל-PO אוטומטית.\n\n**רשומת מידע לרכש (Purchasing Info Record)** — בארגון לכל זוג חומר-ספק (סוכר-X, PET-Y, תרכיז-TCCC) יש Info Record עם המחיר המוסכם וזמן-האספקה; הרכש-האוטומטי מושך מהם, וה-MRP מתזמן לפי Planned Delivery Time.\n\nME11 ► יוצרים Info Record לסוכר מספק X: מחיר 2.5₪/ק\"ג, Planned Delivery 7 ימים, Min 1 טון ► PO חדש לסוכר-X מושך את המחיר וזמן-האספקה אוטומטית ► ה-MRP משתמש ב-Planned Delivery Time לתזמון.\n\n**רשימת מקורות (Source List)** — בארגון כל חומר-ישיר חייב Source List: תרכיז עם TCCC כ-Fixed (ספק-יחיד), סוכר עם שני ספקים מאושרים, וספק-PET שנכשל ב-QA מסומן Blocked — כך הרכש-האוטומטי לעולם לא מזמין ממנו.\n\nME01 ► רשימת-מקורות לסוכר במפעל 1000: ספק-X (Fixed, MRP=1), ספק-Y (Blocked) ► MRP יוצר דרישה ► קביעת-מקור בוחרת אוטומטית את ספק-X ► ספק-Y לא נבחר אף-פעם עד הסרת-החסימה.\n\n**הסדר מכסות (Quota Arrangement)** — בארגון הסוכר נרכש בהסדר-מכסות 60/40 בין שני ספקים — פיזור-סיכון שמבטיח שאם ספק אחד נכשל, השני יכול להגדיל. Quota מחלק אוטומטית כל דרישה לפי היחס.\n\nMEQ1 ► Quota לסוכר: ספק-A 60%, ספק-B 40% ► דרישה ל-100 טון ► המערכת מחשבת Quota-Allocated ובוחרת ספק-A ל-60 ו-B ל-40 (או לסירוגין לפי היתרה) ► שומרת על היחס לאורך-זמן.\n\n**הסכם תיזמון (Scheduling Agreement)** — בארגון הסוכר וה-PET נרכשים דרך Scheduling Agreements שנתיים: המחיר נעול לשנה, וה-MRP מייצר schedule lines שבועיים אוטומטית מול הקו. זה מבטיח אספקה-רציפה לקווי-המילוי בלי הזמנות-ידניות חוזרות.\n\nME31L ► Scheduling Agreement לסוכר: 1200 טון/שנה, 2.4₪/ק\"ג ► Source List עם MRP=2 ► MRP מייצר schedule lines אוטומטית לפי הצורך ► ME84 שולח את ה-Releases לספק ► הספק מספק לפי לוח-הזמנים.\n\n**שיתוף-פעולה בשחרורי הסכם-תיזמון** — בארגון שחרורי-הסוכר וה-PET משותפים לספקים דרך Business Network: הספק רואה את לוח-המילוי השבועי, מאשר, ושולח ASN לכל משלוח — קווי-המילוי יודעים מראש מתי הסחורה מגיעה.\n\nMRP מייצר schedule lines ► נשלחים כ-FRC+JIT Release לספק דרך Business Network ► הספק מאשר ושולח ASN ► ASN יוצר Inbound Delivery ב-S/4HANA ► ה-GR נקלט מהר ומדויק מול ה-ASN.\n\n**הזמנת-רכש כוללת (Blanket Purchase Order)** — בארגון חומרי-ניקוי-תעשייתי, כפפות וחומרי-עזר זולים לקווי-המילוי נרכשים ב-Blanket PO שנתי לכל מחלקה — בלי GR פרטני, עם תקרת-ערך לבקרה תקציבית.\n\nME21N ► Blanket PO (FO) לחומרי-ניקוי: תוקף שנה, תקרה 50,000₪, Cost Center תחזוקה ► לאורך-השנה נרשמות חשבוניות (MIRO) מול ה-Limit ► כשמגיעים ל-50,000 או לתום-התוקף — ה-PO נסגר.\n\n**הזמנות-רכש והזמנות רב-שכבתיות** — בארגון PET ותרכיז מגיעים משרשראות-עמוקות: PO רב-שכבתי נותן נראות לספקי-המשנה (יצרני-רזין, חומרי-גלם), כך ש-הארגון מזהה סיכוני-אספקה גלובליים מוקדם ומגיב לפני מחסור בקו-המילוי.\n\nPO לבקבוקי-PET ל-Tier-1 ► Tier-1 תלוי ב-Tier-2 (יצרן-רזין) ► דרך Business Network משותפת השרשרת ► מחסור-רזין ב-Tier-2 מתגלה מוקדם ► הארגון מתאים תכנון לפני שהמחסור מגיע לקו.\n\n**מיקור-חוץ ייצורי (Subcontracting)** — בארגון בעונת-שיא הארגון ממקרת מילוי לבית-מילוי-שותף: שולחת תרכיז, סוכר ובקבוקים (Special Stock O), מקבלת בחזרה משקאות-ארוזים, ומשלמת רק על שירות-המילוי. ME2O מנהל את המלאי-אצל-הספק.\n\nPO(L) למשקה-מוגמר מבית-מילוי-חיצוני ► ME2O שולח תרכיז+סוכר+בקבוקים לספק (Movement 541) ► הספק ממלא ► GR למשקה-המוגמר (101) צורך אוטומטית את הרכיבים (543) ► חשבונית רק על שירות-המילוי.\n\n**מלאי בקונסיגנציה (Consignment Stock)** — בארגון ה-CO2 מוחזק בקונסיגנציה: הספק ממלא מכלי-CO2 באתר, הבעלות שלו עד למשיכה, ו-הארגון משלמת רק על ה-CO2 שנצרך בפועל בקרבונציה. אפס הון-כלוא ב-CO2, זמינות-מיידית לקו.\n\nConsignment Sched.Agmt ל-CO2 ► הספק ממלא את המכל באתר-הארגון (GR Special Stock K) ► קו-המילוי מושך CO2 לפי הצורך (411 K / צריכה) ► בסוף-חודש MRKO מחשב את הצריכה ומסדר תשלום לפי מחיר-הקונסיגנציה.\n\n**הזמנות-קונסיגנציה (Consignment Orders)** — בארגון הזמנות-הקונסיגנציה ל-CO2 פועלות אוטומטית: כשמלאי-הקונסיגנציה יורד, replenishment מופעל והספק ממלא; הצריכה נמדדת וה-MRKO החודשי מחשב תשלום — מחזור-חיים מלא ללא הזמנה-ידנית.\n\nConsignment Sched.Agmt(K) ל-CO2 ► MRP/Collaboration מפעיל replenishment ► הספק ממלא (GR Special Stock K) ► קו מושך CO2 (consumption) ► MRKO חודשי מסדר תשלום לפי הצריכה.\n\n**שיתוף-פעולה ב-QM ברשת SAP Business Network** — בארגון חומרי-מזון (סוכר, תרכיז, CO2) דורשים ציות-איכות מחמיר. ספקים שולחים Certificates of Analysis דיגיטליים דרך Business Network; הארגון מאמת מראש, מצמצם בדיקות-נכנס, ומתעד ציות-רגולטורי מלא לכל אצווה.\n\nספק-סוכר שולח ASN עם Certificate of Analysis דיגיטלי דרך Business Network ► המערכת מקשרת ל-Inspection Lot ► תוצאות-עומדות-בתקן → Skip-Lot/שחרור-מהיר ► חריגה → Quality Notification אוטומטית לספק.\n\n**אופטימיזציית בסיס-הספקים (SAP Supply Base Optimization)** — בארגון הכלי מנתח את בסיס-ספקי-האריזה והגלם: מזהה תלות-יתר בספק-PET יחיד וממליץ על dual-sourcing, ומאחד ספקי-תוויות קטנים לחיסכון-נפח — וההמלצות מתורגמות ל-Source Lists ו-Quotas מעודכנים.\n\nניתוח מגלה ש-80% מהסוכר מספק-יחיד (סיכון) ושיש 12 ספקי-אריזה קטנים (פיזור-יתר) ► המלצה: dual-source לסוכר, קונסולידציה ל-3 ספקי-אריזה ► מעדכנים Source Lists ו-Quotas בהתאם ► חיסכון-נפח + הפחתת-סיכון."
    },
    {
     "kind": "flow",
@@ -7748,12 +7544,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון הקונפיגורציה תומכת בתהליכים: Document Types לחומרי-גלם ואריזה, Source List Requirement חובה לכל חומר-ישיר, Quota Usage לסוכר (60/40), ו-Forecast Profiles עונתיים. כל הגדרה מיושרת למדיניות-הרכש של הארגון ולציות-המזון.\n\nמימוש חדש: מגדירים Document Types (NB/FO/LP) ► קובעים Item Categories מותרות ► מפעילים Source List Requirement (OME5) למפעל ► מגדירים Quota Usage באב-החומר ► מקימים Forecast Profile ► בודקים שהזרימה PR→ME59N→PO עובדת end-to-end.\n\n**נתוני-אב** — בארגון נתוני-האב לחומרי-גלם (ROH) ואריזה מוגדרים עם תצוגות-חובה Purchasing/MRP/Forecasting ו-'Autom. PO', וספקי-המפתח (TCCC, ספקי-סוכר) כ-Business Partners מלאים — תשתית לרכש-האוטומטי.\n\nOMS2 ► Material Type ROH עם תצוגות Purchasing+MRP+Forecasting פתוחות ► OMS9 ► שדה Source List = חובה ► פתיחת-חומר (MM01) מאלצת את כל התצוגות ► החומר מוכן לרכש-אוטומטי.\n\n**סוגי-מסמכים** — בארגון מוגדרים Document Types ייעודיים: NB לרכש-גלם/אריזה רגיל, LPA ל-Scheduling Agreements של סוכר/PET, FO ל-Blanket של חומרי-ניקוי — כל אחד עם הקטגוריות והמספור המתאימים.\n\nהגדרת PO Type FO (Framework) עם Item Category B (Limit) מותרת, Number Range נפרד, Account Assignment חובה ► יצירת Blanket PO (ME21N, FO) עובדת חלק ► סוג NB עם Item Categories רגילות לרכש-מלאי.\n\n**תכנון מבוסס-תחזית (קונפיגורציה)** — בארגון Forecast Profiles עונתיים: Automatic Selection לזיהוי-עונתיות-הקיץ, פקטורי-החלקה מכוילים לצריכת-משקאות, ואופק-תכנון של רבעון — כדי שהרכש-האוטומטי יזמין סוכר ואריזה לקיץ מראש.\n\nהגדרת Forecast Profile: Automatic Model Selection, Alpha=0.2, 12 תקופות היסטוריות, אופק-3-חודשים ► החומר יורש את ההגדרות ► MP30 מריץ ובוחר מודל-עונתי אוטומטית ► תחזית מהימנה ל-MRP.\n\n**רשומות מידע לרכש (קונפיגורציה)** — בארגון Info Records מוגדרים עם Condition Schema התומך במחירי-חוזה והנחות-נפח לסוכר/PET, ו-'Info Update' מופעל כך שכל הזמנה מעדכנת את המחיר-האחרון — תמחור-עקבי לרכש-האוטומטי.\n\nהגדרת Condition Schema ל-Info Record עם PB00 (מחיר-ברוטו) + הנחות ► Number Range פנימי ► 'Info Update' מופעל ב-PO Type ► PO חדש מעדכן את ה-Info Record אוטומטית עם המחיר-האחרון.\n\n**רשימות מקורות (קונפיגורציה)** — בארגון Source List Requirement מופעל לכל החומרים-הישירים: אי-אפשר לקנות תרכיז/סוכר/PET מספק שאינו ברשימה-המאושרת — אכיפת compliance מלאה על שרשרת-האספקה.\n\nOME5 ► Source List = חובה למפעל 1000 ► פתיחת-חומר-ישיר ► חייבים להזין Source List תקף ► קביעת-מקור-אוטומטית בוחרת את ה-Fixed Source ► ME59N ממירה אוטומטית.\n\n**הסדרי-מכסות (קונפיגורציה)** — בארגון Quota Usage מופעל ב-MRP וב-PR לסוכר (60/40) ול-PET (dual-source) — כך שכל דרישה אוטומטית מתחלקת בין-הספקים לפי המדיניות, לפיזור-סיכון.\n\nהגדרת Quota Usage שמפעיל Quota ב-PR וב-MRP ► הקצאה לקוד באב-החומר של הסוכר ► MEQ1 קובע 60/40 ► MRP/PR מחלקים אוטומטית בין-הספקים לפי היחס."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -8088,12 +7878,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון עקרונות CATENA-X רלוונטיים לשקיפות-CO2 של אריזה ולוגיסטיקה: מעקב-טביעת-פחמן של בקבוקי-PET לאורך השרשרת, ובחירת-ספקים גם לפי נתוני-קיימות — חשוב למטרות-ה-ESG של מוצר לדוגמה.\n\nיצרן-רכב מצטרף ל-CATENA-X ► משתף נתוני-CO2 ו-traceability לאורך השרשרת ► רכש-אוטומטי מתחשב ב-PCF (Product Carbon Footprint) בבחירת-ספק ► עמידה ברגולציית-פליטות עם נתונים-מאומתים מהשרשרת.\n\n**CATENA-X** — בארגון עקרונות CATENA-X מיושמים לקיימות-אריזה: ספקי-PET משתפים נתוני-CO2 דרך Data Space, הארגון מחשב טביעת-פחמן לבקבוק, ובחירת-ספקים שוקלת קיימות — תומך ביעדי-ESG של מוצר לדוגמה.\n\nיצרן-רכב דורש PCF לכל רכיב ► ספקים משתפים נתוני-CO2 דרך CATENA-X ► הרכש מחשב PCF-מצרפי ► בחירת-ספק שוקלת גם פליטות ► עמידה ברגולציה עם נתונים-מאומתים.\n\n**SAP Enterprise Product Development** — בארגון פיתוח-משקה-חדש או אריזה-חדשה דרך EPD: צוות-הפיתוח בוחר רכיבים, הרכש מזהה ספקים ומתמחר מוקדם, וה-Handover מעביר ל-S/4HANA — השקת-מוצר מהירה יותר עם שרשרת-אספקה-מוכנה.\n\nמהנדס מתכנן מוצר ב-EPD ובוחר רכיבים ► הרכש רואה את ה-Engineering BOM מוקדם ► מתחיל Sourcing ו-Should-Cost ► Handover-to-Manufacturing מעביר ל-S/4HANA עם ספקים-מוכנים ► ייצור מתחיל בלי עיכובי-רכש.\n\n**SAP S/4HANA לתכנון לוגיסטיקת-ציוד-שדה וחומרים** — בארגון פחות מרכזי (ייצור-נייח), אך רלוונטי לתחזוקת-קווי-המילוי המבוזרים בין-מפעלים: תכנון-אספקת-חלפים לאתרי-הייצור השונים, מסונכרן עם תחזוקה-מונעת.\n\nתחזוקה-מתוכננת לתורן בשטח ► Maintenance BOM מגדיר חלפים ► רכש-אוטומטי מזמין חלפים לאתר ► Material Logistics Planning מתזמן אספקה ► החלפים מגיעים לשטח בזמן-העבודה."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -8318,12 +8102,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון כל ספקי-המפתח (סוכר, PET, תרכיז) מחוברים ל-SAP Business Network: ההזמנות-האוטומטיות נשלחות דיגיטלית, ASN מודיע על-משלוחים, וחשבוניות זורמות ל-ERS — מחזור-Procure-to-Pay מלא וללא-נייר. Ariba מנהל את הערכת-הספקים ואת המכרזים האסטרטגיים.\n\nME59N מייצר PO ► נשלח דרך CIG ל-Business Network (cXML) ► הספק מאשר (Order Confirmation) ► שולח ASN → Inbound Delivery ► GR ► הספק שולח Invoice דרך הרשת → MIRO/ERS → Three-Way-Match → תשלום. כל המחזור דיגיטלי וללא-נייר."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -8507,12 +8285,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "קונפיגורציה היא התשתית; Ariba/Business Network הם הגשר-לספקים.",
      "עקרון-העל: אוטומציה לחוזר, ניהול-חריגות לאדם."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון הפרק כולו מתכנס: תרכיז (ספק-יחיד), סוכר (Quota 60/40), PET (Scheduling Agreement), CO2 (Consignment) — כולם נרכשים אוטומטית, מחוברים ל-Business Network, עם QM Collaboration לציות-מזון ושקיפות-CO2 לקיימות. קווי-המילוי מקבלים חומרים בזמן בלי התערבות-רכש שגרתית.\n\nמסע מלא: תחזית-קיץ ► MRP ► דרישה לסוכר ► Source List+Quota בוחרים ספק ► Scheduling Agreement מייצר schedule line ► Business Network שולח לספק ► ASN+QM Certificate ► GR ► ERS ► תשלום. כל זה ללא רוכש שנגע בהזמנה — רק טיפל בחריגה אחת שעלתה."
    },
    {
     "kind": "flow",
@@ -8706,12 +8478,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "מלאי מנוהל בשלוש רמות: Plant / Storage Location / Batch.",
      "ב-S/4HANA MATDOC היא ה-Single Source of Truth."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון המחסן מנהל תרכיז, סוכר, CO2 ומים-מטופלים (חומרי-גלם מנוהלי-אצווה), חצאי-מוצר (תערובת-בסיס) ומשקאות-מוגמרים על משטחים. כל קבלת-תרכיז מספק, כל משיכה לקו-המילוי וכל העברת-מוגמר למרכז-הפצה = תנועת-מלאי המעדכנת כמות וערך בזמן-אמת.\n\nמחזור מלא: ספק מספק חומר-גלם → קבלת-סחורה (101) מגדילה מלאי ומזכה GR/IR; ייצור מושך את החומר → הוצאה-לייצור (261) מקטינה מלאי ומחייבת את הפק\"ע; המוצר המוגמר נקלט (101 מפק\"ע); מכירה מוציאה אותו → הוצאה-למכירה (601) מקטינה מלאי ומחייבת עלות-מכר. כל שלב = מסמך-חומר + מסמך-FI."
    },
    {
     "kind": "flow",
@@ -8915,12 +8681,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "Serial Number Profile (OIS2) שולט בחובה/אופציה.",
      "מקושר ל-Equipment ב-PM."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון אותו תרכיז עשוי להתקיים בו-זמנית: 500 ק\"ג Unrestricted במחסן 0001, 200 ק\"ג ב-Quality Inspection ממשלוח-חדש, ו-100 ק\"ג קונסיגנציה מהספק — שלוש יחידות-מלאי נפרדות, כל אחת באצווה משלה לצורך מעקב-תוקף.\n\nחומר נכנס במצב Quality Inspection (Stock Type) → אינו זמין ל-MRP; לאחר אישור-QA מתבצעת Transfer Posting ל-Unrestricted (321) → כעת זמין. אם החומר מנוהל-אצווה, כל קבלה מקבלת Batch ייחודי; אם מנוהל-סידורי — כל יחידה מקבלת Serial Number עוקב.\n\n**זיהוי החומר** — בארגון לכל תרכיז, סוכר, בקבוק ופקק מספר-חומר ייחודי; משקה-מוגמר נמדד ביחידות-אריזה אך מנוהל-מלאי לפי Base UoM שהוגדר.\n\nתנועת-קבלה של 1,000 ליטר תרכיז: SAP מזהה MATNR, מוודא Base UoM = ליטר, ומעדכן את MARD ביחידה הבסיסית גם אם ההזמנה הייתה בחביות.\n\n**מיקום המלאי** — בארגון: SLoc 'RAW' לחומרי-גלם, 'PROD' ליד הקו, 'FG' למוגמרים ו-'QUAL' לבדיקת-איכות; כולם תחת אותו Plant של מפעל-המילוי.\n\nחומר מתקבל ל-Storage Location 0001 (חומרי-גלם); לפני ייצור מועבר ל-0002 (קו-מילוי) דרך Transfer Posting (311). MRP רואה את הסכום ברמת-Plant.\n\n**שימושיות המלאי** — בארגון כל משלוח-תרכיז נכנס ל-Quality Inspection עד בדיקת-מעבדה (אלרגנים/ריכוז); רק לאחר אישור הוא הופך ל-Unrestricted ומשוחרר לקו-המילוי.\n\nGR של חומר מנוהל-QM (101) → נכנס ל-Quality Inspection (INSME); QA מבצע Usage Decision → Transfer Posting (321) ל-Unrestricted (LABST); כעת זמין ל-MRP.\n\n**בעלות על המלאי** — בארגון משטחים ומכלי-CO2 חוזרים מנוהלים כ-Returnable Packaging (M); תרכיז-ייבוא עשוי להיות בקונסיגנציה עד משיכה לקו, מה שמשפר תזרים.\n\nספק מספק תרכיז בקונסיגנציה (101 K) → נכנס ל-MKOL, לא למאזן; ייצור מושך אותו → Consignment Withdrawal (411 K) מעביר ל-Own Stock ויוצר חוב לספק; הוצאה-לייצור (261) מהמלאי-העצמי.\n\n**זיהוי אצווה** — בארגון כל אצוות-תרכיז נושאת תוקף; קו-המילוי צורך FEFO; כל אצוות-משקה-מוגמר מתועדת מול אצוות-הרכיבים — כך ריקול ממוקד אפשרי תוך דקות.\n\nGR של תרכיז יוצר Batch עם תאריך-תוקף; בייצור Batch Determination בוחר את האצווה הקרובה-לתפוגה (FEFO); המוצר-המוגמר מקבל Batch חדש המקושר לאצוות-הרכיבים — שרשרת-Traceability מלאה.\n\n**זיהוי מספר סידורי** — בארגון מכלי-CO2 לחץ-גבוה וציוד-מעבדה יקר מנוהלים-סידורית — מאפשר מעקב-בדיקות-תקופתיות ואיתור-מיקום פר-מכל.\n\nקבלת ציוד-מילוי (101) מחייבת הזנת מספר-סידורי לכל יחידה; כל תנועה עוקבת אחריו; ב-PM נוצר Equipment Master מקושר לתחזוקה."
    },
    {
     "kind": "flow",
@@ -9250,12 +9010,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון זרימה יומית: קבלת-תרכיז מספק (101) → משיכה לקו-המילוי (261) → קליטת-משקה-מוגמר (101) → העברה למרכז-הפצה (641/STO) → הוצאה ללקוח (601). כל תנועה מעדכנת מלאי, ערך ומסמך-FI אוטומטית.\n\nProcure-to-Pay: GR מ-PO (101) מגדיל מלאי ומזכה GR/IR Clearing; משיכה-לייצור (261) מקטינה מלאי ומחייבת פק\"ע; קליטת-מוגמר (101 מפק\"ע); הוצאה-למכירה (601 מ-Delivery) מקטינה מלאי ומחייבת COGS. כל שלב = מסמך-חומר + FI.\n\n**קבלות סחורה** — בארגון קבלת-תרכיז מספק (101) נכנסת ל-Quality Inspection לבדיקת-מעבדה; קבלת-משקה-מוגמר מהקו (101 מפק\"ע) נכנסת ל-Unrestricted במחסן-המוגמרים.\n\nספק שולח 1,000 ק\"ג סוכר מול PO; פקיד-המחסן מבצע MIGO GR (101) → מלאי +1,000, GR/IR מזוכה; חשבונית-הספק תקוזז מול GR/IR ב-MIRO (Three-Way-Match).\n\n**הוצאות סחורה** — בארגון משיכת תרכיז/סוכר/CO2 לקו (261) מתבצעת לרוב כ-Backflush בדיווח-המילוי; חומר-פגום שנפסל מדווח כ-Scrapping (551).\n\nקו-מילוי צורך תרכיז: GI לפק\"ע (261) → מלאי -X, פק\"ע מחויבת בעלות-החומר; אם הוגדר Backflush — ה-261 קורה אוטומטית בדיווח-הכמות-המיוצרת.\n\n**העברות מלאי** — בארגון העברת משקאות-מוגמרים ממפעל-המילוי למרכזי-הפצה אזוריים מנוהלת ב-STO (641/101); משיכת תרכיז ממחסן-גלם לקו-המילוי = העברה בין-SLoc (311).\n\nSTO בין מפעל-ייצור למרכז-הפצה: ME21N יוצר STO → GI עם 641 (מלאי יוצא ל-Stock-in-Transit) → הובלה → GR 101 ביעד. הנראות נשמרת לאורך כל המעבר.\n\n**רישומי העברה** — בארגון שחרור תרכיז שאושר במעבדה (321 QI→Unrestricted); המרת חומר-גלם-גנרי לחומר-ממותג ספציפי (309) — שניהם רישומי-העברה ללא הזזה.\n\nלאחר אישור-QA: Transfer Posting 321 מעביר את החומר מ-Quality Inspection ל-Unrestricted באותו מחסן — לא זז פיזית, אך כעת זמין ל-MRP."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -9513,12 +9267,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון ספירה-מחזורית (Cycle Counting) לפי ABC: תרכיז יקר (A) נספר לעיתים-קרובות, אריזה זולה (C) לעיתים-רחוקות; הפרשים נרשמים (MI07) ומיישרים את מלאי-המחסן.\n\nספירה-תקופתית: MI01 יוצר מסמך-ספירה עם Posting Block; הצוות סופר פיזית; MI04 מזין כמויות-ספירה; MI20 משווה ומציג הפרשים; MI07 רושם את ההפרש (701/702) ומיישר את המלאי-הספרי לפיזי.\n\n**יצירת מסמכי ספירת מלאי** — בארגון לפני ספירת מחסן-התרכיזים: MI31 מייצר מסמכי-ספירה לכל אצוות-התרכיז עם Freeze, כדי שתנועות-קו לא ישבשו את הספירה.\n\nלקראת ספירה-רבעונית: MI31 מייצר מסמכי-ספירה לכל פריטי-A במחסן; Posting Block מופעל; הצוות מקבל רשימות-ספירה מודפסות.\n\n**תזמון יצירת מסמכי ספירת מלאי** — בארגון Job-יומי מייצר מסמכי Cycle Counting לתרכיזים-יקרים (A) שהגיע מועדם — המחסן מקבל רשימות-ספירה אוטומטית מדי בוקר.\n\nJob לילי בוחר את כל פריטי-A שעברו 30 יום מספירתם-האחרונה ויוצר להם מסמכי-ספירה; בבוקר הצוות מוצא רשימות-מוכנות.\n\n**ניהול ספירת מלאי** — בארגון ספירת אצוות-תרכיז: הסופר מזין כמות-בפועל לכל אצווה ב-MI04 (או באפליקציה-ניידת ברצפת-המחסן); הפרשים מודגשים לפני אישור.\n\nצוות-המחסן ספר 980 ק\"ג סוכר; ב-MI04 מזינים 980 מול 1,000 ספרי; SAP מציג הפרש -20; הפריט מסומן 'נספר' וממתין ל-Difference Posting.\n\n**ניהול מסמכי ספירת מלאי** — בארגון לאחר ספירת-המחסן: MI20 מרכז את כל ההפרשים בין-האצוות; MI07 רושם אותם, מיישר מלאי-תרכיז ומזין דוח-הפרשים לבקרת-ניהול.\n\nMI20 מציג הפרש -20 ק\"ג סוכר; בתוך-הטולרנס; MI07 רושם 702 (הקטנת-מלאי) → MARD מתוקן ל-980, הפרש -20 מחויב לחשבון-הפרשי-מלאי. המסמך נסגר.\n\n**ספירה מחזורית — סיווג** — בארגון: תרכיז ותמציות (A) נספרים חודשית; סוכר/CO2 (B) רבעונית; פקקים/תוויות (C) חצי-שנתית — Cycle Counting מפלג את העומס ושומר דיוק בפריטים-היקרים.\n\nABC Analysis (MIBC) מסווג תרכיז כ-A (ספירה כל 30 יום), אריזה כ-C (כל 180 יום); MARC-CCIND מאוכלס; Job יומי יוצר מסמכי-ספירה לפי-מועד.\n\n**אפליקציות SAP GUI for HTML** — בארגון מנהל-המחסן עובד כולו בדפדפן: אפליקציות-Fiori native לדיווח, ו-GUI for HTML לעסקאות-ספירה ישנות (MI07/MI20) — חוויה אחידה ללא התקנה.\n\nמשתמש פותח Tile 'Post Difference' ב-Launchpad → נטען MI07 כ-SAP GUI for HTML בדפדפן → מבצע Difference Posting בדיוק כמו ב-SAP GUI הקלאסי."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -9774,12 +9522,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "מבוסס ALP על Analytical CDS מעל MATDOC.",
      "מזהה מלאי-מת ומשפר הון-חוזר."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון מנהל-המפעל פותח דשבורד-מלאי בזמן-אמת: רמות-תרכיז מול נקודות-הזמנה, ערך-מלאי-מוגמרים מול יעד, ותנועות-החריגות של היום — הכל מ-CDS מעל MATDOC.\n\nמנהל-מחסן פותח Overview Page לראות מלאי-נמוך; קליק מוביל ל-Stock-Multiple-Materials; קליק-נוסף לדף-אובייקט-החומר עם כל תנועותיו (MB51) — Drill-down רציף מ-KPI לפרט.\n\n**דפי סקירת מלאי** — בארגון דף-סקירה מציג כרטיסי 'תרכיז מתחת לנקודת-הזמנה', 'אצוות שתוקפן קרוב' ו'ערך-מוגמרים' — מבט-בוקר אחד למנהל-המפעל.\n\nמנהל פותח Inventory Overview; Card 'Materials Below Reorder Point' מציג 12 פריטים; קליק מוביל ישירות לרשימת-החומרים לטיפול.\n\n**אפליקציות דיווח תנועות סחורה** — בארגון תחקור 'לאן נעלם תרכיז': Material Documents Overview מסנן Movement Type 261 ליום-נתון ומאתר משיכה-כפולה לקו-המילוי.\n\nתחקור הפרש-ספירה: MB51 על החומר מציג שכל ה-261 של אתמול נרשמו פעמיים — מקור-הפער זוהה תוך-דקות.\n\n**אפליקציות דיווח יתרות מלאי** — בארגון לפני קמפיין-מכירה: 'Stock — Multiple Materials' מראה מלאי-משקאות-מוגמרים בכל מרכזי-ההפצה בזמן-אמת — בסיס להקצאה-ללקוחות.\n\nלפני התחייבות-אספקה ללקוח: MMBE על המוצר מראה 800 Unrestricted, 200 QI — רק 800 זמינים להבטחה; ההחלטה מתבססת על-כך.\n\n**אפליקציות ניטור ערכי מלאי כספיים** — בארגון בקרת-עלות-משקאות: דוח-ערכי-מלאי מראה שווי-תרכיז במחסן מול תקציב, ומזהה Price Differences מעליית-מחיר-סוכר עולמית.\n\nסגירת-חודש: 'Material Inventory Values — Balance Summary' מראה ערך-מלאי-מוגמרים מול חודש-קודם; קפיצה מוסברת דרך Line Items כ-Revaluation לאחר עדכון-Standard-Price.\n\n**דפי אובייקט בניהול מלאי** — בארגון Object Page של אצוות-משקה מציג את כל אצוות-הרכיבים שנכנסו אליה ואת יעדי-ההפצה — בסיס לריקול-ממוקד תוך-דקות.\n\nחקירת אצווה חשודה: Object Page של ה-Batch מציג מקור (GR), כל תנועותיה, מלאי-נוכחי ותוקף — תמונה-מלאה בדף-אחד לצורך-ריקול.\n\n**אנליטיקה בניהול מלאי** — בארגון דשבורד-אנליטי מציג Days-of-Supply לתרכיז מול עונתיות, ומלאי-מת של אריזות-קמפיין-שהסתיים — מאפשר אופטימיזציית הון-חוזר.\n\nALP 'Inventory Turnover' חושף מחזור-איטי בקבוצת-אריזה; Drill-down מגלה מלאי-מת מקמפיין-ישן; ההחלטה: חיסול/Scrapping יזום."
    },
    {
     "kind": "flow",
@@ -10054,12 +9796,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "OMCO = intervals per CC-indicator.",
      "הפרשים → GBB-INV ב-FI."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון הקונפיגורציה מגדירה: Quality Inspection חובה לתרכיז-נכנס, Reason Codes ל-Scrapping-משקאות-פגומים, STO בין-מפעלי למרכזי-הפצה, ו-Cycle Counting (ABC) לתרכיזים-יקרים.\n\nמימוש חדש: מגדירים Plant Parameters (אפשר Negative Stock?), Tolerances ל-GR, Field Selection ל-GI (Reason חובה ב-Scrapping), משכפלים Movement Type מותאם (OMJJ), ומגדירים OBYC לכל Valuation Class — ואז התנועות עובדות נכון.\n\n**אלמנטים כלליים בהגדרה** — בארגון: Negative Stock אסור (מניעת-מלאי-פיקטיבי), Tolerance 2% לקבלת-תרכיז (דיוק-משקל), Reason חובה לפסילת-משקאות.\n\nמגדירים ב-OMCQ: Negative Stock אסור ב-Plant; Tolerance ל-GR over-delivery 5%; Field Selection דורש Reason ב-Scrapping — מסגרת לכל התנועות.\n\n**קבלות והוצאות סחורה** — בארגון: כל GR-תרכיז ל-Quality Inspection אוטומטית; Reason-Codes ל-GI-פסילה (זיהום/תפוגה); Batch חובה בכל קבלת-חומר-גלם.\n\nמגדירים: GR לתרכיז → Auto Quality Inspection; GI Scrapping (551) → Reason Code חובה; Screen Layout מציג Batch — וכל קבלה/הוצאה מתנהגת בהתאם.\n\n**סוגי תנועה** — בארגון: 261 משיכת-רכיבים לקו (Backflush), 101 קליטת-משקה, 311 העברה-בין-מחסנים, 541 שליחת-חומר-לאריזת-משנה חיצונית, 641 העברה למרכז-הפצה — כולם מוגדרים-ומותאמים ב-OMJJ.\n\n541 (GI לקבלן-משנה) מעביר חומר ל-Subcontracting Stock (O) אצל הספק; 641 (GI ל-STO) מעביר ל-Stock-in-Transit; כל אחד עם Value String ו-Account Grouping משלו, מוגדר ב-OMJJ.\n\n**הזמנות העברת מלאי** — בארגון העברת-משקאות-מוגמרים ממפעל-המילוי למרכזי-הפצה אזוריים מנוהלת ב-STO (UB) עם Delivery ו-Stock-in-Transit; בין-ישויות-משפטיות — NB עם Cross-Company Billing.\n\nSTO ממפעל-ייצור למרכז-הפצה: ME21N (UB) → VL10B Delivery → GI 641 (Stock-in-Transit) → הובלה → GR 101 ביעד. הנראות נשמרת לכל-אורך.\n\n**ספירת מלאי פיזית** — בארגון: Tolerance הדוקה לתרכיז-יקר (1%), Cycle Counting A חודשי לתמציות, C חצי-שנתי לתוויות; הפרשים נרשמים ל-GBB-INV לבקרת-עלות.\n\nמגדירים: Tolerance 2% per User Group; Cycle Counting A=30 יום / C=180; Difference Posting דרך 701/702 ל-GBB-INV — וכל ספירה פועלת לפי-מסגרת-זו."
    },
    {
     "kind": "flow",
@@ -10345,12 +10081,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון הפרק תורגם לתהליך-יומי: קבלת-תרכיז ל-QI, שחרור-מעבדה, Backflush לקו-המילוי, קליטת-משקה, STO למרכזי-הפצה, מכירה-ללקוח — וכל זאת תחת ניהול-אצווה (FEFO) ו-Cycle Counting (ABC) השומרים דיוק ועמידה-רגולטורית.\n\nמחזור-החיים המלא שכיסינו: GR (101) → Quality Inspection → שחרור (321) → GI-לייצור (261) → קליטת-מוגמר (101) → STO (641/101) → מכירה (601), עם ספירה-מחזורית מיישרת לאורך-הדרך — כל שלב מתועד, מוערך ומדווח בזמן-אמת."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -10550,12 +10280,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "MEMASSCONTRACT / Mass Changes app, רמת-שדה.",
      "תמיד סימולציה לפני החלה."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: סוכר ותרכיז (concentrate) הם חומרי-הליבה היקרים ביותר. הרכש חותם חוזה-כמות שנתי לסוכר מול ספק מקומי, וחוזה-ערך לתרכיז מול The Example Product Company (מחיר ליחידה משתנה אך תקציב שנתי נעול). חומרי-אריזה (בקבוקי-PET, פקקים, תוויות) מנוהלים בהסכמי-תזמון בשל צריכתם הרציפה והצורך בלוחות-אספקה מדויקים לקו-המילוי.\n\nSource-to-Contract: לאחר מו\"מ עם ספק נוצר חוזה-כמות (ME31K, סוג MK) ל-1,000 טון סוכר במחיר 600 €/טון, תקף שנה. מחלקת-הייצור צריכה 50 טון — נוצרת הזמנת-שחרור (ME21N) עם הפניה לחוזה; המחיר נמשך אוטומטית, והכמות (50) מתועדת ב-EKAB ומקטינה את היתרה הפתוחה לחוזה. כך חוזרים עד מיצוי 1,000 הטון או תום-התוקף.\n\n**סוגי חוזי-רכש** — בארגון: סוכר ובקבוקי-PET = חוזי-כמות (טונאז'/יחידות אחידות). תרכיז ושירותי-מעבדה = חוזי-ערך (מחיר משתנה, תקציב נעול). חוזה מרכזי לסוכר משמש את שני מפעלי-המילוי של הארגון במדינה.\n\nחוזה-כמות (MK) ל-1,000 טון סוכר: כל משיכה מקטינה את EKPO-KTMNG. במקביל חוזה-ערך (WK) לשירותי-תחזוקה ב-200,000 €: כל הזמנת-שירות מקטינה את EKKO-KTWRT עד מיצוי-התקציב.\n\n**ניהול חוזי-רכש** — בארגון צוות-הרכש מנהל את כל חוזי-החומרים (סוכר/תרכיז/אריזה) דרך האפליקציה; דשבורד-התוקף מתריע על חוזים שיש לחדש לפני עונת-הקיץ (שיא-צריכה).\n\nרוכש פותח את Manage Purchase Contracts, מסנן 'חוזים שתוקפם פג תוך 30 יום', בוחר חוזה-סוכר, מאריך תוקף ומעדכן מחיר, שומר — והשינוי נכנס למסלול-אישור אם מוגדר.\n\n**שינויי-המוניים לחוזה-רכש** — בארגון לאחר עדכון-Incoterms גלובלי, צוות-הרכש משנה את שדה-ה-Incoterms בכל חוזי-האריזה בפעולה אחת; ובסוף-שנה מאריך תוקף לכל החוזים-הפעילים בבת-אחת.\n\nלאחר עליית-מחירים מול ספק, הרוכש בוחר את כל חוזי-הספק ב-MEMASSCONTRACT, מעדכן את תנאי-המחיר ב-+5%, מריץ סימולציה לבדיקה, ומחיל — מאות פריטים מתעדכנים בבת-אחת."
    },
    {
     "kind": "flow",
@@ -10770,12 +10494,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון קו-המילוי צורך סוכר שבועית. מערכת-ה-MRP מייצרת דרישות-רכש, וה-Source List מנתב אותן אוטומטית לחוזה-הסוכר כהזמנות-שחרור. כך הצריכה השוטפת מנצלת את החוזה ללא התערבות-ידנית.\n\nחוזה ל-1,000 טון סוכר. הזמנת-שחרור ראשונה ל-200 טון: EKAB מתעדכן ל-200, יתרה 800. הזמנה שנייה ל-300: מצטבר 500, יתרה 500. דוח ME80RA מציג את הניצול המצטבר ואת היתרה-הפתוחה.\n\n**ניצול חוזה-ערך** — בארגון חוזה-ערך לתרכיז מול The Example Product Company: מחיר ליחידה משתנה לפי נוסחה, אך התקציב-השנתי נעול. כל משיכה גורעת ערך, ולא כמות.\n\nחוזה-ערך לשירותי-תחזוקה ב-200,000 €. כל הזמנת-שירות (ME21N → חוזה) גורעת את ערכה; דוח-ניצול מציג ערך-מנוצל מול Open Value עד מיצוי-התקציב.\n\n**ניצול חוזה-כמות** — בארגון חוזה-כמות שנתי לסוכר (1,000 טון) ולבקבוקי-PET (10M יחידות); הצריכה השבועית של קו-המילוי גורעת מהכמות, והדוח מתריע כשנותרים פחות מ-15%.\n\nחוזה ל-1,000 טון סוכר. הזמנות-שחרור של 200+300 טון מותירות Open Quantity 500. MRP ממשיך לייצר דרישות שמנותבות לחוזה עד מיצוי-הכמות או תום-התוקף."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -10971,12 +10689,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "Situation Handling דוחף התראות.",
      "מונע פערי-אספקה ואובדן-תנאים."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון ה-CPO מנטר רבעונית: Off-Contract Spend לאיתור-רכש 'מהשרוול', Unused Contracts לסגירת-חוזים מתים, ו-Contract Expiry להבטחת-חידוש לפני עונת-הקיץ.\n\nמנהל-רכש פותח את Off-Contract Spend, מזהה שקטגוריית-אריזה נרכשת 30% מחוץ-לחוזה, חוקר Leakage לאיתור-המקור, ומקים Source List לכפיית-ניתוב — והבזבוז יורד.\n\n**חוזים לא-מנוצלים** — בארגון הדוח חושף חוזה-תוויות שלא נוצל מאז שינוי-עיצוב-המותג; ה-CPO מחליט לסגור אותו ולחתום חוזה-חדש לעיצוב-הנוכחי.\n\nהדוח מציג חוזה-אריזה ב-0% ניצול אחרי חצי-שנה. בדיקה מגלה שאין Source List, והרכש הזמין מספק-אחר. הפתרון: הקמת Source List או סגירת-החוזה.\n\n**הוצאה מחוץ-לחוזה** — בארגון הדוח חושף שמהנדסי-התחזוקה קונים חומרי-ניקוי מחוץ-לחוזה-המסגרת; הוקם Source List לכפיית-ניתוב, וההוצאה-מחוץ-לחוזה צנחה.\n\nהדוח מראה 30% מרכש-האריזה מחוץ-לחוזה. drill-down חושף רוכש שמזמין מספק-מקומי. תיקון: Source List עם Fix לחוזה — והדליפה נסגרת.\n\n**נזילות-חוזה (Leakage)** — בארגון הדוח חושף שהנחת-הכמות (Scale) לתרכיז לא מומשה כי ההזמנות פוצלו מתחת-לסף; איחוד-ההזמנות מימש את ההנחה.\n\nהדוח מגלה שהזמנות-שחרור לסוכר שולמו 5% מעל מחיר-החוזה בשל דריסה-ידנית. תיקון: ביטול-הרשאת-דריסה ובדיקת-תנאי-מחיר — והנזילות נסגרת.\n\n**פריטי-חוזה לפי הקצאת-חשבון** — בארגון חוזי-שירותי-תחזוקה מחויבים למרכזי-עלות-המפעל; הדוח מאפשר למנהל-המפעל לראות את התחייבויות-החוזה לפי מרכז-עלות.\n\nמנהל-פרויקט פותח את הדוח, מסנן לפי ה-WBS שלו, ורואה את כל פריטי-החוזה המחויבים לפרויקט — בסיס לתחזית-הוצאה תקציבית.\n\n**ניטור פריטי-חוזה-רכש** — בארגון הרוכש מנטר יומית את פריטי-חוזה-הסוכר; כשהיתרה יורדת מתחת לסף שמספיק לשבועיים-ייצור, הוא יוזם חידוש/הגדלה.\n\nהרוכש פותח את ה-Monitor בתחילת-היום, מסנן 'יתרה-פתוחה < 15%', ומזהה שני פריטים שצריך לחדש או להגדיל לפני מיצוי.\n\n**תפוגת-חוזים** — בארגון כל חוזי-החומרים-הקריטיים מנוטרים; לפני עונת-הקיץ (שיא-צריכה) ה-Expiry-Dashboard מבטיח שאף חוזה-סוכר/תרכיז לא יפוג ללא חידוש.\n\nהדוח מציג 5 חוזים שיפוגו תוך 30 יום. הרוכש מתעדף, פותח כל אחד דרך drill-down, ומאריך/מחדש לפני התפוגה."
    },
    {
     "kind": "flow",
@@ -11210,12 +10922,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון הוגדרו סוגי-מסמך נפרדים לחוזי-חומרי-גלם ולחוזי-שירותים, טווחי-מספרים מובחנים, ו-Workflow-אישור דו-שלבי (רוכש→מנהל-רכש) לחוזים אסטרטגיים.\n\nמומחה-SAP מגדיר ב-SPRO סוג-מסמך MK עם טווח-מספרים פנימי, Field Selection מתאים, Item Categories מותרים (Standard/Service), ו-Release Strategy לחוזים מעל 100,000 € — וכך תהליך-החוזה נאכף.\n\n**הגדרת חוזים (קונפיגורציה)** — בארגון הוגדר MK לחומרי-גלם (Material חובה) ו-WK לשירותים (Item Category D מותר), כל אחד עם Field Selection ו-Release מתאימים.\n\nהגדרת MK: BSTYP=K, טווח-מספרים פנימי, Field Selection שמסמן Plant ו-Material כחובה, Item Categories Standard+Service, ו-Release Procedure לחוזים-גדולים.\n\n**ניהול Workflows לחוזי-רכש** — בארגון הוגדר Workflow דו-שלבי: חוזי-חומרי-גלם מאושרים ע\"י מנהל-הרכש, וחוזים-אסטרטגיים (סוכר/תרכיז) דורשים גם אישור-CFO בשל היקפם.\n\nמוגדר Workflow: חוזה < 50K → אוטומט; 50K–200K → אישור-מנהל-רכש; > 200K → אישור-CPO. חוזה ב-150K נשלח אוטומטית למנהל-הרכש, שמאשר בתיבת-המשימות."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -11401,12 +11107,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "מצרף EKET+EKEH+EKBE.",
      "מאתר Overdue Lines לפעולה-יזומה."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון כל חומרי-האריזה (בקבוקים/פקקים/תוויות) מנוהלים בהסכמי-תזמון: קו-המילוי צורך ברציפות, MRP מייצר Schedule Lines, והספקים מספקים JIT למחסן-הקו — מלאי-מינימלי ואספקה-זורמת.\n\nהסכם-תזמון לבקבוקי-PET. MRP מחשב צריכה שבועית ויוצר Schedule Lines ב-EKET. הסכם מפיק Release (Forecast/JIT) שנשלח לספק, שמספק לפי הלוח; קבלות-הטובין מוקזזות מול לוח-התזמון.\n\n**סוגי הסכם-תזמון** — בארגון בקבוקי-PET (אספקת-JIT לקו) = LPA עם Forecast+JIT; תוויות בצריכה-יציבה = LP פשוט.\n\nחומר בצריכה-יציבה → LP (Schedule Lines ישירות). חומר ב-JIT לקו-ייצור → LPA: Forecast-Schedule נותן תחזית-ארוכה, ו-JIT-Schedule נותן קריאות-אספקה מדויקות לטווח-קצר.\n\n**ניהול ויצירת הסכמי-תזמון לרכש** — בארגון צוות-התכנון מתחזק הסכמי-תזמון לאריזה דרך ME38; MRP ממלא Schedule Lines לפי תכנית-המילוי, ו-ME84 שולח Release לספקי-האריזה מדי-שבוע.\n\nרוכש יוצר הסכם-תזמון LPA לבקבוקים (ME31L), קובע מחיר. MRP יוצר Schedule Lines ל-12 שבועות. ME84 מפיק Release Forecast לספק; כל שבוע JIT-Release מעדכן את האספקה-המיידית.\n\n**ניטור פריטי הסכם-תזמון-רכש** — בארגון המתכנן מנטר יומית את הסכמי-האריזה; כששורת-אספקת-בקבוקים מתעכבת, הוא מתערב מיד כדי שקו-המילוי לא ייעצר.\n\nמתכנן פותח את ה-Monitor, מסנן 'Overdue Schedule Lines', מזהה אספקת-בקבוקים-באיחור, ויוצר-קשר עם הספק לפני שהמלאי אוזל."
    },
    {
     "kind": "flow",
@@ -11619,12 +11319,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון הוגדר Release Creation Profile לאריזה: Forecast חודשי לספק (לתכנון-ייצורו) ו-JIT שבועי (לאספקה-מיידית לקו) — איזון בין נראות-ארוכה לגמישות-קצרה.\n\nמומחה-SAP מגדיר LPA עם טווח-מספרים, Item Categories מותרים, ו-Release Creation Profile: Forecast חודשי לאופק-3-חודשים, JIT שבועי לאופק-שבועיים — וכך השחרורים מופקים אוטומטית בקצב-הנכון.\n\n**הגדרת סוגי-מסמכים** — בארגון הוגדר LPA לאריזת-JIT ו-LP לחומרי-עזר-יציבים, כל אחד עם Field Selection ו-Item Categories מתאימים.\n\nהגדרת LPA: BSTYP=L, Release Documentation פעיל, טווח-מספרים פנימי, Item Categories Standard, Field Selection שמסמן Material+Plant חובה.\n\n**הגדרת טווחי-מספרים** — בארגון הוקצה טווח-מספרים ייעודי להסכמי-התזמון, נבדל מחוזי-החומרים, לזיהוי-מיידי בדוחות.\n\nמוגדר טווח פנימי 5500000000–5599999999 ל-LP/LPA, נפרד מטווח-החוזים — כל הסכם מקבל מספר מהטווח אוטומטית.\n\n**קטגוריות-פריט מותרות** — בארגון הסכמי-אריזה מתירים Standard בלבד; הסכמי-קבלנות-משנה (מילוי-חיצוני) מתירים גם L=Subcontracting.\n\nניסיון להזין פריט Consignment בהסכם שלא-מתיר זאת מוחזר בשגיאה; רק Standard ו-Subcontracting הוגדרו מותרים.\n\n**תחזוקת פרופיל-יצירת-שחרורים** — בארגון פרופיל-האריזה: Forecast חודשי (לתכנון-ייצור-הספק) + JIT שבועי (לאספקה-מיידית לקו). כך הספק מתכנן-קדימה אך מספק בקצב-הצריכה-בפועל.\n\nפרופיל: Forecast חודשי לאופק-90-יום, JIT שבועי לאופק-14-יום, Aggregation שבועי לאחר-30-יום. ME84 מפיק בהתאם, והספק מקבל תחזית-ארוכה + קריאות-קצרות מדויקות."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -11821,12 +11515,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון חוזי-הסוכר-והתרכיז האסטרטגיים נסגרים ב-Ariba (מו\"מ, Compliance, חתימות), ומסונכרנים אוטומטית ל-S/4HANA כ-Outline Agreements שמהם מפעלי-המילוי מושכים אספקה.\n\nצוות-Sourcing מנהל מו\"מ ב-Ariba, סוגר חוזה עם סעיפים-משפטיים ו-eSignature; האינטגרציה יוצרת Outline Agreement ב-S/4HANA; הרכש-התפעולי מושך ממנו הזמנות-שחרור — וצריכה-בפועל מוזנת חזרה לדיווח ב-Ariba."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -11978,12 +11666,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "אנליטיקה + Source List + Workflow = רכש מבוקר ואכיף.",
      "Ariba לאסטרטגיה, S/4HANA לביצוע."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: חוזי-כמות/ערך לסוכר-ותרכיז, הסכמי-תזמון JIT לאריזה, אנליטיקה-רבעונית למשמעת-רכש, ו-Ariba לחוזים-האסטרטגיים — תמונת-רכש שלמה למפעל-בקבוק.\n\nמקצה-לקצה: מו\"מ→חוזה/הסכם-תזמון→ניצול (שחרור/לוח-אספקה)→GR+חשבונית→אנליטיקה (ניצול/דליפה/תפוגה)→חידוש. כל שלב נשען על האובייקטים שנלמדו בפרק."
    },
    {
     "kind": "flow",
@@ -12170,12 +11852,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "Document Assembly מרכיב חוזים מ-Clauses מאושרים — סטנדרטיזציה והפחתת-סיכון.",
      "פתרון Fiori-only: עבודה דרך אפליקציות, קונפיגורציה ב-SPRO."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: הסכם-אספקת-תרכיז עם ספק-תרכיז גלובלי מנוהל כ-Legal Transaction. ה-Legal Document מורכב מ-Clauses סטנדרטיים (תנאי-תשלום, SLA-אספקה, סודיות) + Clauses ספציפיים לשוק-הישראלי. ה-Transaction מקושר לחוזה-הרכש (Purchase Contract) ב-MM דרך Linked Object Type, וכל ה-NDAs מול ספקי-לוגיסטיקה מורכבים מאותה Clause Library.\n\nProcure-to-Contract: מחלקת-רכש מגישה Request Legal Contract להסכם-אספקה חדש ► המערכת יוצרת Legal Transaction עם מטא-דאטה ► היועץ-המשפטי מרכיב Legal Document מ-Clauses מאושרים דרך Document Assembly ► המסמך עובר Legal Tasks לאישור (Workflow) ► לאחר חתימה ה-Transaction מקושר להזמנת-הרכש (Linked Object Type) ► Reminder Type שולח תזכורת 60 יום לפני פקיעה."
    },
    {
     "kind": "flow",
@@ -12370,12 +12046,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "מגדירות Steps, Agents, Conditions, Escalation.",
      "Flexible Workflow עם Preconditions מבוססות-נתונים מומלץ."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: צוות-הרכש משתמש ב-Request Legal Contract לפתיחת-בקשות; הצוות-המשפטי ב-Manage Legal Documents ל-Assembly; ומנהל-החוזים ב-Home Page למעקב-KPIs על חוזי-הספקים הפעילים והפגים-קרובים.\n\nמשפטן נכנס ל-Launchpad ► Home Page מציגה משימות-פתוחות ו-KPIs ► לוחץ על משימה ► נפתחת Manage Legal Tasks ► מסיים ביקורת ► עובר ל-Manage Legal Documents להרכבה ► ל-Manage Legal Transactions לעדכון-סטטוס. כל המעבר חלק, על אותם נתונים.\n\n**דף הבית וסקירה כללית** — בארגון: ה-Home Page מציג Card 'Supplier Agreements Expiring' המתריע על הסכם-תרכיז הפג בעוד 45 יום, ומנהל-החוזים יוזם חידוש בעוד מועד.\n\nמנהל-חוזים פותח את Home Page ► רואה Card 'Contracts Expiring in 60 Days = 4' ► לוחץ ► נפתחת רשימה ► בוחר חוזה ► מתחיל תהליך-חידוש דרך Request Legal Contract.\n\n**ניהול הקשרים** — בארגון: עץ ה-Contexts = 'הארגון-Israel' → 'Supplier-Agreements' → 'Concentrate-Suppliers' | 'Logistics-Suppliers'. כל הסכם-תרכיז נפתח תחת הצומת המתאים ויורש הרשאות וברירות-מחדל.\n\nאדמין יוצר Context 'Procurement-Israel' תחת 'Corporate-Legal' ► מקשר Profile ו-Document Types מותרים ► מעתה כל Legal Transaction שנפתח תחת ה-Context יורש את ההגדרות ואת ההרשאות.\n\n**קטגוריות לתוכן משפטי** — בארגון: Categories = 'Concentrate-Supply', 'Logistics', 'NDA', 'Equipment-Lease'. מנהל-החוזים מסנן לפי 'Concentrate-Supply' ורואה את כל הסכמי-התרכיז בכל המדינות.\n\nמשפטן מסנן ב-Manage Legal Documents לפי Category='NDA' ► מקבל את כל הסכמי-הסודיות מכל היחידות ► מוודא שכולם משתמשים בנוסח-העדכני.\n\n**ניהול מסמכים משפטיים** — בארגון: הסכם-אספקת-תרכיז מורכב מ-Clauses: 'Payment Terms NET-30', 'Concentrate SLA', 'Confidentiality', + Clause ישראלי על-מע\"מ. כל גרסה נשמרת; Stamp 'Approved' מוחל לפני חתימה.\n\nמשפטן פותח Manage Legal Documents ► יוצר מסמך מ-Document Type 'Supply Agreement' ► Assembly מרכיב אוטומטית Clauses חובה (תשלום, סודיות) ► מוסיף Clause ספציפי ► שומר Version 1 ► מחיל Stamp 'Draft' ► לאחר אישור Stamp 'Final'.\n\n**ניהול משימות משפטיות** — בארגון: בהסכם-תרכיז נוצרות Tasks: 'Procurement Review' → 'Legal Review' → 'CFO Approval' (לסכומים גבוהים) → 'Sign'. כל Task עם Due Date; חריגה מפעילה Escalation.\n\nמסמך מוכן ► Workflow יוצר Task 'Legal Review' למשפטן + Task 'Approve' למנהל ► המשפטן מסיים את שלו ► ה-Task של המנהל נפתח ► לאחר אישור נוצר Task 'Sign'.\n\n**בקשת חוזה משפטי** — בארגון: מנהל-לוגיסטיקה זקוק להסכם-הובלה חדש ► ממלא Request Legal Contract עם פרטי-המוביל וערך-החוזה ► נוצר Legal Transaction תחת Context 'Logistics-Suppliers' ► עובר לצוות-המשפטי.\n\nרוכש זקוק להסכם-שירות חדש ► ממלא Request Legal Contract (ספק, ערך, סוג) ► המערכת יוצרת Legal Transaction + מפעילה Workflow ► נוצר Task 'Legal Review' ► המשפטן מתחיל הרכבה.\n\n**ניהול עסקאות משפטיות** — בארגון: ה-Legal Transaction של הסכם-התרכיז מאגד את ה-Document המורכב, את נציג-הספק (External Contact), את מנהל-הרכש (Internal Contact), תאריך-פקיעה, Reminder, וקישור לחוזה-הרכש ב-MM.\n\nמשפטן פותח Legal Transaction ► מוסיף External Contact (נציג-הספק) ► מגדיר Date Type 'Expiration' = 31.12 ► מקשר את ה-Legal Document המורכב ► מקשר Linked Object להזמנת-הרכש ► קובע Reminder 60 יום לפני פקיעה.\n\n**ניהול תבניות זרימת-עבודה** — בארגון: Template להסכמי-תרכיז מחייב CFO-Approval מעל 500K€ ו-Legal-Review תמיד; הסכמי-NDA עוברים מסלול-מקוצר (Legal-Review → Sign בלבד). התנאים מבוססים על ערך-החוזה ו-Category.\n\nTemplate 'Supply Agreement Approval': Step 1 Legal Review → Step 2 Procurement Approval → Step 3 (אם ערך>1M) CFO Approval → Step 4 Sign. בעת יצירת מסמך מסוג זה, ה-Tasks נוצרות אוטומטית בסדר."
    },
    {
     "kind": "flow",
@@ -12691,12 +12361,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: צוות-המימוש מגדיר טווח-מספרים נפרד להסכמי-ספקים, Reminder Type ל-60/30 יום לפני פקיעה, Date Types 'Effective/Expiration', Linked Object Type לחוזה-רכש, ו-Document Type לכל סוג-הסכם (תרכיז/לוגיסטיקה/NDA).\n\nמימוש ECM: מגדירים Number Ranges → Entity Types → Contexts → Content Types → Profiles → Document Types → Date/Reminder Types → Contacts → Linked Object Types → Document Stamps → Background Jobs. רק אז האפליקציות מוכנות לעבודה.\n\n**טווחי מספרים** — בארגון: טווח-מספרים נפרד להסכמי-ספקים (3000000–3999999) להבדילם מחוזים-משפטיים-תאגידיים (1000000–1999999), לזיהוי-מהיר בדיווח.\n\nאדמין מגדיר Interval 1000000–1999999 כפנימי לעסקאות-רכש ► בעת יצירת Legal Transaction המערכת מקצה 1000001 ► החוזה הבא יקבל 1000002.\n\n**סוגי תזכורת** — בארגון: שני Reminder Types להסכם-תרכיז — 'Pre-Expiration-90' (התראה אסטרטגית למנהל-רכש) ו-'Pre-Expiration-30' (התראה דחופה + Task-חידוש). מבטיח שהסכם-התרכיז הקריטי לעולם לא פג.\n\nReminder Type 'Pre-Expiration-60' מקושר ל-Date Type 'Expiration' עם offset=-60 ► Background Job יומי מזהה חוזה הפג בעוד 60 יום ► שולח התראה למנהל-החוזים + יוצר Task 'Initiate Renewal'.\n\n**סוגי תאריך** — בארגון: הסכם-תרכיז נושא Date Types 'Effective', 'Expiration', 'Auto-Renewal-Notice'. ה-Expiration נגזרת אוטומטית מ-Effective + תקופה, וה-Auto-Renewal-Notice מזין תזכורת.\n\nDate Type 'Effective'=1.1, 'Term'=12 חודשים → Date-Rule מחשבת 'Expiration'=31.12 → Reminder Type מתבסס על 'Expiration' להתראת-חידוש.\n\n**אנשי קשר פנימיים** — בארגון: בהסכם-תרכיז Internal Contacts = 'Procurement Lead' (רוכש-תרכיז), 'Legal Counsel' (משפטן-הארגון), 'Contract Owner' (מנהל-חוזים). כולם מקבלים תזכורות ומשימות לפי-תפקיד.\n\nInternal Contact Type 'Contract Owner' = מנהל-החוזים, 'Legal Counsel' = המשפטן ► Workflow מנתב Tasks אליהם ► Reminders נשלחות ל-'Contract Owner'.\n\n**סוגי ישות** — בארגון: Entity Types = 'Corporation' → 'Country' (Israel) → 'Function' (Procurement) → 'Supplier-Group'. עליהם נבנה עץ ה-Contexts של הסכמי-הספקים.\n\nאדמין מגדיר Entity Types 'Company'→'Region'→'Business Unit' ► בבניית-Contexts הוא יוצר צמתים מסוגים אלה לפי-סדר-ההיררכיה המותר.\n\n**אנשי קשר חיצוניים** — בארגון: External Contacts בהסכם-תרכיז = 'Supplier Account Manager' (נציג-ספק-התרכיז) ו-'External Legal Counsel' (עו\"ד-חיצוני). מקושרים ל-BP של הספק לזיהוי וניתוח.\n\nExternal Contact Type 'Supplier Representative' מקושר ל-Business Partner של הספק ► משויך ל-Transaction ► מאפשר דיווח 'כל החוזים מול ספק זה' ושליחת-מסמכים אליו.\n\n**סוגים טכניים לסוגי אובייקטים מקושרים** — בארגון: Technical Types ל-'PurchaseContract', 'PurchaseOrder' ו-'Supplier' (Business Partner) — התשתית-הטכנית שמאפשרת לקשר הסכם-תרכיז לחוזה-הרכש ולספק.\n\nמגדירים Technical Type 'PurchaseOrder' המצביע על ה-CDS/BO של PO עם API-קריאה ו-Navigation ► Linked Object Type 'Sourcing PO' (9.3.8) מבוסס עליו ► קישור ל-Transaction מאפשר ניווט ל-PO.\n\n**סוגי אובייקטים מקושרים** — בארגון: הסכם-התרכיז (Legal Transaction) מקושר דרך Linked Object Type לחוזה-הרכש (Purchase Contract) ולספק (Business Partner). הרוכש קופץ מההזמנה לחוזה-המשפטי, והמשפטן רואה את כל הזמנות-התרכיז תחת ההסכם.\n\nLinked Object Type 'Governing Purchase Contract' מקשר Legal Transaction לחוזה-רכש ► מתוך הזמנת-הרכש רואים את החוזה-המשפטי המסדיר ► מתוך החוזה רואים את כל ה-POs שנשענים עליו.\n\n**סוגי תוכן** — בארגון: הסכם-תרכיז מתיר Content Types 'Standard Clause' (מהספרייה), 'Israel-Specific Clause', ו-'Attachment' (נספח-מחירים). מבטיח שכל הסכם בנוי מאותן אבני-בניין מאושרות.\n\nDocument Type 'Supply Agreement' מתיר Content Types 'Standard Clause' + 'Negotiated Free Text' + 'Attachment' ► מנוע-ה-Assembly מרכיב Clauses חובה ► המשפטן מוסיף Free Text במו\"מ.\n\n**חותמות מסמך** — בארגון: הסכם-תרכיז נושא 'Draft' במו\"מ, 'Approved' לאחר CFO-Approval, ו-'Final/Executed' לאחר חתימת-שני-הצדדים. ה-Watermark מונע שליחת-טיוטה בטעות לספק.\n\nמסמך נוצר עם Stamp 'Draft' ► עובר Workflow ► לאחר אישור מקבל אוטומטית Stamp 'Approved' ► לאחר חתימה 'Final' (נועל-עריכה). הפלט-PDF נושא Watermark מתאים.\n\n**פרופילים** — בארגון: Profile 'הארגון-Supplier-Agreement' מאגד את כל ההגדרות להסכמי-ספקים — Document Types, תאריכים, תזכורות-90/30, וקישור-לחוזה-רכש. כל הסכם-ספק חדש משתמש בו אוטומטית.\n\nProfile 'Supplier Agreement' מקבץ Document Types (Supply/Service/NDA), Date Types (Effective/Expiration), Reminder (60/30), Linked Object (Purchase Contract) ► כל Transaction-ספק נוצר עם Profile זה ויורש הכל.\n\n**סוגי מסמכים** — בארגון: Document Types = 'Concentrate Supply Agreement' (מבנה-מלא, Workflow עם CFO), 'Logistics Agreement', ו-'Supplier NDA' (מסלול-מקוצר). כל סוג נושא תבנית-Assembly ותהליך-אישור משלו.\n\nDocument Type 'NDA' קובע: Content Types = Clauses-סודיות בלבד, Workflow = מסלול-מקוצר, Stamps = Draft/Final, Assembly-Template = NDA-standard ► כל NDA חדש נבנה לפי-תבנית זו אוטומטית.\n\n**הגדרות עבודות רקע** — בארגון: Job יומי 'Supplier-Agreement Reminders' רץ כל לילה, סורק את תאריכי-הפקיעה של הסכמי-התרכיז והלוגיסטיקה, ומפיק את התראות-90/30-יום. ניטור-הצלחת-ה-Job הוא חלק מתחזוקת-המערכת.\n\nJob 'ECM Reminder Run' מתוזמן יומית ב-06:00 ► סורק את כל ה-Date Types מול ה-Reminder-offsets ► לחוזה הפג בעוד 60 יום מפיק Notification + Task 'Initiate Renewal'."
-   },
-   {
     "kind": "tables",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -12999,12 +12663,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: הסכם-אספקת-התרכיז עבר את כל המסע — נפתח בבקשה, הורכב מ-Clauses-מאושרים+סעיף-ישראלי, אושר ב-CFO-Approval, סומן Final, קושר לחוזה-הרכש, וקיבל תזכורות-90/30. כך הארגון מנהל את כל הסכמי-הספקים שלו: מתוקננים, מקושרים, ופרואקטיביים.\n\nמחזור-חיים מלא: Request ► Legal Transaction (Profile/Document Type) ► Document Assembly מ-Clauses ► Legal Tasks/Workflow לאישור ► Stamps (Draft→Final) ► Linked Object ל-Purchase Contract ► Date Types + Reminders ► Background Job מתריע על-חידוש ► חידוש דרך Request מחדש."
-   },
-   {
     "kind": "tables",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -13170,12 +12828,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "Standalone S/4HANA ל-RFQ פשוט; Ariba Sourcing ל-Sourcing אסטרטגי.",
      "Source List ו-Quota Arrangement שולטים בבחירת ובפיזור-ספקים."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: לרכש אריזה (בקבוקי PET, פקקים, תוויות) ורכיבים (תרכיז, סוכר, CO2) — קטגוריות אסטרטגיות בעלות-נפח גבוה מנותבות ל-SAP Ariba Sourcing למכרז תחרותי; רכש-טקטי חוזר (חומרי-ניקוי, חלפים) מנוהל ב-Standalone S/4HANA RFQ או דרך Contracts קיימים.\n\nמחלקת-רכש מקבלת דרישת-רכש ל-50 טון אבקת-קקאו ללא ספק קבוע. במקום הזמנה ישירה, הקונה יוצר RFQ, שולח לחמישה ספקים, מקבל Supplier Quotations, משווה ב-Compare Supplier Quotations, מעניק לזוכה, וממיר את ההצעה הזוכה ל-Purchase Order או Contract."
    },
    {
     "kind": "flow",
@@ -13372,12 +13024,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "מתאים למפרט קבוע (קומודיטי).",
      "החלטה מהירה לפי מחיר."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: רכש עונתי של תוויות-קמפיין למשקאות — הקונה מוציא RFQ דרך Manage Request for Quotation לשלושה ספקי-דפוס, ההצעות נקלטות (ידנית או דרך Ariba/cXML), משווים, ומעניקים. הזוכה מקבל PO; הדוחים מקבלים הודעת-דחייה אוטומטית.\n\nקונה יוצר RFQ ל-100,000 בקבוקי-PET, מוסיף חמישה ספקים, מגדיר Quotation Deadline. הספקים מגישים Supplier Quotations עם מחיר ליחידה וזמן-אספקה. הקונה מריץ Compare Supplier Quotations, רואה שספק C זול ב-4% עם זמן-אספקה דומה, מעניק לו את העסקה, ודוחה את השאר אוטומטית עם הודעת-דחייה.\n\n**מקורות עם SAP Ariba Sourcing ו-SAP Business Network** — בארגון רכש גלובלי של רזין/PET לבקבוקים מנוהל ב-Ariba Sourcing: מכרז-הפוך בין ספקי-יבוא, הזוכה חוזר ל-S/4HANA כ-Contract, וכל ההזמנות התפעוליות נמשכות ממנו.\n\nדרישת-רכש אסטרטגית ב-S/4HANA נשלחת כ-cXML ל-Ariba; הקונה מנהל מכרז-הפוך עם 8 ספקים גלובליים; הזוכה והמחיר חוזרים ל-S/4HANA, והופכים אוטומטית ל-Contract.\n\n**מקורות עם SAP S/4HANA עצמאי** — בארגון רכש-טקטי של חלפי-תחזוקה לקווי-המילוי מנוהל Standalone: RFQ ל-2-3 ספקים מקומיים, השוואה מהירה והענקה, ללא Ariba.\n\nקונה יוצר RFQ ל-3 ספקי חומרי-ניקוי דרך Manage RFQ, שולח ב-PDF, מזין את ההצעות ב-Manage Supplier Quotations, משווה ומעניק — הכל בתוך S/4HANA.\n\n**אוטומציית הצעות-מחיר לרכש** — בארגון בעונת-שיא, מאות דרישות לאריזה ממתינות; Quote Automation ממיר אותן ל-RFQ ושולח לספקים-מועדפים, וההצעות חוזרות אוטומטית — חוסך ימי-עבודה לקונים.\n\nJob מתוזמן ממיר מדי-לילה דרישות-רכש פתוחות ל-RFQ ושולח דרך ה-Network; הצעות-הספק נקלטות אוטומטית למחרת, מוכנות להשוואה ללא הקלדה.\n\n**בקשת מחיר (Request for Price)** — בארגון רכש-קומודיטי (סוכר, CO2) שבו המפרט סטנדרטי — Request for Price מהיר בין ספקים, החלטה לפי מחיר בלבד.\n\nקונה שולח Request for Price ל-4 ספקי-סוכר באותו מפרט; ההצעות חוזרות, נמיין לפי מחיר, ומעניקים לזול ביותר תוך יום."
    },
    {
     "kind": "flow",
@@ -13642,12 +13288,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "שולטים במספור, שדות והתנהגות.",
      "מוצגים לבחירה ב-Manage RFQ."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון צוות-הרכש עובד כולו ב-Fiori: יצירת RFQ לאריזה, מעקב-סטטוס, השוואת-הצעות ואישור-מנהל ב-My Inbox — תהליך אחיד לכל הקונים ולכל הקטגוריות.\n\nקונה פותח Manage RFQ, יוצר RFQ ממסך אחד, מנטר את הפריטים ב-Monitor RFQ Items, משווה ב-Compare Supplier Quotations, ומאשרים את ההענקה דרך My Inbox — הכל בלי לעזוב את ה-Launchpad.\n\n**ניהול בקשות הצעת-מחיר** — בארגון קונה-האריזה יוצר את כל ה-RFQ דרך אפליקציה זו — מסך אחיד לבקבוקים, פקקים ותוויות, עם רשימת-הספקים המאושרים.\n\nקונה פותח Manage RFQ, יוצר RFQ חדש מסוג Standard, מוסיף 2 פריטי-אריזה, 4 ספקים, מועד-הגשה בעוד שבוע, מאשר דרך Workflow ושולח.\n\n**יצירת בקשת הצעת-מחיר דרך עיבוד דרישות-רכש** — בארגון דרישות-רכש לחומרי-גלם מצטברות יומית; הקונה ממיר אותן בקבוצות ל-RFQ דרך אפליקציה זו, וכל הקשר נשמר לדיווח.\n\nקונה פותח Process Purchase Requisitions, מסנן דרישות-אריזה פתוחות, בוחר 6, ולוחץ 'Create RFQ' — נוצר RFQ אחד עם 6 הפריטים מוכן לשליחה.\n\n**ניטור פריטי בקשת הצעת-מחיר** — בארגון לפני סגירת-מכרז-אריזה הקונה מנטר אילו ספקי-דפוס הגישו, ומתקשר לאלו שטרם — מבטיח תחרות מלאה.\n\nיומיים לפני ה-Deadline הקונה פותח Monitor RFQ Items, רואה ש-2 מתוך 5 ספקים טרם הגישו לפריט מסוים, ושולח תזכורת.\n\n**השוואת הצעות-ספקים** — בארגון השוואת הצעות-תוויות: האפליקציה מראה מחיר-ליחידה, מינימום-הזמנה וזמן-אספקה; הקונה בוחר את האיזון הטוב ביותר בין מחיר לזמן לעונת-הקמפיין.\n\n5 הצעות לבקבוקי-PET נפרשות בטבלה; ספק C זול ב-4% עם זמן-אספקה דומה. הקונה מעניק ל-C, דוחה את השאר, וההצעה הזוכה עוברת ל-PO.\n\n**ניהול הצעות-ספקים** — בארגון חלק מספקי-האריזה שולחים cXML (נקלט אוטומטית) וחלק PDF (הקונה מקליד); שניהם מנוהלים באותה אפליקציה לפני ההשוואה.\n\nספק שלח הצעה ב-PDF; הקונה פותח Manage Supplier Quotations, מקליד את המחיר וזמן-האספקה כנגד ה-RFQ, שומר, וההצעה זמינה להשוואה.\n\n**ניהול תהליכי-עבודה ל-RFQ** — בארגון RFQ אסטרטגי לאריזה מעל סף-סכום דורש אישור-מנהל-רכש; הכלל מוגדר כאן ומנותב ל-My Inbox של המנהל.\n\nאדמין-רכש מגדיר ב-Manage Workflows for RFQs: RFQ מעל 100K₪ דורש אישור-מנהל; הכלל נכנס לתוקף, וכל RFQ כזה נעצר לאישור ב-My Inbox.\n\n**ניהול תהליכי-עבודה להצעת-ספק** — בארגון הענקת חוזה-אריזה גדול דורשת אישור-CFO; הכלל מוגדר כאן והצעת-הספק הזוכה ממתינה לאישור.\n\nהצעת-ספק זוכה מעל סף מסוים נעצרת לאישור-מנהל ב-My Inbox לפני שניתן להמיר ל-PO.\n\n**תיבת הדואר הנכנס שלי** — בארגון מנהל-הרכש מאשר את כל ה-RFQ והענקות-החוזה דרך My Inbox, גם מהנייד, בעונת-הרכש העמוסה.\n\nמנהל-רכש פותח My Inbox, רואה RFQ ל-200K₪ ממתין, בודק, ולוחץ Approve — ה-RFQ משתחרר ונשלח לספקים.\n\n**סוגי בקשת הצעת-מחיר** — בארגון RFQ Type 'Strategic' לאריזה-בנפח-גבוה דורש שדות-נוספים ואישור-Workflow; 'Standard' לרכש-טקטי פשוט יותר.\n\nאדמין מגדיר שני RFQ Types: 'Standard' (Deadline חובה) ו-'Price' (מחיר בלבד); הקונה בוחר את המתאים ביצירה ב-Manage RFQ."
    },
    {
     "kind": "flow",
@@ -13956,12 +13596,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון ה-IT מגדיר את כל קונפיגורציית ה-RFQ פעם-אחת: מספור ייעודי, Document Types לאריזה/חומרי-גלם, חיבור-cXML ל-Ariba, ו-Output לדוא\"ל-ספק — תשתית לכל קוני-החברה.\n\nצוות-בייסיס מגדיר Number Range ל-RFQ, שני Document Types (Standard/Strategic), מפעיל cXML, מזין Endpoints של ה-Network, משייך Network ID ל-Company Code, ומתזמן Job — וכעת הקונים יכולים ליצור ולשלוח RFQ.\n\n**טווחי מספרים** — בארגון טווח-מספרים ייעודי ל-RFQ-אריזה ולחומרי-גלם להבחנה-ויזואלית בדיווחים.\n\nאדמין מגדיר טווח 6000000000–6099999999 פנימי ל-RFQ, משייך ל-Document Type, וכל RFQ חדש מקבל מספר עוקב.\n\n**סוגי מסמך ל-RFQ** — בארגון Document Type נפרד ל-RFQ-אריזה (עם שדות-איכות) ול-RFQ-שירותים, כל אחד עם מספור ושדות משלו.\n\nאדמין יוצר Document Type 'STRA' ל-RFQ אסטרטגי עם Field Selection שמחייב Deadline ו-Incoterms, ומשייך Number Range ייעודי.\n\n**סוגי מסמך להצעת-ספק** — בארגון הצעות-ספק (cXML או ידני) מקבלות Document Type אחיד עם שדות-איכות-אריזה, נפרד ממספור-ה-RFQ.\n\nאדמין מגדיר Document Type להצעת-ספק עם Field Selection שמחייב מחיר וזמן-אספקה, ומשייך Number Range נפרד מ-RFQ.\n\n**עיבוד חיצוני לתהליך הצעת-הספק** — בארגון ספקי-אריזה המחוברים ל-Network מגישים הצעות שנקלטות אוטומטית; רק ספקים לא-מחוברים מוזנים ידנית.\n\nספק מגיש הצעה ב-Ariba; ה-External Processing קולט אותה כ-cXML, ממפה לשדות ויוצר Supplier Quotation ב-S/4HANA אוטומטית.\n\n**הפעלת סוגי הודעות cXML** — בארגון מופעלים Message Types ל-RFQ, Quotation ו-Award לתמיכה במחזור-Sourcing מלא מול Ariba.\n\nצוות-אינטגרציה מפעיל cXML Message Types ל-outbound RFQ ול-inbound Supplier Quotation; כעת RFQ יכול להישלח ל-Ariba והצעות לחזור.\n\n**אישורים ונקודות-קצה** — בארגון ה-IT מגדיר Endpoints וCredentials ל-Network פעם-אחת; חיבור מאובטח משמש את כל מחזורי-ה-Sourcing מול Ariba.\n\nצוות-אינטגרציה מזין את Endpoint ה-Network ואת ה-Credentials; בדיקת-חיבור מצליחה, וה-RFQ הראשון נשלח בהצלחה ל-Ariba.\n\n**שיוך Network ID ל-Company Code** — בארגון כל ישות-בקבוק (מדינה/Company Code) מקבלת ANID משלה ומשויכת בנפרד — ההצעות חוזרות לישות-הרכש הנכונה.\n\nאדמין משייך ANID של הארגון-Israel ל-Company Code 1000; כעת כל RFQ של חברה זו נושא את ה-ANID הנכון, וההצעות חוזרות אליה.\n\n**תזמון משימה (Job)** — בארגון בעונת-שיא Job לילי ממיר מאות דרישות-אריזה ל-RFQ ושולח — חוסך ימי-עבודה לקונים.\n\nאדמין מתזמן Job לילי שממיר דרישות-רכש פתוחות ל-RFQ ושולח לספקים; בבוקר ה-RFQ כבר אצל הספקים.\n\n**קביעת פרמטר-פלט ושימוש בו** — בארגון RFQ לספקים-מחוברים יוצא כ-cXML ל-Network; לספקים לא-מחוברים יוצא כ-PDF במייל — שני Output Types באותו מנגנון.\n\nאדמין מגדיר Output Type ל-RFQ עם Channel=EMAIL ותבנית-PDF; כל RFQ שמפורסם נשלח אוטומטית בדוא\"ל לאיש-הקשר של הספק."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -14267,12 +13901,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון Flexible Workflow מאשר RFQ והענקות-חוזה: סף-סכום מנתב למנהל-רכש, סף גבוה יותר ל-CFO; הכל מוגדר ב-Fiori ומנותב ל-My Inbox.\n\nאדמין מפעיל Scenario ל-RFQ, מגדיר Start Condition 'מעל 100K₪', מוסיף Step עם מאשר=מנהל-רכש ו-Decision Options (Approve/Reject); כל RFQ כזה מנותב ל-My Inbox של המנהל.\n\n**הפעלת תרחיש** — בארגון מפעילים Scenario ל-RFQ ול-Supplier Quotation Approval לפני הגדרת-הכללים הספציפיים.\n\nאדמין מפעיל Scenario ל-RFQ Approval; מרגע זה כללי-ה-Start-Conditions שמוגדרים נכנסים לפעולה.\n\n**רישום אירוע ל-Workflow עוקב** — בארגון אירוע 'RFQ Approved' מפעיל אוטומטית את שיגור-ה-RFQ לספקים — שרשור ללא התערבות.\n\nאירוע 'Quotation Awarded' רשום; ברגע ה-Award מופעל Workflow עוקב שיוצר טיוטת-PO לאישור.\n\n**תחזוקת שמות-משימות ואפשרויות-החלטה** — בארגון שמות-המשימות ואפשרויות-ההחלטה מנוסחים בעברית ('אשר רכש'/'דחה') לנוחות מנהלי-הרכש המקומיים.\n\nאדמין מגדיר Task Name='אישור RFQ אסטרטגי' ו-Decision Options: 'אשר', 'דחה עם נימוק'; המנהל רואה זאת ב-My Inbox.\n\n**ויזואליזציה של SAP Business Workflow** — בארגון צוות-התמיכה משתמש בוויזואליזציה לאיתור הענקות-תקועות בעונת-שיא ולזיהוי מאשרים-חסרים.\n\nתמיכה פותחת את ה-Workflow Log ל-RFQ תקוע, רואה שהשלב ממתין למאשר בחופשה ללא Substitution, ומפנה לחלופי.\n\n**הגדרת תרחיש** — בארגון Scenario דו-שלבי לאריזה: מנהל-רכש ואז CFO לסכומים גבוהים, עם Deadlines ו-Escalation אוטומטי.\n\nScenario ל-RFQ: Start Condition 'מעל 100K', Step1=מנהל-רכש (Deadline 2 ימים), Step2=CFO אם מעל 500K; כל שלב עם Decision Options.\n\n**תחזוקת תכונה למשימת-Workflow** — בארגון משימת-אישור-RFQ מוגדרת General Task כדי שכל מנהל-רכש מורשה יוכל לאשר, ולא רק משתמש-בודד.\n\nאדמין מסמן את משימת-האישור כ-General Task; כעת כל מאשר-מורשה לפי ה-Scenario מקבל אותה, ולא רק רשימת-Agents מצומצמת."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -14523,12 +14151,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון רכש-PET/רזין גלובלי וקטגוריות-אריזה אסטרטגיות מנוהלים ב-Ariba: מכרזים-הפוכים, גילוי-ספקים חדשים, וחוזים שחוזרים אוטומטית ל-S/4HANA — בעוד רכש-טקטי נשאר Standalone.\n\nדרישה אסטרטגית ל-PET נשלחת כ-cXML ל-Ariba; הקונה מנהל מכרז-הפוך עם ספקים גלובליים; ה-Award חוזר ל-S/4HANA והופך ל-Contract, שממנו נמשכות הזמנות-תפעוליות."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -14696,12 +14318,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "Flexible Workflow ל-אישורים; Ariba ל-Sourcing אסטרטגי דרך cXML.",
      "תקלות-מפתח: Scenario, General Task, cXML — בדוק אותן ראשון."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: קטגוריות אסטרטגיות (PET/רזין) ב-Ariba, רכש-טקטי (חלפים/ניקוי) Standalone, הכל ב-Fiori עם Flexible Workflow ל-אישורים — תהליך-רכש אחיד, מבוקר ומשולב לכל הקונים.\n\nמסע מלא: דרישה→RFQ (Manage RFQ)→שיגור (Output/cXML)→הצעות (Manage Supplier Quotations)→השוואה (Compare)→אישור (My Inbox/Flexible Workflow)→Award→PO/Contract — בין Standalone ל-Ariba."
    },
    {
     "kind": "flow",
@@ -14882,12 +14498,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "אסטרטגי ומונחה-Fiori, להבדיל מרכש-תפעולי שוטף.",
      "התוצר: חוזה / Info Record / Source List — לא PO."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: השקת SKU חדש (פחית 250 מ\"ל בעיצוב חדש) מצריכה מקור לפחיות, לתוויות ולקרטונים. צוות-הרכש פותח Sourcing Project, מזמין יצרני-פחיות מקומיים ובינלאומיים, משווה הצעות, ופוסק זכייה שמתורגמת לחוזה — מבלי לערב עדיין את קווי-המילוי. במקביל הסוכר (Commodity) מתומחר דרך CPE לפי מדד-בורסה.\n\nארגון משיק מוצר חדש. צוות-הרכש פותח Sourcing Project, מגדיר את הפריטים והכמויות, מזמין ארבעה ספקים להגיש Supplier Quotation, אוסף את ההצעות, מריץ Quotation Evaluation לפי משקלות (מחיר 50%, איכות 30%, אספקה 20%), בוחר זוכה, ופסיקת-ה-Award יוצרת חוזה (Enterprise Contract) ומקור-אספקה — ומשם הרכש התפעולי יכול להזמין PO."
    },
    {
     "kind": "flow",
@@ -15083,12 +14693,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "Full או Split (פיצול-סיכון עם Quota Arrangement).",
      "תוצר: Contract / Info Record / Source List."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: פרויקט-מיקור לאריזות ה-SKU החדש מנהל בו-זמנית פחיות, תוויות וקרטונים. כל קטגוריה מקבלת קבוצת-ספקים משלה; ההערכה והפסיקה נעשות לכל שורה, וה-Award מייצר חוזי-מסגרת נפרדים לכל ספק-זוכה.\n\nרוכש פותח Sourcing Project עבור רכיב חדש, מוסיף שלוש שורות-פריט, מזמין חמישה ספקים. שלושה מגישים Supplier Quotation. ה-Quotation Evaluation מנקד אותם לפי מחיר/איכות/אספקה ומציג טבלת-השוואה (כמו ME49). הרוכש פוסק זכייה לספק עם הניקוד הגבוה — וה-Award מייצר חוזה ו-Source List.\n\n**פרויקט מיקור (Sourcing Project)** — בארגון: פרויקט 'SKU-Launch-Cans-2026' מנהל פחיות + תוויות + קרטונים; כל שורה עם כמות-שנתית-צפויה ותאריך-יעד התואם למועד-ההשקה.\n\nרוכש יוצר פרויקט 'מיקור-אריזות-Q3', מוסיף שלושה פריטים, מגדיר תאריך-הגשה אחרון, ומזמין ספקים. ה-Status עובר ל-In Process עד שכל ההצעות מגיעות, ואז להערכה.\n\n**הערכת הצעות מחיר (Quotation Evaluation)** — בארגון: השוואת יצרני-פחיות — מחיר-ליחידה, אחוז-פסולת (איכות), זמן-אספקה ויכולת-נפח. הניקוד המשוקלל בולם בחירה ב'הזול ביותר' אם איכותו נמוכה (סיכון-קו-מילוי).\n\nשלוש הצעות לרכיב: A זול אך אספקה איטית; B יקר אך איכות-מעולה; C מאוזן. ההערכה המשוקללת (מחיר 50/איכות 30/אספקה 20) מנקדת ומציגה ש-C מוביל — בסיס לפסיקה.\n\n**החלטות זכייה (Award Decisions)** — בארגון: פסיקת-פחיות מפוצלת בין יצרן-מקומי (70%, אספקה-מהירה) ויצרן-בינלאומי (30%, גיבוי) — Split Award מצמצם סיכון-השבתת-קו ומייצר שני חוזים + Quota Arrangement.\n\nאחרי הערכה, הרוכש פוסק Split Award: 60% לספק C (המוביל) ו-40% לספק B (גיבוי-איכות). ה-Award יוצר שני חוזי-מסגרת ו-Source List עם Quota Arrangement התואם."
    },
    {
     "kind": "flow",
@@ -15320,12 +14924,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: ייבוא רשימת-רכיבים ל-SKU החדש; אבני-דרך מתואמות למועד-ההשקה; איגוד כל חומרי-האריזה לחבילה אחת מול ספק-אריזות אסטרטגי לקבלת מחיר-נפח.\n\nצוות-רכש מקבל רשימת 40 פריטים חדשים. הוא מייבא אותם, משייך כל קבוצה לפרויקט מתאים, קובע אבני-דרך (סיום-הזמנת-ספקים, סיום-הערכה, פסיקה), ומאגד פריטים דומים לחבילה אחת למינוף-מחיר.\n\n**ייבוא פריטים ושיוך לפרויקטים** — בארגון: ייבוא רשימת-רכיבים ל-SKU החדש מ-PLM/אקסל; שיוך אוטומטי — פחיות/תוויות/קרטונים לפרויקט-אריזות.\n\nטעינת 40 פריטים מקובץ; המערכת משייכת אוטומטית לפי קטגוריה: 25 לפרויקט-אריזות, 10 לפרויקט-חומרי-גלם, 5 לפרויקט-שירותים.\n\n**אבני דרך ותזמון משימות** — בארגון: מועד-השקת-ה-SKU מכתיב את כל לוח-המיקור אחורה — פסיקת-אריזות חייבת להסתיים מספיק מוקדם כדי לאפשר ייצור-ראשוני ובדיקות-קו.\n\nמועד-השקה ב-1 בספטמבר; backward scheduling קובע: פסיקה עד 1 ביולי, סיום-הערכה עד 15 ביוני, סיום-הגשת-הצעות עד 1 ביוני. כל אבן-דרך מנוטרת.\n\n**איגוד פריטים לפי צורכי המיקור** — בארגון: איגוד כל חומרי-האריזה (פחיות+תוויות+קרטונים) לחבילה אחת מול ספק-אריזות אסטרטגי משיג הנחת-נפח ומפשט את הניהול לקראת ההשקה.\n\nבמקום שלושה מיקורים נפרדים לפחיות/תוויות/קרטונים, מאגדים את כל חומרי-האריזה לחבילה אחת מול ספקי-אריזה — מחיר-נפח טוב יותר ופחות תהליכים."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -15510,12 +15108,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: חוזה-מסגרת רב-שנתי לאריזות מנוהל ב-ECM — כולל סעיפי-איכות (מפרט-פחית), סעיפי-מחיר (כולל הצמדה דרך CPE), ונספחי-תקינה למזון; מאושר משפטית לפני שהרכש מזמין.\n\nAward לספק-אריזות מייצר Enterprise Contract: מחיר ותנאים מההצעה-הזוכה, סעיפים-משפטיים מ-Clause Library, נספח-איכות מ-DMS, ותהליך-אישור משפטי+רכש. החוזה משמש מקור-אספקה ל-PO."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -15690,12 +15282,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: הסוכר הוא Commodity מובהק. CPE מקשר את מחיר-הסוכר בחוזה למדד-בורסת-הסוכר (לדוגמה ICE Sugar No.11) + premium-לוגיסטי; כשמחיר-הסוכר העולמי עולה, עלות-המשקה מתעדכנת אוטומטית דרך החוזה.\n\nחוזה לרכיב עתיר-אלומיניום: ה-CPE formula = מחיר-LME-אלומיניום (ממוצע-חודשי) + premium-עיבוד. כל חודש המחיר מחושב-מחדש מהמדד; ה-PO על החוזה מקבל את המחיר-המעודכן."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -15865,12 +15451,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "שלמות + תוקף = תנאי להערכה.",
      "Business Network מאפשר קליטה-אוטומטית."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: הצעות יצרני-הפחיות נקלטות עם מחיר-לאלף-יחידות, MOQ, זמן-אספקה ו-Incoterms; חלקן מגיעות אוטומטית דרך Business Network. הצעה ללא תוקף או חסרת-MOQ מסומנת לא-שלמה ולא נכנסת להערכה.\n\nחמישה ספקים הוזמנו; שלושה מגישים. הרוכש קולט כל הצעה ב-F2370 (מחיר, אספקה, Incoterms, תוקף), מוודא שלמות, וסוגר את חלון-ההגשה. שלוש ההצעות התקפות עוברות ל-Quotation Evaluation."
    },
    {
     "kind": "flow",
@@ -16045,12 +15625,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "תמיד Simulation לפני ביצוע.",
      "CPE מטפל במדד; Mass Update ב-premiums."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: עדכון-מחירים שנתי לכל חוזי-האריזה של ספק-אסטרטגי בבת-אחת; ולחומרי-סחורה (סוכר) — עדכון ה-premiums הקבועים דרך Mass Update בעוד ה-CPE מטפל ברכיב-המדד אוטומטית.\n\nאחרי סבב-משא-ומתן שנתי, מחירי-100 Info Records של ספק עולים ב-3%. Mass Price Update מסנן לפי ספק, מחיל +3% על Condition PB00 מתאריך-תוקף, ומעדכן את כולם בפעולה אחת מבוקרת."
    },
    {
     "kind": "flow",
@@ -16236,12 +15810,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: יצרני-פחיות בינלאומיים מחוברים דרך SAP Business Network להגשת-הצעות ולשיתוף-מפרטים; ספקים-מקומיים אסטרטגיים עובדים דרך פורטל-ספקים פרטי ממותג-הארגון עם שאלוני-תקינה-למזון.\n\nרוכש מפרסם RFQ דרך הרשת; חמישה ספקים מקבלים התראה, מגישים הצעות ישירות בפורטל, שואלים שאלות-הבהרה ב-Q&A מתועד, ומעלים תעודות-איכות. ההצעות נכנסות אוטומטית ל-Manage Supplier Quotations.\n\n**רשת העסקים של SAP ומקורות מוצר** — בארגון: גישה ליצרני-פחיות בינלאומיים דרך SAP Business Network מרחיבה את בסיס-הספקים ל-SKU החדש מעבר לספקים-המקומיים, ומשפרת תחרות-מחיר.\n\nפרסום RFQ ברשת מגיע ל-50 ספקים-פוטנציאליים מתאימים; 12 מגיבים בהצעות-מובנות שנקלטות אוטומטית ל-S/4HANA להערכה.\n\n**פורטל ספקים (רשת פרטית)** — בארגון: ספקי-אריזה אסטרטגיים-מקומיים עובדים בפורטלארגון ממותג, עם שאלוני-תקינה-למזון ומפרטי-איכות מותאמים — פרטיות ושליטה מלאה מול ספקים-מועדפים.\n\nספקים-אסטרטגיים מקבלים גישה לפורטל-ממותג; הם מגישים הצעות, ממלאים שאלוני-תאימות ומעלים תעודות — הכול מסתנכרן ל-S/4HANA, בשליטה-מלאה של הקונה."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -16420,12 +15988,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "Project Types, Criteria, Award mapping, Workflow, אינטגרציות.",
      "בדיקת end-to-end לפני go-live."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: קונפיגורציה ייעודית לקטגוריות-אריזה — Project Type עם משקלות-איכות גבוהות (קריטי לקו-מילוי), CPE Condition לסוכר, ו-Workflow-אישור משפטי+רכש לחוזים מעל סף.\n\nיועץ מגדיר Project Type 'STD-SOURCING' עם קריטריוני-הערכה ברירת-מחדל (מחיר/איכות/אספקה), ממפה Award ל-Contract Document Type, מחבר Flexible Workflow לאישור מעל סף-ערך, ובודק end-to-end מפרויקט ועד חוזה."
    },
    {
     "kind": "flow",
@@ -16611,12 +16173,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "משתלב עם ECM, CPE ו-Business Network, על-גבי SPRO.",
      "שליטה בפרק = הובלת מימוש מקורות-מוצר שלם."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: השקת-SKU מקצה-לקצה — תכנון, מיקור-אריזות דרך Business Network ופורטל-פרטי, הערכה-משוקללת מוטת-איכות, Split Award לפיזור-סיכון, חוזי-ECM עם CPE לסוכר, ועדכוני-מחיר-המוניים שנתיים — כל מחזור-המיקור במערכת אחת.\n\nמצורך-עסקי (SKU חדש): תכנון-רכש→Sourcing Project→Supplier Quotations (דרך Business Network)→Quotation Evaluation→Award→Enterprise Contract (עם CPE לסחורה)→מקור-אספקה→PO תפעולי. כל שלב מתועד, מוגדר ב-SPRO, ומנוהל ב-Fiori."
    },
    {
     "kind": "flow",
@@ -16807,12 +16363,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "טבלאות-ליבה: RBKP/RSEG (חשבונית), BSIK/BSAK (זכאי פתוח/מסולק).",
      "3-Way Match (PO+GR+חשבונית) הוא בקרת-המחיר המרכזית; MRBR משחרר חסמים; F110 משלם."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון מפעל-המילוי מקבל אלפי חשבוניות חודשיות: תרכיז מ-The Example Product Company, סוכר, CO2, בקבוקים, תוויות ושירותי-לוגיסטיקה. כל חשבונית עוברת 3-Way Match מול ה-PO וה-GR; חשבוניות-תרכיז בעלות-גבוהה נתונות לטולרנס מחמיר וחסימות-תשלום נפוצות יותר. תשלומי-הספקים מרוכזים בריצת-F110 שבועית, עם ניצול הנחות-מזומן (Cash Discount) לשיפור הון-חוזר.\n\nספק שולח חשבונית על 1,000 ארגזים. הרכש מקליד אותה ב-MIRO תוך הפניה ל-PO. SAP מושך אוטומטית את הכמות והמחיר מה-PO ומאמת מול ה-GR: אם הכל תואם — החשבונית נרשמת מאוזנת ומיד משוחררת לתשלום; אם המחיר חורג מהטולרנס — נוצרת חסימת-תשלום עד שמורשה משחרר ב-MRBR. בהמשך F110 סורק חשבונות-זכאים פתוחים (BSIK), בוחר את אלה שהגיע מועדם, ומפיק תשלום — והפריט עובר ל-BSAK."
    },
    {
     "kind": "flow",
@@ -17017,12 +16567,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "מבוסס CDS/OData; מנווט ל-PO/GR/FI/תשלום.",
      "משלים את MIRO הטרנזקציוני."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון צוות-AP מעבד מאות חשבוניות-יומיות. חשבוניות-תרכיז (סכום גבוה, ספק-בודד) עוברות אימות קפדני; חשבוניות-אריזה (ריבוי-ספקים) מעובדות בצובר. חשבוניות שאינן מתאזנות נשמרות כ-Parked ומועברות לבירור-רכש.\n\nפקיד-AP פותח MIRO, מקיש PO, SAP טוען את השורות עם כמות-שנותרה-לחיוב ומחיר-PO. הוא מזין את סכום-החשבונית בכותרת; השדה 'Balance' חייב להגיע ל-0 כדי לרשום. אם תואם — רישום מיידי; אם לא — שמירה כ-Parked עד בירור מול הספק.\n\n**מסמכי חשבונית-ספק** — בארגון כל חשבונית-תרכיז מקבלת מסמך עם הפניה ל-PO ולמספר-משלוח של The Example Product Company, לצורכי תחקור-ביקורת מלא.\n\nלאחר רישום ב-MIRO, המערכת מציגה 'Document no. 51XXXXXXXX created'. הצגתו ב-MIR4 חושפת את הכותרת והשורות, את מסמך-ה-FI המקושר, ואת היסטוריית-ההזמנה (PO History).\n\n**תוצאות עיבוד החשבונית** — בארגון חומרי-גלם בניהול-Standard-Price: הפרשי-מחיר-חשבונית נרשמים ל-PRD ומנותחים חודשית מול תקציב-עלויות-החומר של מפעל-המילוי.\n\nGR קודם זיכה GR/IR ב-1,000. החשבונית על 1,020 רושמת: Dr GR/IR 1,000, Dr Price Difference 20, Cr Vendor 1,020 (+מס). GR/IR נסגר במלואו; ההפרש-20 נרשם כ-PRD כי החומר ב-Standard Price.\n\n**סוגי אימות חשבוניות-ספק** — בארגון: חומרי-גלם ואריזה = GR-Based 3-Way Match (חשבוניות חלקיות נפוצות); שירותי-תחזוקה = 2-Way; הוצאות-מטה = רישום-ישיר FB60.\n\nסחורה: 3-Way Match אוטומטי. שירותי-ייעוץ: 2-Way (PO+חשבונית) כי אין GR פיזי. חשמל-משרד: רישום-ישיר ב-FB60 ללא PO.\n\n**הזנת מסמכי חשבונית** — בארגון הזנת חשבונית-תרכיז מתבצעת עם הפניה ל-Delivery Note כדי להבטיח התאמה למשלוח הספציפי מ-The Example Product Company.\n\nפקיד מזין PO, בוחר 'Delivery Note' כהתייחסות, SAP מסנן ל-GR הספציפי. הוא מזין סכום-ברוטו 5,000, Balance=0, Post. המערכת מחזירה מספר-מסמך.\n\n**עיבוד החשבונית** — בארגון עליות-מחיר-סוכר עונתיות יוצרות חסימות-תשלום תכופות; צוות-הרכש סוקר אותן ב-MRBR ומשחרר לאחר אימות מול חוזה-הספק.\n\nחשבונית במחיר 1.05/יח' מול PO ב-1.00 וטולרנס 3% — הסטייה 5% חורגת; נוצרת Payment Block 'R'. מנהל-רכש בוחן ב-MRBR, מאשר את עליית-המחיר, ומשחרר — החשבונית עוברת לזכאי-לתשלום.\n\n**דיווח בעיבוד חשבוניות** — בארגון דוח-יומי מציג חשבוניות-תרכיז חסומות לפי גיל; חשבוניות מעל-סף-ערך מקבלות טיפול-עדיפות לשמירה על יחסי-ספק עם The Example Product Company.\n\nמנהל-AP מריץ MIR6 בבוקר, מסנן לחשבוניות-חסומות מעל 10,000, ומקצה אותן לשחרור-עדיפות ב-MRBR לפני מועד-ניצול-ההנחה.\n\n**עמודי-אובייקט** — בארגון צוות-AP עובר ל-Object Pages לבירור-מהיר של חשבונית-ספק תוך ניווט ל-PO ול-GR בלחיצה — מקצר זמן-בירור מול ספקים.\n\nמשתמש לוחץ על חשבונית ברשימת-Fiori; נפתח Object Page עם פרטי-החשבונית, שורות-ההתאמה, וקישור-ישיר למסמך-ה-PO ולמסמך-התשלום — ללא מעבר בין טרנזקציות."
    },
    {
     "kind": "flow",
@@ -17302,12 +16846,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון חשבונות-הזכאים מנהלים מאות-ספקים: תרכיז, סוכר, אריזה, לוגיסטיקה. צוות-ה-AP מתזמן תשלומים לניצול-מרבי של הנחות-מזומן תוך שמירה על תזרים-מזומנים יציב למפעל-המילוי.\n\nחשבונית נרשמה → Open Item ב-BSIK עם Due Date לפי ZTERM (למשל נטו-30, 2% הנחה תוך-10). F110 בוחר את הפריט ביום-ה-9, משלם עם 2% הנחה, ומעביר ל-BSAK.\n\n**עיבוד תשלומי-ספק** — בארגון ריצת-F110 שבועית משלמת מאות-ספקים בהעברה-בנקאית; פריטים-חסומים (MRBR שטרם-שוחרר) נדחים אוטומטית, ותרכיז משולם בעדיפות לניצול-הנחת-מזומן.\n\nביום-תשלום-שבועי F110 רץ: Parameters לחברה+שיטת-העברה, Proposal מציג 320 פריטים, מנהל-AP מוציא 5 פריטים-במחלוקת, מריץ Payment — נוצרים מסמכי-תשלום, BSIK→BSAK, וקובץ-DME לבנק.\n\n**ניהול חשבון-ספק** — בארגון ניהול-אב-ספק ל-The Example Product Company כולל בקרה מחמירה על שינויי-בנק (סיכון-הונאה) ותנאי-תשלום מוסכמים-חוזית לתרכיז.\n\nספק מעדכן חשבון-בנק; AP מעדכן LFBK ב-BP, מאשר דרך תהליך-בקרת-שינויי-בנק, ומריץ FBL1N לאימות שכל הפריטים-הפתוחים יופנו לחשבון-החדש בריצת-F110 הבאה."
-   },
-   {
     "kind": "tables",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -17556,12 +17094,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון ה-CFO עוקב אחר DPO וניצול-הנחות-מזומן רבעוני; עלייה ב-DPO מול ספקי-אריזה משקפת אסטרטגיית-הון-חוזר מכוונת של מפעל-המילוי.\n\nמנהל-AP פותח 'Accounts Payable Overview', רואה Overdue עולה, מנתח Aging, מזהה ספק-בעייתי, ומנווט ל-Open Items שלו לתיקון — הכל מלוח-מחוונים אחד.\n\n**סקירת חשבונות-זכאים** — בארגון מנהל-AP במפעל-המילוי משתמש ב-Overview כ-dashboard-יומי לאיזון תשלומים מול תזרים.\n\nמנהל-AP פותח את ה-Overview בבוקר, מזהה כרטיס-Overdue אדום, לוחץ, ומנותב לרשימת-הפיגורים לטיפול-מיידי.\n\n**ניתוח-גיול** — בארגון bucket-90+ עם ספק-תרכיז מסכן יחסי-מפתח; הוא מנוטר שבועית ומטופל מיידית.\n\nניתוח-גיול מראה 200,000 בטווח-90+; drill-down חושף חמש חשבוניות-תרכיז חסומות ב-MRBR מזה-חודשיים — מועברות לשחרור-דחוף.\n\n**זכאים בפיגור** — בארגון פיגור לספק-CO2 קריטי לייצור; ניטור-Overdue יומי מונע עצירת-קו עקב מחלוקת-תשלום.\n\nKPI-Overdue קופץ; drill-down מגלה 30 פריטים עם Payment Block; הם משוחררים ב-MRBR ונכללים בריצת-F110 הבאה.\n\n**זכאים עתידיים** — בארגון תחזית-זכאים-עתידיים מיושרת מול עונתיות-מכירות-המשקאות לשמירת-נזילות בשיא-הקיץ.\n\nתזרים-עתידי מראה 1.2M לתשלום בשבוע-הבא; הכספים מוודאים יתרת-בנק מספקת ומתאמים מועד-F110.\n\n**תחזית הנחת-מזומן** — בארגון הנחות-מזומן-תרכיז משמעותיות; התחזית מתעדפת תשלומי-תרכיז לניצול-מרבי.\n\nהתחזית מראה 8,000 הנחה-זמינה שתפקע ב-3 ימים; הכספים מקדימים ריצת-F110 לפריטים אלה.\n\n**ניצול הנחת-מזומן** — בארגון ה-CFO קובע יעד-ניצול 95%; אובדן-הנחה מתועד וסיבותיו מטופלות ברבעון.\n\nניצול-רבעוני 82%; ניתוח-Lost חושף שרוב-האובדן מחסימות-MRBR-מאוחרות — מובילה לשיפור-מחזור-השחרור.\n\n**ימי-זכאים בפירעון (DPO)** — בארגון מפעל-המילוי מנהל DPO ~40 יום לספקי-אריזה, מאוזן מול הנחות-תרכיז שעדיף-לנצל-מהר.\n\nDPO עלה מ-35 ל-45 יום ברבעון; ה-CFO מאשר שזו אסטרטגיית-הון-חוזר מכוונת, בתנאי-שלא-נפגעות הנחות-מזומן.\n\n**ימי-זכאים בפירעון — שיטה עקיפה** — בארגון DPO-עקיף מדווח-לקבוצת-הבקבוק העולמית להשוואה בין-מפעלית.\n\nה-CFO מציג DPO-עקיף שנתי של 42 יום מול ממוצע-תעשייה 38 — אות לניהול-הון-חוזר-אגרסיבי-יחסית.\n\n**ניתוח עיבוד-חשבוניות** — בארגון ניתוח-עיבוד מזהה צוואר-בקבוק בחשבוניות-אריזה רב-ספקיות; מובילה לאוטומציה ב-OpenText.\n\nהניתוח מראה Block-Rate 18% רובו מסטיות-מחיר-קטנות; הרחבת-טולרנס-AP מפחיתה-חסימות-מיותרות ומקצרת-cycle.\n\n**ניתוח תשלומי-ספק (תשלומים ידניים ואוטומטיים)** — בארגון תשלומים-ידניים מוגבלים-למקרי-חירום-ייצור (CO2); השאר דרך F110 לבקרה-מרבית.\n\nהניתוח מראה 25% תשלומים-ידניים, רובם 'דחופים'; הסדרת-תזמון-F110-תכוף-יותר מפחיתה-ידני ל-8%.\n\n**ניתוח תשלומי-ספק (תשלומים פתוחים)** — בארגון סקירת-פתוחים-שבועית מזינה-ישירות את Proposal-F110 לתשלום-ספקי-המפעל.\n\nלפני F110 מנהל-AP סוקר תשלומים-פתוחים, מזהה פריטים-בשלים-לא-חסומים בסך-800K, ומכליל-אותם בפרמטרי-הריצה."
-   },
-   {
     "kind": "tables",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -17797,12 +17329,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון הקונפיגורציה מבדילה טולרנס-מחמיר-לתרכיז מטולרנס-רגיל-לאריזה, ומגדירה House-Banks-מרובים לתשלומי-מפעל-המילוי.\n\nיועץ מגדיר OMR6 (טולרנס-מחיר 5%), Determine-Payment-Block (סטיית-מחיר→Block-R), ו-FBZP (שיטת-העברה+House-Bank) — וכך מעצב את כל זרימת-החשבונית-לתשלום.\n\n**אלמנטי-קונפיגורציה לניהול חשבוניות-נכנסות** — בארגון Duplicate-Check מחמיר-במיוחד לחשבוניות-תרכיז בעלות-גבוהה; Tax-Codes מותאמים-למע\"מ-ישראלי.\n\nיועץ מפעיל Duplicate-Check, מגדיר Tax-Code-ברירת-מחדל V1, ומפעיל Direct-Posting-to-G/L — וכך MIRO מציע-מס-אוטומטי, חוסם-כפילות ומאפשר-רישום-הוצאה-ישיר.\n\n**אלמנטי-קונפיגורציה לניהול חסימות-חשבונית** — בארגון טולרנס-תרכיז מחמיר (1%) מול-אריזה (5%); חסימות-תרכיז משוחררות רק-לאחר-אימות-מול-חוזה-The-Example Product-Company.\n\nטולרנס-מחיר 3%; חשבונית-בסטייה-5%→Block-R; מנהל-בוחן-ב-MRBR, מאשר ומשחרר; חשבונית-בסטייה-1%→עוברת-ללא-חסימה."
-   },
-   {
     "kind": "tables",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -17995,12 +17521,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון VIM מטפל-באלפי-חשבוניות-אריזה-רב-ספקיות; OCR-וניתוב-אוטומטי מפחיתים-עומס-צוות-ה-AP-ומקצרים-cycle-time.\n\nחשבונית-נכנסת-באימייל→OCR-מחלץ-נתונים→VIM-מתאים-ל-PO→ניתוב-לאישור-מנהל-רכש→רישום-אוטומטי-ב-MIRO. חשבונית-ללא-PO-מנותבת-ל-Exception-Workflow."
-   },
-   {
     "kind": "tables",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -18152,12 +17672,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "ניתוב, פתרון-חריגות-ומעקב-end-to-end מרכזית.",
      "LIV-בפועל-במערכות-הקצה; השליטה-מרכזית."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון ארגון-בקבוק-רב-מדינתי ירכז-חשבוניות-ספקים-גלובליים (תרכיז, אריזה) דרך-CIM ל-Inbox-אחד, עם-שקיפות-מלאה-ל-The-Example Product-Company.\n\nספק-מעלה-חשבונית-ל-Ariba-Network→CIM-מרכז-ומאמת→מנתב-ל-S/4HANA-Cloud-הרלוונטי→LIV-מבצע-3-Way-Match. הספק-רואה-סטטוס-בזמן-אמת-ברשת.\n\n**העלאת חשבוניות-ספק** — בארגון ספקי-אריזה-משתמשים-ב-PO-Flip להעלאת-חשבוניות-מדויקות, מצמצם-סטיות-ו-3-Way-Match-נכשל.\n\nספק-מבצע-PO-Flip-ב-Ariba: בוחר-PO-קיים, המערכת-ממלאת-אוטומטית-שורות-וכמויות, הוא-מאשר-ושולח — חשבונית-מדויקת-נכנסת-ללא-הקלדה-ידנית.\n\n**ניהול חשבוניות-ספק באופן מרכזי** — בארגון צוות-AP-גלובלי-מנהל-חשבוניות-של-מספר-מפעלי-בקבוק מ-Inbox-אחד, עם-שקיפות-מלאה-לסטטוס.\n\nמנהל-AP-מרכזי-רואה-ב-Inbox-חשבונית-ב-Exception (אי-התאמה-ל-PO), פותר-מרכזית-ומנתב-מחדש-ל-S/4HANA-הנכון לרישום."
    },
    {
     "kind": "tables",
@@ -18313,12 +17827,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון מפעל-המילוי-מציע-Dynamic-Discounting-לספקי-אריזה-קטנים-הזקוקים-למזומן, מחזק-יציבות-אספקה-ומשפר-תשואה-על-מזומן-עודף-עונתי.\n\nלקונה-יש-מזומן-עודף; דרך-Taulia-הוא-מציע-לספק-תשלום-מוקדם-תמורת-הנחה-דינמית (2.5%-אם-25-יום-מוקדם). הספק-מקבל-מזומן-מהר, הקונה-משיג-תשואה-עדיפה-על-הפיקדון."
-   },
-   {
     "kind": "tables",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -18464,12 +17972,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "ליבה: LIV+3-Way-Match, MRBR, BSIK/BSAK, F110, אנליטיקת-AP.",
      "קונפיגורציה (OMR6/FBZP/OBYC) ואוטומציה (OpenText/Ariba/Taulia) משלימות."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון הלומד-מסוגל-כעת-לנהל-את-מחזור-חשבוניות-הספק-של-מפעל-המילוי: מתרכיז-ועד-אריזה, אימות-תשלום-ואופטימיזציית-הון-חוזר.\n\nמסע-מלא: PO→GR→MIRO (3-Way-Match)→חסימה-אפשרית→MRBR→זכאי-BSIK→F110→BSAK→אנליטיקה (DPO/הנחות) — כל-השלבים-שנלמדו-בפרק-במחזור-אחד."
    },
    {
     "kind": "tables",
@@ -18632,12 +18134,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "ציון-משולב = ממוצע-משוקלל של קריטריונים.",
      "בסיס לבחירת-מקור, משא-ומתן ותוכניות-שיפור."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: ספק תרכיז, ספק סוכר, ספק בקבוקי-PET וספק פקקים עוברים כל אחד גילוי, הכשרת-מזון (HACCP/ISO 22000), קליטה כ-Business Partner, סיווג ל-Purchasing Category ('Sweeteners', 'Packaging') ודירוג שוטף לפי זמן-אספקה, איכות-אצווה ומחיר — כדי להבטיח שהבקבוק שיוצא מהקו עומד בתקני מוצר לדוגמה העולמיים.\n\nארגון זקוק לספק חדש לחומר-גלם קריטי: צוות-הרכש מפרסם בקשת-רישום, ספקים נרשמים בפורטל, עוברים הכשרה (שאלוני-תאימות, אישורי-תקן), מאושרים והופכים ל-Business Partner פעיל, מסווגים ל-Purchasing Category, ומאותו רגע ביצועיהם נמדדים אוטומטית דרך Supplier Evaluation.\n\n**גילוי, הכשרה וקליטה של ספקים** — בארגון ספק-סוכר חדש נרשם בפורטל, מעלה אישורי HACCP ו-ISO 22000, מצרף ביטוח-אחריות-מוצר; QA בודק; לאחר אישור נפתח BP ומסווג ל-Purchasing Category 'Sweeteners'. אישור-המזון נשמר כ-Qualification עם תאריך-תפוגה לחידוש שנתי.\n\nמנהל-קטגוריה מפרסם בקשת-רישום; ספקים נרשמים, ממלאים שאלון-הכשרה (כספים, ISO, ביטוח); המערכת מחשבת ציון; ספקים שעברו מאושרים, נוצר עבורם Business Partner, והם מסווגים ל-Purchasing Category — מוכנים להזמנות.\n\n**סיווג וסגמנטציה** — בארגון ספק-תרכיז (מקור-יחיד, קריטי) = Strategic; ספק-קרטונים (מקורות-רבים) = Standard. שניהם בקטגוריות נפרדות, אך רמת-הניהול שונה לחלוטין.\n\nמנהל-רכש מסווג 200 ספקים ל-8 Purchasing Categories, ובכל קטגוריה מסמן את ה-Top 20% כ-Strategic — אלה יקבלו Scorecard רבעוני ופגישות-עסקים קבועות.\n\n**הערכה** — בארגון ספק-בקבוקים מדורג: % אצוות-תקינות (איכות), עמידה-בלוח-זמנים (אספקה), סטיית-מחיר. ציון נמוך באיכות-אצווה מפעיל ביקורת-ספק לפני המשך-עבודה — קריטי לבטיחות-מזון.\n\nבסוף-רבעון המערכת מחשבת לכל ספק ציון: איכות 85, אספקה 90, מחיר 75 → ציון-משולב 83. ספק עם ציון < 60 נכנס לתוכנית-שיפור; ספק קבוע-נמוך מועמד להסרה."
    },
    {
     "kind": "flow",
@@ -18878,12 +18374,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון קטגוריות אופייניות: 'Sweeteners' (סוכר/HFCS), 'Concentrate', 'Packaging-PET', 'Closures', 'CO2'. כל קטגוריה עם מנהל-קטגוריה ייעודי המנהל את ספקיה ומדדיהם.\n\nCategory Manager אחראי על קטגוריית 'Packaging': רואה את כל ספקי-האריזות, ההוצאה הכוללת, ה-Scorecards, ומסמכי-החוזים — לוח-מחוונים אחד לכל ההחלטות בתחום.\n\n**יצירת Purchasing Category** — בארגון נוצרת קטגוריה 'Sweeteners', מנהל-הקטגוריה ממונה, ומשויכים ספקי-הסוכר וה-HFCS עם חומרי-הגלם שלהם; היעד: 98% אצוות-תקינות.\n\nמנהל-רכש יוצר קטגוריה 'Packaging-PET', ממנה Category Manager, משייך 5 ספקי-PET ואת חומרי-ה-PET, ומגדיר KPI יעד לזמן-אספקה — הקטגוריה פעילה.\n\n**ניהול שוטף של Purchasing Category** — בארגון מנהל קטגוריית 'Closures' מסיר ספק-פקקים שכשל בביקורת-איכות, מוסיף ספק-חלופי שאושר, ומצרף את אישורי-המזון שלו — הכל בתוך הקטגוריה.\n\nמנהל-קטגוריה רואה שספק ירד ב-Scorecard, מוסיף ספק-חלופי לקטגוריה, מצרף את חוזהו, ומעדכן את יעד-המחיר בעקבות מגמת-שוק.\n\n**תרגום Purchasing Category** — בארגון הפועלת באזורים דוברי-עברית ודוברי-ערבית, קטגוריית 'Sweeteners' מתורגמת ל'ממתיקים' ול'محليات' — אותו אובייקט, תצוגה מקומית.\n\nקטגוריית 'Packaging' מתורגמת ל'אריזה' לעברית ול-'Verpackung' לגרמנית; מנהל בישראל ומנהל בגרמניה רואים אותה קטגוריה בשפתם, עם אותם נתונים."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -19086,12 +18576,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "נתוני-רכש חיים, ללא LIS-batch תקופתי.",
      "מחליף בהדרגה את ME6H הקלאסי."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון ספק-תרכיז מדורג: 95 איכות, 92 זמן, 80 מחיר, 88 שאלון → משולב 90. ספק-פקקים עם 70 באיכות נכנס לתוכנית-שיפור לפני המשך-הזמנות.\n\nהמערכת אוספת רבעונית: סטיות-זמן-אספקה (LIS), שיעור-דחיות-איכות (QM), סטיית-מחיר, וציוני-שאלון; משקללת לפי המשקלים; ומציגה Combined Scorecard לכל ספק ולכל קטגוריה.\n\n**כרטיס-ציון הערכת-ספק (Scorecard)** — בארגון ה-Scorecard של ספק-סוכר מציג 96 איכות-אצווה, 91 זמן, 78 מחיר — תמונה שמובילה לשיחת-מחיר תוך שמירה על הספק בשל איכותו.\n\nמנהל-רכש פותח Scorecard של ספק: ציון-כללי 84; drill-down מגלה איכות 90, זמן 88, מחיר 72 — מזהה שהמחיר הוא נקודת-החולשה ויוצא למשא-ומתן.\n\n**הערכת-ספק פרטנית** — בארגון צוות-הרכש מזין ידנית לספק-תרכיז ציון-'Responsiveness' גבוה בשל מענה-מהיר במשבר-אספקה — היבט שלא נמדד אוטומטית אך קריטי.\n\nקונה מזין ב-ME61 לספק ציון 85 ל-'Flexibility' ו-90 ל-'Technical support' בעקבות ניסיון-עבודה רבעוני; אלה מתמזגים לציון-המשולב.\n\n**הערכת-ספק לפי זמן ואיכות** — בארגון איכות-אצווה של חומר-גלם קריטית: דחיית אצוות-סוכר על סמך בדיקת-מעבדה מורידה מיד את ציון-האיכות; איחור-אספקה של בקבוקים מוריד ציון-זמן ומסכן את לוח-המילוי.\n\nספק סיפק 100 הזמנות ברבעון: 92 בזמן → ציון-זמן 92; מתוכן 3 אצוות נדחו → ציון-איכות 97. שניהם מחושבים אוטומטית מ-GR ו-QM.\n\n**הערכת-ספק לפי מחיר** — בארגון, סוכר הוא commodity תנודתי: ספק ששמר מחיר יציב למרות עליות-שוק מקבל ציון Price-history גבוה — יתרון בבחירת-מקור גם אם מחירו הרגעי מעט גבוה.\n\nספק מתמחר 8% מעל ממוצע-קבוצת-החומר → ציון Price-level נמוך; אך שמר מחיר יציב שנה → ציון Price-history גבוה. השילוב מצייר תמונה מאוזנת.\n\n**הערכת-ספק לפי שאלון** — בארגון, מחויבות לקיימות קריטית למותג: שאלון-מים-ופחמן נשלח לספקי-אריזה; ציון נמוך פוגע בציון-המשולב ומשפיע על בחירת-מקור — מעבר לפלסטיק-ממוחזר (rPET).\n\nצוות-הרכש שולח שאלון-ESG ל-30 ספקים; התשובות מומרות לציון-קיימות; ספק עם ציון-נמוך נדרש לתוכנית-שיפור-סביבתי.\n\n**כרטיס-ציון משולב (Combined Scorecard)** — בארגון ה-Combined Scorecard נותן משקל-יתר לאיכות (40%) על מחיר (20%) בקטגוריות-מזון — כי בטיחות-המוצר קודמת לחיסכון. ספק עם איכות-מצוינת שורד גם במחיר בינוני.\n\nספק: זמן 90 (×30%), איכות 95 (×40%), מחיר 75 (×20%), שאלון 80 (×10%) → משולב 89. מדורג מול ספקי-הקטגוריה לבחירת-מקור-מועדף.\n\n**הערכת-ספק תפעולית (Operational Supplier Evaluation)** — בארגון, בשיא-עונת-הקיץ ביקוש המשקאות גבוה; ה-Operational Evaluation מתריעה בזמן-אמת על ירידת on-time של ספק-בקבוקים, ומאפשרת ניתוב-מהיר לספק-חלופי לפני שייפגע לוח-המילוי.\n\nקונה פותח את ה-Operational Supplier Evaluation: רואה מיד שספק ירד ב-on-time השבוע בעקבות שתי-אספקות-מאחרות; פועל מיד מול הספק במקום להמתין לדוח-רבעוני."
    },
    {
     "kind": "flow",
@@ -19331,12 +18815,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון הקונפיגורציה מותאמת-ענף: קריטריון-איכות במשקל-גבוה, Qualification types לתקני-מזון, וקטגוריות-רכש ייעודיות לתרכיז/סוכר/אריזה — הכל מוגדר ב-SPRO לפני העלייה-לאוויר.\n\nיועץ-יישום מקים את הסביבה: מפעיל SLC, מגדיר BP roles, יוצר Purchasing Categories, מגדיר Main Criteria עם משקלים, ומפעיל את אפליקציות ה-Operational Evaluation — ואז התהליך מקצה-לקצה זמין.\n\n**קונפיגורציית Supplier and Category Management** — בארגון ההקמה כוללת Qualification types לתקני-מזון (HACCP/ISO 22000) כחלק מתהליך-ההכשרה, כך שכל ספק-מזון חייב לעבור אותם לפני קליטה.\n\nיועץ מפעיל SLC, מגדיר BP roles ו-Number ranges, מקים תהליך-רישום ושאלוני-הכשרה, ומחבר את ה-Web-UI — ואז ספקים יכולים להירשם ולהיקלט.\n\n**קונפיגורציית סיווג וסגמנטציה** — בארגון ההיררכיה מפרידה Direct (תרכיז, סוכר, אריזה) מ-Indirect (אחזקה, שירותים), עם סגמנטציה שמסמנת תרכיז כ-Strategic — מבנה שמכוון את כל ניהול-הספקים.\n\nיועץ מגדיר היררכיה דו-רמתית (Direct/Indirect → קטגוריות-משנה), תכונות-סגמנטציה ושלוש שפות; מנהלי-הקטגוריה מתחילים לפתוח קטגוריות לפי המבנה.\n\n**קונפיגורציית הערכת-ספקים** — בארגון הקונפיגורציה נותנת לאיכות 40% ולמחיר 20%, מחברת את ציון-האיכות ל-QM Quality Score (ראה /library/qm-academy/chapter-19/), ומפעילה Analytics לקווי-המילוי — הערכת-ספק מותאמת בטיחות-מזון.\n\nיועץ מגדיר 4 Main Criteria (Quality/Delivery/Price/Service), תת-קריטריונים עם scoring methods, ו-Weighting key במשקל-יתר-לאיכות; מפעיל Analytics — ה-Operational Evaluation מתחיל לחשב."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -19550,12 +19028,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון כל זה מבטיח שהבקבוק שיוצא מהקו מכיל רק תרכיז, סוכר ואריזה מספקים כשירים, מדורגים-גבוה ועומדים-בתקני-מזון — מעגל ניהול-ספקים שמגן על המותג ועל הצרכן.\n\nסיכום-המסע: ספק נמצא, מוכשר, נקלט כ-BP, מסווג לקטגוריה ומסומן Strategic; ביצועיו נמדדים אוטומטית בזמן/איכות/מחיר ובשאלון; ה-Combined Scorecard מדרג אותו; וה-Operational Evaluation שומרת את התמונה עדכנית בזמן-אמת."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -19737,12 +19209,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: מפעלי-בקבוק בכמה מדינות (כל מדינה company code/ERP נפרד) מנהלים רכש תרכיז, סוכר, CO2 ופחיות מתוך רכזת אחת. הרכזת מאחדת את הביקוש לפחיות מכל המפעלים, חותמת חוזה-מסגרת גלובלי מול ספק-אלומיניום, וכל מפעל מושך מהחוזה דרך ה-Connected System שלו — מחיר אחיד, נראות מלאה למטה.\n\nתהליך מקצה-לקצה: מבקש במפעל בגרמניה יוצר דרישת-רכש מקומית; היא מסונכרנת לרכזת דרך Central Requisitioning; רוכש-מרכזי באמצעות Manage Purchase Requisitions Central רואה דרישות מכל המערכות, מאחד אותן ב-Central Sourcing, מנהל RFQ, מנפיק Central Purchase Order שמורד חזרה אל ה-Connected System; שם מבוצעת Goods Receipt ו-Invoice — והרכזת רואה את הסטטוס המעודכן."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -19921,12 +19387,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון כל מפעל-בקבוק יוצר דרישות לחומרי-אריזה דרך Central Requisitioning; מטה-הרכש רואה את כלל הביקוש לפחיות ופקקים בכל המדינות, ויכול לאחד הזמנה-רבעונית גדולה במקום עשרות הזמנות מפוצלות.\n\nמבקש במפעל ספרד יוצר דרישה לפחיות ב-Create Purchase Requisition; הדרישה נשמרת מקומית ומשתכפלת לרכזת. רוכש-מרכזי ב-Manage Purchase Requisitions Central מסנן לפי קבוצת-חומר, מאתר דרישות דומות ממפעלים אחרים, ומסמן אותן לאיחוד ב-Central Sourcing."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -20099,12 +19559,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "ה-PO התפעולי נשאר ב-Connected System; הרכזת מנהלת.",
      "Manage Purchase Orders Central + עדכוני-סטטוס דו-כיווניים."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון רוכש-מרכזי מנפיק הזמנות-CO2 לכל מפעלי-הבקבוק מתוך הרכזת; כל הזמנה מורדת ל-ERP של המפעל המקומי, וניטור-הקבלות נעשה ריכוזית — חיווי מיידי אם מפעל לא קיבל אספקה בזמן.\n\nרוכש-מרכזי יוצר Central PO לספק-סוכר עבור מפעל איטליה; ההזמנה מורדת ל-ERP האיטלקי, נשלחת לספק, ומבוצעת שם Goods Receipt. הרוכש רואה ב-Manage Purchase Orders Central את סטטוס-הקבלה והחשבונית בזמן-אמת מבלי להיכנס ל-ERP המקומי."
    },
    {
     "kind": "flow",
@@ -20288,12 +19742,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון Central Sourcing מאחד את ביקוש-הפחיות הרבעוני מכל מפעלי-הבקבוק, מריץ RFQ מול ספקי-אלומיניום גלובליים, ומעגן את הזוכה בחוזה-מסגרת — מינוף-מסה שמפעל בודד לא היה משיג לבדו.\n\nרוכש מאחד דרישות-פחיות משלושה מפעלים ל-Sourcing Project יחיד; מנפיק RFQ לארבעה ספקי-אלומיניום; משווה הצעות לפי מחיר ותנאי-אספקה; מעניק זכייה לספק הזול ביותר וממיר ל-Central Purchase Contract שכל מפעל מושך ממנו."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -20473,12 +19921,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "כל מפעל מושך Release Orders במחיר ובתנאים אחידים.",
      "ניטור-מימוש מאוחד מול target quantity גלובלי."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון חוזה-מסגרת גלובלי לתרכיז (מספק-המותג) מנוהל כ-Central Contract; כל מפעל-בקבוק מושך ממנו call-offs לפי תוכנית-המילוי שלו, וכולם נהנים מאותם תנאים — והמטה רואה את הניצול המאוחד מול ה-target.\n\nאחרי Award לספק-סוכר, נוצר Central Contract עם target quantity של 50,000 טון/שנה; הוא מופץ לחמש מערכות-מחוברות; כל מפעל מנפיק Release Orders לפי צרכיו; הרוכש-המרכזי מנטר ב-Monitor Central Purchase Contract Items את הניצול המצטבר מול היעד."
    },
    {
     "kind": "flow",
@@ -20662,12 +20104,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון Central Analytics מציג את ה-Spend המאוחד על פחיות, סוכר ו-CO2 בכל המדינות, חושף שונות-מחיר בין מפעלים, ומכוון את המטה לאחד הזמנות ולחתום חוזה גלובלי במקום מקומי.\n\nמנהל-רכש פותח Procurement Overview Page ברכזת, רואה ניתוח-Spend לפי קבוצת-חומר על-פני כל המפעלים, מזהה שלושה מפעלים שקונים אותו חומר מספקים שונים, ויוזם Central Sourcing לאיחוד — החלטה שנתוני-מערכת-בודדת לא היו חושפים."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -20843,12 +20279,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "האינטגרציה נשענת על SAP Integration Suite (cXML/SOAP/OData).",
      "מרחיב את הרכש המרכזי למקור-בענן ו-Procure-to-Pay דיגיטלי."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון מכרזי-אלומיניום אסטרטגיים מנוהלים ב-SAP Ariba Sourcing; הזמנות-הפחיות נשלחות לספקים דרך SAP Business Network עם אישור-הזמנה ו-e-invoice — מחליף תקשורת ידנית ומאיץ את מחזור ה-Procure-to-Pay.\n\nרוכש מריץ RFx ב-SAP Ariba Sourcing; ה-Award חוזר לרכזת ל-Central Contract; ההזמנה נשלחת אל הספק דרך SAP Business Network; הספק מאשר (order confirmation) ושולח e-invoice חזרה — והכל מנוטר מהרכזת ומה-Integration Suite."
    },
    {
     "kind": "flow",
@@ -21042,12 +20472,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "הזרימה: Ariba → Central Requisitioning → Central PO → Connected.",
      "נשען על Integration Suite וסנכרון נתוני-אב; סוגר Source-to-Pay."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון הקמת רכזת-רכש-בענן מתבצעת בשלבים: חיבור מפעלי-הבקבוק תחילה (חיבוריות), מיפוי קטלוגי-החומרים (אימות-נתונים), הגדרת הרכזת, ואז הפעלת SAP Ariba Buying ל-self-service של רוכשי-המפעלים.\n\nפרויקט-מימוש פותח ב-Prerequisites (גרסאות, רישוי, הרשאות), עובר ל-Establishing Connectivity (SOAMANAGER/SM59), ממשיך ל-Validating Data and Identifying Gaps, מגדיר את הרכזת, ולבסוף מחבר את SAP Ariba Buying — כל שלב נבדק לפני המעבר לבא.\n\n**תנאים מוקדמים** — בארגון לפני ההקמה בודקים שכל מפעל-בקבוק מריץ גרסת-ERP נתמכת, שהרישוי המרכזי קיים, ושיש גישת-Integration-Suite — מונע גילוי-מאוחר שמפעל מסוים לא תואם.\n\nצוות-הפרויקט ממלא רשימת-תיוג: גרסת-רכזת ✓, גרסת-ECC-מחובר ✓, רישוי Ariba ✓, Integration Suite tenant ✓, Communication Users ✓ — ורק אז עובר ל-14.8.2.\n\n**הקמת חיבוריות למערכות ERP** — בארגון כל מפעל-בקבוק מקבל Logical System ו-RFC/SOAP destinations ייעודיים; אחרי connection test מוצלח, דרישות-הרכש שלו מתחילות לזרום לרכזת.\n\nטכנאי מגדיר Logical System למפעל-גרמניה, יוצר RFC Destination ב-SM59, מפעיל את שירותי-ה-SOAP ב-SOAMANAGER עם Communication User, ומריץ connection test מוצלח — Connected System מוכן.\n\n**אימות נתונים וזיהוי פערים** — בארגון משווים קטלוגי-חומרים בין מפעלי-הבקבוק: אותה פחית עם מספרים שונים בכל מדינה. מקימים מיפוי-ערכים מרכזי כדי שאובייקטים יורדו נכון וה-Spend יקובץ אחיד.\n\nצוות מריץ השוואה ומגלה שספק מסוים קיים ברכזת אך לא במערכת-ספרד; מקים Value Mapping או מבקש להקים את הספק שם — ורק אז מפעיל תרחישי-הורדה.\n\n**קונפיגורציית SAP Ariba Central Procurement, Private Cloud** — בארגון מפעילים Central Requisitioning, Sourcing ו-Contracts; משייכים את כל מפעלי-הבקבוק; ומגדירים Flexible Workflow שמנתב אישורי-חוזה גלובליים למטה-הרכש — לפני הפעלה מסחרית.\n\nיועץ מפעיל Central Requisitioning ו-Central Purchasing, משייך שלוש מערכות-מחוברות, מגדיר Flexible Workflow לאישור-דרישות מעל סכום מסוים, ומריץ בדיקת-קצה-לקצה לפני העלאה ל-production.\n\n**שילוב SAP Ariba Buying for SAP S/4HANA עם רכש מרכזי** — בארגון רוכשי-המפעלים מזמינים חומרי-MRO ואריזה דרך קטלוגי SAP Ariba Buying; הדרישות זורמות לרכש-המרכזי, מומרות להזמנות במערכות-המפעלים, ונשלחות לספקים ברשת — חוויית-קנייה אחידה ומבוקרת בכל הקבוצה.\n\nעובד בוחר פריט מקטלוג ב-SAP Ariba Buying; דרישת-ה-Ariba זורמת דרך Integration Suite ל-Central Requisitioning ברכזת; הרוכש-המרכזי ממיר ל-Central PO היורד ל-Connected System; הספק מאשר דרך SAP Business Network."
    },
    {
     "kind": "flow",
@@ -21382,12 +20806,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: רכזת אחת מנהלת רכש פחיות, תרכיז, סוכר ו-CO2 לכל מפעלי-הבקבוק; חוזים גלובליים, נראות-Spend מאוחדת, ו-self-service קטלוגי דרך Ariba Buying — איחוד-כוח-קנייה אמיתי תוך שמירה על ביצוע מקומי בכל מדינה.\n\nמהדרישה ועד התשלום: דרישה מקומית → Central Requisitioning → Central Sourcing (RFQ/Award) → Central Contract → Central PO → הורדה ל-Connected System → GR/IR → Central Analytics. כל שלב נוגע ברכזת לניהול ובמערכת-המחוברת לביצוע."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -21565,12 +20983,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "היגיינת-נתונים (Material Group + מיזוג-ספקים) קובעת את האמינות.",
      "נתח הוצאה-ממומשת, לא רק מחויבת."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: לוח-Spend מציג הוצאה לפי קטגוריה — תרכיז, סוכר, CO2, בקבוקים, פקקים, תוויות, אנרגיה ולוגיסטיקה. ההנהלה מגלה שהוצאת-האנרגיה במפעל-המילוי קפצה 18% ושהוצאה על חומרי-אריזה מפוזרת על שמונה ספקים — בסיס לאיחוד-נפחים ולמשא-ומתן מרוכז.\n\nמנהל-רכש פותח את 'Monitor Purchasing Spend', מסנן לרבעון אחרון, ומקבץ לפי Material Group. הוא רואה ש-40% מההוצאה מרוכזת בקטגוריית-אריזה אצל שלושה ספקים, ושיש 12% הוצאה ללא-חוזה — מועמד מיידי לפעולת-Sourcing."
    },
    {
     "kind": "flow",
@@ -21751,12 +21163,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון חוזי-מסגרת לסוכר ולתרכיז הם קריטיים-לרצף-ייצור. לוח תפוגת-חוזים מתריע שחוזה-הסוכר השנתי פג בעוד 45 יום ושחוזה-ה-CO2 נוצל ב-88% — הרכש פותח משא-ומתן-חידוש מבעוד-מועד כדי למנוע עצירת קווי-מילוי.\n\nקנייָן מריץ 'Monitor Contract Compliance' ל-90 הימים הקרובים: שני חוזים פגים תוך 30 יום, ואחד נוצל ב-95% מערך-המטרה. הוא יוזם RFQ לחידוש לפני הפקיעה ומגדיל את ערך-המטרה של החוזה השלישי."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -21932,12 +21338,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "אזן עלות מול אמינות-אספקה וסיכון single-source.",
      "Ariba Sourcing מרחיב ל-eRFx/eAuction."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון חומרים קריטיים כמו תרכיז הם לרוב single-source (ספק-מותג בלעדי) — האנליטיקה מסמנת אותם כסיכון-אספקה גבוה ומחייבת מלאי-ביטחון מוגדל; לעומתם, סוכר ובקבוקים הם multi-source ומנוהלים תחרותית לפי מחיר וביצועים.\n\nקנייָן מנתח חומר-אריזה: שלושה ספקים פעילים, פער-מחיר 9% בין הזול ליקר, אך הזול עם 82% אספקה-בזמן בלבד. הוא מנהל-משא-ומתן עם הספק האמין להתאמת-מחיר ומעביר 60% מהנפח אליו — איזון עלות מול סיכון."
    },
    {
     "kind": "flow",
@@ -22129,12 +21529,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "SAC Smart Predict בונה classification/regression.",
      "נטר drift ובצע re-train; הצג הסתברות, לא ודאות."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון ספק-תרכיז נמדד בעיקר על איכות וציות-מפרט (קריטי-למותג), בעוד ספקי-אריזה נמדדים על אספקה-בזמן ועל פגמי-מימדים. לוח-ביצועים מציג Heatmap של כל הספקים — ירוק/צהוב/אדום — והרכש פועל לפי הצבעים.\n\nמנהל-רכש סוקר את לוח-ביצועי-הספקים: ספק-בקבוקים מוביל ירד ל-86% אספקה-בזמן ול-2.4% פגמים. הוא מזמן שיחת-שיפור עם יעדים מדידים, ומעביר זמנית 20% מהנפח לספק-גיבוי עד שיפור.\n\n**דוחות מסמכי-רכש ואנליטיקה מוטמעת** — בארגון צוות-הרכש משתמש ב-Overview Page המאחד cards: PO פתוחים, מסירות-באיחור לקווי-המילוי, חשבוניות-בבלוקד וערך-הוצאה-יומי — מסך-בקרה אחד לתפעול-הרכש של המפעל.\n\nקנייָן פותח Analytical List Page של PO items, מסנן ל'מסירות-באיחור', ממיין לפי ערך, ומ-card של 'Overdue Deliveries' צולל ישר לשורת-ה-PO הבעייתית ופותח את ה-confirmation מול הספק.\n\n**אנליטיקה חיזויית** — בארגון מודל-סיכון מנבא איחורי-תרכיז על-בסיס היסטוריית-ספק ועונתיות; כשהסיכון גבוה לפני שיא-הקיץ, הרכש מקדים-הזמנה ומגדיל מלאי-ביטחון כדי להגן על קווי-המילוי.\n\nמודל late-delivery רץ על PO פתוחים ומסמן 30 שורות בסיכון-איחור-גבוה. הקנייָן מתעדף אותן ב-'Monitor Supplier Confirmations', יוצר קשר עם הספקים ומאיץ — לפני שהאיחור פוגע בייצור."
    },
    {
     "kind": "flow",
@@ -22376,12 +21770,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון צוות-הרכש בונה Custom Analytical Query להוצאה-לפי-קטגוריה-וחודש, מפרסם אותה כ-Multidimensional Report, ובמקביל ההנהלה רואה תמונה-מאוחדת ב-SAC המשלבת רכש, מלאי וייצור.\n\nאנליסט-רכש משתמש ב-Query Browser למצוא query מתאים, פותח אותו כ-Multidimensional Report, מסובב ממדים (ספק × קטגוריה × חודש), שומר variant אישי ומשתף אותו עם הצוות — הכל ללא תכנות."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -22530,12 +21918,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "Human-in-the-loop + auditability הם חובה.",
      "Joule / Business AI מוסיף copilot generative."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון סיווג-הוצאה אוטומטי ממפה אלפי שורות-חשבונית לקטגוריות (אריזה/אנרגיה/חומרי-גלם) בלי מיון-ידני, ו-anomaly detection מסמן קפיצת-מחיר חריגה בספק-תרכיז — חוסך שעות-עבודה ומונע טעויות-תשלום.\n\nחשבונית נכנסת ללא PO-reference מדויק; מודל-ההתאמה מציע את ה-PO הסביר ביותר ואת חשבון-ה-G/L; הפקיד מאשר בלחיצה. במקביל, anomaly detection מסמן חשבונית עם סכום חריג-לספק לבדיקה."
    },
    {
     "kind": "flow",
@@ -22695,12 +22077,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון קטגוריות-מפתח (סוכר, תרכיז, אריזה, אנרגיה, לוגיסטיקה) מנוהלות ב-Ariba Category Management; אסטרטגיית-הסוכר משלבת תחזית-מחירי-סחורות ו-supplier risk כדי להחליט בין חוזה-קבוע למחיר-משתנה — והתוצאה מתבצעת כחוזה-מסגרת ב-S/4HANA.\n\nמנהל-קטגוריה פותח קטגוריית-אריזה ב-Ariba: רואה spend מאוחד מ-S/4, market intelligence על מחירי-שוק, וסגמנטציית-סיכון. הוא בונה action plan — איחוד מ-8 ל-3 ספקים — ומשיק eSourcing event שתוצאותיו חוזרות כחוזה ל-S/4HANA."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -22857,12 +22233,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "Master-data harmonization הוא תנאי-יסוד.",
      "כלול spend עקיף — לא רק רכש-חומרים."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון צוות-ה-IT מגדיר חבילת-KPIs לרכש (Spend, On-Time, Contract Compliance), בונה queries מעל ה-VDM, ומחבר live ל-SAC כדי שההנהלה תראה תמונת-רכש מאוחדת לצד ייצור ומלאי.\n\nצוות-יישום מקים KPI חדש (On-Time Delivery), פורס אותו כ-tile ב-launchpad, בונה Custom Analytical Query תומכת, ומחבר live connection ל-SAC לדיווח-הנהלה — כל זאת ללא ABAP מותאם.\n\n**יצירת מדד ביצוע מרכזי (KPI)** — בארגון נבנה KPI 'Contract Compliance' עם יעד 90%; אריח אדום מתריע מיד על הוצאה-עוקפת-חוזה בקטגוריית-אריזה, והקנייָן צולל מהאריח לרשימת-ה-PO החריגים.\n\nיועץ בונה KPI 'On-Time Delivery': בוחר query, measure=OnTime%, מגדיר target 95% (ירוק) / 90% (צהוב) / מתחת (אדום), יוצר numeric tile עם drill-down לספק × חודש, ומשייך ל-catalog של הקנייָנים.\n\n**הגדרת דיווח/שאילתות בזמן-אמת** — בארגון לוח-מסירות-לקווי-המילוי רץ בזמן-אמת: ברגע שנרשם GR לסוכר, מדד-המלאי וה-On-Time מתעדכנים מיד — מנהל-המשמרת רואה תמונה חיה, לא דוח-בוקר.\n\nיועץ מפעיל analytical query על PO items, מסמן dataCategory CUBE, מגדיר variable לתקופה, ומפרסם. הקנייָן פותח אותה כ-Multidimensional Report ורואה הוצאה-מתעדכנת תוך-כדי שעמיתיו רושמים PO חדשים.\n\n**חקר ה-Virtual Data Model ו-Core Data Services** — בארגון צוות-ה-IT מרחיב את ה-VDM של PO ב-custom CDS view המוסיף שדה 'production line' מטבלה-מותאמת, כדי לנתח הוצאה לפי קו-מילוי — בלי לשנות את ה-views הסטנדרטיים (extend-in).\n\nמפתח מחפש ב-View Browser את I_PurchaseOrderItem, רואה את ה-associations שלו (לספק, לחומר, ל-plant), בונה מעליו composite עם aggregation, ולבסוף consumption view (C_*) עם @Analytics.query לחשיפה ב-Query Browser.\n\n**אינטגרציה של SAP S/4HANA עם כלי SAP Analytics** — בארגון ההנהלה צורכת story ב-SAC המשלבת רכש (מ-S/4 live), מכירות ומלאי; בנוסף, צוות-הכספים מריץ planning ב-SAC לתקצוב-רכש-שנתי — והכל מעל אותו VDM כמקור-אמת.\n\nצוות-BI יוצר live connection מ-SAC ל-S/4, מושך את C_PURCHASEORDERITEM, ובונה story המשלבת Spend, On-Time ו-Contract Compliance בלוח-הנהלה אחד — הנתונים חיים, בלי replication.\n\n**אינטגרציה עם אפליקציות ענן** — בארגון הוצאת-לוגיסטיקה ושירותי-תחזוקה (Fieldglass) ונסיעות-מכירות (Concur) מאוחדות עם רכש-חומרים (S/4) ו-sourcing (Ariba) — ההנהלה רואה לראשונה את total spend האמיתי של החברה, כולל ההוצאה-העקיפה שהוסתרה קודם.\n\niFlow ב-Integration Suite מסנכרן contracts מ-Ariba ל-S/4 ו-services-spend מ-Fieldglass; אנליטיקת-ה-spend מציגה כעת ישיר+עקיף מאוחד, וחושפת שהוצאת-השירותים גדולה מהמשוער."
    },
    {
     "kind": "flow",
@@ -23129,12 +22499,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון התוצאה: ההנהלה רואה total spend מאוחד (ישיר+עקיף), מקבלת התראות-חוזה לפני פקיעה, מנהלת ספקים לפי ציון-ביצועים אובייקטיבי, וצופה איחורי-תרכיז לפני שיא-הקיץ — כל זאת בזמן-אמת מעל ה-VDM, עם SAC להנהלה ו-Ariba לאסטרטגיה.\n\nארגון מטמיע את המסע המלא: מקים Spend dashboard, מפעיל התראות-תפוגת-חוזים, מנתח Sourcing וביצועי-ספקים, בונה KPIs מעל ה-VDM, מוסיף חיזוי-איחורים ו-anomaly detection, ומחבר Ariba ו-SAC — ומגיע לרכש יזום, מאוחד ומבוסס-נתונים."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -23294,12 +22658,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "התאמת master-data (UoM/Tax/ANID) היא תנאי-הצלחה.",
      "Onboarding מוקדם ובדיקת-מסמכים מקצה-לקצה מורידים סיכון Go-Live."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: רכש חומרי-אריזה (בקבוקים, פקקים, תוויות) מספקים גלובליים מנוהל דרך SAP Business Network; ההזמנות לקווי-המילוי זורמות כ-cXML, והספקים מחזירים ASN שמעדכן את תכנון-הקבלה במחסן-החומרים.\n\nרוכש יוצר Purchase Order ב-S/4HANA. ה-PO נשלח כ-cXML דרך SAP Integration Suite אל SAP Business Network, ומגיע לספק. הספק שולח Order Confirmation, ואז Advance Ship Notice (ASN), ובסוף חשבונית (Invoice) — כולם זורמים חזרה ל-S/4HANA, מתאימים אוטומטית (3-way match) ומאושרים לתשלום."
    },
    {
     "kind": "flow",
@@ -23492,12 +22850,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "מסמכי cXML: Order/Confirmation/ShipNotice/Invoice.",
      "Transaction Rules ברשת מפחיתות דחיות."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון ה-Managed Gateway משמש כצינור-יחיד לכל זרימות-המסמכים מול ספקי-האריזה והחומרים — הזמנות, אישורים וחשבוניות — עם ניטור מרכזי שמאפשר לצוות-הרכש לעקוב אחר תקיעות.\n\nמסמך PO יוצא מ-S/4HANA כ-IDoc; ה-Managed Gateway קולט אותו, ממפה ל-cXML לפי תבנית-הסטנדרט, ומנתב אל Business Network. בכיוון-החזרה, חשבונית cXML מתורגמת ל-IDoc INVOIC ונכנסת ל-S/4HANA — הכל דרך iFlows מנוהלים.\n\n**הגדרת SAP Integration Suite, Managed Gateway** — בארגון צוות-ה-Basis מפעיל את ה-Integration Suite tenant ומחבר אותו ל-Business Network של ספקי-האריזה; iFlow ה-PO נבדק עם ספק-פיילוט אחד לפני הרחבה.\n\nמהנדס-אינטגרציה מפעיל את חבילת-התוכן, מזין את ה-ANID ואת ה-endpoints, מעלה certificate, ומריץ בדיקת-PO. ה-PO זורם, ובכך מאומת שהגדרת-הקצה תקינה.\n\n**שילוב SAP Ariba Strategic Sourcing Suite** — בארגון מכרז שנתי לבקבוקי-PET מתנהל ב-Ariba Sourcing; החוזה הזוכה מסונכרן ל-S/4HANA, וכל הזמנות-המילוי נשענות על מחיר-החוזה.\n\nמכרז ב-Ariba Sourcing מסתיים ב-award לספק; נוצר חוזה ב-Ariba Contracts; החוזה/המחיר מסונכרן ל-S/4HANA כ-Outline Agreement; הזמנות-רכש עתידיות מתייחסות אליו אוטומטית.\n\n**אוטומציית סחר ב-SAP Business Network** — בארגון כל הזמנות חומרי-האריזה השוטפות עוברות ב-Commerce Automation; ASN מספק מעדכן את חלון-הקבלה במחסן, וחשבוניות מאומתות-מראש מצמצמות חריגות-תשלום.\n\nPO זורם לספק; הספק מאשר ושולח ASN; הסחורה מתקבלת ב-S/4HANA (GR); הספק שולח חשבונית; ה-Business Network מאמת מול ה-PO/GR (3-way) ומעביר ל-S/4HANA לתשלום אוטומטי."
    },
    {
     "kind": "flow",
@@ -23755,12 +23107,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון תחזית-הדרישות לתרכיז ולסוכר משותפת לספקים דרך SCC; הספקים מתכננים אספקה לקווי-המילוי, ומלאי-Consignment של חומרי-אריזה מנוהל ברשת עם משיכה לפי-צריכה.\n\nMRP ב-S/4HANA מפיק תחזית-דרישות לחומר-גלם; התחזית משותפת לספק דרך ה-Business Network; הספק מתחייב לכמויות; Scheduling Agreement releases זורמים אוטומטית; הספק שולח ASN שמסונכרן עם הקבלה.\n\n**פונקציונליות המוצר** — בארגון ספק-הסוכר משתמש ב-Workbench לצפייה בתחזית-הדרישות ולהתחייבות לאספקה שבועית לקווי-המילוי.\n\nספק נכנס ל-Workbench, רואה תחזית מעודכנת, מתחייב לכמויות, צופה ב-schedule lines, מאשר משלוח ושולח ASN — הכל מתוך ממשק-רשת אחד.\n\n**קונפיגורציה** — בארגון מוקמים Scheduling Agreements לתרכיז ולסוכר עם output ל-Business Network; ה-iFlows ל-SA release ול-ASN נבדקים עם ספק-פיילוט.\n\nיועץ מפעיל את תרחיש Forecast+SA, מקים Scheduling Agreement, מגדיר output ל-release, ובודק ש-schedule lines מ-EKET זורמים לרשת ושה-ASN חוזר ומסנכרן את הקבלה."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -23956,12 +23302,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון משלוחי חומרי-אריזה ותרכיז ממובילים בינלאומיים מנוטרים ב-Track and Trace; ETA מעודכן מאפשר לארגון לתזמן את קבלות-המחסן ולמנוע צווארי-בקבוק בקווי-המילוי.\n\nמשלוח יוצא מהספק; המוביל מדווח milestones (Picked up, In transit, Customs, Delivered) דרך Global Track and Trace; S/4HANA/TM מציג ETA מעודכן; מחסן-הקבלה מתכנן את חלון-הפריקה בהתאם."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -24131,12 +23471,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון קווי-המילוי וממלאות-הבקבוקים רשומים כ-equipment ב-EAM; חיבורם ל-Asset Management network מאפשר קבלת עדכוני-מפרט מהיצרן ורכש-חלפים מהיר דרך הרשת — קריטי לזמינות-קו גבוהה.\n\nיצרן-מכונה מפרסם equipment model ברשת; הארגון מחבר את ה-EQUI ב-S/4HANA למודל; הוראות-תחזוקה וחלקי-חילוף מסונכרנים; כשנדרש חלף, ההזמנה זורמת לספק דרך אותה רשת."
-   },
-   {
     "kind": "tables",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -24298,12 +23632,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "שעות מאושרות הופכות ל-Service Entry Sheets.",
      "tenure + rate cards + Cost Center הם בקרות-מפתח."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון עובדי-תחזוקה קבלניים וצוותי-פרויקט להקמת-קווים מנוהלים ב-Fieldglass; שעותיהם מאומתות ומחויבות ל-Cost Centers / WBS של הפרויקט ב-S/4HANA דרך Service Entry Sheets.\n\nמנהל יוצר דרישה ל-2 מפתחי-קבלן ב-Fieldglass; ספקי-כוח-אדם מציעים מועמדים; לאחר בחירה נוצר PO/Work Order; העובד מדווח שעות; ה-time sheet המאושר יוצר Service Entry Sheet וחשבונית ב-S/4HANA.\n\n**טכנולוגיות מפתח** — בארגון צוות-ה-Basis מפעיל את חבילת-התוכן של Fieldglass ב-Integration Suite, מגדיר OAuth ו-endpoints, ובודק זרימת time-sheet↔SES עם ספק-פיילוט.\n\ntime sheet מאושר ב-Fieldglass מפעיל קריאת-API; iFlow ב-Integration Suite ממפה אותו ל-Service Entry Sheet ומזרים ל-S/4HANA דרך SOAP — אוטומטית ומאובטחת.\n\n**שילוב ניהול כוח-עבודה זמני (Contingent Workforce Management)** — בארגון בעונת-השיא מגויסים עובדי-מחסן זמניים דרך CWM; שעותיהם מאומתות ומחויבות ל-Cost Center של הלוגיסטיקה, וחשבוניות-הקבלן מאומתות מול ה-Service Entry Sheets.\n\nדרישה ל-3 עובדי-מחסן זמניים מפורסמת; ספקי-כוח-אדם מציעים; נבחרים ומתחילים; כל שבוע מדווחות שעות, מאושרות, ויוצרות SES; חשבונית חודשית מאומתת מול ה-SES ב-S/4HANA."
    },
    {
     "kind": "flow",
@@ -24508,12 +23836,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון עובדי-הרכש והלוגיסטיקה מנוהלים ב-Employee Central; הסנכרון ל-S/4HANA מבטיח ש-Purchase Requisitions מנותבות לאישור הנכון ומחויבות ל-Cost Centers של המחלקות.\n\nעובד חדש נקלט ב-Employee Central עם Cost Center ומנהל; הנתון מסונכרן ל-S/4HANA; כשהעובד יוצר Purchase Requisition, ה-workflow מנתב לאישור-מנהלו, וההוצאה מחויבת ל-Cost Center הנכון.\n\n**שילוב SAP S/4HANA עם SuccessFactors Employee Central** — בארגון, בהיעדר טרנספורמציות-HR מורכבות, נבחר הנתיב הישיר לסנכרון עובדי-הרכש מ-EC ל-S/4HANA.\n\nS/4HANA מריץ replication job שקורא Employee/Org מ-EC דרך API, וממלא את ה-HR mini-master — בלי iFlow ביניים.\n\n**SAP Cloud Integration עם SuccessFactors Employee Central** — בארגון, אם נדרש לנתב נתוני-עובד גם ל-S/4HANA וגם למערכת-נוכחות מקומית, נבחר הנתיב דרך Cloud Integration עם value mapping לקודי-המחלקות הישראליים.\n\nנתון-עובד מ-EC נכנס ל-iFlow ב-Cloud Integration; עובר value mapping (למשל המרת קודי-מחלקה), מסונן, ומנותב גם ל-S/4HANA וגם למערכת-שכר נוספת."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -24703,12 +24025,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון נעשה שימוש ב-SAP Signavio Process Intelligence לכריית תהליך ה-Procure-to-Pay: זוהו עיכובי-אישור בקווי-הרכש לחומרי-אריזה וחריגות מחוזי-ספקים; התובנות הזינו אופטימיזציה של זרימת-האישורים לפני ה-Go-Live של S/4HANA.\n\nSignavio מושך event log של 100,000 הזמנות-רכש; הוא מגלה ש-15% מהן עוקפות חוזה (maverick buying) ושאישורים מעל סכום מסוים מתעכבים 4 ימים בממוצע; הארגון מתקן את ה-workflow ואת מדיניות-החוזים."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -24885,12 +24201,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: כל שרשרת ה-Source-to-Pay לחומרי-המשקה מחוברת — Ariba/Business Network לספקים, Logistics לנראות-משלוח, Fieldglass לקבלנים, SuccessFactors לעובדים, ו-Signavio לאופטימיזציית-התהליך — סביב ליבת S/4HANA אחת.\n\nמקצה-לקצה: SuccessFactors מספק את המבקש; Signavio מצביע על צוואר-בקבוק באישורים; ה-PR מאושר; ה-PO זורם דרך Managed Gateway ל-Business Network; הספק מאשר ושולח (SCC/Logistics); Fieldglass מנהל את כוח-האדם הקבלני; והחשבונית חוזרת ומאומתת — מעגל אחד, נתונים זורמים."
-   },
-   {
     "kind": "tables",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -25059,12 +24369,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "שלוש צורות: Windows / Java / HTML (Web GUI דרך SICF).",
      "ניתן לחשוף טרנזקציות GUI כ-tiles ב-SAP Fiori launchpad."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון קנייני התרכיז, הסוכר וחומרי-האריזה עובדים יומיומית ב-SAP Fiori launchpad: אריחי ניהול הזמנות-רכש ומעקב-אספקה. צוות ה-master data והקונפיגורציה ממשיך ב-SAP GUI לטרנזקציות-עומק. שני הקהלים מתחברים לאותו S/4HANA.\n\nקניין נכנס בבוקר ל-SAP Fiori launchpad בדפדפן, רואה אריחי 'Manage Purchase Orders', 'Monitor Purchase Order Items' ו-KPI של הזמנות-פתוחות. לעריכת-תנאי-מחיר מורכבת הוא לוחץ אריח שעוטף את טרנזקציית ME31K הקלאסית — וה-GUI נפתח בתוך אותו launchpad, ללא login נוסף.\n\n**SAP Fiori** — בארגון צוות-הרכש מקבל Business Role 'Buyer' עם space/page ובו אריחי ניהול-הזמנות, מעקב-אספקה ו-KPI של הזמנות-באיחור — חוויה אחת לתרכיז, סוכר ואריזה.\n\nקניין פותח אריח 'Manage Purchase Orders', מסנן לפי ספק, פותח הזמנה, מעדכן כמות ושומר — הכל באפליקציה אחת responsive, ללא קוד-טרנזקציה וללא ניווט בין מסכי-Dynpro.\n\n**SAP GUI** — בארגון צוות ה-master data וה-config עובד ב-SAP GUI (SPRO, OB52). קנייני-הרכש נשארים ב-Fiori, אך מקבלים מספר GUI tiles בודדים לטרנזקציות-עומק שאין להן עדיין אפליקציה.\n\nצוות הקונפיגורציה פותח SPRO ב-SAP GUI להגדרת Document Types; קניין שצריך טרנזקציה קלאסית נדירה לוחץ GUI tile ב-launchpad וה-Web GUI נפתח דרך SICF, ללא יציאה מ-FLP."
    },
    {
     "kind": "flow",
@@ -25279,12 +24583,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "לכל אפליקציה: OData, UI component, Business Role, Catalog.",
      "נקודת-המוצא לכל הפעלת-אפליקציה; תומכת ב-Aggregation לייצוא."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון נבחר embedded deployment (מערכת S/4HANA אחת לבקבוק). Basis מפעיל את שירותי ה-OData של הרכש, והצוות הפונקציונלי שואב מה-Reference Library את כל התלויות לאפליקציות-הרכש לפני העלאתן לקניינים.\n\nצוות Basis מפעיל את ה-UI components, מפעיל SICF services, מפרסם OData ב-/IWFND/MAINT_SERVICE, ובוחר embedded deployment. הצוות הפונקציונלי מחפש 'Manage Purchase Orders' ב-Fiori Apps Reference Library, מקבל את רשימת התלויות, מפעיל אותן, ומשייך את ה-Business Role לקניינים.\n\n**התקנת SAP Fiori** — בארגון Basis מפעיל פעם אחת את שירותי-הבסיס של ה-FLP ואת שירותי-ה-OData הספציפיים של אפליקציות-הרכש, ובודק כל אחד דרך 'Call Browser' לפני מסירה לצוות הפונקציונלי.\n\nBasis מפעיל ב-SICF את /sap/bc/ui2/flp ואת שירותי ה-OData של הרכש, ואז מוסיף ב-/IWFND/MAINT_SERVICE את שירות 'Manage Purchase Orders', מפעיל ובודק 'Call Browser' — תגובת-metadata תקינה מאשרת התקנה מוצלחת.\n\n**פריסת embedded ו-central hub עבור SAP Fiori** — בארגון, עם מערכת S/4HANA מרכזית לבקבוק, נבחר embedded deployment — פשוט, פחות שרתים לתחזק. אילו היו מספר מערכות-לוויין, central hub היה מאחד את אריחי-הרכש מכולן ל-launchpad אחד.\n\nארגון עם S/4HANA יחיד בוחר embedded — FLP פנימי, פחות תחזוקה. ארגון עם S/4HANA + ECC + BW מקים central hub: launchpad אחד עם System Aliases לכל backend, כך שהמשתמש רואה אריחים מכל המערכות במקום אחד.\n\n**ספריית האפליקציות של SAP Fiori** — בארגון הצוות בונה ב-Reference Library Aggregation של כל אפליקציות-הרכש (הזמנות, בקשות, מעקב-ספקים), מייצא רשימת-תלויות אחת, ומוסר ל-Basis להפעלה מרוכזת — במקום לאתר כל שירות ידנית.\n\nהצוות הפונקציונלי מחפש 'Manage Purchase Orders' בספרייה, פותח את לשונית ה-Implementation Information, מעתיק את ה-OData service ל-/IWFND/MAINT_SERVICE, מפעיל את ה-ICF node, ומשייך את ה-Business Catalog ל-Business Role ב-PFCG."
    },
    {
     "kind": "flow",
@@ -25515,12 +24813,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון מנהל-התוכן בונה page סטנדרטי לקנייני-הרכש; כל קניין מסדר ב-edit mode את אריחי התרכיז/הסוכר/האריזה לפי עבודתו, ובוחר ב-User Settings עברית ו-theme בהיר — אחידות ארגונית עם נגיעה אישית.\n\nמנהל-תוכן יוצר ב-/UI2/FLPD_CUST space & page לקניינים עם sections של 'הזמנות' ו-'ספקים'. קניין נכנס ל-edit mode, גורר את האריחים שהוא משתמש בהם הכי הרבה לראש-הדף, מסיר אריח לא-רלוונטי, ומכוון ב-User Settings את ה-theme ל-Horizon ושפה לעברית.\n\n**מצב עריכה ב-SAP Fiori** — בארגון כל קניין משתמש ב-edit mode כדי לקבע בראש-הדף את אריחי-הרכש היומיומיים (הזמנות פתוחות, מעקב-אספקה) ולהסיר אריחים של תחומים שאינם שלו — בלי לפגוע ב-baseline של שאר הצוות.\n\nקניין נכנס ל-Edit Home Page, פותח App Finder, מוסיף את אריח 'Monitor Purchase Order Items', גורר אותו לראש section 'הזמנות', מסיר אריח-analytics שאינו בשימוש, ושומר — דף-הבית שלו מותאם אישית.\n\n**הגדרות-משתמש ב-SAP Fiori** — בארגון קנייני-הרכש בוחרים ב-User Settings עברית ו-theme בהיר; חלקם מגדירים default plant של מפעל-המילוי שלהם, כך שאריחי-ההזמנות נפתחים ישר על הנתונים הרלוונטיים להם.\n\nקניין פותח User Settings, בוחר theme = Horizon, Language = עברית, ומפעיל high-contrast לנגישות. הוא גם מגדיר default plant כפרמטר-משתמש כך שאפליקציות-הרכש נפתחות מסוננות למפעלו."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -25720,12 +25012,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון התוצאה היא launchpad אחיד לקנייני התרכיז, הסוכר והאריזה: embedded deployment, אפליקציות-רכש מופעלות לפי ה-Reference Library, Business Role 'Buyer' עם space ייעודי, וכל קניין מסדר אריחים ובוחר עברית ו-theme — חוויית-רכש מודרנית, role-based ומותאמת.\n\nמקצה-לקצה: Basis מפעיל רכיבים+SICF+OData ובוחר embedded; הצוות הפונקציונלי שואב תלויות מה-Reference Library ומשייך Business Roles; מנהל-התוכן בונה spaces & pages ב-/UI2/FLPD_CUST; וכל קניין מסיים ב-edit mode וב-User Settings — launchpad חי, מותאם ומאובטח."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sourcing & Procurement",
@@ -25896,12 +25182,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "ה-AI אינו מחליף את ה-Customizing אלא יושב מעליו וצורך את אותם נתונים.",
      "בסיס-נתונים נקי (Business Partner, אב-חומר, היסטוריה) הוא התנאי הקריטי להצלחה."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון (Example Product bottling): קניין-האריזה מבקש מ-Joule 'כמה פקקים נזמין החודש לפי תחזית-המכירות?'. SAP Business AI מצליב תחזית-ביקוש עם מלאי וזמני-אספקה ומציע כמות. הזמנות-רוטינה לתרכיז מספק-מאושר בחוזה-מסגרת מאושרות אוטומטית דרך autonomous procurement ומשודרות בערוץ SAP Business Network; הקניין מתערב רק בקפיצת-מחיר-סוכר עונתית או בכניסת ספק-אריזה חדש שדורש אישור-איכות.\n\nתהליך עתידי מקצה-לקצה: עובד מבקש פריט בשפה-טבעית מול Joule. המערכת מזהה ספק-מועדף בחוזה קיים (Outline Agreement), בודקת מלאי ותקציב, ומציעה בקשת-רכש מוכנה. ל-PO בערך נמוך מספק-מאושר — autonomous procurement מאשר וממיר אוטומטית ל-Purchase Order, שמשודר דרך SAP Business Network לספק. הספק מאשר, מספק, וה-Invoice מגיע אלקטרונית; embedded AI מבצע התאמת-שלוש-דרכים (3-way match) ומדגיש רק חריגים. האדם נכנס לתמונה רק כשיש סטייה — מחיר חריג, ספק חדש, או חוסר-תקציב."
    },
    {
     "kind": "flow",
@@ -26097,12 +25377,6 @@ export const MM_GENERATED_LESSONS: Record<string, Lesson> = {
      "predictive + autonomous capabilities מזהים הפרעה ומאזנים מקורות לפני שמתרחש מחסור.",
      "כלי-ה-MM הקלאסיים (Source List, Quota Arrangement, Confirmations) הם הקרקע שעליה הרשת החכמה פועלת."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sourcing & Procurement",
-    "md": "בארגון: ספק-הסוכר משתף דרך SAP Business Network שצפוי עיכוב-קציר עונתי. ה-predictive layer מזהה סיכון-מחסור לקווי-המילוי, ומפעיל Quota Arrangement להסטת חלק מהאספקה לספק-סוכר משני. במקביל, ספק-הפקקים מקבל את תחזית-המכירות של הארגון בזמן-אמת ומתאם ייצור — מה שמקטין הן מלאי-פקקים עודף והן סיכון לעצירת-קו לפני פסח/קיץ.\n\nתהליך עתידי: הקונה משתף תחזית-ביקוש דרך SAP Business Network. הספק מאשר חלקית ומסמן עיכוב על קו-ייצור מסוים. ה-predictive layer מזהה שהעיכוב יגרום למחסור בעוד שבועיים, מצליב עם Quota Arrangement, וממליץ להסיט 30% מההזמנה לספק-חלופי ב-Source List. autonomous-capability יוצר PO חלופי, משדר אותו ברשת, ומעדכן את התכנון — הכל לפני שהמתכנן הגיע למשרד. כשהסחורה יוצאת, ה-ASN מעדכן את ה-Inbound Delivery ו-Event Management עוקב אחר המשלוח עד הקבלה."
    },
    {
     "kind": "flow",

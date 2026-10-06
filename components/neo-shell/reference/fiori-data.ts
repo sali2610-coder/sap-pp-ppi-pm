@@ -87,7 +87,6 @@ function rowOf(a: FioriApp): RefRow {
   if (a.odata) caps.push("odata");
   if (a.cds) caps.push("cds");
   if (a.commonErrors?.length) caps.push("errors");
-  if (a.cbc) caps.push("cbc");
   if (s4.critical.length) caps.push("impact");
 
   return {
@@ -158,7 +157,6 @@ export function fioriDir(): RefDir {
       { id: "odata", he: "עם שירות OData", n: count((r) => r.caps.includes("odata")) },
       { id: "cds", he: "עם תצוגת CDS", n: count((r) => r.caps.includes("cds")) },
       { id: "errors", he: "תקלות מתועדות", n: count((r) => r.caps.includes("errors")) },
-      { id: "cbc", he: "דוגמת יישום ב-CBC", n: count((r) => r.caps.includes("cbc")) },
     ].filter((c) => c.n > 0),
     groupLabel: "לפי תפקיד עסקי",
     rankLabel: "היקף הכיסוי",
@@ -259,7 +257,6 @@ export function fioriDetail(slug: string): RefDetail | null {
   const ops: RefFact[] = [];
   if (a.commonErrors?.length) ops.push({ label: "תקלות נפוצות", bullets: a.commonErrors });
   if (a.troubleshooting) ops.push({ label: "אבחון", text: a.troubleshooting });
-  if (a.cbc) ops.push({ label: "יישום ב-CBC", text: a.cbc });
   if (ops.length) sections.push({ id: "ops", icon: "alertTriangle", title: "תפעול ותקלות", facts: ops });
 
   const cards: RefCard[] = (a.similar || []).map((s) => {
@@ -284,7 +281,7 @@ export function fioriDetail(slug: string): RefDetail | null {
   const checks = [
     !!a.purpose, !!a.problem, !!a.process, !!a.role, !!a.catalog, !!a.odata, !!a.cds,
     a.guiTx.length > 0, !!(a.relatedTables || []).length, !!(a.relatedObjects || []).length,
-    !!a.commonErrors?.length, !!a.releaseInfo, !!a.spro, !!a.cbc,
+    !!a.commonErrors?.length, !!a.releaseInfo, !!a.spro,
   ];
 
   const statuses: RefStatus[] = [TRUST[a.trust] || TRUST["needs-review"]];

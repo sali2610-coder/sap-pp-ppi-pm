@@ -11,7 +11,7 @@ export const MOD_ICON: Record<string, string> = {
 export const MOD_PURPOSE: Record<string, string> = {
   BATCH: "ניהול אצוות — עקיבות מלאה של חומרים ומוצרים לאורך הייצור והמלאי",
   CLASS: "מערכת סיווג — מאפיינים וערכים המעשירים חומרים, אצוות וציוד",
-  IDOC: "מסגרת IDOC/ALE — חיבור אסינכרוני בין SAP למערכות חיצוניות (Zetes/Daymax)",
+  IDOC: "מסגרת IDOC/ALE — חיבור אסינכרוני בין SAP למערכות חיצוניות",
   PIPO: "ממשקי PI/PO — תזמור ותרגום הודעות בין SAP לעולם החיצון",
 };
 
@@ -38,7 +38,7 @@ export const MOD_FLOW: Record<string, { he: string; en: string; doc?: string }[]
     { he: "חומר", en: "Material" },
     { he: "מתכון מאסטר", en: "Master Recipe" },
     { he: "הזמנת תהליך", en: "Process Order", doc: "Process Order" },
-    { he: "ביצוע (MES/Daymax)", en: "Execution" },
+    { he: "ביצוע (MES)", en: "Execution" },
     { he: "אצווה", en: "Batch" },
     { he: "תנועת מלאי", en: "Goods Movement", doc: "Goods Issue" },
   ],

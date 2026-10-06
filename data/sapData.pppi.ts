@@ -17,7 +17,7 @@ export const PPPI_DATA = {
           "tcodes": "MM01, MM02, MM03",
           "fioriApp": "Manage Product Master Data",
           "s4Note": "MATNR מורחב 18->40 (SAP Note 2267140); בדוק ממשקים, ברקודים והמרות EAN.",
-          "guideHe": "טבלת הליבה של כל חומר בארגון (חומרי גלם, תרכיזים, חומרי אריזה, מוצרים מוגמרים). מפתח MATNR מורחב מ-18 ל-40 תווים ב-S/4HANA - קריטי לממשקי IDoc ל-Zetes/Daymax ולברקודים. כל פעולת ייצור (COR1/COR2) נשענת על רשומת חומר תקינה.",
+          "guideHe": "טבלת הליבה של כל חומר בארגון (חומרי גלם, תרכיזים, חומרי אריזה, מוצרים מוגמרים). מפתח MATNR מורחב מ-18 ל-40 תווים ב-S/4HANA - קריטי לממשקי IDoc למערכות חיצוניות ולברקודים. כל פעולת ייצור (COR1/COR2) נשענת על רשומת חומר תקינה.",
           "helpLbl": "SAP Help - Material Master",
           "sqlJoinSnippet": "(header - root of material model)",
           "funcs": [
@@ -31,7 +31,7 @@ export const PPPI_DATA = {
             ],
             [
               "MATMAS (MATMAS05)",
-              "הפצת אב חומר ל/מ-מערכות חיצוניות (Zetes/Daymax)"
+              "הפצת אב חומר ל/מ-מערכות חיצוניות"
             ],
             [
               "MARA_SINGLE_READ / MARC_SINGLE_READ",
@@ -237,7 +237,7 @@ export const PPPI_DATA = {
           "tcodes": "MM01, MM02, MM03",
           "fioriApp": "Manage Product Master Data",
           "s4Note": "ללא שינוי; MATNR מורחב משפיע על המפתח.",
-          "guideHe": "תיאורי החומר הרב-לשוניים (עברית/אנגלית) המוצגים בפק\"ע, בתעודות ובממשקי הלוגיסטיקה. חיוני לתצוגה דו-לשונית במסופי Zetes.",
+          "guideHe": "תיאורי החומר הרב-לשוניים (עברית/אנגלית) המוצגים בפק\"ע, בתעודות ובממשקי הלוגיסטיקה. חיוני לתצוגה דו-לשונית במסופי הסריקה.",
           "helpLbl": "SAP Help - Material Master",
           "sqlJoinSnippet": "FROM MAKT JOIN MARA ON MAKT.MATNR = MARA.MATNR",
           "funcs": [
@@ -485,7 +485,7 @@ export const PPPI_DATA = {
           "tcodes": "MM03, MMBE, MB52",
           "fioriApp": "Manage Stock",
           "s4Note": "מלאי מנוהל ב-MATDOC; MARD הופך ל-Aggregate/View.",
-          "guideHe": "מלאי החומר לפי מחסן במפעל. בסיס לפליטת חומרי גלם לפק\"ע ולקליטת מוצר מוגמר; מסונכרן עם מסופי Zetes/Daymax בזמן אמת.",
+          "guideHe": "מלאי החומר לפי מחסן במפעל. בסיס לפליטת חומרי גלם לפק\"ע ולקליטת מוצר מוגמר; מסונכרן עם מסופי הסריקה בזמן אמת.",
           "helpLbl": "SAP Help - Inventory",
           "sqlJoinSnippet": "FROM MARD JOIN MARC ON MARD.MATNR = MARC.MATNR AND MARD.WERKS = MARC.WERKS",
           "funcs": [
@@ -680,7 +680,7 @@ export const PPPI_DATA = {
           "tcodes": "MM01, MM02, MM03",
           "fioriApp": "",
           "s4Note": "ללא שינוי.",
-          "guideHe": "ניהול ברקודים מרובים לחומר (EAN13, UPC, GTIN) לפי יחידת מידה. מקור הסריקה במסופי Zetes בקליטה ובמשלוח.",
+          "guideHe": "ניהול ברקודים מרובים לחומר (EAN13, UPC, GTIN) לפי יחידת מידה. מקור הסריקה במסופים בקליטה ובמשלוח.",
           "helpLbl": "SAP Help - EAN",
           "sqlJoinSnippet": "FROM MEAN JOIN MARA ON MEAN.MATNR = MARA.MATNR",
           "funcs": [
@@ -1016,7 +1016,7 @@ export const PPPI_DATA = {
           "tcodes": "MM01, MM02, LS24",
           "fioriApp": "",
           "s4Note": "EWM אסטרטגי; LE-WM קלאסי נתמך עם הגבלות.",
-          "guideHe": "פרמטרי ניהול מחסן (WM/EWM) של החומר - יחידת בסיס לאחסון, אסטרטגיית העלאה/הורדה. ממשק למסופי Zetes.",
+          "guideHe": "פרמטרי ניהול מחסן (WM/EWM) של החומר - יחידת בסיס לאחסון, אסטרטגיית העלאה/הורדה. ממשק למסופי הסריקה.",
           "helpLbl": "SAP Help - Warehouse",
           "sqlJoinSnippet": "FROM MLGN JOIN MARA ON MLGN.MATNR = MARA.MATNR",
           "funcs": [
@@ -1349,7 +1349,7 @@ export const PPPI_DATA = {
           "tcodes": "MSC1N, MSC2N, MSC3N",
           "fioriApp": "Manage Batches",
           "s4Note": "ללא שינוי מבני; MATNR מורחב 18->40 במפתח.",
-          "guideHe": "רשומות האצווה של החומר - קריטי במשקאות לניהול תאריך תפוגה (VFDAT/BBD), תאריך ייצור ומעקב גנאלוגיה (Track & Trace). כל פליטה/קליטה בקו מנוהלת לפי אצווה ומסונכרנת עם Zetes.",
+          "guideHe": "רשומות האצווה של החומר - קריטי במשקאות לניהול תאריך תפוגה (VFDAT/BBD), תאריך ייצור ומעקב גנאלוגיה (Track & Trace). כל פליטה/קליטה בקו מנוהלת לפי אצווה ומסונכרנת עם מסופי הסריקה.",
           "helpLbl": "SAP Help - Batch Management",
           "sqlJoinSnippet": "FROM MCH1 JOIN MARA ON MCH1.MATNR = MARA.MATNR",
           "funcs": [
@@ -2362,7 +2362,7 @@ export const PPPI_DATA = {
             ],
             [
               "Control Recipe / PI Sheet (PI Messages)",
-              "שליחת הוראות תהליך לבקר/MES (Zetes/Daymax)"
+              "שליחת הוראות תהליך לבקר/MES"
             ]
           ],
           "progs": [
@@ -4434,7 +4434,7 @@ export const PPPI_DATA = {
             ],
             [
               "LOIPRO",
-              "שליחת פק\"ע/הוראות ייצור ל-MES (Zetes/Daymax)"
+              "שליחת פק\"ע/הוראות ייצור ל-MES"
             ],
             [
               "PPCC1 (PP-PI message)",
@@ -4882,7 +4882,7 @@ export const PPPI_DATA = {
           "tcodes": "COR3, MB21, MB22, CO27",
           "fioriApp": "Manage Reservations",
           "s4Note": "ללא שינוי; תנועת מלאי ב-MATDOC.",
-          "guideHe": "הזמנות חומרי הגלם/האריזה לפק\"ע (מפיצוץ עץ המוצר). כל פליטת חומר (261) מעדכנת RESB. סנכרון עם מסופי Zetes בפליטה.",
+          "guideHe": "הזמנות חומרי הגלם/האריזה לפק\"ע (מפיצוץ עץ המוצר). כל פליטת חומר (261) מעדכנת RESB. סנכרון עם מסופי הסריקה בפליטה.",
           "helpLbl": "SAP Help - Reservation",
           "sqlJoinSnippet": "FROM RESB JOIN AFKO ON RESB.AUFNR = AFKO.AUFNR",
           "funcs": [
@@ -5511,7 +5511,7 @@ export const PPPI_DATA = {
           "tcodes": "",
           "fioriApp": "",
           "s4Note": "ללא שינוי (Customizing).",
-          "guideHe": "פרמטרי בקרה לפק\"ע לפי מפעל/סוג פק\"ע: זמינות, אופק שחרור, פרופיל סטטוס, IDoc. כאן מוגדרת זרימת ה-Control Recipe ל-Zetes/Daymax.",
+          "guideHe": "פרמטרי בקרה לפק\"ע לפי מפעל/סוג פק\"ע: זמינות, אופק שחרור, פרופיל סטטוס, IDoc. כאן מוגדרת זרימת ה-Control Recipe למערכות הביצוע.",
           "helpLbl": "SAP Help - Order Type Plant Parameters",
           "sqlJoinSnippet": "FROM AUFK JOIN T399X ON AUFK.WERKS = T399X.WERKS AND AUFK.AUART = T399X.AUART",
           "funcs": [
@@ -5809,7 +5809,7 @@ export const PPPI_DATA = {
           "tcodes": "",
           "fioriApp": "",
           "s4Note": "ללא שינוי (Customizing).",
-          "guideHe": "פרמטרי ברירת מחדל לפק\"ע לפי סוג/מפעל: וריאנט תמחיר, פרופיל זמינות, פרופיל שחרור Control Recipe ל-MES. כאן מוגדרת זרימת ההוראות ל-Zetes/Daymax.",
+          "guideHe": "פרמטרי ברירת מחדל לפק\"ע לפי סוג/מפעל: וריאנט תמחיר, פרופיל זמינות, פרופיל שחרור Control Recipe ל-MES. כאן מוגדרת זרימת ההוראות למערכות הביצוע.",
           "helpLbl": "SAP Help - Order Parameters",
           "sqlJoinSnippet": "FROM TCO01 JOIN T003O ON TCO01.AUART = T003O.AUART",
           "funcs": [
@@ -7616,7 +7616,7 @@ export const PPPI_DATA = {
         "24",
         "CORK / CORT",
         "PP-PI",
-        "השלמה ובקרה של פק\"ע תהליך: CORK = דיווח השלמת פק\"ע; CORT = מוניטור מתכוני בקרה (Control Recipe Monitor). CORT מנהל את שליחת הוראות התהליך לקו/MES ומעקב סטטוס המסירה (Zetes/Daymax).",
+        "השלמה ובקרה של פק\"ע תהליך: CORK = דיווח השלמת פק\"ע; CORT = מוניטור מתכוני בקרה (Control Recipe Monitor). CORT מנהל את שליחת הוראות התהליך לקו/MES ומעקב סטטוס המסירה.",
         "ללא שינוי; הודעות תהליך נשמרות.",
         "Confirm Process Order / Control Recipe Monitor  ((אמת ID))",
         "ב-Fiori המעקב אחר Control Recipes משולב בלוחות התפעול; סטטוס המסירה ל-MES מוצג כ-KPI."
@@ -7634,10 +7634,10 @@ export const PPPI_DATA = {
         "26",
         "MB1A / MIGO",
         "Both",
-        "תנועות מלאי: MB1A = פליטת חומר (261) לפק\"ע; MIGO = תנועת מלאי כללית (פליטה/קליטה). פליטת חומרי גלם וקליטת מוצר מוגמר בארגון, מסונכרן עם מסופי Zetes.",
+        "תנועות מלאי: MB1A = פליטת חומר (261) לפק\"ע; MIGO = תנועת מלאי כללית (פליטה/קליטה). פליטת חומרי גלם וקליטת מוצר מוגמר בארגון, מסונכרן עם מסופי הסריקה.",
         "תנועות מנוהלות ב-MATDOC; MIGO נתמך; Fiori 'Post Goods Movement'.",
         "Post Goods Movement  ((אמת ID))",
-        "ב-Fiori 'Post Goods Movement' מאוחד; קליטות/פליטות מהקו מבוצעות גם דרך מסופים ניידים (Zetes) המחוברים ל-OData."
+        "ב-Fiori 'Post Goods Movement' מאוחד; קליטות/פליטות מהקו מבוצעות גם דרך מסופים ניידים המחוברים ל-OData."
       ],
       [
         "27",
@@ -7744,7 +7744,7 @@ export const PPPI_DATA = {
       [
         "11",
         "WE02 / WE05 / WE19",
-        "מוניטור IDocs - WE02/WE05 = צפייה וניתוח IDocs נכנסים/יוצאים (MATMAS, LOIPRO) וסטטוסים; WE19 = כלי בדיקה (test tool). הליבה לפתרון תקלות בממשקים ל-Zetes ו-Daymax.",
+        "מוניטור IDocs - WE02/WE05 = צפייה וניתוח IDocs נכנסים/יוצאים (MATMAS, LOIPRO) וסטטוסים; WE19 = כלי בדיקה (test tool). הליבה לפתרון תקלות בממשקים למערכות החיצוניות.",
         "נשמר; ב-S/4 ניטור הודעות מומלץ דרך 'Message Monitoring' (AIF/Fiori).",
         "Monitor IDocs / Message Dashboard  ((אמת ID))",
         "ב-Fiori ניטור ה-IDocs/ממשקים עובר ל-'Message Monitoring' ולוחות AIF מבוססי תפקיד עם התראות על כשלים בממשקי הלוגיסטיקה."
@@ -7752,7 +7752,7 @@ export const PPPI_DATA = {
       [
         "12",
         "WE20 / WE21",
-        "פרופילי שותפים ויציאות (Partner Profiles & Ports) - WE20 = הגדרת פרופיל שותף (אילו IDocs נשלחים/מתקבלים לכל שותף); WE21 = הגדרת פורטים (tRFC/File). מגדיר את צינור התקשורת ל-Zetes/Daymax.",
+        "פרופילי שותפים ויציאות (Partner Profiles & Ports) - WE20 = הגדרת פרופיל שותף (אילו IDocs נשלחים/מתקבלים לכל שותף); WE21 = הגדרת פורטים (tRFC/File). מגדיר את צינור התקשורת למערכות החיצוניות.",
         "נשמר; הגדרות הממשק זהות, מומלץ AIF לניטור.",
         "(Interface config - Communication Mgmt)  ((אמת ID))",
         "ב-S/4 Cloud ההגדרות עוברות ל-'Communication Arrangements/Systems'; On-Premise נשמר WE20/WE21 + AIF."
@@ -7871,7 +7871,7 @@ export const PPPI_DATA = {
         "בקרת ביצוע (Shop-floor control)",
         "דיווח ביצוע (Confirmation) ידני/MES",
         "Control Recipe / PI Sheet / Process Messages",
-        "PP-PI מתממשק ל-Zetes/Daymax דרך הודעות תהליך (PI Messages) ו-IDoc."
+        "PP-PI מתממשק למערכות הביצוע דרך הודעות תהליך (PI Messages) ו-IDoc."
       ],
       [
         "9",
@@ -7906,7 +7906,7 @@ export const PPPI_DATA = {
         "ממשק חיצוני (IDoc/MES)",
         "LOIPRO (Production Order)",
         "LOIPRO + PI Process Messages (PPCC1)",
-        "סנכרון דו-כיווני בין SAP לבין מערכות הלוגיסטיקה/אוטומציה (Zetes/Daymax)."
+        "סנכרון דו-כיווני בין SAP לבין מערכות הלוגיסטיקה/אוטומציה."
       ],
       [
         "14",

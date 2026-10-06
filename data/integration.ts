@@ -61,7 +61,7 @@ export const MODULES: IntgModule[] = [
       { slug: "idoc-64-eoio-queue", label: "IDoc 64 — תור EOIO" },
       { slug: "idoc-68-no-further-processing", label: "IDoc 68 — No Further Processing" },
     ],
-    scenario: "בארגון: IDoc אב-חומר (MATMAS) ל-Daymax נכשל ב-51 — שדה יחידת-מידה לא קיים ביעד; תוקן ה-mapping ועובד מחדש ב-BD87.",
+    scenario: "בארגון: IDoc אב-חומר (MATMAS) למערכת חיצונית נכשל ב-51 — שדה יחידת-מידה לא קיים ביעד; תוקן ה-mapping ועובד מחדש ב-BD87.",
     links: [{ label: "MM — אב חומר", href: "/sap-infrastructure/" }, { label: "SD — משלוחים", href: "/sap-infrastructure/" }, MIG, INC],
   },
   {
@@ -155,7 +155,7 @@ export const MODULES: IntgModule[] = [
     debug: ["SXMB_MONI → סטטוס + payload + trace level", "RWB → Channel Monitoring", "SMQ2 ל-queue ב-Integration Engine", "IDX2 לרענון IDoc metadata"],
     notes: ["PI PO message system error channel · BC-XI-IBC", "Adapter Engine queue stuck · BC-XI-IS", "IDX2 idoc metadata refresh · BC-XI-CON-IDO"],
     incidents: [{ slug: "pi-po-channel-error-not-sent", label: "ערוץ PI/PO תקוע" }],
-    scenario: "בארגון: הודעת מכירות ל-Daymax נתקעה ב-PO — ה-Communication Channel היה ב-Error אחרי שינוי endpoint; הופעל מחדש ונשלח.",
+    scenario: "בארגון: הודעת מכירות למערכת חיצונית נתקעה ב-PO — ה-Communication Channel היה ב-Error אחרי שינוי endpoint; הופעל מחדש ונשלח.",
     links: [{ label: "SD — מכירות", href: "/sap-infrastructure/" }, { label: "CPI (יורש)", href: "/integration/#cpi" }, INC],
   },
   {

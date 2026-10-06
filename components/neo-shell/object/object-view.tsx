@@ -714,7 +714,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         icon={<Cable size={16} strokeWidth={1.75} />}
         eyebrow="ממשקים"
         title={`${v.funcs.length} BAPI · FM · IDoc · ${v.progs.length} תוכניות`}
-        lede="השם והתיאור מובאים מהתיעוד, כולל ממשקי Zetes ו-Daymax. תג המודול מציין באיזה מודול תועד האובייקט."
+        lede="השם והתיאור מובאים מהתיעוד. תג המודול מציין באיזה מודול תועד האובייקט."
       >
         {v.funcs.length ? (
           <ul className="no-funcs">

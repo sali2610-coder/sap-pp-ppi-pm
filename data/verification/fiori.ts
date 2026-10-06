@@ -3047,11 +3047,11 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       release: "2025.001",
       source: F2176_FAL_S32OP,
       recommendedAction:
-        "לתכנון מפורט (finite) של קווי המילוי והריאקטורים ב-CBC: להעריך את היישום מול Capacity Scheduling Board (F3951) " +
+        "לתכנון מפורט (finite) של קווי המילוי והריאקטורים בארגון: להעריך את היישום מול Capacity Scheduling Board (F3951) " +
         "בהתאם להיקף ה-PP/DS שמופעל במערכת. ה-catalogPatch הוחל ב-2026-09-24 על data/fiori/apps.ts#F2176: catalog " +
         "SAP_SCM_BC_CAPA_PLAN (במקום SAP_SCM_BC_CFS), odata PPDS_RES_SCHEDULE ו-guiTx לפי ספריית ה-Fiori (/SAPAPO/CDPS0 " +
         "כמובילה; /SAPAPO/CDPS1-3 ו-/SAPAPO/RPT כקשורות) במקום CM21/CO03, שאינם ברשימה שהספרייה מדפיסה ליישום זה. לפני " +
-        "הקצאה למשתמשים ב-CBC לאמת בסביבה חיה שה-PP/DS מופעל ושהתפקיד SAP_BR_PRODN_PLNR הוקצה.",
+        "הקצאה למשתמשים בארגון לאמת בסביבה חיה שה-PP/DS מופעל ושהתפקיד SAP_BR_PRODN_PLNR הוקצה.",
     },
     xrefs: ["fiori:F3951", "fiori:F5460", "table:AFKO", "table:AFVC", "table:CRHD"],
     lastVerifiedAt: DATE24,
@@ -3544,7 +3544,7 @@ export const FIORI_VERIFICATION: VerificationRecord[] = [
       release: "2025.001",
       source: F2828_FAL_S32OP,
       recommendedAction:
-        "בהמרת CBC ל-S/4HANA: לכלול את F2828 בהיקף Business Role SAP_BR_MAINTENANCE_PLANNER (Business Catalogs " +
+        "בהמרת הארגון ל-S/4HANA: לכלול את F2828 בהיקף Business Role SAP_BR_MAINTENANCE_PLANNER (Business Catalogs " +
         "SAP_DFS_BC_MAINTENANCE ו-SAP_EAM_BC_ORD, Technical Catalog SAP_TC_EAM_COMMON) כתחליף לסריקת רשימות ה-SAP GUI " +
         "(IW29 להודעות, IW38 לפקודות). לפני ההפעלה: להפעיל את צמתי ה-ICF שהספרייה מונה ליישום (EAM_ORD_MONS1 והצמתים " +
         "הנוספים) ואת שירות ה-OData EAM_ORDER_MONITOR (Version 0001, SoftwareComponentName S4CORE 109 ב-2025 FPS01 / " +

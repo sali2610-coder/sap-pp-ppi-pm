@@ -64,12 +64,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון (מפעל-מילוי של Example Product): מחסור עולמי ב-CO2 מאיים על קווי-המילוי. המניע השוקי (שיבוש-אספקה) מתורגם ב-SAP IBP לתרחיש שבו זמינות ה-CO2 מוגבלת; ה-S&OP בוחן מה תהיה ההשפעה על אספקת-המשקאות לרשתות-השיווק לקראת הקיץ, ומחליט על תיעדוף SKU-ים רווחיים.\n\nיצרן גלובלי חווה עלייה פתאומית בעלויות-הובלה ימית. בלי S&OP, הרכש, הייצור והמכירות מגיבים בנפרד ובסתירה. עם תהליך S&OP נתמך-IBP, התרחיש מוזן כ-scenario, המערכת מחשבת מחדש את ההיצע והרווחיות, וההנהלה מקבלת החלטה אחת מיושרת — להעביר ייצור למפעל קרוב יותר ולעדכן את תחזית-המכירות בהתאם.\n\n**שיבושי שרשרת-אספקה** — בארגון: ספק-הפקקים היחיד נפגע משריפה. התרחיש מוזן ל-SAP IBP; IBP for Inventory מציע להעלות מלאי-ביטחון של פקקים, ו-IBP for Response מתעדף מילוי בקבוקי 1.5 ליטר (רווחיים) על-פני אריזות-קטנות עד שובו של הספק.\n\nספק-יחיד של רכיב קריטי מודיע על עיכוב של 6 שבועות. ב-IBP מזינים scenario עם lead time מוארך; IBP for Inventory מחשב מחדש את מלאי-הביטחון הנדרש, ו-IBP for Response מתעדף אילו הזמנות-לקוח יסופקו מהמלאי הקיים.\n\n**גלובליזציה** — בארגון: מפעלי-מילוי במספר מדינות חולקים את אותו ריכוז (concentrate) מ-The Example Product Company. ה-planning area הגלובלי מאחד את תחזיות-המכירות של כל המדינות לתכנון רכש-ריכוז כולל, תוך שמירה על תכנון-מילוי מקומי לכל מפעל.\n\nתאגיד עם מפעלים באירופה ובאסיה מתכנן ביקוש גלובלי. ב-IBP, כל אזור מתחזק את התחזית המקומית שלו; ה-planning area מאחד למבט גלובלי במטבע אחיד, וההנהלה מאזנת היצע בין-אזורי.\n\n**תנודתיות-שוק** — בארגון: מבצע פתאומי של רשת-קמעונאות מכפיל ביקוש ל-SKU מסוים. IBP for Demand מזהה את החריגה, יוצרים scenario של ביקוש-מוגבר, ובוחנים אם קווי-המילוי יכולים לעמוד בו לפני שמתחייבים לרשת.\n\nגל-חום מקדים מקפיץ ביקוש למשקאות-קרים. demand sensing ב-IBP for Demand מזהה את הקפיצה מנתוני-מכירות יומיים, מעדכן את התחזית קצרת-הטווח, ומפעיל התראה לתכנון-ההיצע — הכל לפני מחזור ה-S&OP החודשי."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -323,12 +317,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: מחזור-S&OP חודשי מיישר את תחזית-המכירות של המשקאות מול קיבולת קווי-המילוי וזמינות-הריכוז. כל שלב במחזור מתורגם ל-planning view ב-SAP IBP, וההנהלה מקבלת תוכנית-מילוי מאושרת אחת לחודש לכל המפעלים.\n\nארגון מגדיר מחזור-S&OP חודשי: בשבוע הראשון Demand Review, בשני Supply Review, בשלישי Reconciliation, וברביעי Management Business Review. כל שלב נתמך ב-planning view ייעודי ב-IBP, וה-process management מתזמן את המעברים.\n\n**הגדרת תהליך ה-S&OP** — בארגון: ההגדרה קובעת ש-S&OP הוא מחזור חודשי המיישר את ביקוש-המשקאות מול קיבולת-המילוי וזמינות-הריכוז, ומפיק תוכנית-מילוי אחת מאושרת לכל מפעלי-החברה.\n\nהארגון מגדיר: S&OP הוא תהליך חודשי בראשות סמנכ\"ל-תפעול, המיישר תחזית-מכירות מול קיבולת-ייצור ומול תקציב, ומפיק תוכנית-אספקה מאושרת אחת. ההגדרה מתועדת ומוטמעת ב-process management של IBP.\n\n**אופקי-תכנון** — בארגון: אופק של 18 חודשים מאפשר לתכנן את שיא-הקיץ הבא — להזמין ריכוז מראש, לתזמן תחזוקת-קווים מחוץ לעונה, ולהחליט על הוספת-משמרת לפני הביקוש.\n\nארגון בוחר אופק של 24 חודשים: 18 הראשונים ברזולוציה חודשית לתכנון-תפעולי-טקטי, ו-6 האחרונים לתכנון-קיבולת אסטרטגי. ה-time profile ב-IBP מוגדר בהתאם.\n\n**פירוק תהליך ה-S&OP** — בארגון: Demand Review מסכם תחזית-מכירות-משקאות; Supply Review בודק מול קיבולת-מילוי וריכוז; Reconciliation מאזן (למשל הזזת-מבצע מחוץ-לשיא); Management Business Review מאשר תוכנית-מילוי חודשית.\n\nDemand Review מפיק תחזית-ביקוש מוסכמת ➔ זו הקלט ל-Supply Review שבוחן אם ההיצע יכול לעמוד בה ➔ Reconciliation מאזן פערים ובוחן תרחישים ➔ Management Business Review מאשר תוכנית סופית. כל מעבר מתועד ב-snapshot."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -557,12 +545,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "ב-IBP: Cases, Tasks, ושילוב Jam/Teams.",
      "קשר כל החלטה ל-planning view ותעד אחריות ומועד."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: מתכנן-הביקוש מעלה תחזית-קיץ ב-Excel add-in; IBP מחשב מיד את עומס קווי-המילוי ואת צריכת-הריכוז, מציג גרף-קיבולת ב-Web UI, ופותח Case לתכנון-ההיצע — מחזור-תכנון שלם בזמן-אמת.\n\nמתכנן משנה תחזית ב-Excel add-in; בזכות ה-in-memory, מלאי-הביטחון, עלות-ההיצע והרווחיות מחושבים-מחדש תוך שניות; dashboard ב-Web UI מציג את ההשפעה ויזואלית; והמתכנן פותח Case לדיון עם הרכש — הכל בלי המתנה ל-batch לילי.\n\n**תכנון אינטראקטיבי עם מחשוב in-memory** — בארגון: בפגישת-Demand Review מעלים את תחזית-הקיץ; in-memory מציג מיד שקו-מילוי 2 יעבור 100% עומס, וההחלטה על משמרת-נוספת מתקבלת בו-במקום.\n\nבמהלך Demand Review, המתכנן מעלה תחזית ב-15% ב-Excel add-in במצב-סימולציה; ה-in-memory מחשב מיד את צריכת-הקיבולת ואת הרווחיות; המשתתפים רואים את ההשפעה ומחליטים — בלי לצאת מהפגישה.\n\n**ויזואליזציית-נתונים** — בארגון: dashboard מציג עומס לכל קו-מילוי כמפת-חום (אדום=עומס-יתר), מגמת מכירות-משקאות, ורמת-מלאי-ריכוז — ההנהלה רואה מיד היכן הסיכון לקראת הקיץ.\n\nב-Management Business Review, dashboard מציג גרף ביקוש-מול-היצע, KPI של רמת-שירות, ומפת-חום של מפעלים בעומס-יתר. ההנהלה מזהה את הצוואר ומחליטה — בלי לעבור טבלאות.\n\n**שיתוף-פעולה** — בארגון: בפער-ריכוז לקראת הקיץ, מתכנן פותח Case ומקצה Task ל-The Example Product Company לבדוק הקדמת-משלוח, ומתעד את ההחלטה — כל המפעלים רואים את הסטטוס.\n\nמתכנן-ההיצע מזהה פער-קיבולת, פותח Case מקושר ל-planning view, מקצה Task לרכש לבדוק מקור-חלופי, ומתעד את ההחלטה. כל המשתתפים רואים את ההתקדמות בזמן-אמת."
    },
    {
     "kind": "flow",
@@ -811,12 +793,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "כולם חולקים planning area ומודל-נתונים אחד.",
      "מודולרי — בוחרים והרחבים בהדרגה."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: SAP IBP מאחד את תכנון-המשקאות מקצה-לקצה — תחזית-מכירות ב-Demand, תכנון-מילוי ב-Supply, מלאי-ריכוז ב-Inventory, ותגובה לשיא-קיץ ב-Response — בענן אחד, משולב עם ה-S/4HANA של החברה.\n\nביקוש מתוכנן ב-IBP for Demand → זורם ל-IBP for Supply שמתכנן היצע → IBP for Inventory מאזן מלאי-ביטחון → IBP for Response מגיב לטווח-קצר. הכל על אותו planning area, נראה ב-Excel add-in וב-Web UI, ומשולב עם S/4HANA.\n\n**גישה משולבת** — בארגון: עדכון תחזית-משקה ב-Demand נראה מיד בתכנון-המילוי ובמלאי-הריכוז — מתכנן-ההיצע ומתכנן-המלאי עובדים על אותה אמת אחת.\n\nתחזית מעודכנת ב-IBP for Demand נראית מיד ב-key figures של IBP for Supply באותו planning area — בלי interface, בלי העברת-קבצים, בלי השהיה.\n\n**אלגוריתמים טובים יותר** — בארגון: best-fit בוחר לכל משקה את שיטת-התחזית המתאימה (עונתי לגזוז, יציב למים); optimizer ב-Supply מחליט אילו מפעל ימלא איזה SKU בעלות-מינימום.\n\nbest-fit ב-IBP for Demand בוחר אוטומטית את האלגוריתם בעל ה-error הנמוך לכל SKU; IBP for Inventory מחשב מלאי-ביטחון multi-stage; IBP for Supply optimizer ממזער עלות תוך עמידה באילוצים.\n\n**חוויית-משתמש** — בארגון: מתכנני-הביקוש במפעלים עובדים ב-Excel add-in המוכר; מנהלי-S&OP בוחנים dashboards ופותחים Cases ב-Web UI — אימוץ מהיר בכל הרמות.\n\nמתכנן עורך תחזית ב-Excel add-in; מנהל בוחן dashboards ופותח Cases ב-Web UI; אדמין מתזמן application jobs ב-Web UI. כל תפקיד בממשק המתאים לו.\n\n**זריזות רבה יותר** — בארגון: גל-חום בלתי-צפוי; הצוות מריץ scenario של ביקוש-מוגבר, מתכנן-מחדש את המילוי תוך שעות, ומגיב לרשתות — זריזות שמצילה מכירות-קיץ.\n\nשינוי-שוק פתאומי: הצוות מריץ scenario חדש, ה-in-memory מחשב מיד, ותוכנית מעודכנת מאושרת באותו יום — ללא המתנה למחזור הבא או לשדרוג.\n\n**מודולי SAP IBP** — בארגון: שלב-א — IBP for Demand ו-Sales and Operations למחזור-מילוי חודשי; שלב-ב — IBP for Inventory לריכוז/אריזה; שלב-ג — IBP for Response לשיא-הקיץ. כולם על אותו planning area.\n\nארגון מתחיל ב-IBP for Sales and Operations ו-Demand, מוסיף Inventory ו-Supply בהמשך, ולבסוף Response — כל מודול נשען על ה-planning area הקיים בלי re-implementation."
    },
    {
     "kind": "flow",
@@ -1104,12 +1080,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: התמונה-הכוללת — מניעי-שוק (CO2, גל-חום) ותהליך-S&OP חודשי מיושמים ב-SAP IBP על-פני Demand/Inventory/Supply/Response, ומפיקים תוכנית-מילוי מאושרת אחת לכל המפעלים לקראת הקיץ.\n\nמבט-על על המסע: מניעים מצדיקים S&OP → S&OP מוגדר כתהליך חודשי בחמישה שלבים → SAP IBP מממש אותו עם מודולים משולבים → הארגון מתכנן, מדמה ומחליט בזמן-אמת ובזריזות."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -1291,12 +1261,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "שלוש שכבות: נתונים (HANA), יישום (planning operators), חזית (Excel + Web UI).",
      "אין on-premise/ABAP; הכול מבוסס-מודל וקונפיגורציה."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון (מפעל-מילוי משקאות): נתוני-המכירות ההיסטוריים נמשכים מ-SAP S/4HANA דרך CI-DS אל ה-planning area בענן; התכננים בכל מדינה עובדים ב-Excel add-in מול אותו מודל; הנהלת-האזור צופה ב-Web UI. שדרוג-רבעוני של IBP נבדק תחילה ב-tenant של בדיקות לפני productive.\n\nתכננית מתחברת מהבית דרך הדפדפן ל-Fiori Launchpad של IBP, פותחת את ה-Excel add-in, מושכת תצוגת-תכנון, משנה תחזית — והשינוי נכתב מיידית ל-planning area ב-HANA. במקביל, מנהל-תפעול במדינה אחרת רואה את אותו מספר ב-dashboard של Fiori, כי שניהם קוראים מאותו מסד-נתונים בענן."
    },
    {
     "kind": "flow",
@@ -1499,12 +1463,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "התצוגה לפי logon language.",
      "תרגום-מלא מקדם אימוץ-משתמשים גלובלי."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון המודל כולל attributes: Product (SKU משקה), Location (מפעל/DC), Customer (רשת-קמעונאות), Brand. נתוני-האב נטענים מ-S/4HANA, ציר-הזמן חודשי-שבועי, וה-planning area משוכפל מ-SAPIBP1 ומותאם לעולם-המשקאות.\n\nיועם בונה מודל-demand: מגדיר attributes (PRDID, LOCID, CUSTID), יוצר master data types לכל אחד, קושר time profile חודשי, מאחד ב-planning area, מגדיר planning level לפי Product-Customer-Month, ועליו key figure בשם CONSENSUSDEMAND. מרגע זה כל תצוגה ב-Excel נשענת על אותו מבנה.\n\n**תכונות (Attributes)** — בארגון ה-attributes הם: PRDID (SKU כמו 'Drink-1.5L'), LOCID (מפעל/DC), CUSTID (רשת), BRANDID (Example Product / Fanta / Sprite), PACKTYPE (בקבוק/פחית). כולם באנגלית מקור.\n\nיועם יוצר attribute חדש BRANDID (NVARCHAR אורך 20) לתיאור-מותג, ואז משייך אותו ל-master data type של המוצר, כדי לאפשר תכנון-לפי-מותג בהמשך.\n\n**סוגי נתוני-אב (Master Data Types)** — בארגון: master data type מסוג simple בשם Product (PRDID + BRANDID + PACKTYPE), simple בשם Location (LOCID), ו-compound בשם Customer-Product לתכנון-לקוח-מוצר. כולם נטענים מ-S/4HANA דרך CI-DS.\n\nיועם יוצר master data type מסוג simple בשם Product עם key attribute PRDID ועם attributes תיאוריים BRANDID, PRDFAMILY; טוען אליו את רשימת-המוצרים מ-S/4HANA; וכעת אפשר לתכנן לפי מוצר.\n\n**פרופילי-זמן (Time Profiles)** — בארגון ה-time profile שבועי-חודשי: תכנון-תפעולי שבועי לקווי-המילוי, ו-S&OP חודשי-רבעוני להנהלה. עונתיות-המשקאות (קיץ) ניכרת ברזולוציה החודשית.\n\nמודל-demand נשמר ברמת-חודש; ה-time profile מקפל את החודשים לרבעונים ולשנים אוטומטית, כך שמנהל רואה consensus ברמת-רבעון בלי חישוב-ידני.\n\n**אזורי-תכנון (Planning Areas)** — בארגון ה-planning area ZIBP_MFG משוכפל מ-SAPIBP1, כולל demand, supply ו-inventory; מותאם ל-SKU-משקאות, מפעלים-DC, ורשתות-קמעונאות; ומשמש את כל מדינות-האזור על מודל-אחד.\n\nצוות-מימוש משכפל את SAPIBP1 ל-planning area חדש ZIBP_MFG, מסיר key figures לא-רלוונטיים, מוסיף BRANDID, מריץ consistency check, ומפעיל (Activate). מאותו רגע התכננים עובדים מולו ב-Excel.\n\n**רמות-תכנון (Planning Levels)** — בארגון: base planning level = Product-Location-Customer-Week לתכנון-תפעולי; רמות-צבירה = Brand-Region-Month ל-S&OP. אותו מספר נראה בכל רמה בעקביות.\n\nkey figure של תחזית נשמר ב-base planning level של Product-Customer-Month; מנהל פותח תצוגה ברמת-Brand-Quarter — IBP מצבר אוטומטית מהרמה-הבסיסית לרמה-המבוקשת.\n\n**מדדים (Key Figures)** — בארגון ה-key figures כוללים: STATISTICALFORECAST (תחזית-בסיס), CONSENSUSDEMAND (מוסכם), SAFETYSTOCK, PROJECTEDINVENTORY, SUPPLYPLAN. uplift-קיץ מוזן כ-key figure-תוספת ומחובר לתחזית-הבסיס.\n\nkey figure בשם CONSENSUSDEMAND נערך ברמת Product-Customer-Month; key figure מחושב TOTALDEMAND = CONSENSUSDEMAND + PROMOTIONUPLIFT מתעדכן אוטומטית; פירוק לשבועות נעשה לפי PROPORTIONALFACTOR.\n\n**גרסאות ותרחישים מוגדרי-משתמש** — בארגון: version 'Baseline' מול 'Budget' לשנה; לקראת-קיץ התכנן בונה scenario 'Heatwave +15%' לבדיקת-מוכנות קווי-המילוי, ומשווה למלאי-הצפוי לפני אימוץ.\n\nבישיבת-S&OP התכנן יוצר scenario 'High Growth' מעל ה-Baseline, מעלה תחזית ב-10%, משווה side-by-side את ההשפעה על המלאי והאספקה, וכשמתקבלת החלטה — מאמץ (adopt) את ה-scenario ל-version.\n\n**תמיכה רב-לשונית לאובייקטי-מידול** — בארגון הרב-לאומי: תכננים בעברית, ערבית, אנגלית ויוונית רואים תיאורים מתורגמים של אותם key figures (CONSENSUSDEMAND, SAFETYSTOCK), והדיווח-האזורי עקבי כי ה-ID זהה לכולם.\n\nהמודל מתוחזק עם Key Figure ID = CONSENSUSDEMAND; התיאור מתורגם ל'ביקוש מוסכם' (HE), 'Consensus Demand' (EN), 'Konsensbedarf' (DE). כל משתמש רואה את שפתו, החישוב זהה."
    },
    {
     "kind": "flow",
@@ -1828,12 +1786,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: תכנני-המדינות עובדים ב-Excel add-in; מנהלי-האזור צופים ב-Fiori dashboards של S&OP; חריגות-תחזית-קיץ נדונות ב-Social Collaboration עם תיוג בעלי-עניין — מחזור-S&OP חודשי מנוהל מקצה-לקצה.\n\nתכנן עורך תחזית ב-Excel; מנהל-מכירות בודק את ה-dashboard ב-Fiori ומזהה חריגה; הוא פותח case ב-Collaboration ומתייג את התכנן; התכנן מגיב, מתקן ב-Excel, וה-case נסגר — הכול מקושר לאותו key figure.\n\n**ממשק המשתמש ב-Excel** — בארגון כל תכנן-מדינה מחזיק Favorites ל-SKU-המשקאות שלו; לפני-קיץ הוא מסמלץ uplift ב-Simulate, משווה ב-scenario, ושומר את התחזית-המוסכמת.\n\nתכנן פותח Favorite 'Monthly Demand', מסנן ל-Brand מסוים, רואה CONSENSUSDEMAND לפי-חודש, מעלה ערך, לוחץ Simulate לראות-השפעה, ואז Save — הנתון נכתב ל-planning area.\n\n**אפליקציות Web מבוססות SAP Fiori** — בארגון מנהלי-האזור צופים ב-Fiori dashboards של תחזית, מלאי וקיבולת-מילוי; custom alerts מתריעים על חוסר-קיבולת בשיא-הקיץ; ניהול מחזור-ה-S&OP החודשי מתבצע ב-S&OP Process app.\n\nמנהל פותח dashboard ב-Fiori, רואה גרף תחזית-מול-אספקה, custom alert מתריע על חוסר-קיבולת בחודש מסוים; הוא לוחץ-דרך ל-analytics, מבין את הסיבה, ומפעיל את שלב ה-S&OP-review.\n\n**שיתוף-פעולה חברתי** — בארגון חריגת-תחזית-קיץ פותחת case: תכנן-המדינה, מנהל-הייצור ומנהל-האזור דנים, מטילים task להגדלת-קיבולת-מילוי, והחלטת-ה-S&OP מתועדת בתוך IBP לצורך-מעקב ו-audit.\n\nalert מזהה חוסר-קיבולת; מנהל פותח case מתוך ה-dashboard, מתייג את מנהל-הייצור ומטיל task 'בדוק משמרת-נוספת'; הדיון מתועד, המשימה מסומנת-הושלמה, וה-case נסגר עם החלטה — הכול קשור לאותו key figure."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -2085,12 +2037,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: planning area אחד משוכפל מ-SAPIBP1 משרת את כל מדינות-האזור; משקאות-עונתיים מתוכננים ב-Excel, מנוטרים ב-Fiori, ונדונים ב-Collaboration — תהליך-S&OP אזורי אחיד מעל מודל-IBP יחיד בענן.\n\nמקצה-לקצה: מיישם משכפל SAPIBP1, מתאים attributes/master data/key figures, קובע time profile ו-planning levels, מפעיל, וטוען-נתונים; תכננים עובדים ב-Excel, מנהלים מנטרים ב-Fiori, וחריגות נדונות ב-Collaboration — מחזור-S&OP חי מעל מודל-אחד."
-   },
-   {
     "kind": "tables",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -2268,12 +2214,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "אוטומט עם chained Application Jobs.",
      "snapshot בכל מחזור = למידה מתמשכת."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון (מפעל-מילוי משקאות): הביקוש למשקאות-קלים עונתי בחדות — שיא בקיץ ובחגים. תכנון-הביקושים מתחיל מ-Statistical Forecast לכל SKU×לקוח×אזור, מוסיף uplift למבצעי-קמעונאות (1+1, מדפים), ומאחד ל-Consensus Demand שמזין את תכנון-קווי-המילוי. דיוק-התחזית נמדד מול Actuals כדי לכוונן את המודלים מדי-עונה.\n\nבחברת-מוצרי-צריכה: מערכת מושכת 36 חודשי-מכירות היסטוריים ל-IBP; ה-Statistical Forecasting operator מריץ Holt-Winters ומפיק תחזית-בסיס ל-18 חודשים; השיווק מוסיף uplift למבצע-קיץ; מנהלי-המכירות מתקנים אזורית ב-Excel add-in; התחזיות מתאחדות ל-Consensus Demand, שננעל ומועבר כקלט ל-Supply Planning.\n\n**גישת חיזוי הביקוש** — בארגון: משקה-דגל יציב → Holt-Winters; משקה-מבצע תלוי-קמעונאות → driver-based (מחיר, מבצע, חג); מוצר-נישה אזורי → Croston (ביקוש מקוטע).\n\nמוצר נפוץ ויציב מקבל Holt-Winters אוטומטי; מוצר תלוי-מחיר מקבל מודל driver-based עם מחיר ומבצע כ-drivers; מוצר עם sales-orders פתוחים מקבל demand sensing לתיקון 4 השבועות הקרובים.\n\n**אסטרטגיית תכנון הביקוש** — בארגון: אופק 18 חודשים ל-S&OP אך demand sensing ל-8 שבועות; bucket חודשי לתכנון, שבועי לביצוע; גרנולריות SKU×לקוח-מפתח×אזור-הפצה; מחזור חודשי המתואם עם לוח-מבצעי-הקמעונאות.\n\nחברה קובעת: אופק 18 חודשים, bucket חודשי, גרנולריות Product×Customer×Location, מחזור חודשי. כל חודש מורצת תחזית, מתאחד consensus, ננעלת גרסה, ונמדד דיוק מול הגרסה הקודמת.\n\n**תהליך תכנון הביקוש** — בארגון: תהליך חודשי — preprocessing מנקה outlier של שיטפון-הזמנות חד-פעמי; Holt-Winters רץ לכל SKU; מנהלי-אזור מוסיפים uplift למבצעי-קיץ; consensus מתאחד; ננעל ונשלח לתכנון-קווי-המילוי; דיוק נמדד מול מכירות-בפועל.\n\nיום 1: job-שרשרת מנקה outliers ומריץ Holt-Winters. ימים 2–4: שיווק ומכירות מתקנים ב-Excel. יום 5: ה-consensus מתאחד אוטומטית. יום 6: מנהל-הביקוש מאשר ונועל גרסה. יום 7: מסירה ל-Supply. בתחילת-המחזור-הבא: snapshot של דיוק מול actuals."
    },
    {
     "kind": "flow",
@@ -2512,12 +2452,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: הזמנת-מלאי-ראשוני ענקית של רשת-קמעונאות חדשה מזוהה כ-outlier ומרוככת; ביקוש-שיא של מבצע-קיץ קודם מנוכה מההיסטוריה לפני חישוב-בסיס; היסטוריית-מוצר שהוחלף (אריזה ישנה→חדשה) מועברת ב-realignment ל-SKU החדש.\n\nמערכת טוענת 36 חודשי-מכירות. ה-outlier correction מזהה חודש עם הזמנת-ענק חד-פעמית ומרכך אותו לערך-צפוי. חודש עם נתון-חסר מושלם באינטרפולציה. מבצע-עבר נוכה מההיסטוריה כדי שתחזית-הבסיס לא תכלול אותו. התוצאה: Cleansed Actuals מוכן לחיזוי."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -2697,12 +2631,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "הרצה: interactive (Excel) או batch (Application Jobs).",
      "כבול את הצעדים ובדוק log בכל הרצה."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: למשקאות-דגל עם עונתיות-קיץ חדה רץ Holt-Winters; לטעמים-נישה שנמכרים לסירוגין רץ Croston; ה-Best-Fit בוחר אוטומטית בין המודלים לכל SKU; MAPE נמדד כדי לזהות פריטים שדורשים תכנון-ידני.\n\nתכנן מגדיר forecast model עם Holt-Winters ו-Best-Fit; מריץ על 36 חודשי-Cleansed Actuals; IBP מאתר עונתיות שנתית, מכייל alpha/beta/gamma, ומפיק 18 חודשי-תחזית ל-Statistical Forecast Qty; ה-system מדווח MAPE לכל פריט.\n\n**מודלים סטטיסטיים** — בארגון: משקה-דגל עונתי → Holt-Winters; טעם-נישה לסירוגין → Croston-TSB; מארז-מבצע → MLR/Gradient Boosting עם מחיר ומבצע כ-drivers.\n\nמוצר עם מגמת-עלייה ועונתיות → Holt-Winters multiplicative; מוצר שנמכר 3 פעמים ברבעון עם אפסים → Croston-TSB; מוצר תלוי-מחיר → MLR עם מחיר כ-driver.\n\n**הגדרה והרצה של מודלי חיזוי** — בארגון: model נפרד לכל segment — 'HW-Seasonal' למשקאות-דגל, 'TSB-Intermittent' לטעמי-נישה; ה-Application Job רץ לילית לפני ישיבת-הביקוש, וה-log נבדק בבוקר לפני שחרור-התחזית לתכננים.\n\nתכנן יוצר model 'Beverages-HW' עם Holt-Winters, input=Cleansed Actuals, output=Statistical Forecast Qty, history=36m, forecast=18m. בודק interactively ב-Excel על SKU-מדגם, ואז מתזמן Application Job לילי שמריץ preprocessing→forecasting→snapshot לכל הפורטפוליו."
    },
    {
     "kind": "flow",
@@ -2896,12 +2824,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: drivers = מחיר-מדף, דגל-מבצע (1+1/מחיר-מבצע), טמפרטורה-עונתית, חגים. Gradient Boosting לומד את הקשר הלא-לינארי בין חום-קיצוני למכירות-משקאות; תכנון-מבצע-קמעונאות מתורגם אוטומטית ל-uplift בתחזית.\n\nצוות-שיווק מתכנן הורדת-מחיר 10% למוצר. מודל ה-MLR (שלמד price-elasticity מההיסטוריה) מתרגם זאת ל-uplift של 18% בביקוש. התחזית מתעדכנת אוטומטית, ותכנון-האספקה מקבל את הכמות-המוגדלת."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -3078,12 +3000,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "חשב מהמונה/מכנה ברמת-איחוד, לא סכימת-אחוזים.",
      "Dashboards + Alerts לרווחיות בזמן-אמת."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: תחזית-משקאות (cases) → Revenue לפי מחיר-לפי-ערוץ; COGS לפי עלות-תרכיז+אריזה+מילוי; Gross Margin לכל מותג. מבצע-קיץ מגדיל נפח אך לוחץ margin — הנהלת-האזור מחליטה על-בסיס תרומה-לרווח, לא רק נפח-מכירות.\n\nConsensus Demand של 1M יח' מוכפל במחיר-ממוצע ל-Revenue; מוכפל ב-unit cost ל-COGS; Gross Margin מחושב אוטומטית. בישיבת-S&OP בוחנים תרחיש-מבצע: התחזית עולה אך ה-margin% יורד — וההחלטה מתקבלת על-בסיס הרווח, לא הנפח.\n\n**מודל פיננסי של דוח רווח-והפסד ב-SAP IBP** — בארגון: P&L לכל מותג — Net Revenue (אחרי הנחות-סחר), COGS (תרכיז+אריזה+מילוי+הפצה), Gross Margin, ו-Operating Profit אחרי שיווק. מבצע-קיץ נבחן דרך השפעתו על Operating Profit של המותג.\n\nתחזית מעודכנת מקפיצה Net Revenue ב-3%; COGS עולה ב-2.5%; ה-Operating Profit במודל עולה ב-5% — וההנהלה מאשרת את תוכנית-הביקוש על-בסיס שיפור-הרווח.\n\n**יחסים פיננסיים ואנליטיקה ב-SAP IBP** — בארגון: dashboard של Gross Margin % ו-ROS לכל מותג-וערוץ; מבצע-קמעונאות שמקפיץ נפח אך שוחק margin% מתחת לסף מפעיל alert; ההחלטה מתקבלת לפי contribution לרווח, לא לפי נפח.\n\nDashboard מציג Gross Margin % לכל קטגוריה; תרחיש-מבצע מראה נפח +12% אך Gross Margin % יורד מ-32% ל-27%; ההנהלה מחליטה למקד את המבצע במוצרים בעלי-margin-גבוה בלבד."
    },
    {
     "kind": "flow",
@@ -3317,12 +3233,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: demand review אזורי לפני ה-S&OP הגלובלי; מנהלי-מדינות מוסיפים ידע-שטח (אירוע-ספורט, גל-חום צפוי) כ-override שקוף; הנחות מתועדות ב-Case Management; version 'Approved' ננעלת ומוזנת לתכנון-קווי-המילוי.\n\nב-demand review החודשי: התחזית הסטטיסטית מוצגת; מכירות מוסיפות חוזה-לקוח-חדש כ-override; שיווק מאשר uplift-מבצע; כספים בוחנים את השפעת-ה-P&L; הקבוצה מסכימה; מנהל-הביקוש נועל version 'Approved Demand' ומעביר ל-Supply Planning."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -3499,12 +3409,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "מדיד (snapshots) וחוזר (מחזור-S&OP).",
      "הפלט: Approved Demand — קלט-יחיד ל-Supply Planning."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: המחזור החודשי למשקאות — עונתיות ב-Holt-Winters, uplift למבצעי-קמעונאות, P&L לכל מותג, demand review אזורי, ונעילת 'Approved Demand' לקווי-המילוי. דיוק-התחזית משתפר מעונה-לעונה דרך snapshots.\n\nמחזור-S&OP מלא: היסטוריה נקייה → Holt-Winters → uplift-מבצע (driver-based) → תרגום-פיננסי → demand review → Approved Demand נעול → handover ל-Supply → snapshot למדידה — ומכאן מתחיל המחזור הבא, מדויק יותר."
    },
    {
     "kind": "flow",
@@ -3688,12 +3592,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: הביקוש המוסכם לכל SKU של משקה (לפי לקוח/רשת-קמעונאות) מתפשט אחורה דרך מרכזי-ההפצה האזוריים אל מפעלי-המילוי, ומשם אל דרישות תרכיז, סוכר, CO2 ובקבוקים. ה-heuristic מראה כמה כל מפעל 'צריך' לייצר בלי מגבלות — בסיס מצוין לזהות אילו קווי-מילוי ייכנסו לעומס-יתר עוד לפני שלב ה-RCCP.\n\nמנהל ה-S&OP מאשר את ה-consensus demand ל-12 החודשים הבאים, ומריץ את ה-S&OP heuristic; המנוע מתפשט מהביקוש לכל לקוח, דרך מרכזי-ההפצה, אל המפעלים ואל הספקים, ומחשב כמה לייצר/להעביר/לרכוש בכל צומת. התוצאה: Projected Inventory ו-Total Receipts בכל location-product. כעת אפשר לבדוק היכן הדרישה הלא-מוגבלת חורגת מהקיבולת — ולהעביר את הפער לדיון הניהולי."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -3866,12 +3764,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "מכבד sourcing/lot size/validity — לא מכבד קיבולת.",
      "מהיר ושקוף; כלי-בחירה ל-S&OP נפחי."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון ה-heuristic רץ אחרי כל סבב-תחזית: ממיר ביקוש-משקאות לדרישות-ייצור בכל מפעל ולדרישות תרכיז/סוכר/CO2 מהספקים, תוך שניות — ומאפשר לצוות ה-S&OP לראות מיד היכן צפוי חוסר.\n\nמתכנן מריץ את ה-heuristic לאחר עדכון-תחזית. תוך דקות מתקבלים Total Demand, Total Receipts ו-Projected Inventory לכל SKU/מיקום. הוא בודק היכן המלאי-החזוי שלילי (חוסר) או חורג מהקיבולת, ומעביר ל-RCCP לבדיקת-עומס."
    },
    {
     "kind": "flow",
@@ -4057,12 +3949,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "מאיץ הרצות ומאפשר בעלות מבוזרת.",
      "שים לב לצמתים-משותפים בין פלחים."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון הרשת: לקוחות/רשתות-קמעונאות ← מרכזי-הפצה אזוריים ← מפעלי-מילוי ← ספקי-תרכיז/סוכר. כל קו = sourcing. אם DC חדש לא חובר ב-transportation lane למפעל, הביקוש שלו יישאר unsourced.\n\nמגדירים: מוצר משקה ב-DC אזורי המקבל בהובלה ממפעל-מילוי, המייצר מתרכיז הנרכש מספק. כל קשת = sourcing rule. כשמריצים heuristic, הביקוש ב-DC מתפשט דרך ההובלה למפעל ומשם לרכש.\n\n**מוצרים, מיקומים ולקוחות** — בארגון: Product = SKU של משקה; Location = מפעל-מילוי/DC; Customer = רשת-קמעונאות. כל שילוב location-product (משקה@DC) הוא יחידת-תכנון של ה-heuristic.\n\nמוצר 'Drink 1.5L' מוגדר ב-Location 'DC-North'; Customer 'Retail-A' קונה אותו. ה-heuristic מתכנן את location-product 'Bev1.5L@DC-North' כדי לכסות את ביקוש Retail-A.\n\n**כללי sourcing** — בארגון: DC מקבל ב-transportation source ממפעל-מילוי; מפעל-מילוי מייצר ב-production source (תרכיז+סוכר+CO2); תרכיז ב-external source מספק-תרכיז.\n\nמוצר ב-DC עם transportation source ממפעל; המפעל עם production source (מתרכיז); התרכיז עם external source מספק. הביקוש מתפשט: DC→מפעל→ספק.\n\n**דיוק רשת-האספקה ו-Check Mode** — בארגון לאחר הוספת DC חדש, check mode מגלה שאין transportation lane אליו ממפעל; מתקנים לפני ההרצה הרשמית.\n\nלפני סבב-S&OP חודשי מריצים check mode; הלוג מדווח על 3 location-products בלי source. המתכנן מוסיף sourcing, מריץ שוב — נקי — ואז מריץ תכנון אמיתי.\n\n**תת-רשתות** — בארגון כל אזור-בקבוק (צפון/מרכז/דרום) הוא subnetwork; כל מתכנן-אזורי מריץ heuristic על המפעלים וה-DCs שלו, עם ספקי-תרכיז משותפים מטופלים בזהירות.\n\nמתכנן-אזור-צפון מריץ heuristic רק על subnetwork הצפון (DCs ומפעלים צפוניים); מתכנן-דרום על שלו. כל אחד מהיר ועצמאי."
    },
    {
     "kind": "flow",
@@ -4333,12 +4219,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון לקראת סוף-החודש הזמנות-רשתות בפועל צורכות את התחזית שנותרה; ה-heuristic מתכנן ייצור-משקאות כנגד net demand ולא כנגד תחזית+הזמנות מנופחות — מונע עודף-ייצור.\n\nתחזית 100 לחודש; מגיעות הזמנות 60. Backward consumption מנכה 60 מהתחזית ➔ open forecast 40. Net demand = 60 הזמנות + 40 תחזית = 100. ה-heuristic מתכנן 100, לא 160.\n\n**שיטות צריכת-תחזית** — בארגון הזמנות-רשת מגיעות לרוב מעט לאחר התחזית השבועית; backward consumption מתאים — ההזמנות צורכות את תחזית-השבוע שחלף.\n\nהזמנה בשבוע 3 גדולה מהתחזית שלו; Backward עם 2 periods מנכה את העודף מתחזית שבועות 2 ו-1. Combined היה ממשיך קדימה לשבוע 4 אילו עדיין נותר עודף.\n\n**פרופיל צריכת-תחזית** — בארגון profile אחיד backward-2 לכל SKU של משקה; מוצרים עונתיים מקבלים profile עם חלון רחב יותר.\n\nProfile 'STD-BACK-2' (backward, 2 periods) משויך לכל מוצרי-המשקה; ה-heuristic מחיל אותו אוטומטית בכל הרצה."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -4541,12 +4421,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "LFL/Fixed/Min/Max/Rounding/POS.",
      "עודף מעבר לדרישה ➔ projected inventory."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון ביקוש-משקה אצל רשת-קמעונאות מתפשט: customer→DC→transport→מפעל→production→דרישות-תרכיז/סוכר/CO2/בקבוקים מהספקים. כל קישור הוא sourcing rule.\n\nביקוש 1,000 משקה ב-DC ➔ customer sourcing מצמיד ל-DC ➔ location sourcing יוצר transport demand מהמפעל ➔ production sourcing מפצץ ל-dependent demand: תרכיז, סוכר, בקבוקים — כל אחד dependent demand בצומת שלו.\n\n**רשת-אספקה לדוגמה** — בארגון הרשת-לדוגמה: רשת-קמעונאות → DC-מרכז → מפעל-מילוי → ספק-תרכיז; משקה אחד, רכיב-תרכיז אחד — להמחשה.\n\nביקוש 500 של P אצל Customer C ➔ DC ➔ transport מ-Plant ➔ production של P ➔ dependent demand של R1,R2 מהספק. נעקוב אחרי המספרים בכל שלב.\n\n**ביקוש מוסכם** — בארגון ה-consensus demand לכל משקה/רשת מאושר בישיבת-demand החודשית ומוזן ל-heuristic לתכנון-מילוי.\n\nאחרי demand review מאושר consensus demand 1,000 ל-SKU/לקוח. ה-heuristic לוקח אותו, מחיל consumption, ומתפשט אחורה.\n\n**sourcing לקוח** — בארגון רשת-קמעונאות ארצית מקבלת מ-DC האזורי הקרוב; customer sourcing מצמיד כל חנות/אזור-לקוח ל-DC המשרת, עם quota בין DCs בגבול-אזורים.\n\nCustomer C זקוק ל-500; customer sourcing מצמיד ל-DC-North (quota 100%) ➔ ביקוש 500 על P@DC-North. אם פוצל 70/30 בין שני DCs — 350/150.\n\n**חישוב ביקוש-נטו** — בארגון מפעל עם מלאי-מוגמר פתיחה מנכה אותו מהביקוש; ה-heuristic מתכנן מילוי רק על ההפרש מעל ה-safety stock — מונע ייצור-עודף.\n\nביקוש 1,000, מלאי-פתיחה 300, safety stock 100 ➔ net demand = 1,000 − 300 + 100 = 800 receipts נדרשים. ה-projected inventory בסוף = safety stock 100.\n\n**sourcing מיקום** — בארגון DC-מרכז מקבל בהובלה ממפעל-המילוי; location sourcing יוצר transport demand על המפעל, עם lead time של ההובלה האזורית.\n\nnet demand 800 ב-DC ➔ location sourcing (transport מ-Plant, lead 3 ימים) ➔ transport demand 800 על Plant; transport receipt ב-DC מוסט ב-lead time.\n\n**sourcing ייצור** — בארגון production source של משקה: תרכיז+סוכר+CO2+בקבוק+פקק; ה-heuristic מפצץ ביקוש-מילוי ל-dependent demand של כל רכיב, ורושם שעות-קו ל-RCCP.\n\nproduction demand 800 משקה; production source: 1 משקה = 0.01 תרכיז + 1 בקבוק ➔ dependent demand 8 תרכיז + 800 בקבוקים; resource usage נרשם ל-RCCP.\n\n**גדלי אצווה** — בארגון קו-מילוי עובד באצוות-מינימום (batch run); lot size minimum מבטיח שלא יתוכננו ריצות זעירות לא-כלכליות; rounding לכפולות-מארז.\n\nnet demand 850; minimum lot 1,000, rounding 100 ➔ receipt 1,000; 150 העודף ל-projected inventory. periods-of-supply=2 היה צובר ביקוש של חודשיים ל-receipt אחד."
    },
    {
     "kind": "flow",
@@ -4863,12 +4737,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: production receipts במפעל-המילוי, transport receipts ב-DCs, external receipts לתרכיז מהספק; projected inventory של משקאות וחומרי-גלם מחושב לכל שבוע.\n\nnet demand 800 ב-DC ➔ transport receipt 800 (מ-Plant, lead-shifted); ב-Plant production receipt 800 ➔ component dependent demand ➔ external receipt מהספק. projected inventory מתעדכן בכל צומת.\n\n**קבלות חיצוניות** — בארגון תרכיז, סוכר ו-CO2 נכנסים כ-external receipts מספקים; ה-heuristic מתזמן אותם לפי ה-procurement lead time של כל ספק.\n\ndependent demand 8 תרכיז בשבוע 5; external source עם lead 2 שבועות ➔ external receipt 8 בשבוע 5, עם הזמנה שיוצאת בשבוע 3.\n\n**רכיב-ייצור** — בארגון רכיבי-הייצור של משקה: תרכיז (ratio קטן), סוכר, CO2, בקבוק, פקק, תווית; כל אחד מקבל dependent demand יחסי לכמות-המילוי.\n\nproduction receipt 800 משקה; component 'בקבוק' ratio 1 ➔ dependent demand 800 בקבוקים; component 'תרכיז' ratio 0.01 ➔ 8 תרכיז.\n\n**קבלות ייצור** — בארגון production receipt = תוכנית-המילוי לכל קו; ממנו נגזרות דרישות-תרכיז/אריזה ושעות-קו ל-RCCP.\n\nnet demand 800 משקה במפעל ➔ production receipt 800 (lead 1 שבוע) ➔ component dependent demand + resource hours ל-RCCP.\n\n**קבלות הובלה** — בארגון משקאות עוברים ממפעל-מילוי ל-DCs אזוריים כ-transport receipts; ה-transport demand במפעל מצטרף ל-production demand שלו.\n\nnet demand 800 ב-DC בשבוע 5; lane מ-Plant עם lead 1 שבוע ➔ transport receipt 800 ב-DC שבוע 5; transport demand 800 ב-Plant שבוע 4.\n\n**ביקוש-מוגבל** — בארגון כשקו-מילוי מגיע למלוא-הקיבולת, constrained demand מראה כמה משקה ניתן באמת למלא; הפער מול הביקוש הלא-מוגבל מוצג להנהלה.\n\nunconstrained production receipt 800; constrained demand (מ-optimizer/RCCP) 650 ➔ gap 150 שהקיבולת לא מאפשרת — נושא לדיון ניהולי.\n\n**מפתחות מינימום ומותאמים** — בארגון minimum production מבטיח ריצת-קו מינימלית כלכלית; adjusted receipt משמש לקיבוע כמות-מילוי שהוסכמה ידנית בישיבת-supply.\n\nminimum receipt 1,000 לחודש; גם אם net demand 600, ה-heuristic מתכנן 1,000. adjusted production 500 בשבוע מסוים ➔ ה-heuristic מקבע 500 ומחשב סביבו."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -5144,12 +5012,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון RCCP מתרגם תוכנית-מילוי לשעות-קו ולנפח-אחסון; כשקו-מילוי מגיע ל-115% utilization בעונת-שיא, הפער מוצג להנהלה להחלטה (משמרת-נוספת/העברה למפעל אחר).\n\nproduction receipts של חודש מתורגמים ל-1,200 שעות-קו; הקו זמין 1,000 שעות ➔ overload 200 (120% utilization) — דגל-אדום לדיון-S&OP.\n\n**משאבי ייצור** — בארגון כל קו-מילוי = production resource עם קצב-מילוי (bottles/hour); RCCP מסכם את שעות-המילוי הנדרשות מול זמינות-הקו לכל שבוע.\n\nproduction receipt 10,000 יח'; rate 0.1 שעה/יח' ➔ 1,000 שעות; קו זמין 900 ➔ overload 100 שעות.\n\n**משאבי ניטול ואחסון** — בארגון בעונת-שיא נפח-המשקאות המאוחסן חורג מקיבולת-המחסן; RCCP על storage resource חושף זאת לפני שהמלאי 'נתקע' ללא מקום.\n\nprojected inventory 5,000 פלטות; מחסן מחזיק 4,000 ➔ storage overload 1,000 — צריך אחסון חיצוני או הקטנת-מלאי.\n\n**מפתחות קיבולת** — בארגון דשבורד-ה-S&OP מציג utilization לכל קו-מילוי ומחסן; alert נדלק כשעובר 100%, ומפנה את צוות-ה-supply לפעולה.\n\nUtilization 118% על קו ➔ alert; הדשבורד מציג usage מול available; overload key figure מזין את רשימת-הפערים לדיון."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -5397,12 +5259,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "תומך עונתיות ומעברי-ספקים.",
      "חיוני ברשתות משתנות."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון ה-operator ל-S&OP חודשי מוגדר ברמת product-location-month עם validity dates פעילים (קווים עונתיים) ו-balanced receipts לחלוקה חלקה בין מפעלים.\n\nיועץ מגדיר operator: processing mode=full, planning level=product-location-month, quota check פעיל, carryforward של מלאי-שלילי כבוי; מריץ ובודק שהתוצאות תואמות-ציפייה.\n\n**מצב עיבוד** — בארגון הרצת-הבסיס החודשית היא full; עדכוני-ביקוש אד-הוק בין הישיבות רצים delta למהירות.\n\nסבב-S&OP חודשי ➔ full (חישוב מלא). תיקון-ביקוש נקודתי לפני ישיבה ➔ delta (עדכון מהיר של המושפעים).\n\n**סוג ה-heuristic** — בארגון משקאות עם תוקף מתוכננים ב-shelf-life heuristic; משקאות יציבים — ב-standard heuristic.\n\nמוצר-מדף-קצר ➔ בחירת shelf-life infinite heuristic במקום standard, כדי שהתכנון יתחשב בתוקף.\n\n**רמת התכנון של ה-heuristic** — בארגון ה-S&OP החודשי רץ ב-product-location-month; תכנון-מילוי קצר-טווח באזור עומס יורד לרמה שבועית.\n\nS&OP נפחי רץ ב-product-location-month — מהיר; כשנדרש פירוט שבועי לתכנון-אספקה קצר-טווח, מורידים ל-week.\n\n**פרמטרי בדיקת-quota** — בארגון משקה המסופק משני מפעלים בחלוקת-quota; quota check מבטיח חלוקה נכונה, ומנתב ל-מפעל הזמין כשהשני בתחזוקה.\n\nnet demand 1,000, quota 60/40 ➔ 600/400; אם מקור-A לא-תקף בתקופה, quota check מנתב את כל ה-1,000 ל-B (לפי הגדרת-גמישות).\n\n**העברת מלאי-חזוי שלילי קדימה** — בארגון carryforward פעיל מראה חוסר-משקה מצטבר על-פני שבועות-שיא, כך שצוות-ה-supply רואה את גודל-הפער האמיתי ולא תמונה-מקוטעת.\n\nחוסר 100 בחודש 1; carryforward פעיל ➔ חודש 2 פותח ב-(−100), והצורך מצטבר. כבוי ➔ חודש 2 פותח ב-0 והחוסר 'נעלם'.\n\n**קבלות מאוזנות** — בארגון balanced receipts מאזן מילוי-משקאות על-פני השבוע במקום ריצות-ענק, מפחית עומסי-שיא על הקווים ועל המחסן.\n\nביקוש מרוכז בשבוע 4; balanced receipts מפזר חלק מהייצור לשבועות 1–3 ➔ עומס-קו אחיד במקום spike בשבוע 4.\n\n**אתחול אופק זמן-אספקה** — בארגון עם lead time של תרכיז 3 שבועות, ה-heuristic לא מתכנן רכש-תרכיז חדש לתוך 3 השבועות הקרובים; חוסר בטווח זה מסומן ומועבר לטיפול-חירום.\n\nlead time 2 שבועות; ביקוש בשבוע הקרוב לא ניתן לכסות ב-receipt חדש ➔ מסומן חוסר, וה-heuristic מתכנן רק מהשבוע השלישי ואילך.\n\n**חישוב היצע-צפוי** — בארגון expected supply מראה מתי תרכיז שנרכש יהיה זמין בפועל למילוי, בהתחשב ב-lead time הספק — בסיס לחישוב מלאי-משקה ריאלי.\n\nreceipt 800 מתוכנן לשבוע 5, lead 1 שבוע ➔ expected supply 800 זמין שבוע 5; אם source מתעכב, ה-expected supply משקף את העיכוב.\n\n**שימוש בתאריכי-תוקף** — בארגון קו-מילוי עונתי תקף רק בקיץ; validity dates מבטיחים שה-heuristic מתכנן עליו רק בחודשי-הקיץ, ועובר למפעל אחר בשאר השנה.\n\nספק A תקף עד סוף-Q2, ספק B מ-Q3; עם validity dates ה-heuristic בוחר A ב-Q1–Q2 ו-B מ-Q3 — מעבר חלק."
    },
    {
     "kind": "flow",
@@ -5678,12 +5534,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון משקאות עם תוקף מוגבל: shelf-life planning מבטיח שמילוי והפצה מתוזמנים כך שהמשקה מגיע לרשת-הקמעונאות עם מספיק ימי-מדף, ומונע החזרות/השמדה.\n\nמוצר עם 90 ימי-תוקף; היעד דורש 60 ימי-תוקף-שיורי בקבלה ➔ ה-heuristic מתזמן ייצור/הובלה כך שלא יישלח מלאי בן יותר מ-30 יום.\n\n**Shelf-Life Planning Infinite Heuristic** — בארגון ה-infinite shelf-life heuristic מתכנן מילוי-משקאות קרוב-לצריכה ככל-האפשר, לא-מוגבל בקיבולת, אך תמיד בתוך חלון-התוקף.\n\nביקוש בחודש 6; מוצר 90 ימי-תוקף; ה-heuristic לא יתכנן ייצור בחודש 1 לכיסוי חודש 6 (יפוג), אלא קרוב יותר לצריכה.\n\n**Shelf-Life Distribution Planning Heuristic** — בארגון distribution heuristic מחלק מלאי-משקאות בין DCs לפי תוקף: אצוות קרובות-לתפוגה ל-DCs בעלי-מחזור-מהיר, רחוקות-תפוגה ל-DCs מרוחקים — מזעור השמדה.\n\nשני DCs צריכים מלאי; מלאי-מקור עם 40 ו-70 ימי-תוקף ➔ ה-heuristic שולח את ה-40-ימים ליעד הקרוב (lead קצר, צריכה מהירה) ואת ה-70 לרחוק."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -5879,12 +5729,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון הזרימה החודשית: ביקוש-משקאות מוסכם ➔ heuristic לא-מוגבל ➔ תוכנית-מילוי ודרישות-תרכיז ➔ RCCP על קווים/מחסנים ➔ פערי-קיבולת להנהלה ➔ החלטות (משמרות/sourcing/תעדוף).\n\nמקצה-לקצה: consensus demand ➔ consumption ➔ demand propagation ➔ supply propagation ➔ projected inventory ➔ RCCP ➔ זיהוי-פערים ➔ דיון-S&OP ➔ (בהמשך) optimizer/constrained."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -6061,12 +5905,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: ביקוש-שיא לפני הקיץ עולה על קיבולת קווי-המילוי. הרצה בלתי-מוגבלת מציגה ביקוש של 1.2M ארגזים; קווי-המילוי מוגבלים ל-1.0M. ה-S&OP Optimizer מחזיר Constrained Demand של 1.0M, מסמן 0.2M כביקוש לא-נענה (lost demand), וממליץ אילו SKU ואילו לקוחות לתעדף לפי תרומה-לרווח — תוך שמירה על fair-share בין מפיצים אזוריים.\n\nתהליך S&OP חודשי: (1) Demand Review מאשר תחזית; (2) הרצת Supply Planning — תחילה Heuristic בלתי-מוגבל לראות את ה'משאלה'; (3) זיהוי צווארי-בקבוק שבהם Capacity Utilization > 100%; (4) הרצת S&OP Optimizer מוגבל; (5) השוואת Unconstrained Demand מול Constrained Demand — הפער הוא הביקוש שלא ייענה; (6) Supply Review ו-Pre-S&OP מחליטים על trade-offs; (7) Executive S&OP מאשר את התכנית המוגבלת כ-commit."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -6237,12 +6075,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "התוצאה תלויה לחלוטין באיכות ה-cost key figures.",
      "הוא מקבל החלטות-trade-off גלובליות שאינן אפשריות ב-Heuristic."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון ה-Optimizer מחליט: בשיא-הקיץ, האם לייצר את ה-1.5L הרווחי במפעל הצפוני (קיבולת מוגבלת) או להעביר ייצור לדרום (עלות-תחבורה גבוהה)? הוא משקלל עלות-ייצור, עלות-תחבורה ועלות-non-delivery, ובוחר את התמהיל שממזער עלות-כוללת תוך מקסום שירות ל-SKU רווחיים.\n\nהמתכנן מגדיר Operator profile מסוג S&OP Optimizer במצב Cost Minimization, קובע אופק של 18 חודשים ומשקלי-עלות. בהרצה ה-Optimizer קורא ביקוש, קיבולת ועלויות; פותר את ה-LP; ומחזיר לכל product-location-period את Constrained Supply, Production, Transport ו-Inventory, יחד עם Capacity Utilization וכל ביקוש שלא נענה (עם עלות-non-delivery בפונקציית-המטרה)."
    },
    {
     "kind": "flow",
@@ -6420,12 +6252,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "מומש כ-slack עם עלות-עונש מתונה.",
      "סדר-השבירה נקבע ביחס עלויות-העונש."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: קיבולת קו-המילוי = hard (אי-אפשר לייצר יותר ממה שהמכונה מסוגלת); רמת-מלאי-בטחון של תרכיז = pseudo-hard; העדפה לספק קודם למפיץ-האזורי הגדול = soft. במחסור-קיץ ה-Optimizer מוותר תחילה על ההעדפה, שומר ככל-יכולתו על מלאי-הבטחון, ולעולם לא מתיימר לייצר מעבר לקיבולת הפיזית.\n\nמתכנן מגדיר: קיבולת קו-מילוי = hard (פיזי); מלאי-בטחון = pseudo-hard (אפשר לרדת מתחתיו רק במשבר); תעדוף לקוח-VIP = soft. בהרצה רגילה ה-Optimizer מכבד את כולם; בתרחיש-מחסור הוא ישבור קודם את ה-soft, ורק אם אין ברירה יחדור ל-pseudo-hard, אך לעולם לא יחרוג מ-hard.\n\n**אילוצים קשיחים** — בארגון קיבולת קו-המילוי המהיר (bottles/hour × זמינות) היא hard. ה-Optimizer לא יתיימר לייצר 1.2M ארגזים על קו שמסוגל ל-1.0M — הוא יחפש מפעל חלופי או יוותר על החלק הלא-רווחי.\n\nCapacity Supply של קו = 1,000 שעות/חודש מוגדר hard. גם אם הביקוש דורש 1,300 שעות, ה-Optimizer לעולם לא יתכנן מעבר ל-1,000; את ה-300 העודפות הוא ינתב למשאב אחר, לתקופה אחרת, או יסמן כ-lost demand.\n\n**אילוצים פסבדו-קשיחים** — בארגון מלאי-בטחון של תרכיז מוגדר pseudo-hard. בקיץ-שיא, אם שמירה על המלאי תמנע מילוי קו רווחי, ה-Optimizer ירד מתחת למלאי-הבטחון כמינימום ההכרחי — אך רק כשאין חלופה זולה יותר.\n\nמלאי-בטחון מוגדר pseudo-hard עם עלות-עונש גבוהה. בחודש רגיל ה-Optimizer שומר עליו בקפדנות. בחודש-מחסור חריף, אם הברירה היא לרדת מעט מתחת למלאי-הבטחון או לאבד מכירות-ענק, הוא יחדור זמנית למלאי-הבטחון — אך רק אז.\n\n**אילוצים רכים** — בארגון העדפה לייצר את ה-Coke-Zero במפעל-המקומי (במקום להוביל) מוגדרת soft. כשהמקומי עמוס, ה-Optimizer ישבור את ההעדפה ויוביל מהמפעל השכן — כי עלות-התחבורה זולה מעלות-ה-non-delivery.\n\nהעדפה לספק לקוח-A לפני לקוח-B מוגדרת soft (עלות-עונש קטנה על אי-עמידה). ברוב התרחישים A יקבל קדימות; במחסור חריף, אם שירות ל-B רווחי בהרבה, ה-Optimizer ישבור את ההעדפה ויעדיף את B."
    },
    {
     "kind": "flow",
@@ -6652,12 +6478,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: production cost שונה בין מפעל ישן ליעיל; transportation cost לפי מרחק-הפצה; storage cost למחסנים-קרים; non-delivery cost גבוהה ל-SKU בעלי-מרווח-גבוה ולחשבונות-מפתח. כך ה-Optimizer 'יודע' להעדיף את המשקאות הרווחיים ואת הלקוחות החשובים — בלי שמישהו יקודד כלל ידני.\n\nהמתכנן מאכלס: production cost לכל source, transportation cost לכל lane, storage cost לכל location, ו-non-delivery cost לכל מוצר/לקוח (גבוהה ל-SKU רווחי). בהרצה ה-Optimizer בוחר אוטומטית את התמהיל הזול-ביותר שמכבד את האילוצים — למשל לייצר רחוק ולהוביל אם זה זול מאי-אספקה.\n\n**מפתחות-כמות פיננסיים או של עלות** — בארגון כל קו-מילוי מקבל Production Cost משלו, כל נתיב-הפצה Transportation Cost, וכל SKU/לקוח Non-Delivery Cost לפי רווחיות. כך מודל-העלות לבדו מכתיב את העדפת-המשקאות הרווחיים בקיץ.\n\nProduction Cost: מפעל-יעיל 10, ישן 13. Transportation 2 ל-lane רחוק. Non-Delivery 50 ל-SKU רווחי. ה-Optimizer יעדיף לייצר ביעיל; כשעמוס יוביל מהישן (13+2=15) במקום לא-לספק (50).\n\n**פרמטרים של ה-Optimizer** — בארגון המתכנן עובר ל-Profit Maximization לפני הקיץ — כך ה-Optimizer מתעדף משקאות בעלי-מרווח-גבוה על-פני זולים, גם אם עלות-הייצור שלהם גבוהה יותר, כי ה-revenue מצדיק זאת.\n\nבעונה רגילה: Cost Minimization, אופק 12 חודשים. לקראת שיא: מעבר ל-Profit Maximization עם revenue key figure, כדי שה-Optimizer יעדיף את ה-SKU הרווחיים גם במחיר עלות-ייצור גבוהה יותר."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -6882,12 +6702,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "Binding constraints = צווארי-הבקבוק האמיתיים.",
      "כלי קריטי לאמון-עסקי ולכיוּל-מודל."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון קיץ-מחסור: confirmed לרשתות-מזון לפני forecast לחנויות-קצה; fair-share בין מפיצים-אזוריים; substitution מ-1.5L חסר ל-2L זמין; late-delivery לרשת שמוכנה לקבל באיחור-יומיים; וכל החלטה ניתנת-להסבר להנהלה.\n\nבמצב-מחסור ה-Optimizer מפעיל בו-זמנית כמה יכולות: מתעדף confirmed orders על forecast (multiple demand category), מחלק את היתרה ב-fair-share בין מפיצים, מציע product substitution למה שחסר, ומספק late-delivery למה שאפשר רק מאוחר — והכל מוסבר דרך Optimizer Explanation.\n\n**מימוש ביקוש מאוחר** — בארגון רשת-מזון שמוכנה לקבל באיחור-יומיים בשיא-קיץ: ה-Optimizer משבץ late-delivery במקום non-delivery, ושומר את חשבון-המפתח מרוצה.\n\nביקוש ל-100 ביוני; הקיבולת ביוני מלאה. עם late-fulfillment ה-Optimizer מספק 60 ביוני ו-40 ביולי (late-delivery cost) במקום לוותר על 40 (non-delivery cost גבוה יותר).\n\n**צריכת-משאב מינימלית** — בארגון הפעלת קו-מילוי כרוכה ב-CIP (ניקוי) יקר; אצווה-מינימלית מבטיחה שה-Optimizer לא 'ידליק' קו לכמות זעירה אלא רק לריצה כלכלית.\n\nקו עם אצווה-מינימלית 500. ה-Optimizer לא יתכנן ייצור של 50; או שהוא ייצר ≥500, או שלא יפעיל את הקו כלל ויחפש חלופה.\n\n**חלוקה הוגנת** — בארגון קיץ-מחסור: שלושה מפיצים-אזוריים מקבלים כל אחד את אותו אחוז מהביקוש שלו, כדי שאף אזור לא יישאר ריק בעוד אחר מלא — שמירה על נאמנות-המפיצים.\n\nזמין 80, ביקוש: A=50, B=50. ללא fair-share A יקבל 50 ו-B 30. עם fair-share כל אחד מקבל 40 (80%) — חלוקה פרופורציונלית.\n\n**אילוצים מצרפיים** — בארגון אספקת-תרכיז שבועית מוגבלת ומשותפת לכל ה-SKU. aggregate constraint על סך-צריכת-התרכיז מאלץ את ה-Optimizer לחלק את התרכיז המוגבל בין המשקאות לפי רווחיות.\n\nמפעל עם 3 קווים אך כוח-אדם ל-2-בו-זמנית. aggregate constraint: סך-שעות-העבודה על שלושת הקווים ≤ קיבולת-כוח-האדם — מאלץ את ה-Optimizer לא להפעיל את כל השלושה במלואם בו-זמנית.\n\n**קטגוריית-ביקוש מרובה** — בארגון הזמנות-מאושרות של רשתות-מזון = confirmed (non-delivery גבוה); תחזית-חנויות-קצה = forecast (נמוך). במחסור הרשתות נענות במלואן, והקצה סופג את החוסר.\n\nביקוש: confirmed=60, forecast=40, זמין=70. עם non-delivery cost גבוה ל-confirmed ונמוך ל-forecast, ה-Optimizer ממלא 60 confirmed + 10 forecast, ומוותר על 30 forecast.\n\n**החלפת מוצרים** — בארגון כשה-1.5L Coke חסר בשיא, ה-Optimizer מציע substitution ל-2L (אם המפיץ מאשר), ושומר על שירות במקום מדף-ריק.\n\n1.5L חסר, 2L זמין, substitution מותר בעלות נמוכה. ה-Optimizer ממלא את ביקוש-ה-1.5L מ-2L (substitution cost) במקום לוותר (non-delivery גבוה יותר).\n\n**רשתות-משנה** — בארגון מפעלים ואזורי-הפצה עצמאיים גיאוגרפית (אין העברות ביניהם) מפוצלים ל-subnetworks; ה-Optimizer פותר כל אזור-בקבוק לחוד ומהר.\n\nתאגיד עם רשת-צפון-אמריקה ורשת-אירופה ללא העברות ביניהן. ה-Optimizer מפצל ל-2 subnetworks, פותר כל אחת בנפרד, וזמן-הריצה צונח.\n\n**הסבר ה-Optimizer** — בארגון ההנהלה שואלת למה מפיץ-X קיבל פחות. ה-Explanation מראה: קיבולת קו-המילוי הייתה binding ו-fair-share חילק את היתרה — תשובה שקופה ומבוססת-נתונים.\n\nConstrained Demand נמוך מהצפוי. ה-Explanation מראה ש-Capacity Supply של קו-2 הוא binding constraint ושעלות-ה-non-delivery הניעה ויתור על SKU זול. המתכנן מבין שצריך להרחיב את קו-2."
    },
    {
     "kind": "tables",
@@ -7168,12 +6982,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון לתכנון-שבועי-מהיר של קו-מילוי בודד, ה-Finite Heuristic מספיק: הוא ממלא את הקו עד-קיבולתו לפי עדיפות-SKU ודוחה את העודף. ל-S&OP חודשי רב-מפעלי עם trade-offs — עוברים ל-Optimizer.\n\nהמתכנן בוחר Operator מסוג Finite Heuristic. ההרצה מתכננת כל משאב עד-קיבולתו לפי priority; עודף-ביקוש נדחה לתקופה-הבאה או מסומן lost. התוצאה מהירה ובת-ביצוע, אך ייתכן שאינה מינימום-העלות הגלובלי."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -7334,12 +7142,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "ההצלחה: מודל-נתונים + מידול-עלות מכוייל + סיווג-אילוצים נבון.",
      "Optimizer Explanation = שקיפות, אמון וכיוּל."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון המסע השלם: לפני הקיץ מַדֵּלים קיבולת-קווים ועלויות, מסווגים קיבולת=hard ומלאי-בטחון=pseudo-hard, עוברים ל-Profit Maximization, מפעילים fair-share ו-substitution, מריצים Optimizer, ומסבירים להנהלה דרך Optimizer Explanation מדוע התכנית המוגבלת היא הטובה ביותר האפשרית.\n\nמימוש מלא: הקם planning area עם RESOURCE+capacity; הגדר sources of supply ו-cost key figures; כייל non-delivery; סווג אילוצים; הרץ Heuristic בלתי-מוגבל לבסיס, ואז Optimizer מוגבל; נתח עם Explanation; אשר Constrained Plan כ-Supply Commit ב-Executive S&OP."
    },
    {
     "kind": "tables",
@@ -7509,12 +7311,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "העברה אוטומטית ל-Demand/Inventory/Response וכספים.",
      "ודא disaggregation עקבי ותזמון אחרי האישור."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון (מבקבקת Example Product): לקראת עונת-הקיץ, תחזית-הביקוש למשקאות-קלים עולה ב-20%, אך קיבולת קווי-המילוי מוגבלת. מפגש ה-Consensus מאחד את ביקוש-השיווק עם יכולת-התפעול, וה-Executive Review מחליט על הקצאת-עדיפויות בין מותגי-הליבה למותגי-נישה — והופך זאת לתוכנית מאושרת לרבעון.\n\nבמחזור החודשי, מנהל ה-S&OP אוסף את תחזית-הביקוש המוסכמת ואת תוכנית-ההיצע המוגבלת, מזהה פער של 5% בין הביקוש לקיבולת בקטגוריה מסוימת, מציג שלושה Scenarios (תוספת-משמרת, מיקור-חוץ, דחיית-מבצע), ומביא אותם ל-Integrated Reconciliation. שם נבחר תרחיש, ולאחר מכן ה-Executive Review מאשר אותו כתוכנית מחייבת.\n\n**סקירת האיחוד המשולב (Integrated Reconciliation Review)** — בארגון: צוות ה-Reconciliation מזהה שביקוש-הקיץ למשקה-דגל עולה על קיבולת קו-המילוי. מוצגים תרחישים — העברת-ייצור למפעל-אחות, תוספת-משמרת-לילה, או הקטנת מותגי-נישה — והצוות ממליץ על שילוב, לקראת ה-Executive Review.\n\nמנהל ה-S&OP מציג דשבורד עם פער של 8% בין ביקוש לקיבולת ברבעון הבא. Custom Alert סימן את הפער מראש. שלושה Scenarios מוצגים: תוספת-משמרת (+עלות), מיקור-חוץ (+lead time), ודחיית-מבצע (-הכנסות). הצוות ממליץ על מיקור-חוץ חלקי ומתעד את ההמלצה.\n\n**סקירת ההנהלה (Executive Review)** — בארגון: הנהלת המבקבקת מחליטה ב-Executive Review להקצות עדיפות-קיבולת למשקאות-הליבה על-חשבון מותגי-נישה לעונת-הקיץ, מאשרת תוספת-משמרת מוגבלת, וקובעת זאת כתוכנית-הרבעון המחייבת.\n\nה-CFO וה-COO רואים דשבורד עם ההמלצה (מיקור-חוץ חלקי) מול ה-baseline: +2% עלות אך +6% הכנסות-נטו. ההנהלה מאשרת, ומנהל ה-S&OP מקדם את ה-Scenario ל-Approved Plan ומקפיא snapshot.\n\n**תפעול התוכנית המוגבלת המאושרת (Operationalize the Approved Constrained Plan)** — בארגון: תוכנית-הקיץ המאושרת מפורקת לתחזית-שבועית לכל SKU ומרכז-הפצה, יעדי-מלאי-הבטחון מתעדכנים לפני העונה, וה-Response קובע סדר-deployment בין מרכזי-ההפצה.\n\nה-Approved Constrained Plan מפורק (disaggregate) לתחזית-שבועית ב-IBP for Demand, מזין יעדי-מלאי-בטחון ב-IBP for Inventory, ומשמש בסיס ל-deployment ב-IBP for Response. Application Job מתוזמן מריץ את ההעברה בלילה."
    },
    {
     "kind": "flow",
@@ -7789,12 +7585,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: תחזית-המשקאות מתורגמת להכנסות לפי מחיר-מכירה-לארגז ולעלות לפי תרכיז/אריזה/לוגיסטיקה. ה-Management Business Review בוחן את מרווח-התרומה לקטגוריה מול תקציב-הרבעון.\n\nתחזית-המכירות (יחידות) מוכפלת במחיר-ממוצע ל-Revenue, ובעלות-תקן ל-COGS; המרווח מושווה ל-Budget. פער-מרווח של 3% מתחת ליעד מובא ל-Reconciliation, ושם נבחנת העלאת-מחיר או שינוי-תמהיל.\n\n**תחזיות פיננסיות של התוכנית (Financial Projections of the Plan)** — בארגון: תחזית-המשקאות מתורגמת להכנסה-לארגז ולעלות-תרכיז+אריזה; שינוי-תמהיל לטובת משקאות-פרמיום משפר את מרווח-התרומה הצפוי לקטגוריה.\n\nתחזית של 100K ארגזים × 12₪ מחיר = 1.2M₪ הכנסות; × 8₪ עלות = 800K₪ COGS; מרווח 400K₪. שינוי-תמהיל למוצר-פרמיום מעלה את המרווח ל-450K₪.\n\n**סקירת האיחוד המשולב (Integrated Reconciliation Review)** — בארגון: תרחיש העברת-ייצור למפעל-אחות מוסיף עלות-לוגיסטיקה. ה-Reconciliation הפיננסי בודק את ההשפעה על מרווח-התרומה ומציע התאמת-מחיר נקודתית בערוץ מסוים.\n\nתרחיש מיקור-חוץ פותר את פער-הקיבולת אך מעלה COGS ב-4% ומוריד מרווח מתחת ליעד. ב-Reconciliation מוצג גם תרחיש-מחיר חלופי; הצוות ממליץ על שילוב ששומר על המרווח.\n\n**סקירת ביצועים עסקית של ההנהלה (Management Business Review)** — בארגון: ה-Management Business Review בוחן את מרווח-התרומה לקטגוריה מול תקציב-השנה, מגמות-נתח-שוק, וסיכוני-מחיר-חומרי-גלם (סוכר/אלומיניום), ומכוון את עדיפויות-ההשקעה לעונה.\n\nה-CFO מציג Revenue actual-vs-plan, מרווח מול תקציב, ו-Forecast Accuracy של הרבעון הקודם. ההנהלה מזהה הזדמנות בקטגוריה צומחת ומחליטה להגדיל השקעה-שיווקית, מה שמעדכן את תחזית-הביקוש."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -8052,12 +7842,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "Calculated KFs בתוך IBP + Data Integration (CPI-DS) החוצה.",
      "סגור את הלולאה: פערי-תקציב חוזרים ל-Reconciliation."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: התוכנית הטקטית מזינה תחזית-ביקוש שבועית ל-Demand, יעדי-מלאי-בטחון ל-Inventory, סדר-deployment בין מרכזי-הפצה ל-Response, ותחזית-הכנסות ל-Financial Planning — הכל מאותו מקור-אמת.\n\nה-Approved Plan זורם ל-Demand (תחזית מפורטת), משם ל-Inventory (יעדי-מלאי), ול-Response (deployment מבוסס-הזמנות), ובמקביל ל-Financial Planning. הכל מתוזמן ב-Application Jobs.\n\n**סקירת אינטגרציית התוכנית (Plan Integration Overview)** — בארגון: מפת-האינטגרציה מראה כיצד תחזית-הקיץ זורמת מ-Demand ל-S&OP, מתאזנת מול ההיצע, ומשם מתפזרת ל-Inventory, Response ו-Financial — מקור-אמת אחד לכל המבקבקת.\n\nמנהל-מימוש משרטט diagram: Demand→S&OP (תחזית), S&OP→Inventory (ביקוש מוסכם), Inventory→S&OP (יעדי-מלאי), S&OP→Response (תוכנית מפורקת), S&OP→Financial (הכנסות/עלויות). מכאן הוא גוזר את ה-Copy Operators הנדרשים.\n\n**אינטגרציה בין IBP for S&OP ל-IBP for Demand** — בארגון: Demand מנבא ביקוש-משקאות לפי עונתיות והיסטוריה; S&OP מוסיף ידע על מבצע-קיץ ואירוע-ספורט ל-Consensus; המספר המעודכן מזין את תכנון-ההפצה היומי.\n\nDemand מייצר Statistical Forecast; S&OP צורך אותו כ-baseline, מוסיף שיפוט-עסקי (מבצעים, אירועים) ל-Consensus Demand; המספר המוסכם מוחזר ומשמש בסיס ל-Demand Sensing.\n\n**אינטגרציה בין IBP for S&OP ל-IBP for Inventory** — בארגון: לפני עונת-הקיץ, Inventory מחשב מלאי-בטחון מוגבר למשקאות-ליבה לפי שונות-ביקוש עונתית; היעדים מוחזרים ל-S&OP ומגדילים את תוכנית-הייצור המוקדמת.\n\nS&OP מספק Consensus Demand ו-CoV; Inventory מחשב safety stock ל-95% שירות; היעדים מוחזרים ל-S&OP ומגדילים את דרישת-ההיצע בהתאם, מה שנבחן ב-Reconciliation.\n\n**אינטגרציה בין תכנון טקטי מבוסס-זמן לתכנון מבוסס-הזמנות** — בארגון: תוכנית-הקיץ החודשית מפורקת לדרישות-יומיות לכל SKU ומרכז-הפצה ומומרת ל-Response, שקובע סדר-deployment בין מרכזי-ההפצה לפי זמינות בפועל.\n\nConsensus Demand חודשי (time-series) מפורק לתחזית-יומית ומומר לדרישות-הזמנה ב-Response; ה-Response מריץ allocation/ATP ומחזיר confirmation; reconciliation מוודא שסכום ההזמנות = הביקוש-הטקטי.\n\n**אינטגרציה בין S&OP טקטי לתכנון פיננסי** — בארגון: תחזית-המשקאות מתורגמת להכנסות-ולעלויות-רבעון ומוזרמת ל-FP&A; פער מול תקציב-המבקבקת מוחזר ומכוון את החלטות-העדיפות ב-Executive Review.\n\nConsensus Demand מתורגם ל-Revenue/COGS ב-IBP; הנתונים מוזרמים ל-SAP Analytics Cloud להשוואה מול תקציב; פער-מרווח מוחזר ל-S&OP ומוביל להתאמת-תמהיל ב-Reconciliation."
    },
    {
     "kind": "flow",
@@ -8354,12 +8138,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: מחזור-הקיץ מסתיים בתוכנית מאושרת שמזינה תחזית, מלאי, deployment והכנסות — ומדודה בחזרה מול תקציב-המבקבקת ב-Review הבא, וכך נסגרת הלולאה התמידית.\n\nמחזור מלא: זרמים מוכנים → Integrated Reconciliation (פערים+תרחישים) → Executive Review (אישור) → Approved Plan מוקפא → Operationalize ל-Demand/Inventory/Response/Financial → ביצוע → actuals חוזרים ל-Management Business Review."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -8546,12 +8324,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: מנהל-S&OP אזורי, מנהלי קווי-המילוי ומחלקת-המכירות חולקים workspace אחד ב-SAP Build Work Zone. כשמבצע-קיץ מקפיץ ביקוש ל-1.5 ליטר, ההתראה והדיון מתנהלים במרחב המשותף, וכל המעורבים רואים את אותה תוכנית-אספקה מעודכנת — מבלי לערבב גרסאות-גיליון מקומיות.\n\nמנהל-תכנון נכנס בבוקר ל-SAP Build Work Zone, רואה card עם התראות פתוחות, לוחץ על קישור ל-SAP IBP, נכנס לתצוגת-התכנון, מזהה פער היצע-ביקוש, פותח דיון (Feed) ומתייג את מנהל-הייצור. מנהל-הייצור מקבל התראה באותו מרחב, פותח את אותה תצוגה ומגיב — הכל בלי לצאת מ-Work Zone ובלי מייל אחד.\n\n**ניווט** — בארגון כל אזור-בקבוק מקבל Space משלו ('North', 'South'), ובתוכו Pages לפי תפקיד; מנהל-קו-מילוי רואה רק את אריחי-הקיבולת והחריגים של הקו שלו, ומנהל-המכירות רואה את תצוגות-הביקוש.\n\nמתכנן-ביקוש נכנס למרחב, רואה Space בשם 'Demand', בתוכו Page עם אריחי תצוגות-תכנון ולוח-מחוונים. הוא לוחץ על האריח 'Open Alerts', נכנס לרשימת-החריגים שלו, ומשם קופץ לתצוגה הרלוונטית — שלוש קליקים מהבוקר לפעולה.\n\n**אינטגרציית SAP IBP** — בארגון אינטגרציית IBP מאפשרת למנהל-S&OP לפתוח מ-Work Zone את תצוגת-איזון-ההיצע-ביקוש של כל קווי-המילוי בענן, להריץ תרחיש-מבצע, ולשתף את התוצאה עם המכירות — הכל בזרימה אחת.\n\nמתכנן-היצע לוחץ על אריח 'Supply Planning' במרחב; ה-SSO מעביר אותו ל-SAP IBP web UI כשהוא כבר מזוהה; הוא פותח תצוגה, מריץ תרחיש, ושומר — ואז חוזר ל-Work Zone לפתוח דיון על התוצאה. אותה זהות, אותן הרשאות, חוויה אחת.\n\n**אינטגרציית תצוגת-תכנון ב-Excel** — בארגון מתכנני-המכירות האזוריים עובדים בתבניות-Excel אחידות שהופצו דרך Work Zone; הם מזינים תחזית-מבצעים לכל SKU, וה-write-back מאחד את כולם לתוכנית-ביקוש אחת ב-IBP cloud — בלי לשלוח גיליונות במייל.\n\nמתכנן-ביקוש פותח template של תצוגת-ביקוש ב-Excel דרך ה-Add-in, מתחבר ל-IBP, מושך 18 חודשי-תחזית, מתקן ידנית חודש-מבצע, לוחץ Save — ה-write-back מפיץ את התיקון ברמת-המוצר/הזמן, וכל מי שפותח את אותה תצוגה ב-web UI רואה מיד את המספר המעודכן."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -8726,12 +8498,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון מוגדרות Alerts ל'מלאי-מוגמר מתחת לבטיחות לפני סוף-שבוע', 'קיבולת-קו-מילוי מעל 95%' ו'סטיית-תחזית-מבצע > 20%'. בעונת-השיא מנהל-S&OP מנהל את כל ה-portfolio דרך מסך-החריגים בלבד — כל פריט שאינו חריג פשוט אינו דורש מבט.\n\nמוגדרת Alert: 'Projected Stock < Safety Stock בתוך 4 שבועות' ברמת-Product/Location. ה-batch מריץ בלילה, ובבוקר המתכנן רואה 12 חריגים ב-Alert Overview. הוא פותח את החמור ביותר, drill-to-context לתצוגת-התכנון, מזהה איחור-אספקה, ומפעיל פעולה — בלי לסרוק את שאר אלפי הפריטים התקינים.\n\n**אפליקציות SAP Fiori** — בארגון מנהלי-הקווים משתמשים ב-'My Alerts' לראות חריגי-קיבולת, ומנהל-S&OP ב-Dashboard עם Alert Cards אזוריות — אותה שפת-Fiori לכל התפקידים.\n\nAdmin מגדיר alert ב-'Define Custom Alerts'; הוא מתזמן חישוב ב-'Application Jobs'; המתכנן צורך ב-'Alert Overview' ורואה Alert Card ב-Dashboard; לחיצה צוללת לתצוגת-התכנון — מסך אחד מוביל לבא בזרימה אחידה.\n\n**שימוש בהתראות מותאמות** — בארגון בעונת-השיא מנהל-S&OP פותח את מסך-החריגים פעמיים ביום: כל 'קיבולת > 95%' שמופיעה מנותבת או למשימה (להזיז ייצור לקו אחר) או ל-Case (אם דורשת החלטה בין-מחלקתית), וכל מלאי-בטיחות חורג מטופל מיד.\n\nבבוקר המתכנן פותח 'My Alerts', ממיין לפי High, רואה 'מלאי < בטיחות' ל-SKU מוביל, צולל לתצוגה (ה-filter כבר על אותו SKU/Location), מזהה הזמנת-רכש מאחרת, מקדים אותה, ומסמן טופל. חריג מורכב יותר — 'פער-קיבולת קבוע בקו' — הוא מנתב ל-Case לדיון רב-משתתפים.\n\n**הגדרת התראות מותאמות** — בארגון ה-key-user מגדיר שלוש Alerts: מלאי-מוגמר < בטיחות (High), ניצולת-קו > 95% (Medium), סטיית-תחזית-מבצע > 20% (Low), כל אחת ברמת-הצבירה הנכונה, ומתזמן חישוב-לילי לקראת ישיבת-ה-S&OP הבוקרת.\n\nAdmin מגדיר alert: Planning Area = SOP1, KF = Projected Stock, תנאי = '< Safety Stock', Level = Product/Location, אופק = 8 שבועות, Severity = High. הוא מתזמן Application Job יומי 05:00. למחרת בבוקר המנויים רואים את החריגים מחושבים ומוכנים."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -8900,12 +8666,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון כשמבצע-קיץ יוצר מחסור-קיבולת חוצה-אזורים, מנהל-S&OP פותח Case 'Summer peak capacity', מצרף את כל המעורבים (מכירות, ייצור, רכש) דרך Work Zone, ומנהל את ההחלטה הבין-אזורית — להזיז ייצור בין מפעלי-בקבוק — עם מעקב-משימות עד סגירה.\n\nחריג 'פער-קיבולת מתמשך בקו A' שלא נפתר בפעולה בודדת. המתכנן יוצר Case מה-alert, מצרף את תצוגת-הקיבולת, מתייג את מנהל-הייצור והרכש, ומנהל דיון בתוך ה-Case. ההחלטה: להעביר חלק מהייצור לקו B. נפתחות Tasks מתוך ה-Case, וכשבוצעו — ה-Case נסגר עם תיעוד-החלטה."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -9045,12 +8805,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון, בעקבות Case של מחסור-קיבולת-קיץ, נפתחות Tasks אזוריות: 'הזז ייצור 1.5L למפעל-צפון', 'אשר שעות-נוספות בקו-מילוי', 'עדכן הבטחת-אספקה ללקוח-מפתח' — כל אחת עם אחראי ומועד, נעקבות עד השלמה לקראת ישיבת-ה-S&OP.\n\nמתוך Case 'פער-קיבולת קו A' נפתחות שתי Tasks: 'העבר 20% ייצור לקו B' (אחראי: מנהל-ייצור, יעד: יום ה') ו'בדוק זמינות-חומר לקו B' (אחראי: רכש, יעד: יום ד'). כל אחראי רואה ב-'My Tasks', מבצע, ומעדכן ל-Completed; כשכל ה-Tasks סגורות — ה-Case נסגר."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -9188,12 +8942,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "דפוס-העבודה: alert → case → task, בלולאה סגורה עד סגירה.",
      "IBP הוא cloud; הכל מתאחד תחת SSO ב-SAP Build Work Zone."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון הלולאה הזו היא שגרת-עונת-השיא: חישוב-לילי של חריגי-מלאי-וקיבולת, מסך-חריגים בבוקר, Cases חוצי-אזורים למחסורים-מורכבים, ו-Tasks אזוריות עם אחראים — הכל במרחב-אחד, כך שצוות-S&OP מצומצם מנהל את כל מפעלי-הבקבוק לפי-חריגים בלבד.\n\nהלולאה המלאה: Application Job מחשב Custom Alerts בלילה → בבוקר מתכנן רואה חריג ב-Work Zone, צולל לתצוגה → חריג פשוט נסגר בקליק; חריג מורכב הופך ל-Case עם participants → ההחלטה מתפרקת ל-Tasks עם owners ומועדים → כשכל ה-Tasks סגורות, ה-Case נסגר וההתראה נעלמת בהרצה הבאה."
    },
    {
     "kind": "flow",
@@ -9342,12 +9090,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "תרחיש אחד לכל scenario.",
      "מוצגים כחלופות מספריות ב-S&OP review."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון (מפעל-מילוי מוצר לדוגמה) שתי הסימולציות החוזרות: (1) demand surge — גל-חום צפוי מקפיץ ביקוש למשקאות קלים ב-30%, ובודקים אם תרכיז וקיבולת-מילוי מספיקים; (2) line down — קו-מילוי 2 מושבת לשלושה ימים לתחזוקה, ובודקים את ההשפעה על שירות-הלקוח ועל הצורך בעבודת-משמרת-נוספת. שתיהן מורצות כ-scenarios או versions ומושוות ל-baseline.\n\nמנהלת-תכנון חוששת מקפיצת-ביקוש לקראת חג. היא יוצרת scenario מעל ה-baseline, מעלה את ה-customer demand ב-25% למשך חודש, מריצה simulate ב-Excel add-in, ובוחנת: האם ה-supply עומד? היכן נוצר מחסור? כמה מלאי-בטיחות נדרש? היא משווה את ה-scenario ל-baseline, מציגה להנהלה ב-S&OP review, וההחלטה מתקבלת.\n\n**גורמי ביקוש** — בארגון גל-חום צפוי: המתכנן מעלה Customer Demand למשקאות-קלים ב-30% לשבועיים, ובודק אם תרכיז + קיבולת-מילוי מספיקים, או שצריך הזמנת-תרכיז דחופה.\n\nהמתכנן מעלה את Promotion Uplift ב-15% לחודש המבצע ב-scenario, מריץ simulate, ובוחן אם נוצר מחסור בתקופת-המבצע ומתי צריך להתחיל לבנות מלאי מקדים.\n\n**גורמי היתכנות היצע** — בארגון קו-מילוי 2 מושבת לתחזוקה שלושה ימים: המתכנן מוריד את הקיבולת של ה-resource לאפס בתקופה, מסמלץ, ובודק אם קו 1 + משמרת-נוספת מכסים, או שיהיה מחסור ללקוחות מפתח.\n\nהמתכנן מאפס את Production Capacity של resource מסוים לשלושה ימים ב-scenario, מריץ ה-optimizer, ורואה כמה ביקוש הופך ל-late ובאילו לקוחות — ואז בוחן הסטה לקו אחר.\n\n**דוגמאות סימולציה** — בארגון: scenario 'Heatwave Surge' מעלה ביקוש משקאות ב-30%; scenario 'Filler-2 Maintenance' מאפס קיבולת קו-2 לשלושה ימים. שניהם מורצים, מושווים ל-baseline, ומוצגים כ-what-if להחלטת-הנהלה.\n\nבישיבת-S&OP חודשית מציגים שני scenarios: 'Surge +30%' מול 'Line2 Down 3d', כל אחד מושווה ל-baseline. ההנהלה רואה את הפער בשירות ובעלות, ובוחרת מדיניות-מלאי ותגבור-משמרות."
    },
    {
     "kind": "flow",
@@ -9576,12 +9318,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון המתכננת פותחת את ה-planning view של משקאות-הקיץ ב-Excel add-in, נכנסת ל-simulate, מעלה ביקוש ב-30% (demand surge), רואה את צריכת-התרכיז וקיבולת-המילוי נחשבות מחדש, ושומרת ל-scenario 'Heatwave Surge'.\n\nהמתכנן פותח planning view ב-Excel, נכנס ל-simulate, מעלה ביקוש למוצר, רואה את ה-supply נחשב מחדש בזמן-אמת, מנסה ערך אחר, ולבסוף לוחץ save כדי לקבע את התרחיש ב-scenario — או discard כדי לוותר."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -9758,12 +9494,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "איזון שלמות מול עלות-העתקה.",
      "נשלט ברמת אזור-התכנון."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון נוצר version 'Growth Scenario +10%' לתכנון-אסטרטגי שנתי במקביל ל-Base Version התפעולי; ההנהלה משווה את שניהם לקראת השקעות-קיבולת בקווי-מילוי חדשים.\n\nצוות-כספים יוצר version 'Budget 2027' כעותק של ה-Base Version, מתכנן בו את התקציב לאורך השנה, ובסוף-רבעון משווה Budget מול Actual (Base) ב-version comparison כדי לזהות סטיות.\n\n**ניהול גרסאות** — בארגון מנהל-התכנון יוצר ב-Manage Versions את 'Growth Scenario +10%', ובסוף סבב-התכנון-האסטרטגי מוחק אותו כדי לשמור על נראות וביצועים.\n\nצוות-תכנון פותח Manage Versions, יוצר 'Budget 2027' כעותק של Base, עובד בו רבעון, ובסוף-התהליך מוחק אותו אחרי שהמסקנות אומצו.\n\n**השוואת גרסאות** — בארגון משווים 'Growth +10%' מול Base ל-key figures של נפח-מילוי וצריכת-תרכיז, כדי להחליט אם להשקיע בקו-מילוי שלישי.\n\nב-quarterly review מציגים chart המשווה 'Budget 2027' מול 'Actual (Base)' ל-key figure של revenue; הסטיות החודשיות גלויות מיד והשיחה מתמקדת בפערים.\n\n**קונפיגורציית גרסה** — בארגון version 'Growth' מוגדר לכלול רק key figures של נפח, קיבולת ותרכיז — מספיק להחלטת-השקעה, בלי לשכפל את כל אזור-התכנון.\n\nהאדמין מגדיר ש-version-תקציב יכלול רק key figures פיננסיים רלוונטיים, מקצר זמן-העתקה ומוקד את ההשוואה."
    },
    {
     "kind": "flow",
@@ -9966,12 +9696,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון המתכננת מחזיקה במקביל 'Heatwave +30%' ו-'Filler-2 Down 3d' כ-scenarios מעל ה-Base Version, מסמלצת ומשווה את שניהם ל-baseline בישיבת-S&OP.\n\nהמתכנן יוצר שלושה scenarios — 'Surge +20%', 'Surge +30%', 'Surge +40%' — על אותו version, מסמלץ כל אחד, משווה את ההשפעה על המלאי והשירות, ובוחר את רמת-המלאי-המקדים המתאימה.\n\n**יצירת תרחיש** — בארגון המתכננת יוצרת scenario 'Heatwave Surge' מעל ה-Base Version לקראת גל-חום, ומכינה את שכבת-ה-delta לעריכת-הביקוש.\n\nהמתכנן יוצר scenario 'Promo April +15%' מעל Base, ומיד מתחיל לערוך את ה-Promotion Uplift לחודש אפריל.\n\n**השוואת תרחישים** — בארגון משווים 'Heatwave +30%' מול 'Filler-2 Down 3d' באותו chart, ורואים איזה תרחיש פוגע יותר בשירות-הלקוח.\n\nב-S&OP review מציגים chart המשווה 'Surge +20%', '+30%', '+40%' ל-key figures של projected stock ו-non-delivery; ההנהלה בוחרת את מדיניות-המלאי המתאימה.\n\n**ניהול תרחיש** — בארגון מנהלת-התכנון משתפת את scenario 'Filler-2 Down 3d' עם מנהל-הייצור לתיאום-משמרות, ומוחקת אותו לאחר ביצוע-התחזוקה.\n\nראש-צוות פותח Manage Scenarios, משתף את 'Surge +30%' עם חברי-הצוות לדיון, ולאחר ההחלטה מוחק את ה-scenarios שלא נבחרו.\n\n**השוואת גרסה ותרחיש** — בארגון משווים Base מול version 'Growth +10%' (אסטרטגי) מול scenario 'Heatwave +30%' (תפעולי) באותו chart — ורואים אם תוכנית-הצמיחה מספיקה גם לגל-חום פתאומי.\n\nב-S&OP review מציגים chart עם שלוש סדרות: Base, version 'Growth +10%', ו-scenario 'Heatwave Surge'; ההנהלה רואה את ההשפעה המשולבת על קיבולת ומחליטה על השקעה ועל מלאי-מקדים גם יחד."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -10163,12 +9887,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון השגרה: לכל סבב-S&OP מריצים 'Heatwave Surge' ו-'Filler-2 Down' כ-scenarios, ולתכנון-שנתי מחזיקים version 'Growth +10%'; מציגים את כולם מול Base ומחליטים על מלאי, קיבולת והשקעה.\n\nמחזור-S&OP מלא: זיהוי שאלת-what-if ► בחירת scenario/version ► simulate ב-Excel ► comparison מול baseline ► הצגה ב-review ► החלטה ► ניקוי scenarios/versions ישנים."
-   },
-   {
     "kind": "tables",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -10329,12 +10047,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "שתי שכבות: template (הגדרה) ו-instance (הרצה חודשית).",
      "משולב עם application jobs, Excel Add-In, ו-SAP Build Work Zone."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון (מבקבק Example Product): מחזור ה-S&OP החודשי מנוהל כ-process template יחיד המשרת את כל ה-SKU-portfolio (פחיות, בקבוקים, חביות). השלב הראשון אוסף sell-out מהקמעונאים, השני מאחד תחזית-ביקוש לעונת-הקיץ, השלישי בודק קיבולת קווי-מילוי ותרכיז, והאחרון מאשר את התוכנית בישיבת-הנהלה. Process Management מבטיח שכל מדינת-בקבוק (bottling territory) משלימה את חלקה לפני שלב-האיחוד.\n\nבארגון תעשייתי: מחזור S&OP חודשי מוגדר כ-process template עם חמישה שלבים — Data Gathering, Demand Review, Supply Review, Pre-S&OP, Executive S&OP. כל שלב מכיל tasks המשויכים ל-roles. ב-1 לחודש נוצר process instance; application job מעדכן אוטומטית את ה-actuals; ה-Demand Planner מקבל task, משלים אותו, והתהליך פותח אוטומטית את Supply Review. בסוף החודש ההנהלה רואה ב-dashboard ש-95% מה-steps הושלמו בזמן."
    },
    {
     "kind": "flow",
@@ -10500,12 +10212,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "כלי הן להגדרה והן לניטור-חי.",
      "קיצור cycle-time = קיצור ה-critical path; parallelize היכן שאפשר."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון נבנית תבנית-S&OP אחת: Step 1 טוען sell-out ו-actuals אוטומטית (application job), Step 2 איחוד תחזית-ביקוש לפי territory (roles לכל מנהל-אזור, duration לפי workday calendar מקומי), Step 3 בדיקת קיבולת מילוי ותרכיז, Step 4 גישור Finance/Commercial במקביל, Step 5 אישור VP Supply Chain.\n\nצוות-תכנון מגדיר process template ל-S&OP חודשי: Step 1 Data Load (אוטומציה — application job של copy operator), Step 2 Demand Review (roles: Demand Planner; duration 3 ימי-עבודה), Step 3 Supply Review (role: Supply Planner; תלוי ב-Step 2), Step 4 Reconciliation (parallel: Finance + Sales), Step 5 Executive Sign-off. התבנית נשמרת ומשמשת כל חודש.\n\n**תפקידי תהליך (Process Roles)** — בארגון כל territory מקבל role משלו (Demand Reviewer – North, – South…); אותה תבנית-S&OP משרתת את כל המדינות, כשכל role מקושר למנהל-האזור המקומי. החלפת מנהל = שינוי קישור-role בלבד.\n\nתבנית מגדירה role 'Demand Reviewer' ל-Step 2. בכל מחזור, ה-coordinator קושר את ה-role לשלושת ה-planners של אותו חודש. אם אחד יוצא לחופשה, מחליפים רק את הקישור ל-role, וה-task עובר לעמית — בלי לגעת בתבנית.\n\n**הגדרות אזור-זמן, יום-עבודה ומשך לצעדי-תהליך** — בארגון לכל territory workday calendar מקומי: השלב באזור עם ראש-השנה מקומי מקבל יותר זמן-קלנדרי כדי לעמוד באותם 3 ימי-עבודה. הגדרת time zone לכל אזור מונעת בלבול בתאריכי-מסירה בין מדינות-הבקבוק.\n\nStep 'Demand Review' בן 3 workdays עם calendar אמריקאי מתחיל ב-יום-שני ומסתיים ב-יום-רביעי; אם נופל חג, היעד נדחה אוטומטית ליום-עבודה הבא. ה-Gantt מציג את הדחייה ואת השפעתה על ה-critical path.\n\n**הקצאת משימות (Tasks Assignment)** — בארגון ב-step של ביקוש-קיץ: task 'הזן תחזית-קמפיין-קיץ' עם deep-link ל-view של ה-promotions, task 'אשר תחזית פחיות 330מ\"ל', ו-task 'תעד הנחות-מזג-אוויר'. כל territory משלים את ה-tasks שלו לפני שלב-האיחוד.\n\nStep 'Demand Review' מכיל tasks: (1) 'סקור תחזית סטטיסטית' עם deep-link ל-planning view; (2) 'הזן market intelligence'; (3) 'אשר תחזית סופית'. ה-Demand Planner מקבל את שלושתם, פותח את ה-view בלחיצה, ומסמן completion אחד-אחד; השלמת כולם סוגרת את ה-step.\n\n**אוטומציה של צעדי-תהליך** — בארגון ה-step הראשון טוען sell-out מהקמעונאים ומריץ snapshot של ה-baseline אוטומטית בלילה; כשהמתכננים מתחילים בבוקר, הנתונים מוכנים ו-step הביקוש כבר פתוח — בלי שאיש נגע במערכת.\n\nStep 1 'Data Refresh' מוגדר אוטומטי ומקושר ל-application job של copy operator שמעדכן actuals. ב-1 לחודש התהליך מתחיל, ה-job רץ לבד, מעדכן את ה-key figures, מסמן complete, ופותח אוטומטית את Step 2 (Demand Review) למתכננים.\n\n**תזמור (Orchestration) של application jobs** — בארגון ה-orchestration הלילי: טען sell-out → copy ל-demand baseline → הרץ תחזית סטטיסטית לכל territory → snapshot ל-cycle. אם טעינת-ה-sell-out של אזור נכשלת, השרשרת נעצרת ומתריעה, כך שהמתכננים לא עובדים בבוקר על baseline-שגוי.\n\nמחזור מתוזמר: job1 טוען actuals → (בהצלחה) job2 מריץ copy ל-baseline → job3 מריץ statistical forecast → job4 יוצר snapshot. כל job מקושר ל-step עם dependency על קודמו; כשל ב-job1 עוצר את כל השרשרת ומתריע, במקום להמשיך על נתונים חלקיים.\n\n**תצוגת Gantt של תהליכים sequential ו-parallel** — בארגון ה-Gantt מציג את כל ה-territories ב-parallel branches בשלב-הביקוש, מתכנסים ל-sequential reconciliation ולאישור-הנהלה. ה-VP רואה במבט-אחד שה-territory הדרומי מעכב ושהוא על ה-critical path של מחזור-הקיץ.\n\nב-Gantt רואים: Step 1 Data Load (אוטומטי, יום), אחריו Step 2 Demand Review (3 ימים) ו-Step 3 Supply Review (3 ימים) ברצף; Step 4 Reconciliation מתפצל ל-Finance ו-Sales במקביל; Step 5 Sign-off בסוף. ה-critical path מודגש; חריגה ב-Demand Review מאירה באדום ודוחפת את תאריך-הסיום."
    },
    {
     "kind": "flow",
@@ -10717,12 +10423,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון נוצר מדי חודש instance 'S&OP – [חודש]' מתבנית-העל; ה-coordinator ממפה את מנהלי-ה-territories, מפעיל את המחזור, ובסוף מסמן Complete. ההיסטוריה של כל המחזורים נשמרת להשוואת cycle-time בין חודשים.\n\nב-1 ליוני, מנהל-S&OP נכנס ל-Manage Processes, יוצר instance ל-'S&OP June' מהתבנית, ממפה roles למתכנני-החודש, ולוחץ Start. לאורך החודש הוא עוקב אחר הסטטוס, ובסוף מסמן Complete — וה-instance נארכב עם כל ה-audit-trail שלו.\n\n**מהו תהליך (Process)?** — בארגון 'S&OP – יוני' ו-'S&OP – יולי' הם שני Processes נפרדים מאותה תבנית; כל אחד מודד את ה-cycle-time שלו, ומאפשר להשוות אם מחזור-הקיץ ארוך-יותר ממחזור-החורף.\n\n'S&OP June' הוא Process: נגזר מהתבנית, מקושר ל-PlanningArea של ה-finished-goods, רץ מ-1 עד 25 ביוני, עם roles ממופים ל-planners; הסטטוס שלו In Process, וה-progress 60%.\n\n**יצירת תהליך** — בארגון יוצרים את 'S&OP – יולי' מהתבנית, ממפים את כל מנהלי-ה-territories ל-roles, וקובעים start ל-1 בחודש; ה-application job של טעינת-ה-sell-out כבר משובץ ב-Step 1.\n\nמנהל-S&OP בוחר template 'Monthly S&OP', מגדיר PlanningArea=FG, תקופה=יולי, ממפה Demand/Supply/Finance roles, וקובע start ל-1 ביולי. ה-instance נוצר, Step 1 (אוטומטי) מתוזמן, וה-tasks הראשונים ממתינים.\n\n**ניהול מחזור-חיי התהליך** — בארגון, מחזור-קיץ הועבר ל-On Hold ליומיים בגלל תקלת-טעינת-sell-out, ואז חזר ל-In Process. בסיום סומן Completed; מחזור שבוטל בגלל מיזוג-טריטוריות סומן Stopped כדי לא לזהם את ממוצע-ה-cycle-time.\n\nמחזור In Process; באמצע-החודש מתגלה בעיית-נתונים — מנהל-S&OP מעביר ל-On Hold, מתקן, ומחזיר ל-In Process. בסוף, כשכל ה-steps הושלמו, הוא מעביר ל-Completed וה-instance נארכב.\n\n**ניטור סטטוס התהליך** — בארגון ה-VP רואה בלוח שכל ה-territories ירוקים חוץ-מהדרומי (אדום, overdue על ה-critical path); הוא מתערב מיד, כי עיכוב שם דוחה את אישור מחזור-הקיץ כולו.\n\nמנהל-S&OP פותח את Manage Processes באמצע-החודש ורואה: progress 70%, Demand Review ירוק, Supply Review צהוב (in-process), Reconciliation אפור (ממתין). step אחד אדום (overdue) — הוא פונה לאחראי ומשחרר את החסם.\n\n**לוחות-מחוונים של תהליכים (Process Dashboards)** — בארגון ה-dashboard מראה ש-cycle-time של מחזורי-קיץ ארוך ב-3 ימים מהחורף, ושה-territory הדרומי הוא bottleneck-חוזר; ההחלטה: parallelize את ה-territories טוב-יותר ולאוטמט את טעינת-ה-sell-out שלהם.\n\nDashboard מציג: cycle-time ממוצע 18 ימים (ירד מ-22), on-time 92%, וה-step שהכי-מאחר באופן-חוזר הוא Supply Review. ההנהלה מחליטה לאוטמט חלק מ-Supply Review (9.2.4) כדי לקצרו."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -10909,12 +10609,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון כל מנהל-territory רואה את ה-tasks שלו (תחזית-אזורית, אישור-SKU), משלים אותם — חלקם מתוך ה-Excel Add-In שבו הוא רגיל לעבוד — וההשלמות מצטברות ל-progress של שלב-הביקוש.\n\nDemand Planner פותח את My Process Steps, רואה 3 tasks, לוחץ deep-link לכל אחד, עובד ב-planning view, ומסמן completion. עם השלמת השלישי, ה-step נסגר וה-Supply Review נפתח אוטומטית.\n\n**הקצאות והשלמות משימות** — בארגון task 'אשר תחזית-פחיות-קיץ' מוקצה למנהל-האזור לפי role; הוא משלים מתוך ה-Excel Add-In, וההשלמה מתועדת עם שמו וזמנה — חיוני ל-audit מול ה-Commercial.\n\ntask 'אשר תחזית' מוקצה אוטומטית ל-Demand Reviewer (לפי role). היא mandatory; ה-reviewer פותח deep-link, סוקר, ומסמן complete; ה-timestamp נשמר, וה-step מתקדם.\n\n**השלמת משימות מתוך SAP IBP Add-In for Microsoft Excel** — בארגון מנהלי-ה-territories הם 'Excel-first'; הם עורכים את תחזית-האזור ומשלימים את ה-task מתוך ה-Add-In — בלי לפתוח דפדפן. זה הקפיץ את שיעור-ההשלמה-בזמן של שלב-הביקוש.\n\nDemand Planner עורך תחזית ב-planning view בתוך Excel, שומר, ומיד באותו חלון רואה את ה-task 'השלם Demand Review' ומסמן complete; ה-progress ב-Manage Processes מתעדכן מיד.\n\n**התקדמות התהליך לפי השלמת משימות** — בארגון שלב-הביקוש מורכב מ-task לכל territory; השלמת 8 מתוך 10 territories = 80% step-progress. ה-VP רואה במדויק כמה נותר לפני שלב-האיחוד יכול להתחיל.\n\nstep עם 4 mandatory tasks: השלמת 2 = 50% step-progress; השלמת כולם = step complete. process עם 5 steps: סגירת 3 ≈ 60% process-progress (משוקלל לפי משך). ה-Gantt וה-dashboard משקפים זאת בזמן-אמת."
-   },
-   {
     "kind": "tcodes",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -11072,12 +10766,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון ה-Work Zone הוא דף-הבית של כל ה-planners; מנהל-territory רואה את ה-tasks האזוריים שלו, את מצב מחזור-הקיץ, ואת ה-dashboard — לצד חדשות-החברה — והכול מותאם ל-role שלו.\n\nמשתמש פותח את Work Zone בבוקר ורואה card 'My S&OP Tasks (3 open)', card 'Cycle Status 70%', והתראה 'Supply Review overdue'. בלחיצה הוא מגיע ישירות ל-task — בלי לחפש את האפליקציה הנכונה."
-   },
-   {
     "kind": "tcodes",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -11209,12 +10897,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "מאפשרים אוטומציה ואינטגרציה (CPI, Work Zone, dashboards).",
      "נפרדים מ-planning-data APIs; נהל auth, versions ו-rate-limits."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון ה-IT מאוטמט את כל מחזור-הפתיחה: API יוצר את ה-process החודשי, ממפה את מנהלי-ה-territories, ומפעיל את ה-orchestration; פורטל-הנהלה חיצוני שואב progress דרך ה-API להצגה לדירקטוריון.\n\njob חיצוני (CPI) קורא ל-OData API ב-1 לחודש ליצירת ה-process 'S&OP' מהתבנית, ממפה roles אוטומטית, ומפעיל אותו; dashboard חיצוני קורא מדי-בוקר את status/progress דרך אותו API ומציג אותו להנהלה."
    },
    {
     "kind": "flow",
@@ -11359,12 +11041,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "template→instance→tasks→dashboards, עם automations/orchestration ו-APIs.",
      "התחל פשוט, מדוד, ושפר; פגוש משתמשים ב-Excel/Work Zone."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון המסע השלם: תבנית-S&OP אחת לכל ה-territories, orchestration לילי של sell-out→forecast→snapshot, השלמת-tasks אזורית מ-Excel, ניטור-VP ב-Work Zone, מדידת cycle-time ב-dashboard, ואוטומציית-פתיחה חודשית דרך API — מחזור הדוק, מדיד ומשתפר.\n\nיישום מלא: הגדר template (steps+roles+durations+automations) → אמת ב-Gantt → צור instance חודשי (ידנית/API) → הרץ עם automations+orchestration → משתמשים משלימים tasks (Fiori/Excel) → נטר ב-Manage Processes → מדוד ב-dashboard → שכלל את התבנית למחזור-הבא."
    },
    {
     "kind": "flow",
@@ -11524,12 +11200,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "Storage level קובע את גבול-הפירוק לאורך-זמן.",
      "הרץ Generate Periods קדימה ואל תשנה לאחר טעינה."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון מוקם Planning Area בשם MFG_SNOP עבור תכנון מכירות-ותפעול של משקאות. ה-Time Profile נבנה עם Month ← Quarter ← Year, כי תכנון-המשקאות מתנהל חודשית מול עונתיות-קיץ. רמת-Week נוספת כדי לתמוך בפירוק (disaggregation) של תכנית-הייצור לשבועות-מילוי בקווי-המילוי.\n\nצוות תכנון מקים תהליך S&OP חודשי: בונים Time Profile עם רמות Month ← Quarter ← Year, יוצרים Planning Area חדש מבוסס SAPIBP1, מקצים לו את ה-Time Profile, ולאחר Activation טוענים נתוני-אב ונתוני-מפתח. מאותו רגע כל החישובים (ביקוש, אספקה, מלאי) מתבצעים על אותו ציר-זמן חודשי.\n\n**אזורי תכנון** — בארגון ה-Planning Area הוא MFG_SNOP, מבוסס SAPIBP1, ומכיל את כל ממדי-המשקאות (Product, Brand, Plant, Customer) וכל מדדי ה-S&OP (Demand, Production, Inventory).\n\nצוות מעתיק את SAPIBP1 ל-Planning Area חדש Z_SNOP, מסיר Key Figures לא-רלוונטיים, מוסיף Attribute עסקי, ומפעיל Activate. כעת אפשר לטעון נתונים ולהריץ דוחות.\n\n**פרופיל זמן** — בארגון ה-Time Profile הוא Year ← Quarter ← Month ← Week. תכנון-המכירות מתנהל חודשית, אך הפירוק לשבועות מאפשר תרגום תכנית-ייצור לתוכנית-מילוי שבועית בקווים.\n\nבונים Time Profile עם Level 1=Year, 2=Quarter, 3=Month, 4=Week. מגדירים Storage ב-Week. נתוני-ביקוש שבועיים מצטברים אוטומטית לחודשים ולרבעונים בדוחות."
    },
    {
     "kind": "flow",
@@ -11730,12 +11400,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון מגדירים Master Data Types: Product (PRDID, Brand, Pack-Size, Flavor), Location (Plant, DC), Customer (Sold-To, Channel). Attribute עסקי ייחודי: Brand (Coke / Sprite / Fanta) המאפשר צבירת-ביקוש לפי מותג ב-Demand Review.\n\nמגדירים Attribute PRDID (CHAR 18) ו-PRDDESC, יוצרים Master Data Type Simple בשם 'Product' עם PRDID כ-Key Attribute, וטוענים את רשימת-המוצרים. אותו דבר ל-Location ו-Customer. כעת אפשר לבנות Planning Level בצירוף Product × Location × Month.\n\n**מאפיינים** — בארגון מגדירים Attributes: PRDID, Brand (Coke/Sprite/Fanta), PackSize (Can/Bottle/Multipack), Channel (Retail/HoReCa). Brand מאפשר צבירה לפי-מותג.\n\nמגדירים PRDID (CHAR 18), Brand (CHAR 10), UNITPRICE (DEC 15,2). אלה ישמשו ב-Master Data Type 'Product' וב-Planning Levels וב-Key Figures.\n\n**סוגי נתוני-אב** — בארגון: Simple MDTs ל-Product, Plant, Customer; Compound MDT ל-Product-Plant (אילו משקאות מיוצרים בכל מפעל) ול-Customer-Product (מטריצת-שירות).\n\nיוצרים Simple MDT 'Location' (Key: LOCID), טוענים 50 מיקומים. יוצרים Compound MDT 'Customer-Location' התלוי ב-Customer וב-Location, ומגדיר אילו לקוחות משויכים לאילו מיקומים."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -11915,12 +11579,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון מגדירים Planning Levels: PRODUCT_LOC_CUST_WK (בסיס לביקוש), BRAND_REGION_MO (סקירת-מנהלים), ו-PLANT_PROD_WK (תכנון-ייצור). תכנית-המכירות ברמת-מותג מתפרקת לרמת-מוצר לצורך תכנון-מילוי.\n\nkey figure 'Demand' מוגדר ב-base level Product × Customer × Location × Week. בדוח Executive Review הוא נצבר אוטומטית ל-Brand × Region × Quarter. אותם נתונים, רזולוציות שונות, בלי כפילות."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -12094,12 +11752,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "time-shift (prevperiod) למאזנים מתגלגלים.",
      "התאם רמות ופרק מורכבות ל-Auxiliary."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון key figures: CONSENSUSDEMAND (ביקוש-מוסכם למשקה), PRODUCTIONQTY (כמות-מילוי מתוכננת), PROJECTEDSTOCK (מלאי-חזוי), CAPACITYUSAGE (ניצול-קווים). PROJECTEDSTOCK מחושב מהביקוש, הייצור והמלאי-הפותח.\n\nkey figure CONSENSUSDEMAND נערך ב-Demand Review; PRODUCTION מתוכנן ב-Supply Review; key figure מחושב PROJECTEDINVENTORY = previous inventory + PRODUCTION − CONSENSUSDEMAND מציג את תחזית-המלאי לאורך-האופק.\n\n**מהם מדדי-מפתח?** — בארגון המתכנן רואה key figures: ביקוש-משקה, מילוי-מתוכנן ומלאי-חזוי, ברמת מוצר×מפעל×שבוע.\n\nהמתכנן פותח planning view ב-Excel; העמודות הן key figures (Demand, Production, Inventory) והשורות הן צירופי Planning Level. הוא עורך Demand וה-Inventory המחושב מתעדכן.\n\n**יצירת מדדי-מפתח** — בארגון יוצרים key figure PROMODEMAND (ביקוש-מבצע): Base = Product×Customer×Week, SUM, Disaggregation לפי DEMAND, Editable — לתכנון השפעת-מבצעי-קיץ.\n\nיוצרים key figure 'SAFETYSTOCK': Base = Product×Location×Week, Aggregation = SUM, Disaggregation Basis = DEMAND, Stored+Editable. Activate. כעת מתכננים אותו ב-Excel.\n\n**סוגי מדדי-מפתח** — בארגון: CONSENSUSDEMAND = Stored; PROJECTEDSTOCK = Calculated; HELP_SEASONINDEX = Auxiliary (מקדם-עונתיות-קיץ לשימוש בנוסחאות-פירוק).\n\nDEMAND = Stored (נערך). PROJECTEDINVENTORY = Calculated (נגזר). HELP_AVGDEMAND = Auxiliary (ממוצע-ביקוש לשימוש פנימי בנוסחת safety stock).\n\n**צבירת מדדי-מפתח** — בארגון: PRODUCTIONQTY ו-CONSENSUSDEMAND = SUM (זרימה); PROJECTEDSTOCK = LAST בזמן (מלאי-סוף-תקופה) ו-SUM בין-מפעלים; FILLRATE% = AVG משוקלל.\n\nDEMAND ברמת-מוצר נצבר ב-SUM למותג ולרבעון. INVENTORY נצבר ב-SUM בין מיקומים אך ב-LAST לאורך-זמן (מלאי-סוף-חודש, לא סכום-שבועות).\n\n**פירוק (Disaggregation)** — בארגון תכנית-מכירות ברמת-מותג רבעונית מתפרקת לרמת-מוצר×שבוע לפי פרופיל-עונתיות-קיץ (Disaggregation Basis = ביקוש-אשתקד), כך שיולי מקבל יותר מנובמבר.\n\nמנהל-ביקוש מזין יעד-מותג רבעוני; IBP מפרק לפי פרופיל ה-DEMAND ההיסטורי לכל מוצר ולכל שבוע, ושומר ב-base level. שינוי ביעד מתחלק-מחדש אוטומטית.\n\n**חישובי מדדי-מפתח** — בארגון: PROJECTEDSTOCK = prevperiod(PROJECTEDSTOCK) + PRODUCTIONQTY − CONSENSUSDEMAND; CAPACITYUSAGE% = PRODUCTIONQTY / LINECAPACITY. כך רואים מתי מפעל יחרוג מקיבולת-קווי-המילוי בקיץ.\n\nPROJECTEDINVENTORY מוגדר: prevperiod(PROJECTEDINVENTORY) + PRODUCTION − CONSENSUSDEMAND. בכל תקופה הנוסחה גוללת את יתרת-המלאי קדימה לאורך-האופק."
    },
    {
     "kind": "flow",
@@ -12328,12 +11980,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון מתוזמן Copy Operator חודשי שמעתיק את תחזית-המכירות הסטטיסטית לתכנית-הביקוש, ו-Copy נוסף שמעתיק את התכנית-המאושרת לתכנית-הייצור — בסיס לתכנון-קווי-המילוי.\n\nבתחילת מחזור-S&OP חודשי רץ Copy Operator שמעתיק את STATISTICALFORECAST ל-DEMANDPLANNING כנקודת-מוצא; אז המתכננים עורכים. בסוף-המחזור רץ Snapshot ששומר את הגרסה-המאושרת.\n\n**יצירת Copy Operator** — בארגון Copy Operator מעתיק CONSENSUSDEMAND (מאושר) ל-PRODUCTIONDEMAND כדי להתניע את תכנון-הייצור על קווי-המילוי, מסונן ל-Version 'Active'.\n\nCopy Operator: Source=STATISTICALFORECAST, Target=DEMANDPLANNINGQTY, Level=Product×Customer×Week, Mode=Overwrite. רץ בתחילת-מחזור ומאתחל את תכנית-הביקוש מהתחזית הסטטיסטית.\n\n**ניהול מחזור-חיי נתונים** — בארגון time-shift חודשי מגלגל את אופק-תכנון-המשקאות; Snapshot שומר את תחזית-הקיץ למדידת-דיוק מול-בפועל בסוף-העונה; Purge מנקה תרחישי-תכנון ישנים.\n\nבתחילת כל חודש רץ Time-shift המגלגל את אופק-התכנון חודש קדימה; Purge מוחק נתוני-תכנון בני 24 חודשים-ויותר; Snapshot שומר את גרסת-התחזית למדידת-Forecast-Accuracy."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -12527,12 +12173,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון לאחר ש-PROJECTEDSTOCK הציג מספרים חריגים, ה-History Report חשף ששונה ה-Disaggregation Basis של CONSENSUSDEMAND; השינוי בוטל והמספרים חזרו לקדמותם.\n\nתחזית-מלאי 'נשברה' פתאום; הצוות פותח את ה-History Report, רואה ש-Aggregation של key figure שונה ל-SUM אתמול על-ידי משתמש מסוים, ומשחזר ל-LAST."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -12695,12 +12335,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "Scenarios ל'מה-אם'; Versions לתכניות-חלופיות.",
      "גמישות מול מורכבות וביצועים — נהל במודע."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון יוצרים Scenario 'Heatwave' המגדיל ביקוש-קיץ ב-20%, ובוחנים אם קווי-המילוי עומדים בקיבולת; Version 'Budget' שומרת את התכנית-המאושרת מול תרחישי-העבודה.\n\nב-Supply Review יוצרים Scenario 'High-Demand' המעלה את הביקוש ב-15%, מריצים בו את חישובי-המלאי-החזוי, ומשווים מול הגרסה-הפעילה — בלי לפגוע בתכנית-הבסיס."
    },
    {
     "kind": "flow",
@@ -12872,12 +12506,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון המודל הואט בעונת-הקיץ; הצוות הריץ Purge לתרחישים-ישנים, העלה את רמת-הבסיס של key figures שוליים מ-Day ל-Week, וצמצם cross-level calculations — וזמני-התגובה השתפרו משמעותית.\n\nצוות מגלה ש-planning view נטען ב-90 שניות; הם מצמצמים Stored key figures לא-בשימוש, מעלים את ה-base level מ-Day ל-Week, ומוסיפים Filters — זמן-הטעינה יורד ל-8 שניות."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -13045,12 +12673,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "עקוב אחר סדר-הבנייה, Activate, וטען Master Data לפני נתוני-מפתח.",
      "Aggregation/Disaggregation מכוונים + מודל רזה = S&OP מדויק ומהיר."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון התוצאה היא Planning Area MFG_SNOP פעיל: ביקוש-משקאות מתוכנן ברמת-מותג ומתפרק למוצר×שבוע, מועתק לתכנית-ייצור על קווי-המילוי, עם מלאי-חזוי מחושב, גלילת-אופק חודשית ותרחישי-קיץ — מודל-S&OP מלא בענן.\n\nמימוש S&OP מלא: בונים Time Profile חודשי, מגדירים ממדי-מוצר/מיקום/לקוח, יוצרים Planning Levels ו-key figures לביקוש/ייצור/מלאי עם aggregation/disaggregation נכונים, מגדירים Copy Operator לאתחול-מחזור ו-Lifecycle לגלילת-אופק, ומפעילים — תהליך-S&OP חודשי פועל מקצה-לקצה."
    },
    {
     "kind": "flow",
@@ -13238,12 +12860,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "שניהם אוגרים הגדרה, לא נתונים.",
      "השאר Filters פתוחים בתבניות, קבועים במועדפים."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון כל מתכנן-ביקוש של מוצר לדוגמה פותח את ה-favorite \"הארגון Monthly Demand\" — planning view אחיד עם Consensus Demand לפי SKU ולפי רשת-קמעונאות, חודשי, אופק 18 חודשים. במקום שכל מתכנן יבנה תצוגה משלו, ה-template המרכזי מבטיח שכולם מדווחים על אותו מבנה לישיבת ה-S&OP.\n\nמתכנן-ביקוש פותח Excel ► לשונית SAP IBP ► Log On ► New View ► בוחר Planning Area, את ה-Key Figure ‏Consensus Demand, את ה-Attributes ‏Product ו-Customer בשורות ואת החודשים בעמודות, ומגדיר אופק של 12 חודשים. לוחץ OK; הגריד מתמלא. הוא מתקן מספר-תחזית בתא, מריץ Simulate, ולבסוף Save Data כדי לפרסם ל-IBP. לסיום שומר Save As Favorite בשם \"Monthly Demand Review\".\n\n**יצירת תצוגת-תכנון** — מתכנן-הארגון יוצר תצוגה: Key Figure ‏Consensus Demand, שורות = SKU + רשת-קמעונאות, עמודות = חודשים, אופק 18 חודש, Filter ל-Region \"Israel\". זו תהיה הבסיס ל-favorite היומיומי שלו.\n\nמתכנן בוחר Planning Area ‏SAPIBP1, מוסיף Key Figures ‏Consensus Demand ו-Statistical Forecast, גורר Product ו-Customer ל-Rows, את Month ל-Columns, קובע אופק 12 חודשים קדימה ומסנן ל-Location מסוים. לוחץ OK והגריד מתמלא; כעת יכול לערוך ו-Save Data.\n\n**תבניות ומועדפים** — בארגון ה-key user מתחזק template אחיד \"הארגון S&OP Demand\" עם פריסת-Key-Figures מוסכמת; כל מתכנן-מדינה פותח אותו, בוחר Region משלו, ושומר favorite אישי — אך המבנה זהה לכולם בישיבת ה-S&OP.\n\nמתכנן בונה תצוגת-סקירה, שומר Save As Favorite \"Weekly S&OP\". key user נוטל אותה, מנקה Filters אישיים ושומר כ-Template \"S&OP Standard Review\", שמפיץ לכל הצוות; כל מתכנן פותח את ה-template וממלא Filters משלו."
    },
    {
     "kind": "flow",
@@ -13454,12 +13070,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון מנהל-תכנון בונה Planner Workspace \"הארגון S&OP Cockpit\": Custom Alert ל-\"Forecast Accuracy < 70%\", Planning View של Consensus Demand לפי SKU, ו-Analytics chart של מגמת-מכירות. בישיבת ה-S&OP כל הצוות מסתכל על אותו workspace משותף.\n\nמתכנן פותח Planner Workspace ► רואה Custom Alert card שמדגיש 5 SKUs עם תחזית מתחת לסף ► לוחץ על ההתראה ► מתמקד ב-Planning View card באותם SKUs ► מתקן את התחזית בגריד ► ה-Analytics Chart card מעדכן את גרף-המגמה ► שומר את השינוי. הכל באותו מסך-דפדפן."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -13641,12 +13251,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "עמיד-לרענון ואחיד בין מתכננים.",
      "הפץ דרך template; שמור CF לחריגות."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון ה-template האחיד כולל עיצוב מוסכם: עמודות-עבר באפור, עמודות-עתיד בלבן, conditional formatting אדום ל-Forecast Accuracy נמוך — כך כל מתכנן-מדינה רואה אותה שפה-חזותית בישיבת ה-S&OP.\n\nמתכנן מקפיא את שורת-הכותרת והעמודה הראשונה, מרחיב את עמודת-המוצר, מוסיף conditional formatting שמאדים ערכי-תחזית מתחת לסף, ושומר את התצוגה — בפתיחה הבאה ה-favorite משחזר את העיצוב.\n\n**טיפים בסיסיים לפריסה** — בארגון הפריסה האחידה: Category ► Brand ► SKU בשורות, חודשים בעמודות, Consensus Demand עריך מודגש — אותו מבנה לכל המתכננים.\n\nמתכנן מסדר Product Group ► Product ► Customer בשורות, מקפיא כותרות, מרחיב את עמודת-המוצר, וצובע את ה-Key Figure העריך ברקע-בהיר — ואז Save Favorite.\n\n**אפשרויות-גיליון ו-Local Members** — בארגון מתכנן מוסיף Local Member \"Forecast Accuracy %\" כעמודת-עזר לכל SKU, ו-Sheet Options מסתירות אפסים — תצוגה נקייה לישיבת-הביקוש, בלי לגעת בנתוני-IBP.\n\nמתכנן מוסיף Local Member מסוג formula שמחשב יחס \"Forecast / Sales History\" כעמודה חדשה ליד הנתונים; ב-Refresh הנתונים מתעדכנים והעמודה-המחושבת נשארת. הוא מכוון Sheet Options להסתיר אפסים. אף אחד מאלה לא נשלח ל-IBP ב-Save Data.\n\n**גיליון העיצוב של SAP IBP** — בארגון ה-Formatting Sheet של ה-template הארגוני קובע: עבר=אפור, עתיד=לבן, חריגות=אדום. כך הדוחות לישיבת ה-S&OP נראים זהים בכל מדינה, בלי שמתכנן יעצב ידנית.\n\nkey user מגדיר ב-Formatting Sheet: כותרות כחול-כהה, editable Key Figures רקע-לבן, calculated רקע-אפור, עמודות-עבר אפור-בהיר. כל מתכנן שפותח את ה-template מקבל את העיצוב אוטומטית, וגם אחרי Refresh."
    },
    {
     "kind": "flow",
@@ -13849,12 +13453,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון מציגים בישיבת ה-S&OP גרף-קו של Consensus Demand מול Sales History לפי חודש, ועמודות של Forecast Accuracy לפי SKU — הגרפים הם שפת-ההחלטה של הצוות.\n\nמתכנן מסמן בגריד את Statistical Forecast ו-Sales History לאורך 12 חודשים, לוחץ Create Chart ובוחר combo (קו לתחזית, עמודות לבפועל); הגרף חושף עונתיות ופער-תחזית. בישיבה הוא מציג Analytics chart מקביל ב-Planner Workspace."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -14022,12 +13620,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "מתאים לנקודתי; להמונים — workbook/CI-DS.",
      "שינויים מיידיים; הגבל הרשאות ובדוק תלויות."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון השקת-מוצר חדש מתחילה ב-Master Data: מוסיפים את ה-SKU ל-Product, מקשרים ל-Brand/Category, ויוצרים planning objects לכל רשת-קמעונאות רלוונטית — רק אז המתכנן יכול להזין תחזית בתצוגתו.\n\nkey user פותח Master Data workbook, שולף את Product, מוסיף SKU חדש עם Attributes (Product Group, UoM), מעלה (Save), ואז יוצר planning objects לצירוף SKU×Customer×Location כדי שאפשר יהיה להזין לו תחזית בתצוגה.\n\n**חוברות נתוני-אב (Master Data Workbooks)** — בארגון לקראת עונת-קיץ מוסיפים עשרות SKUs חדשים דרך Master Data Workbook אחד — שורה לכל מוצר עם Brand/Category/UoM — במקום הזנה אחת-אחת ב-Web UI.\n\nkey user פותח Master Data Workbook ל-Product, שולף 500 SKUs, מתקן Attribute שגוי ב-30 שורות בבת-אחת, מוסיף 3 SKUs חדשים, ולוחץ Save — ה-add-in מעלה ומאמת.\n\n**יצירת אובייקטי-תכנון (Planning Object Creation)** — בארגון השקת-מוצר: לכל SKU חדש יוצרים planning objects רק לרשתות-הקמעונאות שבהן יימכר — לא לכולן — כדי לשמור על מרחב-תכנון רזה ומהיר.\n\nאחרי הוספת SKU חדש, key user יוצר planning objects לצירוף SKU×כל-רשת-קמעונאות×מרכז-הפצה; כעת המתכנן יכול להזין Consensus Demand לכל צירוף בתצוגתו.\n\n**אפליקציית נתוני-האב (Master Data App)** — בארגון מנהל-נתונים מתקן מהר שיוך-Brand שגוי ל-SKU דרך ה-Master Data app מהדפדפן, בלי לפתוח Excel — והמתכננים רואים את התיקון מיד.\n\nkey user מקבל דיווח על קוד-מוצר שגוי, פותח Manage Master Data app, מחפש את ה-SKU, מתקן את ה-Attribute ושומר — התיקון משתקף מיד בתצוגות-התכנון."
    },
    {
     "kind": "flow",
@@ -14221,12 +13813,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון ה-key user בונה מאקרו-VBA המחובר ל-hook של post-Refresh: הוא מזריק Local Members של KPIs (Accuracy, Bias) ומחיל את עיצוב-ה-Formatting-Sheet — כל מתכנן מקבל תצוגה אחידה ומחושבת אוטומטית.\n\nkey user כותב מאקרו-VBA שמופעל אחרי Refresh, מוסיף אוטומטית Local Member \"Forecast Accuracy %\" לכל SKU בגריד ומעצב אותו — כך המתכנן לא צריך להוסיפו ידנית בכל פתיחה.\n\n**VBA לנוסחאות ב-Local Members** — בארגון מאקרו מוסיף אוטומטית שלושה Local Members — Accuracy, Bias, MAPE — לכל SKU בכל תצוגת-ביקוש, כך שכל מתכנן-מדינה רואה אותם KPIs בלי להגדירם.\n\nמאקרו רץ ומוסיף Local Member עם הנוסחה Forecast/SalesHistory לכל שורה בגריד, ומעצב כאחוז; המתכנן פותח את התצוגה והעמודה כבר שם, מעודכנת.\n\n**Visual Basic for Applications: Hooks** — בארגון hook של pre-Save חוסם פרסום של תחזית מתחת/מעל ספים-עסקיים, ו-hook של post-Refresh מחיל את עיצוב-ה-Formatting-Sheet ומוסיף Local Members — בקרת-איכות ואחידות אוטומטיות לכל הצוות.\n\nkey user מגדיר שגרת pre-Save שמוודאת שאין ערכים שליליים בתחזית; אם יש — היא מבטלת את ה-Save ומציגה הודעה. שגרת post-Refresh מזריקה Local Members של KPIs."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -14398,12 +13984,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "Local Members/Formatting Sheet/hooks = התאמות עמידות-לרענון.",
      "Excel ו-Planner Workspaces משלימים זה-את-זה ב-IBP cloud."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון המחזור החודשי: עדכון נתוני-אב לעונה ► template אחיד \"הארגון S&OP Demand\" ► מתכנני-מדינה עורכים תחזית ► Planner Workspace משותף לישיבת ה-S&OP עם alerts ו-charts ► hooks מבצעים ולידציה ומחשבים KPIs אוטומטית.\n\nזרימה מלאה: key user מתחזק Master Data ויוצר planning objects ► בונה template עם Formatting Sheet ► מתכנן פותח planning view, עורך ו-Save Data ► מנטר ב-Planner Workspace עם custom alerts ► VBA מזריק Local Members של KPIs אחרי כל Refresh."
    },
    {
     "kind": "flow",
@@ -14602,12 +14182,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "IBP מתרגם תוכנית-תפעולית לשפה פיננסית מול Business Plan.",
      "התוצר: consensus plan מאושר."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון (מפעל-מילוי Example Product) ארבעת מדדי-הליבה: (1) forecast accuracy = 1 − MAPE לכל SKU-משקה, (2) fill rate — אחוז הזמנות-קמעונאים שסופקו במלואן, (3) OTIF — On-Time-In-Full ללקוחות-רשת, (4) inventory — Days of Supply של מוצר-מוגמר וחומרי-אריזה. מדדים אלה נסקרים בכל מחזור-S&OP, מפולחים לפי מותג, אריזה ואזור-הפצה.\n\nמחזור-S&OP חודשי: בתחילת החודש נסגר snapshot של התחזית הקודמת. עם סגירת-החודש נטענים actuals. IBP מחשב אוטומטית forecast accuracy (1 − MAPE) ו-bias לכל מוצר/לקוח, fill rate ו-OTIF מנתוני-ההזמנות, ורמות-inventory מול היעד. לוח-המדדים מסמן בצבעים (Alerts) היכן חרגנו מהסף, וכל מפגש-סקירה מתחיל מהחריגות.\n\n**כיצד עובדים מדדי-ביצוע** — בארגון: forecast accuracy ל-SKU 'פחית 330 מ\"ל' = 1 − MAPE, נמדד ב-lag-1; bias חיובי עקבי מגלה ש'אנחנו תמיד מתחת לתחזית' לקראת הקיץ — תובנה שמובילה לעדכון מוקדם של תכנית-הקיץ. היעד 90%, הסף 85%.\n\nבסוף החודש IBP משווה את התחזית-שננעלה (lag-1) מול ה-actuals: |1000 − 850| / 850 = 17.6% שגיאה → MAPE; accuracy = 82.4%. ה-bias שלילי (חזינו יותר ממה שנמכר) → נטייה לעודף-תחזית. Custom Alert בסף 85% נדלק ומפנה את צוות-הביקוש לתחקיר.\n\n**שימוש במדדי-ביצוע ב-SAP IBP** — בארגון מנהל-תפעול רואה Dashboard עם fill rate, OTIF ו-inventory לפי אזור-הפצה; מתכנן-הביקוש עובד ב-Excel add-in על forecast accuracy ברמת-SKU; Custom Alert שולח רשימת SKUs שחרגו מ-85% accuracy לפני המפגש.\n\nלקראת מפגש Demand Review: המתכנן מנתח חריגות-accuracy ב-Excel add-in, מנהל-הביקוש סוקר את אותם מדדים בלוח-Dashboard, ו-Custom Alert כבר סימן את עשרת ה-SKUs הגרועים. כולם — אותו Key Figure, אותו snapshot.\n\n**מדדי סקירת-ביקוש** — בארגון Demand Review סוקר forecast accuracy לפי מותג ואריזה: 'דיאט בפחית' מדויק (91%) אך 'מהדורה-מוגבלת' גרוע (65%) עקב מבצעים. bias מגלה ניפוח-תחזית למבצעים; FVA מנחה אם להמשיך בהתערבות-הידנית.\n\nDemand Review: הצוות סוקר accuracy ברמת-מותג (88%) ומגלה שמותג-אחד מושך מטה (72%). drill-down ל-SKU מראה bias חיובי עקבי — התחזית-הידנית מנופחת. FVA שלילי מאשר שההתערבות הזיקה; ההחלטה: לחזור למודל-הסטטיסטי לאותו מותג.\n\n**מדדי סקירת-אספקה** — בארגון Supply Review: ניצולת-קווי-המילוי לקראת הקיץ מגיעה ל-110% — צוואר-בקבוק. ההחלטה: build-ahead של מותגי-ליבה בחורף כדי להגדיל DoS לפני השיא, תוך ניטור עלות-המלאי הנוסף מול סיכון-fill-rate.\n\nSupply Review: ה-run מראה capacity utilization 105% בקו-מילוי בשבוע-שיא — אי-אפשר לספק. הצוות בוחן אלטרנטיבות: build-ahead (להקדים ייצור ולהגדיל מלאי), משמרת-נוספת, או דחיית-ביקוש. DoS הצפוי לאחר build-ahead נבדק מול יעד-המלאי.\n\n**מדדי סקירה-תפעולית** — בארגון Operating Review מאחד תכנית-ביקוש-קיץ עם קיבולת-המילוי: fill rate צפוי 96%, OTIF 93% לרשתות עקב צוואר-בקבוק. inventory turns יורד עקב build-ahead. ה-trade-off (שירות-לרשתות מול הון-חוזר) מוכן להכרעת-ההנהלה.\n\nOperating Review: התוכנית המאוחדת מראה OTIF צפוי 94% מול יעד 97% עקב demand-supply gap בשני מותגים. הצוות מציע: הסטת-קיבולת ממותג-איטי, או קבלת ירידת-מלאי. הסוגיה (עלות מול שירות) מועברת כהחלטה ל-Executive Review.\n\n**מדדי סקירה-ניהולית** — בארגון Executive Review: revenue/volume attainment לקיץ, margin אחרי עלות-build-ahead, working capital כלוא במלאי-משקאות, ו-OTIF ארגוני לרשתות. ההנהלה מכריעה בין שירות-לרשתות-המפתח לבין יעד-המזומן, ומאשרת תוכנית אחת.\n\nExecutive Review: ההנהלה רואה revenue attainment 98% מול תוכנית אך margin מתחת ליעד עקב עלות build-ahead. שני תרחישים מוצגים: 'שירות-מקסימלי' (OTIF 97%, מזומן נמוך) מול 'מזומן-מאוזן' (OTIF 94%, מלאי נמוך). ההנהלה בוחרת ומאשרת את ה-consensus plan."
    },
    {
     "kind": "flow",
@@ -14985,12 +14559,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון מדדי-קיימות: CO2e לליטר-משקה (ייצור+הובלה), אחוז-PET-ממוחזר באריזה, צריכת-מים-לליטר (water ratio) ופסולת-לפסולת-אפס. תוכנית-קיץ עם build-ahead נבחנת גם מול יעד-הפליטות; אופטימיזציה של רשת-ההפצה מצמצמת ק\"מ-משאית ופליטות.\n\nתרחיש-אספקה: build-ahead מרכזי מקטין עלות-ייצור אך מגדיל הובלות-חירום (פליטות גבוהות). ה-Operating Review משווה שני תרחישים גם ב-carbon footprint: התרחיש ה'זול' מזהם 12% יותר. ההנהלה בוחרת תרחיש-ביניים שעומד גם ביעד-הפליטות."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -15183,12 +14751,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "Analyze נשען על RCA; Measure/Control על Key Figures ו-Alerts.",
      "Control הוא מה שהופך שיפור לנשמר."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון ירידה-חוזרת ב-fill rate של מותג-קיץ מנוהלת בלולאה: Alert ➔ root-cause (חוסר-בקבוקים מספק) ➔ DMAIC (חוזה-אספקה + safety stock) ➔ balanced scorecard מאזן שירות/עלות/קיימות ➔ Control מוודא יציבות לאורך הקיץ.\n\nCustom Alert מסמן ירידת-OTIF. במקום תיקון-נקודתי, הצוות מפעיל root-cause (5 Whys) ומגלה כשל-תזמון-חוזר; פותח פרויקט-DMAIC קצר; מוסיף את ה-OTIF ל-balanced scorecard עם בעלים ויעד; ובקרת-ה-Control מוודאת שהשיפור נשמר במחזורים הבאים.\n\n**כרטיס-ניקוד מאוזן** — בארגון scorecard ל-S&OP: Financial = margin-לליטר; Customer = OTIF-לרשתות; Process = forecast accuracy ו-line adherence; Learning & Growth = אימוץ-IBP ובשלות-S&OP. קיימות מתווספת כמבט-חמישי (CO2e לליטר).\n\nExecutive Review סוקר scorecard: Financial ירוק, אך Customer (OTIF) אדום ו-Internal Process (accuracy) צהוב. הקשר-הסיבתי מצביע: accuracy-נמוך ➔ OTIF-נמוך. ההחלטה ממקדת השקעה בשיפור-accuracy (מבט-תהליך) כדי לרפא את מבט-הלקוח.\n\n**ניתוח שורש-הבעיה** — בארגון נפילת fill rate בקיץ: Fishbone חושף — Material (חוסר-בקבוקים מספק), Method (safety stock נמוך), Measurement (תחזית-מבצע שגויה). השורש הדומיננטי: חוזה-אספקת-בקבוקים לא-מותאם-לשיא. תיקון בשורש מונע חזרה בקיץ הבא.\n\nOTIF צנח. 5 Whys: למה? משלוחים-מאוחרים. למה? חוסר-מלאי-מוגמר. למה? תחזית-נמוכה-מדי. למה? לא שוקלל מבצע. למה? נתוני-המבצע לא הגיעו ל-Demand Planning בזמן ➔ שורש = ממשק-נתונים. התיקון: אוטומציית-ממשק, לא רק 'להזמין-עוד'.\n\n**הגדרה, מדידה, ניתוח, שיפור ובקרה** — בארגון DMAIC לשיפור fill rate בקיץ: Define (fill rate 91%→97%); Measure (baseline + פילוח-מותג); Analyze (חוסר-בקבוקים); Improve (חוזה-אספקה + safety stock דינמי); Control (Alert על DoS-בקבוקים ותקנון-הזמנה). השיפור נשמר לאורך הקיץ.\n\nפרויקט-DMAIC לשיפור forecast accuracy: Define — accuracy 78%, יעד 90% למותג-מפתח. Measure — baseline + פילוח-שגיאה. Analyze — RCA: מבצעים לא-משוקללים. Improve — שילוב לוח-מבצעים בתחזית; פיילוט. Control — Custom Alert על accuracy + תקנון-תהליך-מבצעים. accuracy עלה ל-89% ונשמר."
    },
    {
     "kind": "flow",
@@ -15459,12 +15021,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון המסע: forecast accuracy לפי מותג ➔ ניצולת-קווי-מילוי ➔ fill rate ו-OTIF לרשתות ➔ margin אחרי build-ahead ➔ CO2e לליטר ➔ Alert+RCA+DMAIC על fill-rate-קיץ ➔ scorecard המאזן שירות/עלות/קיימות. כל קיץ טוב מהקודם.\n\nמחזור-S&OP שלם בעדשת-מדדים: snapshot ➔ actuals ➔ accuracy/bias (Demand) ➔ utilization/DoS (Supply) ➔ fill rate/OTIF (Operating) ➔ revenue/margin (Executive) ➔ CO2e (קיימות) ➔ Alert על חריגה ➔ RCA+DMAIC ➔ scorecard מאוזן ➔ מחזור משופר."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -15654,12 +15210,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "מחיקה מצריכה בדיקת-תלויות ב-Dashboards.",
      "מוסכמת-שמות, Owner והרשאות-נתונים שומרים על ספרייה נקייה ומאובטחת."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון (מפעל-מילוי Example Product) Advanced Analytics מציג: גרף-קו של תחזית-מכירות מול actuals למשקה לפי שבוע, גרף-עמודות מוערם (stacked bar) של מלאי מוצר-מוגמר לפי מותג ואריזה, וגרף-מפל (waterfall) של פער supply מול demand לעונת-השיא. כל גרף ניתן לפילוח לפי מותג, אריזה ואזור-הפצה לפני מפגש-ה-Demand Review.\n\nמתכנן-ביקוש פותח גרף-קו של Demand: ציר-זמן 18 חודשים, סדרה אחת actuals וסדרה שנייה statistical forecast. הוא מסנן ל-SKU בודד, מזהה ביקוש-יתר עונתי שהמודל לא תפס, ומוסיף סדרת consensus demand. מאותו גרף הוא גולש (drill-down) לרמת-לקוח לאיתור המקור — הכול בלי לעזוב את ה-Web UI.\n\n**סוגי אנליטיקה וגרפים** — בארגון: Line לתחזית-מכירות שבועית של Coke Zero; Column להשוואת OTIF בין מרכזי-הפצה; Stacked Bar למלאי מוצר-מוגמר לפי מותג; Waterfall לפער supply-demand בקיץ; Combination ל-Days of Supply (עמודות) מול forecast accuracy (קו).\n\nמתכנן בוחר: למגמת-תחזית 18 חודשים → Line; להשוואת fill rate בין אזורים → Column; להרכב-מלאי לפי קטגוריה → Stacked Bar; לפער demand-supply לעונה → Waterfall; ולקשר בין מחיר-מבצע לביקוש → Scatter.\n\n**יצירת גרפי אנליטיקה מתקדמת** — בארגון מתכנן-הביקוש בונה גרף 'Coke 1.5L — actuals מול forecast' לפי שבוע, עם פילטר אזור-מרכז ו-Version של מחזור-S&OP הנוכחי, ושומר אותו ל-Dashboard של ה-Demand Review.\n\nמתכנן בונה גרף 'תחזית מול בפועל לרבעון': New Chart → Planning Area של Demand → Key Figures: Sales Actuals + Consensus Demand → Time Profile רבעוני → Chart Type Column-Combination → פילטר מותג → Version נעול → Save בשם משותף.\n\n**ניהול גרפי אנליטיקה מתקדמת** — בארגון צוות-התכנון מתחזק ספריית-גרפים מאורגנת לפי מפגש (Demand/Supply/Operating Review); אדמין-IBP מנהל הרשאות כך שמנהל-אזור רואה רק את אזורו, ומסיר גרפי-עונה ישנים בסוף כל שנה.\n\nאדמין מבצע סדר רבעוני: ממזג שני גרפי-מלאי כפולים, מעדכן מוסכמת-שמות, מסיר גרפים שלא נצרכו, מגדיר Owner לכל גרף נותר, ומוודא שכל Dashboard עדיין מצביע לגרף הנכון."
    },
    {
     "kind": "flow",
@@ -15908,12 +15458,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון קיים Dashboard לכל מפגש: Demand Review (תחזית מול actuals לפי מותג), Supply Review (קיבולת-מילוי מול תוכנית), ו-Executive S&OP (KPI-tiles ראשיים + פער-תוכנית-כספית). Global Filter של אזור-הפצה מאפשר למנהל-אזור לראות את כל הלוח דרך עיניו בלחיצה אחת.\n\nמנהל-תפעול פותח את Dashboard ה-Operating Review: בראש — KPI-tiles של forecast accuracy, fill rate, OTIF ו-Days of Supply; מתחת — גרף-קו demand מול supply, גרף-עמודות מלאי לפי קטגוריה, וטבלת-חריגות (Alerts). בחירת-אזור ב-Global Filter מעדכנת מיד את כל הרכיבים.\n\n**יצירת לוחות-מחוונים מתקדמים** — בארגון אדמין-IBP בונה את Dashboard ה-Demand Review של מחזור-S&OP: KPI-tiles של forecast accuracy לפי מותג, גרף actuals-מול-forecast, וטבלת-חריגות, עם Global Filter של אזור-הפצה, ומשתף לצוות-הביקוש.\n\nאדמין בונה Operating Review Dashboard: Layout בן 4 אזורים → KPI-tiles (accuracy/fill rate/OTIF/DoS) למעלה → גרף demand-supply ומלאי באמצע → טבלת-Alerts למטה → Global Filter אזור+מותג → Save & Share לקבוצת-התפעול.\n\n**שימוש בלוחות-מחוונים מתקדמים** — בארגון במפגש-ה-S&OP מנהל-תפעול פותח את Dashboard ה-Operating Review, מסנן לאזור-מרכז, מזהה Alert של OTIF נמוך לרשת-קמעונאות, גולש למותג ולקו-מילוי, ומשווה Version 'תוכנית' מול 'What-if תוספת-משמרת'.\n\nבמפגש Supply Review מנהל פותח את הלוח, מסנן לאזור-בעייתי, רואה Alert-tile אדום של מלאי-נמוך, גולש ל-SKU הבעייתי, מחליף Version ל-What-if של הגדלת-קיבולת, ורואה את ההשפעה על כל הגרפים מיד.\n\n**ניהול לוחות-מחוונים מתקדמים** — בארגון צוות-התכנון מתחזק ספריית-לוחות לפי מפגש (Demand/Supply/Operating/Executive); אדמין-IBP מנהל הרשאות לפי תפקיד, מעדכן לוחות אחרי שדרוג-ענן, ומסיר לוחות-עונה ישנים בסוף שנה.\n\nאדמין מבצע תחזוקה רבעונית: מעדכן לוחות שגרף-מקור שלהם השתנה, ממזג לוחות-כפולים, מיישר מוסכמת-שמות, מגדיר Owner לכל לוח, מסיר לוחות-עונה ישנים, ובודק לוחות מול יכולות חדשות שהגיעו ב-release האחרון."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -16141,12 +15685,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון כל מחזור-S&OP מתנהל סביב ארבעה לוחות (Demand/Supply/Operating/Executive), הבנויים על גרפים של תחזית-מול-actuals, מלאי, fill rate ו-OTIF, מסוננים לפי מותג, אריזה ואזור — כך שכל מפגש נפתח מתמונה-אחת מסונכרנת.\n\nמחזור-S&OP מלא נצרך דרך לוחות: Demand Review נפתח מלוח-דיוק-תחזית, Supply Review מלוח-קיבולת-ומלאי, ו-Executive S&OP מלוח-KPI-ראשי ופער-תוכנית — כל אחד בנוי על גרפי-Advanced-Analytics נקיים ומסונן ב-Global Filter."
-   },
-   {
     "kind": "tables",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -16318,12 +15856,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "הבחירה נקבעת לפי latency נדרש — אל תשלם על RTI כש-batch מספיק.",
      "Master Data לפני Transaction Data, ו-ID mapping עקבי בכל הזרמים."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון (מפעל-בקבוק של Example Product): מערך-ה-S/4HANA מנהל ייצור-משקאות, מלאי-תרכיז ומכירות לרשתות. בכל לילה CI-DS מעביר ל-IBP cloud את מכירות-המשקאות לפי SKU/לקוח/שבוע, מלאי-מוגמר במחסנים, ופק\"עות-המילוי הפתוחות. ה-IBP מחשב תחזית-ביקוש עונתית (קיץ vs חורף) ומחזיר תכנית-אספקה לקווי-המילוי. עונת-שיא (קיץ) דורשת לעיתים RTI לעדכון מהיר של מלאי בין מרכזי-הפצה.\n\nארגון מריץ S&OP חודשי: בכל לילה CI-DS מושך מ-S/4HANA את היסטוריית-המכירות (VBAK/VBAP), רמות-המלאי (MARD) והזמנות-הלקוח הפתוחות, וטוען אותם ל-Planning Area ב-IBP כ-Key Figures. בסוף מחזור-התכנון, התחזית המאושרת ותכנית-האספקה מיוצאות חזרה ל-S/4HANA דרך CI-DS להזנת MRP. במקביל, צוות-התגובה משתמש ב-RTI (SDI) לסנכרון אד-הוק של הזמנות דחופות."
    },
    {
     "kind": "flow",
@@ -16511,12 +16043,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "מגדירים ברמת-Planning Area, מפרסמים endpoint, ומאמתים דרך Communication Arrangement.",
      "תמיד $filter/$select ומינימום-חשיפה — ביצועים ואבטחה."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: S&OP חודשי לכל קטגוריות-המשקה. CI-DS טוען מכירות-עבר לפי SKU/רשת/שבוע ומלאי-מוגמר. מנהל-הביקוש מזין ידנית דרך ה-Web UI תכניות-קידום (מבצעי-קיץ, חגים) שמקורן בשיווק ולא ב-S/4HANA. התחזית המאושרת מיוצאת ב-OData ל-SAC לדוחות-הנהלה.\n\nמחזור-S&OP חודשי: בלילה ה-1 לכל חודש CI-DS טוען היסטוריית-מכירות 24 חודשים אחורה ל-IBP. הביקושן (Demand Planner) מעדכן ידנית דרך ה-Web UI הנחות-קידום-מכירות שאין להן מקור ב-S/4HANA. אחרי הרצת-התכנון, OOData service חושף את התחזית המאושרת ל-Data Warehouse ארגוני.\n\n**SAP Cloud Integration for Data Services** — בארגון: CI-DS Agent רץ ב-data center של המבקבק; Task יומי מושך מכירות-משקאות ומלאי-מחסנים מ-S/4HANA, ממיר ליחידות-מארז ולשבועות, וטוען ל-Planning Area של IBP. delta load מעביר רק חשבוניות-חדשות כדי לקצר זמן-ריצה בעונת-שיא.\n\nTask 'Load Sales History': source = CDS view של חשבוניות (VBRP) ב-S/4HANA, transform = aggregate לרמת SKU/לקוח/שבוע + מיפוי MATNR→Product ID, target = Key Figure ACTUALSQTY ב-Planning Area. ה-Process המכיל אותו מתוזמן לרוץ כל לילה ב-02:00; ניטור הסטטוס דרך ה-dashboard.\n\n**אינטגרציה ידנית של נתונים באמצעות הממשק האינטרנטי** — בארגון: מנהל-השיווק מזין דרך ה-Web UI את תכנית-המבצעים לקיץ (הנחות-מחיר, 1+1) ל-Key Figure ידני; ב-Excel Add-in צוות-המכירות מתאים ידנית יעדים לפי רשת. נתונים אלה אין להם מקור ב-S/4HANA ולכן מוזנים ידנית, ומופרדים מ-Key Figures שמקורם CI-DS.\n\nמנהל-הביקוש פותח Planning View ב-Excel Add-in, מסנן לקטגוריה ולתקופה, ומזין ידנית גידול-ביקוש צפוי לקראת קידום-מכירות. הערך נכתב ל-Key Figure 'Promotion Uplift' ב-Planning Area ומשתתף מיד בחישוב התחזית הכוללת.\n\n**ייצוא נתוני Key Figure באמצעות שירותי OData** — בארגון: SAP Analytics Cloud (SAC) ומחסן-הנתונים של המבקבק קוראים את התחזית ותכנית-האספקה מ-IBP דרך OData. מנהלי-הקטגוריות רואים בדשבורד SAC את הביקוש-המוסכם לכל משקה, נמשך ישירות מ-IBP בלי ייצוא-קבצים ידני.\n\nמחסן-נתונים ארגוני קורא בכל בוקר את התחזית המאושרת מ-IBP דרך OData service: בקשת-HTTP עם $filter לחודש ולקטגוריה מחזירה את ה-Key Figure 'Consensus Demand'. הנתון נטען לדוחות-ה-BI בלי קובץ-ביניים."
    },
    {
     "kind": "flow",
@@ -16747,12 +16273,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון בעונת-קיץ: רשת-קמעונאות מגדילה הזמנה לפתע. דרך RTI/SDI ההזמנה מגיעה ל-IBP for Response & Supply תוך דקות; המערכת מזהה מחסור-מלאי במרכז-הפצה אחד ומקצה מ-מרכז-סמוך, או מתעדפת פק\"עת-מילוי. ללא RTI, התגובה הייתה מתעכבת עד הטעינה-הלילית — מאוחר מדי לעונת-שיא.\n\nהזמנת-לקוח דחופה נכנסת ל-S/4HANA. דרך SDI/RTI היא מסונכרנת כמעט-מיידית ל-IBP for Response & Supply. מנוע-התגובה מריץ allocation מחדש, מזהה מחסור, ומציע deployment ממרכז-הפצה חלופי — הכל מבוסס על מלאי-עכשווי ולא על snapshot לילי."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -16933,12 +16453,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: התכנית-התפעולית למשקאות מוזנת ל-SAC לבדיקת-רווחיות מול תקציב-השנה (עלות-תרכיז, מחיר-מכירה); דשבורד-הנהלה מציג ביקוש מול הכנסה. במקביל, עסקאות-מכר חדשות עם רשתות חדשות ב-C4C מוזרמות ל-IBP ומגדילות את תחזית-הביקוש לאזורים הרלוונטיים.\n\nבמחזור-S&OP: התכנית-הכמותית מ-IBP מוזנת ל-SAC, שמתרגם אותה להכנסה ולרווח ומשווה לתקציב; פערים מוחזרים לדיון. במקביל, הזדמנויות-מכר מ-C4C מוזרמות ל-IBP ומשמשות אות-ביקוש לתחזית — pipeline משוקלל-הסתברות מתווסף ל-Demand Plan.\n\n**אינטגרציה פיננסית עם SAP Analytics Cloud** — בארגון: תחזית-המשקאות מ-IBP נטענת ל-SAC; SAC מתרגם להכנסה (מחיר-מארז) ולעלות (תרכיז, סוכר, אריזה) ומציג רווחיות לפי קטגוריה מול תקציב-השנה. הנהלת-המבקבק רואה בדשבורד SAC שמבצע-קיץ אגרסיבי מגדיל נפח אך שוחק שוליים — קלט להחלטת-S&OP.\n\nתחזית-הביקוש מ-IBP (יחידות לפי מוצר/תקופה) נטענת ל-SAC דרך OData. SAC מכפיל במחיר-מכירה ובעלות-תקן, מחשב הכנסה ורווח, ומשווה לתקציב. מנהל-הכספים מזהה שתרחיש-הביקוש פוגע ברווחיות קו-מוצר ומזין משוב למחזור-ה-S&OP הבא.\n\n**אינטגרציית הזדמנויות עם SAP Cloud for Customer** — בארגון: צוות-המכירות סוגר עסקה לאספקת משקאות לרשת-מלונות חדשה — מתועד כ-opportunity ב-C4C. האינטגרציה מזרימה אותו ל-IBP, משוקלל בהסתברות, ומגדיל את תחזית-הביקוש לאזור ולקטגוריה — קווי-המילוי מתוכננים מראש לנפח הנוסף.\n\nמנהל-מכירות מזין ב-C4C opportunity חדש: 500K יחידות, הסתברות 70%, סגירה צפויה ברבעון הבא. האינטגרציה מזרימה את ההזדמנות ל-IBP; היא משוקללת ל-350K יחידות ומתווספת ל-Demand Plan לתקופה ולמוצר הרלוונטיים, ומשפיעה על תכנית-האספקה."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -17087,12 +16601,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "SAC ו-C4C מרחיבים את S&OP לממד פיננסי ומסחרי.",
      "Master Data, ID mapping ו-periodicity הם העקרונות החוצים את הכל."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון, התמונה המלאה: CI-DS מזין מכירות-משקאות ומלאי מ-S/4HANA; שיווק מזין מבצעי-קיץ ידנית; C4C מזרים עסקאות-רשתות חדשות; IBP מתכנן ביקוש ואספקה עונתיים; SAC מאמת רווחיות מול תקציב; OData מזין דשבורדי-הנהלה; RTI מאפשר תגובה מהירה בעונת-שיא. כך S&OP של המבקבק מבוסס על מציאות מלאה.\n\nמחזור-S&OP מלא: CI-DS טוען בלילה היסטוריה ומלאי; מתכננים מזינים ידנית קידומים ב-Web UI; C4C מזרים pipeline משוקלל; IBP מריץ תחזית ותכנית-אספקה; SAC בודק רווחיות מול תקציב; OData חושף את התחזית המאושרת ל-BI; ובמקביל RTI מסנכרן הזמנות-דחופות ל-Response & Supply. כל המנגנונים יחד = תכנון משולב."
    },
    {
     "kind": "flow",
@@ -17259,12 +16767,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "השכבות פועלות כ-AND — חוסר באחת חוסם.",
      "permission filters הם מה שהופך אבטחה ל'מי רואה אילו נתונים', לא רק 'מי נכנס'."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון (מבקבק Example Product): מתכנן-הביקוש של אזור הצפון רואה רק את ה-SKUs והמפעלים של הצפון; מתכנן-האספקה הארצי רואה את כל המפעלים אך יכול לשנות רק תכניות-ייצור; מנהל-המכירות מקבל role של Viewer בלבד — רואה תחזיות אך לא משנה. כל זה נאכף בשלוש השכבות יחד.\n\nארגון גלובלי מקים IBP: צוות-האבטחה מגדיר תחילה את הזהויות ב-Cloud Identity, יוצר business roles לכל פרסונה (Demand Planner, Supply Planner, Viewer), מרכיב כל role מ-business catalogs מתאימים, ולבסוף מצרף permission filters שמגבילים כל מתכנן לאזורו ולמוצריו. בדיקת-קבלה: כל פרסונה נכנסת ומוודאת שהיא רואה בדיוק את מה שתוכנן — לא פחות ולא יותר."
    },
    {
     "kind": "flow",
@@ -17446,12 +16948,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "חברות מרובת-קבוצות = הרשאות מצטברות.",
      "מדל לפי פרסונה; אפס הקצאות ישירות."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: עובד-תכנון חדש באזור הצפון מתווסף ל-user group 'הארגון-North-Demand'. הקבוצה מעניקה role של Demand Planner + permission filter שמגביל ל-Region=North. עובד שעובר לאספקה ארצית — מוסר מהקבוצה הישנה ומתווסף ל-'הארגון-National-Supply'; ההרשאות מתחלפות אוטומטית.\n\nמתכנן חדש מצטרף: צוות-ה-IT פותח לו זהות ב-Cloud Identity, יוצר משתמש מקביל ב-IBP, ומשייך אותו ל-user group 'Demand Planners – North'. הקבוצה כבר נושאת את ה-business role ואת ה-permission filters המתאימים — כך המתכנן מקבל את כל ההרשאות הנכונות מהרגע הראשון, בלי הגדרה פרטנית.\n\n**יצירת משתמשים (Creating Users)** — בארגון קליטת 20 מתכננים חדשים נעשית בייבוא-CSV: כל שורה כוללת דוא\"ל, שם ו-user group ('הארגון-North-Demand'). כך כולם מקבלים את אותו role ואת אותו permission filter בלחיצה אחת.\n\nה-IT מקבל בקשת-onboarding: פותח משתמש ב-Manage Users, מזין דוא\"ל ארגוני, משייך ל-user group של הצוות, ושומר. המשתמש מקבל מייל להגדרת-סיסמה ונכנס עם ההרשאות הנכונות.\n\n**קבוצות משתמשים (User Groups)** — בארגון קיימות קבוצות: 'הארגון-North-Demand', 'הארגון-South-Demand', 'הארגון-National-Supply', 'הארגון-Exec-Viewer'. כל קבוצת-ביקוש-אזורית נושאת role של Demand Planner + permission filter לפי Region; קבוצת-ה-Viewer נושאת read criteria בלבד על כל האזורים.\n\nארגון מגדיר 6 user groups לפי פרסונות. כל הרשאה — role ו-permission filter — מוצמדת לקבוצה. ב-30 העברות-עובדים בשנה, צוות-האבטחה רק מחליף חברות-קבוצה; אף הרשאה פרטנית לא נוגעת."
    },
    {
     "kind": "flow",
@@ -17640,12 +17136,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: role 'הארגון Demand Planner' = catalogs לתכנון-ביקוש + ניתוחים (Excel + Web); role 'הארגון Supply Planner' = catalogs לתכנון-אספקה + מודל-הזמנה; role 'הארגון Sales Viewer' = catalog ניתוחים ב-display בלבד — מנהלי-מכירות רואים תחזיות אך לא נוגעים בהן.\n\nמימוש: צוות-האבטחה מגדיר role 'Demand Planner' ומרכיב אותו מ-catalogs של Demand Planning + Analytics (display) + Excel Planning. role 'Viewer' מורכב מ-catalogs של Analytics ב-display בלבד. כל role נבדק מול הפרסונה לוודא שהאפליקציות והפעולות מתאימות בדיוק."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -17817,12 +17307,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "write נפתח בשלב הרלוונטי ונסגר ('הקפאה') בשאר.",
      "מאחד permission filters עם ה-process/collaboration layer."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: מתכנן-הצפון — read: Region=North, write: Region=North. מתכנן-האספקה הארצי — read: כל ה-Regions, write: רק key figures של אספקה. מנהל-מכירות — read: כל ה-Regions, ללא write כלל (Viewer). כל זה דרך permission filters שמוצמדים ל-user groups.\n\nמתכנן-ביקוש אזורי מקבל permission filter עם read criteria: Region=North וכן write criteria: Region=North AND ProductFamily=Beverages. כך הוא רואה את כל נתוני-הצפון, אך משנה תחזיות רק למשפחת-המשקאות — לא לחטיפים שמנוהלים בידי מתכנן אחר.\n\n**קריטריוני קריאה (Read Criteria)** — בארגון: read של מתכנן-הצפון = Region=North; read של אנליסט-הביקוש הארצי = כל ה-Regions; read של מנהל-מותג = ProductBrand=Example Product בכל האזורים.\n\nמתכנן-הצפון מקבל read: Region=North. בפתיחת planning view הוא רואה רק SKUs ומיקומי-הצפון; נתוני-הדרום אינם מופיעים כלל, גם לא באגרגציה.\n\n**קריטריוני כתיבה (Write Criteria)** — בארגון: מתכנן-אספקה — read: כל המפעלים, write: רק key figures של תכנית-ייצור (לא תחזית-ביקוש). מנהל-מכירות (Viewer) — write ריק לחלוטין: רואה הכל, משנה כלום.\n\nאנליסט-ביקוש ארצי: read = כל ה-Regions (נראות מלאה לתיאום), write = Region=North בלבד (האזור באחריותו). הוא רואה את כל המדינה אך עורך רק את הצפון; שאר התאים נעולים.\n\n**מסנני הרשאות בשלב התהליך (Permission Filters in the Process Stage)** — בארגון: בשלב 'Demand Consensus' מתכנני-האזורים עורכים תחזיות; משננעל השלב, ב-'Supply Review' רק צוות-האספקה הארצי עורך תכניות-ייצור, והאזורים עוברים ל-read-only — כך התחזית 'מוקפאת' ומספר-אחד-אמין מוזן לאספקה.\n\nמחזור S&OP חודשי: בשלב 1 (Demand Review) מתכנן-הביקוש עם write על key figure של תחזית; בשלב 2 (Supply Review) ה-write שלו נסגר (read-only) ומתכנן-האספקה מקבל write על תכנית-הייצור; בשלב 4 (Exec Approval) כל ה-write ננעל פרט למאשר."
    },
    {
     "kind": "flow",
@@ -18025,12 +17509,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון הגלובלי: SSO מול Azure AD דרך Cloud Identity; tenant-Production ל-IBP החי ו-tenant-Test לבדיקות; CPI טוען SKUs, מפעלים ולקוחות מ-S/4HANA מדי לילה; audit logs מתעדים מי ניגש לנתוני-תחזית רגישים.\n\nמימוש: צוות-הבסיס מגדיר SSO מול ה-IdP הארגוני ב-Cloud Identity, מקים tenant נפרד ל-Test, מגדיר CPI/Cloud Connector לטעינת Master Data מ-S/4HANA, ומפעיל audit logging. רק לאחר שהתשתית מוכנה מקצים את ה-roles וה-permission filters."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Sales & Operations Planning",
@@ -18196,12 +17674,6 @@ export const SOP_GENERATED_LESSONS: Record<string, Lesson> = {
      "עקרונות: least privilege, user groups, write ⊆ read, הקפאה בין-שלבים.",
      "מימוש מאובטח דורש תכנון-שכבות משולב ובדיקת-קבלה פר-פרסונה."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Sales & Operations Planning",
-    "md": "בארגון: מתכנן-צפון (role Demand Planner, filter Region=North, עורך בשלב-הביקוש), מתכנן-אספקה ארצי (read כל-הארץ, write תכנית-ייצור בשלב-האספקה), מנהל-מכירות (Viewer, read בלבד) — כולם מנוהלים דרך user groups, על tenant-Production עם נתונים מ-S/4HANA. דוגמה חיה לכל מה שנלמד.\n\nמימוש-לדוגמה מלא: הגדרת זהויות ו-SSO → יצירת user groups לפי פרסונה → בניית business roles מ-catalogs → הצמדת permission filters (read/write) → קישור הרשאות ל-process stages → טעינת Master Data דרך CPI → בדיקת-קבלה לכל פרסונה ובכל שלב."
    },
    {
     "kind": "flow",

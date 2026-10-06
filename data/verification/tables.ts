@@ -2852,7 +2852,7 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
         sapNote: "2267140",
         claim:
           "רובד המאגר: רשומת ההשפעה של MARA קובעת 'MATNR הורחב מ-18 ל-40 תווים. מבנה נשמר' (trust: verified, risk: " +
-          "medium), עם שורת שדה MATNR‏ CHAR 18 ב-ECC מול CHAR 40 ב-S/4HANA ובדיקת ממשק Zetes / Daymax עם חומר באורך " +
+          "medium), עם שורת שדה MATNR‏ CHAR 18 ב-ECC מול CHAR 40 ב-S/4HANA ובדיקת ממשק חיצוני עם חומר באורך " +
           "מלא. SAP Note 2267140 מצוטט כלשונו ברשומת המאגר. MARA אינה נכללת בסט S4_STABLE באותו קובץ.",
         verificationLevel: "repository_verified",
         repoRef: "data/s4-impact.ts#MARA",
@@ -2886,7 +2886,7 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
       source: MARA_EXT_MATNR,
       recommendedAction:
         "אין צורך בהחלפת הטבלה: נתוני האב הכלליים נשארים ב-MARA. לפני ההסבה להחליט אם מפעילים את מספר החומר " +
-        "המורחב (40 תווים). בכל מקרה לבדוק קוד Z, ממשקים (Zetes / Daymax), IDoc MATMAS, ברקודים ותוויות שמניחים " +
+        "המורחב (40 תווים). בכל מקרה לבדוק קוד Z, ממשקים חיצוניים, IDoc MATMAS, ברקודים ותוויות שמניחים " +
         "18 תווים או משתמשים ב-offset קבוע על MATNR (רובד המאגר; SAP Note 2267140 מרשומת s4-impact). לפיתוח חדש " +
         "ולצריכה אנליטית להעדיף קריאה דרך תצוגת ה-CDS‏ I_Product במקום גישה ישירה לטבלה.",
     },
@@ -2911,7 +2911,7 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
       "מול me.sap.com. עמוד רשמי נוסף, 'Long Material Number' (Discrete Industries, 2025.001, loio " +
       "430c8a573a3c0322e10000000a44147b), נוקב בסניפט ב-SAP Note 2360860 ('Long material number is enabled in " +
       "SAP S/4HANA by the material field length extension'), אך עניינו פונקציית העסק IS-A-LMN (מצב תאימות DIMP " +
-      "LAMA) שאינה בהיקף CBC, ולכן לא נרשם כשדה sapNote. לא אומת רשמית: אורך שדה MATNR בהגדרת ה-DDIC של MARA " +
+      "LAMA) שאינה בהיקף הפרויקט, ולכן לא נרשם כשדה sapNote. לא אומת רשמית: אורך שדה MATNR בהגדרת ה-DDIC של MARA " +
       "במערכת S/4HANA ללא תלות בהפעלה (הסניפטים מדברים על הפעלת מספר חומר מורחב, מציינים את MATNR כגרסה הקצרה " +
       "ואת MATNR_EXTERNAL כמספר המורחב, וברירת מחדל של 18 תווים; הטענה CHAR 18 מול CHAR 40 היא של רובד המאגר " +
       "בלבד) וכן רשימת השדות המלאה של הטבלה; שניהם דורשים SE11 או את נוסח פריט הפישוט. לא בוצעה בדיקה חיה " +
@@ -6600,7 +6600,7 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
         "ו-Mass Maintenance. בשני המסלולים ההרחבה נעשית דרך מנגנוני ההרחבה הרשמיים ולא בהוספת שדה ישירות " +
         "לטבלה. לפני ההסבה לבדוק קוד Z וממשקים הקוראים מ-MARM ומניחים מספר חומר באורך 18 תווים (MATNR הוא " +
         "חלק ממפתח הטבלה לפי רובד המאגר, וקביעת CHAR 18 מול CHAR 40 היא של רובד המאגר בלבד), לבדוק את " +
-        "סגמנט E1MARMM ב-IDoc MATMAS מול ממשקי Zetes ו-Daymax, ולאמת מקדמי המרה ועיגול לאחר ההעברה מול " +
+        "סגמנט E1MARMM ב-IDoc MATMAS מול הממשקים החיצוניים, ולאמת מקדמי המרה ועיגול לאחר ההעברה מול " +
         "מבנה הביניים S_MARM של אובייקט Product.",
     },
     xrefs: [
@@ -6741,8 +6741,8 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
         "סינון לפי שפה בכל שליפה. בבדיקת הקוד המותאם לפני ההסבה לאתר SELECT ו-JOIN מול MAKT שמניחים MATNR " +
         "באורך 18 תווים, ובכלל זה שדות משורשרים שהחומר הוא חלק מהם, ולהתאים אותם לאורך 40 תווים לפי פריט " +
         "הפישוט 5.1.5 S4TWL - Material Number Field Length Extension (SAP Note 0002267140 כפי שמודפס " +
-        "במסמך). בממשקים החוצים מערכת (MATMAS דרך הסגמנט E1MAKTM, BAPI_MATERIAL_SAVEDATA, וממשקי Zetes " +
-        "ו-Daymax בתעשיות התהליכיות) לקחת בחשבון ששדה החומר הקצר נשאר במבנה ושדה ארוך נוסף לסופו, ושהפעלת " +
+        "במסמך). בממשקים החוצים מערכת (MATMAS דרך הסגמנט E1MAKTM, BAPI_MATERIAL_SAVEDATA, וממשקים חיצוניים " +
+        "בתעשיות התהליכיות) לקחת בחשבון ששדה החומר הקצר נשאר במבנה ושדה ארוך נוסף לסופו, ושהפעלת " +
         "מספר החומר המורחב היא החלטה מפורשת שכבויה כברירת מחדל לאחר ההסבה. את אורכי ה-DDIC בפועל של MATNR " +
         "ו-MAKTX בטבלת MAKT ואת קיום השדה MAKTG בגרסת היעד לאמת ב-SE11 במערכת, כי אף מקור רשמי שנשלף אינו " +
         "נוקב בהם.",
@@ -8290,7 +8290,7 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
         + "במסמך), שקובע 'This has been done in all tables (and all fields within the tables) in which a material "
         + "number can be stored' ומוסיף ש'the extended material number functionality will by default be switched off' "
         + "לאחר המרה או התקנה חדשה. בהעברת הנתונים לתכנן את מבנה 'Additional GTINs (S_MEAN)' של אובייקט ההעברה "
-        + "Product, ולשים לב שה-GTIN שבגיליון נתוני הבסיס מתייחס ליחידת הבסיס בלבד. בממשקי הסריקה של Zetes ו-Daymax "
+        + "Product, ולשים לב שה-GTIN שבגיליון נתוני הבסיס מתייחס ליחידת הבסיס בלבד. בממשקי הסריקה "
         + "לאמת במערכת שסריקת EAN עדיין מתרגמת ל-MATNR ול-MEINH, ולקבוע איזה ערוץ מפיץ את שורות ה-EAN החוצה: אף רשומה "
         + "רשמית שנשלפה אינה נוקבת בסגמנט של MEAN בתוך IDoc MATMAS, בעוד אותו עמוד רשמי מונה סגמנטים ל-MARA, MARC, "
         + "MARM, MBEW, MLGN, MVKE, MLAN ו-MAKT.",
@@ -14442,8 +14442,8 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
       source: T023_MATERIAL_GROUPS,
       recommendedAction:
         "בהסבה ל-S/4HANA להשאיר את T023 במקומה ולתחזק אותה דרך Define Material Groups‏ (OMSF) או דרך SPRO תחת "
-        + "Logistics - General / Material Master / Settings for Key Fields. לפני ההסבה למפות קוד Z וממשקים (Zetes / "
-        + "Daymax) הקוראים ישירות מ-T023 או מ-T023T, ולוודא שקריאת הטקסטים מסננת SPRAS. בתחזוקת מפעל לבחון אם "
+        + "Logistics - General / Material Master / Settings for Key Fields. לפני ההסבה למפות קוד Z וממשקים "
+        + "הקוראים ישירות מ-T023 או מ-T023T, ולוודא שקריאת הטקסטים מסננת SPRAS. בתחזוקת מפעל לבחון אם "
         + "נדרשות היררכיות קבוצות חומר (פעילות Define Material Group Assignment תחת Functions and Settings for "
         + "Order Types) לתמיכה בקביעת מקור אספקה לפעולות בביצוע חיצוני. את רשימת השדות של הטבלה, ובכללה נוכחות "
         + "BKLAS ואורך MATKL, לאמת ב-SE11 במערכת היעד לפני הסתמכות עליה בפיתוח או בתסריט הגירה.",
@@ -14485,7 +14485,7 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
       + "Migration, 2025.001, loio "
       + "9f1e5176c80e488aa7783e5d623e4762) הממפה 'Merchandise Category (T023) Merchandise Category Text (T023T)' "
       + "ומציין שבהקשר Retail המונח Merchandise Category מקביל ל-Material Group או Product Group. כלומר אותה טבלה "
-      + "נושאת בפתרון ה-Retail את קטגוריית הסחורה, ניואנס מינוח שמחוץ להיקף CBC. מסלול ה-Customizing הרשמי חוזר גם "
+      + "נושאת בפתרון ה-Retail את קטגוריית הסחורה, ניואנס מינוח שמחוץ להיקף הפרויקט. מסלול ה-Customizing הרשמי חוזר גם "
       + "בעמוד 'Customizing for Inventory Differences Offsetting' (Russia, 2025.001, loio "
       + "0ccbfd90d60b48988054bf041d1694d2): 'You have defined material groups in Customizing for Logistics – "
       + "General, under Material Master Settings for Key Fields Define Material Groups'. שדה reviewer הושמט לפי "
@@ -15922,7 +15922,7 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
           + "לפי סוג/מפעל: וריאנט תמחיר, פרופיל זמינות, פרופיל שחרור Control Recipe ל-MES'. באותו נושא של אותו "
           + "בלופרינט קיימת שורה שנייה, T399X, ובה אותה הערת S/4, אותו descriptionEn 'Plant', אותו מפתח WERKS + "
           + "AUART ב-CHAR 4, שדה 'Availability check profile' בשם APROFIL, ו-guideHe שאף הוא מתאר פרמטרי בקרה לצו "
-          + "לפי מפעל וסוג צו ואת זרימת ה-Control Recipe ל-Zetes ול-Daymax; descriptionEn 'Plant' הוא תוויתו של "
+          + "לפי מפעל וסוג צו ואת זרימת ה-Control Recipe למערכות הביצוע; descriptionEn 'Plant' הוא תוויתו של "
           + "השדה הראשון WERKS ולא שם טבלה, כפי שעולה גם מיתר השורות באותו נושא שנושאות תוויות שדה כתיאור (T003O "
           + "'Order type', TCK03 'Costing variant', T438M 'MRP type'). שכבות אחרות של המאגר מתארות את TCO01 אחרת "
           + "לגמרי: data/knowledge/pppi-objects-ext.ts מתאר אותה כקונפיגורציה של סוג פקודת CO, באמון "
@@ -16292,7 +16292,7 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
           "רשומת הבלופרינט PP-PI:T399X נושאת תווית עברית 'פרמטרי בקרת MRP למפעל' ותווית אנגלית 'Plant', אך כל שאר "
           + "שדותיה מתארים קסטומיזציה תלוית מפעל וסוג פקודה: המפתח הוא WERKS + AUART (שניהם מסומנים PK), ה-guideHe "
           + "הוא 'פרמטרי בקרה לפק\"ע לפי מפעל/סוג פק\"ע: זמינות, אופק שחרור, פרופיל סטטוס, IDoc. כאן מוגדרת זרימת "
-          + "ה-Control Recipe ל-Zetes/Daymax.', ה-helpLbl הוא 'SAP Help - Order Type Plant Parameters', וה-JOIN הוא "
+          + "ה-Control Recipe למערכות הביצוע.', ה-helpLbl הוא 'SAP Help - Order Type Plant Parameters', וה-JOIN הוא "
           + "'FROM AUFK JOIN T399X ON AUFK.WERKS = T399X.WERKS AND AUFK.AUART = T399X.AUART' לצד 'FROM T399X JOIN "
           + "TCK03 ON T399X.KLVARP = TCK03.KLVAR'. רשימת השדות בבלופרינט מונה ארבעה שדות בלבד, WERKS, AUART, "
           + "APROFIL ו-TERHO; KLVARP אינו מופיע בה אלא רק בצירוף ה-JOIN אל TCK03. גם tx-intel (רשומת COR4, שדה "
@@ -17640,7 +17640,7 @@ export const TABLE_VERIFICATION: VerificationRecord[] = [
       + "Category Text (T023T) Class Header Data (KLAH)', מוסיף 'In the context of SAP S/4HANA Retail for "
       + "merchandise management, following terms are used' וממפה בטבלת המינוח 'Merchandise Category' אל "
       + "'Material Group or Product Group', עם Object Alias RFM_MC ורכיב LO-RFM-MD-MC. כלומר מונח ה-Retail "
-      + "מקביל לקבוצת חומר; הניואנס נשאר מחוץ להיקף CBC ואינו נטען כאן כפסיקה. OData: תיעוד ה-API של 2025 "
+      + "מקביל לקבוצת חומר; הניואנס נשאר מחוץ להיקף הפרויקט ואינו נטען כאן כפסיקה. OData: תיעוד ה-API של 2025 "
       + "FPS01 מתאר ישות בשם Product Group Text, שם טכני A_ProductGroupText (loio "
       + "0f0f4d1bc5214ea2b531d66e6ae21257, APIs for Financial Planning and Analysis), שהסניפט שלה קובע 'Node "
       + "that contains product group text fields' ומונה 'Parameters Parameter Description Necessity "

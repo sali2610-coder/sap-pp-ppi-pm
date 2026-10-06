@@ -38,7 +38,6 @@ export function FioriAppPage({ app }: { app: FioriApp }) {
   const t = TRUST[app.trust];
   const nav: [string, string][] = [["s-purpose", "🎯 מטרה"], ["s-problem", "🧩 בעיה"], ["s-explain", "👥 הסברים"], ["s-sec", "🔐 Roles"], ["s-tech", "🔗 OData/CDS"], ["s-avail", "🔀 ECC↔S/4"]];
   if (app.commonErrors || app.troubleshooting) nav.push(["s-trouble", "⚠️ תקלות"]);
-  if (app.cbc) nav.push(["s-cbc", "🏭 CBC"]);
   nav.push(["s-src", "📄 מקורות"]);
   if (app.similar?.length) nav.push(["s-sim", "🧭 דומות"]);
 
@@ -104,7 +103,6 @@ export function FioriAppPage({ app }: { app: FioriApp }) {
                 {app.troubleshooting && <p className="mt-2 text-[12.5px] text-ink-2">{app.troubleshooting}</p>}
               </Sec>
             )}
-            {app.cbc && <Sec id="s-cbc" emoji="🏭" title="דוגמת CBC"><p className="text-[13px] leading-relaxed text-ink-2">{app.cbc}</p></Sec>}
             <Sec id="s-src" emoji="📄" title="מקורות ואימות">
               <div className="rounded-xl border border-[#cfe6e2] bg-[#f0f6f5] p-3 text-[12.5px] text-[#0f5e57]">
                 מקור: {app.source || "ידע SAP אצור"} · נבדק לאחרונה {app.lastReviewed} · רמת אמון: {t.he}. ללא המצאת SAP Notes או קונפיגורציה.

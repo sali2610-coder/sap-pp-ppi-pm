@@ -6,7 +6,7 @@ import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
   Copy, Check, ChevronLeft, ExternalLink, Info, PartyPopper, ArrowLeft, ArrowRight,
-  Target, HelpCircle, TrendingUp, MapPin, KeyRound, Building2, Workflow, Network,
+  Target, HelpCircle, TrendingUp, MapPin, KeyRound, Workflow, Network,
   Table2, Terminal, LayoutDashboard, Settings, Boxes, Braces, Lock, StickyNote,
   AlertTriangle, Wrench, Award, Lightbulb, Link2, CircleHelp, BookCheck, Clock, ShieldCheck,
   GraduationCap, BookOpen, ListChecks, CheckCircle2, ArrowUpRight,
@@ -31,7 +31,7 @@ import { Callout, Chip, Pill, IconWell, Breadcrumb } from "@/components/ui";
 // per-block category colour — instant recognition, restrained (design-principles §1)
 const TONE: Record<string, string> = {
   objective: "#0b0c0e", why: "#334155", "business-value": "#334155", "where-used": "#334155", "key-concepts": "#334155",
-  "cbc-example": "#1d4ed8", flow: "#1d4ed8", diagram: "#1d4ed8",
+  flow: "#1d4ed8", diagram: "#1d4ed8",
   tables: "#475569", tcodes: "#475569", fiori: "#475569", objects: "#475569", odata: "#475569", authorizations: "#475569", spro: "#475569", notes: "#475569",
   "common-mistakes": "#b45309", troubleshooting: "#b45309",
   "best-practices": "#0f766e", tips: "#0f766e",
@@ -42,14 +42,14 @@ const toneOf = (k: BlockKind) => TONE[k] || "#334155";
 // SVG icon per block kind — replaces the emoji set (premium, on-brand)
 const ICON: Record<string, LucideIcon> = {
   objective: Target, why: HelpCircle, "business-value": TrendingUp, "where-used": MapPin, "key-concepts": KeyRound,
-  "cbc-example": Building2, flow: Workflow, diagram: Network,
+  flow: Workflow, diagram: Network,
   tables: Table2, tcodes: Terminal, fiori: LayoutDashboard, spro: Settings, objects: Boxes, odata: Braces, authorizations: Lock, notes: StickyNote,
   "common-mistakes": AlertTriangle, troubleshooting: Wrench, "best-practices": Award, tips: Lightbulb,
   related: Link2, quiz: CircleHelp, summary: BookCheck,
 };
 const HE: Record<string, string> = {
   objective: "מטרת השיעור", why: "למה זה חשוב", "business-value": "ערך עסקי", "where-used": "היכן בשימוש", "key-concepts": "מושגי מפתח",
-  "cbc-example": "דוגמה מ-CBC", flow: "תהליך", diagram: "תרשים",
+  flow: "תהליך", diagram: "תרשים",
   tables: "טבלאות", tcodes: "טרנזקציות", fiori: "אפליקציות Fiori", spro: "קונפיגורציה (SPRO)", objects: "אובייקטים / BAPIs", odata: "OData / API", authorizations: "הרשאות", notes: "הערות",
   "common-mistakes": "טעויות נפוצות", troubleshooting: "פתרון תקלות", "best-practices": "שיטות עבודה מומלצות", tips: "טיפים",
   related: "קישורים קשורים", quiz: "בחן את עצמך", summary: "סיכום",
@@ -143,7 +143,7 @@ function BlockBody({ b, accent }: { b: LessonBlock; accent: string }) {
   switch (b.kind) {
     case "objective":
       return <p className="max-w-[68ch] text-[15px] font-medium leading-[1.75] text-ink-1">{md(b.md)}</p>;
-    case "why": case "business-value": case "where-used": case "cbc-example": case "spro": case "troubleshooting": case "notes": case "summary":
+    case "why": case "business-value": case "where-used": case "spro": case "troubleshooting": case "notes": case "summary":
       return <p className="max-w-[68ch] text-[14px] leading-[1.8] text-ink-2">{md(b.md)}</p>;
     case "key-concepts": case "authorizations":
       return <ul className="flex max-w-[68ch] flex-col gap-2.5">{b.items.map((it, i) => <li key={i} className="flex items-start gap-2.5 text-[14px] leading-[1.7] text-ink-2"><span className="mt-[9px] size-1.5 shrink-0 rounded-full bg-brand" />{md(it)}</li>)}</ul>;

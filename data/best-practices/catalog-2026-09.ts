@@ -8189,7 +8189,7 @@ export const CATALOG_PROCESS_PRACTICES: BestPracticeLike[] = [
       edition: "on-premise",
       release: "2025.001",
       source: EA_STATUS_SOURCE,
-      recommendedAction: "בהמרת CBC: למפות כל דוח PMIS, ‏COOIS או Z-report לשאילתה אנליטית משוחררת או ליישום Fiori אנליטי, להגדיר " +
+      recommendedAction: "בהמרת הארגון: למפות כל דוח PMIS, ‏COOIS או Z-report לשאילתה אנליטית משוחררת או ליישום Fiori אנליטי, להגדיר " +
         "את ה-Analytic Engine, התפקידים והשירותים, ולכבות את עדכון ה-LIS רק אחרי השוואת מספרים מתועדת.",
     },
     process: {

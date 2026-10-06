@@ -54,7 +54,7 @@ export interface SAPTable {
   fioriApp?: string; // Fiori app + ID
   helpUrl?: string;
   helpLbl?: string; // SAP Help / Knowledge reference
-  funcs: [string, string][]; // BAPIs / FMs / IDocs [name, he-desc] (incl Zetes/Daymax)
+  funcs: [string, string][]; // BAPIs / FMs / IDocs [name, he-desc]
   progs: [string, string][]; // programs / reports [name, he-desc]
   fields: SAPField[];
   relations: SAPRelation[]; // parent-child links from the ER map
@@ -69,7 +69,7 @@ export interface SAPTopic {
   tables: SAPTable[];
   ops: {
     tcodes: string[][]; // [tcode, fiori-name, fiori-id?]
-    interfaces: string[][]; // [kind(BAPI/IDoc), name, ...] — IDoc rows carry Zetes/Daymax
+    interfaces: string[][]; // [kind(BAPI/IDoc), name, ...]
   };
 }
 

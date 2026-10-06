@@ -62,12 +62,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון (Example Product bottling) קווי-המילוי הם משאבים סופיים יקרים. PP/DS מתכנן אילו SKUs למלא וכמה (תכנון), ואז מסדר את רצף-המילוי על כל קו כדי למזער החלפות-טעם וגדלי-בקבוק (setup ארוך בין Coke ל-Sprite, או בין 0.5L ל-1.5L) — תזמון-מפורט שמקסם תפוקת-קו ומצמצם זמני-שטיפה.\n\nיצרן מקבל תחזית ל-50,000 יח' לחודש. שלב התכנון יוצר Planned Orders לכיסוי הדרישה לפי lot-size ומקורות-אספקה. שלב התזמון-המפורט לוקח את אותן הזמנות, משבץ אותן על המשאבים הסופיים לפי קיבולת זמינה, ממזער החלפות (setup) ע\"י קיבוץ מוצרים דומים, וקובע לכל הזמנה תאריך-ושעת התחלה/סיום מדויקים — תכנית שאפשר למסור לרצפה.\n\n**תכנון-ייצור (Production Planning)** — בארגון תכנון-הייצור קובע כמה בקבוקי-Coke 0.5L למלא השבוע לפי תחזית-מכירות וקידום-מבצע, ויוצר Planned Orders למילוי — לפני שהוחלט על איזה קו ובאיזה רצף.\n\nHeuristic מזהה דרישה ל-1,000 יח' ב-15 בחודש ומלאי זמין 300. הוא יוצר Planned Order ל-700 יח', מחיל gross lot-size 500 (כך 1,000), קובע מקור-אספקה דרך PDS, וקושר ב-pegging את ההזמנה לדרישה. תאריך-ההתחלה נגזר מ-lead time.\n\n**תזמון-מפורט (Detailed Scheduling)** — בארגון ה-Setup Matrix מקודד שמעבר מ-Diet-Coke ל-Coke מצריך שטיפה קצרה, ומעבר מ-Coke ל-Sprite שטיפה ארוכה. התזמון-המפורט מסדר את רצף-המילוי על הקו כדי למזער שטיפות יקרות ולמקסם שעות-מילוי בפועל.\n\nחמש הזמנות מתוכננות לאותו קו. ה-Optimizer מסדר אותן לפי Setup Matrix כך שמוצרים דומים רצים ברצף (מזעור setup), משבץ כל אחת בחלון-זמן פנוי על המשאב, וקובע התחלה 08:00 וסיום 11:30 להזמנה הראשונה — עם רצף שמקצר את סך-זמן-ההחלפות."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -289,12 +283,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "PDS = BOM+Routing; Resource ↔ Work Center.",
      "ב-embedded הכל באותו stack מול S/4HANA, ללא CIF."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון ארגון בקבוקאי השוקל תכנון-מתקדם לקווי-המילוי צריך להחליט בין side-by-side APO לבין embedded PP/DS ב-S/4HANA. הבחירה משפיעה על האם נדרש CIF, על תחזוקת מערכת-נפרדת, ועל מודל-התפעול של צוות-התכנון.\n\nארגון שעבר מ-APO side-by-side ל-S/4HANA embedded: במקום CIF המסנכרן חומרים ומשאבים בין SCM ל-ERP, המוצרים והמשאבים יושבים באותה מערכת. הגדרת Advanced Planning על חומר-קיים מפעילה אותו ל-PP/DS ישירות, בלי שכבת-אינטגרציה בין-מערכתית.\n\n**SAP Advanced Planning and Optimization** — בארגון-בקבוקאי על APO: DP חוזה ביקוש למשקאות, SNP מחליט באיזה מפעל למלא ומאיפה לשנע, ו-PP/DS מתזמן את קווי-המילוי בכל מפעל — שרשרת-תכנון מלאה לפני עידן ה-embedded.\n\nבארכיטקטורת-APO קלאסית: DP מייצר תחזית → SNP פורש לרשת-האספקה → CIF מעביר ל-ERP/חזרה → PP/DS מתזמן ייצור באתר → gATP מבטיח זמינות ללקוח. כל רכיב במערכת SCM הנפרדת.\n\n**פישוטים מרכזיים ב-PP/DS עבור SAP S/4HANA** — בארגון הפישוט מבטל את התחזוקה של מערכת-APO נפרדת ושל ה-CIF; צוות-התכנון של קווי-המילוי עובד מול S/4HANA יחיד, ושינויי-מאסטר-דאטה (מתכון, קו) זמינים מיד לתכנון.\n\nבעבר: שינוי-חומר ב-ECC נשלח דרך CIF ל-APO, ולעיתים נכשל ויצר חוסר-עקביות. ב-embedded: אותו חומר קיים פעם-אחת ב-S/4HANA, וה-PP/DS עובד עליו ישירות — אין סנכרון, אין סחף-נתונים.\n\n**פריסה (Deployment)** — בארגון: ארגון רב-מפעלים עם APO ותיק עשוי להתחיל side-by-side לשמירת-רציפות, בעוד אתר-greenfield חדש ייפרס ישר כ-embedded PP/DS — בלי שרת-תכנון נפרד.\n\nלקוח-APO ותיק במעבר ל-S/4HANA: שלב ראשון side-by-side (APO קיים + CIF) כדי לא לעצור פעילות, ובהמשך מיגרציה ל-embedded PP/DS — נטרול CIF והעברת התכנון פנימה.\n\n**ארכיטקטורה** — בארגון ה-Resources הם קווי-המילוי, ה-PDS נגזר מ-BOM+Routing של כל משקה, וה-liveCache מחזיק את כל הזמנות-המילוי ל-Gantt של קווי-הייצור — מאפשר תזמון-מחדש מהיר בזמן שינוי-תחזית או תקלת-קו.\n\nמתכנן פותח את ה-Planning Board: השכבה-האפליקטיבית קוראת את רשת-ההזמנות מ-liveCache (מהיר), מציגה Gantt, ומאפשרת תזמון-מחדש. שינוי נשמר ל-liveCache ומתמיד ל-HANA. אם נוצר חוסר-עקביות — מריצים /SAPAPO/OM17 ליישוב."
    },
    {
     "kind": "flow",
@@ -529,12 +517,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון: הפרק הניח את היסוד להבנה כיצד PP/DS יתזמן את קווי-המילוי — ממיפוי הקווים כ-Resources, דרך PDS למשקאות, ועד אופטימיזציית-רצף שממזערת שטיפות והחלפות-טעם בקווי-הבקבוקאי.\n\nמסע אופייני: ארגון מפעיל Advanced Planning, מגדיר Products ו-Resources, יוצר PDS מ-Production Versions, מריץ Heuristics לתכנון, מתזמן ב-Planning Board עם DS-Optimizer ו-Setup Matrix, ומנטר עקביות liveCache — מסוף-לסוף בתוך S/4HANA אחד."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -705,12 +687,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "הפעלה = דלתא, גרסה-חדשה גוברת.",
      "נטר SLG1/SMQ1 ו-CCR."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון בונים מודלי-אינטגרציה נפרדים לכל סוג-אובייקט: ZMFG_MAT (משקאות מוגמרים FERT + תערובות HALB), ZMFG_RES (קווי-המילוי כ-Resources), ZMFG_PDS (מתכוני-המילוי כ-PDS). הפרדה זו מאפשרת להפעיל-מחדש רק את מה שהשתנה — למשל קו-מילוי חדש בלי לגעת בחומרים.\n\nמטמיעים PP/DS למפעל חדש: ב-CFM1 בונים מודל בשם ZPPDS_MAT עם Filter = Plant 1010 + Material Type FERT/HALB ו-Object Type = Materials; מפעילים ב-CFM2; החומרים מופיעים כעת ב-/SAPAPO/MAT1. מודל נוסף ZPPDS_RES מעביר את מרכזי-העבודה כ-Resources, ומודל ZPPDS_PDS מעביר Routings כ-PDS.\n\n**יצירת מודל האינטגרציה** — בארגון יוצרים ZMFG_MAT לכל המשקאות-המוגמרים במפעל-המילוי; Filter לפי Material Type=FERT מבטיח שרק מוצרים-סופיים ייכנסו לתכנון-PP/DS.\n\nב-CFM1 יוצרים ZMFG_MAT, אפליקציה MATERIAL, Filter Plant=1010 + Material Type=FERT, Object Type=Materials, ושומרים. נוצרת גרסה ראשונה הממתינה להפעלה.\n\n**הפעלת מודל האינטגרציה** — בארגון מפעילים-מחדש את ZMFG_RES בכל פעם שמתווסף קו-מילוי, כך שה-Resource החדש זמין לתכנון בלי לגעת בחומרים.\n\nאחרי הוספת FERT חדש, מפעילים-מחדש את ZMFG_MAT ב-CFM2; רק החומר-החדש מועבר (דלתא), והוא מופיע מיד ב-/SAPAPO/MAT1."
    },
    {
     "kind": "flow",
@@ -893,12 +869,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון כל אתר-בקבוק (מפעל-מילוי) הוא Location מסוג 1001; מרכזי-ההפצה האזוריים הם Locations מסוג 1002. תכנון-המילוי מתבצע ב-Location של מפעל-המילוי, והביקוש מגיע מ-Locations של מרכזי-ההפצה.\n\nכשמסנכרנים Plant 1010 דרך מודל-אינטגרציה, נוצר אוטומטית Location 1010 מסוג 1001. כל FERT המסונכרן הופך ל-Location Product (השילוב Product×Location), וכל קו-מילוי הופך ל-Resource באותו Location."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -1064,12 +1034,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "מיגרציה מהירה בקנה-מידה.",
      "ב-Embedded ההפעלה מיידית ופנימית."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון כל משקה-מוגמר (FERT) מסומן Advanced Planning עם PP/DS Horizon התואם את אופק-המילוי השבועי; תערובות-הבסיס (HALB) מתוכננות-מתקדם רק אם הן צוואר-בקבוק; חומרי-הגלם (ROH) נשארים בתכנון-קלאסי.\n\nמסמנים FERT לתכנון-מתקדם (Advanced Planning=X); ה-PP/DS Horizon נקבע ל-30 יום; Planning Procedure מסוג in-house production מבטיח שכל שינוי-ביקוש בתוך-האופק מפעיל תכנון-מחדש מיידי ב-liveCache ויוצר Planned Order עם תזמון-מדויק לשנייה.\n\n**הפעלת תכנון מתקדם לחומרים** — בארגון מפעילים תכנון-מתקדם לכל משקאות-המילוי המוגמרים ולתערובות-בסיס שהן צווארי-בקבוק, אך לא לחומרי-גלם בסיסיים.\n\nמסמנים FERT בלשונית Advanced Planning, שומרים, והמוצר מופיע מיד כ-Product×Location פעיל ב-/SAPAPO/MAT1 ומוכן לתכנון ב-/SAPAPO/RRP3.\n\n**ביטול תכנון מתקדם לחומרים** — בארגון כשמשקה עונתי יורד מהקו, מבטלים לו תכנון-מתקדם בסוף-העונה אחרי סגירת כל פק\"ע פתוחה, ומחזירים אותו לתכנון-קלאסי.\n\nמוצר מופסק: מוודאים שאין Planned/Production Orders פתוחים, מכבים את ה-indicator, ומריצים CCR לוודא ש-Product×Location הוסר נקי מ-liveCache.\n\n**הגדרות תכנון-מתקדם ייחודיות לחומר** — בארגון קו-מילוי עם Min Lot-Size = batch-מינימלי של 5000 בקבוקים ו-Rounding לפי גודל-מכל; GR Processing Time מייצג זמן-בידוד QA לפני שחרור-מלאי.\n\nמוצר עם Min Lot-Size=1000 ו-Rounding=500: PP/DS מייצר Planned Orders בכפולות-500 לא-פחות-מ-1000; ה-GR Processing Time=1 יום דוחה את זמינות-המלאי ביום מקבלת-הסחורה.\n\n**אינטגרציה גמישה של חומר ל-PP/DS המוטמע** — בארגון ברגע-העלייה לאוויר מפעילים אינטגרציה-גמישה לכל ה-FERT בכל מפעלי-המילוי בבת-אחת, ומשאירים ROH ב-MRP קלאסי — מיגרציה מהירה בלי סימון פרטני.\n\nמגדירים כלל ברירת-מחדל: Plant=1010 + Material Type=FERT ⇒ Advanced Planning פעיל; מריצים report-המרה שמסמן את כל ה-FERT הקיימים ויוצר את ה-Product×Location שלהם בבת-אחת."
    },
    {
     "kind": "flow",
@@ -1270,12 +1234,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "Finite אוכף קיבולת; Infinite לא.",
      "Setup Matrix ממזער changeover."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון כל קו-מילוי = Single-Mixed Resource עם time stream של משמרות-המפעל; ה-Setup Matrix של הקו מתאר זמני-ניקוי בין-טעמים (מוגז→ספרייט ארוך, מוגז→מוגז-דיאט קצר); תכנון-המילוי משבץ פק\"עות על הקו תוך מינימיזציה של זמני-changeover.\n\nקו-מילוי מסונכרן כ-Single-Mixed Resource עם time stream של 3 משמרות; כשנוצר Planned Order, PP/DS מתזמן את הפעולה על המשאב לפי הזמן-הפנוי הבא, מתחשב ב-Setup Matrix אם נדרש changeover, ומסמן עומס-יתר אם המשאב כבר מלא.\n\n**מרכזי עבודה** — בארגון כל קו-מילוי מוגדר תחילה כמרכז-עבודה מסוג מכונה עם קיבולת-משמרות וניצולת; רק אז הוא מסונכרן ל-Resource לתכנון-מתקדם.\n\nמגדירים קו-מילוי כמרכז-עבודה עם Capacity Category 001, 3 משמרות וניצולת 90%; הסנכרון יוצר Resource עם time stream תואם, שעליו PP/DS מתזמן.\n\n**משאבים** — בארגון קו-מילוי כ-Resource Finite מבטיח שלא יתוזמנו שתי פק\"עות בו-זמנית; ה-Setup Matrix מצמצם changeover-טעמים, וה-optimizer ממיין את סדר-המשקאות למינימום-ניקויים.\n\nב-DS Planning Board PP/DS משבץ פק\"ע על Resource של קו-מילוי בחלון-הפנוי הבא; אם המשאב מסומן Finite, לא ניתן לחרוג מהקיבולת — נוצר עומס-יתר גלוי לפתרון."
    },
    {
     "kind": "flow",
@@ -1479,12 +1437,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "PDT קובע תאריך-הזמנה.",
      "Quota/Priority לבחירה בין ספקים."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון מקור-האספקה של משקה-מוגמר הוא PDS שנוצר ממתכון-המילוי (Master Recipe) דרך CURTO_CREATE; התרכיז הנרכש מ-The Example Product Company מנוהל כ-External Procurement Relationship עם זמן-אספקה ומחיר-חוזה.\n\nFERT מתוכנן: PP/DS בוחר את ה-PDS הפעיל (מ-Production Version), מפצץ את ה-components כדרישות-תלויות, ומתזמן את ה-activities על ה-Resources. אם נדרש רכיב-נרכש, ה-External Procurement Relationship שלו קובע ספק וזמן-אספקה.\n\n**מבנה נתוני ייצור (PDS)** — בארגון ה-PDS של משקה כולל: component תרכיז/סוכר/CO2/מים, activity ערבול על Resource-המערבל, activity מילוי על Resource-קו-המילוי (עם Setup ל-changeover), ו-activity אריזה — הכל נגזר ממתכון-המילוי.\n\nPP/DS מתזמן FERT: בוחר את ה-PDS, יוצר activities לפי ה-modes על ה-Resources, מפצץ את ה-components כדרישות-תלויות לפי ה-component assignment, ומחשב משכים מ-Standard Values.\n\n**העברת מסלול-ייצור ל-PP/DS כ-PDS** — בארגון, כשמשנים מסלול קו-מילוי (למשל מוסיפים תחנת-בדיקה), מריצים CURTO_CREATE מחדש כדי שה-PDS ישקף את הפעולה-החדשה בתכנון.\n\nאחרי הגדרת Production Version ל-FERT, מריצים CURTO_CREATE עם Filter Material+Plant; נוצר PDS; המוצר זמין כעת לתכנון-מתקדם עם תזמון על ה-Resources.\n\n**העברת מתכוני-אב ל-PP/DS כ-PDS** — בארגון המשקאות מנוהלים ב-PP-PI עם Master Recipe; ה-PDS שלהם נוצר מהמתכון, וכך תכנון-המילוי המתקדם זהה בלוגיקה לזה של ייצור-בדיד.\n\nמתכון-מילוי PI עם phases הכנה→ערבול→מילוי→אריזה מומר דרך CURTO_CREATE ל-PDS; PP/DS מתזמן את ה-phases כ-activities על ה-Resources של קו-המילוי.\n\n**מקורות אספקה לרכש חיצוני** — בארגון התרכיז נרכש מ-The Example Product Company דרך Scheduling Agreement; PP/DS מתזמן את משיכות-התרכיז לפי PDT וכמויות-מינימום החוזיות.\n\nרכיב נרכש עם Info Record: PP/DS מזהה מחסור, קורא את ה-PDT (10 יום), ויוצר Purchase Requisition עם תאריך-הזמנה 10 יום לפני הצורך, מול הספק שב-Info Record."
    },
    {
     "kind": "flow",
@@ -1717,12 +1669,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון מגדירים Characteristic של משפחת-טעם ושל צבע; כל משקה נושא ערכים אלו, וה-Setup Matrix של קו-המילוי מחשבת changeover ארוך במעבר כהה→בהיר וקצר בין-טעמים דומים.\n\nמגדירים Characteristic בשם FLAVOR עם ערכים Drink/Sprite/Fanta, ומשייכים לכל FERT את ערך-הטעם שלו; ה-Setup Matrix משתמשת בערך זה לחשב זמן-ניקוי בין-טעמים בתזמון."
-   },
-   {
     "kind": "tables",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -1877,12 +1823,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון משקה המיוצר על שני קווי-מילוי מקבילים מנוהל בהסדר-מכסה 50/50 לאיזון-עומסים; בעת תחזוקת-קו, ה-Quota מוטה זמנית 100% לקו הפעיל.\n\nמוצר עם שני ספקים בהסדר 70/30: PP/DS מפצל דרישה ל-1000 יח' ל-700 מספק-א' ו-300 מספק-ב', ויוצר שתי Purchase Requisitions בהתאם."
-   },
-   {
     "kind": "tables",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -2034,12 +1974,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "למספר-קבוצות גדול.",
      "עדכן כלל ⇒ הרץ generation מחדש."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון מטריצת קו-המילוי: changeover בין משקאות-מוגז קצר, מעבר לטעם-הדר ארוך (ניקוי-עמוק), ומעבר ממשקה-כהה לבהיר הארוך-ביותר; ה-optimizer מסדר מבהיר לכהה למינימום-ניקויים יומיים.\n\nResource עם Setup Matrix: מעבר Drink→Drink = 5 דק', Drink→Diet = 20 דק', Drink→Sprite = 60 דק'. ה-optimizer ממיין 10 פק\"עות כך שהרצף ממזער את סך-זמני-המעבר.\n\n**מטריצת היערכות סטטית** — בארגון קו-מילוי עם 5 משפחות-טעם בלבד מנוהל במטריצה-סטטית 5×5 שמתוחזקת ידנית על-ידי מהנדס-התהליך.\n\nמגדירים 4 Setup Keys וממלאים מטריצת 4×4 ידנית; ה-optimizer קורא את הערכים הקבועים בעת ריצוף.\n\n**מטריצת היערכות מגונרטת** — בארגון עם 50+ מק\"טי-משקה, המטריצה מגונרטת מכלל המבוסס על משפחת-טעם וצבע: מעבר בהיר→כהה קצר, כהה→בהיר ארוך (ניקוי-עמוק) — נבנה אוטומטית לכל הצירופים.\n\nכלל: changeover = פונקציה של הפרש-צבע + הפרש-טעם; המערכת בונה מטריצת 50×50 אוטומטית, וה-optimizer משתמש בה לריצוף."
    },
    {
     "kind": "tables",
@@ -2203,12 +2137,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "סדר-הטמעה: Integration Model ► Location ► Product ► Resource ► PDS ► Setup Matrix.",
      "הרץ CCR שגרתית; ב-Embedded הסנכרון פנימי אך הכלים זהים ל-APO."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון: כל קווי-המילוי הם Resources עם Setup Matrix לטעמים, כל המשקאות הם Products מתוכננים-מתקדם עם PDS ממתכוני-המילוי, והתרכיז נרכש דרך External Procurement — תשתית-נתונים מלאה לתכנון-מילוי יומי.\n\nהטמעה מקצה-לקצה: CFM1/CFM2 מעבירים חומרים+מרכזי-עבודה ➔ Locations נוצרים ➔ Advanced Planning מופעל למוצרים ➔ Resources נוצרים עם time stream ➔ CURTO_CREATE יוצר PDS ➔ Setup Matrix משויכת ➔ המוצר מוכן לתכנון מלא ב-/SAPAPO/RRP3."
    },
    {
     "kind": "tables",
@@ -2377,12 +2305,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "הפעלה דרך Business Function (לא-הפיכה) + scope item של Advanced Planning, ודורשת רישוי.",
      "ההפעלה רק פותחת את הקומפוננטה; תכנון בפועל דורש סימון-חומר והגדרות-בסיס."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון ההחלטה להפעיל PP/DS נובעת מהצורך לתזמן בעדינות החלפות-טעם וניקויי-CIP בין מוצרים על קווי-המילוי — דבר שתכנון-MRP בסיסי אינו עושה. צוות-הבסיס מפעיל את הקומפוננטה, ולאחר-מכן מסומנים המשקאות המוגמרים (FERT) לתכנון מתקדם.\n\nארגון העובר מ-ECC עם APO נפרד מטמיע S/4HANA: צוות-הבסיס מפעיל את ה-Business Function ואת scope item של Advanced Planning בסביבת-QA, מאמת שתפריטי ה-SPRO של PP/DS נפתחו, ורק אז משכפל לסביבת-הייצור. מכאן ואילך הצוות-הפונקציונלי מגדיר Model 000, אינטגרציה ונתוני-אב."
    },
    {
     "kind": "flow",
@@ -2564,12 +2486,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "Resource = קיבולת; PDS = source-of-supply.",
      "הגדרות-אב גוברות על ברירות-המחדל הגלובליות."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון כל המפעלים, קווי-המילוי והמשקאות חיים תחת Model 000/Version 000 יחיד. שינוי בקיבולת-קו בליבה (במרכז-העבודה) משתקף אוטומטית כ-resource ב-PP/DS, ולכן הגדרות-האינטגרציה הנכונות הן תנאי לתכנון מהימן.\n\nבהקמת PP/DS היועץ מאמת ש-Model 000/Version 000 פעילים, מגדיר אילו נתוני-תנועה מועברים, קובע פרמטרים גלובליים (אופק-תכנון, אזור-זמן), ומוודא שנתוני-האב (location, product, resource) נוצרים אוטומטית מהליבה. רק אז ניתן להריץ היוריסטיקה ראשונה.\n\n**ניהול גרסת מודל** — בארגון כל קווי-המילוי והמשקאות חיים ב-Model 000/Version 000. בחינת תוספת-משמרת-לילה נעשית בגרסת-סימולציה משוכפלת, ללא סיכון לתכנון השוטף.\n\nמתכנן רוצה לבחון השפעת תוספת-קו: הוא משכפל את Version 000 לגרסת-סימולציה, מריץ שם תכנון, משווה תוצאות, ורק אם משתכנע מיישם בליבה — בלי שהסימולציה נגעה בתכנון הפעיל.\n\n**הגדרות אינטגרציה** — בארגון רק המשקאות (FERT) וחצאי-המוצר (HALB) הרלוונטיים לתזמון-עדין מסומנים Advanced Planning; חומרי-גלם פשוטים נשארים בתכנון-MRP רגיל כדי לא להעמיס את המנוע.\n\nחומר מסומן Advanced Planning בליבה; מנגנון-האינטגרציה יוצר אוטומטית את ה-product וה-PDS ב-PP/DS, וכל שינוי-מלאי/הזמנה משתקף מיד.\n\n**העברת נתוני תנועה** — בארגון, אחרי downtime של liveCache, מריצים /SAPAPO/CCR כדי לאמת שכל פקודות-המילוי הפתוחות והמלאי-בפועל תואמים בין הליבה ל-PP/DS לפני שמתזמנים מחדש.\n\nלאחר הקמת חומר חדש מריצים העברת-נתוני-תנועה ראשונית; המלאי וההזמנות הפתוחות מופיעים ב-/SAPAPO/RRP3, והמתכנן רואה תמונת-תכנון מלאה.\n\n**סכמת הקונפיגורציה של מערכת ה-PP/DS** — בארגון הסכמה מתעדת: אזור-זמן-מפעל גלובלי → Planning Procedure לכל משקה → היוריסטיקת SAP_PP_002 בהרצת-הלילה → פרופיל-DS-Board לראש-הקו. מסמך אחד שמראה איך הכל מתחבר.\n\nבתחילת מימוש היועץ משרטט את הסכמה: פרמטרים גלובליים → נתוני-אב לכל חומר → היוריסטיקות ונהלי-תכנון → פרופילי-לוח. כל הגדרה חדשה ממוקמת בסכמה ובודקים את השפעתה כלפי מטה.\n\n**פרמטרים גלובליים וערכי ברירת מחדל** — בארגון מגדירים PP/DS horizon של ~3-4 שבועות לקווי-המילוי — מספיק כדי לתזמן רצפי-מוצרים והחלפות-טעם, בלי להעמיס את המנוע בתכנון-עדין של חודשים קדימה.\n\nמגדירים PP/DS horizon של 30 יום: דרישות ב-30 הימים הקרובים מתוזמנות עדין על-ידי המנוע; מעבר לכך נשארות הזמנות-תכנון רגילות עד שייכנסו לאופק.\n\n**הגדרות נתוני אב** — בארגון משקה-דגל מקבל Planning Procedure לתכנון-מיידי ו-Strategy Profile למזעור-החלפות-טעם; משקה-עונתי מקבל נוהל מבוסס-הרצת-לילה ואופק קצר יותר.\n\nמוצר מהיר-תנועה מקבל Planning Procedure שמפעיל תכנון-מיידי בכל שינוי-דרישה, ו-Strategy Profile שמעדיף שיבוץ-לאחור; מוצר איטי מקבל נוהל המתבסס על הרצת-לילה בלבד."
    },
    {
     "kind": "flow",
@@ -2871,12 +2787,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון הרצת-הלילה מפעילה SAP_PP_002 על המשקאות; לאחריה מופעלת היוריסטיקת-תזמון שמסדרת את ההזמנות על קווי-המילוי כך שמוצרים דומים (אותו טעם) רצים ברצף — לצמצום ניקויי-CIP.\n\nהרצת-לילה מפעילה את SAP_PP_002 על כל מוצרי-המפעל: ההיוריסטיקה סורקת דרישות, יוצרת הזמנות-תכנון לפי lot-size, ומתזמנת אותן. בבוקר המתכנן רואה תכנית מלאה ומטפל רק בחריגות.\n\n**הגדרות היוריסטיקה** — בארגון היוריסטיקת-התזמון של קווי-המילוי מוגדרת finite (קיבולת-סופית) כדי שלא יתוזמנו שתי פקודות-מילוי על אותו קו בו-זמנית.\n\nמגדירים את SAP_PP_002 עם backward scheduling ו-infinite capacity: ההזמנות מתוזמנות לאחור מתאריך-הדרישה בלי להגביל קיבולת; שלב-תזמון-סופי נפרד יישב על הקו עם קיבולת-סופית.\n\n**פרופילי היוריסטיקה** — בארגון פרופיל 'קו-מילוי' מקבץ: תכנון-כמות → תזמון → מיון-לפי-טעם להפחתת-CIP. ראש-הקו מפעיל אותו מה-DS Board בלחיצה.\n\nפרופיל 'תכנון-יומי' מכיל: (1) SAP_PP_002 תכנון-כמות; (2) היוריסטיקת-תזמון-לאחור; (3) תזמון-סופי על הקו. לחיצה אחת מריצה את שלושתם בסדר."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -3057,12 +2967,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "net-change ליום-יום, regenerative לאיפוס.",
      "Heuristic Profile + propagation range קובעים מה ההרצה עושה."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון משקאות-דגל בנוהל תכנון-מיידי כדי להגיב מהר לשינויי-ביקוש; משקאות-עונתיים בנוהל מבוסס-הרצה כדי לא להעמיס את המערכת בכל שינוי-קטן.\n\nמוצר-דגל בנוהל immediate: דרישה חדשה מפעילה מיד היוריסטיקה ויוצרת הזמנת-תכנון. מוצר-רגיל בנוהל planning-run: הדרישה רק מסומנת, וההרצה הלילית תטפל בה.\n\n**הגדרות נוהל התכנון** — בארגון נוהל קו-המילוי: דרישת-מכירה חדשה ← immediate (להגיב מהר); שינוי-תאריך קטן ← planning-run הלילית.\n\nנוהל שמגדיר: יצירת-דרישה ← immediate; שינוי-כמות ← mark for planning-run; מחיקה ← no action. כך אירועים-חשובים מטופלים מיד והשאר נצברים להרצה.\n\n**הגדרות להרצות תכנון ייצור ב-PP/DS** — בארגון הרצת-net-change לילית מפעילה את פרופיל קו-המילוי על כל המשקאות; הרצת-regenerative מלאה מורצת רק בסופי-שבוע לאיפוס-מלא של התכנית.\n\nVariant לילי: net-change + Heuristic Profile 'תכנון-יומי' + propagation range של כל המפעל. ה-job רץ ב-02:00, ובבוקר התכנית מעודכנת."
    },
    {
     "kind": "flow",
@@ -3263,12 +3167,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון תצוגת-המתכנן מציגה לכל משקה את פקודות-המילוי הקרובות, עם התרעה אדומה על מחסור-תרכיז או חריגת-קיבולת-קו; המתכנן מתעדף לפי הצבעים.\n\nהמתכנן פותח את ה-Product View, רואה את כל ההיצע-מול-דרישה לחומר, עם הזמנות-באיחור מסומנות אדום; הוא גורר תאריך או מפעיל היוריסטיקה ישירות מהמסך."
-   },
-   {
     "kind": "tables",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -3429,12 +3327,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "charts + צבעים + טקסט על ההזמנות.",
      "עיצוב טוב הופך חריגות לבולטות-עין."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון ראש-המשמרת פותח את ה-DS Board לקווי-המילוי, רואה את רצף-המוצרים ליום, גורר כדי לקבץ אותו-טעם יחד (פחות CIP), ומפעיל אופטימייזר למזעור החלפות-טעם וזמני-ניקוי.\n\nהמתכנן פותח את ה-DS Board, רואה שעל קו-1 שתי הזמנות חופפות; הוא גורר אחת לקו-2, מפעיל היוריסטיקת-תזמון לסידור-מחדש, ולבסוף אופטימייזר למזעור-זמני-מעבר.\n\n**פרופיל-על** — בארגון קיימים Overall Profiles נפרדים: 'מילוי', 'ערבוב' ו-'אריזה' — כל אחד עם המשאבים, האופק וההיוריסטיקות שלו.\n\nמגדירים Overall Profile 'מתכנן-מילוי' עם Work Area של קווי-המילוי, Time Profile של שבוע, ו-Heuristic Profile מתאים; המתכנן בוחר אותו וכל הלוח מוכן.\n\n**פרופיל זמן** — בארגון ראש-המשמרת משתמש ב-Time Profile של 24-48 שעות ברזולוציית-שעות לתזמון-מדויק של רצף-המילוי; מנהל-התכנון משתמש ב-Time Profile שבועי לתמונה-רחבה.\n\nTime Profile 'יומי-מפורט': מהיום עד +3 ימים, ברזולוציית-שעות — מתאים לתזמון-עדין של רצף-קו.\n\n**אזור עבודה** — בארגון כל ראש-קו מקבל Work Area של הקווים שלו בלבד; מנהל-המפעל מקבל Work Area רחב הכולל את כל קווי-המילוי לתמונה-מלאה.\n\nWork Area 'קווי-מילוי-משקה-קל' כולל רק את 3 קווי-המילוי הרלוונטיים ואת המשקאות הרצים עליהם — המתכנן לא נחשף לקווי-ערבוב.\n\n**פרופיל לוח התכנון** — בארגון הלוח צובע כל טעם-משקה בצבע-שונה, כך שרצף-מוצרים-מאותו-טעם נראה כגוש-צבע אחיד — וניתן לזהות במבט היכן נדרש ניקוי-CIP (מעבר-צבע).\n\nPlanning Board Profile צובע הזמנות-באיחור באדום, הזמנות-קבועות (fixed) באפור, ומציג על כל מלבן את מספר-המוצר וכמות — המתכנן 'קורא' את הלוח במבט."
    },
    {
     "kind": "flow",
@@ -3636,12 +3528,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון לאחר הרצת-תכנון לילית, האחראי בודק את ה-Application Log לאיתור משקאות שלא-תוכננו (חסר-PDS/מחסור-תרכיז) לפני תחילת-המשמרת, וכך מונע הפתעות ברצפה.\n\nהרצת-לילה לא יצרה הזמנות לחומר מסוים; המתכנן פותח /SAPAPO/RRPLOG1, מאתר את ה-run, ורואה הודעת-שגיאה 'No source of supply' — מבין שה-PDS חסר ומתקן."
-   },
-   {
     "kind": "tables",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -3789,12 +3675,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "Setup matrix (זמני-CIP) הוא הקלט המרכזי.",
      "דורש Optimization Server (RFC) וכיול-משקלות זהיר."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון זהו ה-use-case המובהק: לכל קו-מילוי setup matrix של זמני-ניקוי-CIP בין טעמים (מעבר מכהה-לבהיר=ניקוי-ארוך). האופטימייזר מסדר את רצף-המשקאות היומי כך שסך-זמני-הניקוי מינימלי, תוך עמידה בתאריכי-אספקה.\n\nקו עם 10 מוצרים וזמני-החלפה תלויי-רצף: האופטימייזר, עם setup matrix, מסדר אותם כך שסך-זמני-ההחלפה מינימלי ואף-הזמנה לא מאחרת מעבר-לסף — בתוך זמן-ריצה של 5 דקות שהוגדר."
    },
    {
     "kind": "flow",
@@ -3961,12 +3841,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "היררכיית-סכמה: גלובלי → אב → הרצה → אינטראקטיבי.",
      "היוריסטיקה=כלל, אופטימייזר=מזעור-מטרה; Model 000 פרודקטיבי בלבד."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון התוצר הוא מערכת המתזמנת אוטומטית את רצף-המשקאות על קווי-המילוי: היוריסטיקות יוצרות פקודות-מילוי, האופטימייזר ממזער זמני-ניקוי-CIP לפי setup matrix, וה-DS Board נותן לראש-המשמרת שליטה-גרפית — הכל מתועד ביומנים.\n\nמימוש מלא: צוות-בסיס מפעיל את הקומפוננטה; היועץ מאמת Model 000, מגדיר אינטגרציה ופרמטרים, מקים נתוני-אב, בונה היוריסטיקות ונהלים, מתזמן הרצת-לילה, מגדיר תצוגות ו-DS Board, מפעיל אופטימייזר לקווים תלויי-setup, ומנטר Application Logs."
    },
    {
     "kind": "tables",
@@ -4136,12 +4010,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון: לאחר שאב-החומר של המשקאות וקווי-המילוי כבר ב-PP/DS, צוות-הבסיס מפעיל מודל-אינטגרציה לנתוני-תנועה המכסה את מפעלי-הבקבוק. רק קווי-המילוי המתוכננים-מתקדם נכללים; מחסני חומרי-הניקיון (לא רלוונטיים ל-detailed scheduling) נשארים מחוץ למודל כדי לא להעמיס את ה-liveCache.\n\nצוות הבסיס יוצר ב-CFM1 מודל-אינטגרציה 'TXN_PPDS' המסמן Planned Orders + Production Orders + Stocks עבור מפעל 1000 וטווח-חומרים נבחר. לאחר Generate מריצים CFM2 להפעלה. מאותו רגע, פקודת-ייצור חדשה שנוצרת ב-CO01 משוכפלת אוטומטית ל-PP/DS, ומופיעה כ-order ב-Product View."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -4303,12 +4171,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "Strategy Group + Consumption Mode קובעים קיזוז מול הזמנות-לקוח.",
      "אמת ב-Planning Version הפעילה לפני הרצת-תכנון."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון תחזית-המכירות של בקבוק 1.5 ליטר נשמרת כ-PIR לכל שבוע-קמפיין. ההעברה ל-PP/DS מאפשרת לתזמן את קווי-המילוי מול הביקוש החזוי; הזמנות-לקוח בפועל מקזזות את ה-PIR לפי backward/forward consumption כך שלא נכפיל את הביקוש.\n\nמתכנן-ביקוש מזין ב-MD61 תחזית של 10,000 יח' מוצר לחודש. דרך release/CIF היא מגיעה ל-PP/DS כדרישת-FA. הרצת PP/DS (heuristic) מזהה חוסר-כיסוי, יוצרת הזמנות-מתוכננות מתוזמנות אחורנית מתאריך-הדרישה, ומקזזת אותן מול הזמנות-לקוח שנכנסות לפי consumption mode."
    },
    {
     "kind": "flow",
@@ -4475,12 +4337,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון הזמנות-מתוכננות לקווי-המילוי נוצרות ב-PP/DS, מתוזמנות לפי קיבולת-הקו ורצף-טעמים, ומתפרסמות ל-ECC. שבוע לפני הקמפיין הצוות ממיר אותן לפקודות-ייצור; ה-firming מבטיח ש-PP/DS לא יזיז הזמנות שכבר נכנסו לחלון-הקמפיין הקפוא.\n\nPP/DS heuristic יוצר הזמנה-מתוכננת ל-5,000 יח', מתזמן אותה על משאב פנוי ומבצע pegging מול ה-PIR. ההזמנה מתפרסמת אוטומטית ל-ECC (PLAF). מתכנן-הייצור ממיר אותה ב-/SAPAPO/RRP3 או ב-MD04 לפק\"ע; ההמרה זורמת חזרה דרך CIF ושתי המערכות מציגות את אותה פק\"ע."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -4642,12 +4498,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "Confirmations מעדכנים יתרת-כמות-פתוחה בזמן-אמת.",
      "TECO/closure מוציאים את הפקודה מהתכנון."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון פקודות-המילוי המשוחררות בקו עוברות ל-PP/DS כ-fixed; המתכנן רואה את העומס בפועל ומתזמן את הקמפיין הבא רק לחלונות פנויים. דיווחי-CO11N מהקו מעדכנים את יתרת-המילוי ב-liveCache בזמן-אמת.\n\nפק\"ע ב-ECC משוחררת (REL) ומועברת דרך CIF. ב-/SAPAPO/RRP3 היא נראית תופסת את משאב-המכונה לחלון-זמן. דיווח-ביצוע ב-CO11N על 2,000 מתוך 5,000 יח' זורם חזרה; ה-liveCache מקטין את הכמות-הפתוחה ל-3,000 ומתזמן את הנותר על הקיבולת הנותרת."
    },
    {
     "kind": "flow",
@@ -4821,12 +4671,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון תרכיז, פקקים ותוויות נרכשים מספקים. הזמנות-הרכש שלהם עוברות ל-PP/DS כ-fixed receipts; המתכנן רואה מתי יגיעו ומתזמן את הקמפיין מולן. PRs שנוצרות בתכנון זורמות ל-ECC להמרה ל-PO ע\"י הרכש.\n\nPP/DS מזהה חוסר בחומר-נרכש ויוצר Purchase Requisition; היא מתפרסמת ל-ECC (EBAN). הרכש ממיר אותה ל-PO (ME21N); ה-PO זורמת חזרה דרך CIF ומופיעה כ-fixed receipt עם תאריך לפי Planned Delivery Time. אישור-ספק מעדכן את התאריך, ו-PP/DS מתאם את התכנון."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -4993,12 +4837,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "אצוות עם classification מאפשרות shelf-life/FEFO.",
      "תנועות-מלאי זורמות בזמן-אמת; נטר qRFC."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון תרכיז ומים-מטופלים מנוהלי-אצווה עם shelf-life קצר; המלאי והאצוות עוברים ל-PP/DS כך שהמתכנן רואה כמה אצווה זמינה ועד מתי. אצווה שמתקרבת לתפוגה מתעדפת ב-pegging (FEFO), ומלאי QI לא נספר כזמין עד שחרור-QA.\n\nבמחסן 2,000 יח' unrestricted ו-500 ב-QI. ההעברה ל-PP/DS סופרת רק את ה-2,000 כזמין (אם QI מחוץ ל-scope). דרישה ל-3,000 ➔ PP/DS מתכנן קבלה ל-1,000 בלבד. שחרור-QI דרך MIGO מעדכן את ה-liveCache, וה-1,000 מצטמצם בהתאם."
    },
    {
     "kind": "flow",
@@ -5169,12 +5007,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון כל אצווה של תרכיז נכנסת ל-QI עד אישור-מעבדה. PP/DS לא משבץ את האצווה לקמפיין לפני Usage Decision; זמן-המעבדה מתוכלל כ-GR/inspection lead time, כך שתאריך-זמינות-התרכיז משקף את חלון-הבדיקה.\n\nGR של 1,000 יח' מספק יוצר מנת-בדיקה; המלאי נכנס כ-QI. PP/DS לא סופר אותו כזמין. לאחר Usage Decision (QA11) המלאי עובר ל-unrestricted; תנועת-המלאי זורמת דרך CIF, וה-1,000 הופכים זמינים — PP/DS מצמצם בהתאם את הצורך בקבלה נוספת."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -5337,12 +5169,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "תחזוקה מונעת מראש; תקלה ב-real-time עם rescheduling.",
      "תיאום תחזוקה-ייצור מונע שיבוץ על משאב מושבת."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון ניקוי-CIP שבועי של קו-המילוי מנוהל כהזמנת-PM מונעת; החלון משוקף כ-downtime ב-PP/DS כך שלוח-הקמפיינים לא משבץ מילוי בזמן-הניקוי. תקלת-משאבה בלתי-מתוכננת חוסמת מיידית את הקו ומחייבת תזמון-מחדש של הקמפיין.\n\nהזמנת-PM מתוכננת לקו-מילוי ביום ג' 08:00–12:00. החלון מתורגם ל-resource downtime ב-PP/DS; כשה-heuristic מתזמן את הקמפיין, הוא מדלג על החלון הזה ומשבץ את הייצור לפניו או אחריו. תקלה פתאומית (breakdown order) מעדכנת את זמינות-המשאב בזמן-אמת ומחייבת rescheduling."
    },
    {
     "kind": "flow",
@@ -5509,12 +5335,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון הזמנות make-to-stock של רשתות-קמעונאות מקזזות את ה-PIR של המשקה; הזמנה גדולה make-to-order לאריזה ייחודית מפעילה gATP/CTP שמתזמן את קו-המילוי ומחזיר תאריך-אספקה מבוסס-קיבולת ללקוח.\n\nלקוח מזמין 1,000 יח' make-to-order; ה-gATP בודק מול ה-liveCache, מפעיל CTP ומתזמן הזמנה-מתוכננת על משאב פנוי, ומחזיר תאריך-אספקה מחויב. ההזמנה זורמת ל-PP/DS כדרישת-BM עם sales-order stock segment; הייצור מתוכנן ומיועד בלעדית ללקוח זה."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -5679,12 +5499,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון קמפיין-מילוי מקבץ את כל ההזמנות לטעם 'תפוז' לשבוע אחד ברצף; הניקוי-CIP מתבצע פעם אחת בתחילת-הקמפיין ובסופו. רצף-הקמפיינים נקבע לפי setup matrix (בהיר לכהה, ללא-אלרגן לפני אלרגן) למינימום זמני-החלפה ושטיפה.\n\nבמקום שלוש הזמנות נפרדות לאותו טעם-משקה (כל אחת עם setup+cleanout), PP/DS מקבץ אותן לקמפיין יחיד: setup פעם אחת בתחילה, ייצור-רצף, cleanout פעם אחת בסוף. ה-setup matrix מבטיח שהקמפיין הבא יהיה הטעם הקרוב ביותר (בהיר→כהה) למינימום-ניקוי."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -5840,12 +5654,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "מאפשרת תרחישים היברידיים PP/DS↔ECC.",
      "דורשת /SAPAPO/CCR ותכנון-pegging זהיר למניעת חורים."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון רק קווי-המילוי הצוואר-בקבוק (high-speed) מתוכננים ב-PP/DS עם detailed scheduling; קווי-משנה איטיים נשארים ב-ECC. Flexible Integration מעבירה סלקטיבית רק את הזמנות-קווי-הליבה, שומרת על liveCache רזה ותמונת-תכנון ממוקדת.\n\nארגון מתכנן-מתקדם רק מוצרי-Premium. דרך Flexible Integration, מודל-האינטגרציה מסנן ומעביר ל-PP/DS רק הזמנות של מוצרי-Premium לפי קריטריון; הזמנות מוצרי-Standard נשארות ב-ECC עם MRP רגיל. בדיקת /SAPAPO/CCR מאשרת שאין אי-עקביות בין מה שעבר למה שלא."
    },
    {
     "kind": "flow",
@@ -6006,12 +5814,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "/SAPAPO/CCR הוא כלי-העל לעקביות ECC↔liveCache.",
      "שחרר queues ובצע retransfer ממוקד, לא גורף."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון עם עליית-PP/DS לאוויר, ה-initial transfer ממלא את ה-liveCache בכל פקודות-המילוי והמלאי הפתוחים. בכל בוקר רץ /SAPAPO/CCR כבקרת-שגרה; אם מתגלה פער (למשל אחרי תחזוקת-מערכת), הצוות מריץ retransfer ממוקד לאובייקטים החסרים בלבד.\n\nבאקטיבציה (CFM2) כל ההזמנות-המתוכננות, הפקודות והמלאי הקיימים נשלחים ל-liveCache (initial transfer). שבועות אחר-כך, queue תקוע גורם לפער; /SAPAPO/CCR מזהה 12 הזמנות חסרות ב-liveCache, והמתכנן מריץ retransfer/reconcile שמשלים אותן ומחזיר עקביות."
    },
    {
     "kind": "flow",
@@ -6181,12 +5983,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון: קווי-המילוי מתוכננים-מתקדם רק לאחר שכל נתוני-התנועה — מלאי-תרכיז (כולל QI ואצוות), פקודות-מילוי פתוחות, תחזית ו-הזמנות-רשתות — זורמים נכון ל-liveCache, התחזוקה-המונעת משוקפת כ-downtime, והקמפיינים מקובצים לפי setup matrix. /SAPAPO/CCR הבוקרי מבטיח שתוכנית-הקמפיינים נשענת על מציאות.\n\nמחזור-חיים מלא: הפעלת-מודל → initial transfer של מלאי+הזמנות → הזרמת PIRs והזמנות-מכירה (ביקוש) → תכנון שמפיק הזמנות-מתוכננות → המרה לפק\"ע → דיווחי-ביצוע ותנועות-מלאי חוזרים → /SAPAPO/CCR יומי לשמירת-עקביות. כל שלב נשען על העברה תקינה של נתוני-התנועה."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -6352,12 +6148,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "סמן Advanced Planning רק לחומרים קריטיים (bottleneck/timing).",
      "MRP Live מתכנן classic ו-advanced בריצה אחת."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון קווי-המילוי (Filling Lines) הם צווארי-הבקבוק היקרים: המשקאות המוגמרים (FERT) הזורמים דרכם מסומנים Advanced Planning ומתוכננים ב-PP/DS מול Resources של הקווים, עם sequence-dependent setup (מעבר-טעם/CIP). התרכיז, הסוכר וה-CO2 (ROH) נשארים classic MRP — אין צורך ב-finite scheduling עבורם.\n\nמפעל מזהה שקו-המילוי הוא צוואר-הבקבוק. המוצרים הזורמים דרכו מסומנים Advanced Planning באב-החומר; חומרי-הגלם והאריזה נשארים classic MRP. בהרצת-MRP-Live חומרי-ה-FERT מתוכננים ב-PP/DS (finite, מול ה-Resource של הקו), בעוד הרכיבים מתוכננים classic — והכל בריצה אחת."
    },
    {
     "kind": "flow",
@@ -6547,12 +6337,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "PDS/PPM + priorities + quota.",
      "ה-Optimizer שוקל גם עלות-מקור."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון: דרישה ל-Example Product 1.5L מקזזת מול מלאי (net), נוצרת הזמנה-מתוכננת בכמות-מינימום-batch של הקו, ה-Pegging מקשר אותה להזמנת-הלקוח, וה-Source Determination בוחר את קו-המילוי המתאים. מלאי-הביטחון על המשקה המוגמר מגן מפני תנודות-ביקוש בקיץ.\n\nהרצת-תכנון לחומר: ה-net requirements calculation מזהה חוסר בטווח האופק; ה-lot-sizing יוצר receipt בכמות-רכש מתאימה; ה-Pegging מקשר אותו לדרישה; ה-Source Determination בוחר PDS/קו; מלאי-הביטחון נשמר כ-buffer תחתון. כל זה בתוך ה-PP/DS Horizon ומחוץ ל-Planning Time Fence.\n\n**Pegging (קישור אספקה–דרישה)** — בארגון הזמנת-רשת-קמעונאית ל-Sprite מקבלת Fixed Pegging מ-batch ייצור ספציפי כדי להבטיח אספקה לקמפיין-מבצע — כך התכנון לא 'יגנוב' את ה-batch ללקוח אחר.\n\nהזמנת-לקוח ל-1,000 יח' זוכה ל-Pegging מהזמנה-מתוכננת ל-1,000. אם ההזמנה-המתוכננת מתעכבת, מערכת-ה-Alerts מציגה under-coverage על הזמנת-הלקוח — והמתכנן יודע מיד מה לתקן.\n\n**אופק-תכנון וגדר-זמן-תכנון** — בארגון ה-PTF על קווי-המילוי = שבוע: לוח-הייצור לשבוע הקרוב קפוא (חומרי-גלם כבר נמשכו), והתכנון משנה רק את השבועות הבאים — כך הרצפה יציבה.\n\nPTF של 5 ימים: הזמנות-מתוכננות ב-3 הימים הקרובים firmed — הרצת-התכנון לא תזיז אותן גם אם הביקוש השתנה; מעבר ל-5 ימים התכנון חופשי להזיז/לבטל.\n\n**חישוב דרישות-נטו** — בארגון דרישה ל-5,000 ארגזי Example Product, מלאי 1,200, מלאי-ביטחון 500 → נטו 4,300; ה-lot-sizing יעגל למינימום-batch של הקו.\n\nדרישה 1,000; מלאי-זמין 300; מלאי-ביטחון 100. נטו = 1,000 − (300 − 100) = 800 — נוצרת אספקה ל-800 (לפני עיגול-lot).\n\n**חישוב כמות-הרכש** — בארגון מינימום-batch של קו-מילוי = 1,000 ארגזים, rounding לפי משטח (pallet) = 48 → כל הזמנה-מתוכננת מעוגלת למשטחים שלמים מעל המינימום.\n\nנטו 800; minimum lot 1,000; rounding 100 → אספקה 1,000. נטו 2,350; periodic weekly → אספקה אחת ל-2,350 לשבוע.\n\n**מלאי-יעד ושיטות מלאי-ביטחון** — בארגון בקיץ מעלים את target days' supply על משקאות-שיא (Example Product, Sprite) כדי לספוג קפיצות-ביקוש; בחורף מורידים כדי לא להחזיק עודף.\n\nTarget days' supply = 5: התכנון בונה מלאי עד כיסוי 5 ימי-ביקוש קדימה, גם אם אין דרישה מיידית — מחליק עומסים.\n\n**קביעת מקור-אספקה** — בארגון משקה ניתן למילוי בקו-1 או קו-2; quota arrangement מחלק 70/30, וה-Source Determination בוחר את הקו לכל הזמנה-מתוכננת לפי המכסה והקיבולת.\n\nמוצר ניתן לייצור בשני קווים (PDS_A עדיפות 1, PDS_B עדיפות 2). אם קו A מלא — ה-Source Determination/Quota מפנה ל-B; אחרת A מועדף."
    },
    {
     "kind": "flow",
@@ -6812,12 +6596,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון המשקאות המוגמרים משויכים ל-SAP_PP_002 (תכנון-lots סטנדרטי) דרך ה-Planning Procedure; חומרים מנוהלי-reorder-point (חלקי-CIP) משויכים ל-SAP_PP_003.\n\nמתכנן מריץ SAP_PP_002 על מוצר: ה-heuristic מחשבת נטו, יוצרת הזמנות-מתוכננות לפי lot-sizing, מבצעת Pegging וקובעת מקור — הכל בצעד אחד מתוך /SAPAPO/RRP3.\n\n**תכנון lots סטנדרטיים** — בארגון כל משקה מוגמר מתוכנן ב-SAP_PP_002: ההזמנות-המתוכננות מתוזמנות מול קו-המילוי וממוקרות להזמנות-הלקוחות.\n\nמתכנן בוחר מוצר ב-/SAPAPO/RRP3 ומריץ SAP_PP_002: נוצרות הזמנות-מתוכננות מתוזמנות וממוקרות-Pegging לכיסוי כל הדרישות בטווח-האופק.\n\n**תכנון נקודת-הזמנה-מחדש (Reorder Point)** — בארגון חומרי-עזר (חומרי-ניקוי CIP, סיכה) מנוהלים reorder-point — נצרכים ברציפות, לא דורשים תכנון-דרישות מפורט.\n\nReorder point 500, lot 2,000: כשמלאי יורד ל-480 — נוצרת אספקה ל-2,000.\n\n**תכנון lots סטנדרטיים בשלושה אופקים** — בארגון קווי-המילוי מתוכננים מפורט-finite לשבוע הקרוב, שבועי לחודש, וחודשי-גס לרבעון — מדויק היכן שמייצרים, גמיש היכן שלא.\n\nאופק 1 (0–5 ימים): finite, lot-for-lot; אופק 2 (5–20): periodic שבועי; אופק 3 (20+): periodic חודשי גס.\n\n**MRP Heuristic** — בארגון רכיבי-ביניים (תערובות) מתוכננים ב-SAP_MRP_001 לכמויות, בעוד המשקאות-המוגמרים על הקווים מקבלים detailed scheduling נפרד.\n\nSAP_MRP_001 רצה על קבוצת-מוצרים ויוצרת הזמנות-מתוכננות לכל החוסר; אחר-כך heuristic של detailed scheduling משבצת אותן על המשאבים.\n\n**Demand Propagation Heuristic** — בארגון קפיצת-ביקוש ל-Example Product מופצת מיד כלפי-מטה לתרכיז ולסוכר, כך שתכנון-הרכיבים יראה את הצורך עוד באותה הרצה.\n\nשינוי דרישה ל-FERT מופץ דרך ה-PDS: התרכיז, הסוכר וה-CO2 מקבלים dependent requirements מעודכנות — אחר-כך heuristic אחרת יוצרת אספקה.\n\n**Quota Heuristic** — בארגון חלוקת מילוי Example Product 70/30 בין שני קווים מנוהלת ב-Quota heuristic, לאיזון בלאי-קווים ולגיבוי-אספקה.\n\nQuota 70/30 בין קו-1 לקו-2: מתוך 10 הזמנות-מתוכננות, 7 מנותבות לקו-1 ו-3 לקו-2, עם איזון מצטבר.\n\n**תכנון lots סטנדרטיים למוצרי-לוואי** — בארגון הפקת-סירופ עשויה להניב co-product (שאריות-סוכר לשימוש-חוזר); SAP_PP_C001 מתאמת את שניהם מאותה הזמנת-ייצור.\n\nתהליך מניב מוצר-ראשי + co-product: דרישה למוצר-הראשי יוצרת הזמנה שמניבה גם את הלוואי; ה-heuristic מקזזת את הלוואי מול דרישותיו-שלו."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -7063,12 +6841,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון כשהזמנת-תרכיז מתעכבת, מתכנן-הקו מריץ bottom-up rescheduling כדי לדחוף את מילוי-המשקה להתאים, ומשנה priorities כדי שמשקה-מבצע יתוזמן ראשון.\n\nאחרי הרצת-תכנון נוצר פער: רכיב מגיע מאוחר מהמכלול. המתכנן מריץ bottom-up rescheduling — ההזמנות-העליונות נדחפות להתאים לרכיב; או top-down — הרכיבים נמשכים להתאים למכלול.\n\n**תזמון-מחדש מלמטה-למעלה** — בארגון אם אספקת-תרכיז נדחית, bottom-up rescheduling דוחף את מילוי-המשקה התלוי בו, כך שלא נתזמן מילוי ללא תרכיז.\n\nרכיב נדחה מ-5 ל-10. bottom-up דוחף את המכלול שמעליו (וכל מה שמעליו) ל-10 ואילך, כך שכל הרמות עקביות.\n\n**תזמון-מחדש מלמעלה-למטה** — בארגון top-down מותח את הזמנות-התרכיז/אריזה כך שיגיעו ממש לפני חלון-המילוי המתוכנן, להקטנת מלאי-ביניים ברצפה.\n\nמכלול נדרש ל-20. top-down מתזמן את כל הרכיבים backward כך שיגיעו בדיוק לפני ההרכבה — בלי להקדים מיותר.\n\n**שינוי עדיפויות-הזמנה** — בארגון הזמנת-משקה לקמפיין-טלוויזיה מקבלת priority גבוה — כך הקו משבץ אותה לפני הזמנות-שגרה, להבטחת-זמינות למבצע.\n\nהזמנת-VIP מקבלת priority 1; בהרצת finite היא משובצת ראשונה על הקו, ושאר ההזמנות מסביבה.\n\n**יצירת Fixed Pegging** — בארגון fixed peg בין batch-ייצור ספציפי להזמנת-רשת-קמעונאית מבטיח שה-batch לא יוקצה ללקוח אחר עד אספקה.\n\nמתכנן יוצר fixed peg בין batch מסוים להזמנת-לקוח אסטרטגית; הרצות-התכנון הבאות לא מנתקות אותם.\n\n**מחיקת Fixed Pegging** — בארגון לאחר סיום-מבצע, fixed pegs של ה-batches המוקצים נמחקים כדי שהמלאי הנותר ישרת ביקוש-שגרה.\n\nלקוח ביטל הזמנה שה-batch קובע אליה; המתכנן מריץ Delete Fixed Pegging, וה-batch משוחרר לדרישות אחרות.\n\n**מיספור שלבים** — בארגון: משקה (stage 0) → תערובת-בסיס (stage 1) → תרכיז/סוכר (stage 2); ה-stage numbering מבטיח שהמשקה מתוכנן לפני שמתכננים את רכיביו.\n\nמוצר 3-רמות: stage 0 (FERT), 1 (HALB), 2 (ROH). ה-planning sequence מתכנן 0→1→2, כך שדרישות-הביניים מוכנות בכל שלב.\n\n**ייצור חוזר (Repetitive Manufacturing)** — בארגון קו-מילוי Example Product הרץ ברציפות מתוכנן ב-REM: run-schedule יומי על ה-line resource ו-backflush של תרכיז/בקבוקים/פקקים — מתאים מאוד לקווי-מילוי high-volume.\n\nקו מתוכנן ל-10,000 יח'/יום run-schedule; ה-backflush מנכה רכיבים אוטומטית לפי הכמות-המיוצרת — בלי הזמנה פר-batch."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -7281,12 +7053,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון לפני קמפיין-קיץ, מתכנן בונה תרחיש-ביקוש-מוגבר בגרסה לא-פעילה, בודק עומס-קווים, ורק לאחר אישור מעביר לגרסה-הפעילה — בלי לסכן את התכנון השוטף.\n\nמתכנן בודק תרחיש 'קו נוסף' בגרסה לא-פעילה: מריץ heuristics, רואה את ההשפעה על העומס, ואם משתלם — מעביר את התוכנית לגרסה-הפעילה."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -7455,12 +7221,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "ניתוב לפי דגל Advanced Planning.",
      "המודל המומלץ ב-S/4HANA."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון MRP Live רץ כל לילה ומתכנן את כל המשקאות (PP/DS) והרכיבים (classic) בריצה אחת; ביום מתכנן-הקו מבצע התאמות אינטראקטיביות ב-product view על הזמנות-חריגות.\n\njob לילי מריץ production planning run על כל חומרי-ה-PP/DS; בבוקר המתכנן פותח /SAPAPO/RRP3 לתיקונים אינטראקטיביים נקודתיים על חריגים.\n\n**הרצת-תכנון אינטראקטיבית** — בארגון מתכנן-קו מטפל ב-alert על מחסור-משקה: פותח את ה-product view, מתכנן מחדש את המשקה, ומשבץ ידנית על הקו — תוך דקות.\n\nalert על under-coverage; המתכנן פותח /SAPAPO/RRP3, מריץ SAP_PP_002 על המוצר, רואה הזמנה-מתוכננת חדשה שסוגרת את הפער — מיד.\n\n**הרצת-תכנון ברקע** — בארגון ה-production planning run הלילי מתכנן את כל המשקאות וה-HALB מול הקווים; חריגים (alerts) מטופלים אינטראקטיבית בבוקר.\n\njob לילי עם propagation range של כל חומרי-המפעל, parallel 4, package 200: מתכנן את כל החומרים עד הבוקר ומפיק log לבדיקה.\n\n**תכנון-ייצור אינטראקטיבי** — בארגון מתכנן-הקו פותח את ה-Planning Board, רואה את רצף-הטעמים על קו-המילוי, וגורר הזמנות למזער מעברי-טעם (CIP) — ויזואלית, בזמן-אמת.\n\nב-DS Planning Board המתכנן רואה שני קווים בעומס-יתר; הוא גורר הזמנות בין הקווים ומריץ heuristic ליישור, עד שהעומס מאוזן — ויזואלית.\n\n**תכנון חומרי-PP/DS ב-MRP Live (הרצת-MRP אחת)** — בארגון MD01N הלילי מתכנן את המשקאות (PP/DS) מול הקווים ואת התרכיז/סוכר/אריזה (classic) — בריצה אחת, כך שדרישות-הרכיבים נגזרות מיד מתכנון-המשקאות.\n\nMD01N על מפעל: FERT (PP/DS) מתוכנן finite מול הקווים, רכיביו (classic) מתוכננים ב-HANA-MRP — הכל בריצה אחת, עם דרישות-תלויות עקביות."
    },
    {
     "kind": "flow",
@@ -7676,12 +7436,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "exception-based + solution cards.",
      "בעיה→החלטה→פעולה במסך אחד."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון בכל בוקר מתכנן-הקו בודק את ה-log של ה-production planning run ואת Monitor Material Coverage, ומטפל רק במשקאות עם under-coverage — לא בכל ה-portfolio.\n\nאחרי ה-job הלילי, ה-planner פותח את ה-MRP monitor ב-Fiori, מסנן ל-uncovered requirements, ומטפל רק ב-50 החומרים החריגים מתוך אלפים.\n\n**יומן-התכנון של PP/DS** — בארגון ה-log חושף שמשקה לא תוכנן בגלל 'PDS not found' אחרי שינוי-קו; המתכנן מסנכרן PDS ומריץ שוב.\n\nחומר לא קיבל הזמנה-מתוכננת; ה-log מראה 'no valid source found' — המתכנן מבין שחסר PDS פעיל ומתקן.\n\n**הערכת ביצוע ה-MRP Live** — בארגון ההערכה מאשרת שכל המשקאות תוכננו ב-PP/DS וכל הרכיבים ב-classic; חריג שבו משקה תוכנן classic מצביע על דגל-חסר.\n\nהערכה מראה ש-200 חומרים 'נפלו' ל-classic למרות שהם PP/DS — בדיקה מגלה דגל Advanced Planning חסר; תיקון והרצה-מחדש.\n\n**הערכת הרצת-הרקע של PP/DS** — בארגון הערכת ה-job הלילי חושפת ש-package של קו-2 לא הושלם; המתכנן מריץ-מחדש את חומרי-הקו אינטראקטיבית בבוקר.\n\nה-log מראה ש-package 3 נכשל ב-timeout; המתכנן מקטין package size ומריץ-מחדש את ה-scope החסר.\n\n**ניטור תוצאות-תכנון מאפליקציות MRP ב-SAP Fiori** — בארגון מתכנן-המשקאות פותח בבוקר את Monitor Material Coverage, רואה מחסור-קיץ ב-Sprite, ומ-Manage Material Coverage מקדים הזמנה-מתוכננת בלחיצה.\n\nMonitor Material Coverage מציג 30 חומרים ב-uncovered; המתכנן נכנס ל-Manage Material Coverage, בוחר solution card (להקדים אספקה), ומאשר — הפער נסגר."
    },
    {
     "kind": "flow",
@@ -7908,12 +7662,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון ה-Optimizer מסדר את רצף-המשקאות על קו-המילוי למזער מעברי-טעם (CIP יקר): מקבץ טעמים-דומים, עובר מבהיר-לכהה, ומאזן מול תאריכי-מסירה — חיסכון משמעותי בזמן-ניקוי.\n\nקו עם זמני-מעבר תלויי-רצף; ה-Optimizer מסדר את ההזמנות למזער-setup תוך עמידה-בתאריכים, ומחזיר רצף-ייצור אופטימלי שה-heuristic לא הייתה מוצאת.\n\n**הגדרות נתוני-אב ל-Production Planning Optimizer** — בארגון ה-setup matrix של קו-המילוי מקודד זמני-CIP בין טעמים (לימון→מוגז יקר, מים→לימון זול); ה-Optimizer מסתמך עליו לרצף-מיטבי.\n\nsetup matrix מגדיר 20 דק' מעבר מטעם-בהיר לכהה ו-90 דק' להפך; ה-Optimizer ישתמש בכך לסדר טעמים מבהיר-לכהה ולמזער-ניקוי.\n\n**פרופילים ל-Production Planning Optimizer** — בארגון בשגרה רץ profile cost-focus (מיעוט-CIP); לפני קמפיין רץ profile service-focus (עמידה-בתאריכי-מבצע גם במחיר setup).\n\nprofile A (cost-focus): משקל-setup גבוה; profile B (service-focus): משקל-delay גבוה. הרצת שניהם מאפשרת להשוות תוכנית-זולה מול תוכנית-עומדת-בזמן.\n\n**הרצת ה-Production Planning Optimizer** — בארגון הרצת-Optimizer על קו-מילוי לשבוע מחזירה רצף-טעמים שחוסך שתי CIP-מלאות; המתכנן מאמץ אחרי בדיקה ויזואלית ב-Planning Board.\n\nהמתכנן מריץ Optimizer על קו ל-7 ימים; אחרי 5 דקות מתקבל רצף-מוצע עם 30% פחות setup; הוא בוחן ומאמץ.\n\n**ניתוח תוצאות ה-Production Planning Optimizer** — בארגון הניתוח מאשר חיסכון של 2 CIP אך מאחר משקה-מבצע; המתכנן מעלה את priority/delay-weight של המבצע ומריץ-שוב — חיסכון ללא-איחור-המבצע.\n\nניתוח מראה −30% setup אך +2 הזמנות-מאחרות; המתכנן מעלה משקל-delay ב-profile ומריץ-שוב — מקבל איזון טוב יותר."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -8113,12 +7861,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון IBP מתכנן ביקוש-קיץ למשקאות ברמת-חודש/אזור; הכמויות יורדות ל-PP/DS שמתכנן את קווי-המילוי finite; אם קו מגיע לתקרת-קיבולת — ה-feedback חוזר ל-IBP להזיז נפח לחודש/מפעל אחר.\n\nIBP קובע 100K יח'/חודש למוצר; הכמות יורדת ל-PP/DS כ-PIRs; PP/DS מתכנן finite על הקווים ומגלה שרק 90K ישימים — ה-feedback חוזר ל-IBP לתיאום-מחדש."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -8278,12 +8020,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "MRP Live מאחד; Fiori מנהל-חריגים; Optimizer מאפטם-רצף; IBP סוגר-לולאה.",
      "master data מדויק הוא הבסיס לכל הכלים."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון המודל המלא: IBP מתכנן נפחי-קיץ → MRP Live מתכנן משקאות (PP/DS) ורכיבים (classic) → Optimizer ממזער CIP על קווי-המילוי → מתכנן-הקו מטפל בחריגים ב-Fiori → ה-feedback מיישר נפחים בין מפעלים.\n\nמסע-יום של מתכן: MRP Live לילי מתכנן הכל → בוקר ב-MRP Fiori apps לטיפול-חריגים → Optimizer על קו-מפתח לרצף-מיטבי → התאמות ב-DS Planning Board → feedback ל-IBP על תקרת-קיבולת."
    },
    {
     "kind": "flow",
@@ -8459,12 +8195,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "תנאי-סף: משאב Finite + Advanced Planning + PP/DS Horizon מתאים.",
      "בארגון קווי-המילוי (החלפות-טעם תלויות-רצף) הם המקרה הקלאסי."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון קווי-המילוי הם צוואר-בקבוק קלאסי: כל מעבר מטעם לטעם (מוגז→ספרייט→דיאט) דורש שטיפת-CIP בזמן ועלות שונים לפי הזוג. לכן קווי-המילוי מוגדרים Finite ומתוזמנים ב-PP/DS Detailed Scheduling, בעוד מחסני-התרכיז והאריזה (מוגבלי-חומר, לא מוגבלי-קיבולת) נשארים בתכנון MRP רגיל.\n\nמפעל עם משאב-מפתח עמוס מגדיר את המשאב כ-Finite, מסמן את החומרים הרלוונטיים ב-PP/DS דרך Advanced Planning, ומגדיר אופק-PP/DS של 4 שבועות. בתוך האופק, MRP Live מעביר את התכנון ל-PP/DS שמתזמן סופית; מחוץ לאופק נשאר תכנון infinite. כך משאב צוואר-הבקבוק מקבל תזמון-לדקה והשאר נשאר פשוט."
    },
    {
     "kind": "flow",
@@ -8648,12 +8378,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "תזמון-תלויות שומר את השרשרת עקבית בעת שינוי.",
      "הגבל Propagation וכבד Min/Max intervals."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון המתכנן הראשי משתמש באסטרטגיה 'Find slot, backward, Finite' כדי לסדר אצוות-מילוי לפני תאריכי-המשלוח מבלי לשבש פעולות שכבר אושרו; לתרחישי-חירום (הזמנה דחופה) הוא עובר זמנית ל-'Insert operation' כדי לדחוס אצווה ולדחוף את היתר.\n\nמתכנן בוחר אסטרטגיה 'Find slot' עם תזמון-אחורה: בעת מיקום פעולה, המערכת מחפשת את החלון הפנוי האחרון לפני תאריך-היעד מבלי לדחוף פעולות קיימות. אם הוא מחליף ל'Insert operation', אותה גרירה תדחוף את כל הפעולות הבאות קדימה כדי לפנות מקום.\n\n**פרופילי אסטרטגיה** — בארגון מוגדרים שני פרופילים: 'MFG_FILL_STD' לעבודה שוטפת ו-'MFG_RUSH' (Insert operation) לתרחישי הזמנה-דחופה; המתכנן בוחר ביניהם לפי המצב.\n\nאדמין יוצר פרופיל 'MFG_FILL_STD' (Find slot, backward, Finite) ומשייך אותו ללוח של מתכנני-המילוי וגם ל-Heuristic של תזמון-הרצף. כל המתכננים מקבלים אוטומטית אותה התנהגות.\n\n**פרמטרי אסטרטגיה כלליים** — בארגון ברירת-המחדל היא Find slot + Backward + Finite — אצוות-המילוי 'נצמדות' לתאריך-המשלוח מבלי לשבור את הקיבולת של הקו; Non-working times מוגדר 'דלג' כדי לא לתזמן במשמרת-לילה סגורה.\n\nמתכנן ב-Find slot + Backward + Finite גורר פעולה: המערכת מחפשת אחורה מתאריך-היעד את החלון-הפנוי האחרון על המשאב מבלי לחרוג מהקיבולת ומבלי לדחוף פעולות שכנות.\n\n**פרמטרי אסטרטגיה לאובייקטים תלויים** — בארגון דחיית-מילוי גוררת אוטומטית את הכנת-התרכיז (קדם) ואת האריזה (עוקב), כך שאצוות-המשקה נשארת רציפה ולא נוצרת אריזה לפני שהמשקה מוכן.\n\nמתכנן דוחה פעולת-מילוי בשעתיים. עם 'Schedule dependent objects' פעיל, פעולת-הערבוב שמזינה אותה (Predecessor) נדחית בהתאם, ופעולת-האריזה שאחריה (Successor) זזה גם — כל השרשרת נשארת עקבית."
    },
    {
     "kind": "flow",
@@ -8865,12 +8589,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "קדימות לדרישות-חשובות בעת מחסור.",
      "משתלב עם DDMRP/Buffers."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון המתכנן מריץ שרשרת-Heuristics על קו-המילוי: סידור-רצף לפי תאריך-משלוח, ואז 'Minimize Runtime' שמקבץ טעמים-דומים יחד כדי לצמצם שטיפות-CIP בין החלפות-טעם.\n\nמתכנן בוחר את כל הפעולות על המשאב ב-Detailed Scheduling Planning Board ומריץ 'Schedule Sequence' למיון לפי תאריך-יעד; אז מריץ 'Remove Backlog' לדחיפת פעולות-איחור קדימה; ולבסוף 'Minimize Runtime' לצמצום-Setup.\n\n**תזמון רצף** — בארגון Schedule Sequence מסדר את אצוות-המילוי של היום לפי תאריכי-המשלוח — בסיס שעליו ירוץ אחר-כך Minimize Runtime לקיבוץ-טעמים.\n\nמתכנן בוחר 20 פעולות לא-מסודרות, מריץ Schedule Sequence לפי תאריך-יעד, והמערכת מסדרת אותן ברצף רציף על הקו, הקרוב-ביותר-לתאריך ראשון.\n\n**הסרת איחורים (Backlog)** — בארגון אחרי תקלת-קו לילית, אצוות-המילוי שלא בוצעו נשארות 'בעבר'; הרצת Remove Backlog בבוקר דוחפת אותן לחלונות הפנויים של היום וחושפת אילו משלוחים בסיכון-איחור.\n\nבבוקר המתכנן מריץ Remove Backlog: כל פעולות-האיחור (שלא בוצעו אתמול) נדחפות קדימה לחלונות-הפנויים הקרובים, והלוח מציג תמונה מבוצעת-יכולה.\n\n**תזמון פעולות** — בארגון כשמוסיפים אצוות-מילוי חירום לאמצע-היום, Schedule Operations ממקם רק אותן בחלונות-הפנויים מבלי למיין-מחדש את כל רצף-הטעמים שכבר אושר.\n\nנוצרה פק\"ע חדשה שפעולותיה 'לא-מתוזמנות' (Deallocated). המתכנן בוחר אותן ומריץ Schedule Operations; הן ממוקמות בחלונות-פנויים לפי Find slot + Backward מבלי לשבש את שאר הלוח.\n\n**מזעור זמן ריצה** — בארגון זהו ה-Heuristic הקריטי: ה-Setup Matrix מגדיר ששטיפת-CIP בין מוגז-רגיל למוגז-זירו קצרה, אך בין מוגז לספרייט ארוכה (טעם/צבע). Minimize Runtime מקבץ טעמים-מאותה-משפחה כדי לחסוך שטיפות, ומסדר את הרצף 'בהיר→כהה' לצמצום-ניקוי.\n\nעל משאב עם 8 אצוות בסדר אקראי, Minimize Runtime מקבץ מוצרים-דומים יחד; סך-זמני-ה-Setup יורד מ-4 שעות ל-1.5, והקיבולת-הפנויה גדלה.\n\n**Heuristics של מסגרת תזמון רב-שלבי** — בארגון משקה = הכנת-תרכיז ➔ ערבוב ➔ מילוי ➔ אריזה; Heuristic רב-שלבי מסדר את כל ארבעת השלבים בעקביות כך שאף שלב לא מתחיל לפני שקודמו מוכן.\n\nמוצר תלת-שלבי: Heuristic רב-שלבי Bottom-up מתזמן קודם את הערבוב, ואז ממקם את המילוי אחריו, ואת האריזה אחרי המילוי — בכיבוד מרווחי-הזמן בין השלבים.\n\n**Heuristic לתזמון רב-משאבי** — בארגון שני קווי-מילוי זהים (Line 1, Line 2); ה-Heuristic מאזן ביניהם את אצוות-היום, ומנתב טעם מסוים לקו שעליו ה-Setup הנדרש קצר יותר.\n\nשלוש מכונות זהות; ה-Multiresource Heuristic מחלק 30 פעולות ביניהן באיזון, ובוחר לכל פעולה את המכונה הפנויה-ביותר התואמת ל-Mode.\n\n**תזמון מונחה-ביקוש** — בארגון לפני חג עם ביקוש-שיא, תזמון מונחה-ביקוש נותן עדיפות לאצוות המזינות הזמנות-קמעונאות-גדולות על-פני מילוי-מלאי-בטחון, כדי להבטיח אספקה ללקוחות-המפתח.\n\nבעת מחסור-קיבולת, ה-Heuristic מתזמן קודם את אצוות המזינות הזמנות-לקוח בעדיפות-גבוהה, ודוחה מילוי-מלאי בעדיפות-נמוכה ליום הבא."
    },
    {
     "kind": "flow",
@@ -9110,12 +8828,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון המתכנן-הראשי עובד יומית ב-Detailed Scheduling Planning Board לסידור-רצף-הטעמים; מנהל-המשמרת משתמש ב-Monitor Capacity Utilization לראות עומס-קווים בזמן-אמת, וה-Resource Planning Table משמש לאיזון-מהיר בין שני הקווים.\n\nמתכנן פותח את Detailed Scheduling Planning Board, מסנן את משאבי-המפתח, מריץ Heuristics, גורר התאמות-ידניות, ושומר. מנהל-התפעול פותח את Monitor Capacity Utilization לראות אילו קווים בעומס-יתר.\n\n**לוח תכנון לתזמון מפורט** — בארגון המתכנן פותח את הלוח לשני קווי-המילוי, רואה את רצף-הטעמים של היום, מריץ Minimize Runtime לקיבוץ-טעמים, וגורר ידנית אצווה דחופה תוך קיבועה כדי שה-Optimizer לא יזיז אותה.\n\nהמתכנן פותח את הלוח עם Work area של משאבי-המפתח, רואה עומס-יתר (פס-אדום), מריץ Remove Backlog ואז Minimize Runtime, גורר אצווה-דחופה קדימה, מקבע (Fix) אותה, ושומר.\n\n**לוח תזמון מתקדם** — בארגון צוות-תכנון חדש מאומן על ה-Advanced Scheduling Board במקום ה-SAP GUI הקלאסי — אותו רצף-טעמים, אותן Heuristics, בחוויית-Fiori שנוחה יותר על מסכי-המפעל.\n\nמתכנן פותח את ה-Advanced Scheduling Board ב-Fiori Launchpad, מסנן משאב, גורר פעולות בציר-הזמן, מריץ Heuristic מהתפריט, ובודק את העומס בתצוגה-המודרנית — הכל בדפדפן.\n\n**אפליקציית ניטור ניצול קיבולת** — בארגון מנהל-המשמרת בודק ב-Monitor Capacity Utilization שקו-המילוי המרכזי לא חורג מ-100% לפני חג; כשהוא רואה עומס-יתר, הוא מבקש מהמתכנן להעביר אצוות לקו-המשני.\n\nמנהל-תפעול פותח את האפליקציה בבוקר, רואה קו-2 ב-130% ביום-חמישי, עושה drill-in לראות אילו הזמנות גורמות לעומס, ומפנה את המתכנן לאזן.\n\n**טבלת תכנון משאבים** — בארגון ה-Resource Planning Table משמש לאיזון-שבועי בין שני קווי-המילוי: כשקו-אחד עמוס, מעבירים כמות-ייצור לקו-השני ברמת-Bucket, והרצף-המדויק נקבע אחר-כך בלוח.\n\nמתכנן רואה בטבלה עומס-יתר על קו-1 בשבוע-הבא; הוא מעביר חלק מהעומס לקו-2 (משאב-חלופי) ישירות בטבלה, ואז יורד ל-Planning Board לתזמון-המדויק."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -9322,12 +9034,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון ה-Optimizer פותר את 'בעיית-רצף-הטעמים' השבועית: עשרות אצוות, Setup Matrix תלוי-זוג-טעמים, ושני קווים — הוא מחזיר רצף שממזער שטיפות-CIP (עלות-Setup) תוך עמידה במרב תאריכי-המשלוח.\n\nעל משאב עם 40 פעולות, רצף-Setup מורכב ותאריכי-יעד צפופים, המתכנן מריץ את ה-Optimizer עם פרופיל שמשקלל מזעור-Setup (משקל-גבוה) ומזעור-איחורים (משקל-בינוני); תוך 5 דקות מוחזר רצף שמצמצם Setup ב-40% עם מינימום-איחורים.\n\n**פונקציות מטרה** — בארגון עלות שטיפת-CIP (Setup) גבוהה, ולכן Setup-cost מקבל משקל-גבוה; אך לפני חג, המשקל של Delay מוגבר זמנית כדי להבטיח עמידה-בתאריכי-קמעונאות גם במחיר שטיפות-נוספות.\n\nארגון שעלות-איחור-ללקוח גבוהה מעלות-Setup נותן משקל-גבוה ל-Delay costs ומשקל-נמוך ל-Setup; ה-Optimizer יעדיף עמידה-בתאריכים גם במחיר החלפות-נוספות.\n\n**פרופיל אופטימיזציה** — בארגון שני פרופילים: 'OPT_STD' (מזעור-שטיפות-CIP) לשגרה, ו-'OPT_PEAK' (עמידה-בתאריכים) לעונת-שיא; המתכנן מחליף ביניהם לפי לוח-השנה.\n\nאדמין מגדיר פרופיל 'OPT_STD' (Setup-משקל-גבוה, runtime 5דק') ופרופיל 'OPT_HOLIDAY' (Delay-משקל-גבוה, runtime 10דק'); המתכנן בוחר פרופיל לפי-העונה ומריץ.\n\n**הרצה וניטור של אופטימיזציית תזמון מפורט** — בארגון המתכנן מריץ את ה-Optimizer לרצף-השבוע, בודק בלוג שמספר שטיפות-ה-CIP ירד ושכל אצוות-החג תוזמנו (אין Non-scheduled), ורק אז מקבל ושומר את הרצף.\n\nהמתכנן מריץ Optimizer, פותח את ה-Optimization log, רואה Setup ירד מ-6 ל-3.5 שעות ו-2 איחורים-בלבד, מאמת שאין פעולות Non-scheduled, ומקבל את הפתרון; אחרת — מכוונן משקלים ומריץ-שוב."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -9521,12 +9227,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון המחזור-המלא: ניטור-עומסי-קווים (Monitor Capacity Utilization) ➔ סידור-רצף-טעמים ומזעור-שטיפות-CIP (Heuristics/Optimizer) ➔ איזון בין שני הקווים (Resource Planning Table) ➔ קיבוע אצוות-חירום ושמירה — וכך משקאות-הארגון מיוצרים בסדר-מיטבי, עם פחות-החלפות ועמידה-בתאריכי-משלוח.\n\nתהליך-יומי טיפוסי: בוקר — Remove Backlog ב-Production Planning Run; מתכנן — Schedule Sequence + Minimize Runtime בלוח; עומס-יתר — איזון ב-Resource Planning Table; רצף-מורכב/שבועי — Detailed Scheduling Optimizer עם ניטור-Log; קיבוע-החלטות-ידניות + Save → CIF ל-S/4."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -9714,12 +9414,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "Transport מבטיח עקביות בין סביבות וממשל-שינויים.",
      "ודא קיום אובייקטי-Selection ביעד."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון (מפעל-בקבוק מוצר לדוגמה) מתכנן קווי-המילוי מגדיר alert profile המתמקד בשלוש חריגות: מחסור-תרכיז (shortage) לפני ריצת-מילוי, פיגור (backlog) של פק\"ע משקה מאחורי תאריך-המשלוח לרשת-קמעונאות, ועומס-יתר (resource overload) על קו-המילוי בעונת-השיא (קיץ). רק שלוש קבוצות-התראה אלו מוצגות לו — לא התראות-איכות או תחזוקה.\n\nמתכנן אחראי על קבוצת-מוצרים מגדיר alert profile: התראת-מחסור כש-Available Quantity שלילי, התראת-פיגור כש-Order End אחרי Requirement Date, והתראת עומס-משאב כשניצול > 100%. הוא משייך אותו ל-overall profile האישי שלו. בכל בוקר הוא פותח את /SAPAPO/AMON1, רואה 12 התראות במקום 4,000 הזמנות, ופותר אותן לפי חומרה.\n\n**הפעלה וגישה למוניטור ההתראות** — בארגון במהלך ה-go-live היועץ מפעיל alert determination ל-PP/DS, מצמיד את /SAPAPO/AMON1 כמסך-פתיחה למתכנני-המילוי, ומוודא שגרסת-התכנון של מפעל-הבקבוק פעילה — אחרת התראות-המחסור לא יחושבו.\n\nיועץ-מימוש מפעיל ב-SPRO את Alert Determination ל-PP/DS, בודק שגרסת-התכנון 000 קיימת, ונכנס ל-/SAPAPO/AMON1. המסך נפתח עם overall profile ברירת-מחדל; המתכנן יכול כעת לבחור פרופיל ולהריץ.\n\n**יצירת פרופיל התראות** — בארגון נוצר פרופיל \"BEV_LINE\": Shortage על תרכיז ו-CO2, Backlog על פק\"ע-משקה מול תאריך-משלוח, Resource Overload על קו-המילוי. ספים מותאמים לעונת-השיא: בקיץ סף-העומס יורד ל-95% כדי להתריע מוקדם.\n\nמתכנן יוצר פרופיל \"FILLING_PLANNER\": מסמן Shortage (סף: כמות-זמינה שלילית, חומרה Error), Backlog (סף: יום-אחד פיגור, Warning), Resource Overload (סף: 100%, Warning). שומר ומשייך ל-overall profile האישי.\n\n**יצירת פרופיל-על (Overall Profile)** — בארגון מתכנן-המילוי מגדיר overall profile \"MFG_DAILY\" המאגד את alert profile של PP/DS (מחסור-תרכיז, פיגור-משקה, עומס-קו) יחד עם פרופיל-ATP לזמינות-משלוח לרשתות — מבט אחד מהמחסן ועד הקו.\n\nמתכנן יוצר overall profile \"PLANNER_DAILY\" ומשייך אליו את alert profile של PP/DS (Shortage/Backlog/Overload) וגם alert profile של ATP. בבוקר הוא טוען פרופיל-על אחד ורואה את כל התמונה.\n\n**העברת פרופילים (Transport)** — בארגון ה-shared profile \"BEV_LINE\" נבנה ב-DEV, נבדק ב-QA דרך Transport, ועובר ל-PRD לפני ה-go-live. כל מתכנני-המילוי בכל המפעלים מקבלים פרופיל זהה ללא הזנה ידנית.\n\nהיועץ מגדיר shared overall profile בפיתוח, מפעיל Transport, ומשחרר את ה-request. ב-QA וב-Production הפרופיל מופיע זהה; המתכננים רק בוחרים אותו."
    },
    {
     "kind": "flow",
@@ -9947,12 +9641,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון המתכנן רואה התראת resource overload על קו-מילוי-2 בשיא-הקיץ; הוא קופץ ל-DS Board, מעביר חלק מהפק\"ע לקו-3 שפנוי, והעומס יורד מתחת לסף — ההתראה נסגרת.\n\nמתכנן פותח /SAPAPO/AMON1, רואה 8 התראות-מחסור באדום. הוא לוחץ על אחת, נופל ישירות ל-Product View של אותו מוצר, מזהה הזמנה-מתוכננת מאוחרת, מקדים אותה, וההתראה נעלמת ברענון.\n\n**ניטור התראות מתוך מוניטור ההתראות** — בארגון מתכנן-המילוי פותח /SAPAPO/AMON1 בבוקר עם פרופיל \"MFG_DAILY\", רואה מחסור-תרכיז כ-Error, קופץ ל-RRP3 ומקדים אספקת-תרכיז לפני ריצת-המילוי.\n\nמתכנן טוען overall profile, ממיין לפי חומרה, פותח קבוצת Shortage, לוחץ על מוצר, נופל ל-RRP3, מקדים הזמנה, חוזר ומרענן — השורה נעלמה.\n\n**יצירת התראות ברקע** — בארגון job-לילי מחשב התראות-מחסור ופיגור על כל קווי-המילוי וכל המפעלים; בבוקר מתכננֵי-המשמרת רואים סקירה מוכנה. reorg-שבועי מנקה התראות-ישנות מ-ALERTDB.\n\njob-לילי מריץ alert determination על כל המוצרים ושומר 1,200 התראות ב-ALERTDB. בבוקר 30 מתכננים פותחים את המוניטור — כל אחד רואה רק את שלו, מיד, ללא חישוב חוזר.\n\n**ניטור התראות מתוך יישומי PP/DS** — בארגון מתכנן-המילוי ב-DS Board של קו-2 רואה context alert של עומס-יתר תוך-כדי גרירת פק\"ע-משקה; הוא מעביר חלק לקו-3 וההתראה במסך נעלמת מיד.\n\nמתכנן עובד ב-DS Board, גורר פק\"ע לקו אחר; מיד מופיעה התראת resource overload על הקו-החדש. הוא מבטל את ההזזה או מפצל — closed loop באותו מסך."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -10154,12 +9842,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון: פרופיל \"BEV_LINE\" (מחסור-תרכיז, פיגור-משקה, עומס-קו) → overall \"MFG_DAILY\" → Transport לכל המפעלים → job-לילי + reorg-שבועי. מתכנני-המשמרת מנהלים את עונת-השיא לפי חריגות בלבד, מהמחסן ועד קו-המילוי.\n\nמחזור-חיים שלם: יועץ מגדיר alert profile + overall profile ב-DEV, מעביר ב-Transport ל-PRD, מתזמן job-לילי + reorg; בבוקר המתכנן פותח /SAPAPO/AMON1, מטפל בחריגות drill-down, וממשיך לתקן context alerts תוך-כדי עבודה ב-DS Board."
-   },
-   {
     "kind": "tables",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -10330,12 +10012,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "סף לפי Min Remaining + מרווח-פעולה.",
      "שייך פרופיל ל-Planner ולתצוגה."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון משקה מוגמר נושא shelf life של ~9 חודשים; תרכיז ~6 חודשים. תכנון shelf life מבטיח שמשלוח ללקוח יכלול מלאי עם מספיק ימים-נותרים (Min Remaining Shelf Life) לפי דרישת-הרשת הקמעונאית, ושתערובת-בסיס לא-יציבה תיוצר סמוך-מאוד למילוי.\n\nדרישה ל-1,000 יח' בתאריך 1.7. במלאי 1,000 יח' שפג ב-20.6 — PP/DS לא ישייך אותם (יפוגו לפני הדרישה), ויתכנן פק\"ע חדשה שתסתיים בזמן עם זמן-מדף-נותר מספק. ה-Pegging יוצר קשר רק בין דרישה לבין מלאי תקֵף שיעמוד בזמן-המדף-המינימלי.\n\n**נתוני-אב** — בארגון: משקה FERT — MHDRZ=270, MHDHB=90; תרכיז ROH — MHDRZ=180, MHDHB=60. כל אצוות-תרכיז מקבלת VFDAT אוטומטי בקליטה לפי MHDRZ.\n\nפתיחת חומר עם MHDRZ=270 ימים ו-MHDHB=90 ימים: כל אצווה שתיקלט תקבל VFDAT=תאריך-ייצור+270, ו-PP/DS לא ישייך אותה לדרישה שיותר מ-180 יום אחרי הייצור.\n\n**אינטגרציה של אצוות עם תוקף-מדף** — בארגון מחסן-המוצר-המוגמר מכיל אצוות-משקה מתאריכי-מילוי שונים; PP/DS משייך FEFO כך שהמשלוח לרשת יוצא מהאצווה הקרובה-לתפוגה שעדיין עומדת בדרישת-הימים-הנותרים.\n\nשתי אצוות במלאי: A פג ב-1.8, B פג ב-1.10. דרישה ב-15.7 — PP/DS משייך FEFO את A (פג מוקדם), ושומר את B לדרישה מאוחרת יותר, כל עוד שתיהן עומדות ב-Min Remaining.\n\n**Pegging ותכנון** — בארגון דרישה לקמפיין-מילוי באוקטובר לא תקושר לתערובת-בסיס שיוצרה ביולי (פגה); ה-Pegging יחייב ייצור-תערובת סמוך-למילוי, ובכך מתאם את תכנון-הקמפיין.\n\nדרישה ב-1.9 ל-500 יח'. אספקה זמינה שפגה ב-20.8 — ה-Pegging דוחה אותה ו'מחפש' אספקה אחרת או יוצר הזמנה-מתוכננת חדשה. ה-arc ב-RRP3 מקשר רק למקור-תקף.\n\n**אלרטים לתוקף-מדף** — בארגון המתכנן פותח את Alert Monitor בבוקר ורואה אילו אצוות-משקה מתקרבות לתפוגה במחסנים האזוריים, ומפנה אותן לרשתות עם תחלופה-מהירה.\n\nאצווה תפוג בעוד 10 ימים ואין לה דרישה — האלרט 'Shelf life expiring without demand' מופיע; המתכנן מקדם משלוח או מסמן להורדת-מחיר."
    },
    {
     "kind": "flow",
@@ -10584,12 +10260,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון מעבר עיצוב-תווית עונתי: התווית-הקודמת מוגדרת predecessor לתווית-החדשה עם תאריך-הפסקה; PP/DS צורך את המלאי-הישן עד תום ואז עובר לחדשה, ומונע גריטת-תוויות. בקבוקים שווי-נפח ממוצרנים-שונים מוגדרים Form-Fit-Function להחלפה-הדדית.\n\nתווית-עיצוב-ישנה (predecessor) מוחלפת בעיצוב-חדש (successor) מתאריך 1.7. עד אז MRP/PP/DS צורך את הישנה; מ-1.7 או כשהמלאי-הישן אזל — עובר אוטומטית לחדשה, בלי מלאי-מת.\n\n**נתוני-אב** — בארגון קבוצת-החלפה 'בקבוק-500מל': מוצרני-זכוכית A ו-B כ-FFF דו-כיווני; קבוצת-תווית-עונתית כ-supersession עם Use-up.\n\nיצירת קבוצה 'תוויות-מוצר לדוגמה': member ישן + member חדש, supersession ישן→חדש, Effective-out 30.6, Use-up=פעיל. PP/DS ינהל את המעבר אוטומטית.\n\n**המרה בתהליך-התכנון** — בארגון הרצת-תכנון לקראת חילופי-עונה: PP/DS צורך את מלאי-התווית-הישנה עד תום ואז מתכנן ייצור עם התווית-החדשה — מעבר חלק ללא גריטה.\n\nדרישה ל-successor ב-15.7, אך יש 200 יח' predecessor במלאי ו-Use-up פעיל — PP/DS צורך תחילה את ה-200 ורק ליתרה מתכנן successor חדש."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -10790,12 +10460,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "ממזער changeover; ממקסם תפוקה.",
      "נשען על CDP; Fixed מול Flexible."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון משקה מנוהל לפי מאפיין Flavor (מוגז/דיאט/לימון) וגודל-אריזה; CDP מאפשר לתכנן ולשייך מלאי לפי-טעם — דרישת-'דיאט' לא תכוסה במלאי-'רגיל'. זה הבסיס ל-block planning של קו-המילוי לפי טעמים.\n\nחומר 'צבע' עם מאפיין Color. דרישה ל-Color=Red תכוסה רק ע\"י מלאי/אספקה עם Color=Red; ה-Pegging לא יקשר דרישת-אדום למלאי-כחול, גם אם אותו מספר-חומר.\n\n**תכנון ו-Pegging** — בארגון דרישת Flavor=Diet, Pack=Can-330 תקושר רק לאספקת-משקה עם אותם ערכים; pegging מונע שיוך מלאי-'רגיל' לדרישת-'דיאט'.\n\nדרישה Color=Red, Size=L. רק receipt עם Color=Red+Size=L יתפגג אליה; receipt Color=Red+Size=M לא יתאים.\n\n**תכנון-בלוקים** — בארגון קו-מילוי מתוכנן בבלוקים לפי Flavor: בלוק-בוקר=מוגז-רגיל, צהריים=דיאט, ערב=לימון. כל בלוק ממזער ניקוי-בין-טעמים (CIP) ומקבץ את הטעם — חיסכון משמעותי בזמני-changeover.\n\nמשאב עם בלוקים: Mon 06-14 = Color Red, Mon 14-22 = Color Blue. פק\"ע-אדום משובצת אוטומטית לבלוק-האדום; אין החלפת-צבע בתוך בלוק."
    },
    {
     "kind": "flow",
@@ -11022,12 +10686,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון טנק-ערבוב מייצר אצוות-מינימום של תערובת גדולות מצריכת-המילוי-המיידית; ה-Push Production view מציג את עודף-התערובת ומאפשר לתכנן ריצת-מילוי-נוספת לפני שהתערובת תפוג (shelf life).\n\nשלב-ערבוב מייצר 1,200 ק\"ג תערובת בעוד שלב-המילוי צריך רק 1,000. 200 ק\"ג 'נדחפים'; ה-Push Production view מזהה אותם ומאפשר לתזמן מילוי-נוסף או לשייכם לדרישה-עתידית.\n\n**זיהוי בעיית ה-Push** — בארגון המתכנן רואה ב-Product View של התערובת 200 ק\"ג לא-מפוגגים מאצוות-המינימום, ומזהה שזה עודף הדורש תיעול-מילוי לפני תפוגה.\n\nב-RRP3 רואים receipt של 200 ק\"ג ללא arc לדרישה; ה-pegging overview מסמן surplus — זוהי בעיית-ה-push לטיפול.\n\n**הפעלת תצוגת ה-Push Production** — בארגון המתכנן פותח את ה-Push view, רואה עודף-תערובת, ומתזמן בלחיצה ריצת-מילוי-נוספת בקו לפני שהתערובת תפוג — העודף הופך למוצר-מוגמר.\n\nבתצוגת Push בוחרים את 200 ק\"ג-העודף ומפעילים 'schedule downstream' — נוצרת ריצת-מילוי שצורכת אותם, וה-pegging מתעדכן ל-arc תקין."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -11220,12 +10878,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "זהה over/under-fill ואזן ידנית.",
      "שינויים ל-livecache; בדוק shelf life."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון מכלי-סירופ מנוהלים ב-Tank Planning: כל מכל מאחסן טעם-סירופ אחד; התכנון מתזמן ערבוב-סירופ למילוי-המכל ושאיבה ממנו לקווי-המילוי, מבלי לחרוג מנפח-המכל ומבלי לערבב טעמים (CDP).\n\nמכל בנפח 50,000 ל'. ייצור-תערובת ממלא אותו; ריצות-מילוי שואבות ממנו. Tank Planning מבטיח שלא ממלאים מעל-50,000 ושלא שואבים מתחת-למינימום, ומציג את עקומת-המילוי לאורך-המשמרת.\n\n**קונפיגורציה** — בארגון מגדירים כל מכל-סירופ כ-Tank Resource עם נפחו האמיתי; מילוי-מערבל יוצר נפח, שאיבה-לקו צורכת נפח, והקונפיגורציה אוכפת את גבולות-המכל.\n\nמגדירים Tank Resource עם max=50,000 ל', min=5,000 ל'; כל ייצור-לתוך-המכל בודק מול ה-max, כל שאיבה מול ה-min.\n\n**נתוני-אב** — בארגון כל מכל-סירופ מקבל נתוני-אב: נפח-מכל, סוג-הסירופ (CDP Flavor), ו-shelf life של הסירופ; כך התכנון יודע כמה ומה אפשר בכל מכל.\n\nTank Resource T01: max 50,000 ל', min 5,000 ל', חומר=סירופ-מוגז, יחידת-נפח L; CDP Flavor=Drink — רק סירופ-מוגז מותר.\n\n**תכנון-מכלים אינטראקטיבי** — בארגון מתכנן-המשמרת פותח את ה-Tank Planning Board, רואה את מכלי-הסירופ מתמלאים/מתרוקנים מול קצב-קווי-המילוי, ומאזן ערבוב-סירופ מול שאיבה כך שאף מכל לא עולה-על-גדותיו ואף קו לא נעצר ביובש.\n\nבלוח רואים שמכל T01 יחרוג מ-max ב-14:00; המתכנן מקדים ריצת-מילוי השואבת ממנו, ועקומת-המילוי חוזרת לתחום החוקי."
    },
    {
     "kind": "flow",
@@ -11444,12 +11096,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון קמפיין-טעם: כל ריצות-המוגז של השבוע מקובצות לקמפיין-אחד על קו-המילוי, עם CIP בתחילתו ובסופו בלבד; כך מבצעים ניקוי-בין-טעמים פעם-אחת ולא לפני כל אצווה — חיסכון-ניקוי משמעותי.\n\nבמקום 5 אצוות עם 5 ניקויים (5×2 שעות), קמפיין-אחד: ניקוי-פתיחה (2 שעות) + 5 ריצות-רצופות + ניקוי-סגירה (2 שעות) = 4 שעות-ניקוי במקום 10. חיסכון של 6 שעות-משאב.\n\n**קונפיגורציה** — בארגון מגדירים Campaign Profile לקו-מילוי: CIP-פתיחה, CIP-סגירה, וקיבוץ-לפי-Flavor — כך קמפיין-מוגז לא יערבב דיאט באמצע.\n\nCampaign Profile: setup-פתיחה=CIP 2שע', cleanup-סגירה=CIP 2שע', grouping=אותו Flavor; כל orders-המוגז יקובצו אוטומטית.\n\n**נתוני-אב** — בארגון matrix-ה-changeover בין-טעמים (מוגז→דיאט קצר; מוגז→לימון ארוך עם CIP-מלא) מנחה את בניית-הקמפיינים כך שמעברי-טעם יקרים ימוזערו.\n\nChangeover matrix: מוגז→דיאט=30דק', מוגז→לימון=90דק'; ה-DS יעדיף לקבץ מוגז+דיאט באותו קמפיין לפני מעבר ללימון.\n\n**כלי תכנון-הקמפיין** — בארגון מתכנן-הקו משתמש בכלי-הקמפיין כדי לקבץ את כל ריצות-המוגז השבועיות, לפצל קמפיין כשמגיעה דרישה-דחופה לדיאט, ולוודא ש-CIP מתבצע רק בקצוות.\n\nהמתכנן ממזג שני קמפייני-מוגז קטנים לאחד גדול ב-Planning Board — ה-setup/cleanup הכפול מתבטל, וזמן-המשאב הפנוי גדל."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -11646,12 +11292,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "pegging/ATP מכבדים Consumption rule.",
      "segment נראה ב-RRP3/MD04."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון משקה מפולח לפי ערוץ: 'Export' מול 'Domestic', או לפי איכות 'A-grade' מול 'B-grade'. דרישת-ייצוא תכוסה רק במלאי-ייצוא-segment; כך מובטח מלאי ייעודי לכל ערוץ ללא 'גניבה' בין-ערוצים.\n\nאותו חומר בשני סגמנטים: 'Premium' ו-'Standard'. דרישת-לקוח-Premium מכוסה רק במלאי-Premium-segment; מלאי-Standard לא ישויך אליה, לפי consumption rule.\n\n**נתוני-אב** — בארגון מגדירים Strategy לפי-ערוץ (Export/Domestic) או איכות (A/B), ומשייכים לכל FERT-משקה; כל אצווה מקבלת segment לפי ערכי-ה-Characteristics שלה.\n\nStrategy 'Channel': Stock segments=Export/Domestic, Requirement segments=Export/Domestic, Consumption=same-only; שיוך לחומר-המשקה.\n\n**נתוני-תנועה** — בארגון אצוות-משקה מקבלות segment=Export/Domestic לפי יעדן; דרישת-לקוח-ייצוא תקושר רק לאצוות-Export, ומלאי-Domestic נשמר לשוק-המקומי.\n\nמלאי-אצווה עם segment=Export ודרישת-לקוח segment=Domestic — ה-pegging לא יקשר ביניהם (Consumption=same-only), ויידרש מלאי-Domestic נפרד."
    },
    {
     "kind": "flow",
@@ -11853,12 +11493,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון כל היכולות פועלות יחד: מכלי-סירופ (Tank) מזינים קווי-מילוי המתוכננים בקמפייני-טעם (Campaign+Block+CDP), המוצר נושא shelf life ומפולח לערוצים (Segmentation), עודפי-תערובת מתועלים (Push), ומעברי-עיצוב מנוהלים (Interchangeability) — תכנון-תהליך שלם לבקבוק.\n\nתרחיש-משולב: דרישת-משקה מפולחת (Segmentation) מתוכננת ב-CDP לפי-טעם, מיוצרת בקמפיין (Campaign) על קו עם block planning, מסירופ-מכל (Tank Planning) תוך כיבוד shelf life ו-pegging; עודף-תערובת מתועל דרך Push Production; תווית-ישנה מנוצלת דרך Interchangeability."
-   },
-   {
     "kind": "tables",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -12016,12 +11650,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "BD54 + SM59 + BSG אחד = שלד-האינטגרציה.",
      "ניטור-תורים (SMQ1/SMQ2) הוא חובת-תפעול ב-sidecar."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון: ה-ERP (ECC) מנהל את מילוי-המשקאות, המלאי ואישורי-הקווים. DMP מותקן כ-sidecar ומתזמן את קווי-המילוי עם ה-Optimizer (רצף, זמני-החלפה, מינימום שטיפות). תכנית-המילוי מחושבת ב-DMP ומוחזרת ל-ECC לביצוע — הקו עצמו ממשיך לרוץ מול ECC כרגיל.\n\nביקוש למוצר נקלט ב-ERP כהזמנת-לקוח. דרך CIF הוא מועבר ל-DMP כדרישה. PP/DS מתזמן ויוצר Planned Order עם תאריכים מדויקים ב-liveCache. ה-Planned Order מועבר חזרה ל-ERP דרך CIF, מומר שם ל-Production Order, מבוצע ברצפה, והאישור (confirmation) זורם בחזרה ל-DMP לעדכון התמונה."
    },
    {
     "kind": "flow",
@@ -12208,12 +11836,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון לפני חיבור ה-sidecar: ה-Basis מאשר שה-ECC במפלס-תמיכה תואם ל-CIF, שה-DMP עם liveCache ירוק, ושמשתמש-CIF (RFC) קיים בשתי המערכות עם time zone אחיד — אחרת תאריכי-המילוי יסטו בין המערכות.\n\nצוות-טכני מריץ LC10 ומוודא ש-liveCache במצב Running, בודק SM59 connection test לשני הכיוונים, מוודא ש-PP/DS מסומן פעיל ב-scope, ורק אז ניגש להגדיר Integration Models. כל סעיף שנכשל נחסם עד לתיקון."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -12394,12 +12016,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "רק Version 000 מתעדכנת מ-CIF; השאר סימולציה.",
      "planning procedure מפעיל תכנון אוטומטי בקליטה."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון: ה-ECC מוגדר לפרסם את חומרי-המשקה והקווים ל-DMP, וה-DMP מוגדר עם planning version פעילה לקווי-המילוי. רק כששני הצדדים מסונכרנים, תכנית-המילוי זורמת.\n\nצוות-המימוש קודם מגדיר את צד-ה-ERP (RFC, distribution), ואז את צד-ה-DMP (planning version, CIF inbound), ולבסוף מריץ Integration Model ראשון לבדיקת זרימה מקצה-לקצה.\n\n**הגדרות במערכת ה-ERP** — בארגון ה-ECC מוגדר עם target system = DMP, RFC ל-DMP, ו-application log פעיל — כך חומרי-המשקה והקווים מוכנים לפרסום ל-sidecar.\n\nב-ECC מגדירים target system = DMP (CFC1), RFC destination אליו (SM59), ומפעילים application log + queue type ב-CFC2. כעת ה-ERP מוכן לפרסם Integration Models.\n\n**הגדרות ב-SAP S/4HANA Manufacturing for Planning and Scheduling** — בארגון ה-DMP מחזיק Version 000 פעילה לקווי-המילוי; planning procedure מפעיל heuristic-תכנון אוטומטי על כל חומר-משקה שנקלט מ-ECC, וה-Optimizer מסדר את רצף-הקווים.\n\nב-DMP מוודאים ש-Model 000/Version 000 קיימים, מגדירים CIF inbound queue, וקובעים planning procedure לחומרים שייקלטו. כשחומר נכנס מ-CIF, הוא משויך ל-Version 000 ומוכן ל-heuristic/Optimizer."
    },
    {
     "kind": "flow",
@@ -12630,12 +12246,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "order mapping + /SAPAPO/CCR שומרים עקביות.",
      "ניטור SMQ1/SMQ2 הוא קו-ההגנה התפעולי."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון: master data (חומרי-משקה, קווי-מילוי כ-resources, מתכונים כ-PDS) מועבר ראשון; אחריו transaction data (דרישות-מילוי, אישורי-קווים). PP/DS מתזמן את הקווים ומחזיר תכנית ל-ECC.\n\nתחילה Integration Model של master data מעביר חומרים, resources ו-PDS ל-DMP. אחר-כך Integration Model של transaction data מעביר דרישות והזמנות. PP/DS מתכנן, וה-Planned Orders חוזרים ל-ERP — הכל דרך אותו ערוץ-CIF.\n\n**אינטגרציה של נתוני אב** — בארגון: חומרי-המשקה → products; קווי-המילוי → resources; מתכון-המשקה (BOM+routing) → PDS; המפעל → location. כל אלה עוברים ראשונים, לפני דרישות-המילוי.\n\nIntegration Model של master data מועבר: חומרי-המוצר הופכים ל-products ב-DMP, מרכזי-העבודה ל-resources, וה-BOM+routing ל-PDS. שינוי routing ב-ERP מעדכן את ה-PDS דרך CIF delta.\n\n**אינטגרציה של נתוני תנועה** — בארגון: דרישת-מילוי זורמת מ-ECC ל-DMP; PP/DS מתזמן את הקו ויוצר Planned Order; הוא חוזר ל-ECC כפק\"ע-מילוי; אישור-הקו (כמות שיוצרה) זורם בחזרה ומעדכן את עומס-הקו ב-DMP.\n\nהזמנת-לקוח ב-ERP זורמת ל-DMP כדרישה; PP/DS יוצר Planned Order; הוא חוזר ל-ERP ומומר ל-Production Order; הביצוע ברצפה מדווח (confirmation) וזורם בחזרה ל-DMP לעדכון-עומס ו-pegging."
    },
    {
     "kind": "flow",
@@ -12870,12 +12480,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון המעגל המלא: ECC כביצוע, DMP כ-sidecar לתזמון-קווים, CIF כמסנכרן. master (משקאות, קווים, מתכונים) עבר ראשון; transaction (דרישות, אישורים) זורם חי; ניטור-CIF יומי שומר על תכנית-מילוי מסונכרנת מול הרצפה.\n\nמסלול-יישום טיפוסי: אמת תנאי-סף → הגדר ERP+DMP → העבר master data → העבר transaction data → תכנן ב-PP/DS → החזר Planned Orders → תפעל ניטור-CIF שוטף. כל שלב נשען על הקודם."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -13046,12 +12650,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "SYSFAIL=שגיאת-עיבוד, CPICERR=תקלת-תקשורת, READY נערם=בעיית-Scheduler.",
      "תקן ושחרר תורים — לעולם אל תמחק רשומה תקועה."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון כל הזמנת-מילוי-משקה, שינוי-מלאי-תרכיז ועדכון-קיבולת-קו-מילוי זורמים דרך ה-CIF אל PP/DS. בדיקת-בוקר קבועה של /SAPAPO/CQ לפני ריצת-ה-Heuristics היומית מוודאת שלוח-המילוי מתוכנן על תמונת-מלאי ודרישות מעודכנת; תור CFPLO* תקוע פירושו תכנון על מתכון/קיבולת ישנים.\n\nמתכנן מדווח שהזמנת-מכירה חדשה לא מופיעה ב-Product View (/SAPAPO/RRP3). הצוות פותח /SAPAPO/CQ, מסנן לפי המודל הפעיל, ומזהה רשומת-תור בסטטוס SYSFAIL עם שם-תור CFSLS*. לחיצה על השגיאה חושפת חריגה ב-target system; אחרי תיקון שורש-הבעיה מבצעים Activate/Execute LUW והתור משוחרר — ההזמנה זורמת ל-PP/DS."
    },
    {
     "kind": "flow",
@@ -13238,12 +12836,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון עונת-שיא: אלפי עדכוני-מילוי זורמים דרך CIF. הגדרת Postprocessing מבטיחה שעדכון-מתכון-בעייתי בודד לא יעצור את כל לוח-המילוי. צוות-PP/DS סורק את /SAPAPO/CPP1 בכל בוקר ומטפל ברשומות שנפלו במהלך-הלילה לפני הריצה היומית.\n\nעדכון-חומר נכשל כי שדה-חובה חסר ב-target. במקום SYSFAIL, הרשומה מוסטת ל-Postprocessing. האדמין פותח /SAPAPO/CPP1, רואה את ההודעה, מתקן את נתון-האב ב-S/4, ולוחץ Reprocess — הרשומה עוברת והתור מעולם לא נחסם."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -13409,12 +13001,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "פערים-חוזרים = בעיית-תהליך (מחיקת-תורים/Postprocessing), לא רעש.",
      "CCR מול ה-DB, OM17 בתוך liveCache — שלב את שניהם."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון מריצים CCR אוטומטי בלילה לכל מודלי-המילוי, אחרי שתעבורת-ה-CIF שוככת. דוח-הבדלים נסקר בבוקר; פער בהזמנות-מילוי או במלאי-תרכיז מתוקן לפני ריצת-התכנון, כדי שלוח-המילוי לא יתבסס על תמונה לא-עקבית.\n\nאחרי תחזוקת-מערכת בסוף-שבוע, צוות-Basis הריץ /SAPAPO/CCR למודל-הייצור. הדוח חשף 12 הזמנות-מתוכננות שקיימות ב-S/4 אך חסרות ב-liveCache (כנראה תורים שנמחקו בעבר). הצוות סימן אותן ובחר 'Resend from ERP'; ההשלמה יצרה אותן מחדש ב-liveCache והעקביות שוחזרה."
    },
    {
     "kind": "flow",
@@ -13586,12 +13172,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "רמת-רישום 'מלא' רק זמנית — אחרת ה-DB תופח.",
      "תזמן SLG2 housekeeping ושמור קישור מ-Postprocessing ליומן."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון רמת-הרישום הרגילה היא 'שגיאות בלבד' כדי לא להעמיס; בעת חקירת-תקלה מעלים זמנית ל'מלא' למספר-שעות. job-housekeeping שבועי (SLG2) מוחק יומני-CIF ישנים כדי לשמור על ביצועי-DB בשרת-המילוי.\n\nרשומת-Postprocessing נכשלה ב-Reprocess. האדמין לוחץ 'Display Log', /SAPAPO/C3 נפתח על אותה רשומה ומציג: 'Material X: MRP type missing in target plant'. הסיבה ברורה, התיקון ממוקד, וה-Reprocess הבא מצליח. במקביל, job שבועי של SLG2 מוחק יומני-CIF בני יותר מ-30 יום."
    },
    {
     "kind": "flow",
@@ -13776,12 +13356,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "התחל ב-OM13, עבור ל-LC10 אם down.",
      "runbook ממפה טרנזקציה לכל תרחיש."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון liveCache מחזיק את כל לוח-המילוי החי: הזמנות-מילוי, Pegging תרכיז→משקה, ועומסי-קווים. תחזוקה שבועית (housekeeping + OM17) מבטיחה שריצת-ה-Heuristics היומית מהירה ועובדת על רשת-Order עקבית.\n\nאחרי שבועות-עבודה, /SAPAPO/OM13 מראה שגודל-ה-liveCache גדל וזמני-התגובה עלו. הצוות מריץ job-housekeeping שמסלק גרסאות-תכנון ישנות ואובייקטים-מיותמים, ואז /SAPAPO/OM17 להשלמת-עקביות. הביצועים חוזרים לקדמותם.\n\n**תחזוקה (Housekeeping)** — בארגון job-housekeeping לילי מנקה הזמנות-מילוי שהושלמו וגרסאות-סימולציה ישנות, כדי שלוח-המילוי החי יישאר רזה לקראת ריצת-הבוקר.\n\njob שבועי מזהה 3,000 הזמנות-מתוכננות מיותמות (ללא רשומת-DB מקבילה) ומוחק אותן מ-liveCache; גודל-ה-liveCache יורד וזמן-ריצת-ה-Heuristics מתקצר.\n\n**השלמת-נתונים (Data Reconciliation)** — בארגון הרצת /SAPAPO/OM17 שבועית מוודאת שאחרי ניקוי-ה-housekeeping לא נותרו orphan-orders של מילוי — כדי שלוח-המילוי החי יהיה עקבי לחלוטין.\n\n/SAPAPO/OM17 מוצא 40 orphan-orders ב-liveCache ללא רשומת-DB. הצוות בוחר למחוק אותם (אחרי אימות), וה-liveCache חוזר לעקביות מלאה מול ה-DB.\n\n**סקירת טרנזקציות liveCache** — בארגון ה-runbook התפעולי מפרט בדיוק: ניטור-בוקר ב-OM13, עקביות-שבועית ב-OM17, ושחזור-חירום ב-LC10 — כדי שכל תורן-משמרת ידע איזה כפתור ללחוץ.\n\nהתראה על liveCache: האדמין פותח /SAPAPO/OM13 ➔ מצב 'inactive' ➔ עובר ל-LC10, מפעיל-מחדש את ה-liveCache, ואז מריץ /SAPAPO/OM17 לעקביות לפני שחרור-המערכת למתכננים."
    },
    {
     "kind": "flow",
@@ -13994,12 +13568,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון כל שינוי בקווי-המילוי (קיבולת, משמרות) או במתכונים חייב לזרום נכון מ-S/4 ל-PP/DS דרך ה-CIF. ניהול נתוני-האב מוודא שה-Resources וה-PDS משקפים את המפעל האמיתי, כך שלוח-המילוי ריאלי.\n\nקו-מילוי חדש נוסף ב-S/4 כמרכז-עבודה. ה-CIF אמור להעבירו כ-Resource ל-PP/DS. האדמין מוודא ב-/SAPAPO/RES01 שה-Resource נוצר עם הקיבולת הנכונה, ושה-PDS המעודכן מקשר אותו — אחרת התכנון יתעלם מהקו.\n\n**אזורי-Pegging** — בארגון כל Product+מחסן-מילוי הוא Pegging Area; שיוך-דינמי מאפשר ל-PP/DS לקשר אוטומטית הזמנות-מילוי לדרישות-לקוח ולהתריע על פערים בעונת-שיא.\n\nדרישת-מכירה למשקה מקבלת Pegging דינמי להזמנת-מילוי קרובה. אם המילוי מתעכב, ה-Pegging מפעיל alert ב-Alert Monitor שמתריע על סיכון-אספקה.\n\n**משאבים (Resources)** — בארגון כל קו-מילוי = Resource עם קיבולת-סופית ולוח-משמרות עונתי. עדכון-משמרות לעונת-שיא חייב לזרום דרך CIF, אחרת PP/DS מתזמן על קיבולת-חורף נמוכה.\n\nקו-מילוי עובר משתי-משמרות לשלוש. השינוי נעשה ב-S/4 ומועבר דרך CIF ל-Resource; PP/DS מזהה את הקיבולת-הנוספת ומתזמן עליה הזמנות-מילוי נוספות."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -14203,12 +13771,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון לוח-ה-jobs מתועד ב-runbook: שרשרת-תחזוקה לילית לכל מודלי-המילוי, כך שריצת-ה-Heuristics של הבוקר תמיד פוגשת liveCache רזה, עקבי ומסונכרן — קריטי בעונת-שיא.\n\nשרשרת-jobs לילית: בשעה 01:00 משקיטים CIF, ב-01:15 רץ CCR, ב-01:45 OM17, ב-02:15 housekeeping של liveCache, וב-03:00 SLG2. בבוקר האדמין סוקר את ה-job-logs ב-SM37 ומטפל רק בחריגים."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -14386,12 +13948,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון ה-runbook הזה הוא ההבדל בין עונת-שיא חלקה לכאוטית: CIF זורם, liveCache עקבי, קווי-המילוי משתקפים נכון, והכול מתוחזק אוטומטית — כך שלוח-המילוי תמיד אמין.\n\nאדמין-PP/DS חדש בונה runbook: בדיקת-בוקר (/SAPAPO/CQ, /SAPAPO/CPP1, OM13), שרשרת-jobs לילית (CCR➔OM17➔housekeeping➔SLG2), ותגובת-חירום (LC10 ל-liveCache). תוך-שבועות המערכת יציבה והמתכננים סומכים על הנתונים."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -14567,12 +14123,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "חובה ליצור PDS ו-Resources מנתוני-ה-ERP אחרי ההעברה — אחרת אין מודל-תכנון.",
      "היתרון: התחלה נקייה ו-best practices; המחיר: מאמץ-העברה ואימות גבוהים."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון: המפעל-החדש בבאר-שבע מוקם כ-greenfield על S/4HANA חדש עם embedded PP/DS, בעוד המפעלים הוותיקים נשארים זמנית. מועברים רק חומרי-המשקה הפעילים (FERT/HALB/ROH), עצי-מוצר נקיים, קווי-המילוי כ-Resources, ומלאי-פתיחה ליום ה-go-live. כל ה-Z-reports הישנים מ-APO לא נגררים; תכנון-קווי-המילוי נבנה מחדש על heuristics סטנדרטיים של SAP. אלרגנים ומתכונים מתוקננים מחדש בהעברה.\n\nארגון עם APO standalone ו-ECC מחליט על greenfield: (1) מקים S/4HANA חדש; (2) מפעיל Advanced Planning ו-PP/DS; (3) מגדיר migration objects ב-LTMOM לחומרים, BOM, routings, work centers, מלאי-פתיחה; (4) מעלה תבניות עם הנתונים הנקיים בלבד; (5) מריץ simulate ➔ validate ➔ migrate; (6) מייצר PDS ו-Resources מנתוני-ה-ERP שהועברו; (7) מריץ PP/DS heuristics ו-optimizer לאימות; (8) cutover מבוקר. ה-APO הישן מושבת — אין CIF, אין qRFC בין מערכות."
    },
    {
     "kind": "flow",
@@ -14769,12 +14319,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון: מפעל אשקלון הוותיק, שתכנן בקווי-מילוי דרך APO PP/DS, עובר brownfield — ה-ECC שלו מומר במקום ל-S/4HANA עם embedded PP/DS. כל ההיסטוריה (פק\"ע, אישורי-ייצור, מלאי) נשמרת. ה-CIF בין ה-ECC ל-APO מוחלף ב-integration פנימי; קווי-המילוי נבנים-מחדש כ-Resources מתוך ה-Work Centers המומרים, וה-PDS נוצרת מ-BOM+Recipe+Production Version. תכנון-המשקאות נבדק מול ה-APO הישן לפני השבתתו.\n\nארגון עם ECC + APO PP/DS standalone מבצע brownfield: (1) Readiness Check + Simplification Item Check; (2) ניקוי custom code לפי ATC; (3) SUM/DMO ממיר את ה-ECC ל-S/4HANA במקום; (4) post-conversion — הפעלת Advanced Planning; (5) בניית PDS/Resources מנתוני-ה-S/4HANA המומרים (CURTO_CREATE, RES01); (6) הגדרת integration פנימי במקום CIF; (7) השוואת תוצאות-תכנון מול ה-APO הישן; (8) השבתת APO. ההיסטוריה העסקית של ה-ERP נשמרה במלואה."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -14969,12 +14513,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון: התאגיד מפעיל phased rollout — מפעל באר-שבע (greenfield) ראשון, ואז selective transition מעביר את מפעלי אשקלון וחיפה ל-S/4HANA המאוחד, מפעל-אחר-מפעל, עם data harmonization של קודי-המשקה והמפעלים. SLT מסנכרן את מפעלי-המעבר בזמן-אמת לצמצום-downtime בקווי-המילוי, ו-embedded PP/DS מופעל לכל מפעל בתורו. היסטוריית-הייצור הרלוונטית מועברת; ה-scope נבחר לפי company code.\n\nתאגיד עם 3 מערכות-ECC אזוריות מאחד ל-S/4HANA אחד: (1) בונה shell של S/4HANA; (2) מגדיר scope — אילו company codes/plants ואיזו היסטוריה; (3) DMLT/SLT מעביר ומאחד את הנתונים עם data harmonization (אחדת קודי-חומר/מפעל); (4) מפעיל Advanced Planning ל-scope המועבר; (5) בונה PDS/Resources בצד-היעד; (6) SLT מסנכרן בזמן-אמת עד ה-cutover ל-near-zero-downtime; (7) מעביר את האזור הבא בגל נפרד."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Production Planning & Detailed Scheduling",
@@ -15163,12 +14701,6 @@ export const PPDS_GENERATED_LESSONS: Record<string, Lesson> = {
      "מכנה-משותף: Activate Advanced Planning, integration פנימי (לא CIF), PDS + Resources, אימות.",
      "בחר לפי מטריצת מצב-מערכת × מורכבות × סיכון × downtime — לעיתים היברידי (כמו הארגון)."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Production Planning & Detailed Scheduling",
-    "md": "בארגון הבחירה היא היברידית: greenfield למפעל-החדש בבאר-שבע (התחלה נקייה), ו-selective transition לאיחוד מפעלי אשקלון וחיפה הוותיקים ל-S/4HANA המאוחד תוך שמירת היסטוריה. brownfield נשקל ונדחה — נוף-המערכות מבוזר מדי ל'הכל-או-כלום'. בכל המפעלים, embedded PP/DS מופעל, CIF מבוטל, וקווי-המילוי נבנים כ-Resources עם PDS — תכנון-המשקאות מאומת מול ה-APO הישן לפני השבתתו.\n\nתהליך-החלטה טיפוסי: (1) Readiness Check + הערכת data quality ו-custom code; (2) מיפוי מורכבות-ארגונית (מפעלים, חברות, M&A); (3) שקלול תיאבון-סיכון מול חלון-downtime; (4) בחירת נתיב — greenfield אם רוצים re-engineering, brownfield אם המערכת בריאה ומהירות חשובה, selective אם מורכבות גבוהה ומעבר מדורג; (5) בכל מקרה — תכנית post-go-live ל-PP/DS: Activate ➔ Integration ➔ PDS ➔ Resources ➔ אימות."
    },
    {
     "kind": "flow",

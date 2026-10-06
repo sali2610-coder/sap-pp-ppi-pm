@@ -44,11 +44,23 @@ export interface AcademyStore {
 
 const EMPTY: AcademyStore = { version: 2, lessons: {}, activity: [], lastLesson: {}, lastOpened: "", lastCourse: "", openedAt: {}, blockAt: {}, events: [], msByDay: {} };
 
+/* Block kinds no lesson has any more. The company-example section was taken
+   off the site (2026-10-06); a reader who had read it keeps that entry in
+   storage, and counting it would finish a lesson one unread block early. */
+const RETIRED_KINDS = new Set(["cbc-example"]);
+function withoutRetired(s: AcademyStore): AcademyStore {
+  const lessons: Record<string, string[]> = {};
+  for (const [slug, kinds] of Object.entries(s.lessons || {})) {
+    lessons[slug] = Array.isArray(kinds) ? kinds.filter((k) => !RETIRED_KINDS.has(k)) : [];
+  }
+  return { ...s, lessons };
+}
+
 function migrate(): AcademyStore {
   if (typeof window === "undefined") return EMPTY;
   try {
     const raw = window.localStorage.getItem(KEY);
-    if (raw) { const s = JSON.parse(raw) as AcademyStore; return { ...EMPTY, ...s, version: 2 }; }
+    if (raw) { const s = JSON.parse(raw) as AcademyStore; return withoutRetired({ ...EMPTY, ...s, version: 2 }); }
     // build v2 from legacy v1 (do NOT delete v1 — rollback-safe)
     const lessons = JSON.parse(window.localStorage.getItem(V1_PROGRESS) || "{}") as Record<string, string[]>;
     const activity = JSON.parse(window.localStorage.getItem(V1_ACTIVITY) || "[]") as string[];
@@ -66,7 +78,7 @@ const emit = () => { for (const l of listeners) l(); };
 function subscribe(cb: () => void) {
   if (!hydrated && typeof window !== "undefined") { snap = migrate(); hydrated = true; }
   listeners.add(cb);
-  const on = (e: StorageEvent) => { if (e.key === KEY) { try { snap = e.newValue ? JSON.parse(e.newValue) : EMPTY; } catch { /* ignore */ } emit(); } };
+  const on = (e: StorageEvent) => { if (e.key === KEY) { try { snap = e.newValue ? withoutRetired({ ...EMPTY, ...JSON.parse(e.newValue) }) : EMPTY; } catch { /* ignore */ } emit(); } };
   window.addEventListener("storage", on);
   return () => { listeners.delete(cb); window.removeEventListener("storage", on); };
 }

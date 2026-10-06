@@ -84,7 +84,7 @@ export const KIND_INTEL: Record<ProfileKind, KindTemplate> = {
     interview: ["מהו מבנה ה-IDoc (Control/Data/Status)?", "מה ההבדל בין ALE ל-EDI?", "כיצד מאבחנים IDoc בסטטוס 51?", "מה תפקיד Partner Profile ו-Port?"],
     eccS4: "IDocs נתמכים ב-S/4HANA; לתרחישים חדשים מועדפים Events/OData/SOAP. שים לב לאורך MATNR (40) במיפויים.",
     pmFrame: "באחזקה (PM) — ה-IDoc מעביר נתוני אובייקט/הודעה למערכת חיצונית",
-    ppFrame: "בייצור תהליכי (PP-PI) — ה-IDoc מעביר אב-חומר/מתכון/אצווה (למשל Zetes/Daymax)",
+    ppFrame: "בייצור תהליכי (PP-PI) — ה-IDoc מעביר אב-חומר/מתכון/אצווה למערכות חיצוניות",
   },
   cds: {
     kindHe: "CDS View",

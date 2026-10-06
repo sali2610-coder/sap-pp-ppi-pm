@@ -22,7 +22,6 @@ export interface MasterDataFacet {
   owner: string;
   dependencies: string;
   commonMistakes: string[];
-  cbcExample: string;
   tables: string[];
   tcodes: string[];
   fiori?: string[];
@@ -52,7 +51,6 @@ export const PM_MASTER_DATA_FACETS: MasterDataFacet[] = [
       "פלחי זמן EQUZ לא רציפים → היסטוריית שימוש/עלויות חסרה בניתוח",
       "קטגוריית ציוד שגויה (M מכונה מול S ציוד לקוח מול P PRT) → שדות היסטוריה לא מתעדכנים",
     ],
-    cbcExample: "'משאבת CIP #3' מוקמת כציוד עם מספר סידורי, מותקנת במיקום 'תחנת שטיפה'. נקודת מונה שעות-פעולה מזינה תכנית אחזקה מבוססת-ביצועים; בהחלפה — פירוק (IE4N) של הישן, ו-EQUZ שומר את שרשרת ההתקנות וההיסטוריה.",
     tables: ["EQUI", "EQKT", "EQUZ", "OBJK", "ILOA"],
     tcodes: ["IE01", "IE02", "IE03", "IE4N", "OIS2"],
     fiori: ["Manage Technical Objects"],
@@ -72,7 +70,6 @@ export const PM_MASTER_DATA_FACETS: MasterDataFacet[] = [
       "מרכז עלות שגוי ב-ILOA → חיוב פקודות למרכז עלות לא נכון (כולל לציוד המותקן שיורש ILOA)",
       "הפעלת תיוג חלופי בדיעבד ללא הרצת RI_IFLOT2IFLOS → רשומות IFLOS חסרות",
     ],
-    cbcExample: "מפעל משקאות: מבנה 'קו מילוי 1 → ממלאת → מכסה' כמיקומים בהיררכיה 3-רמות. ציוד מותקן בתחנות; כל פקודת אחזקה מחויבת למרכז העלות של הקו דרך ILOA — מאפשר גלגול עלויות אחזקה לפי אתר.",
     tables: ["IFLOT", "IFLOS", "ILOA"],
     tcodes: ["IL01", "IL02", "IL03", "OIPK", "IH01"],
     fiori: ["Manage Technical Objects"],
@@ -92,7 +89,6 @@ export const PM_MASTER_DATA_FACETS: MasterDataFacet[] = [
       "קיבולת זמינה לא מוגדרת → ניתוח עומס (CM01) שגוי / אין תזמון סופי",
       "נוסחת עלות/תזמון חסרה → משכי פעולות ועלויות מחושבות שגוי",
     ],
-    cbcExample: "מרכז עבודה 'צוות אחזקת מכונאות' עם קיבולת 3 טכנאים. כל אישור שעות ב-IW41 מחייב את מרכז העלות של מחלקת האחזקה דרך CRCO, ומאפשר ניתוח עומס הצוות לפני שיבוץ.",
     tables: ["CRHD", "CRCA", "CRCO", "CRTX", "KAKO"],
     tcodes: ["IR01", "IR02", "IR03", "CM01"],
     bapis: ["BAPI_WORKCENTER_CREATE", "BAPI_WORKCENTER_GETLIST"],
@@ -111,7 +107,6 @@ export const PM_MASTER_DATA_FACETS: MasterDataFacet[] = [
       "רכיב לא מוקצה כראוי ב-PLMZ → חלף לא נצרך בפקודה",
       "בחירת סוג רשימה שגוי (A/E/T) → שימוש חוזר לא אפשרי",
     ],
-    cbcExample: "רשימת פעולות כללית 'שטיפת CIP שבועית' עם 5 פעולות (ניקוי, בדיקת אטמים, כיול חיישנים) המשויכת לכל תכניות האחזקה של קווי המילוי — אחידות תהליך ותכנון חומרים עקבי.",
     tables: ["PLKO", "PLPO", "PLAS", "PLMZ", "PLFH"],
     tcodes: ["IA01", "IA05", "IA06", "IA11"],
     source: "ספר PM ch.006 (Preventive Maintenance) · testingbrain (PM TL tables) · אומת ע\"י sap-pm-consultant",
@@ -129,7 +124,6 @@ export const PM_MASTER_DATA_FACETS: MasterDataFacet[] = [
       "חלופה (Alternative) שגויה נבחרת → רכיבים לא נכונים בפקודה",
       "פריט ללא תוקף / כמות בסיס שגויה → רכיב לא נצרך",
     ],
-    cbcExample: "'משאבת CIP #3' נושאת BOM ציוד עם אטמים, מיסבים וראש משאבה כפריטי מלאי (L → רזרבציה) ושירות כיול חיצוני כפריט לא-מלאי (N → דרישת רכש). בפתיחת פקודה החלפים נשלפים אוטומטית.",
     tables: ["MAST", "STKO", "STPO", "STAS"],
     tcodes: ["CS01", "CS03", "IB01", "IB11", "IH04"],
     bapis: ["CSAP_MAT_BOM_CREATE", "CSAP_EQP_BOM_CREATE", "CSAP_FLC_BOM_CREATE"],
@@ -148,7 +142,6 @@ export const PM_MASTER_DATA_FACETS: MasterDataFacet[] = [
       "הרשאת רכש לא מוגדרת נכון לחומרי אחזקה (לרוב רכש חיצוני)",
       "בקרת מחיר (V/S) לא תואמת את התהליך → סטיות עלות לא מחושבות נכון",
     ],
-    cbcExample: "אטם ראש-מילוי מוקם כחומר ERSA (חלף מלאי, מחיר ממוצע נע), מורחב למפעל עם תצוגות MRP ואחסון; שירות כיול חיצוני מוקם כ-Non-stock עם נתוני רכש בלבד. שניהם רכיבי BOM ורזרבציות/דרישות רכש בפקודות.",
     tables: ["MARA", "MARC", "MBEW", "MAKT"],
     tcodes: ["MM01", "MM02", "MM03"],
     bapis: ["BAPI_MATERIAL_SAVEDATA", "BAPI_MATERIAL_GET_DETAIL"],
@@ -167,7 +160,6 @@ export const PM_MASTER_DATA_FACETS: MasterDataFacet[] = [
       "תכנית מבוססת-ביצועים ללא נקודת מונה תקינה / שער הערכה שגוי → לא מתזמנת",
       "IP30 לא מתוזמן כ-batch job לילי → קריאות לא נוצרות אוטומטית",
     ],
-    cbcExample: "תכנית מונעת רבעונית ל'מערכת מים מטוהרים' (מבוססת-זמן) לצד תכנית מבוססת-שעות-פעולה למשאבות CIP. ה-job הלילי IP30 מייצר פקודות אוטומטית לפני המועד לפי אופק הקריאה — עבודה מתוכננת מראש עם חלפים.",
     tables: ["MPLA", "MPOS", "MHIO", "MHIS"],
     tcodes: ["IP01", "IP10", "IP30", "IP42", "IP11"],
     source: "ספר PM ch.006 · SAP Community (Call horizon) · אומת ע\"י sap-pm-consultant",
@@ -185,7 +177,6 @@ export const PM_MASTER_DATA_FACETS: MasterDataFacet[] = [
       "קריאות לא רציפות / סדר תאריכים שגוי → חישוב צריכה ומגמה שגוי",
       "characteristic ללא יחידת מדידה תקינה → ערכים לא ניתנים להשוואה",
     ],
-    cbcExample: "נקודת מונה 'שעות-פעולה' על משאבת CIP. כל 2000 שעות התכנית המבוססת-ביצועים יוצרת פקודה. חיישן IoT מזין קריאות אוטומטית דרך RFC — מעבר מאחזקה קלנדרית לאחזקה חזויה מבוססת-שימוש בפועל.",
     tables: ["IMPTT", "IMRG", "EQUI", "IFLOT"],
     tcodes: ["IK01", "IK11", "IK21", "IK17"],
     bapis: ["BAPI_MEASUREPOINT_CREATE", "BAPI_MEASUREMENT_CREATE"],
@@ -204,7 +195,6 @@ export const PM_MASTER_DATA_FACETS: MasterDataFacet[] = [
       "קוד נזק/גורם לא מקוטלג (QMFE/QPGR ריק) → ניתוח תקלות חסר",
       "פריט הודעה ללא קוד → אין בסיס לניתוח Pareto של תקלות חוזרות",
     ],
-    cbcExample: "מפעיל פותח הודעת תקלה M2 על 'ממלאת #2 — דליפה'. הרכז מוסיף קוד פגם (דליפה) + סיבה (אטם בלוי), וממיר לפקודה דחופה. ניתוח מצטבר חושף שאטמים הם גורם התקלה החוזר — בסיס להחלטת אחזקה מונעת.",
     tables: ["QMEL", "QMFE", "QMUR", "QMMA", "QMSM"],
     tcodes: ["IW21", "IW22", "IW23", "IW28", "IW29"],
     fiori: ["Manage Notifications"],
@@ -224,7 +214,6 @@ export const PM_MASTER_DATA_FACETS: MasterDataFacet[] = [
       "רכיב מלאי ללא מלאי (RESB) → פקודה לא משתחררת / Backflush נכשל (COGI)",
       "אישור בתאריך בתקופה סגורה → דחייה או תנועת מלאי תקועה",
     ],
-    cbcExample: "פקודת PM לאחזקת 'מערכת CIP' — פעולות ניקוי + החלפת משאבה, רכיב מלאי (אטם → רזרבציה+GI) ורכיב לא-מלאי (שירות קבלן → דרישת רכש). לאחר אישור שעות ב-IW41 — TECO והתחשבנות למרכז העלות של הייצור.",
     tables: ["AUFK", "AFIH", "AFKO", "AFVC", "AFRU", "RESB"],
     tcodes: ["IW31", "IW32", "IW33", "IW41", "IW38"],
     fiori: ["Manage Maintenance Orders", "Find Maintenance Orders"],
@@ -244,7 +233,6 @@ export const PM_MASTER_DATA_FACETS: MasterDataFacet[] = [
       "בלבול בין תפקידי BP (Vendor / Customer / Contact) → נתונים בתצוגה שגויה",
       "הסתמכות על KNA1/LFA1 בקוד Z במקום על BUT000 → נשבר ב-S/4 בגלל מודל ה-BP האחוד",
     ],
-    cbcExample: "קבלן כיול חיצוני מוקם כ-Business Partner בתפקיד ספק, משויך כפונקציית שותף 'קבלן' על ציוד המדידה. כשפקודה כוללת רכיב לא-מלאי (שירות כיול) נוצרת דרישת רכש → הזמנת רכש לאותו BP; יצרן המשאבה מתועד לצורך תביעת אחריות.",
     tables: ["BUT000", "IHPA", "TPAR"],
     tcodes: ["BP", "OIOM", "IE02", "IW22"],
     bapis: ["BAPI_BUPA_CREATE_FROM_DATA", "BAPI_BUPA_CENTRAL_CHANGE"],

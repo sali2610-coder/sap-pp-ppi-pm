@@ -570,7 +570,7 @@ export const CH1: TextbookChapter = {
           processExampleHe:
             "ארגון 'Fit-to-Standard' בוחר Public Cloud: מאמץ Best-Practice לרכש, מסתפק ב-Key-User extensibility, ומקבל עדכונים רבעוניים. ארגון עם תהליכי-רכש ייחודיים בוחר Private Cloud לשמירת ההתאמות.",
           scenarioHe:
-            "בארגון, בהיותו חלק מרשת-בקבוק גלובלית עם תהליכי-תרכיז ייחודיים ואינטגרציות (Zetes/Daymax בלוגיסטיקה), Private Cloud / Single-Tenant מתאים — שליטה בעדכונים והתאמות-עומק לצד אימוץ-סטנדרט בליבת-הרכש.",
+            "בארגון, בהיותו חלק מרשת-בקבוק גלובלית עם תהליכי-תרכיז ייחודיים ואינטגרציות לוגיסטיות, Private Cloud / Single-Tenant מתאים — שליטה בעדכונים והתאמות-עומק לצד אימוץ-סטנדרט בליבת-הרכש.",
           navHe: [
             "SAP Cloud ALM / Maintenance Planner (תכנון-פריסה)",
             "SPRO ► IMG (זמין מלא ב-Private/On-Premise; מוגבל ב-Public Cloud)",

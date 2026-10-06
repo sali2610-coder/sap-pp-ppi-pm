@@ -87,7 +87,7 @@ export const S4_OBJECTS: S4Obj[] = [
   O({ name: "MATNR", kind: "Field", he: "מספר חומר (אורך שדה)", status: "changed", risk: "high", release: "S/4 1511",
     ecc: "MATNR 18 תווים.", s4: "אורך טכני עד 40 תווים; שימוש במספרי חומר ארוכים כבוי כברירת מחדל ודורש הפעלה ב-FLETS והתאמת האורך ב-OMSL.", why: "תמיכה במזהי חומר ארוכים גלובליים.", modules: ["MM", "PP", "PP-PI", "PM", "SD"], related: ["MARA", "MARC"],
     abap: [{ k: "OFFSET", note: "MOVE עם offset קבוע על MATNR יישבר; השתמש ב-CONVERSION_EXIT_MATN1.", code: "lv_x = matnr+0(18).  \" ← unsafe in S/4" }, { k: "ממשקים", note: "IDoc/RFC/ברקודים שמניחים 18 תווים — בדוק." }],
-    checklist: ["ממשקי Zetes/Daymax", "ברקודים", "קוד Z עם offset על MATNR"], trust: "curated",
+    checklist: ["ממשקים חיצוניים", "ברקודים", "קוד Z עם offset על MATNR"], trust: "curated",
     evidence: [{
       sourceType: "simplification_item", sourceTitle: "Material Number Field Length Extension · סעיף 3.22, עמ׳ 169",
       url: `${SIMPLIFICATION_2023}#page=169`, product: "SAP S/4HANA", edition: "on-premise", release: "2023 FPS03",

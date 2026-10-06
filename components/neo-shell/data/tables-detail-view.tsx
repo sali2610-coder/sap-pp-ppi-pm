@@ -661,7 +661,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         id="nxb-if"
         icon={<Cable size={16} strokeWidth={1.75} />}
         title={`${nf.format(t.funcs.length)} BAPI · FM · IDoc · ${nf.format(t.progs.length)} תוכניות`}
-        lede="השם והתיאור נקראים מהמאגר, כולל ממשקי Zetes ו-Daymax שנרשמו בתיעוד המקור. תג המודול מציין באיזה מודול נרשם האובייקט."
+        lede="השם והתיאור נקראים מהמאגר, כפי שנרשמו בתיעוד המקור. תג המודול מציין באיזה מודול נרשם האובייקט."
       >
         {t.funcs.length ? (
           <ul className="nxb-funcs">

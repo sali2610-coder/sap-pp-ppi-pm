@@ -498,7 +498,7 @@ export const NEO = {
   },
   {
    "name": "MATMAS (MATMAS05)",
-   "he": "הפצת אב חומר ל/מ-מערכות חיצוניות (Zetes/Daymax)"
+   "he": "הפצת אב חומר ל/מ-מערכות חיצוניות"
   },
   {
    "name": "MARA_SINGLE_READ / MARC_SINGLE_READ",

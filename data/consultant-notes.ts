@@ -26,7 +26,7 @@ export const CONSULTANT_NOTES: Record<string, ConsultantNote> = {
   MPLA: C({ mistakes: ["אופק קריאה/תזמון לא מוגדר → אין פקודות", "Planning lead time מתעלם מ-Scheduling"], debug: ["IP10 לתזמון; MHIS להיסטוריה", "IP30 לריצה המונית"] , fnNotes: ["תוכנית→פריט (MPOS)→קריאות (MHIO)"], integration: ["יוצר הודעות/פקודות PM אוטומטית"] }),
 
   /* ── PP / PP-PI ── */
-  MARA: C({ mistakes: ["MATNR מורחב 18→40 שובר ממשקים/ברקודים", "סוג חומר שגוי → תצוגות/הערכה חסרים"], debug: ["MM03 לתצוגות; CONVERSION_EXIT_MATN1", "EXIT MGA00001"], fnNotes: ["טבלת ליבה; MARC=מפעל, MBEW=שווי, MCH1=אצווה"], integration: ["MATMAS IDoc ל-Zetes/Daymax", "ל-PP/MM/SD/QM/PM"] }),
+  MARA: C({ mistakes: ["MATNR מורחב 18→40 שובר ממשקים/ברקודים", "סוג חומר שגוי → תצוגות/הערכה חסרים"], debug: ["MM03 לתצוגות; CONVERSION_EXIT_MATN1", "EXIT MGA00001"], fnNotes: ["טבלת ליבה; MARC=מפעל, MBEW=שווי, MCH1=אצווה"], integration: ["MATMAS IDoc למערכות חיצוניות", "ל-PP/MM/SD/QM/PM"] }),
   MARC: C({ mistakes: ["חומר לא מורחב לתצוגת MRP/מפעל → MRP לא מתכנן", "MRP Type ND במקום PD"], debug: ["MD04 לאלמנטי תכנון; MM03 תצוגת MRP", "MD21 ל-Planning File"], fnNotes: ["נתוני תכנון/ייצור ברמת מפעל"], integration: ["MRP Live (PPH)→הזמנות מתוכננות (PLAF)"] }),
   MAST: C({ mistakes: ["BOM לא משויך למפעל/שימוש נכון", "חלופה (Alternative) שגויה"], debug: ["CS03/CS12 לעץ; STAS לבחירה"], fnNotes: ["MAST מקשר חומר→עץ (STKO/STPO)"], integration: ["נצרך בפקודה דרך גרסת ייצור (MKAL)"] }),
   PLKO: C({ mistakes: ["מתכון/Routing ללא תוקף חופף לתאריך", "מפתח בקרה (Control Key) שגוי לפעולה"], debug: ["C203/CA03; C223 לגרסת ייצור"], fnNotes: ["PP-PI=מתכון (C201-203); PP=Routing (CA01-03)"], integration: ["PLMZ מקשר רכיבי BOM לפעולות (Backflush)"] }),

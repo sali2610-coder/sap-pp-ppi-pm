@@ -3262,7 +3262,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "שאומתה ברשומת tx:MB1A) נושאת את אותה קביעה מאז 2016, כך שהפסיקה עומדת בטווח 1610-2023; רשימת הפישוט " +
       "למהדורת 2025 ‏(SIMPL_OP2025) אומתה ברשומת tx:MB1C באצווה זו (פריט 15.3.9) — כאן המקור המצוטט הוא מהדורת " +
       "2023 FPS03. פערים שנותרו: (1) ה-disposition פר-גרסה בקטלוג פריטי הפישוט חסום-התחברות ולא נבדק; (2) התנהגות " +
-      "בפועל במערכת של CBC דורשת אימות במערכת SAP (ה-MCP המקומי sc4sap לא התחבר בסשן). דפי 2025 FPS01 שעדיין " +
+      "בפועל במערכת של הארגון דורשת אימות במערכת SAP (ה-MCP המקומי sc4sap לא התחבר בסשן). דפי 2025 FPS01 שעדיין " +
       "מתעדים את MB11 נרשמו כסתירות בקובץ התור, לא כראיית זמינות. ‏accessedAt נקבע 2026-09-02 — מועד הגישה בפועל.",
   },
 
@@ -8289,7 +8289,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "ואינם successor. ה-BAdIs שהפריט מונה (BADI_CMX_POC_ASYNC_SIGN, BADI_CMX_POC_DYN_SIGN_STRAT, " +
       "BADI_CMX_POC_REASON_VAL_CHG) ונקודות ההרחבה (ES_RCOPOC_WKLT, ES_SSAPLCMX_PII_CP_SRV_DST_PMC) אינם " +
       "ב-data/exits.ts או ב-data/enhancements.ts. ה-MCP המקומי sc4sap לא התחבר בסשן, ולכן לא בוצעה בדיקה " +
-      "חיה במערכת SAP: קיום הקוד במערכת CBC, מצב יעדי מרשם הבקרה (סוג 1, 4 או X) ומצב ה-HTML generation " +
+      "חיה במערכת SAP: קיום הקוד במערכת הארגון, מצב יעדי מרשם הבקרה (סוג 1, 4 או X) ומצב ה-HTML generation " +
       "mode דורשים אימות במערכת SAP. הסטטוס הנגזר שהאפליקציה מציגה היום ל-CO55 הוא 'נדרש אימות נוסף' (אין " +
       "רשומת tx-intel); הרשומה המחברת מכריעה 'מוגבל' על סמך לשון הפריט 'still available' יחד עם מגבלת " +
       "ה-UI, ו'לא אסטרטגי' נשאר קריאה משנית כי אין יורש ברמת טרנזקציה ביקום. תיקונים למאגר שנמדדו היום: " +
@@ -8401,7 +8401,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "הפישוט, ופריט הפישוט משמש כ-evidence תומך בלבד. SAP Note 2358159 (מוזכר בפריט הפישוט כהפניה למעבר " +
       "ממש /SAPMP/PP_COHV) לא נקרא: אינו זמין דרך help.sap.com search/body. אין הבחנה בפריט הפישוט לגבי " +
       "Public Cloud; COHVPI לא נבדקה בטווח S/4HANA Cloud. ה-MCP המקומי sc4sap לא התחבר בסשן, ולכן לא בוצעה " +
-      "בדיקה חיה במערכת SAP: קיום/הרשאות COHVPI במערכת CBC, הפעלת Business Function DIMP_SDUD, ותהליך עבודה " +
+      "בדיקה חיה במערכת SAP: קיום/הרשאות COHVPI במערכת הארגון, הפעלת Business Function DIMP_SDUD, ותהליך עבודה " +
       "בפועל דורשים אימות במערכת SAP חיה.",
   },
   /* ----------------------------------------------------- tx:CO60 */
@@ -8617,7 +8617,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "ו-CMX_XSH_OBJ_WORKLIST אינם ביקום המזהים של הפרויקט ולכן אינם ב-xrefs. ביקורת (2026-09-24): שתי " +
       "ההפניות לפריטי הפישוט הופנו ל-PDF של 2025 FPS01 (הטיוטה הצביעה על קישורי 2023), ונושא העזרה " +
       "'Deprecation of Cash Operations for China (COPC)' (2023.000) נוסף כשורה נפרדת. לא בוצעה בדיקה חיה " +
-      "במערכת SAP (ה-MCP המקומי לא זמין בסשן): קיום הטרנזקציה COPC במערכת CBC, תוכנית ה-ABAP שמאחוריה והבדל " +
+      "במערכת SAP (ה-MCP המקומי לא זמין בסשן): קיום הטרנזקציה COPC במערכת הארגון, תוכנית ה-ABAP שמאחוריה והבדל " +
       "מדויק שלה מול COPI (PI Sheet: Maintain) נשארים לאימות במערכת חיה. accessedAt = 2026-09-24 לכל " +
       "המקורות.",
   },
@@ -8702,7 +8702,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "confirmation\" (--product SAP_ERP, 21 תוצאות, מאמת שהתיאור זהה גם בצד ECC 6.18.latest); fal-app.mjs " +
       "--tcode CORZ ו-fal-app.mjs CORZ --release S32OP (רשומת האפליקציה המלאה). לא הורץ גוף דף עם " +
       "sap-help-body.mjs מכיוון שהכותרות והקטעים הספיקו לביסוס הטענות; לא בוצע WebSearch. לא בוצעה בדיקה " +
-      "חיה במערכת SAP (ה-MCP המקומי sc4sap לא זמין בסשן זה): קיום הקוד במערכת CBC בפועל, הרשאות תפקיד " +
+      "חיה במערכת SAP (ה-MCP המקומי sc4sap לא זמין בסשן זה): קיום הקוד במערכת הארגון בפועל, הרשאות תפקיד " +
       "SAP_BR_PRODN_OPTR_PROC וזמינות בפועל דורשים אימות במערכת חיה. תוקנה בזאת טעות שיוך בין " +
       "הברייף/האינדקס לבין תוכן ה-PDF: פריט 30.9 (S95 Interface) ב-2023 FPS03 אינו מכיל את המחרוזת CORZ; " +
       "המחרוזת מופיעה בפועל בפריטים 30.18 ו-30.19 (Process Messages / Control Recipes-Instructions, כותרות " +
@@ -8912,7 +8912,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "פריט 12.16 'S4TWL - Reporting/Analytics in Controlling' (הכותרת מודפסת בקובץ ללא רווח כ-'12.16S4TWL', כפי " +
       "הנראה מקור הטעות באינדקס), הזהה בתוכנו לפריט 6.5.9 ב-2025 FPS01, אותו סוג טעות שנמצא קודם עבור tx:CPC1. " +
       "אומת על ידי המבקר: שני הפריטים זהים בגוף הטקסט למעט שורת רכיבי היישום, שבירת שורות ו-'CO01-CO03' לעומת " +
-      "'CO01CO03'. דורש אימות במערכת חיה: התנהגות בפועל של CK11N בסביבת CBC (הרשאות, Report Selection ב-OKN0), " +
+      "'CO01CO03'. דורש אימות במערכת חיה: התנהגות בפועל של CK11N בסביבת הארגון (הרשאות, Report Selection ב-OKN0), " +
       "ותאריך תוקף ה-RIN notes 3493254/3671888 המודפסים ברשומת ה-FAL (לא נקראו במלואם, רק צוטטו כשדה מהרשומה).",
   },
 
@@ -11488,7 +11488,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "successor רשום עבור CT04 עצמה באף מקור (לא בפריט הפישוט ולא ב-FAL), ולכן לא נקבע status='deprecated' או " +
       "'replaced' (כלל replacement-no-successor דורש מחליף בר-פתרון בטבלת ה-xrefs, ואין כזה). דורש אימות במערכת חיה: " +
       "התנהגות בפועל של המגבלות (סוג נתונים 031, Rename Characteristic, Parameter Effectivity, batch import) בסביבת " +
-      "CBC, ומועד תוקף RIN notes 3493254/3671888 המודפסים ברשומת ה-FAL (לא נקראו במלואם, רק צוטטו כשדה מהרשומה). " +
+      "הארגון, ומועד תוקף RIN notes 3493254/3671888 המודפסים ברשומת ה-FAL (לא נקראו במלואם, רק צוטטו כשדה מהרשומה). " +
       "CT01/CT02/CT03/CT05/CT06 אינן קיימות ב-lib/route-manifest.generated.ts (רק CT04 עצמה רשומה שם) ולכן לא נכללות " +
       "כ-xrefs, למרות שהן נקובות בשמן בפריט הפישוט. הרשומה מחליפה את הרשומה שנוצרה אוטומטית ל-CT04 " +
       "ב-data/verification/transactions-auto.ts.",
@@ -11869,7 +11869,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "sap-help-search.mjs/fal-app.mjs נוספים מעבר לאלה שכבר תועדו ב-transactions-auto.ts עבור MC83 (21 תוצאות " +
       "בסקופ SAP_S4HANA_ON-PREMISE, 10 תוצאות בסקופ SAP_ERP, 0 מצוטטות; FAL S32OP: הטרנזקציה אינה רשומה כאפליקציה), " +
       "משום שהראיה המכרעת (הגוף המלא של שני פריטי הפישוט) כבר הייתה זמינה מקומית ותאמה את התבנית שנקבעה עבור " +
-      "MC74/MC75 (רשומות אחיות באותו פריט). דורש אימות במערכת חיה: התנהגות בפועל של המגבלה בסביבת CBC, ומועד הפקיעה " +
+      "MC74/MC75 (רשומות אחיות באותו פריט). דורש אימות במערכת חיה: התנהגות בפועל של המגבלה בסביבת הארגון, ומועד הפקיעה " +
       "המדויק של זכויות השימוש לפי SAP Note 2269324 (לא נקרא במלואו, רק צוטט כשם/הפניה מתוך גוף הפריט). רשומה זו " +
       "מיועדת להחליף את tx:MC83 ב-data/verification/transactions-auto.ts, באותה תבנית כמו tx:MC74 ו-tx:MC75 שכבר " +
       "אושרו ב-data/verification/transactions.ts.",
@@ -13339,7 +13339,7 @@ export const TX_VERIFICATION: VerificationRecord[] = [
       "עמודים דרך sap-help-body.mjs; ראיות sap_help מוגבלות לכותרת ולסניפט. status=unchanged בהתאמה לתקדים tx:MD02 " +
       "(אותו פריט, אותה מסגרת); לא deprecated או replaced (אין יורש רשום), ולא compatibility_scope (הפריט קובע " +
       "שהטרנזקציות הקלאסיות אינן חלק מה-compatibility pack). דורש אימות במערכת: חלופה אינטראקטיבית ל-MD43 ב-MRP " +
-      "Live או ב-Fiori בסביבת CBC. הרשומה מחליפה את הרשומה שנוצרה אוטומטית ל-MD43 " +
+      "Live או ב-Fiori בסביבת הארגון. הרשומה מחליפה את הרשומה שנוצרה אוטומטית ל-MD43 " +
       "ב-data/verification/transactions-auto.ts (ישן: ללא הכרעת מעמד; חדש: unchanged).",
   },
 

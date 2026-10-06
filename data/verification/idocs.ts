@@ -191,7 +191,7 @@ export const IDOC_VERIFICATION: VerificationRecord[] = [
       release: "2025.001",
       source: MATMAS_API_PAGE,
       recommendedAction:
-        "להמשיך להפיץ אב חומר ב-ALE עם MATMAS. במיגרציה לבדוק בפרופיל השותף (WE20) את הסוג הבסיסי בפועל (MATMAS05 או MATMAS06) ואת קוד התהליך הנכנס, ולנטר ב-WE02 / BD87. לתרחישי אינטגרציה חדשים לשקול את שירותי ה-SOAP של Product Master (Replicate from / to Client) המתועדים באותו פרק. אורך MATNR (40 תווים) מול Zetes / Daymax נשאר בדיקה ברמת נתוני הפרויקט.",
+        "להמשיך להפיץ אב חומר ב-ALE עם MATMAS. במיגרציה לבדוק בפרופיל השותף (WE20) את הסוג הבסיסי בפועל (MATMAS05 או MATMAS06) ואת קוד התהליך הנכנס, ולנטר ב-WE02 / BD87. לתרחישי אינטגרציה חדשים לשקול את שירותי ה-SOAP של Product Master (Replicate from / to Client) המתועדים באותו פרק. אורך MATNR (40 תווים) מול המערכות החיצוניות נשאר בדיקה ברמת נתוני הפרויקט.",
     },
     xrefs: [
       "table:MARA", "table:MARC", "table:MARM", "table:MBEW", "table:MLGN", "cds:I_Product",
@@ -313,7 +313,7 @@ export const IDOC_VERIFICATION: VerificationRecord[] = [
       release: "2025.001",
       source: LOIPRO_ORDER_INTEGRATION_2025,
       recommendedAction:
-        "לפני ההמרה: להריץ WE30 עם LOIPRO* ולתעד את הגרסה הזמינה במערכת (עמוד Setting Up DRF Integration for MES Processes ממליץ להשתמש בגרסת ה-IDoc העדכנית הזמינה וקובע שהמערכת המקבלת חייבת לעבד את הסוג הבסיסי הרלוונטי; תיעוד 2025 FPS01 נוקב ב-LOIPRO05). לבנות את הפצת פקודות הייצור ל-MES (Zetes/Daymax) על מודל שכפול DRF עם ה-Outbound Implementation של פקודת ייצור, ולא על POIT; המנגנון זהה ב-SAP ERP 6.18 וב-S/4HANA, כך שמודל DRF קיים ניתן להעברה. להתאים את ה-IDoc דרך ה-BAdI המיועד ל-LOIPRO05 במקום לשנות סגמנטים, ולבדוק את מיפוי הסגמנטים מול הסוג הבסיסי בפועל ב-WE02/WE05. לפקודות תהליך (PP-PI): לאמת במערכת ש-DRF מפיץ אותן ב-LOIPRO05 כפי שמתועד במדריך Digital Manufacturing, כי עמודי PP-MES של On-Premise שנסרקו מתעדים במפורש רק את פקודת הייצור.",
+        "לפני ההמרה: להריץ WE30 עם LOIPRO* ולתעד את הגרסה הזמינה במערכת (עמוד Setting Up DRF Integration for MES Processes ממליץ להשתמש בגרסת ה-IDoc העדכנית הזמינה וקובע שהמערכת המקבלת חייבת לעבד את הסוג הבסיסי הרלוונטי; תיעוד 2025 FPS01 נוקב ב-LOIPRO05). לבנות את הפצת פקודות הייצור ל-MES על מודל שכפול DRF עם ה-Outbound Implementation של פקודת ייצור, ולא על POIT; המנגנון זהה ב-SAP ERP 6.18 וב-S/4HANA, כך שמודל DRF קיים ניתן להעברה. להתאים את ה-IDoc דרך ה-BAdI המיועד ל-LOIPRO05 במקום לשנות סגמנטים, ולבדוק את מיפוי הסגמנטים מול הסוג הבסיסי בפועל ב-WE02/WE05. לפקודות תהליך (PP-PI): לאמת במערכת ש-DRF מפיץ אותן ב-LOIPRO05 כפי שמתועד במדריך Digital Manufacturing, כי עמודי PP-MES של On-Premise שנסרקו מתעדים במפורש רק את פקודת הייצור.",
     },
     evidence: [
       LOIPRO_ORDER_INTEGRATION_2025,
@@ -471,7 +471,7 @@ export const IDOC_VERIFICATION: VerificationRecord[] = [
       release: "2025.001",
       source: LOIPRO01_ORDER_INTEGRATION_2025,
       recommendedAction:
-        "לפני ההמרה בדקו ב-WE30 עם LOIPRO* אילו גרסאות של הסוג הבסיסי קיימות במערכת היעד; ממשקי MES (Zetes/Daymax) שנשענים על LOIPRO01 או על הפצה דרך POIT יש להעביר לתצורת DRF עם הגרסה העדכנית (LOIPRO05 לפי תיעוד 2025 FPS01), ולאמת שהמערכת המקבלת מעבדת את הסגמנטים והשדות של הגרסה החדשה.",
+        "לפני ההמרה בדקו ב-WE30 עם LOIPRO* אילו גרסאות של הסוג הבסיסי קיימות במערכת היעד; ממשקי MES שנשענים על LOIPRO01 או על הפצה דרך POIT יש להעביר לתצורת DRF עם הגרסה העדכנית (LOIPRO05 לפי תיעוד 2025 FPS01), ולאמת שהמערכת המקבלת מעבדת את הסגמנטים והשדות של הגרסה החדשה.",
     },
     evidence: [
       {

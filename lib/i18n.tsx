@@ -51,7 +51,7 @@ const DICT: Dict = {
   "hub.pm.desc": { he: "ציוד, מיקומים פונקציונליים, הודעות ופקודות עבודה, אחזקה מונעת.", en: "Equipment, functional locations, notifications & work orders, preventive maintenance." },
   "hub.ppi.title": { he: "SAP PP-PI Hub", en: "SAP PP-PI Hub" },
   "hub.ppi.subtitle": { he: "תכנון ייצור תהליכי · Process Industries", en: "Process Industries Planning" },
-  "hub.ppi.desc": { he: 'אב חומר, עצי מוצר, מתכוני ייצור, גרסאות ייצור, פק"ע וממשקי Zetes/Daymax.', en: "Material master, BOMs, master recipes, production versions, process orders & Zetes/Daymax interfaces." },
+  "hub.ppi.desc": { he: 'אב חומר, עצי מוצר, מתכוני ייצור, גרסאות ייצור, פק"ע וממשקים חיצוניים.', en: "Material master, BOMs, master recipes, production versions, process orders & external interfaces." },
   "tab.cockpit": { he: "קוקפיט מיגרציה", en: "Migration Cockpit" },
   "tab.blueprint": { he: "Blueprint טכני", en: "Technical Blueprint" },
   "tab.guides": { he: "מדריכים וכלים", en: "Guides & Tools" },

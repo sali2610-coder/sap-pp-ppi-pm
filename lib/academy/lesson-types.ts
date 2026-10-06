@@ -19,7 +19,6 @@ export type BlockKind =
   | "where-used"       // 📍 היכן משתמשים
   | "key-concepts"     // 🧩 מושגי מפתח
   // ---- illustrative ----
-  | "cbc-example"      // 🏭 דוגמה מ-CBC
   | "flow"             // 🔄 Flow של התהליך
   | "diagram"          // 📊 תרשים
   // ---- technical (render only when relevant) ----
@@ -43,7 +42,7 @@ export type BlockKind =
 /** Fixed render order — the "same template every lesson" backbone. */
 export const BLOCK_ORDER: BlockKind[] = [
   "objective", "why", "business-value", "where-used", "key-concepts",
-  "cbc-example", "flow", "diagram",
+  "flow", "diagram",
   "tables", "tcodes", "fiori", "spro", "objects", "odata", "authorizations", "notes",
   "common-mistakes", "troubleshooting", "best-practices", "tips", "related",
   "quiz", "summary",
@@ -58,7 +57,6 @@ export const BLOCK_META: Record<BlockKind, { emoji: string; he: string; technica
   "business-value": { emoji: "💰", he: "ערך עסקי" },
   "where-used": { emoji: "📍", he: "היכן משתמשים" },
   "key-concepts": { emoji: "🧩", he: "מושגי מפתח" },
-  "cbc-example": { emoji: "🏭", he: "דוגמה מ-CBC" },
   flow: { emoji: "🔄", he: "Flow של התהליך" },
   diagram: { emoji: "📊", he: "תרשים" },
   tables: { emoji: "🗂", he: "טבלאות SAP רלוונטיות", technical: true },
@@ -87,7 +85,7 @@ export interface TableRef { code: string; he: string; href?: string }
 export interface QuizItem { question: string; options: { text: string; correct?: boolean }[]; explain?: string }
 
 export type LessonBlock = { kind: BlockKind; title?: string } & BlockSource & (
-  | { kind: "objective" | "why" | "business-value" | "where-used" | "cbc-example" | "diagram" | "spro" | "troubleshooting" | "notes" | "summary"; md: string; caption?: string }
+  | { kind: "objective" | "why" | "business-value" | "where-used" | "diagram" | "spro" | "troubleshooting" | "notes" | "summary"; md: string; caption?: string }
   | { kind: "key-concepts" | "common-mistakes" | "best-practices" | "tips" | "authorizations"; items: string[] }
   | { kind: "flow"; steps: string[]; activeIndex?: number }
   | { kind: "tables"; rows: TableRef[] }

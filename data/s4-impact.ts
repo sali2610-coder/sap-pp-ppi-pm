@@ -92,7 +92,7 @@ export const S4_IMPACT: Record<string, S4Impact> = {
     changed: "אב חומר — MATNR הורחב מ-18 ל-40 תווים. מבנה נשמר.",
     why: "ממשקים, ברקודים, המרות ו-IDocs שמניחים 18 תווים חייבים אימות.",
     risk: "medium", trust: "verified", note: "SAP Note 2267140 · MATNR 40",
-    fields: [{ field: "MATNR", ecc: "CHAR 18", s4: "CHAR 40", changed: "אורך שדה", test: "ממשק Zetes/Daymax עם חומר באורך מלא; ברקוד" }],
+    fields: [{ field: "MATNR", ecc: "CHAR 18", s4: "CHAR 40", changed: "אורך שדה", test: "ממשק חיצוני עם חומר באורך מלא; ברקוד" }],
     qa: ["IDoc MATMAS עם MATNR ארוך", "ברקודים/תוויות", "המרות EAN"],
   },
   // ── Batch / classification (stable-ish) ──

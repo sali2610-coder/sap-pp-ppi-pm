@@ -14,7 +14,7 @@
    1. ONE SOURCE, TWO LAYERS, NEVER MERGED SILENTLY.
       `Domain` is the spine — flow, tables, T-Codes, BAPIs, learning points,
       troubleshooting. `DomainDetail` is the deep layer — purpose, master data,
-      exits, BAdIs, QA scenarios, incidents, the CBC scenario, Fiori, migration
+      exits, BAdIs, QA scenarios, incidents, the organization scenario, Fiori, migration
       and the structured ECC↔S/4 verdict. Seven domains have no deep layer. The
       page SAYS which of the two it is showing, so a thinner domain never reads
       as a fully documented one.

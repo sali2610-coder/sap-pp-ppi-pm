@@ -22,7 +22,6 @@ export const FIORI_APPS: FioriApp[] = [
     ecc: "ECC: IW31/IW32 (SAP GUI, ללא Fiori).", s4OnPrem: "yes", cloud: "yes", releaseInfo: "S/4HANA (On-Prem + Public Cloud)",
     commonErrors: ["האפליקציה לא מופיעה ב-Launchpad → Business Role/Catalog לא הוקצו (בדוק /UI2/FLPD_CUST).", "OData 403 → הרשאת I_AUART חסרה לסוג הפקודה."],
     troubleshooting: "בדוק הקצאת Business Role ב-PFCG/Business Role Maintenance, ואת ה-Catalog ב-Launchpad Content Manager. שגיאות OData נבדקות ב-/IWFND/ERROR_LOG.",
-    cbc: "ב-CBC, מתכנן פותח את F2731, מתכנן פקודת PM01 עם פעולות ורכיבים, ומשחרר — הכל מדפדפן.",
     similar: ["confirm-jobs", "manage-technical-objects"],
   },
   {
@@ -42,7 +41,6 @@ export const FIORI_APPS: FioriApp[] = [
     relatedTables: ["QMEL", "QMIH"], relatedObjects: ["BAPI_ALM_NOTIF_CREATE"],
     ecc: "ECC: IW21.", s4OnPrem: "yes", cloud: "yes",
     commonErrors: ["סוג הודעה לא זמין למשתמש → בדוק הקצאת Catalog + סוגי הודעה מותרים."],
-    cbc: "מפעיל בקו המילוי מדווח תקלת מסוע מהטאבלט; ההודעה מומרת לפקודה על-ידי המתכנן.",
     similar: ["manage-maintenance-orders", "confirm-jobs"],
   },
   {

@@ -46,7 +46,6 @@ export interface FioriApp {
   // ops
   commonErrors?: string[];
   troubleshooting?: string;
-  cbc?: string;               // CBC implementation example
   notes?: { label: string; url?: string }[];  // only real stored sources
   similar?: string[];         // slugs of similar apps
 }

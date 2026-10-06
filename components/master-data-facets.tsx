@@ -21,7 +21,7 @@ const OBJ_ICON: Record<string, LucideIcon> = {
   MARA: Package, MPLA: CalendarClock, IMPTT: Gauge, QMEL: AlertCircle, AUFK: ClipboardList, BUT000: Contact,
 };
 const readMin = (f: MasterDataFacet) => {
-  const words = `${f.whatIs} ${f.why} ${f.whenCreated} ${f.owner} ${f.dependencies} ${f.cbcExample} ${f.commonMistakes.join(" ")}`.split(/\s+/).length;
+  const words = `${f.whatIs} ${f.why} ${f.whenCreated} ${f.owner} ${f.dependencies} ${f.commonMistakes.join(" ")}`.split(/\s+/).length;
   return Math.max(1, Math.round(words / 180));
 };
 
@@ -127,11 +127,6 @@ function FacetCard({ f, accent, index, openInit }: { f: MasterDataFacet; accent:
                   </ul>
                 </div>
               )}
-
-              <div className="rounded-xl border border-s-4 border-emerald-200/60 border-s-emerald-400 bg-emerald-50/40 p-4">
-                <p className="mb-1.5 flex items-center gap-1.5 text-[12px] font-bold text-emerald-700"><Lightbulb className="size-4 text-emerald-600" aria-hidden />דוגמה מהארגון (CBC)</p>
-                <p className="text-[13px] leading-relaxed text-ink-2">{f.cbcExample}</p>
-              </div>
 
               {f.crossLinks && <Panel icon={<Network className="size-3.5" />} title="קישורים חוצי-מודול"><p className="text-[13px] leading-relaxed text-ink-2">{f.crossLinks}</p></Panel>}
 

@@ -412,7 +412,7 @@ export const CH4: TextbookChapter = {
           processExampleHe:
             "ארגון מחליט להרחיב MATNR ל-40 תווים: מפעיל את ה-Extended Material Number, מריץ Custom Code Analysis, מתקן פיתוחים שמניחים 18 תווים, ובודק IDocs/ממשקים מול מערכות-לוויין.",
           scenarioHe:
-            "בארגון הרחבת MATNR נשקלת כדי ליישר מספרי-חומר עם מערך-קוד גלובלי של Example Product; לפני הפעלה נבדקים ה-IDocs MATMAS וממשקי ה-Zetes/Daymax שאינם מניחים 18 תווים.",
+            "בארגון הרחבת MATNR נשקלת כדי ליישר מספרי-חומר עם מערך-קוד גלובלי של Example Product; לפני הפעלה נבדקים ה-IDocs MATMAS והממשקים החיצוניים שאינם מניחים 18 תווים.",
           navHe: [
             "Logistics – General ► Material Master ► Basic Settings ► Define Output Format of Material Number (OMSL)",
             "SAP S/4HANA ► Simplification List ► Extended Material Number (SAP Note 2267140)",

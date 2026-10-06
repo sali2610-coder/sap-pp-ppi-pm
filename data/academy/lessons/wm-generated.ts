@@ -56,12 +56,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון (מוצר לדוגמה ישראל): מרכז-ההפצה האזורי מקבל משטחי-משקאות מוגמרים מקו-המילוי וחומרי-אריזה מספקים. EWM מנהל את ה-bins של המקררים והמדפים, מנתב מלגזות ב-RF, מבצע גלי-ליקוט להזמנות-לקוח (סופרמרקטים), ושומר FEFO לפי תוקף-המשקה. ההחלטה embedded מול decentralized תלויה בנפח: מרכז-הפצה גדול עם אוטומציה ⟵ decentralized.\n\nקבלת-טובין: משאית מגיעה ➔ ASN/Inbound Delivery זורמת מה-ERP ל-EWM ➔ EWM יוצר Warehouse Task לפריקה ל-bin קבלה ➔ אופציונלי QM inspection ➔ putaway WT מנתב ל-bin אחסון לפי אסטרטגיית-Putaway ➔ אישור ה-WT מעדכן מלאי ב-EWM וגוזר Goods Receipt בחזרה ל-ERP. כל שלב מתועד ברמת ה-Handling Unit."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Warehouse Management",
@@ -251,12 +245,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "extensibility מוגבל; חלק מ-Advanced/MFS אינו זמין בכל edition.",
      "מאזן TCO נמוך מול גמישות-התאמה מופחתת."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון: מחסן-משקאות קטן בסניף ⟵ embedded EWM (פשוט, מערכת אחת); מרכז-הפצה ארצי אוטומטי עם נפח-תנועות עצום ⟵ decentralized EWM כדי לבודד עומס ולאפשר חלונות-תחזוקה נפרדים מה-S/4 הפיננסי.\n\nארגון על ECC + SCM EWM 9.5 שעובר ל-S/4HANA: צוות-הפרויקט מחליט בין embedded EWM (פשטות, מערכת אחת) ל-decentralized EWM on S/4 (ביצועים, ניתוק-תחזוקה). ההחלטה מכתיבה אסטרטגיית-המרה, mapping מחדש של Warehouse Numbers, והעברת master data.\n\n**SAP EWM עם S/4HANA שאינו-SAP (5.0 עד 9.5)** — תרחיש היסטורי בארגון: מחסן שהורץ על SCM-EWM 9.x מול ECC, עם CIF להעברת חומרי-אריזה ומשקאות; כיום נשקל מעבר ל-embedded EWM ב-S/4.\n\nERP לא-SAP שולח ASN כ-IDoc ➔ middleware ממפה ל-Inbound Delivery של EWM ➔ EWM מבצע putaway ➔ Goods Receipt מוחזר כ-IDoc חוזר לעדכון מלאי ב-ERP הזר.\n\n**Embedded EWM ו-Decentralized EWM** — בארגון: מחסן-סניף ⟵ embedded (פשטות); מרכז-הפצה ארצי עם מסועים ו-AS/RS ⟵ decentralized EWM כדי לבודד עומס-Peak (חגים/קיץ) מה-S/4 הפיננסי.\n\nב-embedded: Outbound Delivery נוצרת ב-SD, נראית מיד ל-EWM באותה מערכת, EWM מבצע ליקוט ומאשר Goods Issue פנימית. ב-decentralized: ה-Delivery משוכפלת דרך qRFC למערכת-EWM הנפרדת, וה-GI מוחזר ל-S/4 המרכזי.\n\n**EWM מבוסס-ענן** — בארגון: מחסן-משנה קטן או יחידה חדשה יכולים לרוץ על EWM בענן (best-practice) במהירות; מרכז-ההפצה האוטומטי הראשי נשאר on-premise/private בשל צורכי-MFS והתאמות.\n\nארגון חדש מאמץ S/4HANA Cloud public: מפעיל scope item של EWM, מגדיר Warehouse Number ו-bins דרך Fiori, ומתחיל תהליכי-מחסן ליבה תוך ימים — ללא התקנת-תשתית."
    },
    {
     "kind": "flow",
@@ -486,12 +474,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון: ה-S/4 הראשי On-Premise/private; מרכז-הפצה אוטומטי כ-decentralized EWM; שיקול דאטה-רזידנסי בישראל מטה לטובת private/On-Premise במקום public-cloud.\n\nצוות-אדריכלות ממפה: מחסן רגולטורי עם דרישות-דאטה-רזידנסי ➔ On-Premise/private; יחידה חדשה ➔ Cloud; מחסן מורשת ➔ נשאר NetWeaver עד המרה; אתר עם ERP זר ➔ decentralized EWM.\n\n**On-Premise** — בארגון מרכז-ההפצה הראשי רץ On-Premise/private עם MFS לקווי-המסוע ול-AS/RS של המשטחים — שליטה מלאה נדרשת בשל האוטומציה.\n\nמרכז-הפצה אוטומטי On-Premise: MFS שולט במסועים ו-AS/RS בזמן-אמת; צוות-Basis מנהל גרסאות וחלונות-תחזוקה לפי לוח עונתי.\n\n**פריסת-ענן** — בארגון: מחסן-משנה/יחידה חדשה על ענן (best-practice) להפעלה מהירה; הליבה האוטומטית נשארת private/On-Premise.\n\nיחידה חדשה מפעילה scope item של EWM ב-S/4HANA Cloud, מגדירה Warehouse Number ו-bins דרך Fiori, ומתחילה תהליכי-ליבה תוך ימים.\n\n**פריסות SAP NetWeaver** — תרחיש-מורשת בארגון: מחסן שרץ על SCM EWM/NetWeaver מול ECC; תכנית-המעבר ל-S/4 כוללת conversion ולא שדרוג-בלבד.\n\nארגון על SCM EWM 9.5 / NetWeaver מתכנן conversion ל-embedded EWM ב-S/4: ממפה Warehouse Numbers מחדש, מעביר bins ו-stock, ובודק קוד-Z להתאמה.\n\n**מערכות-ERP שאינן-SAP עם Decentralized EWM** — תרחיש היפותטי בארגון: שותף-לוגיסטיקה (3PL) עם ERP זר מפעיל EWM כמחסן-מתקדם; אינטגרציית-IDoc מסנכרנת אספקות-משקאות ומלאי בין EWM ל-ERP של ה-3PL.\n\nERP זר שולח Sales Order/Delivery כ-IDoc ➔ middleware ממפה ל-Outbound Delivery של EWM ➔ EWM מבצע ליקוט ו-GI ➔ אישור-GI מוחזר כ-IDoc לעדכון מלאי וחשבונאות ב-ERP הזר."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Warehouse Management",
@@ -711,12 +693,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון: מק\"ט-משקה חדש נפתח ב-S/4, מועבר ל-EWM עם נתוני-אריזה (packaging spec) ו-batch (תוקף); אספקות-לקוח זורמות מ-SD ל-EWM, וה-Goods Issue חוזר לעדכון מלאי ומכר.\n\nחומר חדש נפתח ב-ERP ➔ מועבר ל-EWM (DRF/CIF) כ-product עם EWM views ➔ Purchase Order ➔ Inbound Delivery זורמת ל-EWM (qRFC) ➔ putaway ➔ אישור-WT גוזר Goods Receipt חוזר ל-ERP (qRFC) ➔ מלאי וחשבונאות מתעדכנים."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Warehouse Management",
@@ -891,12 +867,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "stock-type mapping מול MM-IM הוא נקודה רגישה.",
      "embedded = אינטגרציה הדוקה; decentralized = qRFC/DRF."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון: EWM מנהל staging של תרכיז/סוכר/אריזה לקו-המילוי (PP-PI), קולט את המשקאות המוגמרים מהקו (production receipt) עם batch ותוקף, מפנה דגימות ל-QM, ומשלח להזמנות-לקוח דרך SD/LE — והכול עם TM לתכנון-המשאיות.\n\nproduction staging: פק\"ע ב-PP דורשת רכיבים ➔ EWM מקבל בקשת-staging ➔ יוצר WT לליקוט הרכיבים ל-production supply area (PSA) ➔ הייצור צורך; בסיום, התוצר נקלט ל-EWM (production receipt) ומנותב ל-putaway."
    },
    {
     "kind": "flow",
@@ -1078,12 +1048,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון (מזון/משקאות): FEFO לפי תוקף-המשקה, batch management לאצוות-ייצור, catch-weight היכן רלוונטי, ו-shelf-life expiration להבטחת-טריות — תבנית-אימוץ קלאסית של תעשיית-המשקאות.\n\nב-e-commerce: גלי-ליקוט (waves) מקבצים מאות הזמנות קטנות, cross-docking מעביר פריטים מהיר מקבלה למשלוח, ו-slotting ממקם פריטים מהירי-תנועה קרוב לאזורי-הליקוט — להגדלת-תפוקה."
-   },
-   {
     "kind": "tables",
     "trust": "curated",
     "source": "Warehouse Management",
@@ -1235,12 +1199,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון: לפני אישור decentralized EWM למרכז-ההפצה, ה-Basis וצוות-ה-SAP מאמתים את ה-Notes לתאימות-release ולתמיכת-MFS, ומתעדים אותם ב-design document.\n\nלפני בחירת decentralized EWM on S/4: צוות-האדריכלות מחפש את ה-central note לתרחיש, מאמת תאימות-release בין ה-S/4 המרכזי למערכת-ה-EWM, ובודק restriction notes לפיצ'רים מתוכננים (MFS/Labor)."
-   },
-   {
     "kind": "tcodes",
     "trust": "curated",
     "source": "Warehouse Management",
@@ -1354,12 +1312,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "האינטגרציה מול ה-ERP (master+deliveries+movements) היא לב-המערכת.",
      "אמת כל החלטה מול SAP Notes לפני הצלילה הטכנית."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון: סיכום-המבוא מתורגם להחלטה — מחסני-סניף embedded, מרכז-הפצה ארצי decentralized עם Advanced EWM/MFS, תבנית-אימוץ מזון/משקאות (batch/FEFO/shelf-life), והכול מאומת מול SAP Notes ומתועד.\n\nצוות-פרויקט מסכם את פרק-המבוא בהחלטת-אדריכלות מתועדת: decentralized EWM on S/4 למרכז-ההפצה, DRF+qRFC לאינטגרציה, Advanced EWM ל-MFS, ואימות מול ה-SAP Notes הרלוונטיים — מסמך שמנחה את כל ההמשך."
    },
    {
     "kind": "tables",
@@ -1510,12 +1462,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "ה-PSA הוא נקודת-המפתח: מיפוי נקודת-צריכה ברצפה ל-storage bin.",
      "תאום-מלאי בין EWM, PP ו-MM-IM הוא מבחן-ההצלחה של השילוב."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון (מוצר לדוגמה ישראל): קו-המילוי הוא תחנת-הצריכה. EWM מזין לקו תרכיז, סוכר, CO2, בקבוקים, פקקים ותוויות מה-bins של המחסן ל-PSA שליד הקו (Staging). הקו ממלא ומסמן בקבוקים, צורך את החומרים (Consumption), ובסוף משטחי-המשקה המוגמר נקלטים חזרה למחסן (Goods Receipt) עם batch ו-FEFO. נפח גבוה ⟵ advanced production integration כדי לתזמן staging just-in-time ולמנוע עומס-חומר ליד הקו.\n\nמחזור מלא: PP משחרר Manufacturing Order ➔ נוצרת דרישת-הזנה ל-EWM ➔ EWM מנתב Warehouse Task להעברת רכיבים מ-bin אחסון ל-PSA bin ברצפה ➔ הייצור צורך את החומר (Consumption, תנועה 261) ➔ בסיום, התוצרת המוגמרת נקלטת (Goods Receipt, תנועה 101) ל-bin קבלה ב-EWM ➔ EWM מבצע putaway ל-bin אחסון. המלאי מתואם לאורך כל השרשרת."
    },
    {
     "kind": "flow",
@@ -1712,12 +1658,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "ב-EWM ממומש כ-Inbound Delivery + putaway.",
      "קבע batch/best-before לתמיכת-FEFO."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון: קו-מילוי משני בנפח נמוך מנוהל במודל מבוסס-אספקה — Outbound Delivery מזינה בקבוקים ופקקים, Inbound Delivery קולטת את המשקה המוגמר. פשוט להגדרה, מספיק לקו שאינו דורש JIT.\n\nManufacturing Order משוחרר ➔ PP יוצר Outbound Delivery לרכיבים ➔ EWM מבצע picking ו-staging ➔ הייצור צורך ➔ בסיום נוצרת Inbound Delivery לתוצרת ➔ EWM מבצע GR ו-putaway. כל תנועה היא אספקה רגילה ב-EWM.\n\n**סקירה** — בארגון קו-מילוי קטן: כל אצווה מזינה רכיבים דרך Outbound Delivery וקולטת משקה מוגמר דרך Inbound Delivery — ללא PSA bin ייעודי.\n\nOrder משוחרר ➔ Outbound Delivery לרכיבים ➔ EWM picking/staging ➔ צריכה ➔ Inbound Delivery לתוצרת ➔ GR. כל שלב = אספקה.\n\n**הזנה להזמנות ייצור** — בארגון: לפני הרצת-מילוי, EWM מזין לקו תרכיז וסוכר (batch-managed) בכמות לפי ה-Reservation, ומניח אותם ב-staging area שליד הקו דרך Outbound Delivery.\n\nOrder ל-1,000 יח' ➔ Reservation דורש רכיבים ➔ Outbound Delivery נוצרת ➔ EWM picking מ-bin אחסון ➔ העברה ל-staging area ליד הקו ➔ אישור ה-WT מעדכן מלאי.\n\n**צריכה להזמנות ייצור** — בארגון: בעת מילוי, הקו צורך תרכיז/סוכר/בקבוקים; ה-backflush ב-confirmation רושם תנועת-261 לפי ה-BOM, והעלות נזקפת לאצוות-המשקה.\n\nהקו צורך 1,000 בקבוקים ➔ תנועת-261 מורידה מהמלאי כנגד ה-Reservation ➔ העלות נזקפת להזמנה ➔ confirmation עם backflush רושם צריכה אוטומטית.\n\n**קבלת טובין להזמנות ייצור** — בארגון: משטחי-משקה מוגמר נקלטים עם batch ותאריך-תפוגה; EWM מבצע putaway לאזור-ה-FEFO, והמלאי-הזמין-למכירה גדל מיד.\n\nהקו מסיים 1,000 יח' ➔ confirmation מפעיל GR אוטומטי (101) ➔ Inbound Delivery נוצרת ב-EWM ➔ putaway WT מנתב ל-bin אחסון ➔ אישור מעדכן מלאי-מוגמר."
    },
    {
     "kind": "flow",
@@ -1969,12 +1909,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "מונע עצירות-קו ומצמצם התערבות ידנית.",
      "תאם הדוק עם consumption וניקוי-PSA."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון: קו-מילוי ראשי בנפח גבוה עובד advanced — תרכיז כ-pick-part מוזן JIT לפי דרישה, בקבוקים/פקקים כ-crate-parts בכמות-קבועה ל-PSA. בסיום-משמרת ה-PSA bins מנוקים, replenishment מחדש לקראת המשמרת הבאה, ומשקה מוגמר נקלט ב-GR עם batch.\n\nOrder משוחרר ➔ PMR זורם ל-EWM ➔ Control Cycle קובע לכל רכיב אם pick-part או crate-part ➔ staging WTs מנתבים ל-PSA bin ➔ הייצור צורך ➔ עודפים מנוקים מה-PSA bin ➔ replenishment מחדש אוטומטית ➔ GR לתוצרת עם putaway.\n\n**הזנה להזמנות ייצור** — בארגון: תרכיז מוזן pick-part JIT לפני הרצה; בקבוקים/פקקים crate-parts בכמות-קבועה ל-PSA. כך אין עודף-תרכיז ליד הקו, ויש מלאי-אריזה זמין רציף.\n\nPMR ל-Order ➔ Control Cycle מסווג: תרכיז=pick, בקבוקים=crate ➔ /SCWM/PSASTAGE יוצר WTs ➔ EWM מנתב לכל PSA bin ➔ אישור מעדכן מלאי.\n\n**צריכה להזמנות ייצור** — בארגון: בעת מילוי, הקו צורך תרכיז ובקבוקים מה-PSA bin; backflush רושם 261 לפי ה-BOM, ויתרת ה-PSA bin מתעדכנת בזמן-אמת.\n\nהקו צורך מ-PSA bin ➔ backflush ב-confirmation רושם 261 ➔ יתרת ה-PSA bin יורדת ➔ כשיורדת מתחת לסף ➔ replenishment מופעל.\n\n**קבלת טובין להזמנות ייצור** — בארגון: משטחי-משקה מוגמר נקלטים עם batch ותאריך-תפוגה; EWM מבצע putaway לאזור-FEFO, ומלאי-המכירה גדל מיד לקראת הזמנות-לקוח.\n\nסיום-ייצור ➔ confirmation מפעיל GR (101) ➔ Inbound Delivery/HU ב-EWM ➔ putaway WT לפי FEFO ➔ אישור מעדכן מלאי-מוגמר.\n\n**ניקוי תא אזור-אספקת-ייצור להזמנות ייצור** — בארגון: בסיום-משמרת נשארות שאריות-תרכיז/אריזה ב-PSA bin; הניקוי מחזיר אותן למחסן עם ה-batch המקורי, וה-PSA bin נקי למשמרת הבאה.\n\nסיום-הזמנה ➔ נותרו 20 בקבוקים ב-PSA bin ➔ ניקוי יוצר WT להחזרתם ל-bin אחסון ➔ ה-PSA bin מתאפס ➔ המלאי מתואם.\n\n**יצירת תהליך חידוש-חלקים** — בארגון: PSA bin של פקקים מוגדר min/max; כשיורד מתחת ל-min בזמן מילוי, replenishment אוטומטי מחדש אותו מהמחסן, והקו ממשיך בקצב מלא ללא עצירה.\n\nPSA bin של בקבוקים יורד ל-min (200) ➔ replenishment WT נוצר אוטומטית ➔ EWM ממלא עד max (1,000) מ-bin אחסון ➔ הקו ממשיך רציף."
    },
    {
     "kind": "flow",
@@ -2245,12 +2179,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון: קו-מילוי אוטומטי עם תחנות; SAP ME עוקב אחר התקדמות-היחידה ומפעיל ME-triggered staging מ-EWM לכל תחנה, ו-MFS מנהל את המסועים שמובילים את חומרי-האריזה JIT.\n\nיחידה נכנסת לתחנה ב-SAP ME ➔ אירוע מפעיל ME-triggered staging ➔ EWM יוצר staging WT ל-PSA bin של התחנה ➔ MFS מנתב מסוע/מלגזה ➔ החומר מגיע רגע לפני הצריכה.\n\n**הזנה לייצור מופעלת-SAP ME** — בארגון: בתחנת-תיוג בקו-המילוי, כניסת-משטח ב-ME מפעילה staging של גליל-תוויות מ-EWM ל-PSA של התחנה בדיוק לפני התיוג.\n\nיחידה נכנסת לתחנה 3 ב-ME ➔ אירוע מפעיל ME-triggered staging ➔ EWM יוצר WT ל-PSA bin של תחנה 3 ➔ MFS מנתב מסוע ➔ החומר מגיע JIT.\n\n**שילוב SAP EWM עם SAP ME ו-SAP Manufacturing** — בארגון: PP מתכנן הרצת-מילוי, SAP ME מנהל את הביצוע על קו-המילוי האוטומטי ומפעיל staging מ-EWM לכל תחנה, ובסיום מדווח ל-PP ו-EWM קולט את המשקה המוגמר — הכול מסונכרן בזמן-אמת.\n\nPP יוצר ומוריד הזמנה ל-ME ➔ ME מבצע ומפעיל ME-triggered staging מ-EWM ➔ EWM מזין JIT ➔ ME מדווח confirmation ל-PP ➔ EWM קולט GR לתוצרת. הלולאה סגורה בין שלוש השכבות."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Warehouse Management",
@@ -2458,12 +2386,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון: מפעל-הבקבוק מזין קווי-מילוי בתרכיז/אריזה (advanced + ME-triggered), צורך לפי backflush, מנקה ומחדש PSA בין משמרות, וקולט משקאות מוגמרים ב-GR עם batch ו-FEFO — שרשרת מסונכרנת מהמחסן עד מדף-הסופר.\n\nמקצה-לקצה: שחרור-הזמנה ➔ staging (delivery/PMR) ל-PSA ➔ consumption (261/backflush) ➔ ניקוי-PSA ו-replenishment ➔ GR (101) לתוצרת ➔ putaway. SAP ME מפעיל JIT, MFS מנתב אוטומציה."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Warehouse Management",
@@ -2641,12 +2563,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "Inspection Rule (/SCWM/QRSETUP) הוא מתג-ההפעלה של כל בדיקה.",
      "סחורה לא-בדוקה יושבת ב-Q-stock עד Usage Decision."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון (מילוי Example Product) כל מכלית-תרכיז וכל מטען חומרי-אריזה נכנסים תחת Inspection Rule ל-IOT 4: בקבלה נפתח Inspection Document, הכמות יושבת ב-Q-stock באזור-QA, מעבדת-האיכות בודקת Brix/pH/מיקרוביולוגיה, ורק UD='Accept' משחרר את התרכיז לקו-המילוי. תרכיז שנכשל נחסם ומנותב להחזרה.\n\nאספקה נכנסת (Inbound Delivery) מגיעה ל-EWM. בעת ה-GR נבדק Inspection Rule: אם קיים כלל פעיל, ה-QIE פותח Inspection Document (IOT 4) וקובע stock type = Q. ה-Putaway מנתב את ה-HU לאזור-בדיקה/QA. איש-איכות שולף דגימה, מזין תוצאות (אם יש Inspection Plan — דרך QM הקלאסי), ומבצע Usage Decision: 'Accept' מעביר ל-Unrestricted ומאפשר Putaway ל-storage; 'Reject' מעביר ל-Blocked או יוצר Return Delivery לספק."
    },
    {
     "kind": "flow",
@@ -2835,12 +2751,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "GR-inspection מייצור = Inspection Type 04/0130 דרך IOT 4.",
      "שתי הגישות עוצרות פגומים לפני כניסה לזמינות."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון חומרי-אריזה (פקקים, תוויות) נבדקים ברמת-Product, ואילו תרכיז וסירופ — מנוהלי-Batch — נבדקים ברמת-Batch כי כל אצווה נושאת תאריך-תפוגה ופרופיל-Brix נפרד. UD לכל אצווה משחרר רק את מה שעבר את מעבדת-הארגון.\n\nאצוות חומר-גלם מנוהל-Batch מגיעה. ב-GR ה-QIE פותח Inspection Document ברמת-Batch, הכמות → Q-stock. בודק שולף דגימה לכל אצווה, רושם תוצאות מול Inspection Plan, וה-UD לכל אצווה מעביר ל-Unrestricted או חוסם בנפרד — כך אצווה אחת יכולה לעבור ואחרת להיכשל.\n\n**בדיקה לאחר קבלת סחורה מרכש חיצוני (עם Inspection Rule)** — בארגון תרכיז מספק-חוץ מגיע תחת Inspection Rule זה: מעבדת-הארגון בודקת מול מפרט-Example Product, ורק UD='Accept' משחרר את התרכיז לקו. כישלון יוצר Return-to-vendor ותביעת-איכות.\n\nPO לחומר-גלם → Inbound Delivery → GR ב-EWM. Inspection Rule פעיל ⇒ Inspection Document (IOT 4, Type 01), Q-stock. בודק רושם תוצאות ב-QA32 מול Inspection Plan; UD='Accept' ⇒ Posting Change ל-Unrestricted ו-Putaway; UD='Reject' ⇒ Return Delivery לספק.\n\n**דגימה מוקדמת בייצור או בדיקה לאחר קבלת סחורה מייצור** — בארגון משקה מוגמר מקו-המילוי נבדק ב-Pre-Sampling: דגימות Brix/CO2/חזותי נלקחות על הקו, וכשהמשטחים נכנסים ל-GR ל-EWM ה-UD כבר מאושר — שחרור מהיר להפצה; כישלון חוסם את המשטח ב-Blocked.\n\nPre-Sampling: בזמן ה-Production Order נלקחת דגימה ונרשמות תוצאות; כשהמוצר מגיע ב-GR למחסן ה-UD כבר זמין ⇒ שחרור מיידי ל-Unrestricted. חלופה: GR ללא Pre-Sampling ⇒ Inspection Type 04 פותח בדיקה, Q-stock, ואז UD."
    },
    {
     "kind": "flow",
@@ -3080,12 +2990,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון תרכיז מאוחסן מעל זמן-סף עובר Recurring Inspection (IOT 5): המעבדה בודקת שוב Brix ומיקרוביולוגיה; UD='Accept' מאריך את האצווה לזמינות, אחרת Scrapping. החזרות מלקוחות-הפצה נבדקות תחת ARM.\n\nחומר מנוהל-Batch מתקרב ל-Recurring Inspection Date. ה-QIE פותח אוטומטית Inspection Document (IOT 5), חוסם את האצווה ל-Q-stock, בודק מזין תוצאות, וה-UD מאריך תוקף (חזרה ל-Unrestricted) או מנתב ל-Scrapping.\n\n**בדיקות מלאי (עם Inspection Rules)** — בארגון חשד-זיהום באצוות-תרכיז מסוימת מפעיל Stock Inspection ידנית: המעבדה בודקת מיקרוביולוגיה, וה-UD מחליט אם להחזיר לזמינות או לגרוט את האצווה.\n\nהתקבלה תלונה על אצווה. איש-איכות פותח Stock Inspection (IOT 5) על האצווה דרך /SCWM/QINSP; האצווה → Q-stock; בודק רושם תוצאות; UD='Accept' מחזיר ל-Unrestricted או 'Reject' חוסם/גורט.\n\n**בדיקות תקופתיות חוזרות (עם Inspection Rules)** — בארגון תרכיז המאוחסן מעבר ל-X חודשים מקבל Recurring Inspection: QA07 פותח בדיקה, המעבדה בודקת Brix/מיקרוביולוגיה, ו-UD מאריך את תוקף-האצווה לזמינות או גורט אם נפסל.\n\nQA07 רץ לילית, מזהה אצוות שהגיע Next Inspection Date. לכל אחת נפתח Inspection Document (IOT 5); האצווה → Q-stock; בדיקה ⇒ UD. 'Accept' דוחף את Next Inspection Date קדימה ומחזיר ל-Unrestricted; 'Reject' → Scrapping.\n\n**בדיקות החזרות לקוח באמצעות Advanced Returns Management** — בארגון משטח-משקאות שחזר ממרכז-הפצה נכנס דרך ARM: בדיקה חזותית של שלמות-אריזה ותוקף; UD='good' מחזיר לזמינות, 'expired/damaged' מנתב ל-Scrapping, והזיכוי ללקוח נקבע מ-Refund Code.\n\nלקוח מחזיר מוצר ⇒ Returns Order (ARM) ⇒ Returns Inbound Delivery ⇒ קבלה ב-EWM. ה-QIE פותח Inspection Document; המוצר → Q-stock/Blocked. בדיקה ⇒ Logistical Follow-up: 'good' → Unrestricted; 'damaged' → Scrapping; 'supplier fault' → Return to supplier — וה-Refund Code נקבע בהתאם."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Warehouse Management",
@@ -3307,12 +3211,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון לפני Go-Live של QM-EWM מבוצעת סקירת-Notes ל-component SCM-EWM-QM ו-QM-QIE, החלת ה-Collective Notes הרלוונטיות ל-Support Package, ותיעודן ב-runbook של הפרויקט.\n\nתקלה: UD בוצע אך ה-Q-stock לא משוחרר. במקום שעות-דיבוג, חיפוש ב-SAP launchpad לפי SCM-EWM-QM מעלה Note עם תיקון-עקביות; החלת ה-Note + הרצת תוכנית-תיקון פותרת."
-   },
-   {
     "kind": "tables",
     "trust": "curated",
     "source": "Warehouse Management",
@@ -3447,12 +3345,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "IOT 4 בקבלה, IOT 5 על מלאי (יזום/תקופתי/החזרות-ARM).",
      "SAP Notes ו-Deadline Monitoring הם חלק ממימוש תקין."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון הציר חוזר על עצמו: תרכיז נכנס ונבדק (IOT 4), מאוחסן ונבדק-מחדש תקופתית (IOT 5 Recurring), ומשטחי-משקה שחוזרים מהפצה נבדקים ב-ARM — כל שלב עם Q-stock ו-UD משלו.\n\nמסע-חיים של פריט: מגיע בקבלה ⇒ Inspection Rule (IOT 4) ⇒ Q-stock ⇒ UD='Accept' ⇒ Unrestricted ⇒ Putaway. חודשים אחר-כך ⇒ Recurring (IOT 5) ⇒ Q-stock ⇒ UD ⇒ הארכה/Scrap. אם נמכר וחוזר ⇒ ARM ⇒ Inspection ⇒ Follow-up."
    },
    {
     "kind": "flow",
@@ -3629,12 +3521,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון המחסן מחזיק משטחי משקאות מוגמרים. TM מתכנן את חלוקת-המשקאות לרשתות-הקמעונאות: מאחד הזמנות של כמה סניפים לאותה משאית-חלוקה, בוחר מוביל לפי אזור, וקובע חלון-זמן לרציף. EWM מקבל את הבקשה ומכין את המשטחים ליד הרציף בדיוק לפי סדר-הפריקה בנקודות-החלוקה.\n\nהזמנת-לקוח נוצרת ב-SD ➔ נוצר Outbound Delivery ב-EWM ➔ TM קולט את הדרישה כ-Freight Unit ➔ מתכנן מאחד מספר FU ל-Freight Order עם מוביל ומסלול ➔ TM מבקש מ-EWM להכין את הסחורה ➔ EWM מבצע Picking/Packing/Staging ➔ הסחורה נטענת, ה-FO מבוצע, וה-Goods Issue מדווח."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Warehouse Management",
@@ -3807,12 +3693,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "Door + Staging Area = נקודות-החיבור הפיזיות לתחבורה.",
      "כל פריקה/טעינה מקושרת למסמך-הובלה ולתאריך-מתוכנן."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון הצד היוצא דומיננטי: עשרות משאיות-חלוקה ביום מקבלות משטחי-משקאות. הצד הנכנס מטפל בקליטת-חומרי-גלם (תרכיז, אריזות) וברכבי-החזרה של מארזים ריקים (Empties). כל רכב מקושר ל-TU/FO כדי לתאם רציף וחלון-זמן.\n\nOutbound: הזמנה ➔ Outbound Delivery Order ➔ Picking ל-Staging Area ➔ הקצאת Door ➔ הגעת-רכב ➔ Loading ➔ Goods Issue. Inbound: הודעת-משלוח ➔ Inbound Delivery ➔ הגעת-רכב לרציף ➔ Unloading ➔ Goods Receipt ➔ Putaway למלאי."
    },
    {
     "kind": "flow",
@@ -3993,12 +3873,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "הקישור הוא Outbound Delivery Order↔FO.",
      "סדר-הטעינה הפוך לרצף-החלוקה; GI אחרי Loading."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון כל משאית-חלוקה יומית מיוצגת כ-Freight Order: מוביל אזורי, מסלול דרך מספר סניפי-רשת, ועליו ה-Deliveries של אותם סניפים. המחסן מכין את המשטחים לפי ה-FO; סטטוס-הטעינה מסונכרן ל-TM לצורך מעקב-חלוקה.\n\nDeliveries זורמות ל-TM כ-Freight Units ➔ מתכנן מאחד ל-Freight Order עם מוביל ומסלול ➔ ה-FO מקושר ל-Deliveries ב-EWM ➔ EWM מבצע Picking/Packing ➔ הטעינה מדווחת ➔ סטטוס-הביצוע ב-FO מתעדכן ➔ Goods Issue.\n\n**תהליך קליטה-נכנסת** — בארגון משאית-תרכיז של ספק מגיעה תחת FO נכנס; המחסן מכין רציף-קליטה ייעודי לחומרי-גלם, פורק, מבצע GR ומאחסן בקירור. החזרת-מארזים-ריקים (Empties) מטופלת באותו מודל.\n\nFO נכנס מתוכנן ➔ קישור ל-Inbound Delivery ➔ הגעת-רכב + Check-In ➔ הקצאת Door ➔ Unloading (Warehouse Tasks) ➔ Goods Receipt ➔ Putaway ➔ סטטוס מסונכרן ל-FO.\n\n**תהליך הפצה-יוצאת** — בארגון משאית-חלוקה יומית = FO המאחד הזמנות של מספר סניפי-רשת; המחסן טוען את המשטחים בסדר הפוך לרצף-הפריקה בנקודות-החלוקה, ומסנכרן את סטטוס-הטעינה ל-TM למעקב-חלוקה בזמן-אמת.\n\nDeliveries → Freight Units → Freight Order (מוביל+מסלול) ➔ קישור ל-Outbound Delivery Orders ➔ Picking/Packing/Staging ➔ הקצאת Door ➔ Loading לפי סדר-פריקה ➔ סטטוס ל-FO ➔ Goods Issue."
    },
    {
     "kind": "flow",
@@ -4214,12 +4088,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון כל משאית-חלוקה מיוצגת כ-Transportation Unit אחד המשותף ל-TM ול-EWM. TM מתכנן את עומס-המשאית ומסלולה; EWM טוען את המשטחים אל ה-TU; ברגע סיום-הטעינה הסטטוס מתעדכן מיידית ב-TM, ומנהל-החלוקה רואה את המשאית מוכנה ליציאה בזמן-אמת.\n\nFO נוצר ב-TM ➔ ה-TU נגזר ומשותף ל-EWM ➔ EWM מקצה Door ל-TU ➔ Picking/Staging ➔ Loading של ה-TU (Handling Units) ➔ סטטוס-הטעינה מתעדכן אוטומטית ב-TM ➔ Departure ➔ Goods Issue.\n\n**תהליך קליטה-נכנסת** — בארגון משאית-תרכיז נכנסת = TU משותף; EWM מקצה רציף-קליטה, פורק את ה-HUs לקירור, מבצע GR, וה-TM רואה את הפריקה מסתיימת בזמן-אמת לשחרור-הרכב. רכבי-Empties נקלטים באותו זרם.\n\nFO נכנס ➔ TU נגזר ומשותף ל-EWM ➔ Check-In + Door ➔ Unloading של HUs (Warehouse Tasks) ➔ Goods Receipt ➔ Putaway ➔ סטטוס TU מתעדכן אוטומטית ב-TM.\n\n**תהליך הפצה-יוצאת** — בארגון משאית-חלוקה = TU יוצא משותף; EWM טוען את משטחי-המשקאות אל ה-TU בסדר הפוך לרצף-הפריקה בסניפים; ברגע סיום-הטעינה הסטטוס מתעדכן מיידית ב-TM ומנהל-החלוקה משחרר את המשאית לדרך.\n\nFO יוצא ➔ TU נגזר ומשותף ל-EWM ➔ הקצאת Door ➔ Picking/Packing/Staging ➔ Loading של HUs אל TU ➔ סטטוס Loaded/Departed אוטומטי ל-TM ➔ Goods Issue."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Warehouse Management",
@@ -4424,12 +4292,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "Freight Units + אופטימיזציה + תמחור — מעבר ל-ERP-Shipment.",
      "embedded TM מזרים FO/TU ישירות לביצוע-מחסן."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון ארגון/אזור שלא עבר ל-TM מלא עשוי עדיין להשתמש ב-Shipment: משאית-חלוקה = Shipment המאחד הזמנות סניפים, עם Route קבוע ו-Carrier אזורי; המחסן מבצע את ההכנה והטעינה כרגיל.\n\nDeliveries נוצרות ➔ Shipment נוצר ב-VT01N ומאחד אותן ➔ Route ו-Carrier משויכים ➔ ה-Shipment מקושר ל-Deliveries של EWM ➔ המחסן מבצע Picking/Loading ➔ Goods Issue.\n\n**תכנון תחבורה במערכת ERP** — בארגון ללא TM: רכז-לוגיסטיקה מריץ VT04 בבוקר, מאחד את הזמנות-הסניפים למשאיות לפי אזור-מסלול, משייך מוביל אזורי, ומשחרר את ה-Shipments למחסן להכנה.\n\nהמתכנן מריץ VT04 ➔ המערכת מציעה Deliveries לאיחוד לפי Route ➔ נוצר Shipment ➔ שיוך Carrier ➔ שלבי-ביצוע (Check-In/Loading/Completion) ➔ קישור ל-EWM לביצוע.\n\n**תכנון תחבורה ב-SAP EWM** — בארגון עם TM: ה-Transportation Cockpit מאחד אוטומטית עשרות הזמנות-סניפים למשאיות-חלוקה אופטימליות לפי אזור וקיבולת, ומעביר כ-TU ל-EWM לטעינה — שיפור משמעותי על תכנון-ה-Shipment הידני.\n\nDeliveries → Freight Units ב-TM ➔ תכנון ב-Transportation Cockpit (אופטימיזציה/איחוד) ➔ Freight Order/TU ➔ ביצוע ב-EWM (Picking/Loading) ➔ סטטוס מסונכרן ➔ GI."
    },
    {
     "kind": "flow",
@@ -4647,12 +4509,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון המסקנה: לחלוקת-משקאות יומית בהיקף גבוה עם איחוד-מורכב, ASR הוא הבחירה — TU משותף לכל משאית-חלוקה, אופטימיזציית-מסלול ב-TM, ונראות-חלוקה בזמן-אמת. אזורים פשוטים יכולים להישאר על Shipment עד למיגרציה.\n\nהחלטת-מימוש טיפוסית: נוף S/4HANA חדש עם embedded TM ➔ בחר ASR ➔ תכנן ב-Transportation Cockpit ל-Freight Orders ➔ TU משותף מזרים ל-EWM ➔ ביצוע-מחסן עם סטטוס-אוטומטי ➔ GI. נוף ישן/פשוט ➔ Shipment."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Warehouse Management",
@@ -4819,12 +4675,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "DAS ≠ Yard Management — תיאום-מראש מול ניהול-בחצר; הם משלימים.",
      "הפעלה ברמת Warehouse + Loading Points/Doors הם תנאי-סף לכל תרחיש."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון: בבוקר מגיעות משאיות חומרי-גלם — תרכיז (Batch-managed), סוכר בתפזורת, CO2 ובקבוקים — כל אחת מתוזמנת ל-Door פריקה לפי סוג-החומר (סוכר בתפזורת ל-Door עם מערכת-שאיבה; תרכיז ל-Door מקורה). אחר-הצהריים מתוזמנות משאיות-משקאות-מוגמרים ל-Doors טעינה. DAS מבטיח ששתי הזרימות לא מתנגשות על אותם רציפים, ושמשאית-הסוכר לא ממתינה כשמשאית-המשקאות תופסת את ה-Door שלה.\n\nמוביל מקבל הזמנת-איסוף ל-Outbound Delivery. דרך פורטל/אפליקציית DAS הוא מבקש תור: המערכת מציגה חלונות-זמן פנויים מול Loading Point מתאים לסוג-המשאית, והוא מאשר 14:00–15:00 מול Door 5. ביום ההגעה הנהג עובר ב-Checkpoint (Check-in) — נרשם שהגיע — ומופנה ל-Door 5 בשעה שנקבעה. הטעינה מתבצעת מול ה-Outbound Delivery, ובסיום הנהג עובר Check-out ב-Checkpoint ויוצא. היומן מתעדכן: ה-Appointment עבר ל-Completed."
    },
    {
     "kind": "flow",
@@ -5016,12 +4866,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "Loading Points + Operating Times + Capacity הם שלד ה-Gantt.",
      "Checkpoint המשויך ל-Warehouse מחבר את התכנון ל-Yard ול-Check-in."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון המתכנן משבץ בבוקר את משאיות חומרי-הגלם: תרכיז ל-08:00 (Door מקורה), סוכר-בתפזורת ל-08:30 (Door עם שאיבה), CO2 ל-09:00. כל תור קשור ל-Inbound Delivery (ASN של הספק) ול-TU. אחר-הצהריים נפתחים חלונות-Outbound למשאיות-המשקאות. כשמשאית-הסוכר מודיעה על איחור, התכנון מזיז אותה ל-10:00 בלי לפגוע בחלון ה-CO2, ומתריע אם אין Door פנוי.\n\nמתכנן-המחסן פותח את יומן ה-Loading Point לבוקר מחר. הוא רואה שלושה תורי-Inbound מבוקשים. הוא מאשר תור A ל-08:00 מול Door 1, גורר את תור B ל-09:30 (כי 08:00 תפוס), ומשייך כל תור ל-Inbound Delivery וה-TU המתאימים. כשמשאית A מתעכבת, הוא מבצע Rescheduling ל-08:45 — המערכת בודקת שאין חפיפה מול Door 1 ומאשרת. בהגעה בפועל, ה-Check-in מקדם את הסטטוס ל-Checked-in.\n\n**תהליך הכניסה ב-SAP Dock Appointment Scheduling (Inbound Process in SAP Dock Appointment Scheduling)** — בארגון משאית-תרכיז מגיעה עם ASN ל-Inbound Delivery של תרכיז Batch-managed. התור משובץ ל-08:00 מול Door מקורה ייעודי. ב-Check-in נרשמת ההגעה; הפריקה כוללת רישום-אצווה (Batch) ובדיקת-QA לפני שחרור ל-Putaway באזור-קירור. סנכרון ה-ASN עם התור מאפשר להכין מראש את אזור-הפריקה ואת בודק-ה-QA.\n\nספק שולח ASN ל-100 משטחי-חומר; נוצר Inbound Delivery. הספק מבקש תור-פריקה ב-DAS ומקבל 08:00 מול Door 2. ביום ההגעה הנהג עובר Check-in ב-Checkpoint; ה-Yard מנתב ל-Door 2; הצוות פורק ומבצע Goods Receipt מול ה-Inbound Delivery; המערכת יוצרת משימות-Putaway. בסיום הנהג עובר Check-out וה-Appointment עובר ל-Completed.\n\n**תכנון תורים לרציפים ב-SAP EWM (Dock Appointment Planning in SAP EWM)** — בארגון ה-EWM של מפעל-המילוי מגדיר שלושה Loading Points: פריקת-חומרי-גלם, טעינת-משקאות, ורציף-קירור. ה-Operating Times לרציף-הקירור צרים יותר (לפי משמרת-QA). מסך-התכנון מציג את שלושתם, והמתכנן מאזן ביניהם — כשרציף-הקירור מלא, סחורה רגישה מתוזמנת מחדש, וה-Yard מנתב בהתאם ל-Check-in.\n\nמתכנן פותח את /SCWM/DAS ב-EWM ורואה Gantt של שלושה Loading Points. ה-Operating Times שהוגדרו ב-SPRO מגבילים שיבוץ ל-06:00–18:00; ה-Capacity מאפשר שני תורים במקביל פר Loading Point. הוא משבץ תורים, המערכת אוכפת את ההגדרות, וכל תור מתקשר ל-TU ול-Delivery. שינוי-הגדרה ב-SPRO (הרחבת שעות) משתקף מיד באפליקציה."
    },
    {
     "kind": "flow",
@@ -5232,12 +5076,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון DAS מסנכרן את זרם-הבוקר של חומרי-הגלם (תרכיז, סוכר, CO2, בקבוקים) עם זרם-אחר-הצהריים של המשקאות-המוגמרים על מספר רציפים מצומצם — מונע התנגשויות, שומר על אזורי-קירור ו-QA זמינים, ומבטיח שמשאיות-הספקים ומשאיות-ההפצה לא מתחרות על אותו Door.\n\nמסע מלא: ספק/מוביל מבקש תור → המתכנן מאשר ומשבץ מול Door וחלון-זמן → קישור ל-Delivery ול-TU → ביום-ההגעה Check-in ב-Checkpoint → ניתוב ב-Yard ל-Door → פריקה/טעינה מול ה-Delivery → Check-out → Appointment=Completed. כל שלב נשען על ההגדרות שנסקרו בפרק."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Warehouse Management",
@@ -5416,12 +5254,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון מפעל-המשקאות מפעיל מחסן-משטחים אוטומטי בגובה-רב (high-bay): משטחי-בקבוקים מוגמרים יורדים מקווי-המילוי, נסרקים, ונכנסים למחסן-AS/RS המנוהל-MFS. רכבי-AGV מסיעים משטחים בין אזור-המילוי לאזור-המשלוח. הכול — מתכנון-המלאי ועד פקודת-המנוף — רץ ב-EWM אחד, ללא WCS חיצוני.\n\nמשטח מוגמר יורד מקו-הייצור אל מסוע-קליטה. סורק קורא את ה-Handling Unit; EWM יוצר Warehouse Task לאחסון. אם המחסן אוטומטי, ה-WT עובר ל-MFS שמתרגם אותו לסדרת-טלגרמות אל ה-PLC: 'הזז מסוע 3 קדימה', 'הרם מנוף לתא 12-04-08'. אישורי-הציוד חוזרים כטלגרמות-מצב ו-EWM מאשר את ה-WT."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Warehouse Management",
@@ -5595,12 +5427,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "משלוח אוטומטי: Outbound Delivery → Removal WT → שליפת AS/RS → ניתוב CP → GI.",
      "אסטרטגיית-משיכה (FIFO/SLED) קריטית למוצרי-מזון."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון מסוע מוביל משטחי-בקבוקים מקו-המילוי אל מבואת-המחסן האוטומטי. ה-PLC מדווח ל-MFS על כל משטח שעובר חיישן; MFS מנתב אוטומטית לפי סוג-המוצר ותפוסת-התאים, ושולח פקודה למנוף-AS/RS לאחסון. טלגרמת-heartbeat נשלחת כל שנייה כדי לוודא שהקו 'חי'.\n\nHU נכנס למסוע ועובר חיישן בנקודת-קליטה — ה-PLC שולח טלגרמת-sensor ל-MFS: 'HU בנקודת-קליטה 1'. MFS מזהה את ה-WT הפתוח, מחליט יעד, ומשיב טלגרמת-action: 'נתב לתת-מסוע 3, יעד תא 12-04'. בכל Communication Point נוסף החיישן מדווח והמערכת מאשרת. בהגעה לתא, מנוף-ה-AS/RS (Resource) מקבל פקודה, מאחסן, ומחזיר acknowledgement; EWM מאשר את ה-WT.\n\n**תהליך קליטה (Inbound)** — בארגון משטחי-בקבוקים מקו-המילוי מתקבלים אוטומטית: סורק-ברקוד יוצר HU, תחנת-מימדים מאמתת גובה-משטח, ו-AS/RS מאחסן בתא-גובה הפנוי הראשון. משטח חורג-מימדים מנותב למסלול-דחייה.\n\nמשטח מתקבל בקבלה (Goods Receipt), נוצר HU; EWM יוצר Putaway WT לתא פנוי. ה-HU נכנס למסוע, עובר תחנת-בדיקת-מימדים (CP), ו-MFS מנתב אותו אל מנוף-ה-AS/RS שמאחסן בתא ומחזיר אישור.\n\n**תהליך משלוח (Outbound)** — בארגון הזמנת-לקוח גדולה נפרסת ל-Wave; AS/RS שולף משטחי-בקבוקים לפי FIFO (תאריך-ייצור מוקדם קודם), והמסוע מוביל אל שער-המשאית הנכון. אצוות עם shelf-life קצר נשלפות תחילה.\n\nOutbound Delivery נוצרת ל-200 משטחים; EWM מייצר Stock-Removal WTs לפי FIFO. מנוף-ה-AS/RS שולף כל משטח, MFS מנתב במסוע אל שער-ההעמסה, ובסיום מתבצע Goods Issue."
    },
    {
     "kind": "flow",
@@ -5808,12 +5634,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון רובוטים ניידים מסיעים משטחי-בקבוקים מאזור-ה-staging של ה-AS/RS אל קווי-ההעמסה. צי מעורב (שני יצרנים) מנוהל דרך SAP Warehouse Robotics, כך ש-EWM אינו צריך לדעת מי-יצרן-איזה-רובוט.\n\nהזמנת-ליקוט נוצרת ב-EWM. במקום עובד, EWM שולח את ה-Warehouse Order ל-SAP Warehouse Robotics; השירות מקצה רובוט פנוי, שולח לו mission ב-VDA 5050 'סע למיקום 12, אסוף HU, הבא ל-packing'. הרובוט מבצע, מאשר, וה-WO נסגר."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Warehouse Management",
@@ -5979,12 +5799,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "סנכרון WT (AGV↔מנוף) ו-handshake מונעים משטחים-יתומים.",
      "מחבר את ה-AS/RS לשאר-המחסן בלי מסוע-קבוע."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון מחסן-ה-high-bay מאחסן עשרות-אלפי משטחי-בקבוקים בסמטאות צרות; מנופי-מעבר מאחסנים ושולפים אוטומטית. תפוקה רציפה תומכת בקווי-מילוי הפועלים 24/7, וצפיפות-הגובה חוסכת שטח-רצפה יקר.\n\nמשטח נכנס לנקודת-P&D בתחתית-הסמטה; MFS מורה למנוף לאסוף, לעלות לגובה הנכון ולהכניס לתא. בשליפה, ה-WT מורה למנוף להוציא מהתא ולהניח בנקודת-P&D של המסוע-היוצא. EWM מעדכן את ה-bin בזמן-אמת.\n\n**אינטגרציה עם מערכת זרימת-חומרים (MFS)** — בארגון המנופים במחסן-ה-high-bay מנוהלים ישירות מ-EWM דרך MFS: כל פקודת-אחסון/שליפה היא טלגרמה ל-PLC של המנוף, וה-heartbeat מנוטר כל שנייה כדי לוודא שהמחסן זמין.\n\nWT-אחסון נוצר; MFS מתרגם לתא 12-04-08 ושולח טלגרמת-action ל-PLC של המנוף. המנוף עולה, מכניס את המשטח, ושולח acknowledgement; EWM מאשר את ה-WT ומעדכן את ה-bin.\n\n**אינטגרציה עם רכבים אוטונומיים (AGV)** — בארגון רכבי-AGV מסיעים משטחי-בקבוקים בין נקודות-ה-P&D של מחסן-ה-high-bay לבין אזור-המשלוח וקווי-ההעמסה, ומתאמים מול המנופים כדי שכל משטח יעבור חלק.\n\nWT-שליפה מוציא משטח מ-AS/RS לנקודת-P&D; EWM יוצר WT-הסעה ל-AGV: 'קח מ-P&D-3 ל-staging-7'. ה-AGV מגיע, מבצע handshake, נוסע, ומאשר. אם ה-AGV מאחר, המנוף ממתין כדי למנוע גלישה."
    },
    {
     "kind": "flow",
@@ -6178,12 +5992,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון צי-AGV מסיע משטחי-בקבוקים מקווי-המילוי אל מבואת-ה-AS/RS, ומאזור-ה-staging אל שערי-המשלוח. הרכבים פועלים סביב-השעון לתמיכה בייצור רציף, עם ניהול-טעינה אוטומטי בין-משימות.\n\nEWM יוצר WT-הסעה: 'משטח מ-staging-2 ל-dock-5'. Resource Management מקצה AGV פנוי; ה-AGV נוסע במסלולו, מבצע handshake בכל קצה, ומאשר. אם הסוללה נמוכה, ה-AGV-control-system מנתב אותו לעמדת-טעינה ומשחרר אחר."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Warehouse Management",
@@ -6352,12 +6160,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון מחסן-המשטחים האוטומטי מאחד AS/RS high-bay, MFS, ו-AGV תחת EWM אחד — תומך בייצור-משקאות רציף 24/7, עם דיוק-מלאי גבוה ושטח-רצפה מינימלי.\n\nמקצה-לקצה בארגון: משטח מקו-מילוי → AGV מסיע למבואה → MFS מנתב במסוע → מנוף-AS/RS מאחסן בתא; בהזמנה → AS/RS שולף (FIFO) → AGV/מסוע לשער → Goods Issue. כל שלב מנוהל ע\"י WT אחד וסגירת-לולאה."
-   },
-   {
     "kind": "tables",
     "trust": "curated",
     "source": "Warehouse Management",
@@ -6516,12 +6318,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "המטרה: נראות, קיצור זמני-המתנה ומניעת detention.",
      "תנאי-סף: הפעלת Yard Management ל-Warehouse Number ומיפוי Storage Type מסוג Yard."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון: משאיות-חלוקה המביאות בקבוקים/פחיות ריקים נכנסות בשער המזרחי, נשקלות בגשר-המשקל, וממתינות בחניה עד שרציף-הפריקה מתפנה. נגררי המוצר-המוגמר (FERT) ממתינים בחניות נפרדות עד שקו-המילוי השלים אצווה והפלטות מוכנות להעמסה. ה-yard של ה-DC ממופה ב-EWM כ-Storage Type מסוג Yard עם עשרות parking spaces ו-doors צמודים לקווי-המילוי.\n\nמשאית עם נגרר (TU) מגיעה לשער. בנקודת-הביקורת (checkpoint) מבוצע check-in: ה-TU נרשם ומשויך ל-yard, ונקבעת לו חניה (parking space). כשהרציף (door) מתפנה, נוצרת Yard Movement שמורה לנהג לגשת מהחניה לרציף; ההעמסה/הפריקה מתבצעת דרך ה-Warehouse Tasks הרגילים; ולבסוף check-out בשער מסיר את ה-TU מה-yard."
    },
    {
     "kind": "flow",
@@ -6710,12 +6506,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "שיוך TU ל-Outbound Delivery הוא תנאי לדיווח-GI תקין.",
      "תיאום Wave מול זמינות-הדלת מאפשר העמסה just-in-time."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון: נגרר מלא בפחיות-ריקות עובר check-in, ממתין ב-P-Empty-03, ומנותב לדלת-הפריקה הסמוכה למחסן-החומרים. במקביל, נגרר ריק מנותב לדלת-ההעמסה הצמודה לקו-המילוי שסיים אצווה, נטען בפלטות FERT דרך Warehouse Tasks, ויוצא ב-check-out לעבר ה-DC האזורי.\n\nTU מגיע ב-check-in ומשובץ ל-parking space P-01. ה-SADD מזהה שהפריקה צריכה להתבצע בדלת D-12 הצמודה ל-Staging Area של הקבלה. נוצר Yard Order עם Yard Task 'P-01 → D-12'; טרקטור-החצר מבצע ומאשר. בתום הפריקה (Warehouse Tasks 101) נוצר Yard Task 'D-12 → checkpoint יציאה' ובוצע check-out.\n\n**תהליך כניסה (Inbound Process)** — בארגון: נגרר עם תרכיז/סוכר (ROH מנוהלי-אצווה) עובר check-in, נשקל בגשר-המשקל, ומנותב לדלת הצמודה למחסן-החומרים. הפריקה יוצרת Putaway Tasks עם batch ל-bins; ה-Inbound Delivery נסגר וה-GR מדווח. הנגרר הריק יוצא ב-check-out.\n\nנגרר עם חומרי-גלם מגיע, check-in ב-/SCWM/PRDI ומשויך ל-Inbound Delivery. SADD בוחר door D-04 הצמוד ל-Staging Area של הקבלה. Yard Task 'P-07 → D-04' מבוצע; בדלת מתבצע unloading ונוצרים Putaway Tasks ל-bins. עם סיום הפריקה — Yard Task 'D-04 → checkpoint' ו-check-out.\n\n**תהליך יציאה (Outbound Process)** — בארגון: נגרר ריק עובר check-in ומנותב לדלת הצמודה לקו-המילוי שסיים אצווה. Wave משחרר Pick Tasks לפלטות FERT; ההעמסה מאושרת, Goods Issue מדווח, וה-TU המלא יוצא ב-check-out לעבר ה-DC האזורי או הלקוח הקמעונאי.\n\nנגרר ריק מגיע, check-in ב-/SCWM/PRDO ומשויך ל-Outbound Delivery. SADD בוחר door D-21 הצמוד ל-Staging Area של המשלוח. Wave משחרר Pick Tasks שמביאים את הפלטות ל-staging. Yard Task 'P-12 → D-21' מבוצע; ההעמסה מאושרת ל-TU; מדווח Goods Issue; Yard Task 'D-21 → checkpoint' ו-check-out."
    },
    {
     "kind": "flow",
@@ -6944,12 +6734,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון התמונה השלמה: עשרות נגררים נכנסים ויוצאים מדי-יום מ-DC המשקאות; ניהול-החצר ב-EWM מבטיח שריקים נפרקים סמוך למחסן-החומרים, שמלאים נטענים סמוך לקווי-המילוי, ושאף נגרר לא 'הולך-לאיבוד' בחצר — תוך שמירה על detention נמוך וזמן-מחזור קצר.\n\nמקצה-לקצה: TU מגיע → check-in → parking space → SADD בוחר door → Yard Task לרציף → פריקה/העמסה דרך Warehouse Tasks → GR/GI → Yard Task חזרה ל-checkpoint → check-out. אותה שלדה משרתת גם Inbound וגם Outbound."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Warehouse Management",
@@ -7127,12 +6911,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "המטרה כפולה: ציות-רגולטורי ובטיחות-עובדים, באכיפה בזמן-אמת על כל תנועת-מלאי.",
      "בארגון: CO2 בלחץ (class 2) וכימיקלי-CIP (class 8) הם החומרים-המסוכנים המנוהלים לצד המשקאות."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון המחסן מטפל בשני סוגי חומרים-מסוכנים מרכזיים: גלילי CO2 בלחץ גבוה (gas under pressure, ADR class 2) המשמשים לקרבונציה, וכימיקלי-CIP — חומצות ובסיסים לניקוי קווי-המילוי (corrosive, ADR class 8). EHS מבטיח שה-CO2 מאוחסן באזור מאוורר ומופרד-אש, ושהחומצות והבסיסים מאוחסנים בתאים נפרדים (storage section) כדי למנוע תגובה מסוכנת. המשקאות המוגמרים עצמם אינם hazardous, כך שהמחסן מנהל מסלולי-תהליך מקבילים: רגיל למשקה, ומבוקר-EHS לחומרי-העזר.\n\nמגיע משלוח חומצה הידרוכלורית למחסן. ב-Inbound Delivery, ה-/SCWM/* EHS integration מזהה שהחומר נושא hazardous substance flag, מושך את ה-hazardous substance master, ובודק האם ה-storage type/section אליו מתוכננת ההכנסה תואם את מחלקת-האחסון של החומצה. במקביל dangerous goods check אימת שתעודת-ההובלה והאריזה תואמות ADR. אם ה-bin המתוכנן נמצא ליד חומר בלתי-תואם (למשל בסיס) — המערכת חוסמת את ה-putaway ומנתבת ל-storage section נפרד."
    },
    {
     "kind": "tables",
@@ -7318,12 +7096,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "check schema מאמת UN number, packing group, mode-of-transport ותעודות.",
      "dangerous goods indicator באב-החומר הוא תנאי-הסף; reaction control קובע חסימה מול התרעה."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון התהליך מאחד את שני הכיוונים סביב אותם חומרים: בקבלה (Inbound) מגיעים גלילי-CO2 וכימיקלי-CIP מספקים, ו-EHS מנתב אותם לאזורי-אחסון מבוקרים-ומופרדים; בהוצאה (Outbound) נשלחים בעיקר משקאות (לא-מסוכנים) אך גם גלילי-CO2 ריקים-להחזרה וכימיקלים-עודפים, וכאן dangerous goods check מבטיח שינוע-תקין. כך אותו מחסן מריץ מסלול 'רגיל' למשקה ומסלול 'מבוקר-EHS' לחומרי-העזר, בשני הכיוונים.\n\nמשלוח כימיקלי-CIP מגיע למחסן (Inbound). hazardous substance check מנתב את הבסיס ל-storage section נפרד מהחומצות. בהמשך-היום, הזמנת-לקוח דורשת משלוח גליל CO2 ללקוח (Outbound). לפני ה-loading, dangerous goods check מאמת שהגליל מסומן UN 1013, packing group מתאים, ושתעודת-ההובלה (ADR transport document) מצורפת. רק לאחר שני האישורים — הסחורה נכנסת ויוצאת.\n\n**תהליך כניסה (קבלת טובין)** — בארגון הקבלה הנפוצה היא גלילי-CO2 וכימיקלי-CIP. ה-CO2 (gas under pressure) מנותב ל-section מאוורר ומופרד-אש; החומצות והבסיסים ל-CIP מנותבים ל-sections נפרדים זה מזה. כך אם מגיע משלוח-מעורב, EHS מפצל את ה-putaway אוטומטית לפי storage hazard class של כל פריט.\n\nמשאית עם חביות חומצה הידרוכלורית פורקת ברציף. ב-/SCWM/PRDI, ה-hazardous substance check מזהה storage hazard class 'corrosive-acid', ו-storage section determination מנתב את ה-putaway ל-section ייעודי לחומצות. ה-incompatibility check מוודא שאין באותו section בסיסים. נוצר Warehouse Task; העובד מאחסן; התוצאה נרשמת ב-/SCWM/MON.\n\n**תהליך יציאה (הוצאת טובין)** — בארגון רוב ה-Outbound הוא משקאות לא-מסוכנים העוברים ללא בדיקת-DG. אך גלילי-CO2 ריקים-להחזרה לספק, או כימיקלי-CIP עודפים, הם dangerous goods — וכאן dangerous goods check מאמת UN number, אריזה ותעודת-ADR לפני טעינה למשאית-ההחזרה. כך אותו תהליך-Outbound מריץ מסלול-מהיר למשקה ומסלול-מבוקר לחומרי-העזר.\n\nהזמנת-לקוח דורשת משלוח גלילי-CO2 בכביש. לאחר פיקינג, ב-/SCWM/PRDO, ה-dangerous goods check מאמת UN 1013, packing group, התאמה ל-ADR (mode = road), וקיום transport document. הבדיקה עוברת; ה-loading מאושר; ה-Goods Issue מבוצע; המלאי מתעדכן; התוצאה נרשמת ב-/SCWM/MON."
    },
    {
     "kind": "flow",
@@ -7543,12 +7315,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון הפרק מתורגם לשגרה: קבלת CO2 וכימיקלי-CIP לאזורי-אחסון מבוקרים-ומופרדים, והוצאת גלילים-להחזרה תחת dangerous goods check — לצד מסלול-מהיר ולא-מבוקר למשקאות עצמם. כך בטיחות נשמרת בלי להאט את התפעול הרגיל.\n\nמקצה-לקצה: חומצה נכנסת (Inbound → hazardous substance check → section-חומצות), מאוחסנת בנפרד מבסיסים (incompatibility), ובהמשך גליל-CO2 יוצא (Outbound → dangerous goods check → UN 1013 + ADR → loading → Goods Issue). כל שלב נרשם ב-/SCWM/MON."
-   },
-   {
     "kind": "tables",
     "trust": "curated",
     "source": "Warehouse Management",
@@ -7714,12 +7480,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "Equipment ו-Functional Location מספקים עקיבות-תחזוקה לכל פריט-ציוד.",
      "מיפוי Storage Location ↔ Warehouse Number הוא תנאי-הסף לכל הזרימה."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון, מפעל-המילוי מפעיל עשרות קווי-מילוי, מערבלים ומסועים. כל פריט-ציוד כזה הוא Equipment ב-PM, מקושר ל-Functional Location של 'אולם-מילוי 3 / קו 7'. מחסן חלקי-החילוף — מסבים, רצועות-הינע, ראשי-מילוי, חיישנים, אטמים — מנוהל ב-EWM כ-Warehouse Number נפרד. כשמערבל מתקלקל בלילה, צוות-התחזוקה פותח PM order, וה-EWM מנפיק את החלפים בלילה דרך outbound delivery for spare parts כדי שהקו יחזור לפעול לפני משמרת-הבוקר. מהירות הזרימה הזו היא ההבדל בין השבתה של שעה לבין השבתה של משמרת.\n\nתהליך מקצה-לקצה: (1) חיישן בקו-מילוי מתקלקל; טכנאי-תחזוקה פותח PM order מסוג PM01 על ה-Equipment. (2) הוא מוסיף לרשימת-הרכיבים את חלק-החילוף 'חיישן-מילוי' בכמות 1. (3) שמירת ההזמנה יוצרת reservation (RESB) מול ה-Storage Location המנוהל ב-EWM. (4) הביקוש זורם ל-EWM ונוצרת EWM outbound delivery; המערכת מייצרת warehouse task ללקט מהבין הנכון. (5) פועל-מחסן מלקט את החיישן ומאשר את ה-warehouse task. (6) מתבצע Goods Issue — המלאי יורד והעלות נזקפת ל-PM order. (7) הטכנאי מתקין ומדווח confirmation על ההזמנה."
    },
    {
     "kind": "flow",
@@ -7920,12 +7680,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "262 שומר על הקישור ל-PM order ומקזז את העלות; 101 לא.",
      "הכיוון הזה סוגר את לולאת-המלאי ומונע מלאי-רפאים."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון, החלפת ראש-מילוי בקו 7 דורשת ערכת-חלפים שלמה. צוות-הלילה מושך את כל הערכה (outbound) כדי לא לעצור באמצע. בבוקר מתברר ששלושה אטמים מתוך הערכה לא נדרשו — הם מוחזרים (inbound) למחסן-החלפים. בלי הכיוון הנכנס, ה-הארגון היה 'מאבד' שלושה אטמים בכל החלפה, וכעבור חודש המלאי-בספרים היה רחוק מהמלאי-במדף.\n\nניפוק והחזרה: טכנאי מבקש 2 מסבים ל-PM order. EWM מנפיק outbound delivery, מלקט 2 מסבים, מבצע GI — המלאי יורד ב-2 והעלות נזקפת. בפועל נדרש רק מסב אחד. הטכנאי מחזיר מסב אחד: נוצרת inbound delivery, ה-warehouse task מאחסן אותו חזרה בבין, ומתבצע reversal (262) — המלאי עולה ב-1 והעלות מתקזזת. בסוף-התהליך המלאי וה-PM order משקפים בדיוק את הצריכה האמיתית: מסב אחד.\n\n**תהליך יוצא (Outbound Process)** — בארגון, בשעה 02:00 קו 7 מושבת בגלל רצועת-הינע קרועה. הטכנאי פותח PM order ומוסיף את הרצועה. EWM outbound delivery נוצרת מיד, פועל-לילה מלקט מהבין, מבצע GI, והרצועה ביד הטכנאי תוך 15 דקות. הקו חוזר לפעול לפני משמרת-הבוקר — זה הערך הישיר של תהליך-יוצא חלק.\n\nטכנאי מוסיף 'רצועת-הינע' כ-component ל-PM order ושומר ➔ reservation (RESB, 261) נוצרת מול ה-SLoc המנוהל-EWM ➔ EWM outbound delivery for spare parts נוצרת ➔ warehouse task מנחה ללקט מהבין B-04-12 ➔ פועל מלקט ומאשר ➔ Goods Issue (261) מבוצע: המלאי יורד ב-1, העלות נזקפת ל-PM order ➔ הטכנאי מקבל את הרצועה ומתקין.\n\n**תהליך נכנס (Inbound Process)** — בארגון, אחרי החלפת ראש-המילוי בקו 7, שלושה אטמים מהערכה לא נדרשו. הטכנאי מחזיר אותם: EWM inbound delivery נפתחת, warehouse task מאחסן אותם חזרה במחסן-החלפים, ו-reversal 262 מעלה את המלאי ומזכה את ה-PM order. בלי השלב הזה, ה-הארגון היה 'צורך' שלושה אטמים-רפאים בכל החלפה.\n\nמתוך 2 מסבים שנופקו, רק 1 הותקן. הטכנאי מחזיר 1 ➔ נוצרת EWM inbound delivery הקשורה ל-PM order ➔ warehouse task מנחה לאחסן בבין B-04-12 ➔ פועל מאחסן ומאשר ➔ reversal (262) מבוצע: המלאי עולה ב-1, עלות-ה-PM order מתקזזת ב-1 מסב ➔ בסוף-התהליך נצרך מסב אחד בלבד, והמלאי מדויק."
    },
    {
     "kind": "flow",
@@ -8139,12 +7893,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
     ]
    },
    {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון, שילוב PM-EWM הוא מה שמאפשר לקווי-המילוי לחזור לעבוד תוך דקות ולא תוך משמרת, ושומר שמחסן-החלפים יהיה מדויק חודש אחרי חודש — שני הדברים שמודדים את הצלחת ה-go-live של המודול.\n\nמחזור מלא: PM order ➔ reservation ➔ outbound delivery ➔ לקיטה ➔ GI (261, מלאי↓ עלות↑) ➔ [עודף] החזרה ➔ inbound delivery ➔ putaway ➔ reversal (262, מלאי↑ עלות↓). בסוף, המלאי וה-PM order משקפים בדיוק את הצריכה-האמיתית."
-   },
-   {
     "kind": "flow",
     "trust": "curated",
     "source": "Warehouse Management",
@@ -8318,12 +8066,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "EPCIS events (Object/Aggregation/Transaction) נשמרים ב-OER ומשמשים לדיווח.",
      "ATTP הוא system of record לזהות; EWM/S4 הם שכבת-הביצוע הפיזית."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון: ATTP עצמו ממוקד-תרופות ואינו מוטמע למשקאות; אך העיקרון אנלוגי — מעקב-אצוות של משקאות (beverage batch traceability) מנהל זהות ייחודית ברמת-אצווה/מארז, aggregation של בקבוקים↔ארגז↔משטח, ותיעוד-אירועים לצורך recall ו-track-and-trace. בארגון המנגנון המקביל ל-serialization הוא ניהול-אצוות (Batch management) ב-EWM + תיוג-משטחים ב-SSCC; ATTP יוטמע רק אם הארגון תיכנס לקו-מוצרים מוסדר (למשל תוספי-תזונה תחת רגולציה).\n\nקו-אריזה במפעל מדפיס DataMatrix ייחודי על כל קופסה (commissioning — ATTP מנפיק את הסריאלים מראש). הקופסאות נארזות בארגז שמקבל SSCC; ATTP רושם AggregationEvent הקושר את סריאלי-הקופסאות ל-SSCC של הארגז. הארגז נכנס למלאי, ובהמשך נשלח ללקוח — ATTP רושם shipping ObjectEvent + TransactionEvent (העברת-בעלות) ומפיק הודעת EPCIS ללקוח ולרשות. הלקוח קולט (receiving), והשרשרת מתועדת מקצה-לקצה."
    },
    {
     "kind": "flow",
@@ -8514,12 +8256,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "disaggregation מחויב בכל ליקוט-חלקי כדי לשמור aggregation תקין.",
      "TransactionEvent מתעד העברת-בעלות — בסיס לציות ולקליטה אצל הלקוח."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון השילוב EWM↔ATTP אינו פעיל (אין רגולציית-תרופות); המקבילה היא EWM Batch management + HU/SSCC על משטחי-משקאות, המתעד aggregation (בקבוק→ארגז→משטח) ותנועות-מלאי לצורך מעקב-אצווה ו-recall. אם הארגון תידרש לרגולציה, אותן נקודות-מגע (/SCWM/PACK ל-aggregation, Goods Issue ל-shipping event) יחוברו ל-ATTP באותו אופן.\n\nמשלוח-יוצא ללקוח: S/4HANA יוצר Outbound Delivery; EWM מבצע Warehouse Order, מלקט סריאלים, אורז ל-HU (=SSCC) ומפיק AggregationEvent ב-ATTP; ב-Goods Issue, EWM מפעיל shipping ObjectEvent + TransactionEvent (העברת-בעלות מהמחסן ללקוח); ATTP מפיק EPCIS-XML ושולח ללקוח ולרשות. כל הסריאלים שבמשלוח עברו מ-status 'במלאי' ל-'נשלח' אוטומטית.\n\n**תהליך כניסה (Inbound Process)** — בארגון המקביל: קליטת חומרי-גלם/מוצרים מנוהלי-אצווה ל-EWM עם רישום-אצווה ו-HU; ה'verification' הוא בדיקת-תעודת-אצווה (CoA) וקליטת-משטחים ב-SSCC. אין EPCIS-inbound, אך עיקרון בדיקת-התאמה בשער-הכניסה זהה.\n\nספק שולח 50 ארגזים (כל אחד SSCC עם 100 SGTIN) + הודעת-EPCIS. ATTP קולט את ההודעה. EWM יוצר Inbound Delivery, ובקליטה סורק את ה-SSCC של כל ארגז; ATTP מאמת שהסריאלים תואמים את ההודעה ורושם receiving event. הארגזים מאוחסנים תוך שמירת קשר HU↔SSCC. אם ארגז-אחד מכיל סריאל לא-מדווח — EWM מסמן exception ומונע putaway עד בירור.\n\n**תהליך יציאה (Outbound Process)** — בארגון המקביל: ליקוט/אריזה/Goods Issue של משטחי-משקאות עם HU/SSCC לצורך מעקב-אצווה ו-recall; ה'shipping event' הוא רישום-תנועת-המלאי ותעודת-המשלוח. אין EPCIS-XML לרשות, אך תיעוד aggregation (בקבוק→ארגז→משטח) ביציאה מאפשר track-and-trace אנלוגי.\n\nהזמנת-לקוח ל-30 ארגזים. S/4HANA יוצר Outbound Delivery; EWM מלקט (סורק SSCC), אורז על משטח (יוצר SSCC-משטח עם AggregationEvent), ומבצע Goods Issue — ATTP רושם shipping ObjectEvent לכל הסריאלים + TransactionEvent (העברה ללקוח) ומפיק EPCIS-XML. אם ארגז נפתח לליקוט-חלקי (15 קופסאות בלבד) — מתבצע disaggregation וה-15 הנותרות חוזרות למלאי כיחידות-בודדות."
    },
    {
     "kind": "flow",
@@ -8759,12 +8495,6 @@ export const WM_GENERATED_LESSONS: Record<string, Lesson> = {
      "Serial Profile + HU↔SSCC + EPCIS event mapping הם חוטי-האינטגרציה.",
      "go-live דורש Number Ranges שלמים, מיפוי-אירועים מלא וסבב end-to-end עם reconciliation."
     ]
-   },
-   {
-    "kind": "cbc-example",
-    "trust": "curated",
-    "source": "Warehouse Management",
-    "md": "בארגון: ATTP ממוקד-תרופות ואינו בשימוש; אך אותם עקרונות — זהות-ייחודית, aggregation (בקבוק→ארגז→משטח) ותיעוד-אירועים — מיושמים אנלוגית דרך Batch management + HU/SSCC ב-EWM, ומספקים beverage batch traceability ל-recall ולמעקב.\n\nמקצה-לקצה: ספק שולח EPCIS→EWM קולט ומאמת (inbound)→המוצר נשמר עם HU↔SSCC→הזמנת-לקוח מובילה לליקוט+packing+Goods Issue (outbound)→ATTP מפיק shipping+TransactionEvent ומדווח לרשות וללקוח. כל סריאל מתועד מהכניסה ועד היציאה ללא הזנה-כפולה."
    },
    {
     "kind": "flow",

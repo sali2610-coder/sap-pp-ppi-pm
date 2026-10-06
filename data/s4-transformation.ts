@@ -39,7 +39,7 @@ export const TESTING: Row[] = [
   { he: "Unit Test (ABAP)", sub: "ABAP Unit + ATC על קוד מותאם לאחר ההמרה." },
   { he: "Simplification / Readiness", sub: "הרצת SAP Readiness Check + פתרון Simplification Items רלוונטיים." },
   { he: "SIT — System Integration Test", sub: "תהליכים מקצה-לקצה חוצי-מודולים על מערכת מומרת." },
-  { he: "Integration Test — ממשקים", sub: "IDoc/OData/CPI מול מערכות לוויין (Zetes/Daymax/בנקים)." },
+  { he: "Integration Test — ממשקים", sub: "IDoc/OData/CPI מול מערכות לוויין ובנקים." },
   { he: "UAT — User Acceptance", sub: "תרחישי משתמש עסקיים אמיתיים + Fiori." },
   { he: "Regression", sub: "השוואת תוצאות ECC מול S/4 (דוחות, רישומים, מלאי, שכר)." },
   { he: "Performance", sub: "ריצות MRP/Backflush/חישוב שכר; pushdown ל-HANA, מדדי תגובה." },
@@ -56,7 +56,7 @@ export const CUTOVER: { phase: string; c: string; items: string[] }[] = [
 /* 12 — Lessons Learned (common real pitfalls) */
 export const LESSONS: { he: string; sub: string; risk: "high" | "medium" | "low" }[] = [
   { he: "קוד Z שקורא ישירות ל-MKPF/MSEG/BSIS", sub: "הסיבה #1 לכשלי המרה — חובה ATC מוקדם ומעבר ל-Compatibility Views / NSDM.", risk: "high" },
-  { he: "הרחבת MATNR ל-40 תווים", sub: "שובר ממשקים, ברקודים, MOVE עם offset קבוע. בדוק את כל ה-Zetes/Daymax.", risk: "high" },
+  { he: "הרחבת MATNR ל-40 תווים", sub: "שובר ממשקים, ברקודים, MOVE עם offset קבוע. בדוק את כל הממשקים החיצוניים.", risk: "high" },
   { he: "גרסת ייצור חובה ב-S/4", sub: "ב-PP-PI חובה Production Version תקפה — חוסר עוצר תכנון/פקודות.", risk: "medium" },
   { he: "Output Management NAST → BRF+", sub: "תהליכי פלט מסוימים דורשים הגדרה מחדש ב-BRF+ Output Management.", risk: "medium" },
   { he: "דוחות BW מול Embedded Analytics", sub: "החליטו מוקדם: BW/4HANA, Datasphere או Embedded — להימנע מכפילות.", risk: "medium" },

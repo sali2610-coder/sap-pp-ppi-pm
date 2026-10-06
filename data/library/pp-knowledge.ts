@@ -118,7 +118,7 @@ export const PP_CHAPTERS: PPChapter[] = [
       "סוג רשימת משימות 2 משמש למתכון ראשי; שיוך לחומר דרך MAPL.",
       "Process Management: Control Recipe Destinations, Process Message Categories, PI Sheets.",
     ],
-    scenarioHe: "זהו הפרק המרכזי לארגון: ייצור משקאות (תרכיז, סוכר, CO2) הוא תהליכי — המתכון הראשי וה-Control Recipe הם לב התהליך, וה-IDoc LOIPRO/PI Sheets מזינים את ממשקי Zetes/Daymax.",
+    scenarioHe: "זהו הפרק המרכזי לארגון: ייצור משקאות (תרכיז, סוכר, CO2) הוא תהליכי — המתכון הראשי וה-Control Recipe הם לב התהליך, וה-IDoc LOIPRO/PI Sheets מזינים את ממשקי הביצוע.",
     related: [PPI("מתכון ייצור ופעולות", "מתכון ראשי"), PPI("פק\"ע ומתכון בקרה", "מתכון בקרה"), PPx("תכנון ייצור תהליכי", 7)],
   },
   {
@@ -166,7 +166,7 @@ export const PP_CHAPTERS: PPChapter[] = [
     runbookHe: [
       "COR1 צור פק\"ע תהליכי ➔ שחרר ➔ Control Recipe (CO53) ➔ PI Sheet (CO55) ➔ הודעות תהליך (CO54) ➔ CORK דיווח/סגירה.",
     ],
-    scenarioHe: "ה-PI Sheet והודעות התהליך הם נקודת האינטגרציה ל-Zetes/Daymax בארגון; LOIPRO מפיץ את הפק\"ע למערכות הביצוע.",
+    scenarioHe: "ה-PI Sheet והודעות התהליך הם נקודת האינטגרציה למערכות הביצוע בארגון; LOIPRO מפיץ את הפק\"ע למערכות הביצוע.",
     related: [PPI("מתכון בקרה ופק\"ע", "מתכון בקרה"), PPx("הגדרת ייצור תהליכי", 4), PM("אינטגרציית QM", "QM")],
   },
   {
@@ -266,7 +266,7 @@ export const PP_CHAPTERS: PPChapter[] = [
   },
 ];
 
-export const PP_EXEC_HE = `מודול ה-PP (Production Planning) ב-SAP S/4HANA מכסה את מחזור התכנון והייצור המלא — משלושת סוגי הייצור (בדיד, תהליכי/PP-PI, חוזר/REM), דרך נתוני אב (BOM, Routing/מתכון ראשי, מרכזי עבודה, גרסת ייצור), תכנון (S&OP, ניהול ביקושים, MRP Live, DDMRP, pMRP), ביצוע (פק\"ע/Process Order, Backflush, Kanban) ועד ניהול אצוות ועלות. ב-S/4HANA הליבה היא MRP Live על HANA, מודל נתונים פשוט יותר וממשק Fiori. עבור הארגון — הענף התהליכי (PP-PI) הוא המרכזי: המתכון הראשי, מתכון הבקרה וה-PI Sheets מזינים את ממשקי הביצוע (Zetes/Daymax), וניהול האצוות קריטי לעקיבות ולרגולציה.`;
+export const PP_EXEC_HE = `מודול ה-PP (Production Planning) ב-SAP S/4HANA מכסה את מחזור התכנון והייצור המלא — משלושת סוגי הייצור (בדיד, תהליכי/PP-PI, חוזר/REM), דרך נתוני אב (BOM, Routing/מתכון ראשי, מרכזי עבודה, גרסת ייצור), תכנון (S&OP, ניהול ביקושים, MRP Live, DDMRP, pMRP), ביצוע (פק\"ע/Process Order, Backflush, Kanban) ועד ניהול אצוות ועלות. ב-S/4HANA הליבה היא MRP Live על HANA, מודל נתונים פשוט יותר וממשק Fiori. עבור הארגון — הענף התהליכי (PP-PI) הוא המרכזי: המתכון הראשי, מתכון הבקרה וה-PI Sheets מזינים את ממשקי הביצוע, וניהול האצוות קריטי לעקיבות ולרגולציה.`;
 
 export const PP_GLOSSARY: { term: string; he: string }[] = [
   { term: "MRP Live (MD01N)", he: "הרצת תכנון דרישות חומר על מנוע HANA — מהירה, מתעדפת חומרים שהשתנו." },
@@ -275,7 +275,7 @@ export const PP_GLOSSARY: { term: string; he: string }[] = [
   { term: "MKAL", he: "גרסת ייצור (Production Version) — חובה ב-S/4HANA." },
   { term: "AFKO / AFPO / AFRU", he: "כותרת פק\"ע / פריט פק\"ע / רשומות דיווח ביצוע (Confirmation)." },
   { term: "Control Recipe / PI Sheet", he: "מתכון בקרה וגיליון הוראות תהליך בייצור תהליכי (PP-PI)." },
-  { term: "LOIPRO", he: "IDoc להפצת פק\"ע ייצור למערכות ביצוע (Zetes/Daymax בארגון)." },
+  { term: "LOIPRO", he: "IDoc להפצת פק\"ע ייצור למערכות ביצוע." },
   { term: "Backflush (MFBF)", he: "ניכוי רכיבים אוטומטי בעת דיווח תוצר (ייצור חוזר)." },
   { term: "Kanban Control Cycle (PK01)", he: "מעגל בקרה לחידוש מונחה-משיכה." },
   { term: "DDMRP", he: "Demand-Driven MRP — תכנון מבוסס באפרים וצריכה בפועל." },

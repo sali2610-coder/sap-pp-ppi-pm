@@ -39,7 +39,7 @@ export const INCIDENTS_EXT4: Incident[] = [
     prevention: ["ניטור Channel + Alerting ב-PO/Integration Suite", "מעבר ל-SAP Integration Suite (CPI) — PO ב-maintenance עד 2027/2030"],
     oss: ["PI PO message system error channel · BC-XI-IBC", "Adapter Engine queue stuck · BC-XI-IS"],
     ecc: "תזמור דרך SAP PI/PO on-prem.", s4: "מומלץ SAP Integration Suite (Cloud Integration / CPI); IDoc/SOAP נשמרים אך ניטור עובר ל-Cloud.",
-    scenario: "בארגון: הודעת מכירות ל-Daymax נתקעה ב-PO — ה-channel היה ב-Error אחרי שינוי endpoint; הופעל מחדש והודעות נשלחו."
+    scenario: "בארגון: הודעת מכירות למערכת חיצונית נתקעה ב-PO — ה-channel היה ב-Error אחרי שינוי endpoint; הופעל מחדש והודעות נשלחו."
   },
   {
     slug: "cpi-iflow-failed", module: "Cross", he: "iFlow ב-Integration Suite (CPI) נכשל",
