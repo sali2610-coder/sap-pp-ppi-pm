@@ -25,6 +25,9 @@ import { notFound } from "next/navigation";
 import "@/app/neo/ui.css";
 import "@/app/neo/learn.css";
 import "@/app/neo/learn-extensions.css";
+// the catalogs' foot and the record language, then the academy's own sheet last
+import "@/app/neo/data.css";
+import "@/app/neo/record.css";
 import "@/app/neo/academy-experience.css";
 import { neoLessonData, neoLessonParams } from "@/components/neo-shell/learn/lesson-data";
 import { NeoLessonView } from "@/components/neo-shell/learn/lesson-view";

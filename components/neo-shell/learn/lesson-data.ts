@@ -34,6 +34,7 @@ import { ACADEMY, getLesson } from "@/lib/academy/model";
 import { neoLessonHref } from "./lesson-links";
 import { lessonSource } from "./source-data";
 import { withNeoLinks } from "./lesson-neo-links";
+import { academyCourse } from "./academy-data";
 
 /** A neighbouring lesson, already resolved to a real generated NEO route. */
 export interface NeoLessonLink {
@@ -58,6 +59,14 @@ export interface NeoLessonData {
     globalTotal: number;
   };
   lesson: Lesson;
+  /** The stage this lesson belongs to (its chapter), in path order: the steps
+   *  the lesson page draws its "where am I in this stage" meter from. */
+  stage: { lessons: { slug: string; title: string; hasLesson: boolean; href: string }[] };
+  /** Every stage of the path as the course map counts it (steps only), so a
+   *  stage's last lesson can draw the whole path's meter at its end. */
+  path: { index: number; title: string; lessons: { slug: string; hasLesson: boolean }[] }[];
+  /** The stage after this lesson's, worded as the course map words it. */
+  nextStage: { index: number; title: string; lessons: number; minutes: number; first: { title: string; href: string } | null } | null;
   source: ReturnType<typeof lessonSource>;
   prev: NeoLessonLink | null;
   next: NeoLessonLink | null;
@@ -107,6 +116,12 @@ export function neoLessonData(courseId: string, slug: string): NeoLessonData | n
   const lesson = ALL_LESSONS[slug];
   if (!course || !place || !lesson || place.moduleId !== courseId) return null;
 
+  // The course map's own rows (academy-data), so the numbers at a stage's end
+  // are the numbers the map prints for the same stage.
+  const map = academyCourse(courseId);
+  const after = map?.chapters.find((ch) => ch.index === place.chapterIndex + 1) ?? null;
+  const afterFirst = after?.lessons.find((l) => l.hasLesson) ?? null;
+
   return {
     course: {
       id: course.moduleId,
@@ -129,6 +144,26 @@ export function neoLessonData(courseId: string, slug: string): NeoLessonData | n
     // are repointed into /neo/ here, gated. See lesson-neo-links.ts for why the
     // translation lives in NEO's data layer and not in the content files.
     lesson: withNeoLinks(lesson),
+    stage: {
+      lessons: (course.chapters.find((ch) => ch.index === place.chapterIndex)?.lessons ?? []).map((l) => {
+        const real = l.hasLesson && !!ALL_LESSONS[l.slug];
+        return { slug: l.slug, title: l.title, hasLesson: real, href: real ? neoLessonHref(courseId, l.slug) : "" };
+      }),
+    },
+    path: (map?.chapters ?? []).map((ch) => ({
+      index: ch.index,
+      title: ch.title,
+      lessons: ch.lessons.map((l) => ({ slug: l.slug, hasLesson: l.hasLesson })),
+    })),
+    nextStage: after
+      ? {
+          index: after.index,
+          title: after.title,
+          lessons: after.lessons.length,
+          minutes: after.minutes,
+          first: afterFirst ? { title: afterFirst.title, href: afterFirst.href } : null,
+        }
+      : null,
     source: lessonSource(courseId, slug),
     prev: linkOf(place.prev, courseId, place.chapterIndex),
     next: linkOf(place.next, courseId, place.chapterIndex),

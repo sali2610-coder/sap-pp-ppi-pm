@@ -1,81 +1,86 @@
 "use client";
 
 /* ============================================================================
-   PROJECT NEO · /neo/academy/<courseId>/ — one course, chapter by chapter.
+   PROJECT NEO · /neo/academy/<courseId>/ — one path, stage by stage.
    ----------------------------------------------------------------------------
-   The directory answers "which course". This answers "what is actually in it,
-   and where am I in it".
+   The academy reads as one walk (./journey-state.ts): this course is a PATH,
+   its chapters are STAGES, its lessons are STEPS. The page says where the
+   reader is, what is finished, and what comes next, and every stage ends with
+   the way into the next one.
 
    THE PROGRESS RULES, STATED
      lesson complete = its recorded block count reaches the block count the
-                       lesson itself requires. That is the product's own rule
-                       (lib/academy/store.ts); this screen does not invent a
-                       second one.
-     chapter complete = every lesson in it is complete.
-     course progress  = completed lessons / authored lessons.
-   A reader with no recorded progress sees the structure and an explicit "no
-   progress recorded" line — never a 0% bar, never a fabricated streak.
+                       lesson itself requires (lib/academy/store.ts).
+     stage complete  = every lesson in it is complete.
+     course progress = completed lessons / authored lessons.
+   A reader with no recorded progress sees the stages and an explicit "not yet
+   started" line: never a 0% bar, never a fabricated streak.
 
-   THE STORE IS READ ONCE. `useIsDone()` returns a predicate from a single
-   subscription, so a 121-lesson course does not open 121 subscriptions to
-   answer the same question 121 times.
+   THE STORE IS READ ONCE. `useIsDone()` returns one predicate from a single
+   subscription, so a 121-lesson course does not open 121 subscriptions.
 
-   LESSONS OPEN INSIDE PROJECT NEO — /neo/academy/<courseId>/<slug>/, which
-   renders the SAME authored lesson through the SAME block engine and writes to
-   the SAME progress store; see components/neo-shell/learn/lesson-view.tsx. The
-   pre-NEO route /academy/lesson/<slug>/ is unchanged and still serves /academy/.
-   A lesson with no authored body is drawn as an inert value on both, and its
-   form says so: no pointer, no hover lift, no focus ring.
+   SOURCE MATERIAL IS PAIRED EXACTLY OR NOT AT ALL. A lesson links to its
+   source topic only when source-data.lessonSource() names it (five of the
+   eight paths); the other three point at the whole folder below, never at a
+   guessed section.
 
    Every lesson row is an <OriginLink/>, so the lesson's return control names
-   THIS course — with the reader's own scroll position — instead of resolving a
-   parent from the route.
+   THIS course, with the reader's scroll position and the stages they had open.
    ========================================================================== */
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
-import { ArrowLeft, BookOpen, Blocks, Clock, Info, Layers, Play } from "lucide-react";
+import {
+  ArrowLeft, BookOpen, CircleCheck, Clock, FolderOpen, GraduationCap, Info, Layers, ListChecks, Play, Signpost,
+} from "lucide-react";
 import {
   consumeReturn, OriginLink, SmartReturn, restoreScroll, scrollOffset, useReturnPacket, type OriginArg,
 } from "@/components/neo-shell/nav-context";
 import { firstIncomplete } from "@/lib/academy/model";
 import { useIsDone, useModuleProgress } from "@/lib/academy/store";
+import { RecordHead } from "../record-kit";
+import { CatalogFoot, Ledger, Sig, fmt } from "../data/catalog-kit";
 import { COURSE_SURFACE, learnModVar, LEARN_MOD_HE, type CourseReturn } from "./mod";
 import { neoLessonHref } from "./lesson-links";
 import type { AcademyCourseRow } from "./academy-data";
 import { LessonFinder } from "./lesson-finder";
+import { journeyOf } from "./journey-state";
+import { StageBadge, StageMeter, hoursHe } from "./journey";
 
-const nf = new Intl.NumberFormat("he-IL");
+const RED = { "--m": "var(--brand)" } as React.CSSProperties;
 
-function hoursHe(min: number): string {
-  if (min < 60) return `${nf.format(min)} דק׳`;
-  const h = Math.floor(min / 60);
-  const m = min % 60;
-  return m ? `${nf.format(h)} שע׳ ${nf.format(m)} דק׳` : `${nf.format(h)} שע׳`;
-}
+export interface LessonSourceLink { title: string; href: string }
 
-export function CourseView({ c, source }: { c: AcademyCourseRow; source?: ReactNode }) {
+export function CourseView({ c, source, sources = {}, materials }: {
+  c: AcademyCourseRow;
+  source?: ReactNode;
+  /** slug -> its exact source topic, where source-data pairs one */
+  sources?: Record<string, LessonSourceLink>;
+  materials?: { chapters: number; topics: number };
+}) {
   const expanded = useRef(new Set<number>());
   const isDone = useIsDone();
   const p = useModuleProgress(c.id);
   const started = p.completedLessons > 0 || p.blocksDone > 0;
   const finished = p.totalLessons > 0 && p.completedLessons >= p.totalLessons;
   const next = firstIncomplete(c.id, isDone);
+  const j = useMemo(() => journeyOf(c.chapters, isDone), [c.chapters, isDone]);
+  const cur = c.chapters.find((ch) => ch.index === j.current);
+  const curStage = j.stages.find((s) => s.index === j.current);
 
   /* Coming back from a lesson. Non-null exactly once, and only for a packet
-     this course left — a course is a long page and returning to the top of it
+     this course left: a course is a long page and returning to the top of it
      after four lessons would be its own small punishment. */
   const packet = useReturnPacket(COURSE_SURFACE);
   const [restored, setRestored] = useState<typeof packet>(null);
   if (packet && packet.at !== restored?.at) setRestored(packet);
   useEffect(() => { if (packet) consumeReturn(COURSE_SURFACE); }, [packet]);
   // Keep a local snapshot after the one-shot packet is consumed. Otherwise
-  // consuming it closes restored chapters and cancels the pending scroll.
+  // consuming it closes restored stages and cancels the pending scroll.
   const mine = restored?.state.id === c.id ? restored.state as CourseReturn : null;
   /* TWO FRAMES, NOT ONE. `restoreScroll` waits a frame of its own; this waits
      the frame before it, because the App Router resets the canvas to 0 as PART
-     of the navigation and does so after the first one. Landing on the chapter
-     the reader was in beats landing at the top of a 22-lesson course. */
+     of the navigation and does so after the first one. */
   useEffect(() => {
     if (!mine || typeof mine.y !== "number" || mine.y <= 0) return;
     let cancel = () => {};
@@ -93,178 +98,219 @@ export function CourseView({ c, source }: { c: AcademyCourseRow; source?: ReactN
     state: { id: c.id, y: scrollOffset(), chapters: [...expanded.current].map(String) } satisfies CourseReturn,
   });
 
+  const firstLesson = (index: number) => c.chapters.find((ch) => ch.index === index)?.lessons.find((l) => l.hasLesson);
+
   return (
     <div
-      className="nxv"
+      className="nxv nrc nxa-course nm-scene"
+      data-scene="cream"
       data-surface="course"
       style={{ "--m": learnModVar(c.module) } as React.CSSProperties}
     >
       <SmartReturn fallback={{ href: "/neo/academy/", label: "SAP Academy" }} />
 
-      <header className="nxv-head">
-        <span className="nx-modbar" aria-hidden="true" />
-        <span className="nx-eyebrow">SAP Academy · {LEARN_MOD_HE[c.module] || c.module}</span>
-        <div className="nxv-title">
-          <h1 className="nxv-h1">{c.title}</h1>
-          {c.titleEn ? <p className="nxv-en">{c.titleEn}</p> : null}
-        </div>
-        <div className="nxv-meta">
-          <span className="nu-chip nxv-mod">
-            <i aria-hidden="true" />
-            {c.module}
-          </span>
-          <span className="nu-chip"><Layers size={11} strokeWidth={1.75} />{nf.format(c.totals.chapters)} פרקים</span>
-          <span className="nu-chip"><BookOpen size={11} strokeWidth={1.75} />{nf.format(c.totals.lessons)} שיעורים</span>
-          <span className="nu-chip"><Blocks size={11} strokeWidth={1.75} />{nf.format(c.totals.blocks)} יחידות תוכן</span>
-          <span className="nu-chip"><Clock size={11} strokeWidth={1.75} />{hoursHe(c.totals.minutes)}</span>
-          {finished ? (
-            <span className="nu-status" style={{ "--s": "var(--status-done)" } as React.CSSProperties}>הקורס הושלם</span>
-          ) : null}
-        </div>
-      </header>
+      <RecordHead
+        icon={<GraduationCap size={14} strokeWidth={1.75} aria-hidden="true" />}
+        eyebrow={`SAP Academy · ${LEARN_MOD_HE[c.module] || c.module}`}
+        title={c.title}
+        en={c.titleEn || undefined}
+        meta={
+          <>
+            <span className="nu-chip nxt-mod"><i aria-hidden="true" />{c.module}</span>
+            <span className="nu-chip"><Layers size={11} strokeWidth={1.75} aria-hidden="true" />{fmt(c.totals.chapters)} שלבים</span>
+            <span className="nu-chip"><BookOpen size={11} strokeWidth={1.75} aria-hidden="true" />{fmt(c.totals.lessons)} שיעורים</span>
+            <span className="nu-chip"><Clock size={11} strokeWidth={1.75} aria-hidden="true" />{hoursHe(c.totals.minutes)}</span>
+          </>
+        }
+        verdict={finished ? (
+          <span className="nxa-st" data-state="done"><CircleCheck size={14} strokeWidth={2} aria-hidden="true" />הקורס הושלם</span>
+        ) : undefined}
+      >
+        <Ledger
+          label="המסלול במספרים. כל מספר מוביל לחלק שלו בעמוד"
+          items={[
+            { v: c.totals.chapters, l: "שלבים", href: "#co-ch" },
+            { v: c.totals.lessons, l: "שיעורים", href: "#co-ch" },
+            { v: c.totals.blocks, l: "יחידות תוכן", href: "#co-ch" },
+            ...(materials ? [
+              { v: materials.chapters, l: "פרקי מקור", href: "#co-materials" },
+              { v: materials.topics, l: "נושאים בחומר המקור", href: "#co-materials" },
+            ] : []),
+          ]}
+        />
+      </RecordHead>
 
-      {/* --------------------------------------------------- WHERE YOU ARE */}
-      <section className="nxv-s4" aria-labelledby="co-p">
-        <div className="nxv-s4-top">
-          <span className="nx-eyebrow">התקדמות</span>
-          <h2 className="nxv-s4-h" id="co-p">
+      {/* ---------------------------------------------- WHERE YOU ARE
+          The page's one red action: the next lesson to read. */}
+      <section className="nxa-plate nm-rise nm-once" aria-labelledby="co-p">
+        <div className="nxa-plate-id">
+          <p className="nxa-plate-k">התקדמות</p>
+          <h2 className="nxa-plate-h" id="co-p">
             {finished
               ? "כל השיעורים בקורס הושלמו"
               : started
-                ? `${nf.format(p.completedLessons)} מתוך ${nf.format(p.totalLessons)} שיעורים הושלמו`
+                ? `${fmt(p.completedLessons)} מתוך ${fmt(p.totalLessons)} שיעורים הושלמו`
                 : "עדיין לא התחלת את הקורס"}
           </h2>
-        </div>
-
-        {started ? (
-          <div className="nxl-bar">
-            <div className="nxl-bar-h">
-              <span>{nf.format(p.blocksDone)} יחידות תוכן נקראו</span>
-              <b>{p.pct}%</b>
-            </div>
-            <div className="nxl-bar-t">
-              <span className="nxl-bar-f" style={{ "--p": p.pct / 100 } as React.CSSProperties} />
-            </div>
-          </div>
-        ) : (
-          <p className="nx-muted">
-            ההתקדמות נרשמת בעת קריאת שיעור ונשמרת במכשיר בלבד.
+          <p className="nxa-plate-at">
+            {finished
+              ? `כל ${fmt(j.stages.length)} השלבים הושלמו.`
+              : started && cur && curStage
+                ? <>השלב הנוכחי: שלב {fmt(cur.index)} · {cur.title} · {fmt(curStage.done)} מתוך {fmt(curStage.total)} שיעורים בשלב</>
+                : "ההתקדמות נרשמת בעת קריאת שיעור ונשמרת במכשיר בלבד."}
           </p>
-        )}
-
+          {started ? <p className="nxa-plate-blocks">{fmt(p.blocksDone)} יחידות תוכן נקראו · {p.pct}%</p> : null}
+        </div>
+        {started ? <StageMeter j={j} label={`ההתקדמות במסלול ${c.title}`} /> : null}
         {next ? (
-          <div className="nxl-course-a">
-            <OriginLink href={neoLessonHref(c.id, next.slug)} className="nu-btn" origin={leaving}>
-              <Play size={14} strokeWidth={2} aria-hidden="true" />
-              {started ? "המשך לשיעור הבא" : "התחלה מהשיעור הראשון"} · {next.title}
-            </OriginLink>
+          <div className="nxa-plate-act">
+            {finished ? (
+              <OriginLink href={neoLessonHref(c.id, next.slug)} className="nu-btn2" origin={leaving}>
+                חזרה לשלב הראשון · {next.title}
+              </OriginLink>
+            ) : (
+              <OriginLink href={neoLessonHref(c.id, next.slug)} className="nu-btn" style={RED} origin={leaving}>
+                <Play size={14} strokeWidth={2} aria-hidden="true" />
+                {started ? "המשך לשיעור הבא" : "התחלה מהשיעור הראשון"} · {next.title}
+              </OriginLink>
+            )}
+            <a className="nu-btn2" href="#co-materials">
+              <FolderOpen size={14} strokeWidth={1.75} aria-hidden="true" />
+              חומר הלימוד המלא
+            </a>
           </div>
         ) : null}
       </section>
 
-      <nav className="nxa-course-nav" aria-label="תוכן הקורס">
-        <a href="#co-ch">מסלול השיעורים</a>
-        <a href="#co-materials">חומר הלימוד המלא</a>
-        <Link href="/neo/academy/materials/" prefetch={false}>כל תיקיות האקדמיה</Link>
-      </nav>
-      <LessonFinder lessons={c.chapters.flatMap((ch) => ch.lessons)} />
+      {/* ------------------------------------------------------- THE STAGES */}
+      <Sig
+        id="co-ch"
+        icon={<Signpost size={15} strokeWidth={1.75} />}
+        title="מפת השלבים"
+        count={`${fmt(c.totals.chapters)} שלבים`}
+        lede="כל שלב נפתח לשיעורים שלו, לפי הסדר. שלב מושלם כשכל שיעוריו הושלמו, ובסופו הדרך לשלב הבא."
+      >
+        <LessonFinder lessons={c.chapters.flatMap((ch) => ch.lessons)} />
 
-      {/* ------------------------------------------------------- CHAPTERS */}
-      <section className="nxv-sec" aria-labelledby="co-ch">
-        <div className="nxv-sec-h">
-          <span className="nxv-sec-i" aria-hidden="true"><Layers size={16} strokeWidth={1.75} /></span>
-          <h2 className="nx-h2" id="co-ch">מבנה הקורס</h2>
-          <em className="nxv-sec-n">{nf.format(c.totals.chapters)} פרקים</em>
-        </div>
-
-        <div className="nxc-chapters">
+        <ol className="nxa-stages">
           {c.chapters.map((ch) => {
-            const authored = ch.lessons.filter((l) => l.hasLesson);
-            const doneN = authored.filter((l) => isDone(l.slug)).length;
-            const chDone = authored.length > 0 && doneN === authored.length;
+            const st = j.stages.find((s) => s.index === ch.index)!;
+            const nextStage = c.chapters.find((x) => x.index === ch.index + 1);
+            const nextFirst = nextStage ? firstLesson(nextStage.index) : undefined;
+            const open = mine?.chapters ? mine.chapters.includes(String(ch.index)) : ch.index === (j.current || c.chapters[0]?.index);
             return (
-              <details className="nxc-ch nxa-chapter" key={ch.index} open={mine?.chapters ? mine.chapters.includes(String(ch.index)) : ch.index === c.chapters[0]?.index || ch.lessons.some((l) => l.slug === next?.slug)}
-                onToggle={(e) => { if (e.currentTarget.open) expanded.current.add(ch.index); else expanded.current.delete(ch.index); }}>
-                <summary className="nxc-ch-h">
-                  <i aria-hidden="true" />
-                  <span className="nxc-ch-n">{String(ch.index).padStart(2, "0")}</span>
-                  <h3 className="nxc-ch-t">{ch.title}</h3>
-                  <div className="nxc-ch-m">
-                    <span className="nu-chip">{nf.format(ch.lessons.length)} שיעורים</span>
-                    {ch.minutes ? <span className="nu-chip">{hoursHe(ch.minutes)}</span> : null}
-                    {doneN > 0 ? (
-                      <span
-                        className="nu-status"
-                        style={{ "--s": chDone ? "var(--status-done)" : "var(--status-in-conversion)" } as React.CSSProperties}
-                      >
-                        {chDone ? "הפרק הושלם" : `${nf.format(doneN)} / ${nf.format(authored.length)} הושלמו`}
+              <li key={ch.index} className="nxa-stage-li" data-state={st.state}>
+                <details
+                  className="nxa-stage"
+                  open={open}
+                  onToggle={(e) => { if (e.currentTarget.open) expanded.current.add(ch.index); else expanded.current.delete(ch.index); }}
+                >
+                  <summary className="nxa-stage-h" aria-current={st.state === "current" && started ? "step" : undefined}>
+                    <span className="nxa-stage-n" aria-hidden="true">{String(ch.index).padStart(2, "0")}</span>
+                    <span className="nxa-stage-t">
+                      <b>{ch.title}</b>
+                      <span className="nxa-stage-m">
+                        {fmt(ch.lessons.length)} שיעורים{ch.minutes ? <> · {hoursHe(ch.minutes)}</> : null}
+                        {started && st.done > 0 && st.state !== "done" ? <> · {fmt(st.done)} מתוך {fmt(st.total)} הושלמו</> : null}
                       </span>
-                    ) : null}
-                  </div>
-                </summary>
+                    </span>
+                    <StageBadge state={st.state} started={started} />
+                  </summary>
 
-                <ul className="nxc-lessons">
-                  {ch.lessons.map((l) => {
-                    const done = l.hasLesson && isDone(l.slug);
-                    const inner = (
-                      <>
-                        <span className="nxc-l-n">{String(l.pos).padStart(2, "0")}</span>
-                        <span className="nxc-l-t">{l.title}</span>
-                        <span className="nxc-l-s">
-                          {l.level ? <span className="nu-chip">{l.level}</span> : null}
-                          {l.minutes ? <span className="nu-chip">{nf.format(l.minutes)} דק׳</span> : null}
-                          {/* An unauthored lesson says so where its status would be. */}
-                          {!l.hasLesson ? <span className="nu-chip">השיעור טרם נכתב</span> : null}
-                          {done ? (
-                            <span className="nu-status" style={{ "--s": "var(--status-done)" } as React.CSSProperties}>
-                              הושלם
-                            </span>
+                  <ol className="nxa-steps">
+                    {ch.lessons.map((l) => {
+                      const done = l.hasLesson && isDone(l.slug);
+                      const isNext = !finished && next?.slug === l.slug;
+                      const src = sources[l.slug];
+                      const inner = (
+                        <>
+                          <span className="nxa-step-n" aria-hidden="true">{String(l.pos).padStart(2, "0")}</span>
+                          <span className="nxa-step-t">{l.title}</span>
+                          <span className="nxa-step-s">
+                            {l.level ? <span className="nu-chip">{l.level}</span> : null}
+                            {l.minutes ? <span className="nu-chip">{fmt(l.minutes)} דק׳</span> : null}
+                            {!l.hasLesson ? <span className="nu-chip">השיעור טרם נכתב</span> : null}
+                            {done ? (
+                              <span className="nxa-st" data-state="done"><CircleCheck size={14} strokeWidth={2} aria-hidden="true" />הושלם</span>
+                            ) : isNext ? (
+                              <span className="nxa-st" data-state="current"><Play size={13} strokeWidth={2} aria-hidden="true" />{started ? "השיעור הבא" : "מתחילים כאן"}</span>
+                            ) : null}
+                          </span>
+                          {l.hasLesson ? <ArrowLeft size={14} strokeWidth={2} aria-hidden="true" className="nxa-step-go" /> : null}
+                        </>
+                      );
+                      return (
+                        <li key={l.slug} className="nxa-step-li" data-next={isNext ? "1" : undefined}>
+                          {l.hasLesson ? (
+                            <OriginLink href={neoLessonHref(c.id, l.slug)} className="nxa-step" origin={leaving}>
+                              {inner}
+                            </OriginLink>
+                          ) : (
+                            <div className="nxa-step is-flat">{inner}</div>
+                          )}
+                          {src ? (
+                            <OriginLink href={src.href} className="nxa-step-src" origin={leaving} title={src.title}>
+                              <FolderOpen size={13} strokeWidth={1.75} aria-hidden="true" />
+                              מקור
+                              <span className="nx-sr"> · {src.title}</span>
+                            </OriginLink>
                           ) : null}
-                        </span>
-                        {l.hasLesson ? (
-                          <span className="nxc-l-go" aria-hidden="true"><ArrowLeft size={14} strokeWidth={2} /></span>
+                        </li>
+                      );
+                    })}
+                  </ol>
+
+                  {/* The way out of the stage, into the next one. */}
+                  <p className="nxa-next">
+                    {nextStage ? (
+                      <>
+                        <span className="nxa-next-k">השלב הבא</span>
+                        <span className="nxa-next-t">שלב {fmt(nextStage.index)} · {nextStage.title}</span>
+                        {nextFirst ? (
+                          <OriginLink href={neoLessonHref(c.id, nextFirst.slug)} className="nu-link" origin={leaving}>
+                            מתחיל ב: {nextFirst.title}
+                            <ArrowLeft size={13} strokeWidth={2} className="nu-arw" aria-hidden="true" />
+                          </OriginLink>
                         ) : null}
                       </>
-                    );
-                    return (
-                      <li key={l.slug}>
-                        {l.hasLesson ? (
-                          <OriginLink
-                            href={neoLessonHref(c.id, l.slug)}
-                            className="nu-card nxc-l"
-                            origin={leaving}
-                          >
-                            {inner}
-                          </OriginLink>
-                        ) : (
-                          <div className="nu-card nxc-l is-flat">{inner}</div>
-                        )}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </details>
+                    ) : (
+                      <>
+                        <span className="nxa-next-k">סוף המסלול</span>
+                        <span className="nxa-next-t">זהו השלב האחרון במסלול. הבנה נבדקת ב<Link href="/neo/certification/" prefetch={false}>תרגול ובדיקת ידע</Link>.</span>
+                      </>
+                    )}
+                  </p>
+                </details>
+              </li>
             );
           })}
-        </div>
+        </ol>
+      </Sig>
+
+      {/* ------------------------------------------------- THE SOURCE FOLDER */}
+      <section className="nxa-src-wrap" id="co-materials" aria-label="חומר הלימוד המלא">
+        <div className="nxa-src-body">{source}</div>
+        <p className="nxa-src-all">
+          <Link className="nu-link" href="/neo/academy/materials/" prefetch={false}>
+            כל תיקיות האקדמיה
+            <ArrowLeft size={13} strokeWidth={2} className="nu-arw" aria-hidden="true" />
+          </Link>
+        </p>
       </section>
 
-      <div id="co-materials">{source}</div>
-
-      <div className="nxv-foot">
-        <p className="nxv-src">
-          <Info size={13} strokeWidth={1.75} aria-hidden="true" />
-          <span>
+      <CatalogFoot
+        notes={[
+          <>
+            <Info size={13} strokeWidth={1.75} aria-hidden="true" className="nxa-foot-i" />
             מקור המבנה: מסלולי הלמידה של SAP Academy (<span className="nx-sap">lib/academy/model.ts</span>).
             {" "}אורך ורמה הם שדות שהמסלול מגדיר לכל שיעור.
-          </span>
-        </p>
-        <p>
-          שיעור נחשב מושלם כשכל יחידות התוכן שהוא דורש נקראו.
-          {" "}ההתקדמות נשמרת במכשיר בלבד (<span className="nx-sap">neo:academy:v2</span>) ואינה מסונכרנת.
-        </p>
-
-      </div>
+          </>,
+        ]}
+      >
+        <ListChecks size={13} strokeWidth={1.75} aria-hidden="true" className="nxa-foot-i" />
+        שיעור נחשב מושלם כשכל יחידות התוכן שהוא דורש נקראו.
+        {" "}ההתקדמות נשמרת במכשיר בלבד (<span className="nx-sap">neo:academy:v2</span>) ואינה מסונכרנת.
+      </CatalogFoot>
     </div>
   );
 }

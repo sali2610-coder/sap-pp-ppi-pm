@@ -157,8 +157,12 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
     {
       id: "academy", label: "אקדמיה · SAP Academy",
       items: [
-        { id: "academy-materials", href: "/neo/academy/materials/", label: "תיקיית חומרי האקדמיה", icon: "FolderOpen", count: BOOKS.length, countLabel: "תחומי לימוד" },
-        { id: "academy", href: "/neo/academy/", label: "קורסים ומסלולי למידה", icon: "GraduationCap", count: BOOKS.length, countLabel: "קורסים" },
+        /* ONE academy tab (2026-10). The learning paths and the source folder
+           used to be two rail entries over the same eight courses; they are
+           the two views of one tab now (learn/journey.tsx AcademySwitch), and
+           the rail lights this entry on every /neo/academy/ route, the folder
+           at /neo/academy/materials/ included (first prefix match wins). */
+        { id: "academy", href: "/neo/academy/", label: "מסלולי למידה וחומרים", icon: "GraduationCap", count: BOOKS.length, countLabel: "מסלולים" },
       ],
     },
     {

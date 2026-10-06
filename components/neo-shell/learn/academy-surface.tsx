@@ -1,120 +1,71 @@
 "use client";
 
 /* ============================================================================
-   PROJECT NEO · /neo/academy — the course directory.
+   PROJECT NEO · /neo/academy — the academy, one tab (2026-10).
    ----------------------------------------------------------------------------
-   Eight authored learning courses, organised around what they actually contain:
-   chapters, lessons, declared level and declared length. Everything on this
-   screen is either a build-time count of real content or a reading of the
-   product's own progress store — nothing between the two.
+   The rail used to carry two academy tabs, the course directory and the source
+   folder. They are one tab now, read as one walk: a PATH is a course, a STAGE
+   is a chapter, a STEP is a lesson (./journey-state.ts), and the source folder
+   is the second view of the same tab (./journey.AcademySwitch), one link away
+   from every path. Nothing was removed: every path, count, filter, the lesson
+   search and both notes are still here; /neo/academy/materials/ still lists
+   every source chapter and topic.
 
    PROGRESS IS THE READER'S, NOT THE BUILD'S
-     The bar under a course is drawn from `neo:academy:v2` — the SAME store the
-     live academy reader writes to, read here through the same hooks. A course
-     the reader has never opened draws NO bar: an empty progress track is a
-     claim ("you are 0% through this") that the product has no reason to make on
-     a first visit, and this surface refuses to make it. The "continue" card at
-     the top appears only when the store actually holds a session.
+     Drawn from `neo:academy:v2`, the SAME store the lesson reader writes, read
+     through the same hooks. A path the reader has never opened draws NO meter:
+     an empty track is a claim ("you are 0% through this") the product has no
+     reason to make on a first visit. The journey plate says "עוד לא התחלת"
+     until the store holds a session, and the server renders that state.
 
-   CONTROL LANGUAGE (app/neo/ui.css)
-     .nu-filter  narrows the list. Counts are real counts.
-     .nu-chip    a value — the module, a level, a measured total. Not clickable.
-     .nu-status  dot + word. One use only: whether the reader has finished a
-                 course, which is a real state.
-     .nu-card    the course, which opens /neo/academy/<id>/.
-     .nu-btn     the one action that matters — resume where you stopped.
-     .nu-link    the contextual return at the top of the surface.
+   COMPOSITION (the catalogs' kit, app/neo/data.css, plus academy-experience.css)
+     hero + ledger · the view switch · how the walk works · the journey plate
+     (the page's one red action) · the paths · the source folder · the foot.
    ========================================================================== */
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { ArrowLeft, BookOpen, Blocks, Clock, GraduationCap, Layers, Play, Search, X } from "lucide-react";
+import {
+  ArrowLeft, BookOpenCheck, CircleCheck, CircleDashed, FolderOpen, GraduationCap, ListChecks,
+  Play, Route, Search, Signpost, X,
+} from "lucide-react";
 import { OriginLink, SmartReturn, rememberOrigin } from "@/components/neo-shell/nav-context";
-import { useContinueCourse, useModuleProgress } from "@/lib/academy/store";
+import { useActiveCourses, useContinueCourse, useIsDone } from "@/lib/academy/store";
+import { CatalogFoot, CatalogHero, Ledger, Sig, fmt } from "../data/catalog-kit";
 import { neoLessonHref } from "./lesson-links";
 import { learnModVar } from "./mod";
 import type { AcademyCourseRow, AcademyData } from "./academy-data";
 import { LessonResults } from "./lesson-finder";
+import { journeyOf } from "./journey-state";
+import { AcademySwitch, StageMeter, hoursHe, journeyLine } from "./journey";
 
-const nf = new Intl.NumberFormat("he-IL");
+export interface MaterialCount { id: string; title: string; module: string; chapters: number; topics: number }
 
-/** Minutes as the courses themselves declare them. Never rounded up into a
- *  bigger, nicer number. */
-function hoursHe(min: number): string {
-  if (min < 60) return `${nf.format(min)} דק׳`;
-  const h = Math.floor(min / 60);
-  const m = min % 60;
-  return m ? `${nf.format(h)} שע׳ ${nf.format(m)} דק׳` : `${nf.format(h)} שע׳`;
-}
+const RED = { "--m": "var(--brand)" } as React.CSSProperties;
 
-function CourseCard({ c, onOpen }: { c: AcademyCourseRow; onOpen: (id: string) => void }) {
-  // Read per course, inside its own component: a hook cannot live in a loop.
-  const p = useModuleProgress(c.id);
-  const started = p.completedLessons > 0 || p.blocksDone > 0;
-  const done = p.totalLessons > 0 && p.completedLessons >= p.totalLessons;
-
+/** A path's standing, from the store: finished, on its way (with its meter), or
+ *  not started, in words. */
+function PathStatus({ c, started, isDone }: { c: AcademyCourseRow; started: boolean; isDone: (s: string) => boolean }) {
+  const j = journeyOf(c.chapters, isDone);
+  if (j.complete) {
+    return <span className="nxa-st" data-state="done"><CircleCheck size={14} strokeWidth={2} aria-hidden="true" />המסלול הושלם</span>;
+  }
+  if (!started) {
+    return <span className="nxa-st" data-state="todo"><CircleDashed size={14} strokeWidth={2} aria-hidden="true" />טרם התחלת</span>;
+  }
   return (
-    <li style={{ "--m": learnModVar(c.module), display: "grid" } as React.CSSProperties}>
-      <Link href={c.href} className="nu-card nxl-course" prefetch={false} onClick={() => onOpen(c.id)}>
-        <span className="nxl-course-h">
-          <span className="nxl-course-k">
-            <span className="nu-chip nxl-mod">
-              <i aria-hidden="true" />
-              {c.module}
-            </span>
-            {done ? (
-              <span className="nu-status" style={{ "--s": "var(--status-done)" } as React.CSSProperties}>
-                הושלם
-              </span>
-            ) : null}
-          </span>
-          <h2 className="nxl-course-t">{c.title}</h2>
-          {c.titleEn ? <span className="nxl-course-en">{c.titleEn}</span> : null}
-        </span>
-
-        <span className="nxl-course-n">
-          <span className="nxl-num"><b>{nf.format(c.totals.chapters)}</b><span>פרקים</span></span>
-          <span className="nxl-num"><b>{nf.format(c.totals.lessons)}</b><span>שיעורים</span></span>
-          <span className="nxl-num"><b>{nf.format(c.totals.blocks)}</b><span>יחידות תוכן</span></span>
-          <span className="nxl-num"><b data-text="1">{hoursHe(c.totals.minutes)}</b><span>אורך מוצהר</span></span>
-        </span>
-
-        <span className="nxl-meta">
-          {c.levels.map((l) => (
-            <span key={l.he} className="nu-chip">{l.he} · {nf.format(l.n)}</span>
-          ))}
-        </span>
-
-        {started ? (
-          <span className="nxl-bar">
-            <span className="nxl-bar-h">
-              <span>התקדמות</span>
-              <b>{nf.format(p.completedLessons)} / {nf.format(p.totalLessons)} · {p.pct}%</b>
-            </span>
-            <span className="nxl-bar-t">
-              <span className="nxl-bar-f" style={{ "--p": p.pct / 100 } as React.CSSProperties} />
-            </span>
-          </span>
-        ) : (
-          <span className="nxl-course-idle">
-            לא נרשמה התקדמות במכשיר הזה.
-          </span>
-        )}
-
-        {/* The whole card is the link, so this is a signpost and not a second
-            control: no button chrome, no nested interactive element. */}
-        <span className="nxl-course-a nxl-course-go">
-          פתיחת הקורס
-          <ArrowLeft size={14} strokeWidth={2} aria-hidden="true" />
-        </span>
-      </Link>
-    </li>
+    <span className="nxa-path-meter">
+      <StageMeter j={j} label={`ההתקדמות במסלול ${c.title}`} compact />
+      <span className="nxa-path-line">{journeyLine(j)}</span>
+    </span>
   );
 }
 
-export function AcademySurface({ data }: { data: AcademyData }) {
+export function AcademySurface({ data, materials }: { data: AcademyData; materials: MaterialCount[] }) {
   const { courses, levels, totals } = data;
   const cont = useContinueCourse();
+  const active = useActiveCourses();
+  const isDone = useIsDone();
 
   const [q, setQ] = useState("");
   const [level, setLevel] = useState("");
@@ -133,179 +84,315 @@ export function AcademySurface({ data }: { data: AcademyData }) {
   const dirty = !!q || !!level;
   const reset = () => { setQ(""); setLevel(""); };
 
-  // Every course card records where it is leaving from, so the course screen's
-  // return control says "האקדמיה · <the filter you had on>" rather than just
-  // pointing at the namespace root.
+  // Every path records where it is leaving from, so the course screen's return
+  // control says "SAP Academy · <the filter you had on>".
   const onOpen = (id: string) => {
     const parts = [level, q.trim() ? `חיפוש «${q.trim()}»` : ""].filter(Boolean);
-    rememberOrigin({
-      to: `/neo/academy/${id}/`,
-      href: "/neo/academy/",
-      label: "SAP Academy",
-      detail: parts.join(" · "),
-    });
+    rememberOrigin({ to: `/neo/academy/${id}/`, href: "/neo/academy/", label: "SAP Academy", detail: parts.join(" · ") });
   };
 
+  const byId = useMemo(() => new Map(courses.map((c) => [c.id, c])), [courses]);
+  const started = new Set(active.map((a) => a.moduleId));
+  const contCourse = cont ? byId.get(cont.moduleId) ?? null : null;
+  const contJourney = contCourse ? journeyOf(contCourse.chapters, isDone) : null;
+  const others = active.filter((a) => a.moduleId !== cont?.moduleId && byId.has(a.moduleId));
+  const mat = materials.reduce((a, m) => ({ chapters: a.chapters + m.chapters, topics: a.topics + m.topics }), { chapters: 0, topics: 0 });
+  // Paths finished on this device. With no path in progress the plate says
+  // that, not "not started", and offers the first path that is not done.
+  const done = courses.filter((c) => journeyOf(c.chapters, isDone).complete);
+  const doneIds = new Set(done.map((c) => c.id));
+  const first = courses.find((c) => !doneIds.has(c.id)) ?? courses[0];
+  const doneList = done.filter((c) => c.id !== cont?.moduleId);
+
   return (
-    <div className="nxl" data-surface="academy">
+    <div className="nxd nxa nm-scene" data-scene="cream" data-surface="academy">
       <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
 
-      <header className="nxl-head">
-        <span className="nx-eyebrow">ידע ולמידה</span>
-        <h1 className="nx-h1">SAP Academy</h1>
-        <p className="nx-lede">
-          מסלולי הלמידה של הפרויקט: {nf.format(totals.courses)} קורסים, {nf.format(totals.chapters)} פרקים ו-{nf.format(totals.lessons)} שיעורים.
-          {" "}ההתקדמות המוצגת היא זו שנרשמה במכשיר הזה.
-        </p>
-        {/* Design audit §7: open with what the reader will learn and one way in. */}
-        <p className="nx-gate-note nxl-what">
-          מה תלמד: מודלי הנתונים של PM ו-PP-PI, הטרנזקציות והתהליכים העסקיים, והמעבר מ-ECC ל-S/4HANA — קורס אחר קורס, שיעור אחר שיעור. צפייה בשיעור נרשמת כחשיפה; הבנה נבדקת ב<Link href="/neo/certification/" prefetch={false}>תרגול ובדיקת ידע</Link>.
-        </p>
-        {!cont && courses.length ? (
-          <p className="nxl-start">
-            <Link className="nu-btn" href={`/neo/academy/${courses[0].id}/`} prefetch={false} onClick={() => onOpen(courses[0].id)}>
-              <Play size={14} strokeWidth={2} aria-hidden="true" />
-              התחלת הלמידה: {courses[0].title}
-            </Link>
-          </p>
+      <CatalogHero
+        icon={<GraduationCap size={14} strokeWidth={1.75} aria-hidden="true" />}
+        eyebrow="SAP Academy · מסלולי למידה וחומרים"
+        title="מסלול הלמידה שלך"
+        lede={
+          <>
+            {fmt(totals.courses)} מסלולי לימוד, כל אחד שלב אחר שלב, וחומר המקור המלא של כל מסלול פתוח לצידו.
+            {" "}אורך מוצהר כולל: {hoursHe(totals.minutes)}. ההתקדמות המוצגת היא זו שנרשמה במכשיר הזה.
+          </>
+        }
+      >
+        <Ledger
+          label="האקדמיה במספרים. כל מספר מוביל לחלק שלו"
+          items={[
+            { v: totals.courses, l: "מסלולים", href: "#paths" },
+            { v: totals.chapters, l: "שלבים", href: "#paths" },
+            { v: totals.lessons, l: "שיעורים", href: "#paths" },
+            { v: totals.blocks, l: "יחידות תוכן", href: "#paths" },
+            { v: totals.levels, l: "רמות", href: "#paths" },
+            { v: mat.chapters, l: "פרקי מקור", href: "#materials" },
+            { v: mat.topics, l: "נושאים בחומר המקור", href: "#materials" },
+          ]}
+        />
+      </CatalogHero>
+
+      <AcademySwitch at="paths" />
+
+      {/* ------------------------------------------------------- THE WALK */}
+      <Sig
+        id="how"
+        icon={<Signpost size={15} strokeWidth={1.75} />}
+        title="איך עוברים מסלול"
+        lede={
+          <>
+            מה תלמד: מודלי הנתונים של PM ו-PP-PI, הטרנזקציות והתהליכים העסקיים, והמעבר מ-ECC ל-S/4HANA, מסלול אחר מסלול ושיעור אחר שיעור.
+          </>
+        }
+      >
+        <ol className="nxa-how">
+          <li>
+            <span className="nxa-how-i" aria-hidden="true"><Route size={17} strokeWidth={1.75} /></span>
+            <b>בוחרים מסלול</b>
+            <span>{fmt(totals.courses)} מסלולים, אחד לכל תחום. כל מסלול בנוי משלבים, וכל שלב משיעורים.</span>
+          </li>
+          <li>
+            <span className="nxa-how-i" aria-hidden="true"><ListChecks size={17} strokeWidth={1.75} /></span>
+            <b>עוברים שלב אחר שלב</b>
+            <span>שיעור מושלם כשכל יחידות התוכן שהוא דורש נקראו. שלב מושלם כשכל שיעוריו הושלמו, והמד מראה באיזה שלב אתה.</span>
+          </li>
+          <li>
+            <span className="nxa-how-i" aria-hidden="true"><FolderOpen size={17} strokeWidth={1.75} /></span>
+            <b>מעמיקים בחומר המקור</b>
+            <span>לכל מסלול תיקייה מלאה: פרקי המקור, התהליכים והקודים. קריאה בה אינה משנה את ההתקדמות במסלול.</span>
+          </li>
+          <li>
+            <span className="nxa-how-i" aria-hidden="true"><BookOpenCheck size={17} strokeWidth={1.75} /></span>
+            <b>בודקים את עצמך</b>
+            <span>צפייה בשיעור נרשמת כחשיפה; הבנה נבדקת ב<Link href="/neo/certification/" prefetch={false}>תרגול ובדיקת ידע</Link>.</span>
+          </li>
+        </ol>
+      </Sig>
+
+      {/* ------------------------------------------------ THE JOURNEY PLATE
+          The page's one red action. On a first visit (and in the server
+          render) it says so and offers the first path; with a session it is
+          the path in progress, its meter and the lesson to resume. */}
+      <section
+        className="nxa-plate nm-rise nm-once"
+        aria-labelledby="ac-plate-h"
+        style={{ "--m": learnModVar(contCourse?.module) } as React.CSSProperties}
+      >
+        {cont && contCourse && contJourney ? (
+          <>
+            <div className="nxa-plate-id">
+              <p className="nxa-plate-k">המסלול שלך · <bdi dir="ltr">{contCourse.module}</bdi></p>
+              <h2 className="nxa-plate-h" id="ac-plate-h">{contCourse.title}</h2>
+              <p className="nxa-plate-at">
+                השלב: {fmt(cont.chapterIndex)} · {cont.chapterTitle}
+                {" "}· שיעור {fmt(cont.lessonNum)} מתוך {fmt(cont.chapterSize)} בשלב
+              </p>
+            </div>
+            <StageMeter j={contJourney} label={`ההתקדמות במסלול ${contCourse.title}`} />
+            <div className="nxa-plate-act">
+              <OriginLink
+                href={neoLessonHref(cont.moduleId, cont.resumeSlug)}
+                className="nu-btn"
+                style={RED}
+                origin={() => ({ href: "/neo/academy/", label: "SAP Academy" })}
+              >
+                <Play size={14} strokeWidth={2} aria-hidden="true" />
+                המשך: {cont.lessonTitle}
+              </OriginLink>
+              <Link href={`/neo/academy/${cont.moduleId}/`} className="nu-btn2" prefetch={false} onClick={() => onOpen(cont.moduleId)}>
+                כל שלבי המסלול
+                <ArrowLeft size={14} strokeWidth={2} className="nu-arw" aria-hidden="true" />
+              </Link>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="nxa-plate-id">
+              <p className="nxa-plate-k">המסלול שלך</p>
+              {done.length ? (
+                <>
+                  <h2 className="nxa-plate-h" id="ac-plate-h">
+                    {done.length === 1 ? `סיימת את המסלול ${done[0].title}` : `סיימת ${fmt(done.length)} מסלולים`}
+                  </h2>
+                  <p className="nxa-plate-at">
+                    כל השלבים {done.length === 1 ? "בו" : "בהם"} הושלמו במכשיר הזה. אפשר לחזור לכל שלב, או להתחיל מסלול נוסף.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <h2 className="nxa-plate-h" id="ac-plate-h">עוד לא התחלת מסלול</h2>
+                  <p className="nxa-plate-at">
+                    בוחרים מסלול ומתחילים מהשלב הראשון. מאותו רגע המד כאן מראה באיזה שלב אתה, מה הושלם ומה הבא.
+                  </p>
+                </>
+              )}
+            </div>
+            {first ? (
+              <div className="nxa-plate-act">
+                <Link className="nu-btn" style={RED} href={first.href} prefetch={false} onClick={() => onOpen(first.id)}>
+                  <Play size={14} strokeWidth={2} aria-hidden="true" />
+                  להתחיל: {first.title}
+                </Link>
+                <a className="nu-btn2" href="#paths">בחירת מסלול אחר</a>
+              </div>
+            ) : null}
+          </>
+        )}
+
+        {doneList.length ? (
+          <ul className="nxa-plate-others" aria-label="מסלולים שהושלמו">
+            {doneList.map((c) => {
+              const j = journeyOf(c.chapters, isDone);
+              return (
+                <li key={c.id} style={{ "--m": learnModVar(c.module) } as React.CSSProperties}>
+                  <Link href={c.href} prefetch={false} className="nxa-other" onClick={() => onOpen(c.id)}>
+                    <b>{c.title}</b>
+                    <StageMeter j={j} label={`ההתקדמות במסלול ${c.title}`} compact />
+                    <span>{journeyLine(j)}</span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
         ) : null}
-      </header>
 
-      <nav className="nxa-entry-nav" aria-label="כניסות לאקדמיה">
-        <a href="#academy-courses"><GraduationCap size={22} /><span><strong>מסלולי לימוד</strong><small>קורסים, פרקים ושיעורים בקצב שלך</small></span><ArrowLeft size={16} /></a>
-        <Link href="/neo/academy/materials/" prefetch={false}><BookOpen size={22} /><span><strong>תיקיית חומרי האקדמיה</strong><small>כל חומרי המקור, התהליכים והקודים</small></span><ArrowLeft size={16} /></Link>
-      </nav>
-
-      {/* Appears only when the store actually holds a session. No session, no
-          card — and no invented "welcome back". */}
-      {cont ? (
-        <section
-          className="nx-card nxl-course"
-          aria-label="המשך מהנקודה האחרונה"
-          style={{ "--m": learnModVar(cont.module) } as React.CSSProperties}
-        >
-          <div className="nxl-course-h">
-            <span className="nx-eyebrow">המשך מהנקודה האחרונה</span>
-            <h2 className="nxl-course-t">{cont.lessonTitle}</h2>
-            <span className="nxl-course-en">
-              {cont.chapterTitle} · שיעור {nf.format(cont.lessonNum)} מתוך {nf.format(cont.chapterSize)} בפרק
-            </span>
-          </div>
-          <div className="nxl-bar">
-            <div className="nxl-bar-h">
-              <span>{cont.module}</span>
-              <b>{nf.format(cont.completedLessons)} / {nf.format(cont.totalLessons)} · {cont.pct}%</b>
-            </div>
-            <div className="nxl-bar-t">
-              <span className="nxl-bar-f" style={{ "--p": cont.pct / 100 } as React.CSSProperties} />
-            </div>
-          </div>
-          <div className="nxl-course-a">
-            {/* The resume opens the lesson INSIDE NEO. Its return control has to
-                say something true even though the reader never passed through
-                the course screen, so the origin names the academy itself. */}
-            <OriginLink
-              href={neoLessonHref(cont.moduleId, cont.resumeSlug)}
-              className="nu-btn"
-              origin={() => ({ href: "/neo/academy/", label: "SAP Academy" })}
-            >
-              <Play size={14} strokeWidth={2} aria-hidden="true" />
-              המשך השיעור
-            </OriginLink>
-            <Link href={`/neo/academy/${cont.moduleId}/`} className="nu-btn2" prefetch={false}>
-              הצגת הקורס
-              <ArrowLeft size={14} strokeWidth={2} className="nu-arw" aria-hidden="true" />
-            </Link>
-          </div>
-        </section>
-      ) : null}
-
-      <section className="nx-card nxl-stats" aria-label="סיכום SAP Academy">
-        {[
-          { v: nf.format(totals.courses), l: "קורסים", t: false, i: <GraduationCap size={14} strokeWidth={1.75} /> },
-          { v: nf.format(totals.chapters), l: "פרקים", t: false, i: <Layers size={14} strokeWidth={1.75} /> },
-          { v: nf.format(totals.lessons), l: "שיעורים", t: false, i: <BookOpen size={14} strokeWidth={1.75} /> },
-          { v: nf.format(totals.blocks), l: "יחידות תוכן", t: false, i: <Blocks size={14} strokeWidth={1.75} /> },
-          { v: hoursHe(totals.minutes), l: "אורך מוצהר", t: true, i: <Clock size={14} strokeWidth={1.75} /> },
-          { v: nf.format(totals.levels), l: "רמות", t: false, i: <Layers size={14} strokeWidth={1.75} /> },
-        ].map((s) => (
-          <div key={s.l} className="nxl-stat">
-            <span className="nxl-stat-i" aria-hidden="true">{s.i}</span>
-            {/* A value with Hebrew words in it opts out of the numeric face,
-                which is LTR and would print the units in reverse. */}
-            <b data-text={s.t ? "1" : undefined}>{s.v}</b>
-            <span>{s.l}</span>
-          </div>
-        ))}
+        {others.length ? (
+          <ul className="nxa-plate-others" aria-label="מסלולים נוספים בתהליך">
+            {others.map((a) => {
+              const c = byId.get(a.moduleId)!;
+              const j = journeyOf(c.chapters, isDone);
+              return (
+                <li key={a.moduleId} style={{ "--m": learnModVar(c.module) } as React.CSSProperties}>
+                  <Link href={c.href} prefetch={false} className="nxa-other" onClick={() => onOpen(c.id)}>
+                    <b>{c.title}</b>
+                    <StageMeter j={j} label={`ההתקדמות במסלול ${c.title}`} compact />
+                    <span>{journeyLine(j)}</span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        ) : null}
       </section>
 
-      <div className="nxl-tools" id="academy-courses">
-        <div className="nxl-field">
-          <Search size={15} strokeWidth={1.75} aria-hidden="true" />
-          <input
-            type="search"
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="שם קורס · שם שיעור · קוד SAP"
-            aria-label="חיפוש בקורסים"
-          />
-          {q ? (
-            <button type="button" className="nu-ghost nxl-clear" onClick={() => setQ("")} aria-label="ניקוי החיפוש">
-              <X size={13} strokeWidth={2} />
-            </button>
-          ) : null}
-        </div>
-      </div>
-
-      <div className="nxl-facets">
-        <div className="nxl-facet" role="group" aria-label="סינון לפי רמה">
-          <span className="nxl-facet-l">רמה</span>
-          {levels.map((l) => (
-            <button
-              key={l.id}
-              type="button"
-              className="nu-filter"
-              aria-pressed={level === l.id}
-              onClick={() => setLevel(level === l.id ? "" : l.id)}
-            >
-              {l.he}<b>{nf.format(l.n)}</b>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <p className="nxl-count" aria-live="polite">
-        <b>{nf.format(list.length)}</b> קורסים
-        {!dirty ? <> מתוך {nf.format(totals.courses)}</> : null}
-        {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
-      </p>
-
-      <LessonResults lessons={list.flatMap((c) => c.chapters.flatMap((ch) => ch.lessons)).filter((l) => !level || l.level === level)} query={q} />
-      {list.length === 0 ? (
-        <div className="nx-card nxl-none">
-          <p><b>לא נמצאו תוצאות התואמות לסינון שנבחר</b></p>
-          <p className="nx-muted">
-            אפשר לחפש לפי שמות הקורסים, הפרקים והשיעורים או לפי הקודים המופיעים בהם.
-          </p>
-          <div className="nxl-none-a">
-            <button type="button" className="nu-btn" onClick={reset}>ניקוי הסינון</button>
+      {/* -------------------------------------------------------- THE PATHS */}
+      <Sig
+        id="paths"
+        icon={<Route size={15} strokeWidth={1.75} />}
+        title="המסלולים"
+        count={`${fmt(totals.courses)} מסלולים`}
+        lede="כל מסלול נפתח למפת השלבים שלו: מה הושלם, איפה אתה ומה הבא."
+      >
+        <div className="nxd-tools">
+          <div className="nxd-field">
+            <Search size={15} strokeWidth={1.75} aria-hidden="true" />
+            <input
+              type="search"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="שם קורס · שם שיעור · קוד SAP"
+              aria-label="חיפוש בקורסים"
+            />
+            {q ? (
+              <button type="button" className="nu-ghost nxd-clear" onClick={() => setQ("")} aria-label="ניקוי החיפוש">
+                <X size={13} strokeWidth={2} />
+              </button>
+            ) : null}
+          </div>
+          <div className="nxd-facet" role="group" aria-label="סינון לפי רמה">
+            <span className="nxd-facet-l">רמה</span>
+            {levels.map((l) => (
+              <button
+                key={l.id}
+                type="button"
+                className="nu-filter"
+                aria-pressed={level === l.id}
+                onClick={() => setLevel(level === l.id ? "" : l.id)}
+              >
+                {l.he}<b>{fmt(l.n)}</b>
+              </button>
+            ))}
           </div>
         </div>
-      ) : (
-        <ul className="nxl-courses">
-          {list.map((c) => <CourseCard key={c.id} c={c} onOpen={onOpen} />)}
-        </ul>
-      )}
 
-      <div className="nxl-foot">
-        <p>
-          «אורך מוצהר» ו«רמה» הם השדות שהקורס מגדיר לכל שיעור.
-          {" "}«יחידות תוכן» הוא מספר יחידות התוכן שהשיעור דורש להשלמה.
+        <p className="nxa-count" aria-live="polite">
+          <b>{fmt(list.length)}</b> קורסים
+          {!dirty ? <> מתוך {fmt(totals.courses)}</> : null}
+          {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>ניקוי הסינון</button></> : null}
         </p>
-        <p>
-          ההתקדמות נשמרת במכשיר בלבד (<span className="nx-sap">neo:academy:v2</span>) ואינה מסונכרנת.
-        </p>
-      </div>
+
+        <LessonResults lessons={list.flatMap((c) => c.chapters.flatMap((ch) => ch.lessons)).filter((l) => !level || l.level === level)} query={q} />
+
+        {list.length === 0 ? (
+          <div className="nxa-none">
+            <p><b>לא נמצאו תוצאות התואמות לסינון שנבחר</b></p>
+            <p className="nx-muted">אפשר לחפש לפי שמות הקורסים, הפרקים והשיעורים או לפי הקודים המופיעים בהם.</p>
+            <button type="button" className="nu-btn2" onClick={reset}>ניקוי הסינון</button>
+          </div>
+        ) : (
+          <ul className="nxa-paths">
+            {list.map((c) => (
+              <li key={c.id} style={{ "--m": learnModVar(c.module) } as React.CSSProperties}>
+                <Link href={c.href} className="nxa-path" prefetch={false} onClick={() => onOpen(c.id)}>
+                  <span className="nxa-path-h">
+                    <span className="nxa-mod"><bdi dir="ltr">{c.module}</bdi></span>
+                    <b className="nxa-path-t">{c.title}</b>
+                    {c.titleEn ? <bdi dir="ltr" className="nxa-path-en">{c.titleEn}</bdi> : null}
+                  </span>
+                  <span className="nxa-path-n">
+                    {fmt(c.totals.chapters)} שלבים · {fmt(c.totals.lessons)} שיעורים · {fmt(c.totals.blocks)} יחידות תוכן · {hoursHe(c.totals.minutes)}
+                  </span>
+                  <span className="nxa-path-lv">
+                    {c.levels.map((l) => <span key={l.he} className="nu-chip">{l.he} · {fmt(l.n)}</span>)}
+                  </span>
+                  <PathStatus c={c} started={started.has(c.id)} isDone={isDone} />
+                  <span className="nxa-path-go">
+                    פתיחת המסלול
+                    <ArrowLeft size={14} strokeWidth={2} aria-hidden="true" />
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </Sig>
+
+      {/* ------------------------------------------------- THE SOURCE FOLDER */}
+      <Sig
+        id="materials"
+        icon={<FolderOpen size={15} strokeWidth={1.75} />}
+        title="חומר המקור · תיקיית האקדמיה"
+        count={`${fmt(mat.chapters)} פרקים · ${fmt(mat.topics)} נושאים`}
+        lede="לכל מסלול תיקיית חומר מלאה. התיקייה נפתחת בתוך המסלול, לצד השלבים."
+      >
+        <ul className="nxa-mats">
+          {materials.map((m) => (
+            <li key={m.id} style={{ "--m": learnModVar(m.module) } as React.CSSProperties}>
+              <Link href={`/neo/academy/${m.id}/#co-materials`} prefetch={false} className="nxa-mat">
+                <FolderOpen size={18} strokeWidth={1.75} aria-hidden="true" />
+                <span>
+                  <b>{m.title}</b>
+                  <small>{fmt(m.chapters)} פרקי מקור · {fmt(m.topics)} נושאים</small>
+                </span>
+                <span className="nxa-mod"><bdi dir="ltr">{m.module}</bdi></span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <Link className="nu-link nxa-mats-all" href="/neo/academy/materials/" prefetch={false}>
+          לכל התיקיות ולחיפוש בכל החומר
+          <ArrowLeft size={14} strokeWidth={2} className="nu-arw" aria-hidden="true" />
+        </Link>
+      </Sig>
+
+      <CatalogFoot
+        notes={[
+          <>«אורך מוצהר» ו«רמה» הם השדות שהקורס מגדיר לכל שיעור. «יחידות תוכן» הוא מספר יחידות התוכן שהשיעור דורש להשלמה.</>,
+        ]}
+      >
+        ההתקדמות נשמרת במכשיר בלבד (<span className="nx-sap">neo:academy:v2</span>) ואינה מסונכרנת.
+      </CatalogFoot>
     </div>
   );
 }

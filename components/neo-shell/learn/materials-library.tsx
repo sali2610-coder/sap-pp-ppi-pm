@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import Link from "next/link";
-import { ArrowLeft, BookOpen, FolderOpen, Search } from "lucide-react";
+import { ArrowLeft, BookOpen, FolderOpen, Search, X } from "lucide-react";
 import { consumeReturn, OriginLink, restoreScroll, scrollOffset, SmartReturn, useReturnPacket, type OriginArg } from "../nav-context";
 import { normalizeSearch } from "../search/build";
 import type { SourceIndexChapter } from "./source-data";
 import { SourceIndex } from "./source-index";
 import { learnModVar } from "./mod";
+import { CatalogFoot, CatalogHero, Ledger, fmt } from "../data/catalog-kit";
+import { AcademySwitch } from "./journey";
 
 export type MaterialCourse = { id: string; title: string; module: string; chapters: SourceIndexChapter[] };
 const SURFACE = "neo:academy-materials";
@@ -52,19 +53,36 @@ export function MaterialsLibrary({ courses }: { courses: MaterialCourse[] }) {
     },
   });
   const filterModule = (id: string) => { setModuleId(id); setLimit(PAGE_SIZE); };
-  return <div ref={root} className="nxv nxa-materials" data-surface="academy-materials">
+  const topics = index.length;
+  const chapterCount = courses.reduce((n, c) => n + c.chapters.length, 0);
+  /* THE ACADEMY'S SECOND VIEW (2026-10). The folder is the same tab as the
+     learning paths now: the catalogs' hero, the shared view switch, the module
+     choice as a facet group, every folder still here with every topic. */
+  return <div ref={root} className="nxd nxa nxa-materials nm-scene" data-scene="cream" data-surface="academy-materials">
     <SmartReturn fallback={{ href: "/neo/academy/", label: "SAP Academy" }} />
-    <header className="nxv-head">
-      <span className="nx-eyebrow"><FolderOpen size={17} aria-hidden="true" /> תיקיית האקדמיה</span>
-      <h1 className="nxv-h1">כל חומרי הלימוד, במקום אחד.</h1>
-      <p className="nx-lede">{courses.length} תחומי לימוד · {courses.reduce((n, c) => n + c.chapters.length, 0)} פרקי מקור · {index.length.toLocaleString("he-IL")} נושאים. פותחים פרק, בוחרים נושא וממשיכים ללמוד בתוך NEO.</p>
-      <Link className="nu-link" href="/neo/academy/" prefetch={false}>למסלולי השיעורים ולהתקדמות שלי <ArrowLeft size={15} /></Link>
-    </header>
-    <div className="nxa-material-tools">
-      <label className="nxl-field"><Search size={18} aria-hidden="true" /><input type="search" value={query} onChange={(e) => { setQuery(e.target.value); setLimit(PAGE_SIZE); }} aria-label="חיפוש בכל חומרי האקדמיה" placeholder="נושא, טבלה או טרנזקציה — מהאות הראשונה" /></label>
-      <div className="nxl-facets" role="group" aria-label="בחירת תחום לימוד">
-        <button className="nu-filter" aria-pressed={!moduleId} onClick={() => filterModule("")}>כל התחומים</button>
-        {courses.map((c) => <button key={c.id} className="nu-filter" aria-pressed={moduleId === c.id} onClick={() => filterModule(moduleId === c.id ? "" : c.id)}><bdi dir="ltr">{c.module}</bdi></button>)}
+    <CatalogHero
+      icon={<FolderOpen size={14} strokeWidth={1.75} aria-hidden="true" />}
+      eyebrow="SAP Academy · תיקיית החומרים"
+      title="כל חומרי הלימוד, במקום אחד."
+      lede={<>{courses.length} תחומי לימוד · {chapterCount} פרקי מקור · {topics.toLocaleString("he-IL")} נושאים. פותחים פרק, בוחרים נושא וממשיכים ללמוד בתוך NEO.</>}
+    >
+      <Ledger label="התיקייה במספרים" items={[
+        { v: courses.length, l: "תחומי לימוד" },
+        { v: chapterCount, l: "פרקי מקור" },
+        { v: topics, l: "נושאים" },
+      ]} />
+    </CatalogHero>
+    <AcademySwitch at="materials" />
+    <div className="nxd-tools nxa-material-tools">
+      <label className="nxd-field">
+        <Search size={15} strokeWidth={1.75} aria-hidden="true" />
+        <input type="search" value={query} onChange={(e) => { setQuery(e.target.value); setLimit(PAGE_SIZE); }} aria-label="חיפוש בכל חומרי האקדמיה" placeholder="נושא, טבלה או טרנזקציה — מהאות הראשונה" />
+        {query ? <button type="button" className="nu-ghost nxd-clear" onClick={() => { setQuery(""); setLimit(PAGE_SIZE); }} aria-label="ניקוי החיפוש"><X size={13} strokeWidth={2} /></button> : null}
+      </label>
+      <div className="nxd-facet" role="group" aria-label="בחירת תחום לימוד">
+        <span className="nxd-facet-l">תחום</span>
+        <button type="button" className="nu-filter" aria-pressed={!moduleId} onClick={() => filterModule("")}>כל התחומים</button>
+        {courses.map((c) => <button type="button" key={c.id} className="nu-filter" aria-pressed={moduleId === c.id} onClick={() => filterModule(moduleId === c.id ? "" : c.id)}><bdi dir="ltr">{c.module}</bdi></button>)}
       </div>
     </div>
     {tokens.length ? <>
@@ -75,12 +93,15 @@ export function MaterialsLibrary({ courses }: { courses: MaterialCourse[] }) {
       {hits.length > limit ? <button className="nu-btn2 nxa-more" aria-controls="academy-material-results" onClick={() => setLimit((n) => n + PAGE_SIZE)}>הצגת {Math.min(PAGE_SIZE, hits.length - limit)} הנושאים הבאים</button> : null}
       {!hits.length ? <p className="nx-muted">לא נמצאה התאמה. נסה שם נושא אחר או חפש קוד SAP בחיפוש הגלובלי.</p> : null}
     </> : <div className="nxa-folders">{courses.filter((c) => !moduleId || c.id === moduleId).map((c) => <details key={c.id} data-folder={c.id} className="nxa-folder" style={{ "--m": learnModVar(c.module) } as React.CSSProperties}>
-      <summary><BookOpen size={24} aria-hidden="true" /><span><strong>{c.title}</strong><small>{c.chapters.length} פרקים · {c.chapters.reduce((n, ch) => n + ch.rows.length, 0)} נושאים</small></span><bdi dir="ltr">{c.module}</bdi></summary>
+      <summary><BookOpen size={22} aria-hidden="true" /><span><strong>{c.title}</strong><small>{c.chapters.length} פרקים · {c.chapters.reduce((n, ch) => n + ch.rows.length, 0)} נושאים</small></span><span className="nxa-mod"><bdi dir="ltr">{c.module}</bdi></span></summary>
       <SourceIndex title={c.title} chapters={c.chapters} origin={(state) => leaving({ course: c.id, ...state })}
         initialQuery={restored?.state.sourceCourse === c.id && typeof restored.state.sourceQuery === "string" ? restored.state.sourceQuery : ""}
         initialChapters={restored?.state.sourceCourse === c.id && Array.isArray(restored.state.sourceChapters) ? restored.state.sourceChapters : []}
         restoreKey={restored?.at} />
       <OriginLink className="nu-btn2" href={`/neo/academy/${c.id}/`} origin={() => leaving()}>למסלול השיעורים <ArrowLeft size={14} /></OriginLink>
     </details>)}</div>}
+    <CatalogFoot>
+      חומר המקור של {fmt(courses.length)} המסלולים, כפי שנכתב. קריאה בו אינה משנה את ההתקדמות במסלול.
+    </CatalogFoot>
   </div>;
 }

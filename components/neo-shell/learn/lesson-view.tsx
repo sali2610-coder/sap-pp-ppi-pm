@@ -37,17 +37,21 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import {
   AlertTriangle, ArrowLeft, ArrowRight, Award, Blocks, Boxes, Braces, Building2,
-  BookCheck, CircleHelp, Check, Clock, GraduationCap, HelpCircle, Info, KeyRound,
+  BookCheck, CircleCheck, CircleHelp, Check, Clock, GraduationCap, HelpCircle, Info, KeyRound,
   LayoutDashboard, Lightbulb, Link2, Lock, MapPin, Network, Settings, ShieldCheck,
   StickyNote, Table2, Target, Terminal, TrendingUp, Workflow, Wrench,
   type LucideIcon,
 } from "lucide-react";
 import { SmartReturn, OriginLink, type OriginArg } from "@/components/neo-shell/nav-context";
 import { orderedBlocks, type BlockKind, type LessonBlock } from "@/lib/academy/lesson-types";
-import { recordBlock, setLastLesson, useLessonProgress } from "@/lib/academy/store";
+import { recordBlock, setLastLesson, useIsDone, useLessonProgress } from "@/lib/academy/store";
+import { RecordHead } from "../record-kit";
+import { CatalogFoot } from "../data/catalog-kit";
 import { learnModVar, LEARN_MOD_HE } from "./mod";
 import { SourceFlow } from "./source-flow";
 import { CodeCopy } from "./code-copy";
+import { StageMeter, hoursHe } from "./journey";
+import { journeyOf } from "./journey-state";
 import type { NeoLessonData, NeoLessonLink } from "./lesson-data";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -100,7 +104,8 @@ const KIND_ICON: Record<BlockKind, LucideIcon> = {
 const TRUST: Record<string, { he: string; s: string }> = {
   "verified-docs": { he: "מאומת מול תיעוד", s: "var(--status-done)" },
   "verified-system": { he: "מאומת במערכת", s: "var(--status-done)" },
-  curated: { he: "תוכן ערוך", s: "var(--status-tested)" },
+  // neutral, not --status-tested: that token is violet, and NEO draws no violet
+  curated: { he: "תוכן ערוך", s: "var(--status-not-started)" },
   "needs-review": { he: "נדרש אימות נוסף", s: "var(--status-in-conversion)" },
 };
 
@@ -299,7 +304,7 @@ function Step({ l, dir, origin }: { l: NeoLessonLink; dir: "prev" | "next"; orig
       {dir === "prev" ? <ArrowRight size={16} strokeWidth={2} aria-hidden="true" /> : null}
       <span className="nxs-step-t">
         <span className="nx-eyebrow">
-          {l.newChapter ? `${dir === "prev" ? "הפרק הקודם" : "הפרק הבא"} · ${l.chapterTitle}` : dir === "prev" ? "השיעור הקודם" : "השיעור הבא"}
+          {l.newChapter ? `${dir === "prev" ? "השלב הקודם" : "השלב הבא"} · ${l.chapterTitle}` : dir === "prev" ? "השיעור הקודם" : "השיעור הבא"}
         </span>
         <b>{l.title}</b>
       </span>
@@ -338,9 +343,22 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
   const trust = TRUST[lesson.trust];
   const started = doneSet.size > 0;
 
+  /* THE STAGE (2026-10): where this lesson sits in its stage, and, at the
+     end of the stage, the way into the next one. Read from the same store. */
+  const isDone = useIsDone();
+  const steps = d.stage.lessons.filter((l) => l.hasLesson);
+  const stageDone = steps.filter((l) => isDone(l.slug)).length;
+  const stageComplete = steps.length > 0 && stageDone === steps.length;
+  const openStep = steps.find((l) => !isDone(l.slug) && l.slug !== lesson.slug);
+  const endsStage = !next || next.newChapter;
+  // The whole path's meter, drawn only where a stage ends.
+  const pathJourney = endsStage ? journeyOf(d.path, isDone) : null;
+  const after = d.nextStage;
+
   return (
     <div
-      className="nxv nxs"
+      className="nxv nxs nrc nm-scene"
+      data-scene="cream"
       data-surface="lesson"
       style={{ "--m": learnModVar(course.module) } as React.CSSProperties}
     >
@@ -349,29 +367,54 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
           has somewhere true to go: this lesson's own course. */}
       <SmartReturn fallback={{ href: course.href, label: `קורס · ${course.title}` }} />
 
-      <header className="nxv-head">
-        <span className="nx-modbar" aria-hidden="true" />
-        <span className="nx-eyebrow">
-          SAP Academy · {LEARN_MOD_HE[course.module] || course.module}
-          {" · "}
-          פרק {nf.format(place.chapterIndex)} · {place.chapterTitle}
-        </span>
-        <div className="nxv-title">
-          <h1 className="nxv-h1">{lesson.title}</h1>
-          {lesson.titleEn ? <p className="nxv-en">{lesson.titleEn}</p> : null}
+      <RecordHead
+        icon={<GraduationCap size={14} strokeWidth={1.75} aria-hidden="true" />}
+        eyebrow={`SAP Academy · ${LEARN_MOD_HE[course.module] || course.module} · שלב ${nf.format(place.chapterIndex)} · ${place.chapterTitle}`}
+        title={lesson.title}
+        en={lesson.titleEn || undefined}
+        meta={
+          <>
+            <span className="nu-chip nxt-mod"><i aria-hidden="true" />{course.module}</span>
+            <span className="nu-chip">{lesson.level}</span>
+            <span className="nu-chip"><Clock size={11} strokeWidth={1.75} />{nf.format(lesson.minutes)} דק׳ (אורך מוצהר)</span>
+            <span className="nu-chip"><Blocks size={11} strokeWidth={1.75} />{nf.format(kinds.length)} יחידות תוכן</span>
+            {trust ? (
+              <span className="nu-status" style={{ "--s": trust.s } as React.CSSProperties} title={lesson.source}>
+                {trust.he}
+              </span>
+            ) : null}
+          </>
+        }
+      >
+        {/* Where this lesson sits in its stage: one segment per step, the
+            current one ringed, the finished ones filled. Position, not a
+            percentage, so it is drawn on a first visit too. */}
+        <div className="nxa-lstage">
+          <p className="nxa-lstage-t">
+            <b>שלב {nf.format(place.chapterIndex)} מתוך {nf.format(place.chapterCount)}</b>
+            {" "}· {place.chapterTitle} · שיעור {nf.format(place.posInChapter)} מתוך {nf.format(place.chapterSize)} בשלב
+          </p>
+          <div
+            className="nxa-meter-bar"
+            role="progressbar"
+            aria-label="השיעורים בשלב"
+            aria-valuemin={0}
+            aria-valuemax={steps.length}
+            aria-valuenow={stageDone}
+            aria-valuetext={`${nf.format(stageDone)} מתוך ${nf.format(steps.length)} שיעורים בשלב הושלמו`}
+          >
+            {d.stage.lessons.map((l) => {
+              const here = l.slug === lesson.slug;
+              const ok = l.hasLesson && isDone(l.slug);
+              return (
+                <span key={l.slug} className="nxa-seg" data-state={here ? "current" : ok ? "done" : "todo"} title={l.title}>
+                  <i style={{ "--f": ok ? 1 : 0 } as React.CSSProperties} />
+                </span>
+              );
+            })}
+          </div>
         </div>
-        <div className="nxv-meta">
-          <span className="nu-chip nxv-mod"><i aria-hidden="true" />{course.module}</span>
-          <span className="nu-chip">{lesson.level}</span>
-          <span className="nu-chip"><Clock size={11} strokeWidth={1.75} />{nf.format(lesson.minutes)} דק׳ (אורך מוצהר)</span>
-          <span className="nu-chip"><Blocks size={11} strokeWidth={1.75} />{nf.format(kinds.length)} יחידות תוכן</span>
-          {trust ? (
-            <span className="nu-status" style={{ "--s": trust.s } as React.CSSProperties} title={lesson.source}>
-              {trust.he}
-            </span>
-          ) : null}
-        </div>
-      </header>
+      </RecordHead>
 
       <nav className="nxa-lesson-nav" aria-label="ניווט מהיר בשיעור">
         {prev ? <Link href={prev.href} prefetch={false}>השיעור הקודם</Link> : <span>תחילת הקורס</span>}
@@ -446,6 +489,54 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
         <Link className="nu-link" href={d.source.href} prefetch={false}>לנושא המלא ולכל פרטי המקור</Link>
       </section> : null}
 
+      {/* ----------------------------------------------- THE END OF A STAGE */}
+      {endsStage ? (
+        <section className="nxa-stage-end" aria-label="סוף השלב">
+          {stageComplete ? (
+            <p className="nxa-stage-end-h">
+              <span className="nxa-st" data-state="done"><CircleCheck size={15} strokeWidth={2} aria-hidden="true" />השלב הושלם</span>
+              <span>שלב {nf.format(place.chapterIndex)} · {place.chapterTitle}</span>
+            </p>
+          ) : (
+            <p className="nxa-stage-end-h">
+              <span className="nxa-st" data-state="current"><Info size={15} strokeWidth={2} aria-hidden="true" />נותרו {nf.format(steps.length - stageDone)} שיעורים בשלב</span>
+              <span>שלב {nf.format(place.chapterIndex)} · {place.chapterTitle}</span>
+            </p>
+          )}
+          {!stageComplete && openStep ? (
+            <OriginLink className="nu-link" href={openStep.href} origin={origin}>
+              לשיעור בשלב שעוד לא הושלם: {openStep.title}
+              <ArrowLeft size={13} strokeWidth={2} className="nu-arw" aria-hidden="true" />
+            </OriginLink>
+          ) : null}
+          {pathJourney ? <StageMeter j={pathJourney} label={`ההתקדמות במסלול ${course.title}`} compact /> : null}
+          {/* The way into the next stage, worded as the course map words it:
+              its number and name, its size, and the lesson it starts with. */}
+          {after ? (
+            <p className="nxa-stage-end-next">
+              <span className="nxa-next-k">השלב הבא</span>
+              <b className="nxa-next-t">שלב {nf.format(after.index)} · {after.title}</b>
+              <span className="nxa-stage-end-m">
+                {nf.format(after.lessons)} שיעורים{after.minutes ? <> · {hoursHe(after.minutes)}</> : null}
+              </span>
+              {after.first ? (
+                <OriginLink className="nu-link" href={after.first.href} origin={origin}>
+                  מתחיל ב: {after.first.title}
+                  <ArrowLeft size={13} strokeWidth={2} className="nu-arw" aria-hidden="true" />
+                </OriginLink>
+              ) : null}
+            </p>
+          ) : (
+            <p className="nxa-stage-end-next">
+              <span className="nxa-next-k">סוף המסלול</span>
+              <span className="nxa-next-t">
+                זהו השלב האחרון במסלול. הבנה נבדקת ב<Link href="/neo/certification/" prefetch={false}>תרגול ובדיקת ידע</Link>.
+              </span>
+            </p>
+          )}
+        </section>
+      ) : null}
+
       {/* --------------------------------------------------------- STEPPING */}
       <nav className="nxs-steps" aria-label="מעבר בין שיעורים">
         {prev ? <Step l={prev} dir="prev" origin={origin} /> : <span className="nxs-step is-none">זהו השיעור הראשון בקורס.</span>}
@@ -456,16 +547,11 @@ export function NeoLessonView({ d }: { d: NeoLessonData }) {
         {next ? <Step l={next} dir="next" origin={origin} /> : <span className="nxs-step is-none">זהו השיעור האחרון בקורס.</span>}
       </nav>
 
-      <div className="nxv-foot">
-        <p className="nxv-src">
-          <ShieldCheck size={13} strokeWidth={1.75} aria-hidden="true" />
-          <span>
-            מקור: מאגר השיעורים של SAP Academy (<span className="nx-sap">data/academy/lessons</span>).
-            {" "}התוכן מוצג כפי שנכתב.
-          </span>
-        </p>
-
-      </div>
+      <CatalogFoot>
+        <ShieldCheck size={13} strokeWidth={1.75} aria-hidden="true" className="nxa-foot-i" />
+        מקור: מאגר השיעורים של SAP Academy (<span className="nx-sap">data/academy/lessons</span>).
+        {" "}התוכן מוצג כפי שנכתב.
+      </CatalogFoot>
     </div>
   );
 }

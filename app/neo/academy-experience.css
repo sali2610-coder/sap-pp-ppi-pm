@@ -1,41 +1,26 @@
 /* Academy only. No Library, Reader, ERD or shared typography changes. */
-.nx-app [data-surface="academy"] .nxl-head,
-.nx-app [data-surface="course"] .nxv-head,
-.nx-app [data-surface="lesson"] .nxv-head,
-.nx-app .nxa-materials .nxv-head {
-  padding: clamp(22px, 4vw, 46px); border: 1px solid var(--c-hair); border-radius: 24px;
-  background: radial-gradient(ellipse at 12% 0, color-mix(in srgb, var(--m, var(--mod-pppi)) 12%, transparent), transparent 70%), var(--surface);
-}
-.nx-app .nxa-entry-nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-block: 24px; }
-.nx-app .nxa-entry-nav > a { display: flex; align-items: center; gap: 18px; padding: 24px; border: 1px solid var(--c-hair); border-radius: 18px; background: var(--surface); box-shadow: 0 6px 0 -3px var(--surface-2); color: var(--ink-1); text-decoration: none; transition: transform .2s ease; }
-.nx-app .nxa-entry-nav a > span { flex: 1; }
-.nx-app .nxa-entry-nav strong, .nx-app .nxa-folder strong { display: block; font-size: 19px; line-height: 1.4; }
-.nx-app .nxa-entry-nav small, .nx-app .nxa-folder small, .nx-app .nxa-result small { display: block; color: var(--ink-3); margin-block-start: 5px; font-size: 13px; line-height: 1.6; }
-.nx-app [data-surface="academy"] .nxl-course { border-radius: 22px; overflow: hidden; }
-.nx-app [data-surface="academy"] .nxl-course-h { background: linear-gradient(145deg, color-mix(in srgb, var(--m) 10%, transparent), transparent); padding: 20px; margin: -1px; }
-.nx-app [data-surface="academy"] .nxl-course-t { font-size: clamp(20px, 2vw, 27px); line-height: 1.4; }
-.nx-app .nxa-course-nav, .nx-app .nxa-lesson-nav { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px; margin-block: 22px; border: 1px solid var(--c-hair); border-radius: 16px; background: var(--surface); }
-.nx-app .nxa-course-nav a, .nx-app .nxa-lesson-nav a, .nx-app .nxa-lesson-nav > span { flex: 1; min-inline-size: 130px; text-align: center; padding: 12px 15px; font-weight: 650; border-radius: 10px; color: var(--ink-2); text-decoration: none; }
-.nx-app .nxa-course-nav a:hover, .nx-app .nxa-lesson-nav a:hover { background: color-mix(in srgb, var(--m, var(--mod-pppi)) 10%, var(--surface)); }
-.nx-app .nxa-chapter { border: 1px solid var(--c-hair); background: var(--surface); border-radius: 20px; overflow: hidden; }
-.nx-app .nxa-chapter > summary { cursor: pointer; min-block-size: 76px; border: 0; margin: 0; padding: 20px; list-style: none; }
-.nx-app .nxa-chapter > summary::-webkit-details-marker { display: none; }
-.nx-app .nxa-chapter > summary::after { content: '+'; font-size: 23px; margin-inline-start: 10px; color: var(--m); }
-.nx-app .nxa-chapter[open] > summary::after { content: '−'; }
-.nx-app .nxa-chapter .nxc-lessons { margin: 0; padding: 0 14px 14px; }
-.nx-app .nxa-chapter .nxc-l { box-shadow: none; border-radius: 12px; min-block-size: 66px; }
-.nx-app .nxa-chapter .nxc-l-t { line-height: 1.65; font-size: 15px; }
+.nx-app .nxa-folder strong { display: block; font-size: 19px; line-height: 1.4; }
+.nx-app .nxa-folder small, .nx-app .nxa-result small { display: block; color: var(--ink-3); margin-block-start: 5px; font-size: 13px; line-height: 1.6; }
+.nx-app .nxa-lesson-nav { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px; margin-block: 22px; border: 1px solid var(--c-hair); border-radius: 16px; background: var(--surface); }
+.nx-app .nxa-lesson-nav a, .nx-app .nxa-lesson-nav > span { flex: 1; min-inline-size: 130px; text-align: center; padding: 12px 15px; font-weight: 650; border-radius: 10px; color: var(--ink-2); text-decoration: none; }
+.nx-app .nxa-lesson-nav a:hover { background: color-mix(in srgb, var(--m, var(--mod-pppi)) 10%, var(--surface)); }
 .nx-app .nxa-folders { display: grid; gap: 18px; }
-.nx-app .nxa-folder { border: 1px solid var(--c-hair); border-inline-start: 4px solid var(--m); border-radius: 20px; padding: 0 22px 16px; background: var(--surface); }
+/* a folder: a module-tinted hairline, never a side stripe */
+.nx-app .nxa-folder { border: 1px solid color-mix(in srgb, var(--m, var(--ink-3)) 26%, var(--hairline)); border-radius: 1rem; padding: 0 1.2rem 1rem; background: var(--surface); }
 .nx-app .nxa-folder:not([open]) { padding-block-end: 0; }
 .nx-app .nxa-folder > summary { display: flex; align-items: center; gap: 18px; cursor: pointer; padding-block: 24px; }
 .nx-app .nxa-folder > summary > span { flex: 1; }
-.nx-app .nxa-folder > summary > svg { color: var(--m); flex-shrink: 0; }
+.nx-app .nxa-folder > summary > svg { color: color-mix(in srgb, var(--m, var(--ink-3)) 75%, var(--ink-1)); flex-shrink: 0; }
 .nx-app .nxa-folder > summary { list-style: none; }
 .nx-app .nxa-folder > summary::-webkit-details-marker { display: none; }
-.nx-app .nxa-folder > summary::after { content: '+'; font-size: 24px; color: var(--m); flex: none; }
+.nx-app .nxa-folder > summary::after { content: '+'; font-size: 24px; color: var(--ink-2); flex: none; }
 .nx-app .nxa-folder[open] > summary::after { content: '−'; }
 .nx-app .nxa-folder > summary > span { min-inline-size: 0; overflow-wrap: anywhere; }
+.nx-app .nxa-folder > summary > span.nxa-mod { flex: none; }
+/* the source chapter: no module bar, the contents in balanced columns */
+.nx-app .nxa-source .nx-modbar { display: none; }
+.nx-app .nxa-chapter-toc ul { columns: 3 16rem; column-gap: 1.5rem; }
+.nx-app .nxa-chapter-toc li { break-inside: avoid; }
 .nx-app .nxa-results { display: grid; gap: 10px; list-style: none; margin: 16px 0; padding: 0; }
 .nx-app .nxa-results > li { min-inline-size: 0; }
 .nx-app .nxa-materials > .nxa-results { max-block-size: none; overflow: visible; }
@@ -52,16 +37,346 @@
 .nx-app [data-surface="lesson"] .nxs-toc a { display: block; padding: 10px 12px; line-height: 1.6; border-radius: 9px; background: var(--surface); }
 .nx-app [data-surface="lesson"] .nxs-toc a:hover { background: color-mix(in srgb, var(--m) 9%, var(--surface)); }
 .nx-app #co-ch, .nx-app #co-materials, .nx-app #academy-courses { scroll-margin-block-start: 90px; }
-.nx-app .nxa-entry-nav a:focus-visible, .nx-app .nxa-course-nav a:focus-visible, .nx-app .nxa-lesson-nav a:focus-visible, .nx-app .nxa-chapter summary:focus-visible, .nx-app .nxa-folder summary:focus-visible { outline: 2px solid var(--brand); outline-offset: -3px; }
-@media (hover: hover) and (prefers-reduced-motion: no-preference) { .nx-app .nxa-entry-nav > a:hover { transform: perspective(1000px) translateY(-3px) rotateX(1deg); } }
-@media (hover: hover) and (min-width: 0px) { :where(html[data-neo-motion="full"]) .nx-app .nxa-entry-nav > a:hover { transform: perspective(1000px) translateY(-3px) rotateX(1deg); } }
+/* a search field shows focus on its box; the input keeps a transparent
+   outline, which forced colours turn into the system's own */
+.nx-app :is(.nxa, .nxa-course) .nxl-field input:focus-visible { outline: 2px solid transparent; }
+/* focus in ink: brand red is the one primary action's */
+.nx-app .nxa-lesson-nav a:focus-visible, .nx-app .nxa-folder summary:focus-visible { outline: 2px solid var(--ink-1); outline-offset: -3px; }
 @media (max-width: 650px) {
-  .nx-app .nxa-entry-nav { grid-template-columns: 1fr; }
-  .nx-app .nxa-entry-nav > a { padding: 18px; }
-  .nx-app .nxa-chapter > summary { flex-wrap: wrap; padding: 15px; }
-  .nx-app .nxa-chapter .nxc-ch-m { flex-basis: 100%; }
   .nx-app .nxa-folder { padding-inline: 14px; }
   .nx-app .nxa-lesson-nav a, .nx-app .nxa-lesson-nav > span { min-inline-size: 0; padding-inline: 8px; font-size: 12px; }
 }
-.nx-app[data-motion-reduced="1"] .nxa-entry-nav > a { transition: none; transform: none; }
-@media (prefers-reduced-motion: reduce) { :where(html:not([data-neo-motion="full"])) .nx-app .nxa-entry-nav > a { transition: none; transform: none; } }
+
+/* ============================================================================
+   THE ACADEMY AS ONE WALK (2026-10)
+   ----------------------------------------------------------------------------
+   /neo/academy, its paths, their lessons and the source folder read as one
+   tab: the catalogs' kit (data.css) for the frame, and here only what the walk
+   needs. A path is a course, a stage a chapter, a step a lesson
+   (components/neo-shell/learn/journey-state.ts).
+
+   Rules kept: module identity as a ring or a tint, never a stripe; a stage's
+   state as a glyph followed by its word; brand red only for the page's one
+   action (the resume / start); no washes, no tilt, no glow.
+   ========================================================================== */
+
+/* ------------------------------------------------------ 1. THE VIEW SWITCH */
+.nx-app .nxa-switch {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem;
+  padding: .35rem; border: 1px solid var(--hairline); border-radius: 1rem;
+  background: var(--surface);
+}
+.nx-app .nxa-switch > a {
+  display: flex; align-items: center; gap: .75rem; min-block-size: 3.25rem;
+  padding: .6rem .9rem; border: 1px solid transparent; border-radius: .75rem;
+  color: var(--ink-2); text-decoration: none;
+  transition: background-color .14s linear, border-color .14s linear;
+}
+.nx-app .nxa-switch > a > svg { flex: none; color: var(--ink-3); }
+.nx-app .nxa-switch > a > span { display: grid; gap: 1px; min-inline-size: 0; }
+.nx-app .nxa-switch b { font-size: .95rem; font-weight: 700; color: var(--ink-1); }
+.nx-app .nxa-switch small { font-size: .76rem; color: var(--ink-3); }
+.nx-app .nxa-switch > a:hover { background: color-mix(in srgb, var(--ink-1) 4%, var(--surface)); }
+.nx-app .nxa-switch > a[aria-current="page"] {
+  background: color-mix(in srgb, var(--ink-1) 6%, var(--surface));
+  border-color: color-mix(in srgb, var(--ink-1) 45%, var(--hairline));
+}
+.nx-app .nxa-switch > a[aria-current="page"] > svg { color: var(--ink-1); }
+.nx-app .nxa-switch > a:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; }
+
+/* ----------------------------------------------------------- 2. THE WALK */
+.nx-app .nxa-how {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13.5rem), 1fr)); gap: .75rem;
+  margin: 0; padding: 0; list-style: none; counter-reset: walk;
+}
+.nx-app .nxa-how > li {
+  counter-increment: walk;
+  display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "i b" "i t";
+  align-content: start; gap: .2rem .7rem;
+  padding: .85rem .9rem; border: 1px solid var(--hairline); border-radius: .9rem; background: var(--surface-2);
+}
+html[data-theme="dark"] .nx-app .nxa-how > li { background: color-mix(in srgb, var(--ink-1) 5%, var(--surface)); }
+.nx-app .nxa-how-i {
+  grid-area: i; position: relative;
+  display: grid; place-items: center; inline-size: 2.4rem; block-size: 2.4rem; border-radius: .7rem;
+  color: var(--ink-1); background: var(--surface); box-shadow: inset 0 0 0 1px var(--hairline);
+}
+/* the step's number, because the walk really is a sequence */
+.nx-app .nxa-how-i::after {
+  content: counter(walk, decimal-leading-zero);
+  position: absolute; inset-block-start: -.45rem; inset-inline-end: -.5rem;
+  min-inline-size: 1.35rem; padding: 0 .25rem; border-radius: 999px;
+  font-family: var(--font-mono); font-size: .62rem; font-weight: 700; line-height: 1.35rem; text-align: center;
+  color: var(--ink-1); background: var(--surface); box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.nx-app .nxa-how b { grid-area: b; font-size: .95rem; color: var(--ink-1); }
+.nx-app .nxa-how > li > span:last-child { grid-area: t; font-size: .84rem; line-height: 1.65; color: var(--ink-2); }
+
+/* --------------------------------------------------- 3. THE JOURNEY PLATE */
+.nx-app .nxa-plate {
+  display: grid; gap: 1rem 1.5rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  grid-template-areas: "id meter" "act act" "others others";
+  align-items: center;
+  min-block-size: 11rem;
+  padding: 1.35rem 1.4rem;
+  border: 1px solid color-mix(in srgb, var(--m, var(--ink-3)) 28%, var(--hairline));
+  border-radius: 1.2rem; background: var(--surface); box-shadow: var(--elev-1);
+}
+.nx-app .nxa-plate-id { grid-area: id; display: grid; gap: .3rem; min-inline-size: 0; }
+.nx-app .nxa-plate-k { margin: 0; font-size: .76rem; font-weight: 700; color: var(--ink-3); }
+.nx-app .nxa-plate-h { margin: 0; font-size: clamp(1.35rem, 1.1rem + .8vw, 1.75rem); font-weight: 750; line-height: 1.3; color: var(--ink-1); }
+.nx-app .nxa-plate-at { margin: 0; font-size: .9rem; line-height: 1.65; color: var(--ink-2); }
+.nx-app .nxa-plate > .nxa-meter { grid-area: meter; }
+.nx-app .nxa-plate-act { grid-area: act; display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; }
+.nx-app .nxa-plate:not(:has(> .nxa-meter)) { grid-template-areas: "id id" "act act" "others others"; }
+.nx-app .nxa-plate-others {
+  grid-area: others; display: grid; gap: .5rem; margin: 0; padding: .9rem 0 0; list-style: none;
+  border-block-start: 1px solid var(--hairline);
+}
+.nx-app .nxa-other {
+  display: grid; grid-template-columns: minmax(8rem, 14rem) minmax(0, 1fr) auto; align-items: center; gap: .4rem 1rem;
+  padding: .45rem .6rem; border-radius: .7rem; color: var(--ink-1); text-decoration: none;
+}
+.nx-app .nxa-other:hover { background: color-mix(in srgb, var(--m, var(--ink-3)) 6%, var(--surface)); }
+.nx-app .nxa-other:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; }
+.nx-app .nxa-other > span { font-size: .78rem; color: var(--ink-2); }
+
+/* -------------------------------------------------------- 4. THE METER */
+.nx-app .nxa-meter { display: grid; gap: .45rem; min-inline-size: 0; }
+.nx-app .nxa-meter-bar { display: flex; gap: 3px; min-inline-size: 0; }
+.nx-app .nxa-seg {
+  flex: 1 1 0; min-inline-size: 4px; block-size: .6rem; border-radius: 999px; overflow: hidden;
+  background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--hairline);
+}
+html[data-theme="dark"] .nx-app .nxa-seg { background: color-mix(in srgb, var(--ink-1) 8%, var(--surface)); }
+.nx-app .nxa-seg > i {
+  display: block; block-size: 100%; border-radius: inherit;
+  background: color-mix(in srgb, var(--m, var(--ink-3)) 78%, var(--ink-1));
+  /* scaleX from the start edge, the right in this RTL product */
+  transform: scaleX(var(--f, 0)); transform-origin: right center;
+}
+/* "you are here": the current stage carries a ring as well as its fill */
+.nx-app .nxa-seg[data-state="current"] { box-shadow: inset 0 0 0 1px var(--ink-1); }
+.nx-app .nxa-meter[data-compact="1"] .nxa-seg { block-size: .4rem; }
+.nx-app .nxa-meter-t { margin: 0; font-size: .82rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+
+/* -------------------------------------------- 5. A STAGE'S STATE, IN WORDS */
+.nx-app .nxa-st {
+  display: inline-flex; align-items: center; gap: .3rem; white-space: nowrap;
+  font-size: .8rem; font-weight: 650; color: var(--ink-1);
+}
+.nx-app .nxa-st > svg { flex: none; color: var(--ink-2); }
+.nx-app .nxa-st[data-state="done"] > svg { color: var(--status-done); }
+.nx-app .nxa-st:is([data-state="current"], [data-state="start"]) > svg { color: var(--ink-1); }
+.nx-app .nxa-st:is([data-state="todo"], [data-state="empty"]) { color: var(--ink-2); font-weight: 500; }
+.nx-app .nxa-st:is([data-state="todo"], [data-state="empty"]) > svg { color: var(--ink-3); }
+
+/* ---------------------------------------------------------- 6. THE PATHS */
+.nx-app .nxa-count { margin: 0; font-size: .86rem; color: var(--ink-2); }
+.nx-app .nxa-count b { color: var(--ink-1); }
+.nx-app .nxa-paths {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr)); gap: .75rem;
+  margin: 0; padding: 0; list-style: none;
+}
+.nx-app .nxa-paths > li { display: grid; }
+.nx-app .nxa-path {
+  display: grid; align-content: start; gap: .55rem;
+  padding: 1rem 1.05rem; border-radius: 1rem;
+  border: 1px solid color-mix(in srgb, var(--m, var(--ink-3)) 26%, var(--hairline));
+  background: var(--surface); color: var(--ink-1); text-decoration: none;
+  transition: border-color .14s linear, background-color .14s linear;
+}
+.nx-app .nxa-path:hover {
+  background: color-mix(in srgb, var(--m, var(--ink-3)) 5%, var(--surface));
+  border-color: color-mix(in srgb, var(--m, var(--ink-3)) 50%, var(--hairline));
+}
+.nx-app .nxa-path:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; }
+.nx-app .nxa-path-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem .6rem; }
+.nx-app .nxa-path-t { font-size: 1.2rem; font-weight: 750; line-height: 1.3; }
+.nx-app .nxa-path-en { flex-basis: 100%; font-size: .82rem; color: var(--ink-3); text-align: end; }
+.nx-app .nxa-path-n { font-size: .84rem; color: var(--ink-2); line-height: 1.6; }
+.nx-app .nxa-path-lv { display: flex; flex-wrap: wrap; gap: .35rem; }
+.nx-app .nxa-path-meter { display: grid; gap: .35rem; }
+.nx-app .nxa-path-line { font-size: .78rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.nx-app .nxa-path-go {
+  display: inline-flex; align-items: center; gap: .35rem; justify-self: start;
+  font-size: .84rem; font-weight: 700; color: var(--ink-1);
+}
+.nx-app .nxa-mod {
+  display: inline-flex; align-items: center; padding: .1rem .5rem; border-radius: .45rem;
+  font-family: var(--font-mono); font-size: .72rem; font-weight: 700;
+  color: color-mix(in srgb, var(--m, var(--ink-3)) 75%, var(--ink-1));
+  background: color-mix(in srgb, var(--m, var(--ink-3)) 10%, var(--surface));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m, var(--ink-3)) 32%, transparent);
+}
+.nx-app .nxa-none { display: grid; gap: .4rem; justify-items: start; padding: 1rem; border: 1px dashed var(--hairline); border-radius: .9rem; }
+.nx-app .nxa-none p { margin: 0; }
+
+/* ------------------------------------------------- 7. THE SOURCE FOLDER */
+.nx-app .nxa-mats {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); gap: .5rem;
+  margin: 0; padding: 0; list-style: none;
+}
+.nx-app .nxa-mat {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: .7rem;
+  min-block-size: 3.6rem; padding: .6rem .8rem; border-radius: .8rem;
+  border: 1px solid color-mix(in srgb, var(--m, var(--ink-3)) 22%, var(--hairline));
+  background: var(--surface); color: var(--ink-1); text-decoration: none;
+  transition: border-color .14s linear, background-color .14s linear;
+}
+.nx-app .nxa-mat > svg { color: color-mix(in srgb, var(--m, var(--ink-3)) 75%, var(--ink-1)); }
+.nx-app .nxa-mat > span:not(.nxa-mod) { display: grid; gap: 1px; min-inline-size: 0; }
+.nx-app .nxa-mat b { font-size: .92rem; }
+.nx-app .nxa-mat small { font-size: .76rem; color: var(--ink-3); }
+.nx-app .nxa-mat:hover { background: color-mix(in srgb, var(--m, var(--ink-3)) 5%, var(--surface)); border-color: color-mix(in srgb, var(--m, var(--ink-3)) 45%, var(--hairline)); }
+.nx-app .nxa-mat:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; }
+.nx-app .nxa-mats-all { justify-self: start; }
+
+/* ------------------------------------------------- 7b. THE COURSE PAGE
+   /neo/academy/<id>/: the record hero, the plate, and the stage map: one
+   numbered disc per stage on a 1px connector (filled where the stage is done),
+   the stage as a card that opens to its steps, and the way into the next
+   stage at the foot of every stage. */
+.nx-app .nxa-course .nxa-plate { min-block-size: 0; }
+.nx-app .nxa-plate-blocks { margin: 0; font-size: .8rem; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.nx-app .nxa-stages { display: grid; gap: .65rem; margin: 0; padding: 0; list-style: none; }
+.nx-app .nxa-stage-li { position: relative; padding-inline-start: 3.1rem; }
+/* the connector, from this disc down to the next one */
+.nx-app .nxa-stage-li:not(:last-child)::before {
+  content: ""; position: absolute; inset-inline-start: 1.15rem; inset-block: 2.6rem -.65rem;
+  inline-size: 1px; background: var(--hairline);
+}
+.nx-app .nxa-stage-li[data-state="done"]:not(:last-child)::before { background: color-mix(in srgb, var(--m, var(--ink-3)) 70%, var(--ink-1)); }
+.nx-app .nxa-stage-n {
+  position: absolute; inset-inline-start: 0; inset-block-start: .85rem;
+  display: grid; place-items: center; inline-size: 2.35rem; block-size: 2.35rem; border-radius: 50%;
+  font-family: var(--font-mono); font-size: .74rem; font-weight: 700;
+  color: var(--ink-2); background: var(--surface); box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.nx-app .nxa-stage-li[data-state="done"] .nxa-stage-n {
+  color: var(--ink-1);
+  background: color-mix(in srgb, var(--m, var(--ink-3)) 16%, var(--surface));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m, var(--ink-3)) 55%, transparent);
+}
+.nx-app .nxa-stage-li[data-state="current"] .nxa-stage-n { color: var(--ink-1); box-shadow: inset 0 0 0 2px var(--ink-1); }
+.nx-app .nxa-stage {
+  border: 1px solid var(--hairline); border-radius: 1rem; background: var(--surface);
+}
+.nx-app .nxa-stage-li[data-state="current"] .nxa-stage { border-color: color-mix(in srgb, var(--m, var(--ink-3)) 45%, var(--hairline)); box-shadow: var(--elev-1); }
+.nx-app .nxa-stage-h {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: .5rem 1rem;
+  min-block-size: 4rem; padding: .75rem 1rem; cursor: pointer; list-style: none; border-radius: 1rem;
+}
+.nx-app .nxa-stage-h::-webkit-details-marker { display: none; }
+.nx-app .nxa-stage-h:hover { background: color-mix(in srgb, var(--ink-1) 3%, var(--surface)); }
+.nx-app .nxa-stage-h:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; }
+.nx-app .nxa-stage-t { display: grid; gap: .15rem; min-inline-size: 0; }
+.nx-app .nxa-stage-t > b { font-size: 1.02rem; font-weight: 720; line-height: 1.4; color: var(--ink-1); }
+.nx-app .nxa-stage-m { font-size: .8rem; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.nx-app .nxa-stage[open] > .nxa-stage-h { border-end-start-radius: 0; border-end-end-radius: 0; border-block-end: 1px solid var(--hairline); }
+.nx-app .nxa-steps { display: grid; gap: .3rem; margin: 0; padding: .6rem .7rem; list-style: none; }
+.nx-app .nxa-step-li { display: flex; align-items: stretch; gap: .4rem; min-inline-size: 0; }
+.nx-app .nxa-step {
+  flex: 1 1 auto; min-inline-size: 0;
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: .3rem .75rem;
+  min-block-size: 3.1rem; padding: .5rem .75rem; border-radius: .7rem;
+  border: 1px solid transparent; color: var(--ink-1); text-decoration: none;
+  transition: background-color .14s linear, border-color .14s linear;
+}
+.nx-app a.nxa-step:hover { background: color-mix(in srgb, var(--m, var(--ink-3)) 6%, var(--surface)); border-color: color-mix(in srgb, var(--m, var(--ink-3)) 30%, var(--hairline)); }
+.nx-app a.nxa-step:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; }
+.nx-app .nxa-step.is-flat { color: var(--ink-2); border-style: dashed; border-color: var(--hairline); }
+.nx-app .nxa-step-li[data-next="1"] .nxa-step {
+  background: color-mix(in srgb, var(--m, var(--ink-3)) 8%, var(--surface));
+  border-color: color-mix(in srgb, var(--m, var(--ink-3)) 45%, var(--hairline));
+}
+.nx-app .nxa-step-n { font-family: var(--font-mono); font-size: .72rem; font-weight: 700; color: var(--ink-3); }
+.nx-app .nxa-step-t { font-size: .94rem; line-height: 1.55; overflow-wrap: anywhere; }
+.nx-app .nxa-step-s { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: .35rem; }
+.nx-app .nxa-step-go { color: var(--ink-3); }
+.nx-app .nxa-step-src {
+  flex: none; display: inline-flex; align-items: center; gap: .3rem; align-self: center;
+  min-block-size: 2.25rem; padding: 0 .65rem; border-radius: .6rem;
+  font-size: .76rem; font-weight: 650; color: var(--ink-2); text-decoration: none;
+  border: 1px solid var(--hairline); background: var(--surface);
+}
+.nx-app .nxa-step-src:hover { color: var(--ink-1); border-color: color-mix(in srgb, var(--ink-1) 35%, var(--hairline)); }
+.nx-app .nxa-step-src:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; }
+.nx-app .nxa-next {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .8rem; margin: 0;
+  padding: .7rem 1rem; border-block-start: 1px solid var(--hairline);
+  font-size: .84rem; color: var(--ink-2);
+}
+.nx-app .nxa-next-k { font-size: .72rem; font-weight: 700; color: var(--ink-3); }
+.nx-app .nxa-next-t { font-weight: 650; color: var(--ink-1); }
+.nx-app .nxa-next .nu-link { margin-inline-start: auto; font-size: .82rem; }
+/* A lesson title is a sentence, and the shared controls never wrap: on a phone
+   "מתחיל ב: <title>" and "המשך: <title>" ran 20px past the canvas. These two
+   wrap instead. */
+.nx-app .nxa-next .nu-link,
+.nx-app .nxa-plate-act > :is(.nu-btn, .nu-btn2) { white-space: normal; min-inline-size: 0; max-inline-size: 100%; line-height: 1.35; text-align: start; }
+.nx-app .nxa-src-wrap { display: grid; gap: .5rem; padding: 1.2rem 1.3rem; border: 1px solid var(--hairline); border-radius: 1.1rem; background: var(--surface); box-shadow: var(--elev-1); scroll-margin-block-start: 5.5rem; }
+.nx-app .nxa-src-wrap .nxa-source-index { margin: 0; }
+.nx-app .nxa-src-all { margin: 0; }
+.nx-app .nxa-foot-i { vertical-align: -2px; margin-inline-end: .3rem; }
+
+/* -------------------------------------------------- 7c. THE LESSON PAGE */
+.nx-app .nxa-lstage { display: grid; gap: .45rem; padding-block-start: .85rem; border-block-start: 1px solid var(--hairline); }
+.nx-app .nxa-lstage-t { margin: 0; font-size: .88rem; line-height: 1.6; color: var(--ink-2); }
+.nx-app .nxa-lstage-t b { color: var(--ink-1); }
+.nx-app .nxa-lstage .nxa-meter-bar { max-inline-size: 36rem; }
+.nx-app .nxa-stage-end {
+  display: grid; gap: .5rem; justify-items: start;
+  padding: 1rem 1.15rem; border: 1px solid var(--hairline); border-radius: 1rem; background: var(--surface);
+}
+.nx-app .nxa-stage-end-h { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .8rem; margin: 0; }
+.nx-app .nxa-stage-end-h > span:last-child { font-size: .86rem; color: var(--ink-2); }
+/* the path's meter, then the way into the next stage: its number and name,
+   its size and the lesson it starts with (the course map's own words) */
+.nx-app .nxa-stage-end > .nxa-meter { justify-self: stretch; }
+.nx-app .nxa-stage-end > .nu-link { white-space: normal; min-inline-size: 0; max-inline-size: 100%; line-height: 1.35; text-align: start; }
+.nx-app .nxa-stage-end-next {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem .75rem;
+  justify-self: stretch; margin: 0; padding-block-start: .6rem;
+  border-block-start: 1px solid var(--hairline);
+  font-size: .86rem; line-height: 1.6; color: var(--ink-2);
+}
+.nx-app .nxa-stage-end-m { color: var(--ink-3); font-size: .8rem; }
+/* a link inside the end-of-path sentence reads as a link without colour alone */
+.nx-app :is(.nxa-next, .nxa-stage-end-next) .nxa-next-t a { color: inherit; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: color-mix(in srgb, currentColor 45%, transparent); }
+.nx-app :is(.nxa-next, .nxa-stage-end-next) .nxa-next-t a:hover { text-decoration-color: currentColor; }
+.nx-app .nxa-stage-end-next .nu-link { margin-inline-start: auto; font-size: .82rem; white-space: normal; min-inline-size: 0; max-inline-size: 100%; line-height: 1.35; text-align: start; }
+/* a long lesson's contents in balanced columns instead of one long list */
+.nx-app [data-surface="lesson"] .nxs-toc ol { display: block; columns: 3 14rem; column-gap: 1.25rem; }
+.nx-app [data-surface="lesson"] .nxs-toc li { break-inside: avoid; margin-block-end: .3rem; }
+/* the quick lesson links as a slim row, not a second card */
+.nx-app [data-surface="lesson"] .nxa-lesson-nav { margin-block: 0; padding: .25rem; border-radius: .9rem; }
+.nx-app [data-surface="lesson"] .nxa-lesson-nav a,
+.nx-app [data-surface="lesson"] .nxa-lesson-nav > span { padding: .55rem .9rem; font-size: .88rem; }
+
+/* ---------------------------------------------------- 8. PHONE AND TABLET */
+@media (max-width: 760px) {
+  .nx-app .nxa-stage-li { padding-inline-start: 2.5rem; }
+  .nx-app .nxa-stage-n { inline-size: 1.9rem; block-size: 1.9rem; inset-block-start: 1rem; }
+  .nx-app .nxa-stage-li:not(:last-child)::before { inset-inline-start: .95rem; }
+  .nx-app .nxa-stage-h { grid-template-columns: minmax(0, 1fr); }
+  .nx-app .nxa-step { grid-template-columns: auto minmax(0, 1fr); }
+  .nx-app .nxa-step-s { grid-column: 2; justify-content: flex-start; }
+  .nx-app .nxa-step-go { display: none; }
+  .nx-app .nxa-step-li { flex-wrap: wrap; }
+  .nx-app .nxa-step-src { margin-inline-start: 2.2rem; }
+  .nx-app .nxa-plate { grid-template-columns: minmax(0, 1fr); grid-template-areas: "id" "meter" "act" "others"; padding: 1.05rem; }
+  .nx-app .nxa-plate:not(:has(> .nxa-meter)) { grid-template-areas: "id" "act" "others"; }
+  .nx-app .nxa-plate-act > * { flex: 1 1 14rem; justify-content: center; }
+  .nx-app .nxa-other { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 520px) {
+  .nx-app .nxa-switch { grid-template-columns: minmax(0, 1fr); }
+}
+@media (pointer: coarse) {
+  .nx-app :is(.nxa-mat, .nxa-other) { min-block-size: var(--c-tap); }
+}
+@media (prefers-reduced-motion: reduce) {
+  :where(html:not([data-neo-motion="full"])) .nx-app :is(.nxa-switch > a, .nxa-path, .nxa-mat, .nxa-step) { transition: none; }
+}

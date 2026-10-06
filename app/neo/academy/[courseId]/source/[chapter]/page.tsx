@@ -3,11 +3,13 @@ import { notFound } from "next/navigation";
 import "@/app/neo/ui.css";
 import "@/app/neo/learn.css";
 import "@/app/neo/learn-extensions.css";
+import "@/app/neo/data.css";
 import "@/app/neo/academy-experience.css";
 import { sourceBook, sourceChapter, sourceChapters, sourceHref, sourceNodes, sourceParams } from "@/components/neo-shell/learn/source-data";
 import { SourceContent } from "@/components/neo-shell/learn/source-content";
 import { learnModVar } from "@/components/neo-shell/learn/mod";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
+import { CatalogFoot } from "@/components/neo-shell/data/catalog-kit";
 
 export const dynamicParams = false;
 export const generateStaticParams = sourceParams;
@@ -47,5 +49,6 @@ export default async function AcademySourceChapter({ params }: { params: Promise
       <Link className="nu-btn2" href={`/neo/academy/${courseId}/`} prefetch={false}>חזרה לקורס ולכל הפרקים</Link>
       {i < chapters.length - 1 ? <Link className="nu-btn2" href={sourceHref(courseId, chapters[i + 1].n)} prefetch={false}>הפרק הבא · {chapters[i + 1].titleHe}</Link> : null}
     </nav>
+    <CatalogFoot>מתוך חומרי האקדמיה שבאתר, כפי שנכתבו.</CatalogFoot>
   </div>;
 }
