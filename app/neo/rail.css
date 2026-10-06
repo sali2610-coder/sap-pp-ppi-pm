@@ -862,8 +862,8 @@ html[data-theme="dark"] .nx-app .nx-mtabs { box-shadow: 0 -8px 24px -18px rgba(0
   background: var(--surface);
   border-block-start: 1px solid var(--c-hair);
 }
-html[data-device="phone"] .nx-app:has(.nw-credit, .nxb-credit, .nb-credit, .no-credit, .ne-credit, .ndm-credit, .nh-credit, .nxd-credit, .nst-credit, .nxg-credit) .nx-mcredit,
-html[data-device="tablet"] .nx-app:has(.nw-credit, .nxb-credit, .nb-credit, .no-credit, .ne-credit, .ndm-credit, .nh-credit, .nxd-credit, .nst-credit, .nxg-credit) .nx-mcredit {
+html[data-device="phone"] .nx-app:has(.nw-credit, .nxb-credit, .nb-credit, .no-credit, .ne-credit, .ndm-credit, .nh-credit, .nxd-credit, .nst-credit, .nxg-credit, .nxv-credit) .nx-mcredit,
+html[data-device="tablet"] .nx-app:has(.nw-credit, .nxb-credit, .nb-credit, .no-credit, .ne-credit, .ndm-credit, .nh-credit, .nxd-credit, .nst-credit, .nxg-credit, .nxv-credit) .nx-mcredit {
   display: none !important;
 }
 

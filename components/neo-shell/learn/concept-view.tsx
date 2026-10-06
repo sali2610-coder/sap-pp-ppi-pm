@@ -11,7 +11,7 @@
    HIERARCHY (see the header of app/neo/learn.css)
      page     .nxv-h1     the Hebrew name, display size
      headline .nxv-s4-h   the S/4HANA verdict — second largest thing on screen
-     section  .nxv-sec-h  .nx-h2 plus a module-coloured leading plate
+     section  .nxv-sec-h  a card's title beside a neutral icon square
      label    .nxv-l      micro, tracked — metadata, never content
      value    .nxv-v      body, ink-1 — content, never metadata
 
@@ -78,10 +78,10 @@ export function ConceptView({ c }: { c: ConceptRow }) {
   const linked = [...c.examples, ...c.related].filter((r) => r.href).length;
 
   return (
-    <div className="nxv" data-surface="concept">
+    <div className="nxv nxv--rec nm-scene" data-scene="cream" data-surface="concept">
       <SmartReturn fallback={{ href: "/neo/knowledge/", label: "מרכז הידע" }} />
 
-      <header className="nxv-head">
+      <header className="nxv-head nm-rise nm-once">
         <span className="nx-eyebrow">מרכז הידע · {c.groupHe}</span>
         <div className="nxv-title">
           <h1 className="nxv-h1">{c.he}</h1>
@@ -100,7 +100,7 @@ export function ConceptView({ c }: { c: ConceptRow }) {
       </header>
 
       {/* ------------------------------------------------- THE S/4HANA PLATE */}
-      <section className="nxv-s4" data-s4={c.s4Changed ? "1" : "0"} aria-labelledby="c-s4">
+      <section className="nxv-s4 nm-rise nm-once" data-s4={c.s4Changed ? "1" : "0"} aria-labelledby="c-s4">
         <div className="nxv-s4-top">
           <span className="nx-eyebrow">S/4HANA</span>
           <h2 className="nxv-s4-h" id="c-s4">
@@ -120,7 +120,7 @@ export function ConceptView({ c }: { c: ConceptRow }) {
       </section>
 
       {/* -------------------------------------------------------- EXPLANATION */}
-      <section className="nxv-sec" aria-labelledby="c-biz">
+      <section className="nxv-sec nm-rise nm-once" aria-labelledby="c-biz">
         <div className="nxv-sec-h">
           <span className="nxv-sec-i" aria-hidden="true"><Sparkles size={16} strokeWidth={1.75} /></span>
           <h2 className="nx-h2" id="c-biz">הסבר עסקי</h2>
@@ -129,7 +129,7 @@ export function ConceptView({ c }: { c: ConceptRow }) {
         {c.biz ? <p className="nxv-v">{c.biz}</p> : <Absent what="הסבר עסקי" />}
       </section>
 
-      <section className="nxv-sec" aria-labelledby="c-tech">
+      <section className="nxv-sec nm-rise nm-once" aria-labelledby="c-tech">
         <div className="nxv-sec-h">
           <span className="nxv-sec-i" aria-hidden="true"><Wrench size={16} strokeWidth={1.75} /></span>
           <h2 className="nx-h2" id="c-tech">הסבר טכני</h2>
@@ -139,7 +139,7 @@ export function ConceptView({ c }: { c: ConceptRow }) {
       </section>
 
       {/* ------------------------------------------------------------ EXAMPLES */}
-      <section className="nxv-sec" aria-labelledby="c-ex">
+      <section className="nxv-sec nm-rise nm-once" aria-labelledby="c-ex">
         <div className="nxv-sec-h">
           <span className="nxv-sec-i" aria-hidden="true"><Lightbulb size={16} strokeWidth={1.75} /></span>
           <h2 className="nx-h2" id="c-ex">דוגמאות</h2>
@@ -161,7 +161,7 @@ export function ConceptView({ c }: { c: ConceptRow }) {
       </section>
 
       {/* ------------------------------------------------------------- RELATED */}
-      <section className="nxv-sec" aria-labelledby="c-rel">
+      <section className="nxv-sec nm-rise nm-once" aria-labelledby="c-rel">
         <div className="nxv-sec-h">
           <span className="nxv-sec-i" aria-hidden="true"><Link2 size={16} strokeWidth={1.75} /></span>
           <h2 className="nx-h2" id="c-rel">מושגים קשורים</h2>
@@ -188,6 +188,7 @@ export function ConceptView({ c }: { c: ConceptRow }) {
           {linked} מתוך {c.examples.length + c.related.length} ההפניות של המושג מקושרות לעמוד בפרויקט;
           {" "}השאר מוצגות כערך.
         </p>
+        <p className="nxv-credit">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</p>
       </div>
     </div>
   );

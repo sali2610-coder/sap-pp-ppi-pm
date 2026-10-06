@@ -698,6 +698,99 @@ html[data-theme="dark"] .nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--in
 .nx-app .nxv-src { display: flex; align-items: flex-start; gap: var(--sp-2); }
 .nx-app .nxv-src > svg { flex: none; margin-block-start: 2px; }
 
+/* ------------------------------------------- 10.5 THE RECORD, ON THE
+   CATALOGS' GROUND — a concept, an incident (2026-10)
+   The two records wear the catalogs' language (app/neo/data.css): the cream
+   scene, the identity on the ground like a catalog's hero, and every section
+   a signature card — radius 1.1rem, one hairline, the first elevation, the
+   scene's raised tone. Module identity keeps its chip and nothing else: no
+   header bar, no plate rule, no tinted icon plate. Brand ink stays on the one
+   condition it always marked, the S/4 sentence of a record that changes.
+   Scoped to .nxv--rec: the lesson and the academy materials share .nxv and
+   keep their own look. */
+/* --c-hair is resolved once on :root against the neutral hairline (data.css §0);
+   re-deriving it here gives the cards the scene's warm hair, as on .nxt. The
+   column is the catalogs' (.nxd): the same cap, centred. */
+.nx-app .nxv--rec {
+  gap: var(--sp-5); --c-hair: var(--hairline);
+  inline-size: 100%; max-inline-size: 108rem; margin-inline: auto;
+}
+/* controls are ink, as on the catalogs; the module keeps its chip */
+.nx-app .nxv--rec :is(.nu-btn, .nu-btn2, .nu-ghost, .nu-link) { --m: var(--ink-1); }
+.nx-app .nxv--rec .nxv-head { gap: .55rem; padding-block-start: var(--sp-2); }
+.nx-app .nxv--rec :is(.nxv-head, .nxv-s4-top) > .nx-eyebrow {
+  margin: 0; font-size: .78rem; font-weight: 700; letter-spacing: 0; color: var(--ink-2);
+}
+.nx-app .nxv--rec .nxv-h1 {
+  font-size: clamp(1.75rem, 1.1rem + 1.6vw, 2.4rem);
+  font-weight: 720; line-height: 1.15; letter-spacing: -.022em; text-wrap: balance;
+}
+.nx-app .nxv--rec .nxv-lede { max-inline-size: 74ch; font-size: .98rem; line-height: 1.72; }
+
+.nx-app .nxv--rec :is(.nxv-sec, .nxv-s4),
+.nx-app .nxv--rec .nxv-s4[data-s4="1"] {
+  padding: 1.1rem 1.25rem 1.3rem;
+  border: 1px solid var(--c-hair);
+  border-radius: 1.1rem;
+  background: var(--surface);
+  box-shadow: var(--elev-1);
+}
+.nx-app .nxv--rec .nxv-sec { gap: var(--sp-4); }
+.nx-app .nxv--rec .nxv-s4::before { content: none; }
+.nx-app .nxv--rec .nxv-s4-h {
+  font-size: clamp(1.45rem, 1.15rem + 1vw, 2rem);
+  font-weight: 720; line-height: 1.2; letter-spacing: -.018em; text-wrap: balance;
+}
+/* the lifted brand of the dark theme, 5.6:1 on the scene's raised tone */
+html[data-theme="dark"] .nx-app .nxv--rec .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--brand); }
+/* §13's dark plate (surface-2, and an invalid `to inline-start` gradient that
+   dropped the whole background) outranks the card above; the record's plate is
+   a card like its sections in both themes. */
+html[data-theme="dark"] .nx-app .nxv--rec :is(.nxv-s4, .nxv-s4[data-s4="1"]) { background: var(--surface); }
+
+.nx-app .nxv--rec .nxv-sec-h { gap: .8rem; padding-block-end: 0; border-block-end: 0; }
+.nx-app .nxv--rec .nxv-sec-h > .nx-h2 {
+  margin: 0;
+  font-size: clamp(1.08rem, 1rem + .35vw, 1.3rem);
+  font-weight: 720; line-height: 1.35; letter-spacing: -.01em;
+}
+.nx-app .nxv--rec .nxv-sec-i {
+  inline-size: 2.4rem; block-size: 2.4rem; border-radius: .75rem;
+  color: var(--ink-1); background: var(--surface-2);
+  box-shadow: none; border: 1px solid var(--c-hair);
+}
+.nx-app .nxv--rec .nxv-ol li::marker { color: var(--ink-3); }
+
+/* A reference with no page, inside the grid of linked cards: drawn as an inert
+   card (dashed, recessed — the reference record's .nxr-flat) instead of a tiny
+   chip stretched to a card's size. */
+.nx-app .nxv--rec .nxv-refs > :is(.nu-chip, .nxv-at) {
+  min-block-size: var(--c-tap);
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px dashed var(--c-hair);
+  border-radius: 1rem;
+  background: var(--surface-2);
+  font-size: var(--t-sm);
+}
+.nx-app .nxv--rec .nxv-refs > .nxv-at > .nu-chip { padding: 0; border: 0; background: none; font-size: var(--t-sm); }
+
+/* "IA05 verify SE93": the code is the code, the rest is said (as the catalog). */
+.nx-app .nxv-at { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.nx-app .nxv-at > em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
+
+/* the catalogs' foot (.nxd-foot): sources, then the credit line */
+.nx-app .nxv--rec .nxv-foot { gap: .35rem; font-size: .8rem; line-height: 1.6; padding-block-start: var(--sp-3); }
+.nx-app .nxv--rec .nxv-foot p { margin: 0; max-inline-size: 80ch; }
+.nx-app .nxv--rec .nxv-quote { max-inline-size: 80ch; }
+.nx-app .nxv-credit { color: var(--ink-2); }
+
+@media (max-width: 720px) {
+  .nx-app .nxv--rec :is(.nxv-sec, .nxv-s4),
+  .nx-app .nxv--rec .nxv-s4[data-s4="1"] { padding: 1rem .95rem 1.1rem; }
+  .nx-app .nxv--rec .nxv-s4-h { font-size: 1.4rem; }
+  .nx-app .nxv--rec .nxv-sec-i { inline-size: 2.2rem; block-size: 2.2rem; }
+}
+
 /* ==========================================================================
    11. THE CERTIFICATION SURFACE
    Its own small composition, because it is not a directory of records: it is
@@ -1142,7 +1235,7 @@ html[data-theme="dark"] .nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--in
 @media (min-width: 2200px) {
   .nx-app .nxl-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .nx-app .nxl-stats { grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); }
-  .nx-app .nxv { max-inline-size: min(104rem, 100%); }
+  .nx-app .nxv:not(.nxv--rec) { max-inline-size: min(104rem, 100%); }
 }
 @media (min-width: 3200px) {
   .nx-app .nxl-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }

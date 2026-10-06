@@ -28,6 +28,7 @@ import { learnModVar } from "./mod";
 import type { CodeRef, IncidentRow } from "./incidents-data";
 
 const ABSENT = "לא קיים תיעוד מאומת במאגר";
+const VERIFY = /^(\S+)\s+verify\s+(SE\d\d)$/i;
 
 const IMPACT_HE: Record<string, string> = {
   BLOCKING: "חוסם עבודה",
@@ -44,8 +45,11 @@ const IMPACT_DOT: Record<string, string> = {
   "FINANCIAL POSTING RISK": "var(--status-in-analysis)",
   FINANCIAL: "var(--status-in-conversion)",
   "DATA INCONSISTENCY": "var(--status-in-conversion)",
-  PARTIAL: "var(--status-tested)",
-  "USER-SPECIFIC": "var(--status-tested)",
+  // --status-tested is violet, and this product draws no violet: the two lower
+  // tiers share the neutral dot with monitoring, as in the catalog
+  // (incidents-surface.tsx); their words tell them apart.
+  PARTIAL: "var(--status-not-started)",
+  "USER-SPECIFIC": "var(--status-not-started)",
   "MONITORING NOISE": "var(--status-not-started)",
   MONITORING: "var(--status-not-started)",
 };
@@ -65,7 +69,14 @@ function Ref({ r, kind }: { r: CodeRef; kind: "tcode" | "table" }) {
   const icon = kind === "tcode"
     ? <Terminal size={13} strokeWidth={1.75} />
     : <TableIcon size={13} strokeWidth={1.75} />;
-  if (!r.href) return <span className="nu-chip is-sap">{r.code}</span>;
+  if (!r.href) {
+    // "IA05 verify SE93": the code, and the transaction the source asks you to
+    // verify it in. The code is the code; the rest is said (as the catalog).
+    const v = r.code.match(VERIFY);
+    return v
+      ? <span className="nxv-at"><span className="nu-chip is-sap">{v[1]}</span><em>לאימות ב-<bdi>{v[2].toUpperCase()}</bdi></em></span>
+      : <span className="nu-chip is-sap">{r.code}</span>;
+  }
   return (
     <Link href={r.href} className="nu-card nxv-ref" prefetch={false}>
       {icon}
@@ -78,14 +89,16 @@ function Ref({ r, kind }: { r: CodeRef; kind: "tcode" | "table" }) {
 export function IncidentView({ r }: { r: IncidentRow }) {
   // The sections that will actually render, in order. The numbering reads off
   // this list, so it can never show 01 · 02 · 04.
+  // S/4HANA is numbered where it renders: after symptom, diagnosis and fix
+  // (design audit §7). Listed first, it read 02 · 03 … 06 · 01 · 07.
   const order: string[] = [
-    "s4",
     "symptom",
     r.rootCauses.length ? "causes" : "",
     r.tcodes.length || r.tables.length || r.debugEntry.length || r.breakpoints.length ? "diagnose" : "",
     r.exits.length || r.funcs.length ? "hooks" : "",
     r.fix.length ? "fix" : "",
     r.prevention.length ? "prevent" : "",
+    "s4",
     r.scenario ? "scenario" : "",
     "notes",
   ].filter(Boolean);
@@ -96,21 +109,20 @@ export function IncidentView({ r }: { r: IncidentRow }) {
 
   return (
     <div
-      className="nxv"
+      className="nxv nxv--rec nm-scene"
+      data-scene="cream"
       data-surface="incident"
       style={{ "--m": learnModVar(r.module) } as React.CSSProperties}
     >
       <SmartReturn fallback={{ href: "/neo/incidents/", label: "תקלות ופתרון בעיות" }} />
 
-      <header className="nxv-head">
-        <span className="nx-modbar" aria-hidden="true" />
+      <header className="nxv-head nm-rise nm-once">
         <span className="nx-eyebrow">תקלות ופתרון בעיות · {r.moduleHe || r.module}</span>
         <div className="nxv-title">
           <h1 className="nxv-h1">{r.he}</h1>
         </div>
         <div className="nxv-meta">
           <span className="nu-chip nxv-mod">
-            <i aria-hidden="true" />
             {r.module}
             {r.moduleHe ? <em>{r.moduleHe}</em> : null}
           </span>
@@ -129,7 +141,7 @@ export function IncidentView({ r }: { r: IncidentRow }) {
       </header>
 
       {/* ------------------------------------------------------------ SYMPTOM */}
-      <section className="nxv-sec" aria-labelledby="i-sym">
+      <section className="nxv-sec nm-rise nm-once" aria-labelledby="i-sym">
         <div className="nxv-sec-h">
           <span className="nxv-sec-i" aria-hidden="true"><Stethoscope size={16} strokeWidth={1.75} /></span>
           <h2 className="nx-h2" id="i-sym">סימפטום</h2>
@@ -152,7 +164,7 @@ export function IncidentView({ r }: { r: IncidentRow }) {
 
       {/* ------------------------------------------------------------- CAUSES */}
       {r.rootCauses.length ? (
-        <section className="nxv-sec" aria-labelledby="i-rc">
+        <section className="nxv-sec nm-rise nm-once" aria-labelledby="i-rc">
           <div className="nxv-sec-h">
             <span className="nxv-sec-i" aria-hidden="true"><Bug size={16} strokeWidth={1.75} /></span>
             <h2 className="nx-h2" id="i-rc">סיבות שורש אפשריות</h2>
@@ -166,7 +178,7 @@ export function IncidentView({ r }: { r: IncidentRow }) {
 
       {/* ----------------------------------------------------------- DIAGNOSE */}
       {order.includes("diagnose") ? (
-        <section className="nxv-sec" aria-labelledby="i-dx">
+        <section className="nxv-sec nm-rise nm-once" aria-labelledby="i-dx">
           <div className="nxv-sec-h">
             <span className="nxv-sec-i" aria-hidden="true"><Search size={16} strokeWidth={1.75} /></span>
             <h2 className="nx-h2" id="i-dx">אבחון</h2>
@@ -209,7 +221,7 @@ export function IncidentView({ r }: { r: IncidentRow }) {
 
       {/* -------------------------------------------------------------- HOOKS */}
       {order.includes("hooks") ? (
-        <section className="nxv-sec" aria-labelledby="i-hk">
+        <section className="nxv-sec nm-rise nm-once" aria-labelledby="i-hk">
           <div className="nxv-sec-h">
             <span className="nxv-sec-i" aria-hidden="true"><Puzzle size={16} strokeWidth={1.75} /></span>
             <h2 className="nx-h2" id="i-hk">הרחבות וממשקים</h2>
@@ -236,7 +248,7 @@ export function IncidentView({ r }: { r: IncidentRow }) {
 
       {/* ---------------------------------------------------------------- FIX */}
       {r.fix.length ? (
-        <section className="nxv-sec" aria-labelledby="i-fx">
+        <section className="nxv-sec nm-rise nm-once" aria-labelledby="i-fx">
           <div className="nxv-sec-h">
             <span className="nxv-sec-i" aria-hidden="true"><ListChecks size={16} strokeWidth={1.75} /></span>
             <h2 className="nx-h2" id="i-fx">צעדי התיקון</h2>
@@ -250,7 +262,7 @@ export function IncidentView({ r }: { r: IncidentRow }) {
 
       {/* ----------------------------------------------------------- PREVENT */}
       {r.prevention.length ? (
-        <section className="nxv-sec" aria-labelledby="i-pv">
+        <section className="nxv-sec nm-rise nm-once" aria-labelledby="i-pv">
           <div className="nxv-sec-h">
             <span className="nxv-sec-i" aria-hidden="true"><ShieldCheck size={16} strokeWidth={1.75} /></span>
             <h2 className="nx-h2" id="i-pv">צעדי מניעה</h2>
@@ -265,7 +277,7 @@ export function IncidentView({ r }: { r: IncidentRow }) {
       {/* ------------------------------------------------- THE S/4HANA PLATE — after symptom, diagnosis and fix
           (design audit §7, 2026-09-21): the reader sees what they see first. */}
       {r.hasS4 ? (
-        <section className="nxv-s4" data-s4="1" aria-labelledby="i-s4">
+        <section className="nxv-s4 nm-rise nm-once" data-s4="1" aria-labelledby="i-s4">
           <div className="nxv-s4-top">
             <span className="nx-eyebrow">S/4HANA · {n("s4")}</span>
             <h2 className="nxv-s4-h" id="i-s4">התנהגות התקלה ב-ECC וב-S/4HANA</h2>
@@ -282,7 +294,7 @@ export function IncidentView({ r }: { r: IncidentRow }) {
           </div>
         </section>
       ) : (
-        <section className="nxv-sec" aria-labelledby="i-s4">
+        <section className="nxv-sec nm-rise nm-once" aria-labelledby="i-s4">
           <div className="nxv-sec-h">
             <span className="nxv-sec-i" aria-hidden="true"><Sparkles size={16} strokeWidth={1.75} /></span>
             <h2 className="nx-h2" id="i-s4">ECC ו-S/4HANA</h2>
@@ -297,7 +309,7 @@ export function IncidentView({ r }: { r: IncidentRow }) {
 
       {/* ---------------------------------------------------------- SCENARIO */}
       {r.scenario ? (
-        <section className="nxv-sec" aria-labelledby="i-sc">
+        <section className="nxv-sec nm-rise nm-once" aria-labelledby="i-sc">
           <div className="nxv-sec-h">
             <span className="nxv-sec-i" aria-hidden="true"><Quote size={16} strokeWidth={1.75} /></span>
             <h2 className="nx-h2" id="i-sc">תרחיש לדוגמה</h2>
@@ -308,7 +320,7 @@ export function IncidentView({ r }: { r: IncidentRow }) {
       ) : null}
 
       {/* ------------------------------------------------------------- NOTES */}
-      <section className="nxv-sec" aria-labelledby="i-nt">
+      <section className="nxv-sec nm-rise nm-once" aria-labelledby="i-nt">
         <div className="nxv-sec-h">
           <span className="nxv-sec-i" aria-hidden="true"><Info size={16} strokeWidth={1.75} /></span>
           <h2 className="nx-h2" id="i-nt">איתור SAP Notes</h2>
@@ -342,6 +354,7 @@ export function IncidentView({ r }: { r: IncidentRow }) {
             {linked} מתוך {totalRefs} הקודים ברשומה מקושרים לעמוד בפרויקט; השאר מוצגים כערך.
           </p>
         ) : null}
+        <p className="nxv-credit">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</p>
       </div>
     </div>
   );
