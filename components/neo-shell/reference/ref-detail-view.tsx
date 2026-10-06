@@ -25,21 +25,29 @@
      data label  .nxt-l      micro, tracked, ink-3 — metadata, never content
      value       .nxt-v      body, ink-1 — content, never metadata
 
+   THE RECORD LANGUAGE (2026-10, components/neo-shell/record-kit.tsx and
+   app/neo/record.css): the catalog's hero, the running section bar, the S/4HANA
+   band as a raised card without a stripe, every question as the catalog's Sig,
+   the reference rows in the domain page's form, and the credit at the foot.
+
    FORM RULE (app/globals.css, above --mod-pm), obeyed exactly
      STATUS  every .nu-status — S/4 standing, trust, verification. Dot + word.
-     MODULE  the header bar, a plate's top rule, the module chip's ring, a
-             neighbour card's leading edge. Line / edge / ring / tint only.
+     MODULE  the ring and tint on the module chip, a section badge, a row's
+             border. Never a stripe.
      ACCENT  brand red marks ONE condition: tone === "changed".
    ========================================================================== */
 
 import Link from "next/link";
-import { ArrowLeft, ShieldCheck } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
+import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { EvidenceBlock } from "../evidence/evidence-block";
 import { CopyId } from "../copy-id";
 import { MOD_HE, modVar } from "../mod-var";
+import { RecordHead } from "../record-kit";
+import { CatalogFoot, Ledger, Sig } from "../data/catalog-kit";
 import { Glyph } from "./icons";
-import type { RefDetail, RefFact, RefSection, RefStatus, RefCode } from "./types";
+import type { RefCode, RefDetail, RefFact, RefIcon, RefSection, RefStatus } from "./types";
 
 const NONE = "לא קיים תיעוד מאומת במאגר";
 
@@ -49,6 +57,15 @@ const DIR_HE: Record<string, string> = {
   idoc: "קטלוג IDoc",
   "fiori-apps": "קטלוג יישומי Fiori",
   enhancements: "קטלוג הרחבות",
+};
+
+/** The glyph of each directory, as its rail entry draws it. */
+const ICON: Record<string, RefIcon> = {
+  bapi: "plug",
+  cds: "sigma",
+  idoc: "cable",
+  "fiori-apps": "layoutGrid",
+  enhancements: "puzzle",
 };
 
 /* ------------------------------------------------------------ primitives */
@@ -99,7 +116,9 @@ function Fact({ f }: { f: RefFact }) {
             preformatted block carries its own copy control. */}
         {f.pre ? (
           <div className="nxr-pre-w">
-            <pre className="nxr-pre" dir="ltr">{f.pre}</pre>
+            {/* It scrolls inside its own box, so it takes keyboard focus and is
+                named by its fact (axe scrollable-region-focusable). */}
+            <pre className="nxr-pre" dir="ltr" tabIndex={0} role="region" aria-label={f.label}>{f.pre}</pre>
             <CopyId value={f.pre} label="העתקת הקוד" />
           </div>
         ) : null}
@@ -111,14 +130,10 @@ function Fact({ f }: { f: RefFact }) {
 function Section({ s }: { s: RefSection }) {
   const nothing =
     !s.facts?.length && !s.subs?.length && !s.cards?.length;
+  // The catalog's own question card (catalog-kit Sig). The section carries the
+  // id the old heading had, so a link to #sec-<id> still lands on it.
   return (
-    <section className="nxt-sec" aria-labelledby={`sec-${s.id}`}>
-      <h2 className="nx-h2 nxt-sec-h" id={`sec-${s.id}`}>
-        <span className="nxt-sec-i" aria-hidden="true"><Glyph i={s.icon} size={15} /></span>
-        {s.title}
-        {s.note ? <em className="nxt-sec-n">{s.note}</em> : null}
-      </h2>
-
+    <Sig id={`sec-${s.id}`} icon={<Glyph i={s.icon} size={15} />} title={s.title} count={s.note}>
       {nothing ? <p className="nxt-absent">{s.empty || NONE}</p> : null}
 
       {s.facts?.length ? (
@@ -137,7 +152,6 @@ function Section({ s }: { s: RefSection }) {
           {s.cards.map((c) => {
             const inner = (
               <>
-                <span className="nxt-near-e" aria-hidden="true" />
                 <span className="nxt-near-c1">
                   <b className="nx-sap">{c.code}</b>
                   {c.mod ? (
@@ -163,7 +177,7 @@ function Section({ s }: { s: RefSection }) {
           })}
         </ul>
       ) : null}
-    </section>
+    </Sig>
   );
 }
 
@@ -187,65 +201,63 @@ export function RefDetailView({ d }: { d: RefDetail }) {
   const m = modVar(d.mod);
   const modHe = d.modHe || MOD_HE[d.mod] || "";
   const impacted = d.s4.tone === "changed";
+  const nameLed = d.lead === "name";
+  // The running bar is built from the same list the page renders, so a chip
+  // can never point at a section that is not on the screen.
+  const nav = [
+    { id: "nxt-s4", label: "המעבר ל-S/4HANA" },
+    ...d.sections.map((s) => ({ id: `sec-${s.id}`, label: s.title })),
+  ];
+  // The record's own counts, each a door to the part of the page that lists
+  // them: the classic tables the S/4 band stands, and every section's related
+  // records. Drawn only when there are at least two, as on the other records.
+  const ledger = [
+    ...(d.s4.tables?.length ? [{ v: d.s4.tables.length, l: "טבלאות קלאסיות", href: "#nxt-s4" }] : []),
+    ...d.sections.filter((s) => s.cards?.length).map((s) => ({ v: s.cards!.length, l: s.title, href: `#sec-${s.id}` })),
+  ];
 
   return (
-    <article className="nxt nxr-rec" data-surface={d.kind} style={{ "--m": m } as React.CSSProperties}>
+    <article className="nxt nxr-rec nrc nm-scene" data-scene="cream" data-surface={d.kind} style={{ "--m": m } as React.CSSProperties}>
       <SmartReturn
         fallback={{ href: `/neo/${d.kind}/`, label: DIR_HE[d.kind] || "קטלוג" }}
         hint="לא נשמר מסלול הגעה בביקור הזה"
       />
 
-      {/* ------------------------------------------------------ 1. IDENTITY */}
-      <header className="nxt-head">
-        <span className="nx-modbar" aria-hidden="true" />
-        <p className="nx-eyebrow nxt-eyebrow">{d.eyebrow}</p>
-
-        {d.lead === "name" ? (
-          /* THE BUSINESS ACTION IS THE TITLE (design audit S7-CAT-6, Fiori):
-             the Hebrew name leads, the technical id follows with its copy
-             control, the English name and the role stay under both. */
-          <div className="nxt-title nxr-title" data-lead="name">
-            <h1 className="nxt-lead">{d.he || d.code}</h1>
-            <div className="nxt-codeline">
-              <span className="nxt-code nxt-code--sub nx-sap">{d.code}</span>
-              <CopyId value={d.code} label="העתקת המזהה הטכני" compact />
-            </div>
-            <div className="nxt-names">
-              {d.en
-                ? <p className="nxt-en" dir="ltr">{d.en}</p>
-                : d.enAbsent ? <p className="nxt-en nxt-absent">{d.enAbsent}</p> : null}
-            </div>
-          </div>
-        ) : (
-          <div className="nxt-title nxr-title">
-            <div className="nxt-codeline">
-              <h1 className="nxt-code nx-sap">{d.code}</h1>
-              <CopyId value={d.code} label="העתקת השם הטכני" compact />
-            </div>
-            <div className="nxt-names">
-              <p className="nxt-he">{d.he || NONE}</p>
-              {d.en
-                ? <p className="nxt-en" dir="ltr">{d.en}</p>
-                : d.enAbsent ? <p className="nxt-en nxt-absent">{d.enAbsent}</p> : null}
-            </div>
-          </div>
-        )}
-
-        <div className="nxt-meta">
-          {d.statuses.map((s) => <Status key={s.he} s={s} />)}
-          {d.mod ? (
-            <span className="nu-chip nxt-mod" style={{ "--m": m } as React.CSSProperties}>
-              <i aria-hidden="true" />{d.mod}{modHe ? ` · ${modHe}` : ""}
-            </span>
-          ) : null}
-          {d.chips.map((c) => <span key={c} className="nu-chip">{c}</span>)}
-          {d.completeness ? (
-            <span className="nxt-known">
-              <span className="nx-sr">שלמות הרשומה </span>{d.completeness}
-            </span>
-          ) : null}
-        </div>
-      </header>
+      {/* ------------------------------------------------------ 1. IDENTITY
+          THE BUSINESS ACTION IS THE TITLE where the record leads with its name
+          (design audit S7-CAT-6, Fiori): the Hebrew name is the heading, the
+          technical id follows it with its copy control. Everywhere else the
+          technical name is the heading, in its own script and direction. */}
+      <RecordHead
+        icon={<Glyph i={ICON[d.kind] || "fileCode"} size={14} />}
+        eyebrow={d.eyebrow}
+        title={nameLed ? (d.he || d.code) : d.code}
+        mono={!nameLed}
+        sub={nameLed ? d.code : undefined}
+        copy={d.code}
+        copyLabel={nameLed ? "העתקת המזהה הטכני" : "העתקת השם הטכני"}
+        he={nameLed ? undefined : (d.he || NONE)}
+        en={d.en || undefined}
+        enAbsent={d.enAbsent || undefined}
+        meta={
+          <>
+            {d.statuses.map((s) => <Status key={s.he} s={s} />)}
+            {d.mod ? (
+              <span className="nu-chip nxt-mod" style={{ "--m": m } as React.CSSProperties}>
+                <i aria-hidden="true" />{d.mod}{modHe ? ` · ${modHe}` : ""}
+              </span>
+            ) : null}
+            {d.chips.map((c) => <span key={c} className="nu-chip">{c}</span>)}
+            {d.completeness ? (
+              <span className="nxt-known">
+                <span className="nx-sr">שלמות הרשומה </span>{d.completeness}
+              </span>
+            ) : null}
+          </>
+        }
+      >
+        {ledger.length > 1 ? <Ledger label="הרשומה במספרים. כל מספר מוביל לחלק שלו בעמוד" items={ledger} /> : null}
+      </RecordHead>
 
       {/* THE CHAIN (design audit S7-CAT-5): what feeds the record and what
           consumes it, one line, real routes only. */}
@@ -274,12 +286,16 @@ export function RefDetailView({ d }: { d: RefDetail }) {
         </section>
       ) : null}
 
+      {/* The page's own index, kept on screen. */}
+      <SectionNav sections={nav} />
+
       {/* --------------------------------------------- 2. S/4HANA — §2
           The loudest block on the screen, and the only one rendered even when
           the dataset is silent: "we do not know" is decision-relevant for a
           migration, and hiding it would be the lie. */}
       <section
-        className="nxt-s4"
+        className="nxt-s4 nm-rise nm-once"
+        id="nxt-s4"
         data-tone={d.s4.tone}
         data-impacted={impacted ? "1" : undefined}
         aria-labelledby="s4-h"
@@ -332,15 +348,9 @@ export function RefDetailView({ d }: { d: RefDetail }) {
       {d.sections.map((s) => <Section key={s.id} s={s} />)}
 
       {/* ------------------------------------------------------- n+1 HONESTY */}
-      <footer className="nxt-foot">
-        {d.sources.length ? (
-          <p className="nxt-src">
-            <ShieldCheck size={13} strokeWidth={1.75} aria-hidden="true" />
-            מקורות הרשומה: {d.sources.join(" · ")}
-          </p>
-        ) : null}
-        <p>{d.foot}</p>
-      </footer>
+      <CatalogFoot notes={d.sources.length ? [<>מקורות הרשומה: {d.sources.join(" · ")}</>] : undefined}>
+        {d.foot}
+      </CatalogFoot>
     </article>
   );
 }

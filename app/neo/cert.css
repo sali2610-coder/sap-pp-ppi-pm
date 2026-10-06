@@ -1,220 +1,162 @@
 /* ============================================================================
-   PROJECT NEO · ASSESSMENT RUNNER
+   PROJECT NEO · THE ASSESSMENT RUNNER — /neo/certification/exam/
    ----------------------------------------------------------------------------
-   Certification is an EXPERIENTIAL surface, so it carries more motion than
-   Tables or Transactions. It still obeys the product's rules: the accent is
-   CBC red, module colour is never a status dot, and every state that means
-   something is carried by fill and contrast rather than by a 1px ring.
+   The runner speaks the catalogs' language (2026-10). The setup and the result
+   are drawn by the catalog kit (data.css: the hero, a Sig, facet groups of
+   pressed .nu-filter chips, the ledger, the ranked list, the foot with the
+   credit), so this sheet only adds what the QUESTION screen needs:
 
-   Success green and error red here are STATE, not decoration — they only ever
-   appear on a locked answer, where the meaning is unambiguous.
+     · a sticky run header: where you are, an ink meter, the counts as glyph
+       plus word. (It used to be .nce-bar, a name the result's score bars also
+       used further down this file; the second rule won and crushed the header
+       into a 7px strip.)
+     · the choices: a quiet hover tint, an ink focus ring, and a locked answer
+       said by a 1px status ring, its glyph and its word, never by a fill;
+     · the explanation as a surface-2 tile, with no coloured edge.
+
+   Status green and orange are STATE, not decoration: they appear only on a
+   locked answer, on the counts' glyphs and on the explanation's glyph. Brand
+   red is the one primary action (the start, the finish).
    ========================================================================== */
 
-.nce {
+.nx-app .nce {
   --ok: #1a7f4f;
   --no: #c2410c;
-  --gold: #a97e17;
-  max-inline-size: 56rem;
-  margin-inline: auto;
-  padding: clamp(1.25rem, 3vw, 2.5rem) clamp(1rem, 3vw, 2rem) 6rem;
+  --m: var(--ink-3);
+  /* the records' measure; the question screen narrows it further below */
+  max-inline-size: min(78rem, 100%);
 }
-html[data-theme="dark"] .nce { --ok: #4ec98a; --no: #ff8a5c; --gold: #e0bd5c; }
+html[data-theme="dark"] .nx-app .nce { --ok: #4ec98a; --no: #ff8a5c; }
 
-.nce-eye {
-  display: flex; align-items: center; gap: .45rem;
-  margin: 0 0 .5rem; font-size: .74rem; font-weight: 700;
-  letter-spacing: .09em; text-transform: uppercase; color: var(--ink-3);
+/* ---------------------------------------------------------------- setup */
+
+.nx-app .nce-setup .nxd-facet-l { min-inline-size: 6.25rem; }
+.nx-app .nce-setup .nu-filter bdi { font-family: var(--font-mono); font-weight: 700; }
+
+/* --------------------------------------------------------------- result */
+
+.nx-app .nce-verdict { margin: 0; }
+.nx-app .nce-go { margin-block-start: calc(var(--sp-2) * -1); }
+
+/* ------------------------------------------------------------------ run */
+
+.nx-app .nce[data-phase="run"] { display: block; max-inline-size: min(60rem, 100%); }
+.nx-app .nce[data-phase="run"] > .nxd-foot { margin-block-start: var(--sp-6); }
+
+/* A sticky child of .nx-canvas parks at the canvas CONTENT box, one padding
+   below the top of the scrollport, and the question kept scrolling through
+   that strip above the header. Pulled up by the canvas padding, the same
+   three values the section bar mirrors (workspace/section-nav.css). */
+.nx-app .nce-run { --nce-pad: var(--sp-6); }
+@media (min-width: 1440px) { .nx-app .nce-run { --nce-pad: var(--sp-8); } }
+html[data-device="phone"] .nx-app .nce-run { --nce-pad: var(--sp-4); }
+.nx-app .nce-run {
+  position: sticky; inset-block-start: calc(-1 * var(--nce-pad)); z-index: 4;
+  display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.1rem;
+  padding-block: .8rem;
+  background: var(--scene-ground, var(--background));
+  border-block-end: 1px solid var(--hairline);
 }
-.nce-h1 { margin: 0; font-size: clamp(1.7rem, 4vw, 2.6rem); font-weight: 700; letter-spacing: -.025em; line-height: 1.1; }
-.nce-h2 { margin: 0 0 .7rem; font-size: 1rem; font-weight: 700; }
-.nce-lede { margin: .7rem 0 0; max-inline-size: 58ch; font-size: .95rem; line-height: 1.68; color: var(--ink-2); }
-.nce-hero { margin-bottom: 1.8rem; }
-
-/* --------------------------------------------------------------- setup */
-
-.nce-pick { margin-bottom: 1.15rem; }
-.nce-pick-h { margin: 0 0 .5rem; font-size: .78rem; font-weight: 700; color: var(--ink-3); letter-spacing: .04em; }
-.nce-pick-row { display: flex; flex-wrap: wrap; gap: .5rem; }
-
-.nce-opt {
-  display: inline-flex; align-items: baseline; gap: .45rem;
-  min-block-size: 46px; padding: .5rem .9rem;
-  border-radius: .8rem; cursor: pointer;
-  font: inherit; color: var(--ink-2);
-  background: var(--surface); border: 1px solid var(--hairline);
-  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, color .16s ease;
+.nx-app .nce-count { font-size: .84rem; font-weight: 650; color: var(--ink-2); white-space: nowrap; }
+.nx-app .nce-count bdi { font-size: 1.05rem; color: var(--ink-1); }
+.nx-app .nce-meter {
+  flex: 1 1 8rem; block-size: 5px; border-radius: 999px; overflow: hidden;
+  background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--hairline);
 }
-.nce-opt b { font-size: .98rem; font-weight: 700; color: var(--ink-1); }
-.nce-opt span { font-size: .8rem; color: var(--ink-1); }
-.nce-opt:hover { transform: translateY(-1px); box-shadow: var(--elev-2); }
-/* Selected is a FILL, per the product's selection language. */
-.nce-opt[data-on="1"] {
-  color: #fff; border-color: transparent;
-  /* A shade under brand red: white at 12.8px on #d62027 measured 3.6:1; on
-     #b21a20 it is 5.9:1. A plain hex, so contrast tools read it too. */
-  background: #b21a20;
-  box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--brand) 70%, transparent);
+/* scaleX from the start edge, which is the right in this RTL product */
+.nx-app .nce-meter > i {
+  display: block; block-size: 100%; background: var(--ink-1);
+  transform-origin: right center;
+  transition: transform .3s cubic-bezier(.16, 1, .3, 1);
 }
-.nce-opt[data-on="1"] b, .nce-opt[data-on="1"] span { color: #fff; }
+.nx-app .nce-live { display: flex; flex-wrap: wrap; gap: .3rem .9rem; }
+.nx-app .nce-st { display: inline-flex; align-items: center; gap: .3rem; font-size: .8rem; font-weight: 650; color: var(--ink-1); white-space: nowrap; }
+.nx-app :is(.nce-st, .nce-tag)[data-k="ok"] > svg,
+.nx-app .nce-why[data-ok="1"] > b > svg { color: var(--ok); flex: none; }
+.nx-app :is(.nce-st, .nce-tag)[data-k="no"] > svg,
+.nx-app .nce-why[data-ok="0"] > b > svg { color: var(--no); flex: none; }
 
-.nce-go { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin-top: 1.6rem; }
-.nce-start { font-size: .95rem; }
-
-/* ----------------------------------------------------------------- run */
-
-.nce-bar {
-  position: sticky; inset-block-start: 0; z-index: 4;
-  display: flex; align-items: center; gap: .8rem;
-  padding-block: .7rem; margin-bottom: 1.1rem;
-  background: linear-gradient(to bottom, var(--background) 72%, transparent);
+.nx-app .nce-q { padding-block-start: 1.4rem; }
+.nx-app .nce-q-meta { display: flex; flex-wrap: wrap; gap: .35rem; margin: 0 0 .85rem; }
+.nx-app .nce-stem {
+  margin: 0 0 .7rem;
+  font-size: clamp(1.15rem, 1rem + .9vw, 1.55rem); font-weight: 720;
+  line-height: 1.45; letter-spacing: -.01em; color: var(--ink-1);
 }
-.nce-count b { font-size: 1.15rem; font-weight: 700; }
-.nce-count i { font-style: normal; color: var(--ink-3); font-size: .85rem; }
-.nce-prog {
-  flex: 1 1 auto; block-size: 6px; border-radius: 999px;
-  background: var(--surface-2); overflow: hidden;
-}
-.nce-prog i { display: block; block-size: 100%; background: var(--brand); transition: width .45s cubic-bezier(.16,1,.3,1); }
-.nce-live { display: flex; gap: .35rem; }
-.nce-t { display: inline-flex; align-items: center; gap: .25rem; font-size: .78rem; font-weight: 700; padding: .12rem .45rem; border-radius: 6px; }
-.nce-t--ok { color: var(--ok); background: color-mix(in srgb, var(--ok) 12%, transparent); }
-.nce-t--no { color: var(--no); background: color-mix(in srgb, var(--no) 12%, transparent); }
-
-.nce-q-meta { display: flex; flex-wrap: wrap; gap: .35rem; margin: 0 0 .8rem; }
-.nce-chip {
-  font-size: .7rem; font-weight: 700; padding: .16rem .5rem; border-radius: 6px;
-  color: var(--ink-2); background: var(--surface-2); border: 1px solid var(--hairline);
-  unicode-bidi: isolate;
-}
-.nce-chip--lvl { color: var(--brand); border-color: color-mix(in srgb, var(--brand) 32%, transparent); }
-
-.nce-stem { margin: 0 0 .7rem; font-size: clamp(1.1rem, 2.4vw, 1.5rem); font-weight: 700; line-height: 1.4; letter-spacing: -.01em; }
-.nce-ctx { margin: 0 0 .8rem; font-size: .89rem; line-height: 1.62; color: var(--ink-2); }
-.nce-code {
+.nx-app .nce-ctx { margin: 0 0 .85rem; max-inline-size: 72ch; font-size: .9rem; line-height: 1.65; color: var(--ink-2); }
+.nx-app .nce-code {
   margin: 0 0 1rem; padding: .8rem .9rem; border-radius: .7rem; overflow-x: auto;
   font-size: .8rem; line-height: 1.55;
   background: var(--surface-2); border: 1px solid var(--hairline); color: var(--ink-1);
 }
 
-.nce-choices { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
-.nce-choice {
-  inline-size: 100%; display: flex; align-items: center; gap: .7rem;
-  min-block-size: 52px; padding: .7rem .9rem;
+.nx-app .nce-choices { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+.nx-app .nce-choice {
+  inline-size: 100%; display: flex; align-items: center; gap: .75rem;
+  min-block-size: 3.25rem; padding: .7rem .9rem;
   border-radius: .85rem; text-align: start; cursor: pointer;
-  font: inherit; font-size: .93rem; color: var(--ink-1);
+  font: inherit; font-size: .95rem; color: var(--ink-1);
   background: var(--surface); border: 1px solid var(--hairline);
-  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background .2s ease;
+  transition: border-color .14s linear, background-color .14s linear;
 }
-.nce-choice:hover:not(:disabled) { transform: translateY(-1px); box-shadow: var(--elev-2); border-color: color-mix(in srgb, var(--brand) 34%, var(--hairline)); }
-.nce-choice:disabled { cursor: default; }
-.nce-choice:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
-.nce-key {
-  flex: none; inline-size: 1.6rem; block-size: 1.6rem; border-radius: .5rem;
-  display: grid; place-items: center; font-size: .72rem; font-weight: 700;
-  color: var(--ink-3); background: var(--surface-2);
+.nx-app .nce-choice:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--ink-1) 4%, var(--surface));
+  border-color: color-mix(in srgb, var(--ink-1) 32%, var(--hairline));
 }
-.nce-choice-t { flex: 1 1 auto; }
+.nx-app .nce-choice:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; }
+.nx-app .nce-choice:disabled { cursor: default; }
+.nx-app .nce-key {
+  flex: none; inline-size: 1.65rem; block-size: 1.65rem; border-radius: .5rem;
+  display: grid; place-items: center;
+  font-family: var(--font-mono); font-size: .74rem; font-weight: 700;
+  color: var(--ink-2); background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.nx-app .nce-choice-t { flex: 1 1 auto; min-inline-size: 0; overflow-wrap: anywhere; }
+.nx-app .nce-code:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; }
+.nx-app .nce-tag {
+  flex: none; display: inline-flex; align-items: center; gap: .3rem;
+  font-size: .78rem; font-weight: 650; color: var(--ink-1);
+}
+/* A locked answer: the ring says which, the glyph and the word repeat it. */
+.nx-app .nce-choice[data-state="right"] { border-color: var(--ok); }
+.nx-app .nce-choice[data-state="wrong"] { border-color: var(--no); }
+.nx-app .nce-choice[data-state="muted"] { color: var(--ink-2); }
 
-/* Locked states. Fill carries the verdict; the icon repeats it for anyone who
-   does not read colour. */
-.nce-choice[data-state="right"] {
-  color: var(--ok); border-color: color-mix(in srgb, var(--ok) 46%, transparent);
-  background: color-mix(in srgb, var(--ok) 10%, var(--surface));
-}
-.nce-choice[data-state="right"] .nce-key { color: var(--ok); background: color-mix(in srgb, var(--ok) 18%, transparent); }
-.nce-choice[data-state="wrong"] {
-  color: var(--no); border-color: color-mix(in srgb, var(--no) 46%, transparent);
-  background: color-mix(in srgb, var(--no) 9%, var(--surface));
-}
-.nce-choice[data-state="muted"] { opacity: .55; }
-
-@media (prefers-reduced-motion: no-preference) {
-  .nce-choice[data-state="right"] { animation: nce-pop .42s cubic-bezier(.16,1,.3,1); }
-  .nce-q { animation: nce-in .34s cubic-bezier(.16,1,.3,1); }
-}
-
-@media (min-width: 0px) {
-  :where(html[data-neo-motion="full"]) .nce-choice[data-state="right"] { animation: nce-pop .42s cubic-bezier(.16,1,.3,1); }
-  :where(html[data-neo-motion="full"]) .nce-q { animation: nce-in .34s cubic-bezier(.16,1,.3,1); }
-}
-@keyframes nce-pop { 0% { transform: scale(1); } 45% { transform: scale(1.018); } 100% { transform: scale(1); } }
-@keyframes nce-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-
-.nce-why {
-  margin-top: .9rem; padding: .85rem 1rem; border-radius: .85rem;
+.nx-app .nce-why {
+  margin-block-start: .9rem; padding: .9rem 1rem; border-radius: .85rem;
   background: var(--surface-2); border: 1px solid var(--hairline);
-  border-inline-start: 3px solid var(--ok);
-  font-size: .89rem; line-height: 1.66; color: var(--ink-2);
+  font-size: .9rem; line-height: 1.7; color: var(--ink-2);
 }
-.nce-why[data-ok="0"] { border-inline-start-color: var(--no); }
-.nce-why b { display: block; margin-bottom: .3rem; color: var(--ink-1); font-size: .82rem; }
-.nce-why p { margin: 0; }
-.nce-why-2 { margin-top: .45rem !important; color: var(--ink-3); }
-.nce-rel { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .6rem !important; }
+html[data-theme="dark"] .nx-app .nce-why { background: color-mix(in srgb, var(--ink-1) 5%, var(--surface)); }
+.nx-app .nce-why > b { display: flex; align-items: center; gap: .35rem; margin-block-end: .3rem; color: var(--ink-1); font-size: .84rem; }
+.nx-app .nce-why p { margin: 0; }
+.nx-app .nce-why p.nce-why-2 { margin-block-start: .45rem; color: var(--ink-3); }
+.nx-app .nce-why p.nce-rel { display: flex; flex-wrap: wrap; gap: .3rem; margin-block-start: .6rem; }
 
-.nce-nav { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-top: 1.5rem; }
+.nx-app .nce-nav { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-block-start: 1.5rem; }
 
 /* Visually hidden, still announced. */
-.nce-sr { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.nx-app .nce-sr { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-/* -------------------------------------------------------------- result */
+/* ---------------------------------------------------------------- motion */
 
-.nce-result {
-  text-align: center; padding: 2rem 1.25rem 1.6rem; border-radius: 1.3rem;
-  background:
-    radial-gradient(80% 70% at 50% 0%, color-mix(in srgb, var(--gold) 14%, transparent), transparent 70%),
-    var(--surface);
-  border: 1px solid var(--hairline);
-  box-shadow: var(--elev-3);
-}
-.nce-result[data-pass="0"] { --gold: var(--ink-3); }
-.nce-trophy { display: inline-grid; place-items: center; inline-size: 68px; block-size: 68px; border-radius: 50%;
-  color: var(--gold); background: color-mix(in srgb, var(--gold) 14%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 34%, transparent); }
-.nce-result .nce-eye { justify-content: center; margin-top: .8rem; }
-
-/* Score ring. conic-gradient so no SVG and no layout work per frame. */
-.nce-ring {
-  inline-size: 148px; block-size: 148px; margin: .4rem auto .2rem;
-  border-radius: 50%; display: grid; place-items: center;
-  background: conic-gradient(var(--gold) calc(var(--p) * 1%), var(--surface-2) 0);
-  position: relative;
-}
-.nce-ring::after {
-  content: ""; position: absolute; inset: 11px; border-radius: 50%; background: var(--surface);
-}
-.nce-ring b { position: relative; z-index: 1; font-size: 2.5rem; font-weight: 700; letter-spacing: -.03em; }
-.nce-ring i { font-style: normal; font-size: 1.1rem; color: var(--ink-3); }
 @media (prefers-reduced-motion: no-preference) {
-  .nce-ring { animation: nce-ring .9s cubic-bezier(.16,1,.3,1); }
-  .nce-trophy { animation: nce-tro .7s cubic-bezier(.16,1,.3,1); }
+  .nx-app .nce-q { animation: nce-in .3s cubic-bezier(.16, 1, .3, 1); }
 }
 @media (min-width: 0px) {
-  :where(html[data-neo-motion="full"]) .nce-ring { animation: nce-ring .9s cubic-bezier(.16,1,.3,1); }
-  :where(html[data-neo-motion="full"]) .nce-trophy { animation: nce-tro .7s cubic-bezier(.16,1,.3,1); }
+  :where(html[data-neo-motion="full"]) .nx-app .nce-q { animation: nce-in .3s cubic-bezier(.16, 1, .3, 1); }
 }
-@keyframes nce-ring { from { --p: 0; opacity: .4; } }
-@keyframes nce-tro { from { transform: scale(.7) rotate(-8deg); opacity: 0; } }
+@keyframes nce-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  :where(html:not([data-neo-motion="full"])) .nx-app :is(.nce-choice, .nce-meter > i) { transition: none; }
+}
 
-.nce-score-a11y { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); }
-.nce-verdict { margin: .3rem 0 0; font-size: 1.05rem; font-weight: 700; }
-.nce-note { margin: .45rem auto 0; max-inline-size: 44ch; font-size: .78rem; color: var(--ink-3); line-height: 1.55; }
-.nce-tally { display: flex; justify-content: center; gap: .5rem; margin-top: .9rem; }
-
-.nce-topics { margin-top: 1.4rem; }
-.nce-topics ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .45rem; }
-.nce-topics li { display: flex; align-items: center; gap: .6rem; font-size: .85rem; }
-.nce-topic-n { inline-size: 8.5rem; flex: none; color: var(--ink-2); }
-.nce-bar { flex: 1 1 auto; block-size: 7px; border-radius: 999px; background: var(--surface-2); overflow: hidden; }
-.nce-bar i { display: block; block-size: 100%; background: var(--ok); transition: width .5s cubic-bezier(.16,1,.3,1); }
-.nce-topic-v { flex: none; font-variant-numeric: tabular-nums; color: var(--ink-3); }
-
-/* -------------------------------------------------------------- mobile */
+/* ---------------------------------------------------------------- phone */
 
 @media (max-width: 640px) {
-  .nce { padding-inline: .9rem; }
-  .nce-topic-n { inline-size: 6rem; font-size: .78rem; }
-  .nce-nav > * { flex: 1 1 auto; justify-content: center; }
-  .nce-ring { inline-size: 124px; block-size: 124px; }
-  .nce-ring b { font-size: 2.1rem; }
+  .nx-app .nce-nav > * { flex: 1 1 auto; justify-content: center; }
+  .nx-app .nce-meter { flex-basis: 100%; order: 3; }
+}
+@media (pointer: coarse) {
+  .nx-app .nce-choice { min-block-size: 3.5rem; }
 }

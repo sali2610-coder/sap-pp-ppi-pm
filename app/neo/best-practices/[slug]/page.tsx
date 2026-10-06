@@ -3,6 +3,8 @@ import "@/app/neo/ui.css";
 import "@/app/neo/data.css";
 import "@/app/neo/reference.css";
 import "@/app/neo/best-practices.css";
+// the record language (2026-10), imported last so it can place what data.css drew
+import "@/app/neo/record.css";
 import { notFound } from "next/navigation";
 import { BpDetailView } from "@/components/neo-shell/best-practices/bp-view";
 import { bpDetail, bpSlugs } from "@/components/neo-shell/best-practices/bp-data";

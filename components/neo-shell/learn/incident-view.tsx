@@ -14,41 +14,27 @@
    the two places where absence is itself the answer — the S/4HANA standing and
    the SAP Note trail: say "לא קיים מידע מאומת במאגר" out loud instead.
 
-   SECTION NUMBERING is computed from the sections that actually render, so the
-   sequence never has a hole where a field was missing.
+   THE RECORD LANGUAGE (2026-10, components/neo-shell/record-kit.tsx and
+   app/neo/record.css): the catalog's hero with the impact tag as its verdict, a
+   ledger of the record's own counts (each a door to its section), every
+   question as the catalog's Sig, the S/4HANA plate as a neutral raised card,
+   and the credit at the foot. The impact words, their dots and the "verify in
+   SE93" codes come from ./incident-vocab, the list's own vocabulary.
    ========================================================================== */
 
 import Link from "next/link";
 import {
-  ArrowLeft, Bug, Info, ListChecks, Puzzle, Quote, Search, ShieldCheck, Sparkles,
+  AlertTriangle, ArrowLeft, Bug, Info, ListChecks, Puzzle, Quote, Search, ShieldCheck, Sparkles,
   Stethoscope, Table as TableIcon, Terminal,
 } from "lucide-react";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
+import { RecordHead } from "../record-kit";
+import { CatalogFoot, Ledger, Sig } from "../data/catalog-kit";
 import { learnModVar } from "./mod";
+import { IMPACT_HE, impactDot, splitCode } from "./incident-vocab";
 import type { CodeRef, IncidentRow } from "./incidents-data";
 
 const ABSENT = "לא קיים תיעוד מאומת במאגר";
-
-const IMPACT_HE: Record<string, string> = {
-  BLOCKING: "חוסם עבודה",
-  "FINANCIAL POSTING RISK": "סיכון ברישום כספי",
-  FINANCIAL: "השפעה כספית",
-  "DATA INCONSISTENCY": "אי-עקביות נתונים",
-  PARTIAL: "פגיעה חלקית",
-  "USER-SPECIFIC": "משתמש בודד",
-  "MONITORING NOISE": "רעש ניטור",
-  MONITORING: "ניטור",
-};
-const IMPACT_DOT: Record<string, string> = {
-  BLOCKING: "var(--status-in-analysis)",
-  "FINANCIAL POSTING RISK": "var(--status-in-analysis)",
-  FINANCIAL: "var(--status-in-conversion)",
-  "DATA INCONSISTENCY": "var(--status-in-conversion)",
-  PARTIAL: "var(--status-tested)",
-  "USER-SPECIFIC": "var(--status-tested)",
-  "MONITORING NOISE": "var(--status-not-started)",
-  MONITORING: "var(--status-not-started)",
-};
 
 function Absent({ what }: { what: string }) {
   return (
@@ -60,86 +46,113 @@ function Absent({ what }: { what: string }) {
 }
 
 /** A code the record listed. A link only when the project generates a page for
- *  it; otherwise an inert value, and the form itself says so. */
+ *  it; otherwise an inert value, and the form itself says so. A code the source
+ *  writes as "IWO10009 verify SE93" reads as the code plus where to verify it. */
 function Ref({ r, kind }: { r: CodeRef; kind: "tcode" | "table" }) {
   const icon = kind === "tcode"
     ? <Terminal size={13} strokeWidth={1.75} />
     : <TableIcon size={13} strokeWidth={1.75} />;
-  if (!r.href) return <span className="nu-chip is-sap">{r.code}</span>;
+  const s = splitCode(r.code);
+  const at = s.at ? <span className="nrc-vfy">לאימות ב-<bdi>{s.at}</bdi></span> : null;
+  if (!r.href) {
+    return (
+      <span className="nrc-codev">
+        <span className="nu-chip is-sap">{s.code}</span>
+        {at}
+      </span>
+    );
+  }
   return (
     <Link href={r.href} className="nu-card nxv-ref" prefetch={false}>
       {icon}
-      <b>{r.code}</b>
+      <b>{s.code}</b>
+      {at}
       <ArrowLeft size={13} strokeWidth={2} aria-hidden="true" style={{ marginInlineStart: "auto", opacity: 0.5 }} />
     </Link>
   );
 }
 
 export function IncidentView({ r }: { r: IncidentRow }) {
-  // The sections that will actually render, in order. The numbering reads off
-  // this list, so it can never show 01 · 02 · 04.
-  const order: string[] = [
-    "s4",
-    "symptom",
-    r.rootCauses.length ? "causes" : "",
-    r.tcodes.length || r.tables.length || r.debugEntry.length || r.breakpoints.length ? "diagnose" : "",
-    r.exits.length || r.funcs.length ? "hooks" : "",
-    r.fix.length ? "fix" : "",
-    r.prevention.length ? "prevent" : "",
-    r.scenario ? "scenario" : "",
-    "notes",
-  ].filter(Boolean);
-  const n = (k: string) => String(order.indexOf(k) + 1).padStart(2, "0");
+  const has = {
+    causes: r.rootCauses.length > 0,
+    diagnose: !!(r.tcodes.length || r.tables.length || r.debugEntry.length || r.breakpoints.length),
+    hooks: !!(r.exits.length || r.funcs.length),
+    fix: r.fix.length > 0,
+    prevent: r.prevention.length > 0,
+  };
 
   const linked = [...r.tcodes, ...r.tables].filter((x) => x.href).length;
   const totalRefs = r.tcodes.length + r.tables.length;
+  const source = (
+    <>
+      מקור: <span className="nx-sap">data/troubleshooting.ts</span>: תיעוד פתרון בעיות מאומת, שאינו
+      {" "}בדיקה חיה במערכת SAP. כל צעד טעון אימות בסביבת בדיקות לפני ביצוע בייצור.
+    </>
+  );
 
   return (
     <div
-      className="nxv"
+      className="nxv nrc nm-scene"
+      data-scene="cream"
       data-surface="incident"
       style={{ "--m": learnModVar(r.module) } as React.CSSProperties}
     >
       <SmartReturn fallback={{ href: "/neo/incidents/", label: "תקלות ופתרון בעיות" }} />
 
-      <header className="nxv-head">
-        <span className="nx-modbar" aria-hidden="true" />
-        <span className="nx-eyebrow">תקלות ופתרון בעיות · {r.moduleHe || r.module}</span>
-        <div className="nxv-title">
-          <h1 className="nxv-h1">{r.he}</h1>
-        </div>
-        <div className="nxv-meta">
-          <span className="nu-chip nxv-mod">
-            <i aria-hidden="true" />
-            {r.module}
-            {r.moduleHe ? <em>{r.moduleHe}</em> : null}
-          </span>
-          {r.impactKind ? (
-            <span className="nu-status" style={{ "--s": IMPACT_DOT[r.impactKind] || "var(--status-not-started)" } as React.CSSProperties}>
+      {/* ------------------------------------------------------ 1. IDENTITY
+          The impact tag is the verdict: the first thing a reader triages. */}
+      <RecordHead
+        icon={<AlertTriangle size={14} strokeWidth={1.75} aria-hidden="true" />}
+        eyebrow={`תקלות ופתרון בעיות · ${r.moduleHe || r.module}`}
+        title={r.he}
+        lede={r.impact && r.impact !== r.impactKind ? r.impact : undefined}
+        meta={
+          <>
+            <span className="nu-chip nxt-mod">
+              <i aria-hidden="true" />
+              {r.module}{r.moduleHe ? ` · ${r.moduleHe}` : ""}
+            </span>
+            <span className="nu-chip is-sap">{r.slug}</span>
+          </>
+        }
+        verdict={
+          r.impactKind ? (
+            <span className="nu-status" style={{ "--s": impactDot(r.impactKind) } as React.CSSProperties}>
               {IMPACT_HE[r.impactKind] || r.impactKind}
             </span>
           ) : (
             <span className="nu-status" style={{ "--s": "var(--status-not-started)" } as React.CSSProperties}>
               ללא תג השפעה
             </span>
-          )}
-          <span className="nu-chip is-sap">{r.slug}</span>
-        </div>
-        {r.impact && r.impact !== r.impactKind ? <p className="nxv-lede">{r.impact}</p> : null}
-      </header>
+          )
+        }
+      >
+        <Ledger
+          label="התקלה במספרים. כל מספר מוביל לחלק שלו בעמוד"
+          items={[
+            ...(has.causes ? [{ v: r.rootCauses.length, l: "סיבות שורש", href: "#i-rc" }] : []),
+            ...(totalRefs ? [{ v: totalRefs, l: "קודים לאבחון", href: "#i-dx" }] : []),
+            ...(has.fix ? [{ v: r.fix.length, l: "צעדי תיקון", href: "#i-fx" }] : []),
+            ...(has.prevent ? [{ v: r.prevention.length, l: "צעדי מניעה", href: "#i-pv" }] : []),
+          ]}
+        />
+      </RecordHead>
 
       {/* ------------------------------------------------------------ SYMPTOM */}
-      <section className="nxv-sec" aria-labelledby="i-sym">
-        <div className="nxv-sec-h">
-          <span className="nxv-sec-i" aria-hidden="true"><Stethoscope size={16} strokeWidth={1.75} /></span>
-          <h2 className="nx-h2" id="i-sym">סימפטום</h2>
-          <em className="nxv-sec-n">{n("symptom")}</em>
-        </div>
+      <Sig id="i-sym" icon={<Stethoscope size={15} strokeWidth={1.75} />} title="סימפטום">
         {r.symptom ? <p className="nxv-v">{r.symptom}</p> : <Absent what="סימפטום" />}
         {r.error ? (
           <div className="nxv-fact">
             <span className="nxv-l">הודעת השגיאה</span>
-            <code className="nxv-code">{r.error}</code>
+            {(() => {
+              const e = splitCode(r.error);
+              return e.at ? (
+                <span className="nrc-codev">
+                  <code className="nxv-code">{e.code}</code>
+                  <span className="nrc-vfy">לאימות ב-<bdi>{e.at}</bdi></span>
+                </span>
+              ) : <code className="nxv-code">{r.error}</code>;
+            })()}
           </div>
         ) : null}
         {r.techCause ? (
@@ -148,31 +161,20 @@ export function IncidentView({ r }: { r: IncidentRow }) {
             <p className="nxv-v">{r.techCause}</p>
           </div>
         ) : null}
-      </section>
+      </Sig>
 
       {/* ------------------------------------------------------------- CAUSES */}
-      {r.rootCauses.length ? (
-        <section className="nxv-sec" aria-labelledby="i-rc">
-          <div className="nxv-sec-h">
-            <span className="nxv-sec-i" aria-hidden="true"><Bug size={16} strokeWidth={1.75} /></span>
-            <h2 className="nx-h2" id="i-rc">סיבות שורש אפשריות</h2>
-            <em className="nxv-sec-n">{n("causes")}</em>
-          </div>
+      {has.causes ? (
+        <Sig id="i-rc" icon={<Bug size={15} strokeWidth={1.75} />} title="סיבות שורש אפשריות">
           <ul className="nxv-ul">
             {r.rootCauses.map((c) => <li key={c}>{c}</li>)}
           </ul>
-        </section>
+        </Sig>
       ) : null}
 
       {/* ----------------------------------------------------------- DIAGNOSE */}
-      {order.includes("diagnose") ? (
-        <section className="nxv-sec" aria-labelledby="i-dx">
-          <div className="nxv-sec-h">
-            <span className="nxv-sec-i" aria-hidden="true"><Search size={16} strokeWidth={1.75} /></span>
-            <h2 className="nx-h2" id="i-dx">אבחון</h2>
-            <em className="nxv-sec-n">{n("diagnose")}</em>
-          </div>
-
+      {has.diagnose ? (
+        <Sig id="i-dx" icon={<Search size={15} strokeWidth={1.75} />} title="אבחון">
           {r.tcodes.length ? (
             <div className="nxv-fact">
               <span className="nxv-l">טרנזקציות לאבחון</span>
@@ -204,17 +206,12 @@ export function IncidentView({ r }: { r: IncidentRow }) {
               <ul className="nxv-ul">{r.breakpoints.map((d) => <li key={d} className="nx-sap">{d}</li>)}</ul>
             </div>
           ) : null}
-        </section>
+        </Sig>
       ) : null}
 
       {/* -------------------------------------------------------------- HOOKS */}
-      {order.includes("hooks") ? (
-        <section className="nxv-sec" aria-labelledby="i-hk">
-          <div className="nxv-sec-h">
-            <span className="nxv-sec-i" aria-hidden="true"><Puzzle size={16} strokeWidth={1.75} /></span>
-            <h2 className="nx-h2" id="i-hk">הרחבות וממשקים</h2>
-            <em className="nxv-sec-n">{n("hooks")}</em>
-          </div>
+      {has.hooks ? (
+        <Sig id="i-hk" icon={<Puzzle size={15} strokeWidth={1.75} />} title="הרחבות וממשקים">
           {r.exits.length ? (
             <div className="nxv-fact">
               <span className="nxv-l">User Exits · BAdIs</span>
@@ -231,44 +228,34 @@ export function IncidentView({ r }: { r: IncidentRow }) {
               </div>
             </div>
           ) : null}
-        </section>
+        </Sig>
       ) : null}
 
       {/* ---------------------------------------------------------------- FIX */}
-      {r.fix.length ? (
-        <section className="nxv-sec" aria-labelledby="i-fx">
-          <div className="nxv-sec-h">
-            <span className="nxv-sec-i" aria-hidden="true"><ListChecks size={16} strokeWidth={1.75} /></span>
-            <h2 className="nx-h2" id="i-fx">צעדי התיקון</h2>
-            <em className="nxv-sec-n">{n("fix")}</em>
-          </div>
+      {has.fix ? (
+        <Sig id="i-fx" icon={<ListChecks size={15} strokeWidth={1.75} />} title="צעדי התיקון">
           <ol className="nxv-ol">
             {r.fix.map((f) => <li key={f}>{f}</li>)}
           </ol>
-        </section>
+        </Sig>
       ) : null}
 
       {/* ----------------------------------------------------------- PREVENT */}
-      {r.prevention.length ? (
-        <section className="nxv-sec" aria-labelledby="i-pv">
-          <div className="nxv-sec-h">
-            <span className="nxv-sec-i" aria-hidden="true"><ShieldCheck size={16} strokeWidth={1.75} /></span>
-            <h2 className="nx-h2" id="i-pv">צעדי מניעה</h2>
-            <em className="nxv-sec-n">{n("prevent")}</em>
-          </div>
+      {has.prevent ? (
+        <Sig id="i-pv" icon={<ShieldCheck size={15} strokeWidth={1.75} />} title="צעדי מניעה">
           <ul className="nxv-ul">
             {r.prevention.map((p) => <li key={p}>{p}</li>)}
           </ul>
-        </section>
+        </Sig>
       ) : null}
 
       {/* ------------------------------------------------- THE S/4HANA PLATE — after symptom, diagnosis and fix
           (design audit §7, 2026-09-21): the reader sees what they see first. */}
       {r.hasS4 ? (
-        <section className="nxv-s4" data-s4="1" aria-labelledby="i-s4">
+        <section className="nxv-s4" data-s4="1" id="i-s4" aria-labelledby="i-s4-h">
           <div className="nxv-s4-top">
-            <span className="nx-eyebrow">S/4HANA · {n("s4")}</span>
-            <h2 className="nxv-s4-h" id="i-s4">התנהגות התקלה ב-ECC וב-S/4HANA</h2>
+            <span className="nx-eyebrow">S/4HANA</span>
+            <h2 className="nxv-s4-h" id="i-s4-h">התנהגות התקלה ב-ECC וב-S/4HANA</h2>
           </div>
           <div className="nxv-s4-two">
             <div className="nxv-s4-c">
@@ -282,67 +269,44 @@ export function IncidentView({ r }: { r: IncidentRow }) {
           </div>
         </section>
       ) : (
-        <section className="nxv-sec" aria-labelledby="i-s4">
-          <div className="nxv-sec-h">
-            <span className="nxv-sec-i" aria-hidden="true"><Sparkles size={16} strokeWidth={1.75} /></span>
-            <h2 className="nx-h2" id="i-s4">ECC ו-S/4HANA</h2>
-            <em className="nxv-sec-n">{n("s4")}</em>
-          </div>
+        <Sig id="i-s4" icon={<Sparkles size={15} strokeWidth={1.75} />} title="ECC ו-S/4HANA">
           <Absent what="הבחנה בין ECC ל-S/4HANA" />
           <p className="nx-muted">
             הרשומה אינה מבחינה בין הגרסאות. נדרש אימות נוסף במערכת לפני הסקה שההתנהגות זהה.
           </p>
-        </section>
+        </Sig>
       )}
 
       {/* ---------------------------------------------------------- SCENARIO */}
       {r.scenario ? (
-        <section className="nxv-sec" aria-labelledby="i-sc">
-          <div className="nxv-sec-h">
-            <span className="nxv-sec-i" aria-hidden="true"><Quote size={16} strokeWidth={1.75} /></span>
-            <h2 className="nx-h2" id="i-sc">תרחיש לדוגמה</h2>
-            <em className="nxv-sec-n">{n("scenario")}</em>
-          </div>
+        <Sig id="i-sc" icon={<Quote size={15} strokeWidth={1.75} />} title="תרחיש לדוגמה">
           <p className="nxv-quote">{r.scenario}</p>
-        </section>
+        </Sig>
       ) : null}
 
       {/* ------------------------------------------------------------- NOTES */}
-      <section className="nxv-sec" aria-labelledby="i-nt">
-        <div className="nxv-sec-h">
-          <span className="nxv-sec-i" aria-hidden="true"><Info size={16} strokeWidth={1.75} /></span>
-          <h2 className="nx-h2" id="i-nt">איתור SAP Notes</h2>
-          <em className="nxv-sec-n">{n("notes")}</em>
-        </div>
+      <Sig
+        id="i-nt"
+        icon={<Info size={15} strokeWidth={1.75} />}
+        title="איתור SAP Notes"
+        lede={r.notes.length || r.oss.length
+          ? <>מילות חיפוש ל-SAP for Me. הקטלוג אינו כולל מספרי SAP Note; יש לאמת את ה-Note שנמצא{" "}לפני יישום.</>
+          : undefined}
+      >
         {r.notes.length || r.oss.length ? (
-          <>
-            <p className="nx-muted">
-              מילות חיפוש ל-SAP for Me. הקטלוג אינו כולל מספרי SAP Note; יש לאמת את ה-Note שנמצא
-              {" "}לפני יישום.
-            </p>
-            <div className="nxv-chips">
-              {[...r.notes, ...r.oss].map((k) => <span key={k} className="nu-chip">{k}</span>)}
-            </div>
-          </>
+          <div className="nxv-chips">
+            {[...r.notes, ...r.oss].map((k) => <span key={k} className="nu-chip">{k}</span>)}
+          </div>
         ) : (
           <Absent what="מילות חיפוש ל-SAP Notes" />
         )}
-      </section>
+      </Sig>
 
-      <div className="nxv-foot">
-        <p className="nxv-src">
-          <Info size={13} strokeWidth={1.75} aria-hidden="true" />
-          <span>
-            מקור: <span className="nx-sap">data/troubleshooting.ts</span>: תיעוד פתרון בעיות מאומת, שאינו
-            {" "}בדיקה חיה במערכת SAP. כל צעד טעון אימות בסביבת בדיקות לפני ביצוע בייצור.
-          </span>
-        </p>
-        {totalRefs ? (
-          <p>
-            {linked} מתוך {totalRefs} הקודים ברשומה מקושרים לעמוד בפרויקט; השאר מוצגים כערך.
-          </p>
-        ) : null}
-      </div>
+      <CatalogFoot notes={totalRefs ? [source] : undefined}>
+        {totalRefs
+          ? <>{linked} מתוך {totalRefs} הקודים ברשומה מקושרים לעמוד בפרויקט; השאר מוצגים כערך.</>
+          : source}
+      </CatalogFoot>
     </div>
   );
 }

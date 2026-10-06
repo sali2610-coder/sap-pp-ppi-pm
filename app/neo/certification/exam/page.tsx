@@ -9,6 +9,9 @@
 // so there is nothing for hydration to disagree about.
 import "@/app/neo/ui.css";
 import "@/app/neo/learn.css";
+// the catalog kit (hero, Sig, facets, ledger, ranked list, foot), as on the
+// entry page; cert.css adds only the question screen (2026-10)
+import "@/app/neo/data.css";
 import "@/app/neo/cert.css";
 import { CertExam } from "@/components/neo-shell/learn/cert-exam";
 

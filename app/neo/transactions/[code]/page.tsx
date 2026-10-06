@@ -5,6 +5,8 @@
 // buttons. Imported first so data.css's own placement rules still win.
 import "@/app/neo/ui.css";
 import "@/app/neo/data.css";
+// the record language (2026-10), imported last so it can place what data.css drew
+import "@/app/neo/record.css";
 import { notFound } from "next/navigation";
 import { TxDetailView } from "@/components/neo-shell/data/tx-detail-view";
 import { txDetail } from "@/components/neo-shell/data/tx-detail";

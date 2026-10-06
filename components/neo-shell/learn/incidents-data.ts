@@ -37,6 +37,7 @@
 import { INCIDENTS, type Incident } from "@/data/troubleshooting";
 import { tableNames } from "@/components/neo-shell/erd/model";
 import { registryCodes } from "@/lib/tx-registry";
+import { IMPACT_HE } from "./incident-vocab";
 
 /** A code the source listed, plus the page it resolves to — or "" when the
  *  project holds no page for it. */
@@ -127,17 +128,6 @@ const IMPACT_ORDER = [
   "MONITORING NOISE",
   "MONITORING",
 ];
-
-const IMPACT_HE: Record<string, string> = {
-  BLOCKING: "חוסם עבודה",
-  "FINANCIAL POSTING RISK": "סיכון ברישום כספי",
-  FINANCIAL: "השפעה כספית",
-  "DATA INCONSISTENCY": "אי-עקביות נתונים",
-  PARTIAL: "פגיעה חלקית",
-  "USER-SPECIFIC": "משתמש בודד",
-  "MONITORING NOISE": "רעש ניטור",
-  MONITORING: "ניטור",
-};
 
 const UNTAGGED = "__none";
 

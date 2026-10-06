@@ -27,26 +27,33 @@
    FORM RULE (app/globals.css, above --mod-pm), obeyed exactly
      STATUS  S/4 risk and verification trust. A small dot plus its word
              (.nu-status). Never a surface, never a ring.
-     MODULE  the header bar, a section marker, a row edge, a ring, a tint.
-             Never a small standalone dot.
+     MODULE  a chip's ring and tint, a section badge. Never a stripe and never
+             a small standalone dot.
      OBJECT  --obj-* is the table's own class marker, which globals.css
-             sanctions on a data surface.
-     ACCENT  brand red marks ONE thing: that this table materially changes in
+             sanctions on a data surface: a small square swatch.
+     ACCENT  brand red marks the page's one action (the object page) and, as
+             ink, the sentence that says this table materially changes in
              S/4HANA.
+
+   THE RECORD LANGUAGE (2026-10, components/neo-shell/record-kit.tsx and
+   app/neo/record.css): the catalog's hero, a ledger of the table's own counts
+   (each a door to its section), the running bar, every question as the
+   catalog's Sig, and the credit at the foot.
    ========================================================================== */
 
 import { StatusPill } from "@/components/neo-shell/evidence/status-pill";
 import Link from "next/link";
 import {
   AppWindow, ArrowLeft, ArrowUpLeft, BadgeCheck, BookOpen, Boxes, Cable,
-  Columns3, Database, GitBranch, KeyRound, Layers, Library, Sigma, Table2,
+  Columns3, GitBranch, Layers, Library, Sigma, Table2,
   Terminal, TriangleAlert, Workflow,
 } from "lucide-react";
 import { RISK_COLOR } from "@/lib/s4";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
-import { CopyId } from "../copy-id";
 import { EvidenceBlock } from "../evidence/evidence-block";
+import { RecordHead } from "../record-kit";
+import { CatalogFoot, Ledger, Sig } from "./catalog-kit";
 import { MOD_HE, REL_HE, relVar, tableSummary, type TableDetail } from "./tables-detail";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -72,33 +79,21 @@ function Missing({ what }: { what: string }) {
   );
 }
 
-function Sec({ id, n, icon, eyebrow, title, lede, children }: {
+function Sec({ id, icon, title, lede, children }: {
   id: string;
-  n: number;
   icon: React.ReactNode;
-  eyebrow: string;
   title: string;
   lede?: React.ReactNode;
   children: React.ReactNode;
 }) {
+  // The catalog's own question card (catalog-kit Sig): the id on the section,
+  // the heading named `${id}-h`, nm-rise + nm-once, so the running bar, the
+  // ledger's doors and a screen reader keep their contract. The section's
+  // number lives in the running bar's counter.
   return (
-    // nm-rise + nm-once, from app/neo/motion.css. /neo/tables/<NAME>/ resolves
-    // to [data-motion="2"]: 8px, scrubbed on .nx-canvas's view timeline and
-    // finished while the section is still entering, so scrolling back up a
-    // twelve-section page never replays it. Applied to the ONE wrapper every
-    // section already goes through, so none can be missed.
-    <section className="nxb-sec nm-rise nm-once" id={id} aria-labelledby={`${id}-h`}>
-      <header className="nxb-sec-h">
-        <span className="nxb-sec-n" aria-hidden="true">{String(n).padStart(2, "0")}</span>
-        <p className="nxb-sec-k">
-          <span className="nxb-sec-i" aria-hidden="true">{icon}</span>
-          {eyebrow}
-        </p>
-        <h2 className="nxb-h2" id={`${id}-h`}>{title}</h2>
-        {lede ? <p className="nxb-sec-s">{lede}</p> : null}
-      </header>
+    <Sig id={id} icon={icon} title={title} lede={lede}>
       <div className="nxb-sec-b">{children}</div>
-    </section>
+    </Sig>
   );
 }
 
@@ -118,8 +113,8 @@ export function TableDetailView({ t }: { t: TableDetail }) {
   const s = tableSummary(t);
   const m = MOD_VAR[t.mods[0]] || "var(--ink-3)";
 
-  // ONE list drives the numbering and the jump nav, so a section can never be
-  // numbered 04 in the page and 03 in the nav.
+  // ONE list drives the running bar and its counter, so a section can never
+  // be numbered 04 in the bar and sit third on the page.
   const nav: [string, string][] = [
     // FIELDS AND RELATIONS FIRST (design audit S7-TBL-1): the table's own
     // structure begins right under the header, ~0.7 screen from the top at
@@ -137,11 +132,11 @@ export function TableDetailView({ t }: { t: TableDetail }) {
     ["nxb-sib", "טבלאות באותו נושא"],
     ["nxb-books", "ספרים והפניות"],
   ];
-  const num = Object.fromEntries(nav.map(([id], i) => [id, i + 1])) as Record<string, number>;
 
   return (
     <article
-      className="nxb"
+      className="nxb nrc nm-scene"
+      data-scene="cream"
       data-surface="table"
       data-s4={t.s4.impacted ? "1" : "0"}
       style={{ "--m": m, "--o": t.obj } as React.CSSProperties}
@@ -155,50 +150,74 @@ export function TableDetailView({ t }: { t: TableDetail }) {
       />
 
       {/* ==================================================== 1. IDENTITY */}
-      <header className="nxb-head nm-rise nm-once">
-        <span className="nx-modbar" aria-hidden="true" />
-
-        <p className="nx-eyebrow nxb-eyebrow">
-          טבלת SAP
-          <i aria-hidden="true" />
-          {t.zoneHe}
-          <i aria-hidden="true" />
-          {t.mods.join(" · ")}
-        </p>
-
-        <div className="nxb-title">
-          <div className="nxt-codeline">
-            <h1 className="nxb-name nx-sap">
-              <span className="nxb-cls" aria-hidden="true" />
-              {t.name}
-            </h1>
-            <CopyId value={t.name} label="העתקת שם הטבלה" compact />
-          </div>
-          <div className="nxb-names">
-            <p className="nxb-he">{t.he || "לא קיים תיעוד מאומת במאגר: אין תיאור עברי לטבלה זו."}</p>
-            {t.en ? <p className="nxb-en nx-sap">{t.en}</p> : null}
-          </div>
-        </div>
-
-        {/* Module ownership. A bar and a ring, never a dot. */}
-        <ul className="nxb-mods" aria-label="שיוך למודול">
-          {t.mods.map((mod) => (
-            <li key={mod} style={{ "--m": MOD_VAR[mod] } as React.CSSProperties}>
-              <span className="nxb-mod-bar" aria-hidden="true" />
-              <b>{mod}</b>
-              <em>{MOD_HE[mod]}</em>
-              <span className="nxb-mod-n">
-                {nf.format(t.rows.filter((r) => r.mod === mod).length)}
-                {t.rows.filter((r) => r.mod === mod).length === 1 ? " רשומת תיעוד" : " רשומות תיעוד"}
-              </span>
-            </li>
-          ))}
-          <li className="nxb-mods-cls" style={{ "--o": t.obj } as React.CSSProperties}>
-            <i aria-hidden="true" />
-            מחלקת אובייקט · {t.zoneHe}
-          </li>
-        </ul>
-
+      <RecordHead
+        icon={<Table2 size={14} strokeWidth={1.75} aria-hidden="true" />}
+        eyebrow={`טבלת SAP · ${t.zoneHe} · ${t.mods.join(" · ")}`}
+        title={t.name}
+        mono
+        copy={t.name}
+        copyLabel="העתקת שם הטבלה"
+        he={t.he || "לא קיים תיעוד מאומת במאגר: אין תיאור עברי לטבלה זו."}
+        en={t.en || undefined}
+        actions={
+          <>
+            {/* The page's one red action. */}
+            <Link className="nu-btn" href={t.objectHref} prefetch={false} style={{ "--m": "var(--brand)" } as React.CSSProperties}>
+              <Boxes size={15} strokeWidth={1.75} aria-hidden="true" />
+              פתיחת עמוד האובייקט
+              <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
+            </Link>
+            <Link className="nu-btn2" href={t.erdHref} prefetch={false}>
+              <GitBranch size={15} strokeWidth={1.75} aria-hidden="true" />
+              הצגה במודל הנתונים
+            </Link>
+          </>
+        }
+        meta={
+          <>
+            {/* Module ownership: a ring and a tint, never a bar or a dot. */}
+            {t.mods.map((mod) => {
+              const n = t.rows.filter((r) => r.mod === mod).length;
+              return (
+                <span key={mod} className="nu-chip nxt-mod" style={{ "--m": MOD_VAR[mod] } as React.CSSProperties}>
+                  <b>{mod}</b> · {MOD_HE[mod]}
+                  <span className="nrc-chip-n">{nf.format(n)}{n === 1 ? " רשומת תיעוד" : " רשומות תיעוד"}</span>
+                </span>
+              );
+            })}
+            <span className="nu-chip nrc-obj" style={{ "--o": t.obj } as React.CSSProperties}>
+              <i aria-hidden="true" />
+              מחלקת אובייקט · {t.zoneHe}
+            </span>
+          </>
+        }
+        verdict={
+          <>
+            {/* THE ANSWER FIRST (design audit S7-TBL-4 / ACC-3): the canonical
+                S/4HANA status in the header, the same pill the S/4 section and
+                the evidence block carry, before any source is shown. */}
+            <StatusPill status={t.evidence.status.key} label={t.evidence.status.label} dot={t.evidence.status.dot} />
+            {t.s4.impacted ? (
+              <>
+                <span className="nu-status" style={{ "--s": RISK_COLOR[t.s4.risk] } as React.CSSProperties}>
+                  {t.s4.riskHe}
+                </span>
+                <b className="nrc-impact">הטבלה משתנה מהותית ב-S/4HANA</b>
+                {t.s4.changed ? <span>{t.s4.changed}</span> : null}
+                <a className="nu-link" href="#nxb-s4">
+                  הצגת פירוט השינוי
+                  <ArrowLeft className="nu-arw" size={13} strokeWidth={2} aria-hidden="true" />
+                </a>
+              </>
+            ) : (
+              <a className="nu-link" href="#nxb-s4">
+                פירוט המעבר ל-S/4HANA
+                <ArrowLeft className="nu-arw" size={13} strokeWidth={2} aria-hidden="true" />
+              </a>
+            )}
+          </>
+        }
+      >
         {t.shared ? (
           <p className="nxb-shared">
             <Layers size={14} strokeWidth={1.75} aria-hidden="true" />
@@ -209,7 +228,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
 
         {/* THE KEY LINE. The brief: PK and FK must be visually obvious. So the
             compound key is spelled out in the identity band, before anything
-            else — it is what the table IS. Both lists come from the blueprint's
+            else: it is what the table IS. Both lists come from the blueprint's
             own `key` column and neither is inferred from a field name. */}
         <dl className="nxb-keyline">
           <div data-k="PK">
@@ -230,65 +249,38 @@ export function TableDetailView({ t }: { t: TableDetail }) {
           </div>
         </dl>
 
-        {/* THE ANSWER FIRST (design audit S7-TBL-4 / ACC-3): the canonical
-            S/4HANA status in the header — the same pill the S/4 section and
-            the evidence block carry — before any source is shown. */}
-        <p className="nxb-stand-h">
-          <StatusPill status={t.evidence.status.key} label={t.evidence.status.label} dot={t.evidence.status.dot} />
-          {!t.s4.impacted ? (
-            <a className="nu-link" href="#nxb-s4">
-              פירוט המעבר ל-S/4HANA
-              <ArrowLeft className="nu-arw" size={13} strokeWidth={2} aria-hidden="true" />
-            </a>
-          ) : null}
+        {/* Every number below is the length of something real, and each one
+            opens the section that holds it. */}
+        <Ledger
+          label="הטבלה במספרים. כל מספר מוביל לחלק שלו בעמוד"
+          items={[
+            { v: s.fields, l: "שדות מתועדים", href: "#nxb-fields" },
+            { v: s.pk, l: "שדות מפתח ראשי", href: "#nxb-fields" },
+            { v: s.fk, l: "שדות מפתח זר", href: "#nxb-fields" },
+            { v: s.rels, l: "קשרים ממודלים", href: "#nxb-rel" },
+            { v: s.joins, l: "ניסוחי JOIN", href: "#nxb-rel" },
+            { v: s.tx, l: "טרנזקציות", href: "#nxb-tx" },
+            { v: s.cds, l: "CDS Views", href: "#nxb-cds" },
+            { v: s.funcs, l: "BAPI · FM · IDoc", href: "#nxb-if" },
+          ]}
+        />
+
+        <p className="nxb-cta-note">
+          עמוד הטבלה (כאן): השדות, המפתחות, הקשרים ומעמד ה-S/4HANA של הטבלה מתוך הבלופרינט. עמוד האובייקט: אותה טבלה
+          בהקשר הרחב שלה: תהליכים, טרנזקציות, פונקציות, תקלות וספרים.
         </p>
-        {/* S/4HANA badge — the one place brand red appears on this page. */}
-        {t.s4.impacted ? (
-          <p className="nxb-s4flag">
-            <span className="nu-status" style={{ "--s": RISK_COLOR[t.s4.risk] } as React.CSSProperties}>
-              {t.s4.riskHe}
-            </span>
-            <b>הטבלה משתנה מהותית ב-S/4HANA</b>
-            {t.s4.changed ? <span>{t.s4.changed}</span> : null}
-            <a className="nu-link" href="#nxb-s4">
-              הצגת פירוט השינוי
-              <ArrowLeft className="nu-arw" size={13} strokeWidth={2} aria-hidden="true" />
-            </a>
-          </p>
-        ) : null}
 
-        {/* Every number below is the length of something real. */}
-        <div className="nxb-stats">
-          {([
-            [s.fields, "שדות מתועדים"],
-            [s.pk, "שדות מפתח ראשי"],
-            [s.fk, "שדות מפתח זר"],
-            [s.rels, "קשרים ממודלים"],
-            [s.joins, "ניסוחי JOIN"],
-            [s.tx, "טרנזקציות"],
-            [s.cds, "CDS Views"],
-            [s.funcs, "BAPI · FM · IDoc"],
-          ] as [number, string][]).map(([v, l]) => (
-            <span className="nxb-stat" key={l}>
-              <b className="nx-sap">{nf.format(v)}</b>
-              <em>{l}</em>
-            </span>
-          ))}
-        </div>
+        <p className="nxb-rank">
+          {t.deg
+            ? <>לפי מספר הקשרים הממודלים, {t.name} מדורגת <b>{nf.format(t.rank)}</b> מתוך {nf.format(t.total)} טבלאות במאגר.</>
+            : <>לא קיים במאגר קשר ER לטבלה זו, מתוך {nf.format(t.total)} טבלאות מתועדות.</>}
+        </p>
 
-        <div className="nxb-cta">
-          <Link className="nu-btn" href={t.objectHref} prefetch={false}>
-            <Boxes size={15} strokeWidth={1.75} aria-hidden="true" />
-            פתיחת עמוד האובייקט
-            <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
-          </Link>
-          <Link className="nu-btn2" href={t.erdHref} prefetch={false}>
-            <GitBranch size={15} strokeWidth={1.75} aria-hidden="true" />
-            הצגה במודל הנתונים
-          </Link>
-          <Link className="nu-btn2" href="/neo/tables/" prefetch={false}>
-            <Table2 size={15} strokeWidth={1.75} aria-hidden="true" />
+        <p className="nxb-links">
+          <Link className="nu-link" href="/neo/tables/" prefetch={false}>
+            <Table2 size={14} strokeWidth={1.75} aria-hidden="true" />
             טבלאות SAP
+            <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
           </Link>
           {t.mods.map((mod) => (
             <Link
@@ -301,19 +293,8 @@ export function TableDetailView({ t }: { t: TableDetail }) {
               <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
             </Link>
           ))}
-        </div>
-        <p className="nxb-cta-note">
-          עמוד הטבלה (כאן): השדות, המפתחות, הקשרים ומעמד ה-S/4HANA של הטבלה מתוך הבלופרינט. עמוד האובייקט: אותה טבלה
-          בהקשר הרחב שלה: תהליכים, טרנזקציות, פונקציות, תקלות וספרים.
         </p>
-
-        <p className="nxb-rank">
-          {t.deg
-            ? <>לפי מספר הקשרים הממודלים, {t.name} מדורגת <b>{nf.format(t.rank)}</b> מתוך {nf.format(t.total)} טבלאות במאגר.</>
-            : <>לא קיים במאגר קשר ER לטבלה זו, מתוך {nf.format(t.total)} טבלאות מתועדות.</>}
-        </p>
-
-      </header>
+      </RecordHead>
 
       {/* The same nine destinations that used to sit inside the header, kept on
           screen instead of scrolling away with it, and marking which section the
@@ -324,9 +305,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
       {/* =================================================== 2. FIELDS */}
       <Sec
         id="nxb-fields"
-        n={num["nxb-fields"]}
         icon={<Columns3 size={16} strokeWidth={1.75} />}
-        eyebrow="שדות"
         title={`${nf.format(s.fields)} שדות · ${nf.format(s.pk)} שדות PK · ${nf.format(s.fk)} שדות FK`}
         lede={
           <>
@@ -388,9 +367,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
       {/* ================================================ 3. RELATIONS */}
       <Sec
         id="nxb-rel"
-        n={num["nxb-rel"]}
         icon={<GitBranch size={16} strokeWidth={1.75} />}
-        eyebrow="קשרים ו-JOIN"
         title={`${nf.format(s.rels)} קשרים ממודלים · ${nf.format(s.joins)} ניסוחי JOIN`}
         lede={
           <>
@@ -491,9 +468,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
       {/* ================================================= 4. S/4HANA */}
       <Sec
         id="nxb-s4"
-        n={num["nxb-s4"]}
         icon={<TriangleAlert size={16} strokeWidth={1.75} />}
-        eyebrow="ECC → S/4HANA"
         title="השפעת המעבר ל-S/4HANA על הטבלה"
         lede="תחילה הכרעת הפרויקט ומקורה, ואחריה הערות תיעוד המקור של כל מודול, כלשונן. כאשר אין הכרעה, הדבר מצוין במפורש."
       >
@@ -574,9 +549,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
       {/* ============================================== 5. WHO OWNS IT */}
       <Sec
         id="nxb-own"
-        n={num["nxb-own"]}
         icon={<Boxes size={16} strokeWidth={1.75} />}
-        eyebrow={t.rows.length > 1 ? "בעלות ותיעוד" : "בעלות"}
         title={
           t.rows.length > 1
             ? `${nf.format(t.rows.length)} רשומות תיעוד לאותה טבלה`
@@ -613,9 +586,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
       {/* ============================================= 6. TRANSACTIONS */}
       <Sec
         id="nxb-tx"
-        n={num["nxb-tx"]}
         icon={<Terminal size={16} strokeWidth={1.75} />}
-        eyebrow="טרנזקציות"
         title={`${nf.format(s.tx)} טרנזקציות המקושרות לטבלה במאגר`}
         lede={
           s.tx ? (
@@ -660,9 +631,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
       {/* ====================================================== 7. CDS */}
       <Sec
         id="nxb-cds"
-        n={num["nxb-cds"]}
         icon={<Sigma size={16} strokeWidth={1.75} />}
-        eyebrow="CDS Views"
         title="תצוגות CDS הקוראות את הטבלה ב-S/4HANA"
         lede="מיפוי מתוחזק בין הטבלה לתצוגות CDS משוחררות. תצוגת CDS מופיעה כאן רק כאשר הטבלה נכללת בה, ולצידה שאר הטבלאות שהתצוגה קוראת."
       >
@@ -690,9 +659,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
       {/* =============================================== 8. INTERFACES */}
       <Sec
         id="nxb-if"
-        n={num["nxb-if"]}
         icon={<Cable size={16} strokeWidth={1.75} />}
-        eyebrow="ממשקים"
         title={`${nf.format(t.funcs.length)} BAPI · FM · IDoc · ${nf.format(t.progs.length)} תוכניות`}
         lede="השם והתיאור נקראים מהמאגר, כולל ממשקי Zetes ו-Daymax שנרשמו בתיעוד המקור. תג המודול מציין באיזה מודול נרשם האובייקט."
       >
@@ -765,9 +732,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
       {/* ================================================= 9. SIBLINGS */}
       <Sec
         id="nxb-sib"
-        n={num["nxb-sib"]}
         icon={<Workflow size={16} strokeWidth={1.75} />}
-        eyebrow="אובייקטים קשורים"
         title={`${nf.format(s.siblings)} טבלאות תחת אותו נושא במאגר`}
         lede="הקיבוץ נקרא מתיעוד המקור: הטבלאות המתועדות תחת אותו נושא."
       >
@@ -802,9 +767,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
       {/* ==================================================== 10. BOOKS */}
       <Sec
         id="nxb-books"
-        n={num["nxb-books"]}
         icon={<Library size={16} strokeWidth={1.75} />}
-        eyebrow="ספרייה"
         title="ספרים המכסים את המודול"
         lede={
           <>
@@ -859,17 +822,10 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         </p>
       </Sec>
 
-      <footer className="nxb-foot">
-        <p>
-          <Database size={13} strokeWidth={1.75} aria-hidden="true" />
-          המקור: שני קובצי תיעוד המקור של הפרויקט ומיפויי ה-CDS וה-S/4HANA שלו. שדה שאינו מתועד מוצג
-          כ&quot;לא קיים תיעוד מאומת במאגר&quot;.
-        </p>
-        <p className="nxb-credit">
-          <KeyRound size={13} strokeWidth={1.75} aria-hidden="true" />
-          Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding
-        </p>
-      </footer>
+      <CatalogFoot>
+        המקור: שני קובצי תיעוד המקור של הפרויקט ומיפויי ה-CDS וה-S/4HANA שלו. שדה שאינו מתועד מוצג
+        כ&quot;לא קיים תיעוד מאומת במאגר&quot;.
+      </CatalogFoot>
     </article>
   );
 }

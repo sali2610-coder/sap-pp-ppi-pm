@@ -17,24 +17,32 @@
      · Every control is a real .nu-* control with a real destination, and every
        outgoing link records the origin so the page it opens can come back here.
 
+   THE RECORD LANGUAGE (2026-10, components/neo-shell/record-kit.tsx and
+   app/neo/record.css): the catalog's hero, a ledger of the record's own counts
+   (each a door to its section), the running bar, the S/4HANA band as a raised
+   card without a stripe, every question as the catalog's Sig, the reference
+   rows in the domain page's form, and the credit at the foot.
+
    FORM RULE (app/globals.css, above --mod-pm), obeyed exactly
      STATUS  — S/4 risk, verification trust and registry depth. Each is a small
                dot plus its word (.nu-status), never a surface and never a ring.
-     MODULE  — the header's bar, the top rule of a plate, the ring on the module
-               chip, the row edges. Line / edge / ring / tint only.
+     MODULE  — the ring and tint on the module chip, a section badge, a row's
+               border. Never a stripe.
      ACCENT  — brand red marks ONE thing: that this transaction materially
-               changes in S/4HANA. It is not a module colour and not a status.
+               changes in S/4HANA, as the ink of the band's headline.
    ========================================================================== */
 
 import {
   AlertTriangle, AppWindow, Boxes, GitBranch, KeyRound,
-  Plug, ShieldCheck, Terminal, Workflow,
+  Plug, Terminal, Workflow,
 } from "lucide-react";
 import { OriginLink, SmartReturn } from "@/components/neo-shell/nav-context";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { EvidenceBlock } from "../evidence/evidence-block";
 import { RISK_COLOR, RISK_HE, TRUST_HE } from "@/lib/s4";
 import { MOD_HE, modVar } from "../mod-var";
+import { RecordHead } from "../record-kit";
+import { CatalogFoot, Ledger, Sig } from "./catalog-kit";
 import type { TxDetail } from "./tx-detail";
 import { TxActions } from "./tx-actions";
 
@@ -51,22 +59,10 @@ const NONE = "לא קיים תיעוד מאומת במאגר";
 function Section({ id, icon, title, note, children }: {
   id: string; icon: React.ReactNode; title: string; note?: string; children: React.ReactNode;
 }) {
-  return (
-    // nm-rise + nm-once, from app/neo/motion.css. /neo/transactions/<CODE>/
-    // resolves to [data-motion="2"]: an 8px rise scrubbed on .nx-canvas's view
-    // timeline, complete while the section is still entering, so a reader
-    // scrolling back up over a nine-section page never sees it replay. One
-    // class on the ONE wrapper every section already goes through, which is
-    // also why no section can be forgotten.
-    <section className="nxt-sec nm-rise nm-once" id={id} aria-labelledby={`${id}-h`}>
-      <h2 className="nx-h2 nxt-sec-h" id={`${id}-h`}>
-        <span className="nxt-sec-i" aria-hidden="true">{icon}</span>
-        {title}
-        {note ? <em className="nxt-sec-n">{note}</em> : null}
-      </h2>
-      {children}
-    </section>
-  );
+  // The catalog's own question card (catalog-kit Sig): the id on the section,
+  // the heading named `${id}-h`, nm-rise + nm-once, so the running bar, the
+  // ledger's doors and a screen reader all keep their contract.
+  return <Sig id={id} icon={icon} title={title} count={note}>{children}</Sig>;
 }
 
 /** A named fact. The label is metadata, the value is content — the two are set
@@ -129,48 +125,57 @@ export function TxDetailView({ t }: { t: TxDetail }) {
   ];
 
   return (
-    <article className="nxt" data-surface="transaction" style={{ "--m": m } as React.CSSProperties}>
+    <article className="nxt nrc nm-scene" data-scene="cream" data-surface="transaction" style={{ "--m": m } as React.CSSProperties}>
       <SmartReturn
         fallback={{ href: "/neo/transactions/", label: "טרנזקציות SAP" }}
         hint="לא נשמר מסלול הגעה בביקור הזה"
       />
 
       {/* ------------------------------------------------------ 1. IDENTITY */}
-      <header className="nxt-head nm-rise nm-once">
-        <span className="nx-modbar" aria-hidden="true" />
-        <p className="nx-eyebrow nxt-eyebrow">
-          טרנזקציה · {t.module}{modHe ? ` · ${modHe}` : ""}
-        </p>
-
-        <div className="nxt-title">
-          <h1 className="nxt-code nx-sap">{t.code}</h1>
-          <div className="nxt-names">
-            <p className="nxt-he">{t.he || NONE}</p>
-            {t.en ? <p className="nxt-en" dir="ltr">{t.en}</p> : <p className="nxt-en nxt-absent">אין שם אנגלי במקור</p>}
-          </div>
-          <TxActions code={t.code} />
-        </div>
-
-        <div className="nxt-meta">
-          <Status color={t.depth === "deep" ? "var(--status-done)" : "var(--status-not-started)"}>
-            {t.depth === "deep" ? "מתועדת לעומק" : "רשומת אימות"}
-          </Status>
-          {t.verified ? <Status color="var(--status-done)">רשומה מסומנת כמאומתת</Status> : null}
-          <span className="nu-chip nxt-mod" style={{ "--m": m } as React.CSSProperties}>
-            <i aria-hidden="true" />{t.module}
-          </span>
-          {t.area ? <span className="nu-chip">{t.area}</span> : null}
-          {t.popularity > 0 ? (
-            <span className="nu-chip">
-              <span className="nx-sr">הפניות מתוך גרף הקשרים </span>{nf.format(t.popularity)} הפניות במאגר
+      <RecordHead
+        icon={<Terminal size={14} strokeWidth={1.75} aria-hidden="true" />}
+        eyebrow={`טרנזקציה · ${t.module}`}
+        title={t.code}
+        mono
+        he={t.he || NONE}
+        en={t.en || undefined}
+        enAbsent="אין שם אנגלי במקור"
+        actions={<TxActions code={t.code} />}
+        meta={
+          <>
+            <Status color={t.depth === "deep" ? "var(--status-done)" : "var(--status-not-started)"}>
+              {t.depth === "deep" ? "מתועדת לעומק" : "רשומת אימות"}
+            </Status>
+            {t.verified ? <Status color="var(--status-done)">רשומה מסומנת כמאומתת</Status> : null}
+            <span className="nu-chip nxt-mod" style={{ "--m": m } as React.CSSProperties}>
+              <i aria-hidden="true" />{t.module}{modHe ? ` · ${modHe}` : ""}
             </span>
-          ) : null}
-          <span className="nxt-known">
-            <span className="nx-sr">שלמות הרשומה </span>
-            {nf.format(t.known)}/{nf.format(t.total)} עובדות מאומתות
-          </span>
-        </div>
-      </header>
+            {t.area ? <span className="nu-chip">{t.area}</span> : null}
+            {t.popularity > 0 ? (
+              <span className="nu-chip">
+                <span className="nx-sr">הפניות מתוך גרף הקשרים </span>{nf.format(t.popularity)} הפניות במאגר
+              </span>
+            ) : null}
+            <span className="nxt-known">
+              <span className="nx-sr">שלמות הרשומה </span>
+              {nf.format(t.known)}/{nf.format(t.total)} עובדות מאומתות
+            </span>
+          </>
+        }
+      >
+        {/* The record's own counts, each a door to the section that holds it,
+            and only for the sections this record renders. */}
+        <Ledger
+          label="הרשומה במספרים. כל מספר מוביל לחלק שלו בעמוד"
+          items={[
+            { v: t.tables.length, l: "טבלאות", href: "#sec-obj" },
+            { v: t.neighbours.length, l: "טרנזקציות קשורות", href: "#sec-near" },
+            { v: t.issues.length, l: "תקלות ידועות", href: "#sec-iss" },
+            ...(has.int ? [{ v: t.bapis.length + t.exits.length + t.badis.length + t.enhancements.length + t.auth.length, l: "ממשקים, הרחבות והרשאות", href: "#sec-int" }] : []),
+            ...(has.flow && t.flow.length ? [{ v: t.flow.length, l: "צעדי זרימה", href: "#sec-flow" }] : []),
+          ]}
+        />
+      </RecordHead>
 
       {/* The page's own index, kept on screen. The transaction page had no jump
           nav at all, so moving from "מה הטרנזקציה עושה" to "תקלות ידועות" meant
@@ -356,7 +361,6 @@ export function TxDetailView({ t }: { t: TxDetail }) {
                   className="nu-card nxt-near-c"
                   style={{ "--m": modVar(n.module) } as React.CSSProperties}
                 >
-                  <span className="nxt-near-e" aria-hidden="true" />
                   <span className="nxt-near-c1">
                     <b className="nx-sap">{n.code}</b>
                     <span className="nu-chip nxt-mod" style={{ "--m": modVar(n.module) } as React.CSSProperties}>
@@ -397,18 +401,10 @@ export function TxDetailView({ t }: { t: TxDetail }) {
       </Section>
 
       {/* ------------------------------------------------------- 9. HONESTY */}
-      <footer className="nxt-foot nm-fade nm-once">
-        {t.sources.length ? (
-          <p className="nxt-src">
-            <ShieldCheck size={13} strokeWidth={1.75} aria-hidden="true" />
-            מקורות הרשומה: {t.sources.join(" · ")}
-          </p>
-        ) : null}
-        <p>
-          כל שדה בעמוד זה נלקח מהמאגר המאומת של הפרויקט. שדה שאינו מתועד אינו מוצג, או מסומן במפורש
-          {" "}&quot;{NONE}&quot;. מספר SAP Note מוצג רק כאשר הוא קיים ברשומה עצמה.
-        </p>
-      </footer>
+      <CatalogFoot notes={t.sources.length ? [<>מקורות הרשומה: {t.sources.join(" · ")}</>] : undefined}>
+        כל שדה בעמוד זה נלקח מהמאגר המאומת של הפרויקט. שדה שאינו מתועד אינו מוצג, או מסומן במפורש
+        {" "}&quot;{NONE}&quot;. מספר SAP Note מוצג רק כאשר הוא קיים ברשומה עצמה.
+      </CatalogFoot>
     </article>
   );
 }

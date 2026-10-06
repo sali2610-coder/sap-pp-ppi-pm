@@ -1,6 +1,10 @@
 // Project NEO · /neo/incidents/<slug>/ — one page per catalogued incident.
 import "@/app/neo/ui.css";
 import "@/app/neo/learn.css";
+// the catalog kit (Sig, Ledger, the foot) and the record language (2026-10),
+// imported last so they can place what learn.css drew
+import "@/app/neo/data.css";
+import "@/app/neo/record.css";
 import { notFound } from "next/navigation";
 import { IncidentView } from "@/components/neo-shell/learn/incident-view";
 import { incidentDetail, incidentSlugs } from "@/components/neo-shell/learn/incidents-data";

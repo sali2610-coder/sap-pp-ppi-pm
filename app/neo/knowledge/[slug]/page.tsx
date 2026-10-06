@@ -1,6 +1,10 @@
 // Project NEO · /neo/knowledge/<slug>/ — one page per authored concept.
 import "@/app/neo/ui.css";
 import "@/app/neo/learn.css";
+// the catalog kit (Sig, Ledger, the foot) and the record language (2026-10),
+// imported last so they can place what learn.css drew
+import "@/app/neo/data.css";
+import "@/app/neo/record.css";
 import { notFound } from "next/navigation";
 import { ConceptView } from "@/components/neo-shell/learn/concept-view";
 import { conceptDetail, conceptSlugs } from "@/components/neo-shell/learn/knowledge-data";

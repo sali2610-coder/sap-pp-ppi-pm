@@ -6,6 +6,15 @@
    (text / bullets / steps / chips / linkchips), each section's tone, the item's
    tag, module and accent, and the ECC→S/4HANA verdict. Nothing is summarised.
 
+   THE TOPIC PAGE IN THE RECORD LANGUAGE (2026-10, components/neo-shell/
+   record-kit.tsx and app/neo/record.css): the catalog's hero, every section as
+   the catalog's Sig, the module as a ring and a tint (the item's accent and
+   each section's tone were painted as markers; the eleven accents included
+   violet and brand red, so they are no longer drawn), the contextual return,
+   and the credit at the foot. The S/4HANA section now carries every dimension
+   the item records: it showed two (what changes, the migration impact) of the
+   eight the legacy topic page rendered through EccS4Block.
+
    The one thing this surface adds is HONESTY ABOUT COVERAGE. The legacy grid
    showed a card per item and said nothing about which items carry a validated
    S/4 verdict, so a reader could reasonably assume they all do. Here the count
@@ -14,10 +23,16 @@
    ========================================================================== */
 
 import Link from "next/link";
-import { ArrowLeft, Layers, ListTree, Sparkles } from "lucide-react";
+import {
+  AlignRight, ArrowLeft, ArrowRightLeft, Layers, List, ListOrdered, ListTree, Tags,
+} from "lucide-react";
 import type { CenterItem } from "@/components/topic-center";
+import { SmartReturn } from "@/components/neo-shell/nav-context";
 import { CopyId } from "../copy-id";
-import { CENTER_FAMILIES, centerTotals, type CenterFamily } from "./centers-data";
+import { RecordHead } from "../record-kit";
+import { CatalogFoot, Sig } from "../data/catalog-kit";
+import { learnModVar } from "../learn/mod";
+import { CENTER_FAMILIES, CENTER_S4_ROWS as S4_ROWS, centerTotals, type CenterFamily } from "./centers-data";
 
 /** The toolkit items are templates and checklists. "Copy template" (design audit
  *  §7) hands the whole item over as plain text: title, purpose line, then every
@@ -130,84 +145,99 @@ export function CenterFamilyView({ fam }: { fam: CenterFamily }) {
 
 /* ------------------------------------------------------------------ detail */
 
+const TYPE_ICON: Record<string, React.ReactNode> = {
+  text: <AlignRight size={15} strokeWidth={1.75} />,
+  bullets: <List size={15} strokeWidth={1.75} />,
+  steps: <ListOrdered size={15} strokeWidth={1.75} />,
+  chips: <Tags size={15} strokeWidth={1.75} />,
+  linkchips: <Tags size={15} strokeWidth={1.75} />,
+};
+
 export function CenterDetailView({ fam, item }: { fam: CenterFamily; item: CenterItem }) {
+  const m = learnModVar(item.module);
+  const s4 = item.eccS4 ? S4_ROWS.filter((r) => item.eccS4?.[r.key]) : [];
   return (
-    <article className="nct nct-detail nm-scene" data-surface="centers" data-scene="cream"
-      style={{ "--ct": item.accent } as React.CSSProperties}>
-      <header className="nct-hero nct-hero--item">
-        <p className="nct-eye">
-          <Link href={`/neo/centers/${fam.id}/`} prefetch={false} className="nct-back">{fam.he}</Link>
-          <i aria-hidden="true" />
-          <span className="nct-sap" dir="ltr">{item.eyebrow}</span>
-        </p>
-        <h1 className="nct-h1">{item.he}</h1>
-        <p className="nct-h1-en" dir="ltr">{item.title}</p>
-        <p className="nct-lede">{item.sub}</p>
-        <div className="nct-hero-tags">
-          {item.module ? <span className="nct-tag nct-tag--mod">{item.module}</span> : null}
-          {item.tag ? <span className="nct-tag">{item.tag}</span> : null}
-          {fam.id === "toolkit" ? <CopyId value={templateText(item)} label="העתק תבנית" /> : null}
-        </div>
-      </header>
+    <article className="nct nct-detail nrc nm-scene" data-surface="centers" data-scene="cream"
+      style={{ "--m": m, "--ct": m } as React.CSSProperties}>
+      <SmartReturn fallback={{ href: `/neo/centers/${fam.id}/`, label: fam.he }} />
 
-      <div className="nct-secs">
-        {item.sections.map((s, i) => (
-          <section key={i} className="nct-sec nm-rise nm-once"
-            style={{ "--st": s.tone || "var(--ct)", "--nm-i": i } as React.CSSProperties}>
-            <h2 className="nct-sec-h"><i aria-hidden="true" />{s.title}</h2>
+      <RecordHead
+        icon={<Layers size={14} strokeWidth={1.75} aria-hidden="true" />}
+        eyebrow={`${fam.he} · ${item.eyebrow}`}
+        title={item.he}
+        en={item.title || undefined}
+        lede={item.sub || undefined}
+        actions={fam.id === "toolkit" ? <CopyId value={templateText(item)} label="העתק תבנית" /> : undefined}
+        meta={
+          item.module || item.tag ? (
+            <>
+              {item.module ? <span className="nu-chip nxt-mod"><i aria-hidden="true" />{item.module}</span> : null}
+              {/* The tag, unless it only repeats the module chip next to it. */}
+              {item.tag && item.tag !== item.module ? <span className="nu-chip">{item.tag}</span> : null}
+            </>
+          ) : undefined
+        }
+      />
 
-            {s.type === "text" && <p className="nct-p">{s.text}</p>}
+      {/* The sections are independent facets of the topic (scope, actors,
+          inputs, …), so on a wide screen they flow in two balanced columns. */}
+      <div className="nrc-cols">
+      {item.sections.map((s, i) => (
+        <Sig key={i} id={`ct-${i + 1}`} icon={TYPE_ICON[s.type] ?? <List size={15} strokeWidth={1.75} />} title={s.title}>
+          {s.type === "text" && <p className="nct-p">{s.text}</p>}
 
-            {s.type === "bullets" && (
-              <ul className="nct-bul">
-                {(s.items || []).map((x, k) => <li key={k}>{x}</li>)}
-              </ul>
-            )}
+          {s.type === "bullets" && (
+            <ul className="nct-bul">
+              {(s.items || []).map((x, k) => <li key={k}>{x}</li>)}
+            </ul>
+          )}
 
-            {s.type === "steps" && (
-              <ol className="nct-steps">
-                {(s.items || []).map((x, k) => (
-                  <li key={k}><span className="nct-step-n">{k + 1}</span><span>{x}</span></li>
-                ))}
-              </ol>
-            )}
+          {s.type === "steps" && (
+            <ol className="nct-steps">
+              {(s.items || []).map((x, k) => (
+                <li key={k}><span className="nct-step-n">{k + 1}</span><span>{x}</span></li>
+              ))}
+            </ol>
+          )}
 
-            {(s.type === "chips" || s.type === "linkchips") && (
-              <div className="nct-chips">
-                {(s.items || []).map((x) => (
-                  <span key={x} className="nct-chip nx-sap" dir="ltr">{x}</span>
-                ))}
-              </div>
-            )}
-          </section>
-        ))}
-
-        {/* THE S/4 VERDICT, OR AN HONEST ABSENCE.
-            The legacy detail simply omitted this block when eccS4 was missing,
-            which on a platform whose whole premise is the migration reads as
-            "no change" rather than as "not documented". It says which. */}
-        {item.eccS4 ? (
-          <section className="nct-sec nct-s4">
-            <h2 className="nct-sec-h"><i aria-hidden="true" />המעבר ל-S/4HANA</h2>
-            <p className="nct-s4-changed">{item.eccS4.changed}</p>
-            {item.eccS4.migration ? (
-              <p className="nct-p"><b>השפעת המעבר: </b>{item.eccS4.migration}</p>
-            ) : null}
-          </section>
-        ) : (
-          <section className="nct-sec nct-s4 nct-s4--none">
-            <h2 className="nct-sec-h"><i aria-hidden="true" />המעבר ל-S/4HANA</h2>
-            <p className="nct-p nct-none">
-              לנושא זה לא קיימת הכרעת מעבר מתועדת במאגר. נדרש אימות נוסף בהתאם לגרסת המערכת.
-            </p>
-          </section>
-        )}
+          {(s.type === "chips" || s.type === "linkchips") && (
+            <div className="nct-chips">
+              {(s.items || []).map((x) => (
+                <span key={x} className="nct-chip nx-sap" dir="ltr">{x}</span>
+              ))}
+            </div>
+          )}
+        </Sig>
+      ))}
       </div>
 
-      <p className="nct-foot">
-        <Sparkles size={13} strokeWidth={2} aria-hidden="true" />
-        התוכן מוצג כפי שנכתב בתיעוד הפרויקט.
-      </p>
+      {/* THE S/4 VERDICT, OR AN HONEST ABSENCE.
+          The legacy detail simply omitted this block when eccS4 was missing,
+          which on a platform whose whole premise is the migration reads as
+          "no change" rather than as "not documented". It says which. */}
+      <Sig
+        id="ct-s4"
+        icon={<ArrowRightLeft size={15} strokeWidth={1.75} />}
+        title="המעבר ל-S/4HANA"
+        count={s4.length ? `${nf.format(s4.length)} מתוך ${nf.format(S4_ROWS.length)} ממדים מתועדים` : undefined}
+      >
+        {s4.length ? (
+          <dl className="nxt-grid nct-s4dl">
+            {s4.map((r) => (
+              <div key={r.key} className="nxt-fact" data-k={r.key}>
+                <dt className="nxt-l">{r.he}</dt>
+                <dd className="nxt-v">{item.eccS4?.[r.key]}</dd>
+              </div>
+            ))}
+          </dl>
+        ) : (
+          <p className="nct-p nct-none">
+            לנושא זה לא קיימת הכרעת מעבר מתועדת במאגר. נדרש אימות נוסף בהתאם לגרסת המערכת.
+          </p>
+        )}
+      </Sig>
+
+      <CatalogFoot>התוכן מוצג כפי שנכתב בתיעוד הפרויקט.</CatalogFoot>
     </article>
   );
 }

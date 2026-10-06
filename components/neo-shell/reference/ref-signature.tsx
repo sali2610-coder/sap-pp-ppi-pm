@@ -66,7 +66,7 @@ function BapiAreas({ dir, s }: { dir: RefDir; s: SigState }) {
       icon={<Boxes size={15} strokeWidth={1.75} />}
       title="התחומים העסקיים"
       count={`${fmt(areas.length)} תחומים`}
-      lede="אורך הפס הוא מספר הרשומות בתחום, והחלק הכהה הוא ה-BAPIs. לחיצה פותחת את התחום ברשימה."
+      lede="אורך הפס הוא מספר הרשומות בתחום, והחלק המודגש הוא ה-BAPIs. לחיצה פותחת את התחום ברשימה."
     >
       <RankList
         label="התחומים העסקיים לפי מספר הרשומות"

@@ -43,6 +43,7 @@ import { MIGRATIONS } from "@/data/centers/migration";
 import { PLAYBOOKS } from "@/data/centers/playbooks";
 import { PROCESS_AUTH } from "@/data/centers/process-auth";
 import { TOOLKIT } from "@/data/centers/toolkit";
+import type { EccS4 } from "@/components/ecc-s4-block";
 
 export interface CenterFamily {
   /** URL segment. Matches the legacy route name so old links stay meaningful. */
@@ -109,3 +110,18 @@ export const centerTotals = () => ({
   sections: CENTER_FAMILIES.reduce(
     (n, f) => n + f.items.reduce((m, i) => m + (i.sections?.length ?? 0), 0), 0),
 });
+
+/** The eight S/4HANA dimensions a work topic can record, in the legacy topic
+ *  page's order and words (components/ecc-s4-block.tsx). The topic page draws
+ *  every one the item fills; test/record-vocab.test.ts holds this list against
+ *  the dataset so a dimension can never again be silently left off the page. */
+export const CENTER_S4_ROWS: { key: keyof EccS4; he: string }[] = [
+  { key: "unchanged", he: "ללא שינוי (נשאר זהה)" },
+  { key: "changed", he: "משתנה ב-S/4" },
+  { key: "replaced", he: "מוחלף" },
+  { key: "deprecated", he: "הוסר / לא אסטרטגי" },
+  { key: "fiori", he: "אפליקציית Fiori חדשה" },
+  { key: "cds", he: "CDS View חדש" },
+  { key: "simplification", he: "Simplification Item" },
+  { key: "migration", he: "השפעת מיגרציה + QA" },
+];

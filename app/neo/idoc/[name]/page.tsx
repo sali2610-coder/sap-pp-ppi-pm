@@ -2,6 +2,8 @@
 import "@/app/neo/ui.css";
 import "@/app/neo/data.css";
 import "@/app/neo/reference.css";
+// the record language (2026-10), imported last so it can place what data.css drew
+import "@/app/neo/record.css";
 import { notFound } from "next/navigation";
 import { RefDetailView } from "@/components/neo-shell/reference/ref-detail-view";
 import { idocDetail, idocNames } from "@/components/neo-shell/reference/idoc-data";

@@ -1,0 +1,416 @@
+/* ============================================================================
+   PROJECT NEO · THE RECORD PAGES (2026-10)
+   ----------------------------------------------------------------------------
+   The page you reach by opening a row: a table, a transaction, a BAPI / CDS /
+   Fiori / enhancement / IDoc record, a best practice, a concept, an incident, a
+   work topic and the assessment runner. They are drawn in the language of the
+   catalogs they are opened from (app/neo/data.css §1–11, components/neo-shell/
+   data/catalog-kit.tsx): the hero on the scene's own ground, a ledger whose
+   counts are doors, one card per question (the catalog's Sig), reference rows
+   in the domain page's form, the S/4HANA band without a stripe, the mandatory
+   credit at the foot.
+
+   SCOPE. Every selector here starts `.nx-app .nrc`, one class above the rule it
+   overrides, so it cannot reach a list, the academy (which shares .nxv), the
+   object page (which shares .nev and .nxs) or anything else on a client-side
+   navigation that kept this sheet loaded. Imported LAST by every record route.
+
+   COLOUR, PER THE FORM RULE ABOVE --mod-pm IN globals.css
+     MODULE  a ring and a tint: the module chip, a section badge, a reference
+             row's border, the running bar's active chip. Never a stripe.
+     STATUS  a dot or a glyph followed by its word, never a fill or a stripe.
+     ACCENT  brand red only for the page's one action, and as ink on the S/4
+             headline of a record the data says is impacted.
+   ========================================================================== */
+
+/* ------------------------------------------------------------------ 1. ROOT */
+
+.nx-app .nrc {
+  --c-hair: var(--hairline);
+  /* the S/4HANA side of a comparison, as the S/4 scene and the catalogs draw it */
+  --nxd-s4: #17398f;
+  inline-size: 100%;
+  min-inline-size: 0;
+  box-sizing: border-box;
+  container: nrc / inline-size;
+  overflow-wrap: anywhere;
+}
+html[data-theme="dark"] .nx-app .nrc { --nxd-s4: #8dbcff; }
+/* No module bar: module identity is a ring and a tint, never a stripe. */
+.nx-app .nrc .nx-modbar { display: none; }
+.nx-app .nrc .nx-sap { unicode-bidi: isolate; direction: ltr; }
+
+/* ------------------------------------------------------------------ 2. HERO */
+
+.nx-app .nrc-hero { gap: .6rem; padding-block-start: var(--sp-2); }
+.nx-app .nrc-id { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .9rem; min-inline-size: 0; }
+.nx-app .nrc-id > h1 { min-inline-size: 0; }
+.nx-app .nrc-code {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: clamp(2rem, 1.25rem + 1.7vw, 2.75rem);
+  font-weight: 700; line-height: 1.08; letter-spacing: -.02em;
+  color: var(--ink-1);
+  overflow-wrap: anywhere;
+}
+.nx-app .nrc-sub {
+  font-family: var(--font-mono); font-size: 1rem; font-weight: 700; color: var(--ink-2);
+  direction: ltr; unicode-bidi: isolate;
+}
+.nx-app .nrc-top { display: grid; gap: .6rem; min-inline-size: 0; }
+.nx-app .nrc-acts { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+/* Where the record has room, the actions sit at the end of the name's row. */
+@container nrc (min-width: 44rem) {
+  .nx-app .nrc-top[data-acts="1"] { grid-template-columns: minmax(0, 1fr) auto; column-gap: 1.25rem; }
+  .nx-app .nrc-top[data-acts="1"] > :not(.nrc-acts) { grid-column: 1; }
+  .nx-app .nrc-top[data-acts="1"] > .nrc-acts { grid-column: 2; grid-row: 1; align-self: center; }
+}
+.nx-app .nrc-names { display: grid; gap: 2px; min-inline-size: 0; }
+.nx-app .nrc-he { margin: 0; font-size: clamp(1.05rem, .95rem + .45vw, 1.32rem); font-weight: 650; line-height: 1.45; color: var(--ink-1); }
+/* An English name is a block of its own direction, set to the record's start
+   edge (the right, in this RTL product) like the catalogs' English sub-lines. */
+.nx-app .nrc-en { margin: 0; font-size: .9rem; line-height: 1.5; color: var(--ink-3); text-align: end; }
+/* "no English name" is a Hebrew sentence: it keeps the Hebrew start edge */
+.nx-app .nrc-en.nrc-absent { font-size: .82rem; color: var(--ink-3); text-align: start; }
+.nx-app .nrc-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .75rem; }
+.nx-app .nrc-meta .nu-chip { font-size: .76rem; }
+/* The completeness / last-verified note: the text face, not the mono one,
+   which set its Hebrew words letter by letter. The figures stay tabular. */
+.nx-app .nrc .nxt-known { font-family: inherit; font-size: .76rem; }
+.nx-app .nrc-verdict {
+  margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .7rem;
+  font-size: .88rem; line-height: 1.6; color: var(--ink-2);
+}
+.nx-app .nrc-verdict > b { color: var(--ink-1); }
+.nx-app .nrc-verdict a { color: var(--ink-1); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--ink-1) 30%, transparent); text-underline-offset: 3px; }
+.nx-app .nrc-verdict a:hover { text-decoration-color: currentColor; }
+.nx-app .nrc-verdict a:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; border-radius: .2rem; }
+/* the old in-header English line, wherever a view still prints it */
+.nx-app .nrc :is(.nxt-en, .nxb-en, .nxv-en) { text-align: end; }
+
+/* The ledger under a record's hero: the record's own counts, each a door to
+   the part of the page that holds it. Two columns survive 320px. */
+.nx-app .nrc .nxd-led { grid-template-columns: repeat(auto-fill, minmax(7.25rem, 1fr)); }
+
+/* ----------------------------------------------------- 3. THE RUNNING BAR
+   The shared section bar (workspace/section-nav.css), drawn as the record
+   draws everything else: no glass, no accent edge on the active chip, the
+   module's own hue (or ink) for "you are here". */
+.nx-app .nrc .nxs {
+  --nxs-on: var(--m, var(--ink-3));
+  background: var(--scene-ground, var(--background));
+  backdrop-filter: none;
+}
+.nx-app .nrc .nxs-i[data-on="1"] { padding-inline-start: var(--sp-3); }
+/* The reel scrolls under the "next" control: its end edge (the left, in this
+   RTL product) fades instead of cutting a chip in half, and the same width of
+   padding at the end lets the last chip clear the fade once scrolled to. */
+.nx-app .nrc .nxs-reel {
+  padding-inline-end: 2.5rem;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 2.5rem);
+          mask-image: linear-gradient(to right, transparent, #000 2.5rem);
+}
+.nx-app .nrc .nxs-i[data-on="1"]::before { content: none; }
+/* With the 3px edge gone, "you are here" keeps a cue that is not hue alone: a
+   1px ring a step darker than the tint (3:1 against the bar), the weight, and
+   aria-current. */
+.nx-app .nrc .nxs-i[data-on="1"] { border-color: color-mix(in oklab, var(--nxs-on) 55%, var(--ink-1)); }
+
+/* ---------------------------------------------------- 4. THE QUESTION CARDS
+   Every section is the catalog's Sig (badge, title, count pill, lede). A jump
+   from the ledger or the bar lands its head under the bar, not beneath it. */
+.nx-app .nrc .nxd-sig { scroll-margin-block-start: calc(var(--nxs-h, 0px) + var(--sp-4)); }
+.nx-app .nrc .nxd-badge {
+  color: color-mix(in srgb, var(--m, var(--ink-3)) 72%, var(--ink-1));
+  background: color-mix(in srgb, var(--m, var(--ink-3)) 8%, var(--surface-2));
+  border-color: color-mix(in srgb, var(--m, var(--ink-3)) 26%, var(--hairline));
+}
+.nx-app .nrc .nxd-sig > :is(dl, ul, ol, p, div, h3) { margin: 0; }
+
+/* -------------------------------------------------- 5. THE S/4HANA BAND
+   One raised card, like a Sig: no top rule, no inset edge, no wash. The
+   headline stays a step under the page title. */
+.nx-app .nrc .nxt-s4 {
+  padding: 1.2rem 1.3rem 1.3rem;
+  border: 1px solid var(--hairline);
+  border-radius: 1.1rem;
+  background: var(--surface);
+  box-shadow: var(--elev-1);
+  overflow: visible;
+}
+.nx-app .nrc .nxt-s4::before { content: none; }
+.nx-app .nrc .nxt-s4[data-impacted="1"] {
+  border-color: color-mix(in srgb, var(--brand) 28%, var(--hairline));
+  background: var(--surface);
+  box-shadow: var(--elev-1);
+}
+html[data-theme="dark"] .nx-app .nrc .nxt-s4,
+html[data-theme="dark"] .nx-app .nrc .nxt-s4[data-impacted="1"] { background: var(--surface); }
+.nx-app .nrc .nxt-s4-h { font-size: clamp(1.35rem, 1.1rem + .8vw, 1.75rem); }
+/* the dataset is silent on S/4HANA: said by the band's dashed border as well */
+.nx-app .nrc .nxt-s4[data-tone="unknown"] { border-style: dashed; box-shadow: none; }
+.nx-app .nrc .nxt-s4-succ { border-radius: .85rem; border: 1px solid var(--hairline); }
+
+/* --------------------------------------------------------- 6. FACTS, LISTS */
+.nx-app .nrc .nxt-sub { margin: 0; padding: 0; font-size: .8rem; font-weight: 700; color: var(--ink-2); }
+.nx-app .nrc .nxt-block { gap: .45rem; }
+.nx-app .nrc .nxt-l { font-size: .72rem; letter-spacing: .02em; }
+.nx-app .nrc .nxt-v { font-size: .95rem; line-height: 1.7; }
+.nx-app .nrc :is(.nxt-ul, .nxt-ol) { gap: .3rem; font-size: .9rem; line-height: 1.65; }
+.nx-app .nrc .nxt-ul li::marker { color: var(--ink-3); }
+/* the known issues as ruled rows, the kind in the start column, as the
+   catalogs' lists read: one surface, not a stack of boxes */
+.nx-app .nrc .nxt-iss { gap: 0; }
+.nx-app .nrc .nxt-iss-i {
+  padding: .6rem .15rem;
+  border: 0; border-block-end: 1px solid var(--hairline);
+  border-radius: 0; background: transparent;
+}
+.nx-app .nrc .nxt-iss-i:last-child { border-block-end: 0; }
+html[data-theme="dark"] .nx-app .nrc .nxt-iss-i { background: transparent; }
+.nx-app .nrc .nxt-iss-k { padding-block-start: .15em; }
+
+/* ----------------------------------------------- 7. REFERENCE ROWS
+   One form for "another record": the domain page's reference row. A page that
+   exists: a border tinted with the module, a quiet hover, no lift. No page:
+   the same row, dashed, inert. No edge stripe, no module bar. */
+.nx-app .nrc :is(.nxt-tbl-r, .nxt-near-c) {
+  border: 1px solid color-mix(in srgb, var(--m, var(--ink-3)) 26%, var(--hairline));
+  border-radius: .7rem;
+  background: var(--surface);
+  box-shadow: none;
+  transition: border-color .14s linear, background-color .14s linear;
+}
+.nx-app .nrc a:is(.nxt-tbl-r, .nxt-near-c):hover {
+  transform: none;
+  box-shadow: none;
+  background: color-mix(in srgb, var(--m, var(--ink-3)) 5%, var(--surface));
+  border-color: color-mix(in srgb, var(--m, var(--ink-3)) 50%, var(--hairline));
+}
+.nx-app .nrc a:is(.nxt-tbl-r, .nxt-near-c):focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; }
+.nx-app .nrc :is(.nxt-tbl-r, .nxt-near-c).is-flat,
+.nx-app .nrc .nxr-flat { border-style: dashed; border-color: var(--hairline); background: transparent; }
+.nx-app .nrc .nxt-near-e { display: none; }
+.nx-app .nrc .nxt-mod > i { display: none; }
+.nx-app .nrc .nxt-near { gap: .45rem; }
+.nx-app .nrc .nxt-tbl { gap: .35rem; }
+/* the domain page's row rhythm: the name, its gloss and the standing on one
+   line, the note under the gloss */
+.nx-app .nrc .nxt-tbl-r { padding: .55rem .8rem; gap: 2px .8rem; }
+.nx-app .nrc .nxt-near-c { padding: .6rem .8rem; gap: 2px; }
+
+/* ---------------------------------------------------- 8. THE EVIDENCE BLOCK
+   Content untouched (components/neo-shell/evidence/evidence-block.tsx); here
+   only its presentation inside a record: no box within the band's box, the
+   prose at a reading measure, the sources as ruled rows. */
+.nx-app .nrc .nev {
+  margin-block-start: .3rem;
+  padding: .95rem 0 0;
+  border: 0;
+  border-block-start: 1px solid var(--hairline);
+  border-radius: 0;
+  background: transparent;
+}
+.nx-app .nrc :is(.nev-exp, .nev-act) { max-inline-size: 84ch; font-size: .86rem; line-height: 1.7; }
+.nx-app .nrc .nev-src { gap: 0; }
+.nx-app .nrc .nev-src li {
+  padding: .5rem 0;
+  border-inline-start: 0;
+  border-block-end: 1px solid var(--hairline);
+}
+.nx-app .nrc .nev-src li:last-child { border-block-end: 0; }
+.nx-app .nrc .nev-a {
+  color: var(--ink-1);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--ink-1) 30%, transparent);
+  text-underline-offset: 3px;
+}
+.nx-app .nrc .nev-a:hover { text-decoration-color: currentColor; }
+.nx-app .nrc .nev-a:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; border-radius: .2rem; }
+/* a code block scrolls inside its own box and takes focus to do it */
+.nx-app .nrc .nxr-pre:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; }
+/* "verification required" is a state: a dot and its words, not a 3px rule */
+.nx-app .nrc .nev-warn { display: flex; align-items: baseline; gap: .5rem; padding-inline-start: 0; border-inline-start: 0; }
+.nx-app .nrc .nev-warn::before {
+  content: ""; flex: none;
+  inline-size: .5rem; block-size: .5rem; border-radius: 50%;
+  background: var(--status-not-started);
+  transform: translateY(-.05em);
+}
+
+/* ----------------------------------------------------- 8b. THE DATA CHAIN
+   What feeds a CDS view and what consumes it: a raised card like a Sig, the
+   records in it as reference rows, the arrows in ink. */
+.nx-app .nrc .nxr-chain {
+  margin-block: 0;
+  padding: 1rem 1.15rem;
+  border-radius: 1.1rem;
+  background: var(--surface);
+  box-shadow: var(--elev-1);
+}
+.nx-app .nrc .nxr-chain-c {
+  border-color: color-mix(in srgb, var(--m, var(--ink-3)) 26%, var(--hairline));
+  border-radius: .6rem;
+}
+.nx-app .nrc a.nxr-chain-c:hover {
+  background: color-mix(in srgb, var(--m, var(--ink-3)) 5%, var(--surface));
+  border-color: color-mix(in srgb, var(--m, var(--ink-3)) 50%, var(--hairline));
+}
+.nx-app .nrc a.nxr-chain-c:focus-visible { outline-color: var(--ink-1); }
+.nx-app .nrc .nxr-chain-c--none { opacity: 1; border-style: dashed; border-color: var(--hairline); background: transparent; }
+
+/* ------------------------------------------------------------- 9. THE FOOT */
+.nx-app .nrc .nxd-foot { margin-block-start: var(--sp-2); }
+
+/* ---------------------------------------------------- 9b. THE TABLE RECORD
+   /neo/tables/<NAME>/ (data.css §13 .nxb): the module chips carry their own
+   record count, the object class is a small square swatch, the key line is
+   one quiet surface without its 3px rules, and no row carries an edge. */
+.nx-app .nrc .nrc-chip-n { margin-inline-start: .4rem; color: var(--ink-3); font-weight: 500; }
+.nx-app .nrc .nrc-obj { gap: .45rem; }
+.nx-app .nrc .nrc-obj > i,
+.nx-app .nrc .nxb-rel-cls {
+  inline-size: .55rem; block-size: .55rem; border-radius: 2px; flex: none;
+  background: var(--o);
+}
+.nx-app .nrc .nrc-impact { color: var(--brand); }
+.nx-app .nrc .nxb-keyline {
+  border-radius: 1.1rem;
+  background: var(--surface);
+  box-shadow: var(--elev-1);
+}
+.nx-app .nrc .nxb-keyline > div { padding-inline-start: 0; border-inline-start: 0; }
+.nx-app .nrc .nxb-cta-note { margin: 0; max-inline-size: 84ch; font-size: .82rem; line-height: 1.65; color: var(--ink-3); }
+.nx-app .nrc .nxb-rank { margin: 0; }
+.nx-app .nrc .nxb-stand,
+.nx-app .nrc .nxb-stand[data-impact="1"] { border-radius: 1rem; background: var(--surface-2); }
+.nx-app .nrc .nxb-stand[data-impact="1"] { border-color: color-mix(in srgb, var(--brand) 28%, var(--hairline)); }
+html[data-theme="dark"] .nx-app .nrc .nxb-stand,
+html[data-theme="dark"] .nx-app .nrc .nxb-stand[data-impact="1"] { background: color-mix(in srgb, var(--ink-1) 5%, var(--surface)); }
+.nx-app .nrc .nxb-row-bar { display: none; }
+.nx-app .nrc :is(.nxb-s4rows > article, .nxb-row) {
+  align-content: start;
+  border-color: color-mix(in srgb, var(--m, var(--ink-3)) 26%, var(--hairline));
+  border-radius: .9rem;
+}
+.nx-app .nrc .nxb-quote { border-inline-start: 1px solid var(--hairline); }
+.nx-app .nrc .nxb-tbl tbody tr[data-k]:not([data-k="none"]),
+[dir="rtl"] .nx-app .nrc .nxb-tbl tbody tr[data-k]:not([data-k="none"]) { box-shadow: none; }
+.nx-app .nrc .nxb-tw { border-radius: .9rem; }
+
+/* ---------------------------------------------- 9c. THE PRACTICE RECORD
+   /neo/best-practices/<slug>/ (best-practices.css .nbp): the summary as the
+   hero's lede, the process profile in two BALANCED columns (a grid aligned
+   each row to its longest field and left half the profile empty), and the
+   sources after the sixth behind one disclosure in the catalogs' words
+   (הצגה / צמצום). */
+.nx-app .nrc[data-surface="best-practice"] .nxd-lede { max-inline-size: 78ch; font-weight: 600; color: var(--ink-1); }
+.nx-app .nrc .nbp-prof {
+  display: block;
+  columns: 2 26rem;
+  column-gap: 2.75rem;
+  margin-block-start: .25rem;
+}
+/* A field may continue at the top of the next column, as text does in a
+   newspaper; its label never ends a column and no line is ever split. Kept
+   whole, the one long field (the interfaces) set the profile's height alone. */
+.nx-app .nrc .nbp-prof-f { display: block; margin-block-end: 1.35rem; }
+.nx-app .nrc .nbp-prof-f > dt { break-after: avoid; margin-block-end: .3rem; }
+.nx-app .nrc .nbp-prof-l > li { break-inside: avoid; }
+.nx-app .nrc .nbp-claims { grid-template-columns: repeat(auto-fill, minmax(min(100%, 32rem), 1fr)); }
+.nx-app .nrc .nbp-claims > li { border-radius: .7rem; align-content: start; }
+.nx-app .nrc .nrc-more { display: grid; gap: .75rem; margin-block-start: .25rem; }
+.nx-app .nrc .nrc-more > summary {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .4rem 1rem;
+  min-block-size: 2.75rem; padding: .5rem .9rem;
+  border: 1px solid var(--hairline); border-radius: .8rem;
+  background: var(--surface);
+  cursor: pointer; list-style: none;
+  font-size: .86rem; font-weight: 650; color: var(--ink-1);
+}
+.nx-app .nrc .nrc-more > summary::-webkit-details-marker { display: none; }
+.nx-app .nrc .nrc-more > summary::after { content: "הצגה ▾"; font-size: .74rem; font-weight: 600; color: var(--ink-3); }
+.nx-app .nrc .nrc-more[open] > summary::after { content: "צמצום ▴"; }
+.nx-app .nrc .nrc-more > summary:hover { background: color-mix(in srgb, var(--ink-1) 3%, var(--surface)); }
+.nx-app .nrc .nrc-more > summary:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; }
+
+/* ------------------------------------- 9d. THE CONCEPT AND THE INCIDENT
+   /neo/knowledge/<slug>/ and /neo/incidents/<slug>/ (learn.css §10 .nxv): the
+   S/4HANA plate is the tx band's raised card, with no top rule, no inset brand
+   edge and no wash (a concept "with S/4HANA guidance" is not a change, and an
+   incident's ECC / S/4 pair is information, not an alarm); the references are
+   the domain page's rows; a "verify in SE93" code says so in words. */
+.nx-app .nrc .nxv-s4,
+.nx-app .nrc .nxv-s4[data-s4="1"] {
+  gap: 1rem;
+  padding: 1.2rem 1.3rem 1.3rem;
+  border: 1px solid var(--hairline);
+  border-radius: 1.1rem;
+  background: var(--surface);
+  box-shadow: var(--elev-1);
+}
+html[data-theme="dark"] .nx-app .nrc .nxv-s4,
+html[data-theme="dark"] .nx-app .nrc .nxv-s4[data-s4="1"] { background: var(--surface); }
+.nx-app .nrc .nxv-s4::before { content: none; }
+.nx-app .nrc .nxv-s4-h,
+.nx-app .nrc .nxv-s4[data-s4="1"] .nxv-s4-h { font-size: clamp(1.35rem, 1.1rem + .8vw, 1.75rem); color: var(--ink-1); }
+.nx-app .nrc .nxv-s4-c { border-radius: .8rem; }
+.nx-app .nrc .nxv-ref {
+  border: 1px solid color-mix(in srgb, var(--m, var(--ink-3)) 26%, var(--hairline));
+  border-radius: .7rem;
+  background: var(--surface);
+  box-shadow: none;
+  transition: border-color .14s linear, background-color .14s linear;
+}
+.nx-app .nrc a.nxv-ref:hover {
+  transform: none; box-shadow: none;
+  background: color-mix(in srgb, var(--m, var(--ink-3)) 5%, var(--surface));
+  border-color: color-mix(in srgb, var(--m, var(--ink-3)) 50%, var(--hairline));
+}
+.nx-app .nrc a.nxv-ref:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; }
+.nx-app .nrc .nxv-quote { border-radius: .8rem; }
+.nx-app .nrc .nxv-ol li::marker { color: var(--ink-3); }
+.nx-app .nrc .nxv-code { border-radius: .6rem; }
+.nx-app .nrc .nrc-codev { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .35rem; }
+.nx-app .nrc .nrc-vfy { font-size: .74rem; color: var(--ink-3); font-weight: 500; }
+.nx-app .nrc .nxv-ref .nrc-vfy { font-family: inherit; }
+
+/* -------------------------------------------------- 9e. THE WORK TOPIC
+   /neo/centers/<family>/<slug>/ (centers.css .nct): the page sits on the
+   canvas like every other record (no padding or measure of its own), and the
+   markers the item's accent and each section's tone painted are ink. */
+.nx-app .nrc.nct {
+  display: grid; gap: var(--sp-6); align-content: start;
+  padding: 0; margin-inline: 0;
+  max-inline-size: min(78rem, 100%);
+}
+.nx-app .nrc .nct-p { max-inline-size: 84ch; font-size: .95rem; color: var(--ink-1); }
+.nx-app .nrc .nct-bul li { font-size: .92rem; color: var(--ink-1); }
+.nx-app .nrc .nct-bul li::before { background: var(--ink-3); }
+.nx-app .nrc .nct-steps li { font-size: .92rem; color: var(--ink-1); }
+.nx-app .nrc .nct-step-n {
+  font-family: var(--font-mono);
+  color: var(--ink-2);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.nx-app .nrc .nct-s4dl { margin: 0; }
+.nx-app .nrc .nrc-cols { columns: 2 30rem; column-gap: 1.25rem; margin-block-end: -1.25rem; }
+.nx-app .nrc .nrc-cols > .nxd-sig { break-inside: avoid; margin-block-end: 1.25rem; }
+
+/* ------------------------------------------------- 10. PHONE AND TABLET */
+@container nrc (max-width: 44rem) {
+  .nx-app .nrc .nxd-sig { padding-inline: .9rem; }
+  .nx-app .nrc .nxd-badge { inline-size: 2.3rem; block-size: 2.3rem; }
+  .nx-app .nrc .nxd-led b { font-size: 1.25rem; }
+  .nx-app .nrc .nxt-s4 { padding: 1rem .95rem 1.05rem; }
+  .nx-app .nrc-acts { inline-size: 100%; }
+}
+@media (pointer: coarse) {
+  .nx-app .nrc :is(.nxt-tbl-r, .nxt-near-c) { min-block-size: var(--c-tap); }
+}
+
+/* -------------------------------------------------- 11. REDUCED MOTION */
+@media (prefers-reduced-motion: reduce) {
+  :where(html:not([data-neo-motion="full"])) .nx-app .nrc :is(.nxt-tbl-r, .nxt-near-c, .nxv-ref) { transition: none; }
+}

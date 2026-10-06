@@ -1,5 +1,10 @@
 import "@/app/neo/ui.css";
 import "@/app/neo/centers.css";
+// the catalog kit (Sig, the foot) and the record language (2026-10), imported
+// last so they can place what centers.css drew. The hub and the family pages
+// do not import them and are unchanged.
+import "@/app/neo/data.css";
+import "@/app/neo/record.css";
 import { notFound } from "next/navigation";
 import { allCenterParams, centerItem } from "@/components/neo-shell/centers/centers-data";
 import { CenterDetailView } from "@/components/neo-shell/centers/centers-view";

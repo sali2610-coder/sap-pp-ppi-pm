@@ -8,12 +8,16 @@
    has to read the session's navigation memory; everything else is text the
    builder already resolved at build time.
 
-   HIERARCHY (see the header of app/neo/learn.css)
-     page     .nxv-h1     the Hebrew name, display size
-     headline .nxv-s4-h   the S/4HANA verdict — second largest thing on screen
-     section  .nxv-sec-h  .nx-h2 plus a module-coloured leading plate
-     label    .nxv-l      micro, tracked — metadata, never content
-     value    .nxv-v      body, ink-1 — content, never metadata
+   THE RECORD LANGUAGE (2026-10, components/neo-shell/record-kit.tsx and
+   app/neo/record.css): the catalog's hero, the S/4HANA plate as a raised card
+   without a stripe, every question as the catalog's Sig, the references as
+   rows, and the credit at the foot.
+
+   THE S/4HANA WORDS ARE THE LIST'S. `s4Changed` is false only when the
+   concept's own S/4 sentence opens with "ללא שינוי"; every other concept is
+   left UNCLASSIFIED, not asserted to change (knowledge-data.ts). Most of those
+   sentences say what S/4HANA adds or prefers, so the page says the record
+   carries S/4HANA guidance, exactly as the Knowledge Center list does.
 
    ABSENCE IS RENDERED, NOT HIDDEN. A concept whose source leaves a field blank
    gets "לא קיים מידע מאומת במאגר" in that field's own place, so the reader can tell
@@ -22,11 +26,16 @@
    ========================================================================== */
 
 import Link from "next/link";
-import { ArrowLeft, BookOpen, Info, Lightbulb, Link2, Sparkles, Terminal, Table as TableIcon, Wrench } from "lucide-react";
+import {
+  ArrowLeft, BookOpen, BrainCircuit, Info, Lightbulb, Link2, Sparkles, Terminal, Table as TableIcon, Wrench,
+} from "lucide-react";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
+import { RecordHead } from "../record-kit";
+import { CatalogFoot, Sig } from "../data/catalog-kit";
 import type { ConceptRef, ConceptRow } from "./knowledge-data";
 
 const ABSENT = "לא קיים תיעוד מאומת במאגר";
+const nf = new Intl.NumberFormat("he-IL");
 
 function Absent({ what }: { what: string }) {
   return (
@@ -78,33 +87,36 @@ export function ConceptView({ c }: { c: ConceptRow }) {
   const linked = [...c.examples, ...c.related].filter((r) => r.href).length;
 
   return (
-    <div className="nxv" data-surface="concept">
+    <div className="nxv nrc nm-scene" data-scene="cream" data-surface="concept">
       <SmartReturn fallback={{ href: "/neo/knowledge/", label: "מרכז הידע" }} />
 
-      <header className="nxv-head">
-        <span className="nx-eyebrow">מרכז הידע · {c.groupHe}</span>
-        <div className="nxv-title">
-          <h1 className="nxv-h1">{c.he}</h1>
-          {c.title.toLowerCase() !== c.he.toLowerCase() ? <p className="nxv-en">{c.title}</p> : null}
-        </div>
-        <div className="nxv-meta">
-          <span className="nu-chip">{c.groupHe}</span>
-          <span className="nu-chip is-sap">{c.slug}</span>
+      <RecordHead
+        icon={<BrainCircuit size={14} strokeWidth={1.75} aria-hidden="true" />}
+        eyebrow={`מרכז הידע · ${c.groupHe}`}
+        title={c.he}
+        en={c.title.toLowerCase() !== c.he.toLowerCase() ? c.title : undefined}
+        meta={
+          <>
+            <span className="nu-chip">{c.groupHe}</span>
+            <span className="nu-chip is-sap">{c.slug}</span>
+          </>
+        }
+        verdict={
           <span
             className="nu-status"
-            style={{ "--s": c.s4Changed ? "var(--status-in-conversion)" : "var(--status-done)" } as React.CSSProperties}
+            style={{ "--s": c.s4Changed ? "var(--status-not-started)" : "var(--status-done)" } as React.CSSProperties}
           >
-            {c.s4Changed ? "שינוי מתועד ב-S/4HANA" : "ללא שינוי לפי התיעוד"}
+            {c.s4Changed ? "עם הנחיה ל-S/4HANA" : "ללא שינוי לפי התיעוד"}
           </span>
-        </div>
-      </header>
+        }
+      />
 
       {/* ------------------------------------------------- THE S/4HANA PLATE */}
       <section className="nxv-s4" data-s4={c.s4Changed ? "1" : "0"} aria-labelledby="c-s4">
         <div className="nxv-s4-top">
           <span className="nx-eyebrow">S/4HANA</span>
           <h2 className="nxv-s4-h" id="c-s4">
-            {c.s4Changed ? "המושג משתנה במעבר ל-S/4HANA" : "המושג ללא שינוי ב-S/4HANA לפי התיעוד"}
+            {c.s4Changed ? "התיעוד כולל הנחיה ל-S/4HANA" : "המושג ללא שינוי ב-S/4HANA לפי התיעוד"}
           </h2>
         </div>
         <div className="nxv-s4-two">
@@ -120,53 +132,40 @@ export function ConceptView({ c }: { c: ConceptRow }) {
       </section>
 
       {/* -------------------------------------------------------- EXPLANATION */}
-      <section className="nxv-sec" aria-labelledby="c-biz">
-        <div className="nxv-sec-h">
-          <span className="nxv-sec-i" aria-hidden="true"><Sparkles size={16} strokeWidth={1.75} /></span>
-          <h2 className="nx-h2" id="c-biz">הסבר עסקי</h2>
-          <em className="nxv-sec-n">01</em>
-        </div>
+      <Sig id="c-biz" icon={<Sparkles size={15} strokeWidth={1.75} />} title="הסבר עסקי">
         {c.biz ? <p className="nxv-v">{c.biz}</p> : <Absent what="הסבר עסקי" />}
-      </section>
+      </Sig>
 
-      <section className="nxv-sec" aria-labelledby="c-tech">
-        <div className="nxv-sec-h">
-          <span className="nxv-sec-i" aria-hidden="true"><Wrench size={16} strokeWidth={1.75} /></span>
-          <h2 className="nx-h2" id="c-tech">הסבר טכני</h2>
-          <em className="nxv-sec-n">02</em>
-        </div>
+      <Sig id="c-tech" icon={<Wrench size={15} strokeWidth={1.75} />} title="הסבר טכני">
         {c.tech ? <p className="nxv-v">{c.tech}</p> : <Absent what="הסבר טכני" />}
-      </section>
+      </Sig>
 
       {/* ------------------------------------------------------------ EXAMPLES */}
-      <section className="nxv-sec" aria-labelledby="c-ex">
-        <div className="nxv-sec-h">
-          <span className="nxv-sec-i" aria-hidden="true"><Lightbulb size={16} strokeWidth={1.75} /></span>
-          <h2 className="nx-h2" id="c-ex">דוגמאות</h2>
-          <em className="nxv-sec-n">03</em>
-        </div>
+      <Sig
+        id="c-ex"
+        icon={<Lightbulb size={15} strokeWidth={1.75} />}
+        title="דוגמאות"
+        count={c.examples.length ? `${nf.format(c.examples.length)} דוגמאות` : undefined}
+        lede={c.examples.length
+          ? <>דוגמה שמזוהה כטבלת SAP או כטרנזקציה בקטלוג נפתחת לעמוד שלה. דוגמה אחרת{" "}(אלמנט נתונים, מודול פונקציה, תבנית) מוצגת כערך ללא קישור.</>
+          : undefined}
+      >
         {c.examples.length ? (
-          <>
-            <p className="nx-muted">
-              דוגמה שמזוהה כטבלת SAP או כטרנזקציה בקטלוג נפתחת לעמוד שלה. דוגמה אחרת
-              {" "}(אלמנט נתונים, מודול פונקציה, תבנית) מוצגת כערך ללא קישור.
-            </p>
-            <div className="nxv-refs">
-              {c.examples.map((r) => <Ref key={`${r.kind}-${r.label}`} r={r} />)}
-            </div>
-          </>
+          <div className="nxv-refs">
+            {c.examples.map((r) => <Ref key={`${r.kind}-${r.label}`} r={r} />)}
+          </div>
         ) : (
           <Absent what="דוגמאות" />
         )}
-      </section>
+      </Sig>
 
       {/* ------------------------------------------------------------- RELATED */}
-      <section className="nxv-sec" aria-labelledby="c-rel">
-        <div className="nxv-sec-h">
-          <span className="nxv-sec-i" aria-hidden="true"><Link2 size={16} strokeWidth={1.75} /></span>
-          <h2 className="nx-h2" id="c-rel">מושגים קשורים</h2>
-          <em className="nxv-sec-n">04</em>
-        </div>
+      <Sig
+        id="c-rel"
+        icon={<Link2 size={15} strokeWidth={1.75} />}
+        title="מושגים קשורים"
+        count={c.related.length ? `${nf.format(c.related.length)} מושגים` : undefined}
+      >
         {c.related.length ? (
           <div className="nxv-refs">
             {c.related.map((r) => <Ref key={`rel-${r.label}`} r={r} />)}
@@ -174,21 +173,19 @@ export function ConceptView({ c }: { c: ConceptRow }) {
         ) : (
           <Absent what="מושגים קשורים" />
         )}
-      </section>
+      </Sig>
 
-      <div className="nxv-foot">
-        <p className="nxv-src">
-          <Info size={13} strokeWidth={1.75} aria-hidden="true" />
-          <span>
+      <CatalogFoot
+        notes={[
+          <>
             מקור: <span className="nx-sap">data/concepts.ts</span>: תיעוד SAP מאומת, שאינו נקרא ממערכת חיה.
             {" "}נדרש אימות במערכת לפני יישום.
-          </span>
-        </p>
-        <p>
-          {linked} מתוך {c.examples.length + c.related.length} ההפניות של המושג מקושרות לעמוד בפרויקט;
-          {" "}השאר מוצגות כערך.
-        </p>
-      </div>
+          </>,
+        ]}
+      >
+        {linked} מתוך {c.examples.length + c.related.length} ההפניות של המושג מקושרות לעמוד בפרויקט;
+        {" "}השאר מוצגות כערך.
+      </CatalogFoot>
     </div>
   );
 }

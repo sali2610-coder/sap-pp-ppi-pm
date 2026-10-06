@@ -424,7 +424,7 @@ export function TransactionsSurface({ status }: { status?: Record<string, string
         icon={<SlidersHorizontal size={15} strokeWidth={1.75} />}
         title="הטרנזקציות לפי מודול"
         count={`${fmt(modules.length)} מודולים`}
-        lede="אורך הפס הוא מספר הטרנזקציות, והחלק הכהה הוא המתועדות לעומק. לחיצה על מודול מסננת את הרשימה."
+        lede="אורך הפס הוא מספר הטרנזקציות, והחלק המודגש הוא המתועדות לעומק. לחיצה על מודול מסננת את הרשימה."
       >
         <RankList
           label="המודולים לפי מספר הטרנזקציות"

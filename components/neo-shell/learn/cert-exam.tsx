@@ -30,6 +30,15 @@
      publishes no threshold that this repo holds. The result screen labels it
      as the project's rule rather than implying an official one.
 
+   THE RUNNER IN THE CATALOGS' LANGUAGE (2026-10). The setup is the entry
+   page's own composition (catalog-kit hero, a Sig, facet groups of pressed
+   .nu-filter chips, one red action); the run header is a sticky band with an
+   ink meter and the counts as glyph + word (it was defined twice in cert.css
+   and the second rule crushed it to a 7px bar); a locked choice is a 1px
+   status ring plus its glyph and word, never a fill; the result is a ledger
+   and a ranked list by question type, with no trophy, ring or gold wash; the
+   credit closes every phase.
+
    FEEDBACK IS IMMEDIATE AND THEN LOCKED
 
      A choice is committed on selection: the answer locks, the explanation
@@ -38,22 +47,34 @@
      you can go back and READ a locked question, you just cannot re-answer it.
    ========================================================================== */
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
-  ArrowLeft, ArrowRight, Award, Check, RotateCcw, Target, X,
+  ArrowLeft, ArrowRight, Award, Check, ListChecks, RotateCcw, Target, X,
 } from "lucide-react";
 import {
   LEVEL_HE, QTYPE_HE, pickExam, type CertModule, type Level, type Question,
 } from "@/lib/cert/generate";
 import { recordExam } from "@/lib/cert/store";
-import { LENGTHS, LEVELS, MODULES, Opt, Picker, parseExamQuery } from "./cert-pick";
+import { CatalogFoot, CatalogHero, Ledger, RankList, Sig, fmt } from "../data/catalog-kit";
+import { LENGTHS, LEVELS, MODULES, parseExamQuery } from "./cert-pick";
 
 /** The project's own threshold, from lib/cert/store. Never presented as SAP's. */
 const PASS = 80;
 
 type Phase = "setup" | "run" | "done";
 type Answer = { picked: number; correct: boolean };
+
+const RED = { "--m": "var(--brand)" } as React.CSSProperties;
+
+/** The foot every phase closes with: what the questions are, and the credit. */
+function Foot() {
+  return (
+    <CatalogFoot>
+      השאלות, התשובות וההסברים נבנים מהתיעוד המאומת של הפרויקט. המבחן אינו מבוסס על תוכנית הסמכה רשמית של SAP.
+    </CatalogFoot>
+  );
+}
 
 export function CertExam() {
   const [phase, setPhase] = useState<Phase>("setup");
@@ -146,45 +167,57 @@ export function CertExam() {
 
   if (phase === "setup") {
     return (
-      <div className="nce" data-phase="setup">
-        <header className="nce-hero">
-          <p className="nce-eye"><Target size={13} strokeWidth={2} aria-hidden="true" />הערכת ידע</p>
-          <h1 className="nce-h1">הגדרת המבחן</h1>
-          <p className="nce-lede">
-            השאלות נבנות מהתיעוד המאומת של הפרויקט: ייעוד טבלאות, מפתחות, קשרי ER,
-            זרימת נתונים, מפת השפעת המעבר ל-S/4HANA וקטלוג התקלות. המבחן אינו מבוסס על תוכנית הסמכה רשמית של SAP.
-          </p>
-        </header>
+      <div className="nxd nce nm-scene" data-scene="cream" data-surface="assessment" data-phase="setup">
+        <CatalogHero
+          icon={<Target size={14} strokeWidth={1.75} aria-hidden="true" />}
+          eyebrow="הערכת ידע"
+          title="הגדרת המבחן"
+          lede={
+            <>
+              השאלות נבנות מהתיעוד המאומת של הפרויקט: ייעוד טבלאות, מפתחות, קשרי ER,
+              זרימת נתונים, מפת השפעת המעבר ל-S/4HANA וקטלוג התקלות. המבחן אינו מבוסס על תוכנית הסמכה רשמית של SAP.
+            </>
+          }
+        />
 
-        <Picker label="מאגר" >
-          {MODULES.map((m) => (
-            <Opt key={m.id} on={mod === m.id} onClick={() => setMod(m.id)}>
-              <b>{m.id}</b><span>{m.he}</span>
-            </Opt>
-          ))}
-        </Picker>
+        <Sig id="ce-setup" icon={<ListChecks size={15} strokeWidth={1.75} />} title="מאגר, רמה ומספר שאלות">
+          <div className="nxd-setup nce-setup">
+            <div className="nxd-facet" role="group" aria-label="מאגר">
+              <span className="nxd-facet-l">מאגר</span>
+              {MODULES.map((m) => (
+                <button key={m.id} type="button" className="nu-filter" aria-pressed={mod === m.id} onClick={() => setMod(m.id)}>
+                  <bdi className="nx-sap">{m.id}</bdi> {m.he}
+                </button>
+              ))}
+            </div>
+            <div className="nxd-facet" role="group" aria-label="רמה">
+              <span className="nxd-facet-l">רמה</span>
+              {LEVELS.map((l) => (
+                <button key={l} type="button" className="nu-filter" aria-pressed={level === l} onClick={() => setLevel(l)}>
+                  <bdi className="nx-sap">{l}</bdi> {LEVEL_HE[l]}
+                </button>
+              ))}
+            </div>
+            <div className="nxd-facet" role="group" aria-label="מספר שאלות">
+              <span className="nxd-facet-l">מספר שאלות</span>
+              {LENGTHS.map((n) => (
+                <button key={n} type="button" className="nu-filter" aria-pressed={len === n} onClick={() => setLen(n)}>
+                  {fmt(n)} שאלות
+                </button>
+              ))}
+            </div>
+            <div className="nxd-go">
+              {/* The one red action on the page. */}
+              <button type="button" className="nu-btn nxd-start" style={RED} onClick={start}>
+                התחלת המבחן
+                <ArrowLeft size={15} strokeWidth={2} className="nu-arw" aria-hidden="true" />
+              </button>
+              <Link href="/neo/certification/" prefetch={false} className="nu-ghost">חזרה לתרגול ובדיקת ידע</Link>
+            </div>
+          </div>
+        </Sig>
 
-        <Picker label="רמה">
-          {LEVELS.map((l) => (
-            <Opt key={l} on={level === l} onClick={() => setLevel(l)}>
-              <b>{l}</b><span>{LEVEL_HE[l]}</span>
-            </Opt>
-          ))}
-        </Picker>
-
-        <Picker label="מספר שאלות">
-          {LENGTHS.map((n) => (
-            <Opt key={n} on={len === n} onClick={() => setLen(n)}><b>{n}</b><span>שאלות</span></Opt>
-          ))}
-        </Picker>
-
-        <div className="nce-go">
-          <button type="button" className="nu-btn nce-start" onClick={start}>
-            התחלת המבחן
-            <ArrowLeft size={15} strokeWidth={2} aria-hidden="true" />
-          </button>
-          <Link href="/neo/certification/" prefetch={false} className="nu-ghost">חזרה לתרגול ובדיקת ידע</Link>
-        </div>
+        <Foot />
       </div>
     );
   }
@@ -203,51 +236,55 @@ export function CertExam() {
     const wrong = qs.map((_, i) => i).filter((i) => !answers[i]?.correct);
 
     return (
-      <div className="nce" data-phase="done">
-        <section className="nce-result" data-pass={pass ? "1" : "0"}>
-          <span className="nce-trophy" aria-hidden="true">
-            <Award size={38} strokeWidth={1.6} />
-          </span>
-          <p className="nce-eye">תוצאה</p>
-          {/* The ring is decorative; the number beside it is the accessible value. */}
-          <div className="nce-ring" style={{ "--p": score } as React.CSSProperties} aria-hidden="true">
-            <b>{score}<i>%</i></b>
-          </div>
-          <p className="nce-score-a11y">ציון {score} אחוז, {correct} נכונות מתוך {qs.length}.</p>
+      <div className="nxd nce nm-scene" data-scene="cream" data-surface="assessment" data-phase="done" data-pass={pass ? "1" : "0"}>
+        <CatalogHero
+          icon={<Award size={14} strokeWidth={1.75} aria-hidden="true" />}
+          eyebrow="הערכת ידע · תוצאה"
+          title={`ציון ${score}%`}
+          lede={<>הרף הוא {PASS}%, כלל פנימי של הפרויקט ולא ציון עובר של SAP. התוצאה נשמרה במכשיר זה בלבד.</>}
+        >
           <p className="nce-verdict">
-            {pass ? "הציון עובר את הרף הפנימי" : "הציון מתחת לרף הפנימי"}
+            <span className="nu-status" style={{ "--s": pass ? "var(--status-done)" : "var(--status-in-analysis)" } as React.CSSProperties}>
+              {pass ? "הציון עובר את הרף הפנימי" : "הציון מתחת לרף הפנימי"}
+            </span>
           </p>
-          <p className="nce-note">
-            הרף הוא {PASS}%, כלל פנימי של הפרויקט ולא ציון עובר של SAP. התוצאה נשמרה במכשיר זה בלבד.
-          </p>
-          <div className="nce-tally">
-            <span className="nce-t nce-t--ok"><Check size={13} aria-hidden="true" />{correct} נכונות</span>
-            <span className="nce-t nce-t--no"><X size={13} aria-hidden="true" />{qs.length - correct} שגויות</span>
-          </div>
-        </section>
+          <Ledger
+            label="התוצאה במספרים"
+            items={[
+              { v: score, l: "ציון באחוזים" },
+              { v: correct, l: "תשובות נכונות" },
+              { v: qs.length - correct, l: "תשובות שגויות" },
+              { v: qs.length, l: "שאלות במבחן" },
+            ]}
+          />
+        </CatalogHero>
 
-        <section className="nce-topics" aria-label="תוצאות לפי סוג שאלה">
-          <h2 className="nce-h2">לפי סוג שאלה</h2>
-          <ul>
-            {[...byType.entries()].map(([k, v]) => (
-              <li key={k}>
-                <span className="nce-topic-n">{k}</span>
-                <span className="nce-bar" aria-hidden="true">
-                  <i style={{ width: `${Math.round((v.ok / v.n) * 100)}%` }} />
-                </span>
-                <span className="nce-topic-v">{v.ok}/{v.n}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <Sig
+          id="ce-types"
+          icon={<ListChecks size={15} strokeWidth={1.75} />}
+          title="לפי סוג שאלה"
+          count={`${fmt(byType.size)} סוגים`}
+          lede="אורך הפס: מספר השאלות מכל סוג. החלק המודגש: התשובות הנכונות."
+        >
+          <RankList
+            label="תוצאות לפי סוג שאלה"
+            items={[...byType.entries()].map(([k, v]) => ({
+              id: k,
+              label: k,
+              n: v.n,
+              part: v.ok,
+              sub: <>{fmt(v.ok)} {v.ok === 1 ? "נכונה" : "נכונות"} מתוך {fmt(v.n)}</>,
+            }))}
+          />
+        </Sig>
 
-        <div className="nce-go">
-          <button type="button" className="nu-btn" onClick={() => { setPhase("run"); setAt(0); setReviewWrongOnly(false); }}>
+        <div className="nxd-go nce-go">
+          <button type="button" className="nu-btn" style={RED} onClick={() => { setPhase("run"); setAt(0); setReviewWrongOnly(false); }}>
             סקירת השאלות
           </button>
           {wrong.length ? (
             <button type="button" className="nu-btn2" onClick={() => { setPhase("run"); setAt(wrong[0]); setReviewWrongOnly(true); }}>
-              סקירת {wrong.length} התשובות השגויות
+              {wrong.length === 1 ? "סקירת התשובה השגויה" : `סקירת ${wrong.length} התשובות השגויות`}
             </button>
           ) : null}
           <button type="button" className="nu-btn2" onClick={() => { setPhase("setup"); }}>
@@ -255,38 +292,45 @@ export function CertExam() {
           </button>
           <Link href="/neo/certification/" prefetch={false} className="nu-ghost">חזרה לתרגול ובדיקת ידע</Link>
         </div>
+
+        <Foot />
       </div>
     );
   }
 
-  /* ---------------------------------------------------------------- run */
+  /* ---------------------------------------------------------------- run
+     Block flow, not the catalog's grid: the header below is sticky, and a
+     sticky GRID item cannot travel past its own grid area. */
 
-  const pct = Math.round((answered / qs.length) * 100);
   return (
-    <div className="nce" data-phase="run">
-      <header className="nce-bar">
-        <span className="nce-count">
-          <b>{at + 1}</b><i>/{qs.length}</i>
+    <div className="nce nm-scene" data-scene="cream" data-surface="assessment" data-phase="run">
+      <header className="nce-run">
+        <span className="nce-count">שאלה <bdi dir="ltr" className="nx-sap">{at + 1}/{qs.length}</bdi></span>
+        <span className="nce-meter" aria-hidden="true">
+          <i style={{ transform: `scaleX(${qs.length ? answered / qs.length : 0})` }} />
         </span>
-        <span className="nce-prog" aria-hidden="true"><i style={{ width: `${pct}%` }} /></span>
         <span className="nce-live">
-          <span className="nce-t nce-t--ok">{correct}</span>
-          <span className="nce-t nce-t--no">{answered - correct}</span>
+          <span className="nce-st" data-k="ok"><Check size={14} strokeWidth={2.2} aria-hidden="true" />{fmt(correct)} {correct === 1 ? "נכונה" : "נכונות"}</span>
+          <span className="nce-st" data-k="no"><X size={14} strokeWidth={2.2} aria-hidden="true" />{fmt(answered - correct)} {answered - correct === 1 ? "שגויה" : "שגויות"}</span>
         </span>
       </header>
 
       {q ? (
         <article className="nce-q" key={q.id}>
           <p className="nce-q-meta">
-            <span className="nce-chip">{QTYPE_HE[q.type]}</span>
-            <span className="nce-chip nce-chip--lvl">{LEVEL_HE[q.level]}</span>
-            <span className="nce-chip nx-sap" dir="ltr">{q.table}</span>
+            <span className="nu-chip">{QTYPE_HE[q.type]}</span>
+            <span className="nu-chip">{LEVEL_HE[q.level]}</span>
+            <span className="nu-chip is-sap" dir="ltr">{q.table}</span>
           </p>
           <h1 className="nce-stem">{q.stem}</h1>
           {q.context ? <p className="nce-ctx">{q.context}</p> : null}
-          {q.code ? <pre className="nce-code" dir="ltr">{q.code}</pre> : null}
+          {q.code ? <pre className="nce-code" dir="ltr" tabIndex={0} role="region" aria-label="קוד השאלה">{q.code}</pre> : null}
 
-          <ul className="nce-choices" role="listbox" aria-label="אפשרויות התשובה">
+          {/* A plain list of buttons: choosing commits the answer, so each choice
+              is an action, not an option a listbox would let you move between.
+              (It was ul[role=listbox] > li > button[role=option], a structure
+              axe rejects: the li stood between the listbox and its options.) */}
+          <ul className="nce-choices" aria-label="אפשרויות התשובה">
             {q.choices.map((c, i) => {
               const isPicked = given?.picked === i;
               const isAnswer = i === q.answer;
@@ -295,8 +339,7 @@ export function CertExam() {
                 <li key={i}>
                   <button
                     type="button"
-                    role="option"
-                    aria-selected={isPicked}
+                    aria-pressed={isPicked}
                     disabled={!!given}
                     className="nce-choice"
                     data-state={state}
@@ -304,8 +347,13 @@ export function CertExam() {
                   >
                     <span className="nce-key" aria-hidden="true">{i + 1}</span>
                     <span className="nce-choice-t">{c}</span>
-                    {given && isAnswer ? <Check size={16} strokeWidth={2.4} aria-hidden="true" /> : null}
-                    {given && isPicked && !isAnswer ? <X size={16} strokeWidth={2.4} aria-hidden="true" /> : null}
+                    {/* A locked state is said in words as well as by its glyph. */}
+                    {given && isAnswer ? (
+                      <span className="nce-tag" data-k="ok"><Check size={15} strokeWidth={2.4} aria-hidden="true" />התשובה הנכונה</span>
+                    ) : null}
+                    {given && isPicked && !isAnswer ? (
+                      <span className="nce-tag" data-k="no"><X size={15} strokeWidth={2.4} aria-hidden="true" />הבחירה שלך</span>
+                    ) : null}
                   </button>
                 </li>
               );
@@ -316,13 +364,18 @@ export function CertExam() {
 
           {given ? (
             <div className="nce-why" data-ok={given.correct ? "1" : "0"}>
-              <b>{given.correct ? "תשובה נכונה" : "תשובה שגויה · ההסבר לתשובה הנכונה"}</b>
+              <b>
+                {given.correct
+                  ? <Check size={15} strokeWidth={2.4} aria-hidden="true" />
+                  : <X size={15} strokeWidth={2.4} aria-hidden="true" />}
+                {given.correct ? "תשובה נכונה" : "תשובה שגויה · ההסבר לתשובה הנכונה"}
+              </b>
               <p>{q.why}</p>
               {/* Silence when the record has no note. Nothing is authored here. */}
               {q.wrongNote ? <p className="nce-why-2">{q.wrongNote}</p> : null}
               {q.tcodes?.length ? (
                 <p className="nce-rel">
-                  {q.tcodes.map((t) => <span key={t} className="nce-chip nx-sap" dir="ltr">{t}</span>)}
+                  {q.tcodes.map((t) => <span key={t} className="nu-chip is-sap" dir="ltr">{t}</span>)}
                 </p>
               ) : null}
             </div>
@@ -341,7 +394,7 @@ export function CertExam() {
             השאלה הבאה<ArrowLeft size={15} strokeWidth={2} aria-hidden="true" />
           </button>
         ) : (
-          <button type="button" className="nu-btn" onClick={finish}>
+          <button type="button" className="nu-btn" style={RED} onClick={finish}>
             {answered === qs.length ? "סיום המבחן והצגת התוצאה" : `סיום המבחן (${answered}/${qs.length} נענו)`}
           </button>
         )}
@@ -349,9 +402,8 @@ export function CertExam() {
           <button type="button" className="nu-ghost" onClick={() => setPhase("done")}>חזרה לתוצאה</button>
         ) : null}
       </nav>
+
+      <Foot />
     </div>
   );
 }
-
-/* The Picker / Opt primitives moved to ./cert-pick.tsx so the entry page can
-   ask the same three questions (audit S7-CERT-2). */

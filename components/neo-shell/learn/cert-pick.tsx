@@ -12,7 +12,9 @@
    URL; the runner reads them back and, when asked to, starts at once.
 
    Nothing here authors a question. MODULES / LEVELS / LENGTHS mirror the exam
-   engine's own enums (lib/cert/generate) and nothing else.
+   engine's own enums (lib/cert/generate) and nothing else. (2026-10: the
+   Picker / Opt buttons left this file; both screens now draw their choices
+   as the catalogs' facet groups of pressed .nu-filter chips.)
    ========================================================================== */
 
 import type { CertModule, Level } from "@/lib/cert/generate";
@@ -45,24 +47,4 @@ export function parseExamQuery(search: string): { mod?: CertModule; level?: Leve
   const ln = Number(q.get("len"));
   const len = LENGTHS.find((n) => n === ln);
   return { mod, level, len, start: q.get("start") === "1" };
-}
-
-export function Picker({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
-  return (
-    <section className="nce-pick">
-      <h2 className="nce-pick-h">
-        {label}
-        {hint ? <span className="nce-pick-hint"> · {hint}</span> : null}
-      </h2>
-      <div className="nce-pick-row">{children}</div>
-    </section>
-  );
-}
-
-export function Opt({ on, onClick, children }: { on: boolean; onClick: () => void; children: React.ReactNode }) {
-  return (
-    <button type="button" className="nce-opt" data-on={on ? "1" : "0"} aria-pressed={on} onClick={onClick}>
-      {children}
-    </button>
-  );
 }

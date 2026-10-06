@@ -35,6 +35,7 @@ import { Rtl } from "@/components/neo-shell/rtl-text";
 import { CatalogFoot, CatalogHero, Cell, Cols, Ledger, RankList, Sig, fmt } from "../data/catalog-kit";
 import { learnModVar } from "./mod";
 import { IMPACT_UNTAGGED, type IncidentRow, type IncidentsData } from "./incidents-data";
+import { impactDot as dotOf, splitCode } from "./incident-vocab";
 
 const SURFACE = "neo:incidents";
 const PAGE = 40;
@@ -52,31 +53,6 @@ const VIEW_HE: Record<View, string> = {
   all: "כל הקטלוג",
   s4: "עם הבחנה בין ECC ל-S/4HANA",
   prevent: "עם צעדי מניעה",
-};
-
-/** Severity is not invented here. The record's own tag chooses the dot; the
- *  Hebrew word next to it carries the whole meaning. */
-const IMPACT_DOT: Record<string, string> = {
-  BLOCKING: "var(--status-in-analysis)",
-  "FINANCIAL POSTING RISK": "var(--status-in-analysis)",
-  FINANCIAL: "var(--status-in-conversion)",
-  "DATA INCONSISTENCY": "var(--status-in-conversion)",
-  // --status-tested is violet, and this product draws no violet: the two lower
-  // tiers share the neutral dot with monitoring, and their words tell them apart.
-  PARTIAL: "var(--status-not-started)",
-  "USER-SPECIFIC": "var(--status-not-started)",
-  "MONITORING NOISE": "var(--status-not-started)",
-  MONITORING: "var(--status-not-started)",
-};
-const dotOf = (kind: string) => IMPACT_DOT[kind] || "var(--status-not-started)";
-
-/** 37 of the catalogue's codes are written "IWO10009 verify SE93": the code,
- *  and the transaction the source asks you to verify it in (SE93 transactions,
- *  SE18 BAdIs, SE91 message classes). The code is the code; the rest is said. */
-const VERIFY = /^(\S+)\s+verify\s+(SE\d\d)$/i;
-const splitCode = (raw: string): { code: string; at: string } => {
-  const m = raw.match(VERIFY);
-  return m ? { code: m[1], at: m[2].toUpperCase() } : { code: raw, at: "" };
 };
 
 const COLS = [

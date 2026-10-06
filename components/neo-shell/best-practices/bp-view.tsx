@@ -13,6 +13,13 @@
 
    ABSENCE IS RENDERED, NOT HIDDEN. A practice whose record leaves a list empty
    gets «לא קיים תיעוד מאומת במאגר» in that list's own place.
+
+   THE RECORD LANGUAGE (2026-10, components/neo-shell/record-kit.tsx and
+   app/neo/record.css): the summary is the hero's lede and the verification
+   level its verdict, a ledger of the practice's own counts (each a door to its
+   section), every question as the catalog's Sig, the process profile in two
+   balanced columns, the sources after the sixth behind one disclosure, and
+   the credit at the foot.
    ========================================================================== */
 
 import Link from "next/link";
@@ -23,6 +30,8 @@ import { SmartReturn } from "@/components/neo-shell/nav-context";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { EvidenceBlock } from "@/components/neo-shell/evidence/evidence-block";
 import { modVar } from "../mod-var";
+import { RecordHead } from "../record-kit";
+import { CatalogFoot, Ledger, Sig } from "../data/catalog-kit";
 import type { BpDetail, BpLineV, BpXrefV } from "./bp-data";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -65,13 +74,24 @@ function ModChip({ module, moduleHe }: { module: string; moduleHe: string }) {
 
 /* ------------------------------------------------------------- the record */
 
-function SecHead({ id, icon, title, note }: { id: string; icon: React.ReactNode; title: string; note?: string }) {
+/** The sources shown before the disclosure. */
+const CLAIMS_OPEN = 6;
+
+function Claim({ c }: { c: BpDetail["claims"][number] }) {
   return (
-    <h2 className="nx-h2 nxt-sec-h" id={id}>
-      <span className="nxt-sec-i" aria-hidden="true">{icon}</span>
-      {title}
-      {note ? <em className="nxt-sec-n">{note}</em> : null}
-    </h2>
+    <li>
+      <span className="nbp-claim-t">{c.title}</span>
+      <span className="nbp-claim-m">
+        <span className="nu-status" style={{ "--s": c.levelDot } as React.CSSProperties}>
+          {c.levelHe}
+        </span>
+        {c.sapNote ? <span className="nu-chip is-sap">SAP Note {c.sapNote}</span> : null}
+      </span>
+      <span className="nbp-claim-c">{c.claim}</span>
+      {c.repoRef ? (
+        <span className="nx-sap nbp-claim-ref" dir="ltr">{c.repoRef}</span>
+      ) : null}
+    </li>
   );
 }
 
@@ -95,13 +115,12 @@ function Line({ l, label }: { l: BpLineV; label: string }) {
  *  instead of silently absent. */
 function ProcessProfile({ p }: { p: NonNullable<BpDetail["process"]> }) {
   return (
-    <section className="nxt-sec" id="bp-process" aria-labelledby="bp-process-h">
-      <SecHead
-        id="bp-process-h"
-        icon={<LayoutList size={15} strokeWidth={1.75} />}
-        title="פרופיל התהליך"
-        note={`${nf.format(p.filled)} מתוך ${nf.format(p.total)} שדות מתועדים`}
-      />
+    <Sig
+      id="bp-process"
+      icon={<LayoutList size={15} strokeWidth={1.75} />}
+      title="פרופיל התהליך"
+      count={`${nf.format(p.filled)} מתוך ${nf.format(p.total)} שדות מתועדים`}
+    >
       <div className="nbp-fact">
         <span className="nxt-l">מטרה</span>
         <p className="nxt-v nxr-text">{p.purpose}</p>
@@ -149,7 +168,7 @@ function ProcessProfile({ p }: { p: NonNullable<BpDetail["process"]> }) {
           שדות שהמאגר אינו מתעד עדיין לתהליך זה: {p.gaps.join(" · ")}.
         </p>
       ) : null}
-    </section>
+    </Sig>
   );
 }
 
@@ -168,60 +187,84 @@ export function BpDetailView({ d }: { d: BpDetail }) {
   ];
 
   return (
-    <article className="nxt" data-surface="best-practice" style={{ "--m": m } as React.CSSProperties}>
+    <article className="nxt nrc nm-scene" data-scene="cream" data-surface="best-practice" style={{ "--m": m } as React.CSSProperties}>
       <SmartReturn
         fallback={{ href: "/neo/best-practices/", label: "שיטות עבודה מומלצות" }}
         hint="לא נשמר מסלול הגעה בביקור הזה"
       />
 
-      {/* ------------------------------------------------------ 1. IDENTITY */}
-      <header className="nxt-head">
-        <span className="nx-modbar" aria-hidden="true" />
-        <p className="nx-eyebrow nxt-eyebrow">שיטות עבודה מומלצות · {d.moduleHe}</p>
-        <h1 className="nbp-h1">{d.he}</h1>
-        <p className="nxt-en" dir="ltr">{d.en}</p>
-        <div className="nxt-meta">
-          <span className="nu-status" style={{ "--s": d.evidence.level.dot } as React.CSSProperties}>
-            {d.evidence.level.he}
-          </span>
-          <ModChip module={d.module} moduleHe={d.moduleHe} />
-          <span className="nu-chip">
-            <ListChecks size={11} strokeWidth={1.75} aria-hidden="true" />
-            {nf.format(d.steps.length)} צעדים
-          </span>
-          <span className="nu-chip">
-            <ShieldCheck size={11} strokeWidth={1.75} aria-hidden="true" />
-            {nf.format(d.claims.length)} מקורות
-          </span>
-          <span className="nxt-known">
-            <span className="nx-sr">עדכון אחרון </span>עודכן {d.lastVerifiedAt}
-          </span>
-        </div>
-      </header>
+      {/* ------------------------------------------------------ 1. IDENTITY
+          The summary is the lede and the verification level the verdict, so
+          what the practice is and how far it is verified are read before any
+          section. */}
+      <RecordHead
+        icon={<ClipboardCheck size={14} strokeWidth={1.75} aria-hidden="true" />}
+        eyebrow={`שיטות עבודה מומלצות · ${d.moduleHe}`}
+        title={d.he}
+        en={d.en || undefined}
+        lede={d.summary}
+        meta={
+          <>
+            <ModChip module={d.module} moduleHe={d.moduleHe} />
+            <span className="nu-chip">
+              <ListChecks size={11} strokeWidth={1.75} aria-hidden="true" />
+              {nf.format(d.steps.length)} צעדים
+            </span>
+            <span className="nu-chip">
+              <ShieldCheck size={11} strokeWidth={1.75} aria-hidden="true" />
+              {nf.format(d.claims.length)} מקורות
+            </span>
+            {/* The field is the date the record was last VERIFIED, and says so. */}
+            <span className="nxt-known">
+              <span className="nx-sr">תאריך האימות האחרון </span>אומת לאחרונה {d.lastVerifiedAt}
+            </span>
+          </>
+        }
+        verdict={
+          <>
+            <span className="nu-status" style={{ "--s": d.evidence.level.dot } as React.CSSProperties}>
+              {d.evidence.level.he}
+            </span>
+            <a className="nu-link" href="#bp-evidence">
+              אימות ומקורות
+              <ArrowLeft className="nu-arw" size={13} strokeWidth={2} aria-hidden="true" />
+            </a>
+          </>
+        }
+      >
+        <Ledger
+          label="השיטה במספרים. כל מספר מוביל לחלק שלו בעמוד"
+          items={[
+            ...(d.process ? [{ v: d.process.filled, l: "שדות בפרופיל התהליך", href: "#bp-process" }] : []),
+            { v: d.steps.length, l: "צעדי עבודה", href: "#bp-steps" },
+            { v: d.antiPatterns.length, l: "דפוסים שגויים", href: "#bp-anti" },
+            { v: d.checks.length, l: "בדיקות", href: "#bp-checks" },
+            { v: d.xrefs.length, l: "רשומות מקושרות", href: "#bp-xrefs" },
+            { v: d.claims.length, l: "מקורות", href: "#bp-evidence" },
+          ]}
+        />
+      </RecordHead>
 
       <SectionNav sections={nav} />
 
       {/* ------------------------------------------------------ 2. THE WHAT */}
-      <section className="nxt-sec" id="bp-about" aria-labelledby="bp-about-h">
-        <SecHead id="bp-about-h" icon={<Info size={15} strokeWidth={1.75} />} title="מהות השיטה" />
-        <p className="nxr-text nbp-sumline">{d.summary}</p>
+      <Sig id="bp-about" icon={<Info size={15} strokeWidth={1.75} />} title="מהות השיטה">
         <div className="nbp-fact">
           <span className="nxt-l">הקשר ורקע, מרשומות המאגר</span>
           <p className="nxt-v nxr-text">{d.context || NONE}</p>
         </div>
-      </section>
+      </Sig>
 
       {/* ------------------------------------------------ 2b. THE PROCESS */}
       {d.process ? <ProcessProfile p={d.process} /> : null}
 
       {/* ------------------------------------------------------- 3. THE HOW */}
-      <section className="nxt-sec" id="bp-steps" aria-labelledby="bp-steps-h">
-        <SecHead
-          id="bp-steps-h"
-          icon={<ListChecks size={15} strokeWidth={1.75} />}
-          title="צעדי העבודה"
-          note={`${nf.format(d.steps.length)} צעדים`}
-        />
+      <Sig
+        id="bp-steps"
+        icon={<ListChecks size={15} strokeWidth={1.75} />}
+        title="צעדי העבודה"
+        count={`${nf.format(d.steps.length)} צעדים`}
+      >
         {d.steps.length ? (
           <ol className="nxt-ol nbp-steps">
             {d.steps.map((s) => (
@@ -238,16 +281,15 @@ export function BpDetailView({ d }: { d: BpDetail }) {
         ) : (
           <p className="nxt-absent">{NONE} · צעדי עבודה</p>
         )}
-      </section>
+      </Sig>
 
       {/* ------------------------------------------------- 4. ANTI-PATTERNS */}
-      <section className="nxt-sec" id="bp-anti" aria-labelledby="bp-anti-h">
-        <SecHead
-          id="bp-anti-h"
-          icon={<AlertTriangle size={15} strokeWidth={1.75} />}
-          title="דפוסים שגויים"
-          note={d.antiPatterns.length ? `${nf.format(d.antiPatterns.length)} דפוסים` : undefined}
-        />
+      <Sig
+        id="bp-anti"
+        icon={<AlertTriangle size={15} strokeWidth={1.75} />}
+        title="דפוסים שגויים"
+        count={d.antiPatterns.length ? `${nf.format(d.antiPatterns.length)} דפוסים` : undefined}
+      >
         {d.antiPatterns.length ? (
           <ul className="nxt-ul">
             {d.antiPatterns.map((x) => <li key={x.slice(0, 40)}>{x}</li>)}
@@ -255,16 +297,15 @@ export function BpDetailView({ d }: { d: BpDetail }) {
         ) : (
           <p className="nxt-absent">{NONE} · דפוסים שגויים</p>
         )}
-      </section>
+      </Sig>
 
       {/* ------------------------------------------------------- 5. CHECKS */}
-      <section className="nxt-sec" id="bp-checks" aria-labelledby="bp-checks-h">
-        <SecHead
-          id="bp-checks-h"
-          icon={<ClipboardCheck size={15} strokeWidth={1.75} />}
-          title="בדיקות ואימות בשטח"
-          note={d.checks.length ? `${nf.format(d.checks.length)} בדיקות` : undefined}
-        />
+      <Sig
+        id="bp-checks"
+        icon={<ClipboardCheck size={15} strokeWidth={1.75} />}
+        title="בדיקות ואימות בשטח"
+        count={d.checks.length ? `${nf.format(d.checks.length)} בדיקות` : undefined}
+      >
         {d.checks.length ? (
           <ul className="nxt-ul">
             {d.checks.map((x) => <li key={x.slice(0, 40)}>{x}</li>)}
@@ -272,75 +313,61 @@ export function BpDetailView({ d }: { d: BpDetail }) {
         ) : (
           <p className="nxt-absent">{NONE} · בדיקות</p>
         )}
-      </section>
+      </Sig>
 
       {/* -------------------------------------------------------- 6. XREFS */}
-      <section className="nxt-sec" id="bp-xrefs" aria-labelledby="bp-xrefs-h">
-        <SecHead
-          id="bp-xrefs-h"
-          icon={<Link2 size={15} strokeWidth={1.75} />}
-          title="רשומות מקושרות"
-          note={`${nf.format(linked)}/${nf.format(d.xrefs.length)} עם עמוד`}
-        />
+      <Sig
+        id="bp-xrefs"
+        icon={<Link2 size={15} strokeWidth={1.75} />}
+        title="רשומות מקושרות"
+        count={`${nf.format(linked)}/${nf.format(d.xrefs.length)} עם עמוד`}
+        lede={d.xrefs.length ? "הפניה שקיים לה עמוד בקטלוגי הפרויקט נפתחת כקישור. הפניה אחרת מוצגת כערך ללא קישור." : undefined}
+      >
         {d.xrefs.length ? (
-          <>
-            <p className="nx-muted">
-              הפניה שקיים לה עמוד בקטלוגי הפרויקט נפתחת כקישור. הפניה אחרת מוצגת כערך ללא קישור.
-            </p>
-            <ul className="nxt-codes nxr-codes" aria-label="רשומות מקושרות">
-              {d.xrefs.map((r) => <Ref key={r.id} r={r} />)}
-            </ul>
-          </>
+          <ul className="nxt-codes nxr-codes" aria-label="רשומות מקושרות">
+            {d.xrefs.map((r) => <Ref key={r.id} r={r} />)}
+          </ul>
         ) : (
           <p className="nxt-absent">{NONE} · רשומות מקושרות</p>
         )}
-      </section>
+      </Sig>
 
       {/* ----------------------------------------------------- 7. EVIDENCE */}
-      <section className="nxt-sec" id="bp-evidence" aria-labelledby="bp-evidence-h">
-        <SecHead id="bp-evidence-h" icon={<ShieldCheck size={15} strokeWidth={1.75} />} title="אימות ומקורות" />
+      <Sig id="bp-evidence" icon={<ShieldCheck size={15} strokeWidth={1.75} />} title="אימות ומקורות">
         <EvidenceBlock e={d.evidence} />
         {d.claims.length ? (
           <div className="nxt-block">
             <h3 className="nxt-sub">הטענה שכל מקור תומך בה</h3>
             <ul className="nbp-claims">
-              {d.claims.map((c, i) => (
-                <li key={`${c.title}-${i}`}>
-                  <span className="nbp-claim-t">{c.title}</span>
-                  <span className="nbp-claim-m">
-                    <span className="nu-status" style={{ "--s": c.levelDot } as React.CSSProperties}>
-                      {c.levelHe}
-                    </span>
-                    {c.sapNote ? <span className="nu-chip is-sap">SAP Note {c.sapNote}</span> : null}
-                  </span>
-                  <span className="nbp-claim-c">{c.claim}</span>
-                  {c.repoRef ? (
-                    <span className="nx-sap nbp-claim-ref" dir="ltr">{c.repoRef}</span>
-                  ) : null}
-                </li>
-              ))}
+              {d.claims.slice(0, CLAIMS_OPEN).map((c, i) => <Claim key={`${c.title}-${i}`} c={c} />)}
             </ul>
+            {d.claims.length > CLAIMS_OPEN ? (
+              <details className="nrc-more">
+                <summary>
+                  <span>עוד {nf.format(d.claims.length - CLAIMS_OPEN)} מקורות והטענה שכל אחד מהם תומך בה</span>
+                </summary>
+                <ul className="nbp-claims">
+                  {d.claims.slice(CLAIMS_OPEN).map((c, i) => <Claim key={`${c.title}-${i + CLAIMS_OPEN}`} c={c} />)}
+                </ul>
+              </details>
+            ) : null}
           </div>
         ) : null}
-      </section>
+      </Sig>
 
       {/* ------------------------------------------------------ 8. HONESTY */}
-      <footer className="nxt-foot">
-        {d.notes ? (
-          <p className="nxt-src">
-            <Info size={13} strokeWidth={1.75} aria-hidden="true" />
-            {d.notes}
-          </p>
-        ) : null}
-        <p>
-          {nf.format(linked)} מתוך {nf.format(d.xrefs.length)} ההפניות של השיטה מקושרות לעמוד
-          בפרויקט; השאר מוצגות כערך.
-        </p>
-        <p>
-          מקור: <span className="nx-sap">data/best-practices</span> · סוקר: {d.reviewer}.
-          {" "}נדרש אימות במערכת SAP לפני יישום.
-        </p>
-      </footer>
+      <CatalogFoot
+        notes={[
+          ...(d.notes ? [<>{d.notes}</>] : []),
+          <>
+            {nf.format(linked)} מתוך {nf.format(d.xrefs.length)} ההפניות של השיטה מקושרות לעמוד
+            בפרויקט; השאר מוצגות כערך.
+          </>,
+        ]}
+      >
+        מקור: <span className="nx-sap">data/best-practices</span> · סוקר: {d.reviewer}.
+        {" "}נדרש אימות במערכת SAP לפני יישום.
+      </CatalogFoot>
     </article>
   );
 }
