@@ -26,18 +26,26 @@
 
    Every lesson row is an <OriginLink/>, so the lesson's return control names
    THIS course, with the reader's scroll position and the stages they had open.
+
+   EVERY STAGE IS OPEN (2026-10). A path is read by its lessons, so the map
+   opens with all of them on show and each row says how far it has been seen:
+   a disc that fills as its units are seen and turns into a check when the
+   lesson is complete, the same count in words beside it. One control folds
+   or unfolds every stage; a stage the reader folded stays folded on the way
+   back from a lesson.
    ========================================================================== */
 
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import {
-  ArrowLeft, BookOpen, CircleCheck, Clock, FolderOpen, GraduationCap, Info, Layers, ListChecks, Play, Signpost,
+  ArrowLeft, BookOpen, ChartPie, Check, ChevronsDownUp, ChevronsUpDown, CircleCheck, Clock, FolderOpen,
+  GraduationCap, Info, Layers, ListChecks, Play, Signpost,
 } from "lucide-react";
 import {
   consumeReturn, OriginLink, SmartReturn, restoreScroll, scrollOffset, useReturnPacket, type OriginArg,
 } from "@/components/neo-shell/nav-context";
 import { firstIncomplete } from "@/lib/academy/model";
-import { useIsDone, useModuleProgress } from "@/lib/academy/store";
+import { useIsDone, useModuleProgress, useReadCount } from "@/lib/academy/store";
 import { RecordHead } from "../record-kit";
 import { CatalogFoot, Ledger, Sig, fmt } from "../data/catalog-kit";
 import { COURSE_SURFACE, learnModVar, LEARN_MOD_HE, type CourseReturn } from "./mod";
@@ -58,8 +66,9 @@ export function CourseView({ c, source, sources = {}, materials }: {
   sources?: Record<string, LessonSourceLink>;
   materials?: { chapters: number; topics: number };
 }) {
-  const expanded = useRef(new Set<number>());
+  const stagesRef = useRef<HTMLOListElement>(null);
   const isDone = useIsDone();
+  const readOf = useReadCount();
   const p = useModuleProgress(c.id);
   const started = p.completedLessons > 0 || p.blocksDone > 0;
   const finished = p.totalLessons > 0 && p.completedLessons >= p.totalLessons;
@@ -88,6 +97,17 @@ export function CourseView({ c, source, sources = {}, materials }: {
     return () => { cancelAnimationFrame(id); cancel(); };
   }, [mine]);
 
+  /* The stages that are open, read from the page itself: every stage starts
+     open, and a fold or an unfold, one by one or all at once, is the reader's. */
+  const openStages = () =>
+    [...(stagesRef.current?.querySelectorAll<HTMLElement>(":scope > li > details[open]") ?? [])].map((el) => el.dataset.i ?? "").filter(Boolean);
+  const [openN, setOpenN] = useState<number | null>(null);
+  const allOpen = (openN ?? (mine?.chapters ? mine.chapters.length : c.chapters.length)) >= c.chapters.length;
+  const setAll = (to: boolean) => {
+    for (const el of stagesRef.current?.querySelectorAll<HTMLDetailsElement>(":scope > li > details") ?? []) el.open = to;
+    setOpenN(to ? c.chapters.length : 0);
+  };
+
   /* Where a lesson is being opened FROM. Built at the click: the scroll offset
      is the one part of "where I was" that is only true at that instant. */
   const leaving = (): OriginArg => ({
@@ -95,7 +115,7 @@ export function CourseView({ c, source, sources = {}, materials }: {
     label: "קורס",
     detail: c.title,
     surface: COURSE_SURFACE,
-    state: { id: c.id, y: scrollOffset(), chapters: [...expanded.current].map(String) } satisfies CourseReturn,
+    state: { id: c.id, y: scrollOffset(), chapters: openStages() } satisfies CourseReturn,
   });
 
   const firstLesson = (index: number) => c.chapters.find((ch) => ch.index === index)?.lessons.find((l) => l.hasLesson);
@@ -159,7 +179,7 @@ export function CourseView({ c, source, sources = {}, materials }: {
                 ? <>השלב הנוכחי: שלב {fmt(cur.index)} · {cur.title} · {fmt(curStage.done)} מתוך {fmt(curStage.total)} שיעורים בשלב</>
                 : "ההתקדמות נרשמת בעת קריאת שיעור ונשמרת במכשיר בלבד."}
           </p>
-          {started ? <p className="nxa-plate-blocks">{fmt(p.blocksDone)} יחידות תוכן נקראו · {p.pct}%</p> : null}
+          {started ? <p className="nxa-plate-blocks">{fmt(p.blocksDone)} יחידות תוכן נצפו · {p.pct}% מהשיעורים הושלמו</p> : null}
         </div>
         {started ? <StageMeter j={j} label={`ההתקדמות במסלול ${c.title}`} /> : null}
         {next ? (
@@ -188,22 +208,33 @@ export function CourseView({ c, source, sources = {}, materials }: {
         icon={<Signpost size={15} strokeWidth={1.75} />}
         title="מפת השלבים"
         count={`${fmt(c.totals.chapters)} שלבים`}
-        lede="כל שלב נפתח לשיעורים שלו, לפי הסדר. שלב מושלם כשכל שיעוריו הושלמו, ובסופו הדרך לשלב הבא."
+        lede="כל השלבים פתוחים לשיעורים שלהם, לפי הסדר. ליד כל שיעור מסומן כמה ממנו נצפה; שלב מושלם כשכל שיעוריו הושלמו, ובסופו הדרך לשלב הבא."
       >
         <LessonFinder lessons={c.chapters.flatMap((ch) => ch.lessons)} />
 
-        <ol className="nxa-stages">
+        {c.chapters.length > 1 ? (
+          <div className="nxa-stages-tools">
+            <button type="button" className="nu-btn2" aria-controls="co-stages" onClick={() => setAll(!allOpen)}>
+              {allOpen
+                ? <><ChevronsDownUp size={14} strokeWidth={1.9} aria-hidden="true" />כיווץ כל השלבים</>
+                : <><ChevronsUpDown size={14} strokeWidth={1.9} aria-hidden="true" />פתיחת כל השלבים</>}
+            </button>
+          </div>
+        ) : null}
+
+        <ol className="nxa-stages" id="co-stages" ref={stagesRef}>
           {c.chapters.map((ch) => {
             const st = j.stages.find((s) => s.index === ch.index)!;
             const nextStage = c.chapters.find((x) => x.index === ch.index + 1);
             const nextFirst = nextStage ? firstLesson(nextStage.index) : undefined;
-            const open = mine?.chapters ? mine.chapters.includes(String(ch.index)) : ch.index === (j.current || c.chapters[0]?.index);
+            const open = mine?.chapters ? mine.chapters.includes(String(ch.index)) : true;
             return (
               <li key={ch.index} className="nxa-stage-li" data-state={st.state}>
                 <details
                   className="nxa-stage"
+                  data-i={ch.index}
                   open={open}
-                  onToggle={(e) => { if (e.currentTarget.open) expanded.current.add(ch.index); else expanded.current.delete(ch.index); }}
+                  onToggle={() => setOpenN(openStages().length)}
                 >
                   <summary className="nxa-stage-h" aria-current={st.state === "current" && started ? "step" : undefined}>
                     <span className="nxa-stage-n" aria-hidden="true">{String(ch.index).padStart(2, "0")}</span>
@@ -213,6 +244,22 @@ export function CourseView({ c, source, sources = {}, materials }: {
                         {fmt(ch.lessons.length)} שיעורים{ch.minutes ? <> · {hoursHe(ch.minutes)}</> : null}
                         {started && st.done > 0 && st.state !== "done" ? <> · {fmt(st.done)} מתוך {fmt(st.total)} הושלמו</> : null}
                       </span>
+                      {/* The stage's lessons, one segment each, filled as far as
+                          each was seen. Drawn once the path has started; the
+                          words beside it say the same thing. */}
+                      {started ? (
+                        <span className="nxa-meter-bar nxa-stage-bar" aria-hidden="true">
+                          {ch.lessons.filter((l) => l.hasLesson).map((l) => {
+                            const r = readOf(l.slug);
+                            const f = isDone(l.slug) ? 1 : r.total ? r.read / r.total : 0;
+                            return (
+                              <span key={l.slug} className="nxa-seg" data-state={f >= 1 ? "done" : f > 0 ? "part" : "todo"}>
+                                <i style={{ "--f": f } as React.CSSProperties} />
+                              </span>
+                            );
+                          })}
+                        </span>
+                      ) : null}
                     </span>
                     <StageBadge state={st.state} started={started} />
                   </summary>
@@ -222,9 +269,19 @@ export function CourseView({ c, source, sources = {}, materials }: {
                       const done = l.hasLesson && isDone(l.slug);
                       const isNext = !finished && next?.slug === l.slug;
                       const src = sources[l.slug];
+                      // How far the lesson has been seen: its units against the units it requires.
+                      const rc = l.hasLesson && !done ? readOf(l.slug) : null;
+                      const part = rc && rc.read > 0 && rc.total > 0 ? rc : null;
                       const inner = (
                         <>
-                          <span className="nxa-step-n" aria-hidden="true">{String(l.pos).padStart(2, "0")}</span>
+                          <span
+                            className="nxa-step-n"
+                            data-state={done ? "done" : part ? "part" : undefined}
+                            style={part ? { "--p": part.read / part.total } as React.CSSProperties : undefined}
+                            aria-hidden="true"
+                          >
+                            {done ? <Check size={13} strokeWidth={2.75} /> : <span>{String(l.pos).padStart(2, "0")}</span>}
+                          </span>
                           <span className="nxa-step-t">{l.title}</span>
                           <span className="nxa-step-s">
                             {l.level ? <span className="nu-chip">{l.level}</span> : null}
@@ -232,7 +289,10 @@ export function CourseView({ c, source, sources = {}, materials }: {
                             {!l.hasLesson ? <span className="nu-chip">השיעור טרם נכתב</span> : null}
                             {done ? (
                               <span className="nxa-st" data-state="done"><CircleCheck size={14} strokeWidth={2} aria-hidden="true" />הושלם</span>
-                            ) : isNext ? (
+                            ) : part ? (
+                              <span className="nxa-st" data-state="part"><ChartPie size={13} strokeWidth={2} aria-hidden="true" />נצפו {fmt(part.read)} מתוך {fmt(part.total)} יחידות</span>
+                            ) : null}
+                            {isNext ? (
                               <span className="nxa-st" data-state="current"><Play size={13} strokeWidth={2} aria-hidden="true" />{started ? "השיעור הבא" : "מתחילים כאן"}</span>
                             ) : null}
                           </span>
@@ -242,7 +302,7 @@ export function CourseView({ c, source, sources = {}, materials }: {
                       return (
                         <li key={l.slug} className="nxa-step-li" data-next={isNext ? "1" : undefined}>
                           {l.hasLesson ? (
-                            <OriginLink href={neoLessonHref(c.id, l.slug)} className="nxa-step" origin={leaving}>
+                            <OriginLink href={neoLessonHref(c.id, l.slug)} className="nxa-step" origin={leaving} aria-current={isNext ? "step" : undefined}>
                               {inner}
                             </OriginLink>
                           ) : (
@@ -308,7 +368,7 @@ export function CourseView({ c, source, sources = {}, materials }: {
         ]}
       >
         <ListChecks size={13} strokeWidth={1.75} aria-hidden="true" className="nxa-foot-i" />
-        שיעור נחשב מושלם כשכל יחידות התוכן שהוא דורש נקראו.
+        שיעור נחשב מושלם כשכל יחידות התוכן שהוא דורש נצפו.
         {" "}ההתקדמות נשמרת במכשיר בלבד (<span className="nx-sap">neo:academy:v2</span>) ואינה מסונכרנת.
       </CatalogFoot>
     </div>

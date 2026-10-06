@@ -1,7 +1,7 @@
 "use client";
 
 import { forWhiteText } from "@/lib/contrast";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
@@ -175,11 +175,15 @@ function Section({ b, onView, accent }: { b: LessonBlock; onView: () => void; ac
   const ref = useRef<HTMLElement>(null);
   const tone = toneOf(b.kind);
   const Icon = ICON[b.kind] || Info;
+  // One observer per mount. `onView` is a new closure on every render; keyed on
+  // it, every store write re-created the observer and a section still in the
+  // band recorded itself again, in a loop. The effect event reads the newest.
+  const view = useEffectEvent(onView);
   useEffect(() => {
     const el = ref.current; if (!el) return;
-    const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { onView(); io.disconnect(); } }, { rootMargin: "-25% 0px -25% 0px" });
+    const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); view(); } }, { rootMargin: "-25% 0px -25% 0px" });
     io.observe(el); return () => io.disconnect();
-  }, [onView]);
+  }, []);
   return (
     <section ref={ref} id={`b-${b.kind}`} className="scroll-mt-24">
       <header className="mb-3 flex items-center gap-2.5">

@@ -372,6 +372,17 @@ export function useModuleProgress(moduleId: string): ModuleProgress {
   return { completedLessons: completed, totalLessons: total, pct: total ? Math.round((completed / total) * 100) : 0, blocksDone };
 }
 
+/** How far each lesson has been read on this device, for a whole list of
+ *  lessons from one subscription (as useIsDone): the blocks counted against the
+ *  blocks the lesson requires, both from the model, never typed in. */
+export function useReadCount(): (slug: string) => { read: number; total: number } {
+  const store = useStore();
+  return (slug: string) => {
+    const total = getLesson(slug)?.requiredBlocks ?? 0;
+    return { read: Math.min(total, store.lessons[slug]?.length || 0), total };
+  };
+}
+
 /** Legacy 0..1 lesson fraction (kept for existing callers). */
 export function useLessonPct(slug: string, total: number): number {
   const store = useStore();

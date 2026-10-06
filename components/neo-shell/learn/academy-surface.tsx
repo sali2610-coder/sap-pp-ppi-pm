@@ -155,7 +155,7 @@ export function AcademySurface({ data, materials }: { data: AcademyData; materia
           <li>
             <span className="nxa-how-i" aria-hidden="true"><ListChecks size={17} strokeWidth={1.75} /></span>
             <b>עוברים שלב אחר שלב</b>
-            <span>שיעור מושלם כשכל יחידות התוכן שהוא דורש נקראו. שלב מושלם כשכל שיעוריו הושלמו, והמד מראה באיזה שלב אתה.</span>
+            <span>שיעור מושלם כשכל יחידות התוכן שהוא דורש נצפו. שלב מושלם כשכל שיעוריו הושלמו, והמד מראה באיזה שלב אתה.</span>
           </li>
           <li>
             <span className="nxa-how-i" aria-hidden="true"><FolderOpen size={17} strokeWidth={1.75} /></span>

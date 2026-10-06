@@ -33,9 +33,6 @@
 .nx-app .nxa-materials .nxa-result { min-block-size: 82px; align-items: center; }
 .nx-app .nxa-materials .nxa-result > span { min-inline-size: 0; }
 .nx-app [data-surface="lesson"] .nxs-p { font-size: 17px; line-height: 1.95; max-inline-size: 78ch; }
-.nx-app [data-surface="lesson"] .nxs-toc { border-radius: 20px; }
-.nx-app [data-surface="lesson"] .nxs-toc a { display: block; padding: 10px 12px; line-height: 1.6; border-radius: 9px; background: var(--surface); }
-.nx-app [data-surface="lesson"] .nxs-toc a:hover { background: color-mix(in srgb, var(--m) 9%, var(--surface)); }
 .nx-app #co-ch, .nx-app #co-materials, .nx-app #academy-courses { scroll-margin-block-start: 90px; }
 /* a search field shows focus on its box; the input keeps a transparent
    outline, which forced colours turn into the system's own */
@@ -347,9 +344,6 @@ html[data-theme="dark"] .nx-app .nxa-seg { background: color-mix(in srgb, var(--
 .nx-app :is(.nxa-next, .nxa-stage-end-next) .nxa-next-t a { color: inherit; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: color-mix(in srgb, currentColor 45%, transparent); }
 .nx-app :is(.nxa-next, .nxa-stage-end-next) .nxa-next-t a:hover { text-decoration-color: currentColor; }
 .nx-app .nxa-stage-end-next .nu-link { margin-inline-start: auto; font-size: .82rem; white-space: normal; min-inline-size: 0; max-inline-size: 100%; line-height: 1.35; text-align: start; }
-/* a long lesson's contents in balanced columns instead of one long list */
-.nx-app [data-surface="lesson"] .nxs-toc ol { display: block; columns: 3 14rem; column-gap: 1.25rem; }
-.nx-app [data-surface="lesson"] .nxs-toc li { break-inside: avoid; margin-block-end: .3rem; }
 /* the quick lesson links as a slim row, not a second card */
 .nx-app [data-surface="lesson"] .nxa-lesson-nav { margin-block: 0; padding: .25rem; border-radius: .9rem; }
 .nx-app [data-surface="lesson"] .nxa-lesson-nav a,
@@ -379,4 +373,278 @@ html[data-theme="dark"] .nx-app .nxa-seg { background: color-mix(in srgb, var(--
 }
 @media (prefers-reduced-motion: reduce) {
   :where(html:not([data-neo-motion="full"])) .nx-app :is(.nxa-switch > a, .nxa-path, .nxa-mat, .nxa-step) { transition: none; }
+}
+
+/* ============================================================================
+   9. THE READING RAIL (the lesson page)
+   ----------------------------------------------------------------------------
+   components/neo-shell/learn/lesson-view.tsx. The rail comes first in the
+   document. Narrow, it is a bar that stays at the top of the canvas while the
+   lesson scrolls under it, its contents a panel that opens under the bar.
+   With room (the record container at 60rem) it is a sticky column at the
+   lesson's side.
+
+   Seen is green, always with its glyph and its word: --nxs-ok for shapes
+   (3:1 and more on the cream and the night grounds), --nxs-ok-ink for words
+   (4.5:1 and more). Only what is seen during the visit animates (§11).
+   ========================================================================== */
+.nx-app :is([data-surface="lesson"], [data-surface="course"]) {
+  --nxs-ok: color-mix(in srgb, var(--status-done) 75%, var(--ink-1));
+  --nxs-ok-ink: color-mix(in srgb, var(--status-done) 55%, var(--ink-1));
+}
+/* the canvas padding, so the bar can reach the canvas edges
+   (app/globals.css .nx-canvas: sp-6, sp-8 from 1440px, sp-4 on the phone shell) */
+.nx-app [data-surface="lesson"] { --nxs-gutter: var(--sp-6); }
+@media (min-width: 1440px) { .nx-app [data-surface="lesson"] { --nxs-gutter: var(--sp-8); } }
+html[data-device="phone"] .nx-app [data-surface="lesson"] { --nxs-gutter: var(--sp-4); }
+
+.nx-app .nxs-grid { display: grid; grid-template-columns: minmax(0, 1fr); align-items: start; gap: var(--sp-6); min-inline-size: 0; }
+.nx-app .nxs-main { display: grid; align-content: start; gap: var(--sp-6); min-inline-size: 0; }
+
+/* ---- the rail as a bar (narrow) */
+.nx-app .nxs-rail {
+  position: sticky; inset-block-start: calc(-1 * var(--nxs-gutter)); z-index: 5;
+  min-inline-size: 0;
+  margin-inline: calc(-1 * var(--nxs-gutter));
+  padding: .5rem var(--nxs-gutter);
+  background: var(--scene-ground, var(--background));
+  border-block: 1px solid var(--hairline);
+}
+.nx-app .nxs-meter { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: .3rem .75rem; min-inline-size: 0; }
+.nx-app .nxs-meter-id { display: grid; gap: .15rem; min-inline-size: 0; }
+.nx-app .nxs-meter .nx-eyebrow { display: none; }
+.nx-app .nxs-meter-h {
+  margin: 0; font-size: .88rem; font-weight: 700; line-height: 1.4; color: var(--ink-1);
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden;
+}
+.nx-app .nxs-meter-now { min-inline-size: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: .76rem; line-height: 1.4; color: var(--ink-2); }
+.nx-app .nxs-rail-tg { gap: .35rem; min-block-size: 2.75rem; padding-inline: .75rem; font-size: .84rem; }
+.nx-app .nxs-rail-tg[aria-expanded="true"] .nxs-rail-tg-c { transform: rotate(180deg); }
+.nx-app .nxs-rail-tg:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; }
+.nx-app .nxs-more { display: none; }
+.nx-app .nxs-rail[data-open="1"] .nxs-more {
+  display: flex; flex-direction: column; gap: .85rem;
+  position: absolute; inset-inline: var(--nxs-gutter); inset-block-start: calc(100% + .4rem);
+  max-block-size: min(72dvh, 36rem); overflow-y: auto; overscroll-behavior: contain;
+  padding: .85rem; border: 1px solid var(--hairline); border-radius: 1rem;
+  background: var(--surface); box-shadow: var(--elev-2);
+}
+.nx-app .nxs-more > :not(.nxs-toc) { flex: none; }
+
+/* ---- the ring: the share of units seen; dashed around the count before the first */
+.nx-app .nxs-ring { position: relative; display: grid; place-items: center; inline-size: 2.75rem; block-size: 2.75rem; flex: none; }
+.nx-app .nxs-ring > svg { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; transform: rotate(-90deg); overflow: visible; }
+.nx-app .nxs-ring circle { fill: none; stroke-width: 3.2; }
+.nx-app .nxs-ring-t { stroke: color-mix(in srgb, var(--ink-1) 13%, transparent); }
+.nx-app .nxs-ring:not([data-started]) .nxs-ring-t { stroke: color-mix(in srgb, var(--ink-1) 36%, transparent); stroke-dasharray: 3 3.25; }
+.nx-app .nxs-ring-f { stroke: var(--nxs-ok); stroke-linecap: round; stroke-dasharray: 100 100; stroke-dashoffset: calc(100 - var(--p, 0)); }
+.nx-app .nxs-ring:not([data-started]) .nxs-ring-f { opacity: 0; }
+.nx-app .nxs-ring-n {
+  position: relative; display: inline-flex; align-items: baseline;
+  font-family: var(--font-mono); font-size: .74rem; font-weight: 750; line-height: 1;
+  color: var(--ink-1); font-variant-numeric: tabular-nums;
+}
+.nx-app .nxs-ring-n small { font-size: .72em; font-weight: 700; }
+.nx-app .nxs-ring[data-full] .nxs-ring-n { color: var(--nxs-ok-ink); }
+
+/* ---- the contents: one mark per unit, hollow until seen, then a green check */
+.nx-app .nxs-toc { margin: 0; min-inline-size: 0; }
+.nx-app .nxs-toc-h { margin: 0 0 .35rem; padding-inline: .5rem; font-size: .74rem; font-weight: 700; color: var(--ink-3); }
+.nx-app .nxs-toc ol { display: grid; gap: 1px; margin: 0; padding: 0; list-style: none; }
+.nx-app .nxs-toc li { margin: 0; }
+.nx-app .nxs-toc a {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: .6rem;
+  min-block-size: 2.15rem; padding: .3rem .5rem; border-radius: .6rem;
+  font-size: .86rem; line-height: 1.4; color: var(--ink-2); text-decoration: none;
+}
+@media (pointer: coarse) { .nx-app .nxs-toc a { min-block-size: var(--c-tap); } }
+.nx-app .nxs-toc a:hover { color: var(--ink-1); background: color-mix(in srgb, var(--ink-1) 5%, transparent); }
+.nx-app .nxs-toc a:focus-visible { outline: 2px solid var(--ink-1); outline-offset: -2px; }
+.nx-app .nxs-toc li[data-read] a { color: var(--ink-1); }
+/* the unit on screen now: a tint of the module and its ring, never a stripe */
+.nx-app .nxs-toc a[aria-current="location"] {
+  color: var(--ink-1); font-weight: 650;
+  background: color-mix(in srgb, var(--m) 10%, var(--surface));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m) 30%, transparent);
+}
+.nx-app .nxs-mark {
+  display: grid; place-items: center; inline-size: 1.05rem; block-size: 1.05rem; border-radius: 50%;
+  color: var(--surface);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--ink-1) 32%, transparent);
+}
+.nx-app .nxs-mark > svg { opacity: 0; }
+.nx-app .nxs-toc a[aria-current="location"] .nxs-mark { box-shadow: inset 0 0 0 1.5px var(--ink-1); }
+.nx-app .nxs-toc li[data-read] .nxs-mark { background: var(--nxs-ok); box-shadow: none; }
+.nx-app .nxs-toc li[data-read] .nxs-mark > svg { opacity: 1; }
+
+/* ---- the rail's lines: where the lesson opened, the next unseen unit, the stage, the notes */
+.nx-app .nxs-resumed {
+  display: flex; align-items: baseline; gap: .45rem; margin: 0;
+  padding: .55rem .7rem; border-radius: .8rem;
+  font-size: .8rem; line-height: 1.55; color: var(--ink-2);
+  background: color-mix(in srgb, var(--ink-1) 5%, var(--surface));
+}
+.nx-app .nxs-resumed > svg { flex: none; translate: 0 .15em; color: var(--ink-3); }
+.nx-app .nxs-resumed a,
+.nx-app .nxs-rail .nxs-exposure a { color: var(--ink-1); text-decoration: underline; text-underline-offset: 3px; }
+.nx-app .nxs-next-open { justify-content: flex-start; white-space: normal; min-inline-size: 0; max-inline-size: 100%; line-height: 1.45; text-align: start; font-size: .84rem; }
+.nx-app .nxs-rail .nxa-lstage-t { font-size: .8rem; }
+.nx-app .nxs-note,
+.nx-app .nxs-rail .nxs-exposure { margin: 0; font-size: .78rem; line-height: 1.6; }
+
+/* ---- the rail as a column (with room) */
+@container nrc (min-width: 60rem) {
+  .nx-app .nxs-grid { grid-template-columns: minmax(0, 1fr) minmax(16.5rem, 19.5rem); column-gap: clamp(2rem, 3.5cqi, 3.5rem); }
+  .nx-app .nxs-main { grid-column: 1; grid-row: 1; }
+  .nx-app .nxs-rail {
+    grid-column: 2; grid-row: 1;
+    inset-block-start: 0; z-index: auto;
+    margin: 0; padding: 0; border: 0; background: none;
+    display: flex; flex-direction: column; gap: .75rem;
+    /* the canvas's own height: the viewport less the shell's top bar (3.25rem),
+       its two paddings, and the dock it keeps clear (dock.css --nxk-h) */
+    max-block-size: calc(100dvh - 3.5rem - 2 * var(--nxs-gutter) - var(--nxk-h, 3.25rem));
+  }
+  .nx-app .nxs-meter {
+    grid-template-columns: auto minmax(0, 1fr); gap: .35rem .9rem;
+    padding: 1rem 1.05rem; border: 1px solid var(--hairline); border-radius: 1.1rem;
+    background: var(--surface); box-shadow: var(--elev-1);
+  }
+  .nx-app .nxs-meter .nx-eyebrow { display: block; }
+  .nx-app .nxs-meter-now { display: none; }
+  .nx-app .nxs-meter-h { font-size: 1rem; line-height: 1.45; -webkit-line-clamp: 3; }
+  .nx-app .nxs-ring { inline-size: 4.25rem; block-size: 4.25rem; }
+  .nx-app .nxs-ring-n { font-size: 1.05rem; }
+  .nx-app .nxs-rail-tg { display: none; }
+  .nx-app .nxs-more,
+  .nx-app .nxs-rail[data-open="1"] .nxs-more {
+    display: flex; flex-direction: column; gap: .75rem;
+    position: static; flex: 1 1 auto; min-block-size: 0;
+    max-block-size: none; overflow: visible; padding: 0; border: 0; border-radius: 0;
+    background: none; box-shadow: none;
+  }
+  .nx-app .nxs-toc {
+    display: flex; flex-direction: column; flex: 0 1 auto; min-block-size: 7rem;
+    padding: .7rem .45rem .45rem; border: 1px solid var(--hairline); border-radius: 1.1rem; background: var(--surface);
+  }
+  .nx-app .nxs-toc ol { min-block-size: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+  .nx-app .nxs-rail .nxa-lstage { padding: .75rem .85rem; border: 1px solid var(--hairline); border-radius: 1rem; background: var(--surface); }
+}
+
+/* ---- a unit's own state, in its header: a hollow dot, then the green check;
+   and a 1px green line under the header once the unit is seen */
+.nx-app .nxs-unread { color: var(--ink-3); font-weight: 600; }
+.nx-app .nxs-unread::before { background: transparent; box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--ink-1) 34%, transparent); }
+.nx-app .nxs-read { color: var(--nxs-ok-ink); }
+.nx-app [data-surface="lesson"] .nxs-sec { scroll-margin-block-start: 5.5rem; }
+.nx-app [data-surface="lesson"] .nxs-sec-h { position: relative; }
+.nx-app [data-surface="lesson"] .nxs-sec-h::after {
+  content: ""; position: absolute; inset-inline: 0; inset-block-end: -1px; block-size: 1px;
+  background: var(--nxs-ok); transform: scaleX(0); transform-origin: right center; pointer-events: none;
+}
+.nx-app [data-surface="lesson"] .nxs-sec[data-read] .nxs-sec-h::after { transform: scaleX(1); }
+
+/* ---- the end of the units: what is left, then the close and the one way on */
+.nx-app .nxs-done {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "mark text" "act act";
+  align-items: center; gap: .85rem 1.1rem; max-inline-size: 78ch;
+  padding: 1.15rem 1.25rem; border-radius: 1.1rem;
+  border: 1px dashed color-mix(in srgb, var(--ink-1) 24%, var(--hairline));
+}
+.nx-app .nxs-done[data-state="done"] {
+  border: 1px solid color-mix(in srgb, var(--status-done) 42%, var(--hairline));
+  background: color-mix(in srgb, var(--status-done) 7%, var(--surface));
+  box-shadow: var(--elev-1);
+}
+.nx-app .nxs-done-mark {
+  grid-area: mark; display: grid; place-items: center; inline-size: 3.1rem; block-size: 3.1rem; border-radius: 50%;
+  font-family: var(--font-mono); font-size: 1.05rem; font-weight: 750; color: var(--ink-1);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--ink-1) 30%, transparent);
+}
+.nx-app .nxs-done[data-state="done"] .nxs-done-mark { background: var(--nxs-ok); color: var(--surface); box-shadow: none; }
+.nx-app .nxs-done-mark > svg { inline-size: 1.6rem; block-size: 1.6rem; }
+.nx-app .nxs-done-mark path { fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
+.nx-app .nxs-done-t { grid-area: text; display: grid; gap: .2rem; min-inline-size: 0; }
+.nx-app .nxs-done-h { margin: 0; font-size: 1.12rem; font-weight: 750; line-height: 1.35; color: var(--ink-1); }
+.nx-app .nxs-done-t p { margin: 0; font-size: .88rem; line-height: 1.65; color: var(--ink-2); }
+.nx-app .nxs-done-t a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.nx-app .nxs-done-act { grid-area: act; display: flex; flex-wrap: wrap; gap: .6rem; }
+.nx-app .nxs-done-act > :is(.nu-btn, .nu-btn2) { white-space: normal; min-inline-size: 0; max-inline-size: 100%; line-height: 1.35; text-align: start; }
+@container nrc (min-width: 40rem) {
+  .nx-app .nxs-done { grid-template-areas: "mark text" ". act"; }
+}
+/* "the first / last lesson" in the stepping row is a note, not a third card
+   competing with the closing card above it */
+.nx-app [data-surface="lesson"] .nxs-step.is-none { border: 0; background: none; box-shadow: none; color: var(--ink-3); font-size: .82rem; }
+
+/* ============================================================================
+   10. THE COURSE ROWS' READING STATE (the course page)
+   ----------------------------------------------------------------------------
+   Every stage opens with its lessons on show. A lesson's disc fills as its
+   units are seen and becomes a green check when the lesson is complete; the
+   words beside it say the same. One control folds or unfolds every stage.
+   ========================================================================== */
+.nx-app .nxa-stages-tools { display: flex; justify-content: flex-end; }
+.nx-app .nxa-stages-tools .nu-btn2 { gap: .4rem; font-size: .84rem; }
+.nx-app .nxa-stage-bar { max-inline-size: 22rem; margin-block-start: .35rem; gap: 4px; }
+.nx-app .nxa-stage-bar .nxa-seg { block-size: .4rem; min-inline-size: 4px; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink-1) 22%, transparent); }
+.nx-app .nxa-step-n {
+  position: relative; display: grid; place-items: center; inline-size: 2rem; block-size: 2rem; border-radius: 50%;
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.nx-app .nxa-step-n > span { position: relative; }
+.nx-app .nxa-step-n[data-state="part"] { color: var(--ink-1); box-shadow: none; }
+.nx-app .nxa-step-n[data-state="part"]::before {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  background: conic-gradient(var(--nxs-ok) calc(var(--p, 0) * 1turn), color-mix(in srgb, var(--ink-1) 14%, transparent) 0);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2px));
+}
+.nx-app .nxa-step-n[data-state="done"] { color: var(--surface); background: var(--nxs-ok); box-shadow: none; }
+.nx-app [data-surface="course"] .nxa-st:is([data-state="done"], [data-state="part"]) > svg { color: var(--nxs-ok); }
+.nx-app .nxa-st[data-state="part"] { color: var(--ink-1); }
+@media (max-width: 760px) {
+  .nx-app .nxa-step-src { margin-inline-start: 2.75rem; }
+}
+
+/* ============================================================================
+   11. WHAT TURNS GREEN NOW
+   ----------------------------------------------------------------------------
+   A unit seen during the visit: its mark pops (in the column, where the list
+   is always on show; a phone panel opening from display:none would replay
+   it), its header's line runs across, the ring follows. The lesson finished during the visit: the closing card
+   rises and its check is drawn. Each block is paired with the explicit
+   full-motion choice (test/neo-full-motion-css.test.ts); OS reduction and the
+   NEO setting leave every element at its end state.
+   ========================================================================== */
+@keyframes nxs-pop { 0% { transform: scale(.35); } 55% { transform: scale(1.2); } 100% { transform: scale(1); } }
+@keyframes nxs-draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes nxs-rise { from { opacity: 0; transform: translateY(.75rem); } to { opacity: 1; transform: none; } }
+@keyframes nxs-tick { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+@media (prefers-reduced-motion: no-preference) {
+  .nx-app .nxs-ring-f { transition: stroke-dashoffset .8s var(--ease-out-expo); }
+  .nx-app .nxs-toc a { transition: background-color .18s linear, color .18s linear, box-shadow .18s linear; }
+  .nx-app .nxs-rail-tg-c { transition: transform .2s var(--ease-out-expo); }
+  @container nrc (min-width: 60rem) {
+    .nx-app .nxs-toc li[data-fresh] .nxs-mark { animation: nxs-pop .55s var(--ease-spring) both; }
+  }
+  .nx-app .nxs-sec[data-fresh] .nxs-read > svg { animation: nxs-pop .55s var(--ease-spring) both; }
+  .nx-app [data-surface="lesson"] .nxs-sec[data-fresh] .nxs-sec-h::after { animation: nxs-draw 1.1s var(--ease-out-expo) both; }
+  .nx-app .nxs-done[data-fresh] { animation: nxs-rise .6s var(--ease-out-expo) both; }
+  .nx-app .nxs-done[data-fresh] .nxs-done-mark { animation: nxs-pop .6s .12s var(--ease-spring) both; }
+  .nx-app .nxs-done[data-fresh] .nxs-done-mark path { animation: nxs-tick .5s .38s var(--ease-out-expo) both; }
+}
+@media (min-width: 0px) {
+  :where(html[data-neo-motion="full"]) .nx-app .nxs-ring-f { transition: stroke-dashoffset .8s var(--ease-out-expo); }
+  :where(html[data-neo-motion="full"]) .nx-app .nxs-toc a { transition: background-color .18s linear, color .18s linear, box-shadow .18s linear; }
+  :where(html[data-neo-motion="full"]) .nx-app .nxs-rail-tg-c { transition: transform .2s var(--ease-out-expo); }
+  @container nrc (min-width: 60rem) {
+    :where(html[data-neo-motion="full"]) .nx-app .nxs-toc li[data-fresh] .nxs-mark { animation: nxs-pop .55s var(--ease-spring) both; }
+  }
+  :where(html[data-neo-motion="full"]) .nx-app .nxs-sec[data-fresh] .nxs-read > svg { animation: nxs-pop .55s var(--ease-spring) both; }
+  :where(html[data-neo-motion="full"]) .nx-app [data-surface="lesson"] .nxs-sec[data-fresh] .nxs-sec-h::after { animation: nxs-draw 1.1s var(--ease-out-expo) both; }
+  :where(html[data-neo-motion="full"]) .nx-app .nxs-done[data-fresh] { animation: nxs-rise .6s var(--ease-out-expo) both; }
+  :where(html[data-neo-motion="full"]) .nx-app .nxs-done[data-fresh] .nxs-done-mark { animation: nxs-pop .6s .12s var(--ease-spring) both; }
+  :where(html[data-neo-motion="full"]) .nx-app .nxs-done[data-fresh] .nxs-done-mark path { animation: nxs-tick .5s .38s var(--ease-out-expo) both; }
 }
