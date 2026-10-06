@@ -10,8 +10,10 @@
 // manifest and scripts/crawl-dead-links.mjs all keep pointing at a real page.
 //
 // ui.css is imported FIRST so the control language lands before this route's
-// own rules and the layout-only overrides in chat.css apply after it.
+// own rules and the layout-only overrides in chat.css apply after it. data.css
+// carries the catalog kit's hero, ledger and foot, which the page wears.
 import "@/app/neo/ui.css";
+import "@/app/neo/data.css";
 import "@/app/neo/chat.css";
 import { LibraryChat } from "@/components/neo-shell/chat/library-chat";
 

@@ -15,6 +15,20 @@
    do not cover the question. So the screen is allowed to introduce itself that
    way, and the mark (./marks.LibrarianMark) is that introduction in one glyph.
 
+   THE DESK (2026-10). Everything used to stack in one narrow column: the
+   context bar, the composer, a welcome card, the scope strip, a row of pills
+   and the starters, on a 56rem measure in a canvas twice that wide. The screen
+   is now a reading desk in the catalogs' language:
+     the hero          the catalog kit's eyebrow, title, lede and ledger, so
+                       this page reads as the same product as the Reference
+                       catalogs and the academy.
+     the window        one framed conversation: a title bar (who answers, what
+                       it is doing now, the session actions), the answer's
+                       premise as its toolbar, the thread, and the question
+                       field as its bottom bar.
+     the side panel    the actions on the chosen material, as a column of keys
+                       beside the window (after it on a narrow screen).
+
    WHAT IS ON THE SCREEN AND WHERE IT COMES FROM
      the corpus line   lib/ai/tree.BOOKS, which is data/ai-tree/index.json.
                        Counted, not written down. If the index is empty the
@@ -23,6 +37,8 @@
                        surface actually has.
      the starters      that same file's prompts, so a chip cannot promise a
                        behaviour the endpoint does not have.
+     the status        ./engine.phaseLabel, the engine's own word for the phase
+                       the backend reported. Nothing here narrates a state.
      the scope ladder  ./context-bar, resolved from the book's own tree.
      everything else   the engine's response, or a duration measured here.
 
@@ -31,47 +47,55 @@
 
 import { useState } from "react";
 import {
-  BookOpen, CheckSquare, ChevronDown, Eraser, GitCompare, Layers,
-  ListTree, MessageSquarePlus, Share2, Sparkles, WandSparkles,
+  BookOpen, Check, ChevronLeft, CircleHelp, Eraser, FileText, GitCompare, Layers,
+  Lightbulb, ListChecks, ListTree, MessageSquarePlus, Microscope, Presentation,
+  Sparkles, WandSparkles, Workflow,
 } from "lucide-react";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
+import { CatalogFoot, CatalogHero, Ledger } from "@/components/neo-shell/data/catalog-kit";
 import { MODES } from "@/lib/ai/modes";
 import { ANSWER_ACTIONS } from "@/lib/ai/prompts";
 import { BOOKS, scopeLabel } from "@/lib/ai/tree";
 import type { Scope } from "@/lib/ai/types";
 import { Composer } from "./composer";
 import { ContextBar } from "./context-bar";
+import { phaseLabel } from "./engine";
 import { Live } from "./live";
+import { MORE_IDS, PRIMARY_IDS } from "./library-actions";
 import { LibrarianMark } from "./marks";
 import { NeoLibrarian } from "./neo-librarian";
 import { Message } from "./message";
 import { ScopeSheet } from "./scope-sheet";
 import { useConversation } from "./use-conversation";
 
-/* THE SIX ACTIONS, AND WHY THEY ARE NOT NEW PROMPTS.
+/* THE TEN ACTIONS, AND WHY THEY ARE NOT NEW PROMPTS.
    ---------------------------------------------------------------------------
    lib/ai/prompts.ANSWER_ACTIONS already carries every one of these, each with
    the backend `task` profile that actually selects the model and the quality
-   floor server-side. Writing fresh prompt strings here would have produced six
+   floor server-side. Writing fresh prompt strings here would have produced
    buttons that LOOK like the real actions and route to the default profile —
    the same words, a weaker answer, and no way to see the difference.
 
-   So the quick actions are LOOKED UP by id and fail loudly if an id ever stops
-   existing. What this file owns is the icon and the ordering; the label, the
-   prompt and the task stay with the engine.
+   So the actions are LOOKED UP by id (./library-actions), and
+   test/library-actions.test.ts fails if an id ever stops existing. What this
+   file owns is the icon; the label, the prompt and the task stay with the
+   engine.
 
    The technical task names (STUDENT_SUMMARY, COMPARE_ECC_S4, QUIZ …) are never
-   printed. The reader sees "הסבר בפשטות"; the router sees the profile. */
-const PRIMARY_IDS = ["simple", "summary", "review", "checklist", "diagram", "ecc"] as const;
-const MORE_IDS = ["expand", "example", "onepage", "deck"] as const;
+   printed. The reader sees "הסבר פשוט"; the router sees the profile. */
 
-const QA_ICON: Record<string, React.ReactNode> = {
-  simple: <WandSparkles size={15} strokeWidth={1.9} aria-hidden="true" />,
-  summary: <ListTree size={15} strokeWidth={1.9} aria-hidden="true" />,
-  review: <Sparkles size={15} strokeWidth={1.9} aria-hidden="true" />,
-  checklist: <CheckSquare size={15} strokeWidth={1.9} aria-hidden="true" />,
-  diagram: <Share2 size={15} strokeWidth={1.9} aria-hidden="true" />,
-  ecc: <GitCompare size={15} strokeWidth={1.9} aria-hidden="true" />,
+const ICON_PROPS = { size: 17, strokeWidth: 1.9, "aria-hidden": true } as const;
+const ACTION_ICON: Record<string, React.ReactNode> = {
+  simple: <WandSparkles {...ICON_PROPS} />,
+  summary: <ListTree {...ICON_PROPS} />,
+  review: <CircleHelp {...ICON_PROPS} />,
+  checklist: <ListChecks {...ICON_PROPS} />,
+  diagram: <Workflow {...ICON_PROPS} />,
+  ecc: <GitCompare {...ICON_PROPS} />,
+  expand: <Microscope {...ICON_PROPS} />,
+  example: <Lightbulb {...ICON_PROPS} />,
+  onepage: <FileText {...ICON_PROPS} />,
+  deck: <Presentation {...ICON_PROPS} />,
 };
 
 const pick = (ids: readonly string[]) =>
@@ -101,144 +125,152 @@ export function LibraryChat() {
     clearMessages, newConversation, endRef,
   } = useConversation("library");
   const [sheet, setSheet] = useState(false);
+  const openScope = () => setSheet(true);
 
   const idle = !turns.length && !pending;
   const markState = pending ? (live?.preview ? "writing" : "thinking") : "idle";
 
-  const composer = (
-    <Composer
-      value={draft}
-      onChange={setDraft}
-      onSend={() => send(draft)}
-      onStop={stop}
-      busy={busy}
-      scope={scope}
-      onOpenScope={() => setSheet(true)}
-      placeholder="שאלה על תהליך, טרנזקציה או אובייקט SAP מתוך ספרי הספרייה"
-      hint={`${HINT} · ${scopeLabel(scope)}`}
-      autoFocusKey={focusKey}
-    />
-  );
-
-  /* THE LIBRARY'S OWN GROUND.
+  /* ASK THE LIBRARY IS GROUNDED IN THE BOOKS, SO IT HAS ITS OWN GROUND.
      This assistant and the general one used to render on the identical
-     warm-light canvas, so with the titles covered the only thing telling a
-     reader which of the two they were in was the h1 — the "identical chatbot
-     screens" the review rejected.
-
-     Ask the Library is grounded in the BOOKS, so it takes the books scene:
-     warm bound leather, editorial, the same world as the shelf. Its sibling
-     takes the near-black indigo of a system tool. */
+     canvas, so with the titles covered the only thing telling a reader which
+     of the two they were in was the h1. The library keeps its own scene: the
+     reading room, with the shelf's burgundy as its accent. Its sibling takes
+     the cool ground of a system tool. */
   return (
     <div className="nxq nm-scene" data-surface="library" data-scene="library" data-idle={idle ? "1" : undefined}>
       <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
 
+      {/* The room: the hero and the desk share one width, so the ledger can
+          stand over the side panel's column where the two sit side by side. */}
+      <div className="nxq-room">
       {/* ---------------------------------------------------------- identity */}
-      <header className="nxq-hero" data-idle={idle ? "1" : undefined}>
-        <span className="nxq-hero-mark">
-          <LibrarianMark size={64} state={markState} />
-        </span>
+      <CatalogHero
+        icon={<BookOpen size={15} strokeWidth={2} aria-hidden="true" />}
+        eyebrow="עזרה מהספרייה · תשובות מהספרים בלבד, עם מקור"
+        title={M.title}
+        lede="תשובות מתוך ספרי SAP שבספריית הפרויקט בלבד, עם הפניה לספר, לפרק ולסעיף."
+      >
+        {CORPUS.books > 0 ? (
+          <Ledger
+            label="המאגר שהתשובות נכתבות ממנו"
+            items={[
+              { v: CORPUS.books, l: "ספרים" },
+              { v: CORPUS.chapters, l: "פרקים" },
+              { v: CORPUS.sections, l: "סעיפים במאגר" },
+            ]}
+          />
+        ) : (
+          <p className="nxq-corpus">לא קיים תיעוד מאומת במאגר</p>
+        )}
+      </CatalogHero>
 
-        <div className="nxq-hero-text nm-rise nm-once">
-          <span className="nxq-eyebrow">
-            <BookOpen size={13} strokeWidth={2} aria-hidden="true" />
-            עזרה מהספרייה · תשובות מהספרים בלבד, עם מקור
-          </span>
-          <h1 className="nxq-h1">{M.title}</h1>
-          <p className="nxq-lede">
-            תשובות מתוך ספרי SAP שבספריית הפרויקט בלבד, עם הפניה לספר, לפרק ולסעיף.
-          </p>
-          <p className="nxq-corpus">
-            {CORPUS.books > 0 ? (
-              <>
-                <b>{CORPUS.books}</b> ספרים
-                {" · "}
-                <b>{CORPUS.chapters.toLocaleString("he-IL")}</b> פרקים
-                {" · "}
-                <b>{CORPUS.sections.toLocaleString("he-IL")}</b> סעיפים במאגר
-              </>
-            ) : (
-              "לא קיים תיעוד מאומת במאגר"
-            )}
-          </p>
-        </div>
-
-        {/* Two different actions, and they really are different: clearing keeps
-            the chosen book so the reader can carry on inside the same chapter,
-            a new conversation drops the scope and the draft as well. */}
-        {turns.length ? (
-          <div className="nxq-hero-acts">
-            <span className="nxq-hero-count">
-              {turns.length === 1 ? "שאלה אחת בשיחה" : `${turns.length} שאלות בשיחה`}
+      <div className="nxq-desk">
+        {/* ------------------------------------------------------ the window */}
+        <section className="nxq-win" aria-label={`השיחה עם ${WHO}`}>
+          <header className="nxq-win-h">
+            <span className="nxq-win-mark">
+              <LibrarianMark size={30} state={markState} />
             </span>
-            <button type="button" className="nu-ghost nxq-hero-b" onClick={clearMessages}>
-              <Eraser size={14} strokeWidth={2} aria-hidden="true" />
-              ניקוי השיחה
-            </button>
-            <button type="button" className="nu-btn2 nxq-hero-b" onClick={newConversation}>
-              <MessageSquarePlus size={14} strokeWidth={2} aria-hidden="true" />
-              שיחה חדשה
-            </button>
+            <span className="nxq-win-who">
+              <b>{WHO}</b>
+              {/* The engine's own word for the phase it is in, or "ready". A
+                  dot and its word, never a colour alone. */}
+              <span className="nxq-win-st" data-busy={pending ? "1" : undefined}>
+                <i aria-hidden="true" />
+                {pending && live ? phaseLabel(live) : "מוכן לשאלה"}
+              </span>
+            </span>
+
+            {/* Two different actions, and they really are different: clearing
+                keeps the chosen book so the reader can carry on inside the same
+                chapter, a new conversation drops the scope and the draft. */}
+            {turns.length ? (
+              <span className="nxq-win-acts">
+                <span className="nxq-win-count">
+                  {turns.length === 1 ? "שאלה אחת בשיחה" : `${turns.length} שאלות בשיחה`}
+                </span>
+                <button type="button" className="nu-ghost nxq-win-b" onClick={clearMessages}>
+                  <Eraser size={14} strokeWidth={2} aria-hidden="true" />
+                  ניקוי השיחה
+                </button>
+                <button type="button" className="nu-btn2 nxq-win-b" onClick={newConversation}>
+                  <MessageSquarePlus size={14} strokeWidth={2} aria-hidden="true" />
+                  שיחה חדשה
+                </button>
+              </span>
+            ) : null}
+          </header>
+
+          {/* The standing premise of everything below it, as the window's
+              toolbar. Sticky, so scrolling a long answer never separates it
+              from the context it was drawn from. */}
+          <ContextBar scope={scope} mode="library" onOpenScope={openScope} />
+
+          <div className="nxq-thread">
+            {idle ? (
+              <Welcome onPick={(q) => { setDraft(q); focusComposer(); }} />
+            ) : null}
+
+            {turns.map((t, i) => (
+              <Message
+                key={t.id}
+                q={t.q}
+                a={t.a}
+                stopped={t.stopped}
+                firstTokenMs={t.firstTokenMs}
+                elapsedMs={t.elapsedMs}
+                passages={t.passages}
+                askedIn={t.scope}
+                scope={scope}
+                mode="library"
+                who={WHO}
+                busy={busy}
+                isLast={i === turns.length - 1}
+                onRetry={() => send(t.q, t.task)}
+                onAsk={runAction}
+                onOpenSource={openSource}
+              />
+            ))}
+
+            {pending && live ? (
+              <Live
+                live={live}
+                question={pending.q}
+                askedIn={pending.scope}
+                scope={scope}
+                mode="library"
+                who={WHO}
+              />
+            ) : null}
+
+            <div ref={endRef} className="nxq-end" aria-hidden="true" />
           </div>
-        ) : null}
-      </header>
 
-      {/* The standing premise of everything below it. Sticky, so scrolling a
-          long answer never separates it from the context it was drawn from. */}
-      <ContextBar scope={scope} mode="library" onOpenScope={() => setSheet(true)} />
-
-      {/* THE QUESTION FIELD FIRST (design audit S7-AI-1). While the conversation
-          is empty the composer sits right under the scope line — on a phone it
-          used to start 1,540px down, below the welcome and the starters. Once
-          there are turns it moves back under them, where a chat expects it. */}
-      {idle ? composer : null}
-
-      <div className="nxq-thread">
-        {idle ? (
-          <Welcome
-            scope={scope}
-            onPick={(q) => { setDraft(q); focusComposer(); }}
-            onAction={runAction}
-            onOpenScope={() => setSheet(true)}
-          />
-        ) : null}
-
-        {turns.map((t, i) => (
-          <Message
-            key={t.id}
-            q={t.q}
-            a={t.a}
-            stopped={t.stopped}
-            firstTokenMs={t.firstTokenMs}
-            elapsedMs={t.elapsedMs}
-            passages={t.passages}
-            askedIn={t.scope}
-            scope={scope}
-            mode="library"
-            who={WHO}
+          {/* The question field is the window's bottom bar, in one place for
+              the whole session: it stays in view while an answer scrolls past
+              (sticky), and on first load it is already on screen. */}
+          <Composer
+            value={draft}
+            onChange={setDraft}
+            onSend={() => send(draft)}
+            onStop={stop}
             busy={busy}
-            isLast={i === turns.length - 1}
-            onRetry={() => send(t.q, t.task)}
-            onAsk={runAction}
-            onOpenSource={openSource}
-          />
-        ))}
-
-        {pending && live ? (
-          <Live
-            live={live}
-            question={pending.q}
-            askedIn={pending.scope}
             scope={scope}
-            mode="library"
-            who={WHO}
+            onOpenScope={openScope}
+            placeholder="שאלה על תהליך, טרנזקציה או אובייקט SAP מתוך ספרי הספרייה"
+            hint={`${HINT} · ${scopeLabel(scope)}`}
+            autoFocusKey={focusKey}
           />
-        ) : null}
+        </section>
 
-        <div ref={endRef} className="nxq-end" aria-hidden="true" />
+        {/* ------------------------------------------------- the side panel */}
+        <aside className="nxq-side" aria-labelledby="nxq-side-t">
+          <Actions scope={scope} busy={busy} onAction={runAction} onOpenScope={openScope} />
+        </aside>
+      </div>
       </div>
 
-      {!idle ? composer : null}
+      <CatalogFoot>התשובות נכתבות מתוך ספרי SAP שבספריית הפרויקט בלבד, עם הפניה לספר, לפרק ולסעיף.</CatalogFoot>
 
       {sheet ? (
         <ScopeSheet scope={scope} onScope={setScope} onClose={() => setSheet(false)} />
@@ -250,39 +282,84 @@ export function LibraryChat() {
 /* -------------------------------------------------------------------------- */
 
 /**
- * How the surface introduces itself before the first question.
+ * The actions on the chosen material, as keys.
  *
- * Three things, in the order a first-time reader needs them: who is answering,
- * how the answer is produced, and one press that starts a real question. The
- * capability band and the starters are lib/ai/modes' own, so nothing here can
- * promise a behaviour the endpoint does not have.
+ * Each key sends the engine's own prompt with its own task profile, through the
+ * same runAction the follow-ups under an answer use. While an answer is being
+ * written a second request is refused by the conversation itself, so the keys
+ * say so (aria-disabled, which keeps a pressed key focused for a keyboard
+ * reader) instead of pretending to accept a press.
  */
-function Welcome({ scope, onPick, onAction, onOpenScope }: {
+function Actions({ scope, busy, onAction, onOpenScope }: {
   scope: Scope;
-  onPick: (q: string) => void;
+  busy: boolean;
   onAction: (prompt: string, task?: string) => void;
   onOpenScope: () => void;
 }) {
-  const [more, setMore] = useState(false);
-
-  /* The scope line, said in words rather than in filter syntax. When a book is
-     chosen it names the book; when it is not, "כל הספרייה" is itself a choice
-     and the corpus counts are the honest description of it. Both come from the
-     shipped index — a zero would be printed as "אין מידע", never as a
-     confident number. */
-  const scoped = Boolean(scope.bookId);
+  const key = (a: (typeof ANSWER_ACTIONS)[number], more?: boolean) => (
+    <li key={a.id}>
+      <button
+        type="button"
+        className={more ? "nxq-key nxq-key2" : "nxq-key"}
+        aria-disabled={busy || undefined}
+        onClick={() => { if (!busy) onAction(a.prompt, a.task); }}
+      >
+        <span className="nxq-key-i" aria-hidden="true">{ACTION_ICON[a.id]}</span>
+        <span className="nxq-key-l">{a.label}</span>
+        {more ? null : <ChevronLeft size={16} strokeWidth={2} aria-hidden="true" className="nxq-key-c" />}
+      </button>
+    </li>
+  );
 
   return (
-    <section className="nxq-welcome" aria-label="מבוא">
+    <>
+      <div className="nxq-side-h">
+        <h2 className="nxq-side-t" id="nxq-side-t">פעולות על החומר שנבחר</h2>
+        <p className="nxq-side-p">
+          כל פעולה שולחת בקשה מוכנה, על ההיקף שבחרת או על נושא השאלה האחרונה בשיחה.
+        </p>
+        <p className="nxq-side-on">
+          <Layers size={14} strokeWidth={2} aria-hidden="true" />
+          <span>היקף:</span>
+          <b dir="auto">{scopeLabel(scope)}</b>
+          <button type="button" className="nu-ghost nxq-side-x" onClick={onOpenScope}>
+            {scope.bookId ? "שינוי" : "בחירת ספר"}
+          </button>
+        </p>
+      </div>
+
+      <ul className="nxq-keys">{PRIMARY.map((a) => key(a))}</ul>
+
+      <div className="nxq-side-more">
+        <h3 className="nxq-side-sub">עוד פעולות</h3>
+        <ul className="nxq-keys nxq-keys2">{MORE.map((a) => key(a, true))}</ul>
+      </div>
+
+      {busy ? <p className="nxq-side-busy">הפעולות יחזרו לפעול כשהתשובה הנוכחית תושלם.</p> : null}
+    </>
+  );
+}
+
+/**
+ * How the window introduces itself before the first question.
+ *
+ * Three things, in the order a first-time reader needs them: who is answering,
+ * how the answer is produced, and one press that starts a real question. The
+ * capability list and the starters are lib/ai/modes' own, so nothing here can
+ * promise a behaviour the endpoint does not have.
+ */
+function Welcome({ onPick }: { onPick: (q: string) => void }) {
+  return (
+    <section className="nxq-welcome" aria-labelledby="nxq-w-h">
       {/* --------------------------------------------------- the greeting */}
       <div className="nxq-w-top">
-        <NeoLibrarian size={138} className="nxq-w-neo nm-rise nm-once" />
+        <NeoLibrarian size={96} className="nxq-w-neo nm-rise nm-once" />
         <div className="nxq-w-say">
           <span className="nxq-eyebrow">
             <BookOpen size={13} strokeWidth={2} aria-hidden="true" />
             ספריית SAP
           </span>
-          <h2 className="nxq-w-h">שאלות על ספרי SAP שבספרייה</h2>
+          <h2 className="nxq-w-h" id="nxq-w-h">שאלות על ספרי SAP שבספרייה</h2>
           <p className="nxq-w-p">
             {CORPUS.books > 0
               ? "התשובות נכתבות מתוך ספרי SAP שבספרייה: הסבר, סיכום, השוואה, תרשים והפניה למקור המדויק."
@@ -290,70 +367,13 @@ function Welcome({ scope, onPick, onAction, onOpenScope }: {
           </p>
           <ul className="nxq-caps">
             {M.capabilities.map((cap) => (
-              <li key={cap} className="nu-chip">{cap}</li>
+              <li key={cap} className="nxq-cap">
+                <Check size={14} strokeWidth={2.4} aria-hidden="true" />
+                {cap}
+              </li>
             ))}
           </ul>
         </div>
-      </div>
-
-      {/* ------------------------------------------------- current context */}
-      <button type="button" className="nxq-w-scope" onClick={onOpenScope}>
-        <span className="nxq-w-scope-l">
-          <Layers size={14} strokeWidth={2} aria-hidden="true" />
-          היקף השאלה
-        </span>
-        <b className="nxq-w-scope-v">{scopeLabel(scope)}</b>
-        <span className="nxq-w-scope-m">
-          {scoped
-            ? "בחירת ספר, פרק או סעיף אחר"
-            : CORPUS.books > 0
-              ? `${CORPUS.books} ספרים · ${CORPUS.chapters.toLocaleString("he-IL")} פרקים · ${CORPUS.sections.toLocaleString("he-IL")} סעיפים`
-              : "אין ספרים במאגר"}
-        </span>
-        <ChevronDown size={16} strokeWidth={2} aria-hidden="true" className="nxq-w-scope-c" />
-      </button>
-
-      {/* --------------------------------------------------- quick actions */}
-      <div className="nxq-qa">
-        <span className="nxq-qa-t">פעולות על החומר שנבחר</span>
-        <div className="nxq-qa-row">
-          {PRIMARY.map((a, i) => (
-            <button
-              key={a.id}
-              type="button"
-              className="nxq-qa-b nm-rise nm-once"
-              style={{ "--nm-i": i } as React.CSSProperties}
-              onClick={() => onAction(a.prompt, a.task)}
-            >
-              <span className="nxq-qa-i" aria-hidden="true">{QA_ICON[a.id]}</span>
-              {a.label}
-            </button>
-          ))}
-          <button
-            type="button"
-            className="nxq-qa-more"
-            aria-expanded={more}
-            onClick={() => setMore((v) => !v)}
-          >
-            עוד פעולות
-            <ChevronDown size={14} strokeWidth={2} aria-hidden="true" />
-          </button>
-        </div>
-        {more ? (
-          <div className="nxq-qa-row nxq-qa-row2 nm-seq">
-            {MORE.map((a, i) => (
-              <button
-                key={a.id}
-                type="button"
-                className="nxq-qa-b nxq-qa-b2 nm-rise nm-once"
-                style={{ "--nm-i": i } as React.CSSProperties}
-                onClick={() => onAction(a.prompt, a.task)}
-              >
-                {a.label}
-              </button>
-            ))}
-          </div>
-        ) : null}
       </div>
 
       {/* ------------------------------------------------------- starters */}

@@ -95,7 +95,7 @@ export function MotionProvider() {
     const app = document.querySelector<HTMLElement>(".nx-app");
     const canvas = app?.querySelector<HTMLElement>(".nx-canvas");
     if (!app || !canvas) return;
-    const selector = ".no-orbit, .nol, .nxq-hero-mark, .nxq-avatar, .nxq-live";
+    const selector = ".no-orbit, .nol, .nxq-win-mark, .nxq-avatar, .nxq-live";
     const watched = new Set<Element>();
     let observer: IntersectionObserver | null = null;
     let mutations: MutationObserver | null = null;
