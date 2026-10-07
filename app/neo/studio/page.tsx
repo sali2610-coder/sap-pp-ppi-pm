@@ -1,12 +1,13 @@
 // Project NEO · /neo/studio — Architecture Studio.
 //
-// The sidebar's "studio" item previously fell through to app/neo/[hub], the
-// Stage-1 placeholder. lib/studio-graph.ts — the heterogeneous graph, the
-// swimlane layout, the eight zones, the nine view modes and the S/4 verdict
-// colours — is reused whole; this route is the NEO workspace around it.
+// The studio's two graphs (PM, PP-PI) are assembled here at build time from
+// lib/studio-graph.ts (components/neo-shell/studio/studio-data.ts) and handed
+// to the workspace as plain data: the browser receives the nodes, relations
+// and words it draws, never the blueprints' source.
 import "@/app/neo/ui.css";
 import "@/app/neo/studio.css";
 import { StudioView } from "@/components/neo-shell/studio/studio-view";
+import { studioPayload } from "@/components/neo-shell/studio/studio-data";
 
 export const metadata = {
   title: "Architecture Studio · Project NEO",
@@ -15,5 +16,5 @@ export const metadata = {
 };
 
 export default function Page() {
-  return <StudioView />;
+  return <StudioView data={studioPayload()} />;
 }

@@ -3,574 +3,507 @@
 /* ============================================================================
    PROJECT NEO · ARCHITECTURE STUDIO
    ----------------------------------------------------------------------------
-   WHAT WAS INHERITED, AND WHY NOTHING WAS RE-DERIVED
+   A working surface for SAP architecture: tables, transactions, BAPIs, IDocs,
+   CDS views and Fiori apps, and the relations between them, in nine views
+   that each draw a different picture of the same graph.
 
-     lib/studio-graph.ts is the old Studio's real value and it is reused whole.
-     It is the only graph in this product that is HETEROGENEOUS — tables plus
-     transactions, BAPIs, function modules, IDocs, CDS views and Fiori apps —
-     which is exactly what separates Studio from the ERD, where the ERD is
-     tables and their relations only. It also carries the swimlane layout, the
-     eight business zones, the nine view modes and the S/4 verdict colours.
+   WHAT CHANGED (2026-10), AND WHY
+     The owner asked for a studio where every control does its job, that fills
+     the exact screen at a crisp resolution, goes full screen, and explains
+     itself at the side. Measured before the change: the studio was 28px
+     taller than the screen (the page scrolled and the legend sat under the
+     dock); three views drew the identical picture; the object views drew every
+     object of the module whether related or not (106 transactions in one row);
+     lines ran straight through the cards; text blurred when zoomed; five
+     icon-only tools overlapped in meaning.
 
-     So this file is a WORKSPACE over an existing capability layer. It does not
-     re-derive a single relationship, zone or verdict.
+     Now:
+       · the studio takes the shell's canvas over and is exactly its size;
+       · the picture is packed to the stage's own shape (lib/studio-layout.ts)
+         and every view is its own picture (./studio-views.ts);
+       · the graph is prepared at build time (./studio-data.ts); the browser
+         no longer downloads the blueprints' source;
+       · the stage draws crisply at rest at any zoom (./studio-stage.tsx);
+       · the panel explains the picture, or the selected object
+         (./studio-panel.tsx);
+       · the tools are few and each says what it does: fit, zoom, 100%, full
+         screen, the panel, the keyboard. Reset, presentation and focus mode
+         are gone: fit, Escape and full screen do what they did.
 
-   WHY THE OLD SCREEN STILL NEEDED REPLACING
-
-     The capability was sound; the surface was a 861-line component carrying its
-     own chrome, its own colours and its own control language. Inside NEO it
-     read as a different product. This keeps the graph and rebuilds the room
-     around it in NEO's system.
-
-   THE THREE THINGS A GRAPH WORKSPACE HAS TO GET RIGHT
-
-     1. The canvas gets the space. Chrome collapses; the graph does not.
-     2. Selection is legible from the graph alone — the selected node rings,
-        its neighbours stay full strength, everything else dims but REMAINS
-        VISIBLE. Dropping unrelated nodes destroys the reader's map.
-     3. Every control does something. A control that renders but does nothing
-        is worse than an absent one, because it costs a click to learn that.
-
-   MOTION IS PRECISION-LEVEL
-
-     Camera moves and dim transitions only. No parallax, no scene choreography,
-     no decorative particles. This is a working surface, and the brief's motion
-     hierarchy puts it at the quiet end.
+   LAYOUT (app/neo/studio.css): the stage on the right, the panel on the left
+   (as the ERD), the bar and the credit across both. Under 56rem the panel is a
+   drawer; under 40rem the stage and the panel take turns.
    ========================================================================== */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import Link from "next/link";
-import { useShellFocus } from "../focus";
 import {
-  ArrowRightLeft, Ban, Braces, Cable, Check, CircleHelp, Crosshair, Diff, Expand, Filter, LayoutGrid, Maximize2, Minus, Plug,
-  Plus, Presentation, RotateCcw, Search, Sigma, Table, Terminal, X, Focus, type LucideIcon,
+  Keyboard, Maximize, Minimize, Minus, PanelLeftClose, PanelLeftOpen, Plus, Scan, Search, X,
 } from "lucide-react";
-import { modVar } from "../mod-var";
-import { S4_DOT, S4_HE, S4_ORDER, S4_UNDECIDED_HE, type S4Class } from "@/lib/s4-class";
-import {
-  KIND_META, MODES, ZONES, buildHetero, layoutSubset, layoutZoned,
-  nodeTier, zoneOf, type LEdge, type LNode, type SKind, type SNode,
-} from "@/lib/studio-graph";
+import type { View } from "../erd/graph";
+import type { StudioModule, StudioPayload } from "./studio-data";
+import { buildView, graphOf, KIND_HE, VIEWS, VIEW_OF_KIND, type ViewId } from "./studio-views";
+import { KindGlyph, S4Glyph, StudioStage, type StageApi } from "./studio-stage";
+import { StudioPanel } from "./studio-panel";
 
-type Mod = "PM" | "PP-PI";
-const MODULES: Mod[] = ["PM", "PP-PI"];
+const MODULES: StudioModule[] = ["PM", "PP-PI"];
+const SKEY = "neo:studio:v2";
+const MOD_VAR: Record<StudioModule, string> = { PM: "var(--mod-pm)", "PP-PI": "var(--mod-pppi)" };
 
-
-/* OBJECT KIND IS A GLYPH, NOT A COLOUR (2026-10). The kind palette in
-   lib/studio-graph is shared with the home page and the module map and is not
-   touched; this surface simply stops painting it, so seven kinds and eight
-   zones no longer compete as hues. The glyphs are the rail's own for the same
-   catalogs. The S/4 verdict is the blueprint's own class (lib/s4-class.ts),
-   in its own words, ללא שינוי / מותאם / הוחלף / הוסר, each with the glyph the
-   status pill uses for that reading and the status token's colour; a table
-   whose row decides nothing says "לא הוכרע במקור". */
-const KIND_ICON: Record<SKind, LucideIcon> = {
-  table: Table, tcode: Terminal, bapi: Plug, fm: Braces, idoc: Cable, cds: Sigma, fiori: LayoutGrid,
+type ScreenEl = HTMLElement & { webkitRequestFullscreen?: () => Promise<void> | void };
+type ScreenDoc = Document & {
+  webkitFullscreenElement?: Element | null;
+  webkitExitFullscreen?: () => Promise<void> | void;
+  webkitFullscreenEnabled?: boolean;
 };
-const S4_ICON: Record<S4Class, LucideIcon> = { 0: Check, 1: Diff, 2: ArrowRightLeft, 3: Ban };
-const s4Word = (k: S4Class | undefined) => (k === undefined ? S4_UNDECIDED_HE : S4_HE[k]);
+const screenEl = () => document.fullscreenElement ?? (document as ScreenDoc).webkitFullscreenElement ?? null;
 
-function KindGlyph({ kind, size = 12 }: { kind: SKind; size?: number }) {
-  const I = KIND_ICON[kind];
-  return <I size={size} strokeWidth={2} aria-hidden="true" className="nst-kg" />;
-}
-function S4Glyph({ k, size = 12 }: { k: S4Class | undefined; size?: number }) {
-  if (k === undefined) return <CircleHelp size={size} strokeWidth={2.2} aria-hidden="true" className="nst-s4g" style={{ color: "var(--status-not-started)" }} />;
-  const I = S4_ICON[k];
-  return <I size={size} strokeWidth={2.4} aria-hidden="true" className="nst-s4g" style={{ color: S4_DOT[k] }} />;
-}
+type Mode = "side" | "drawer" | "phone";
 
-/** The first layer of a module: the first zone (in ZONES order) that has at
- *  least one table in the module's graph. The studio opens on it (design
- *  audit S7-STU-1) instead of on every object at once. */
-function firstZoneOf(module: Mod): Set<string> {
-  const h = buildHetero(module as never);
-  for (const z of ZONES) {
-    for (const [id, n] of h.nodes) if (n.kind === "table" && zoneOf(id) === z.id) return new Set([z.id]);
-  }
-  return new Set();
-}
-
-export function StudioView() {
-  const [mod, setMod] = useState<Mod>("PM");
-  const [modeId, setModeId] = useState("tables");
+export function StudioView({ data }: { data: StudioPayload }) {
+  const [mod, setMod] = useState<StudioModule>("PM");
+  const [viewId, setViewId] = useState<ViewId>("tables");
+  const G = useMemo(() => graphOf(data[mod]), [data, mod]);
+  const firstLayer = useCallback((g: typeof G) => new Set(g.g.zones.length ? [g.g.zones[0].id as string] : []), []);
+  const [layers, setLayers] = useState<Set<string>>(() => firstLayer(graphOf(data.PM)));
   const [sel, setSel] = useState<string | null>(null);
-  const [q, setQ] = useState("");
-  /* A LAYERED START (design audit S7-STU-1). The studio used to open on all
-     56 objects at 46%, where the labels were 10px. It now opens on ONE layer —
-     the first zone that has objects in the module — and the reader widens to
-     the next layer or to all of them with the controls below. The same zone
-     filter the side panel already offers; only the starting value changed. */
-  const [zones, setZones] = useState<Set<string>>(() => firstZoneOf("PM"));
+  const [iso, setIso] = useState(false);
+  const isoBack = useRef<View | null>(null);
+  const [panel, setPanel] = useState(true);
+  const [mode, setMode] = useState<Mode>("side");
+  const modeRef = useRef<Mode>("side");
+  const [phonePanel, setPhonePanel] = useState(false);
+  const [stageWH, setStageWH] = useState<{ w: number; h: number } | null>(null);
+  const [zoomPct, setZoomPct] = useState(100);
   const [full, setFull] = useState(false);
-  // Focus mode (design audit §3): shell hidden, the studio alone; Escape exits.
-  const [shellFocus, setShellFocus] = useState(false);
-  /* PRESENTATION MODE (design audit S6-3): focus + fullscreen + larger type
-     (studio.css [data-present]). One switch; Esc or the same button ends it. */
-  const [present, setPresent] = useState(false);
-  const exitShellFocus = useCallback(() => { setShellFocus(false); setPresent(false); }, []);
-  useShellFocus(shellFocus, exitShellFocus);
+  const [canFull, setCanFull] = useState(false);
+  const [coarse, setCoarse] = useState(() => typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches);
+  const [q, setQ] = useState("");
+  const [qOpen, setQOpen] = useState(false);
+  const [qi, setQi] = useState(0);
+  const [pending, setPending] = useState<string | null>(null);
+  const root = useRef<HTMLDivElement>(null);
+  const stage = useRef<StageApi>(null);
+  const search = useRef<HTMLInputElement>(null);
+  const keys = useRef<HTMLDialogElement>(null);
 
-  /* Camera. Kept in state rather than in the DOM so reset and fit are one
-     assignment, and so the transition is declarative. */
-  const [cam, setCam] = useState({ x: 0, y: 0, k: 1 });
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const drag = useRef<{ x: number; y: number; cx: number; cy: number } | null>(null);
-  /* Read by the resize observer. A ref, not the state value, so the observer is
-     not torn down and rebuilt on every selection. */
-  const selRef = useRef<string | null>(null);
-  /* Current layout, for the observer — same reason as selRef. */
-  const laidRef = useRef<LNode[]>([]);
+  const view = VIEWS.find((v) => v.id === viewId) ?? VIEWS[0];
+  const aspect = stageWH ? Math.min(3, Math.max(0.5, Math.round((stageWH.w / stageWH.h) * 4) / 4)) : 1.25;
+  const built = useMemo(() => buildView(view, G, layers, aspect), [view, G, layers, aspect]);
+  const drawn = useMemo(() => new Set(built.layout.nodes.map((n) => n.id)), [built]);
+  const frameKey = `${mod}|${viewId}|${[...layers].sort().join(",")}|${aspect}`;
 
-  useEffect(() => { selRef.current = sel; }, [sel]);
-
-  const mode = MODES.find((m) => m.id === modeId) ?? MODES[0];
-  const hetero = useMemo(() => buildHetero(mod as never), [mod]);
-
-  /* Which nodes this mode is allowed to show. "full" modes lay every table out
-     in its zone; "expand" modes start from the tables and pull in the related
-     objects of the kinds the mode declares. */
-  const visible = useMemo(() => {
-    const kinds = new Set<SKind>(mode.kinds);
-    const out = new Set<string>();
-    for (const [id, n] of hetero.nodes) {
-      if (!kinds.has(n.kind)) continue;
-      if (mode.master && n.kind === "table" && zoneOf(id) !== "master") continue;
-      if (zones.size && n.kind === "table" && !zones.has(zoneOf(id))) continue;
-      out.add(id);
-    }
-    return out;
-  }, [hetero, mode, zones]);
-
-  const laid = useMemo(() => {
-    if (!visible.size) return { nodes: [] as LNode[], edges: [] as LEdge[], bands: [], width: 0, height: 0 };
-    return mode.behavior === "full"
-      ? layoutZoned(visible, hetero)
-      : { ...layoutSubset(visible, hetero), bands: [] as never[] };
-  }, [visible, hetero, mode.behavior]);
-
-  useEffect(() => { laidRef.current = laid.nodes; }, [laid.nodes]);
-
-  /* Neighbours of the selection, for the dim/keep decision. */
-  const near = useMemo(() => {
-    if (!sel) return null;
-    const s = new Set<string>([sel]);
-    hetero.adj.get(sel)?.forEach((n) => s.add(n));
-    return s;
-  }, [sel, hetero]);
-
-  const results = useMemo(() => {
-    const t = q.trim().toLowerCase();
-    if (t.length < 2) return [];
-    return laid.nodes
-      .filter((n) => n.id.toLowerCase().includes(t) || (n.he || "").toLowerCase().includes(t))
-      .slice(0, 8);
-  }, [q, laid.nodes]);
-
-  /* ---------------------------------------------------------- camera ops */
-
-  const fit = useCallback(() => {
-    const el = wrapRef.current;
-    if (!el || !laid.nodes.length) return;
-    /* MEASURE THE NODES, DO NOT TRUST laid.width.
-       The layout's reported width is the column extent, which excludes the
-       width of whatever sits in the last column — so "fit to screen" left the
-       right-most nodes outside the canvas. Measured: 10 of 56 still off-screen
-       after a fit. The true extent is the union of the node boxes. */
-    /* The layouts place a node by its CENTRE (dagre's convention, and
-       layoutZoned's), so a node's box is centre ± half its size. */
-    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-    for (const n of laid.nodes) {
-      minX = Math.min(minX, n.x - n.w / 2); maxX = Math.max(maxX, n.x + n.w / 2);
-      minY = Math.min(minY, n.y - n.h / 2); maxY = Math.max(maxY, n.y + n.h / 2);
-    }
-    const bw = maxX - minX, bh = maxY - minY;
-    if (!(bw > 0) || !(bh > 0)) return;
-    const PAD = 48;
-    const raw = Math.min((el.clientWidth - PAD) / bw, (el.clientHeight - PAD) / bh, 1.4);
-    // PRESENTATION (design audit S6-3): a fit never lands below 90%, so the
-    // labels stay legible from across a room; the presenter pans to the rest.
-    // Otherwise a fit never shrinks the smallest node below a 24px target
-    // (WCAG 2.5.8): measured, a 390px canvas fitted 44px nodes to 15px. On a
-    // narrow canvas the reader pans instead; wide screens fit above the floor.
-    const floor = 24 / Math.min(...laid.nodes.map((n) => n.h));
-    const k = present ? Math.max(raw, 0.9) : Math.max(raw, floor);
-    setCam({ k, x: (el.clientWidth - bw * k) / 2 - minX * k, y: (el.clientHeight - bh * k) / 2 - minY * k });
-  }, [laid.nodes, present]);
-
-  const centerOn = useCallback((id: string) => {
-    const el = wrapRef.current;
-    const n = laid.nodes.find((x) => x.id === id);
-    if (!el || !n) return;
-    const k = Math.max(cam.k, 0.9);
-    setCam({ k, x: el.clientWidth / 2 - n.x * k, y: el.clientHeight / 2 - n.y * k });
-  }, [laid.nodes, cam.k]);
-
-  const zoom = useCallback((f: number) => {
-    const el = wrapRef.current;
-    if (!el) return;
-    setCam((c) => {
-      const k = Math.min(2.4, Math.max(0.18, c.k * f));
-      /* Zoom about the viewport centre, not the origin — otherwise the graph
-         slides away from under the reader on every press. */
-      const cx = el.clientWidth / 2, cy = el.clientHeight / 2;
-      return { k, x: cx - ((cx - c.x) / c.k) * k, y: cy - ((cy - c.y) / c.k) * k };
-    });
-  }, []);
-
-  /* Fit once the layout for a new module/mode exists. */
-  useEffect(() => { const t = setTimeout(fit, 40); return () => clearTimeout(t); }, [fit, modeId, mod]);
-
-  /* THE CANVAS RESIZES UNDER THE CAMERA, AND THE CAMERA HAS TO ANSWER.
-     Selecting a node opens the context panel, which takes width from the
-     canvas — measured 924px -> 652px — and the camera kept its old transform,
-     so 15 of 56 nodes fell outside the viewport at the exact moment the reader
-     selected something. One observer covers all three causes of a resize:
-     the panel opening or closing, the window changing, and fullscreen. When
-     something is selected we keep IT centred; otherwise we re-fit. */
+  /* -------------------------------------------------------- persistence */
+  const restored = useRef(false);
   useEffect(() => {
-    const el = wrapRef.current;
+    if (restored.current) return;
+    restored.current = true;
+    try {
+      const s = JSON.parse(sessionStorage.getItem(SKEY) || "null") as { mod?: StudioModule; view?: ViewId; layers?: string[]; sel?: string | null } | null;
+      if (!s) return;
+      const m = s.mod && MODULES.includes(s.mod) ? s.mod : "PM";
+      const v = s.view && VIEWS.some((x) => x.id === s.view) ? s.view : "tables";
+      const g = graphOf(data[m]);
+      const zs = g.g.zones.map((z) => z.id as string);
+      const ls = (s.layers || []).filter((z) => zs.includes(z));
+      // an empty list is "all layers"; a list whose zones are gone falls back to the first
+      const next = Array.isArray(s.layers) && !s.layers.length ? [] : ls.length ? ls : zs.slice(0, 1);
+      // a restored session belongs to the reader (back from a record page, the
+      // card is still open); React batches these
+      setMod(m); setViewId(v); setLayers(new Set(next));
+      if (s.sel && g.byId.has(s.sel)) setSel(s.sel);
+    } catch { /* storage refused: the first picture stands */ }
+  }, [data]);
+  useEffect(() => {
+    if (!restored.current) return;
+    try { sessionStorage.setItem(SKEY, JSON.stringify({ mod, view: viewId, layers: [...layers], sel })); } catch { /* ignore */ }
+  }, [mod, viewId, layers, sel]);
+
+  /* ------------------------------------------------- shape of the screen */
+  useEffect(() => {
+    const el = root.current;
     if (!el || typeof ResizeObserver === "undefined") return;
-    let raf = 0;
-    /* ONLY ACT ON A REAL SIZE CHANGE.
-       ResizeObserver fires on its first observation and can fire again for
-       sub-pixel reasons. Without this guard it re-ran fit()/recentre on every
-       tick and overwrote the camera the reader had just set — measured as zoom
-       and pan appearing completely frozen. */
-    let lastW = el.clientWidth, lastH = el.clientHeight;
     const ro = new ResizeObserver(() => {
-      const w = el.clientWidth, h = el.clientHeight;
-      if (Math.abs(w - lastW) < 2 && Math.abs(h - lastH) < 2) return;
-      lastW = w; lastH = h;
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        /* Preserve the reader's zoom. centerOn() deliberately zooms IN to at
-           least 0.9 because it answers an explicit "focus this" — using it here
-           would mean merely selecting a node silently magnified the graph. A
-           resize should move the camera, not change its scale. */
-        const id = selRef.current;
-        if (!id) { fit(); return; }
-        const el = wrapRef.current;
-        const n = laidRef.current.find((x) => x.id === id);
-        if (!el || !n) { fit(); return; }
-        setCam((c) => ({
-          k: c.k,
-          x: el.clientWidth / 2 - n.x * c.k,
-          y: el.clientHeight / 2 - n.y * c.k,
-        }));
-      });
+      const w = el.clientWidth;
+      const m: Mode = w < 640 ? "phone" : w < 896 ? "drawer" : "side";
+      if (m === modeRef.current) return;
+      modeRef.current = m;
+      setMode(m);
+      // the panel stands beside a wide stage, and waits as a drawer on a narrow one
+      setPanel(m === "side");
     });
     ro.observe(el);
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
-  }, [fit, centerOn]);
+    const mq = window.matchMedia("(pointer: coarse)");
+    const sync = () => setCoarse(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => { ro.disconnect(); mq.removeEventListener("change", sync); };
+  }, []);
 
-  const pick = useCallback((id: string) => { setSel(id); centerOn(id); }, [centerOn]);
-
-  /* Fullscreen through the real API so the browser chrome behaves. */
+  /* ----------------------------------------------------------- fullscreen */
+  useEffect(() => {
+    const el = root.current as ScreenEl | null;
+    const d = document as ScreenDoc;
+    setCanFull(!!(d.fullscreenEnabled || d.webkitFullscreenEnabled) && !!(el?.requestFullscreen || el?.webkitRequestFullscreen));
+    const sync = () => setFull(!!el && screenEl() === el);
+    document.addEventListener("fullscreenchange", sync);
+    document.addEventListener("webkitfullscreenchange", sync);
+    return () => { document.removeEventListener("fullscreenchange", sync); document.removeEventListener("webkitfullscreenchange", sync); };
+  }, []);
   const toggleFull = useCallback(async () => {
-    const el = wrapRef.current?.closest(".nst") as HTMLElement | null;
+    const el = root.current as ScreenEl | null;
+    const d = document as ScreenDoc;
     if (!el) return;
     try {
-      if (document.fullscreenElement) { await document.exitFullscreen(); }
-      else { await el.requestFullscreen(); }
-    } catch { /* denied by the browser: the layout flag below still applies */ }
-    setFull((v) => !v);
+      if (screenEl()) await (d.exitFullscreen ?? d.webkitExitFullscreen)?.call(d);
+      else await (el.requestFullscreen ?? el.webkitRequestFullscreen)?.call(el);
+    } catch { /* refused by the browser: the button stays as it was */ }
   }, []);
+
+  /* ------------------------------------------------------------ selection */
+  const pick = useCallback((id: string) => {
+    setIso(false);
+    setSel(id);
+    if (drawn.has(id)) { stage.current?.centerOn(id); return; }
+    // not in the picture: bring it in, then select and centre it
+    const n = G.byId.get(id);
+    if (!n) return;
+    if (n.k === "table") {
+      // a table is always in the table map, once its zone is a layer
+      const z = n.z as string | undefined;
+      if (viewId !== "tables") setViewId("tables");
+      if (z) setLayers((s) => (s.size && !s.has(z) ? new Set([...s, z]) : s));
+    } else {
+      setViewId(VIEW_OF_KIND[n.k]);
+      const zs = [...(G.adj.get(id) || [])].map((t) => G.byId.get(t)?.z).filter((z): z is NonNullable<typeof z> => !!z);
+      if (zs.length) setLayers((s) => (s.size && !zs.some((z) => s.has(z)) ? new Set([...s, zs[0]]) : s));
+    }
+    setPending(id);
+    if (mode === "phone") setPhonePanel(false);
+  }, [drawn, G, viewId, mode]);
+
+  // once the picture holds the pending object, centre on it
   useEffect(() => {
-    const on = () => setFull(!!document.fullscreenElement);
-    document.addEventListener("fullscreenchange", on);
-    return () => document.removeEventListener("fullscreenchange", on);
-  }, []);
-  const enterPresent = useCallback(() => {
-    setPresent(true);
-    setShellFocus(true);
-    if (!document.fullscreenElement) void toggleFull();
-  }, [toggleFull]);
-  const exitPresent = useCallback(() => {
-    setPresent(false);
-    setShellFocus(false);
-    if (document.fullscreenElement) void toggleFull();
-  }, [toggleFull]);
+    if (!pending || !drawn.has(pending)) return;
+    const id = pending;
+    const t = window.setTimeout(() => { stage.current?.centerOn(id); setPending(null); }, 60);
+    return () => window.clearTimeout(t);
+  }, [pending, drawn]);
 
-  const selNode: SNode | null = sel ? hetero.nodes.get(sel) ?? null : null;
-  const selNeighbours = useMemo(() => {
-    if (!sel) return [];
-    return [...(hetero.adj.get(sel) ?? [])]
-      .map((id) => hetero.nodes.get(id))
-      .filter((n): n is SNode => !!n)
-      .sort((a, b) => a.kind.localeCompare(b.kind) || a.id.localeCompare(b.id));
-  }, [sel, hetero]);
+  const onStageSize = useCallback((w: number, h: number) => setStageWH((o) => (o && o.w === w && o.h === h ? o : { w, h })), []);
 
-  const s4Mode = mode.colorBy === "s4";
-  /** Several kinds on stage: each node says which it is. */
-  const mixed = mode.kinds.length > 1;
+  const select = useCallback((id: string | null) => {
+    setSel(id);
+    if (!id) setIso(false);
+    // the drawer opens over the stage's left; the selection moves into the rest
+    if (id && mode === "drawer") { setPanel(true); stage.current?.centerOn(id, 176); }
+  }, [mode]);
 
-  /* The layer strip: which layer is on stage, how much of the module it is,
-     and the two ways out — the next layer, or everything. Counted from the
-     graph, never authored. */
-  const zoneCounts = useMemo(() => {
-    const m = new Map<string, number>();
-    for (const [id, n] of hetero.nodes) if (n.kind === "table") { const z = zoneOf(id); m.set(z, (m.get(z) ?? 0) + 1); }
-    return m;
-  }, [hetero]);
-  const layered = ZONES.filter((z) => (zoneCounts.get(z.id) ?? 0) > 0);
-  const nextZone = layered.find((z) => !zones.has(z.id));
-  const tablesTotal = [...zoneCounts.values()].reduce((a, b) => a + b, 0);
-  const tablesShown = layered.filter((z) => !zones.size || zones.has(z.id)).reduce((a, z) => a + (zoneCounts.get(z.id) ?? 0), 0);
+  const isolate = useCallback((id: string) => {
+    setSel(id);
+    if (iso && sel === id) {
+      setIso(false);
+      if (isoBack.current) stage.current?.restore(isoBack.current);
+      return;
+    }
+    const ids = [id, ...[...(G.adj.get(id) || [])].filter((n) => drawn.has(n))];
+    const before = stage.current?.frame(ids) ?? null;
+    if (!iso) isoBack.current = before;
+    setIso(true);
+  }, [G.adj, drawn, iso, sel]);
+
+  const escStep = useCallback((): boolean => {
+    if (iso) { setIso(false); if (isoBack.current) stage.current?.restore(isoBack.current); return true; }
+    if (sel) { setSel(null); return true; }
+    return false;
+  }, [iso, sel]);
+
+  /* ------------------------------------------------------- module / view */
+  const changeModule = (m: StudioModule) => {
+    if (m === mod) return;
+    const g2 = graphOf(data[m]);
+    setMod(m); setSel(null); setIso(false); setLayers(firstLayer(g2)); setQ(""); setPending(null);
+  };
+  const changeView = (v: ViewId) => { if (v === viewId) return; setViewId(v); setSel(null); setIso(false); };
+
+  /* --------------------------------------------------------------- search */
+  const results = useMemo(() => {
+    const t = q.trim().toLowerCase();
+    if (!t) return { list: [], more: 0 };
+    const hits = G.g.nodes.filter((n) => !n.none && (n.l.toLowerCase().includes(t) || (n.he || "").toLowerCase().includes(t) || (n.en || "").toLowerCase().includes(t)));
+    hits.sort((a, b) => Number(drawn.has(b.id)) - Number(drawn.has(a.id)) || Number(b.l.toLowerCase().startsWith(t)) - Number(a.l.toLowerCase().startsWith(t)) || a.l.localeCompare(b.l));
+    return { list: hits.slice(0, 8), more: Math.max(0, hits.length - 8) };
+  }, [q, G, drawn]);
+  const choose = (id: string) => { pick(id); setQ(""); setQOpen(false); search.current?.blur(); };
+
+  /* ------------------------------------------------------------- keyboard */
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (keys.current?.open) return;
+      const t = e.target as HTMLElement | null;
+      const typing = !!t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.tagName === "SELECT" || t.isContentEditable);
+      if (e.key === "Escape") {
+        if (screenEl()) return;                      // the browser owns Escape in full screen
+        if (qOpen && results.list.length) { setQOpen(false); e.preventDefault(); return; }
+        if (typing && q) { setQ(""); e.preventDefault(); return; }
+        if (escStep()) e.preventDefault();          // consumed: the dock must not act on it too
+        return;
+      }
+      if (typing || e.ctrlKey || e.metaKey || e.altKey) return;
+      if (!root.current?.contains(document.activeElement) && document.activeElement !== document.body) return;
+      if (e.key === "/" || e.code === "Slash") { e.preventDefault(); search.current?.focus(); return; }
+      if (e.key === "+" || e.key === "=" || e.code === "Equal" || e.code === "NumpadAdd") { e.preventDefault(); stage.current?.zoomBy(1.25); return; }
+      if (e.key === "-" || e.code === "Minus" || e.code === "NumpadSubtract") { e.preventDefault(); stage.current?.zoomBy(1 / 1.25); return; }
+      if (e.code === "Digit0" || e.code === "Numpad0") { e.preventDefault(); stage.current?.fit(); return; }
+      if (e.code === "Digit1" || e.code === "Numpad1") { e.preventDefault(); stage.current?.zoomTo(1); return; }
+      if (e.code === "KeyF" && canFull && mode !== "phone") { e.preventDefault(); void toggleFull(); }
+    };
+    window.addEventListener("keydown", onKey, true);
+    return () => window.removeEventListener("keydown", onKey, true);
+  }, [canFull, escStep, mode, q, qOpen, results.list.length, toggleFull]);
+
+  /* ---------------------------------------------------------------- layers */
+  const zones = G.g.zones;
+  const allOn = !layers.size || zones.every((z) => layers.has(z.id));
+  const isOn = (z: string) => !layers.size || layers.has(z);
+  const zoneCount = (z: string) => G.tables.filter((t) => G.byId.get(t)?.z === z).length;
+  const toggleZone = (z: string) => setLayers((s) => {
+    const cur = new Set(s.size ? s : zones.map((x) => x.id as string));
+    if (cur.has(z)) { if (cur.size === 1) return s; cur.delete(z); } else cur.add(z);
+    return cur.size === zones.length ? new Set() : cur;
+  });
+
+  const layerBar = view.layers && mode === "phone" ? (
+    <div className="nst-layers">
+      <label className="nst-cb-label" htmlFor="nst-layer-select">שכבה</label>
+      <select id="nst-layer-select" className="nst-layer-select"
+        value={allOn ? "*" : layers.size === 1 ? [...layers][0] : "+"}
+        onChange={(e) => setLayers(e.target.value === "*" ? new Set() : new Set([e.target.value]))}>
+        <option value="*">כל השכבות ({G.tables.length})</option>
+        {!allOn && layers.size > 1 ? <option value="+">{layers.size} שכבות</option> : null}
+        {zones.map((z) => <option key={z.id} value={z.id}>{z.he} ({zoneCount(z.id)})</option>)}
+      </select>
+    </div>
+  ) : view.layers ? (
+    <div className="nst-layers" role="group" aria-label="שכבות: האזורים העסקיים שבתרשים">
+      <span className="nst-cb-label">שכבות</span>
+      {allOn
+        ? <button type="button" className="nu-ghost nst-layer-act" onClick={() => setLayers(firstLayer(G))}>השכבה הראשונה</button>
+        : <button type="button" className="nu-ghost nst-layer-act" onClick={() => setLayers(new Set())}>כל השכבות</button>}
+      {zones.map((z) => {
+        const on = isOn(z.id);
+        const last = on && !allOn && layers.size === 1;
+        return (
+          <button key={z.id} type="button" className="nu-filter nst-zone" aria-pressed={on} aria-disabled={last || undefined}
+            title={last ? "שכבה אחת לפחות מוצגת" : undefined} onClick={() => { if (!last) toggleZone(z.id); }}>
+            {z.he}<b dir="ltr">{zoneCount(z.id)}</b>
+          </button>
+        );
+      })}
+    </div>
+  ) : view.id === "eccs4" ? (
+    <div className="nst-layers" aria-label="הכרעות S/4HANA">
+      {built.verdicts?.map((v) => (
+        <span key={String(v.k)} className="nst-verdict-key"><S4Glyph k={v.k} />{v.he}<b dir="ltr">{v.n}</b></span>
+      ))}
+    </div>
+  ) : view.id === "business" ? (
+    <p className="nst-cb-note">{built.columns?.length ?? 0} שלבים · {built.layout.nodes.length} טבלאות</p>
+  ) : (
+    <p className="nst-cb-note">{G.g.master.length} אובייקטי אב · {built.layout.nodes.length} טבלאות</p>
+  );
+
+  const empty = !built.layout.nodes.length;
+  const emptyLine = view.family === "objects"
+    ? `בשכבות שנבחרו אין טבלה עם ${view.objects.map((k) => KIND_HE[k]).join(" או ")} מתועד.`
+    : "אין טבלאות בשכבות שנבחרו.";
+
+  const showPanel = mode === "phone" ? phonePanel : panel;
 
   return (
-    <div className="nst" data-full={full ? "1" : "0"} data-present={present ? "1" : "0"}>
-      {/* ------------------------------------------------------------ top */}
-      <header className="nst-top">
-        <div className="nst-brand">
-          <h1 className="nst-h1">Architecture Studio</h1>
-          <p className="nst-sub">{laid.nodes.length} אובייקטים · {laid.edges.length} קשרים</p>
-          {/* WHAT THE STUDIO DOES THAT THE ERD DOES NOT (design audit S7-STU-1):
-              one sentence, next to the title, so the two canvases are not
-              taken for one another. */}
-          <p className="nst-role">
-            הסטודיו מסביר ארכיטקטורה בשכבות: אזורים, סוגי אובייקטים ומעמד S/4HANA.
-            {" "}<Link href="/neo/erd/" prefetch={false}>מודל הנתונים (ERD)</Link> מראה את קשרי הטבלאות ומפתחותיהן.
-          </p>
+    <div
+      ref={root}
+      className="nst"
+      data-mode={mode}
+      data-full={full ? "1" : undefined}
+      data-panel={showPanel ? "1" : undefined}
+      data-own-full={canFull && mode !== "phone" ? "1" : undefined}
+      style={{ "--m": MOD_VAR[mod] } as React.CSSProperties}
+    >
+      {/* ------------------------------------------------------------ bar */}
+      <header className="nst-bar">
+        <h1 className="nst-h1">Architecture Studio</h1>
+        <div className="nst-mods" role="group" aria-label="מודול">
+          {MODULES.map((m) => (
+            <button key={m} type="button" className="nst-mod" aria-pressed={mod === m} onClick={() => changeModule(m)}>{m}</button>
+          ))}
         </div>
 
-        <div className="nst-search">
-          <Search size={14} strokeWidth={2} aria-hidden="true" />
+        <div className="nst-search" data-open={qOpen && q ? "1" : undefined}>
+          <Search size={15} strokeWidth={2} aria-hidden="true" />
           <input
+            ref={search}
             value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="חיפוש טבלה, טרנזקציה או אובייקט"
-            aria-label="חיפוש בגרף"
+            role="combobox"
+            aria-expanded={qOpen && !!q}
+            aria-controls="nst-q-list"
+            aria-autocomplete="list"
+            aria-activedescendant={qOpen && results.list[qi] ? `nst-q-${qi}` : undefined}
+            aria-label="חיפוש במודול: טבלה, טרנזקציה, BAPI, CDS או Fiori"
+            placeholder="חיפוש במודול: טבלה, טרנזקציה, BAPI, CDS או Fiori"
+            onChange={(e) => { setQ(e.target.value); setQOpen(true); setQi(0); }}
+            onFocus={() => setQOpen(true)}
+            onBlur={() => window.setTimeout(() => setQOpen(false), 120)}
+            onKeyDown={(e) => {
+              if (e.key === "ArrowDown") { e.preventDefault(); setQi((i) => Math.min(results.list.length - 1, i + 1)); }
+              if (e.key === "ArrowUp") { e.preventDefault(); setQi((i) => Math.max(0, i - 1)); }
+              if (e.key === "Enter" && results.list[qi]) { e.preventDefault(); choose(results.list[qi].id); }
+            }}
           />
-          {q ? <button type="button" className="nst-x" aria-label="ניקוי החיפוש" onClick={() => setQ("")}><X size={13} /></button> : null}
-          {results.length ? (
-            <ul className="nst-res" role="listbox">
-              {results.map((r) => (
-                <li key={r.id}>
-                  <button type="button" onClick={() => { pick(r.id); setQ(""); }}>
-                    <KindGlyph kind={r.kind} />
-                    <b className="nx-sap" dir="ltr">{r.id}</b>
-                    <span>{r.he}</span>
-                    <em>{KIND_META[r.kind].he}</em>
-                  </button>
+          {q ? <button type="button" className="nst-x" aria-label="ניקוי החיפוש" onClick={() => { setQ(""); search.current?.focus(); }}><X size={14} /></button> : <kbd className="nst-kbd" aria-hidden="true">/</kbd>}
+          {qOpen && q ? (
+            <ul className="nst-q" id="nst-q-list" role="listbox" aria-label="תוצאות החיפוש">
+              {results.list.map((n, i) => (
+                <li key={n.id} id={`nst-q-${i}`} role="option" aria-selected={i === qi}
+                  onPointerDown={(e) => { e.preventDefault(); choose(n.id); }} onPointerEnter={() => setQi(i)}>
+                  <KindGlyph kind={n.k} />
+                  <b className="nx-sap" dir="ltr">{n.l}</b>
+                  <span>{n.he || n.en || KIND_HE[n.k]}</span>
+                  {!drawn.has(n.id) ? <em>מחוץ לתצוגה{n.z ? ` · ${zones.find((z) => z.id === n.z)?.he ?? ""}` : ""}</em> : null}
                 </li>
               ))}
+              {!results.list.length ? <li className="nst-q-none" role="presentation">לא נמצא במודול {mod}.</li> : null}
+              {results.more ? <li className="nst-q-none" role="presentation">עוד {results.more}</li> : null}
             </ul>
           ) : null}
         </div>
 
-        {/* Controls are GROUPED, not laid out as one long row of identical
-            buttons — the specific complaint about the old screens. */}
         <div className="nst-tools">
-          <span className="nst-grp" role="group" aria-label="תצוגה">
-            <button type="button" onClick={fit} title="התאמה למסך"><Expand size={15} /></button>
-            <button type="button" onClick={() => { setCam({ x: 0, y: 0, k: 1 }); setSel(null); setZones(new Set()); }} title="איפוס"><RotateCcw size={15} /></button>
-            <button type="button" onClick={present ? exitPresent : enterPresent} aria-pressed={present} aria-label={present ? "יציאה ממצב הצגה" : "מצב הצגה: מסך מלא וטקסט גדול, לחדר ישיבות"} title={present ? "יציאה ממצב הצגה · Esc" : "מצב הצגה"}><Presentation size={15} /></button>
-            <button type="button" onClick={toggleFull} title={full ? "יציאה ממסך מלא" : "מסך מלא"}><Maximize2 size={15} /></button>
-            <button type="button" onClick={() => setShellFocus((v) => !v)} aria-pressed={shellFocus} title={shellFocus ? "יציאה ממצב מיקוד · Esc" : "מצב מיקוד"}><Focus size={15} /></button>
-          </span>
-          <span className="nst-grp" role="group" aria-label="זום">
-            <button type="button" onClick={() => zoom(1 / 1.25)} title="הקטנה"><Minus size={15} /></button>
-            <b className="nst-k">{Math.round(cam.k * 100)}%</b>
-            <button type="button" onClick={() => zoom(1.25)} title="הגדלה"><Plus size={15} /></button>
-          </span>
-          <span className="nst-grp" role="group" aria-label="ניווט">
-            <button type="button" onClick={() => sel && centerOn(sel)} disabled={!sel} title="מיקוד באובייקט הנבחר"><Crosshair size={15} /></button>
-          </span>
+          {canFull ? (
+            <button type="button" className="nu-ghost nst-full" onClick={() => void toggleFull()} aria-pressed={full}
+              title={full ? "יציאה ממסך מלא · Esc" : "מסך מלא · F"}>
+              {full ? <Minimize size={15} strokeWidth={2} aria-hidden="true" /> : <Maximize size={15} strokeWidth={2} aria-hidden="true" />}
+              <span className="nst-tool-l">{full ? "יציאה ממסך מלא" : "מסך מלא"}</span>
+            </button>
+          ) : null}
+          {mode === "phone" ? (
+            <button type="button" className="nu-ghost nst-explain" aria-pressed={phonePanel} onClick={() => setPhonePanel((v) => !v)}>
+              <span>הסבר</span>
+            </button>
+          ) : (
+            <button type="button" className="nu-ghost nst-panel-tg" aria-expanded={panel} aria-controls="nst-panel" onClick={() => setPanel((v) => !v)}
+              title={panel ? "הסתרת ההסבר" : "הצגת ההסבר"}>
+              {panel ? <PanelLeftClose size={15} strokeWidth={2} aria-hidden="true" /> : <PanelLeftOpen size={15} strokeWidth={2} aria-hidden="true" />}
+              <span className="nst-tool-l">{panel ? "הסתרת ההסבר" : "הצגת ההסבר"}</span>
+            </button>
+          )}
+          <button type="button" className="nu-ghost nst-keys-b" onClick={() => keys.current?.showModal()} title="קיצורי מקלדת" aria-label="קיצורי מקלדת">
+            <Keyboard size={15} strokeWidth={2} aria-hidden="true" />
+          </button>
         </div>
       </header>
 
-      {/* THE LAYER STRIP (design audit S7-STU-1): the studio opens on one
-          layer and discloses the rest step by step. */}
-      <div className="nst-layer" role="group" aria-label="שכבת התצוגה">
-        <span className="nst-layer-t">
-          {zones.size
-            ? <>שכבה: <b>{layered.filter((z) => zones.has(z.id)).map((z) => z.he).join(" · ") || "—"}</b></>
-            : <>כל השכבות</>}
-          <em className="nst-layer-n">{tablesShown} מתוך {tablesTotal} טבלאות המודול</em>
-        </span>
-        {nextZone && zones.size ? (
-          <button type="button" className="nu-btn2" onClick={() => setZones((s) => new Set([...s, nextZone.id]))}>
-            הוספת השכבה הבאה · {nextZone.he} ({zoneCounts.get(nextZone.id)})
-          </button>
-        ) : null}
-        {zones.size ? (
-          <button type="button" className="nu-ghost" onClick={() => setZones(new Set())}>הצגת כל השכבות</button>
-        ) : (
-          <button type="button" className="nu-ghost" onClick={() => setZones(firstZoneOf(mod))}>חזרה לשכבה הראשונה</button>
-        )}
-      </div>
-
-      <div className="nst-body">
-        {/* ---------------------------------------------------------- side */}
-        {shellFocus ? (
-          <button type="button" className="nu-btn nx-focus-exit" onClick={exitShellFocus}><Focus size={14} /> יציאה ממצב מיקוד</button>
-        ) : null}
-        <aside className="nst-side" aria-label="תצוגות ומסננים">
-          <div className="nst-mods">
-            {MODULES.map((m) => (
-              <button key={m} type="button" className="nst-mod" data-on={mod === m ? "1" : "0"} aria-pressed={mod === m}
-                style={{ "--m": modVar(m) } as React.CSSProperties}
-                onClick={() => { setMod(m); setSel(null); setZones(firstZoneOf(m)); }}>{m}</button>
-            ))}
-          </div>
-
-          <h2 className="nst-side-h">תצוגה</h2>
-          <ul className="nst-modes">
-            {MODES.map((m) => (
-              <li key={m.id}>
-                <button type="button" className="nst-mode" data-on={modeId === m.id ? "1" : "0"} aria-pressed={modeId === m.id}
-                  onClick={() => { setModeId(m.id); setSel(null); }}>
-                  {m.he}
-                </button>
-              </li>
-            ))}
-          </ul>
-
-          <h2 className="nst-side-h"><Filter size={12} aria-hidden="true" />אזורים</h2>
-          <ul className="nst-zones">
-            {ZONES.map((z) => {
-              const on = zones.has(z.id);
-              const n = zoneCounts.get(z.id) ?? 0;
-              return (
-                <li key={z.id}>
-                  <button type="button" className="nst-zone" data-on={on ? "1" : "0"}
-                    aria-pressed={on}
-                    disabled={!n && !on}
-                    aria-label={`${z.he}: ${n} טבלאות במודול`}
-                    onClick={() => setZones((s) => {
-                      const next = new Set(s); if (next.has(z.id)) next.delete(z.id); else next.add(z.id); return next;
-                    })}>
-                    <span>{z.he}</span><b>{n}</b>
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        </aside>
-
-        {/* -------------------------------------------------------- canvas */}
-        <div
-          className="nst-canvas"
-          ref={wrapRef}
-          onPointerDown={(e) => {
-            if ((e.target as HTMLElement).closest(".nst-node")) return;
-            drag.current = { x: e.clientX, y: e.clientY, cx: cam.x, cy: cam.y };
-            (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-          }}
-          onPointerMove={(e) => {
-            const d = drag.current; if (!d) return;
-            setCam((c) => ({ ...c, x: d.cx + (e.clientX - d.x), y: d.cy + (e.clientY - d.y) }));
-          }}
-          onPointerUp={() => { drag.current = null; }}
-          onWheel={(e) => { if (e.ctrlKey || e.metaKey) { e.preventDefault(); zoom(e.deltaY < 0 ? 1.1 : 1 / 1.1); } }}
-        >
-          <div className="nst-stage" style={{ transform: `translate(${cam.x}px, ${cam.y}px) scale(${cam.k})` }}>
-            <svg className="nst-edges" width={laid.width || 1} height={laid.height || 1} aria-hidden="true">
-              {laid.edges.map((e) => {
-                // A line is lit only while a selection gives it a meaning; with
-                // nothing selected every line is the same quiet ink.
-                const lit = near ? (near.has(e.from) && near.has(e.to) ? "1" : "0") : undefined;
-                return (
-                  <polyline
-                    key={e.id}
-                    className="nst-edge"
-                    data-lit={lit}
-                    points={e.points.map((p) => `${p.x},${p.y}`).join(" ")}
-                  />
-                );
-              })}
-            </svg>
-
-            {laid.nodes.map((n) => {
-              const on = sel === n.id;
-              /* Unrelated nodes DIM. They never disappear — losing them would
-                 destroy the reader's sense of where they are. */
-              const dim = near ? !near.has(n.id) : false;
-              return (
-                <button
-                  key={n.id}
-                  type="button"
-                  className="nst-node"
-                  data-on={on ? "1" : "0"}
-                  data-dim={dim ? "1" : "0"}
-                  data-tier={nodeTier(n, hetero)}
-                  /* The layouts give a node's CENTRE; the box is drawn around it,
-                     so a line meets the middle of a node and not its corner. */
-                  style={{ left: n.x - n.w / 2, top: n.y - n.h / 2, width: n.w, height: n.h } as React.CSSProperties}
-                  onClick={() => setSel(on ? null : n.id)}
-                  onDoubleClick={() => pick(n.id)}
-                  aria-pressed={on}
-                  aria-label={`${KIND_META[n.kind].he} ${n.label}${n.he ? `, ${n.he}` : ""}${n.kind === "table" ? `. S/4HANA: ${s4Word(n.s4k)}` : ""}`}
-                  title={s4Mode ? n.he : undefined}
-                >
-                  <b className="nx-sap" dir="ltr">{mixed ? <KindGlyph kind={n.kind} size={11} /> : null}{n.label}</b>
-                  {s4Mode && n.kind === "table"
-                    ? <span className={n.s4k === undefined ? "nst-node-s4 is-none" : "nst-node-s4"}><S4Glyph k={n.s4k} size={11} />{s4Word(n.s4k)}</span>
-                    : <span>{n.he}</span>}
-                </button>
-              );
-            })}
-          </div>
-
-          {!laid.nodes.length ? (
-            <p className="nst-empty">לא נמצאו תוצאות התואמות לסינון שנבחר.</p>
-          ) : null}
+      {/* -------------------------------------------------------- the views */}
+      {mode !== "side" ? (
+        <div className="nst-tabs is-select">
+          <label className="nx-sr" htmlFor="nst-view-select">תצוגה</label>
+          <select id="nst-view-select" value={viewId} onChange={(e) => changeView(e.target.value as ViewId)}>
+            <optgroup label="מבנה">{VIEWS.filter((v) => v.family === "structure").map((v) => <option key={v.id} value={v.id}>{v.he}</option>)}</optgroup>
+            <optgroup label="אובייקטים מקושרים">{VIEWS.filter((v) => v.family === "objects").map((v) => <option key={v.id} value={v.id}>{v.he}</option>)}</optgroup>
+          </select>
         </div>
-
-        {/* ------------------------------------------------------- context */}
-        {selNode ? (
-          <aside className="nst-ctx" aria-label="פרטי האובייקט הנבחר">
-            <header>
-              <span className="nst-kind"><KindGlyph kind={selNode.kind} />{KIND_META[selNode.kind].he}</span>
-              <button type="button" className="nst-x" aria-label="סגירה" onClick={() => setSel(null)}><X size={14} /></button>
-            </header>
-            <h2 className="nst-ctx-id nx-sap" dir="ltr">{selNode.id}</h2>
-            <p className="nst-ctx-he">{selNode.he}</p>
-
-            {selNode.kind === "table" ? (
-              <p className="nst-ctx-s4">
-                <S4Glyph k={selNode.s4k} />
-                <b>S/4HANA</b> {s4Word(selNode.s4k)}
-              </p>
-            ) : (
-              <p className="nst-ctx-none">לאובייקט זה לא קיימת הכרעת מעבר מתועדת.</p>
-            )}
-
-            <h3 className="nst-ctx-h">קשרים · {selNeighbours.length}</h3>
-            <ul className="nst-rel">
-              {selNeighbours.map((n) => (
-                <li key={n.id}>
-                  <button type="button" onClick={() => pick(n.id)} aria-label={`${KIND_META[n.kind].he} ${n.id}${n.he ? `, ${n.he}` : ""}`}>
-                    <KindGlyph kind={n.kind} />
-                    <b className="nx-sap" dir="ltr">{n.id}</b>
-                    <span>{n.he}</span>
-                  </button>
-                </li>
+      ) : (
+        <nav className="nst-tabs" aria-label="תצוגות הסטודיו">
+          {(["structure", "objects"] as const).map((f) => (
+            <div key={f} className="nst-tabs-g" role="group" aria-label={f === "structure" ? "מבנה" : "אובייקטים מקושרים"}>
+              <span className="nst-tabs-l" aria-hidden="true">{f === "structure" ? "מבנה" : "אובייקטים מקושרים"}</span>
+              {VIEWS.filter((v) => v.family === f).map((v) => (
+                <button key={v.id} type="button" className="nu-tab nst-tab" aria-pressed={viewId === v.id} data-on={viewId === v.id ? "1" : undefined} title={v.tip} onClick={() => changeView(v.id)}>
+                  {v.he}
+                </button>
               ))}
-              {!selNeighbours.length ? <li className="nst-ctx-none">אין קשרים בתצוגה זו.</li> : null}
-            </ul>
-          </aside>
-        ) : null}
+            </div>
+          ))}
+        </nav>
+      )}
+
+      {/* ------------------------------------------------------ canvas bar */}
+      <div className="nst-cbar">
+        <div className="nst-cbar-s">{layerBar}</div>
+        <div className="nst-zoom" role="group" aria-label="זום">
+          <button type="button" className="nst-zb" onClick={() => stage.current?.zoomBy(1 / 1.25)} title="הקטנה · −" aria-label="הקטנה"><Minus size={15} strokeWidth={2} /></button>
+          <button type="button" className="nst-zk" onClick={() => stage.current?.zoomTo(1)} title="לחיצה מחזירה ל-100% · 1" aria-label={`זום ${zoomPct}%. לחיצה מחזירה ל-100%`}>
+            <span dir="ltr">{zoomPct}%</span>
+          </button>
+          <button type="button" className="nst-zb" onClick={() => stage.current?.zoomBy(1.25)} title="הגדלה · +" aria-label="הגדלה"><Plus size={15} strokeWidth={2} /></button>
+          <button type="button" className="nst-zb nst-fit" onClick={() => stage.current?.fit()} title="התאמה למסך · 0">
+            <Scan size={15} strokeWidth={2} aria-hidden="true" /><span className="nst-tool-l">התאמה למסך</span>
+          </button>
+        </div>
       </div>
 
-      {/* legend — colours mean something, so they are stated */}
-      <footer className="nst-legend">
-        {s4Mode
-          ? <>
-            {S4_ORDER.filter((k) => laid.nodes.some((n) => n.kind === "table" && n.s4k === k)).map((k) => (
-              <span key={k}><S4Glyph k={k} />{S4_HE[k]}</span>
-            ))}
-            {laid.nodes.some((n) => n.kind === "table" && n.s4k === undefined)
-              ? <span><S4Glyph k={undefined} />{S4_UNDECIDED_HE}</span>
-              : null}
-          </>
-          : [...new Set(laid.nodes.map((n) => n.kind))].map((k) => (
-            <span key={k}><KindGlyph kind={k} />{KIND_META[k].he}</span>
-          ))}
-        {/* The mandatory credit, on the workspace's own bottom line. */}
-        <span className="nst-credit">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</span>
-      </footer>
+      {/* ----------------------------------------------------------- stage */}
+      <main className="nst-main" aria-label={`תרשים: ${view.he}, ${mod}`} hidden={mode === "phone" && phonePanel}>
+        <StudioStage
+          ref={stage}
+          G={G}
+          viewId={viewId}
+          built={built}
+          sel={sel}
+          iso={iso}
+          frameKey={frameKey}
+          dockInset={!full}
+          coarse={coarse || mode === "phone"}
+          onSelect={select}
+          onIsolate={isolate}
+          onSize={onStageSize}
+          onZoom={setZoomPct}
+          onBlank={() => { escStep(); }}
+        />
+        {empty ? (
+          <div className="nst-empty">
+            <p>{emptyLine}</p>
+            <button type="button" className="nu-btn2" onClick={() => setLayers(new Set())}>הצגת כל השכבות</button>
+          </div>
+        ) : null}
+      </main>
+
+      {/* ----------------------------------------------------------- panel */}
+      <aside className="nst-panel" id="nst-panel" aria-label={sel ? "פרטי האובייקט הנבחר" : "הסבר התצוגה"} hidden={!showPanel}>
+        <StudioPanel
+          G={G}
+          mod={mod}
+          view={view}
+          built={built}
+          sel={sel}
+          iso={iso}
+          onPick={pick}
+          onClear={() => { setSel(null); setIso(false); }}
+          onIsolate={() => { if (sel) isolate(sel); }}
+          onCenter={() => { if (sel) stage.current?.centerOn(sel); }}
+        />
+      </aside>
+
+      {/* The mandatory credit, on the workspace's own bottom line. */}
+      <p className="nst-credit">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</p>
+
+      <dialog ref={keys} className="nst-keys" aria-labelledby="nst-keys-h">
+        <header>
+          <h2 id="nst-keys-h">קיצורי מקלדת</h2>
+          <button type="button" className="nu-ghost" onClick={() => keys.current?.close()} aria-label="סגירה"><X size={15} /></button>
+        </header>
+        <dl>
+          <div><dt><kbd>/</kbd></dt><dd>חיפוש במודול</dd></div>
+          <div><dt><kbd>+</kbd> <kbd>−</kbd></dt><dd>הגדלה והקטנה</dd></div>
+          <div><dt><kbd>0</kbd></dt><dd>התאמה למסך</dd></div>
+          <div><dt><kbd>1</kbd></dt><dd>זום 100%</dd></div>
+          <div><dt><kbd>F</kbd></dt><dd>מסך מלא</dd></div>
+          <div><dt><kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd></dt><dd>הזזת התרשים (עם Shift: צעד גדול)</dd></div>
+          <div><dt><kbd>Tab</kbd></dt><dd>מעבר בין הכרטיסים לפי סדר הקריאה</dd></div>
+          <div><dt><kbd>Enter</kbd></dt><dd>בחירת הכרטיס</dd></div>
+          <div><dt><kbd>Esc</kbd></dt><dd>צעד אחורה: סגירת החיפוש, יציאה מהתמקדות, ניקוי הבחירה</dd></div>
+          <div><dt>גלגלת</dt><dd>הזזה; עם Ctrl או ⌘: זום</dd></div>
+        </dl>
+      </dialog>
     </div>
   );
 }

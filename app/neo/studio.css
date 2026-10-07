@@ -1,254 +1,494 @@
 /* ============================================================================
-   PROJECT NEO · ARCHITECTURE STUDIO
+   PROJECT NEO · ARCHITECTURE STUDIO (2026-10)
    ----------------------------------------------------------------------------
-   A technical workstation, not a scene. The canvas takes the space; the chrome
-   is quiet and stays out of it. Motion is camera and dim only — the brief puts
-   this surface at the precision end of the hierarchy, so there is no scroll
-   choreography and no decoration here.
+   A working instrument: the stage takes the space, the chrome is quiet, every
+   control names what it does. The layout and its numbers are the design
+   consultant's spec (bar 48 · tabs 44 · canvas bar 40 · stage · credit 24;
+   the stage on the right, the explanation panel on the left).
 
-   COLOUR (2026-10). Object kind is a GLYPH (the rail's own icon for the same
-   catalog), never a hue and never an edge stripe: seven kinds and eight zones
-   on one canvas were a colour riot, and the kind palette in lib/studio-graph
-   is shared with other surfaces, so this sheet simply stops painting it. The
-   S/4 verdict keeps its colour, as a glyph beside its word. Selection is ink.
-   Module identity is a ring and a tint on the module switch.
+   COLOUR. Object kind is a GLYPH, never a hue (seven kinds and eight zones on
+   one canvas were a colour riot). The S/4 verdict is its glyph and its word;
+   the glyph carries the status colour, deepened toward ink to reach 4.5:1.
+   Module identity is the tab underline and the pressed chips (--m). Brand red
+   appears once: the minimap's viewport outline, as on the ERD.
    ========================================================================== */
 
+/* The shell canvas is a padded, gapped, scrolling grid for ordinary pages. The
+   studio is a full-bleed instrument and takes it over, as the ERD does
+   (erd.css): over-qualified because the phone rule in globals is (0,2,1). */
+html .nx-app .nx-canvas:has(> .nst) {
+  display: block;
+  padding: 0;
+  gap: 0;
+  overflow: hidden;
+}
+
 .nst {
-  /* no module owns the studio until one is chosen on the switch, so the
-     shared controls (.nu-btn2) draw in neutral ink, not in brand red */
-  --m: var(--ink-3);
-  --side: 13.5rem;
-  --ctx: 17rem;
-  display: flex; flex-direction: column;
-  block-size: calc(100dvh - 3.5rem);
-  min-block-size: 34rem;
+  --nst-panel: clamp(20rem, 22vw, 24rem);
+  --nst-stage: var(--surface-2);
+  --nst-edge: color-mix(in oklab, var(--ink-3) 80%, var(--nst-stage));
+  position: relative;
+  block-size: 100%;
+  min-block-size: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--nst-panel);
+  grid-template-rows: 48px 44px 40px minmax(0, 1fr) 24px;
+  grid-template-areas:
+    "bar bar"
+    "tabs panel"
+    "cbar panel"
+    "main panel"
+    "credit credit";
   background: var(--background);
   color: var(--ink-1);
+  overflow: hidden;
 }
-.nst[data-full="1"] { block-size: 100dvh; background: var(--background); }
+html[data-theme="dark"] .nst { --nst-stage: var(--background); }
+.nst:not([data-panel]) {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "bar" "tabs" "cbar" "main" "credit";
+}
+/* in full screen the element is the viewport; the page ground under it */
+.nst[data-full] { block-size: 100vh; block-size: 100dvh; }
 
-/* ------------------------------------------------------------------- top */
+/* ------------------------------------------------------------------- bar */
 
-.nst-top {
-  display: flex; align-items: center; gap: .8rem; flex-wrap: wrap;
-  padding: .6rem clamp(.7rem, 2vw, 1.1rem);
+.nst-bar {
+  grid-area: bar;
+  display: flex; align-items: center; gap: .75rem;
+  min-inline-size: 0;
+  padding-inline: .9rem;
+  background: var(--surface);
+  border-block-end: 1px solid var(--hairline);
+  position: relative; z-index: 8;
+}
+/* the shell's breadcrumb already names the page: the h1 stays for screen readers */
+.nst-h1 { position: absolute; inline-size: 1px; block-size: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+.nst-mods { display: inline-flex; flex: none; padding: 2px; gap: 2px; border-radius: .6rem; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--hairline); }
+.nst-mod {
+  min-inline-size: 3.6rem; min-block-size: 2rem; padding: 0 .7rem;
+  border: 0; border-radius: .48rem; background: transparent; cursor: pointer;
+  font: inherit; font-size: .8rem; font-weight: 700; color: var(--ink-2);
+  font-family: var(--font-mono);
+}
+.nst-mod:hover { color: var(--ink-1); }
+.nst-mod[aria-pressed="true"] {
+  color: var(--ink-1); background: var(--surface);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m) 55%, var(--hairline)), var(--elev-1);
+}
+.nst-mod:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 1px; }
+
+.nst-search {
+  position: relative; flex: 1 1 18rem; min-inline-size: 0; max-inline-size: 34rem;
+  display: flex; align-items: center; gap: .45rem;
+  min-block-size: 2.25rem; padding: 0 .65rem;
+  border-radius: .65rem; background: var(--surface-2); border: 1px solid var(--hairline);
+}
+.nst-search:focus-within { border-color: color-mix(in srgb, var(--ink-1) 45%, var(--hairline)); background: var(--surface); }
+.nst-search > svg { flex: none; color: var(--ink-3); }
+.nst-search input {
+  flex: 1 1 auto; min-inline-size: 0; min-block-size: 2rem;
+  border: 0; background: transparent; outline: 2px solid transparent;
+  font: inherit; font-size: .86rem; color: var(--ink-1);
+}
+.nst-search input::placeholder { color: var(--ink-3); }
+.nst-kbd, .nst-keys kbd {
+  flex: none; display: inline-grid; place-items: center; min-inline-size: 1.35rem; padding: 0 .3rem;
+  font-family: var(--font-mono); font-size: .72rem; color: var(--ink-3);
+  border: 1px solid var(--hairline); border-radius: .3rem; background: var(--surface);
+}
+.nst-x { flex: none; display: grid; place-items: center; inline-size: 1.75rem; block-size: 1.75rem; border: 0; border-radius: .4rem; background: transparent; color: var(--ink-3); cursor: pointer; }
+.nst-x:hover { color: var(--ink-1); background: var(--surface-2); }
+.nst-q {
+  position: absolute; inset-inline: -1px; inset-block-start: calc(100% + .35rem); z-index: 30;
+  margin: 0; padding: .3rem; list-style: none;
+  border-radius: .75rem; background: var(--surface); border: 1px solid var(--hairline); box-shadow: var(--elev-3);
+  max-block-size: min(26rem, 60dvh); overflow-y: auto;
+}
+.nst-q > li[role="option"] {
+  display: grid; grid-template-columns: auto auto minmax(0, 1fr) auto; align-items: center; gap: .55rem;
+  min-block-size: 2.4rem; padding: .3rem .55rem; border-radius: .5rem; cursor: pointer;
+}
+.nst-q > li[aria-selected="true"] { background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--hairline); }
+.nst-q b { font-size: .84rem; unicode-bidi: isolate; }
+.nst-q span { font-size: .8rem; color: var(--ink-2); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.nst-q em { font-style: normal; font-size: .72rem; color: var(--ink-3); white-space: nowrap; }
+.nst-q-none { padding: .5rem .6rem; font-size: .8rem; color: var(--ink-3); }
+
+.nst-tools { display: flex; align-items: center; gap: .3rem; flex: none; margin-inline-start: auto; }
+.nst-tools .nu-ghost { gap: .4rem; min-block-size: 2.25rem; padding-inline: .65rem; font-size: .8rem; }
+.nst-tools .nu-ghost[aria-pressed="true"] { background: color-mix(in srgb, var(--ink-1) 8%, transparent); color: var(--ink-1); }
+.nst-keys-b { padding-inline: .55rem !important; }
+
+/* ------------------------------------------------------------------ tabs */
+
+.nst-tabs {
+  grid-area: tabs;
+  display: flex; align-items: stretch; gap: 1.1rem; min-inline-size: 0;
+  padding-inline: .9rem;
   border-block-end: 1px solid var(--hairline);
   background: var(--surface);
-  flex: none;
+  overflow-x: auto; scrollbar-width: none;
 }
-.nst-h1 { margin: 0; font-size: 1rem; font-weight: 700; letter-spacing: -.015em; }
-.nst-sub { margin: 0; font-size: .72rem; color: var(--ink-3); }
-/* The studio's role next to the ERD's, one line (design audit S7-STU-1). */
-.nst-role { margin: .2rem 0 0; font-size: var(--t-xs); line-height: 1.5; color: var(--ink-3); max-inline-size: min(60ch, 100%); overflow-wrap: anywhere; }
-.nst-role a { color: var(--ink-2); text-decoration: underline; text-underline-offset: 2px; }
-.nst-role a:hover { color: var(--ink-1); }
-/* THE LAYER STRIP (design audit S7-STU-1): what is on stage, and the way to
-   the next layer or to all of them. */
-.nst-layer {
-  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px;
-  padding: 6px var(--sp-4);
+.nst-tabs::-webkit-scrollbar { display: none; }
+.nst-tabs-g { display: flex; align-items: stretch; flex: none; }
+.nst-tabs-g + .nst-tabs-g { padding-inline-start: 1.1rem; border-inline-start: 1px solid var(--hairline); }
+.nst-tabs-l { align-self: center; margin-inline-end: .55rem; font-size: .72rem; font-weight: 650; color: var(--ink-3); white-space: nowrap; }
+.nst-tab { margin-inline-end: .1rem; padding-block: 0; font-size: .84rem; white-space: nowrap; }
+.nst-tab[aria-pressed="true"] { color: var(--ink-1); }
+.nst-tabs.is-select { align-items: center; overflow: visible; }
+.nst-tabs.is-select select {
+  inline-size: 100%; min-block-size: 2.25rem; padding: 0 .6rem;
+  border: 1px solid var(--hairline); border-radius: .6rem;
+  background: var(--surface-2); color: var(--ink-1); font: inherit; font-size: .88rem;
+}
+
+/* ------------------------------------------------------------ canvas bar */
+
+.nst-cbar {
+  grid-area: cbar;
+  display: flex; align-items: center; justify-content: space-between; gap: .75rem;
+  min-inline-size: 0; padding-inline: .9rem;
   border-block-end: 1px solid var(--hairline);
-  background: color-mix(in srgb, var(--surface) 70%, transparent);
-  font-size: var(--t-xs); color: var(--ink-2);
-  min-inline-size: 0;
+  background: color-mix(in oklab, var(--surface) 60%, var(--nst-stage));
 }
-.nst-layer-t { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
-.nst-layer-t b { color: var(--ink-1); }
-.nst-layer-n { font-style: normal; color: var(--ink-3); }
-.nst-layer .nu-btn2, .nst-layer .nu-ghost { min-block-size: 2rem; font-size: var(--t-xs); }
-.nst-brand { flex: 1 1 14rem; min-inline-size: 0; }
+.nst-cbar-s { flex: 1 1 auto; min-inline-size: 0; overflow-x: auto; scrollbar-width: none; }
+.nst-cbar-s::-webkit-scrollbar { display: none; }
+.nst-layers { display: flex; align-items: center; gap: .35rem; white-space: nowrap; }
+.nst-cb-label { font-size: .74rem; font-weight: 700; color: var(--ink-3); margin-inline-end: .15rem; }
+.nst-cb-note { margin: 0; font-size: .76rem; color: var(--ink-3); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.nst-layers .nst-cb-note { margin-inline-start: .35rem; }
+.nst-zone { min-block-size: 1.75rem !important; padding: 0 .65rem !important; gap: .4rem; font-size: .76rem !important; }
+.nst-zone b { font-family: var(--font-mono); font-size: .7rem; color: var(--ink-3); font-weight: 700; }
+.nst-zone[aria-pressed="true"] b { color: var(--ink-1); }
+.nst-zone[aria-disabled="true"] { cursor: default; }
+.nst-layer-act { min-block-size: 1.75rem !important; padding: 0 .55rem !important; font-size: .76rem !important; }
+.nst-verdict-key { display: inline-flex; align-items: center; gap: .3rem; margin-inline-end: .8rem; font-size: .78rem; color: var(--ink-2); }
+.nst-verdict-key b { font-family: var(--font-mono); font-size: .74rem; color: var(--ink-1); }
 
-.nst-search { position: relative; flex: 1 1 22rem; max-inline-size: 30rem; display: flex; align-items: center; gap: .45rem;
-  padding: .35rem .6rem; border-radius: .7rem; background: var(--surface-2); border: 1px solid var(--hairline); }
-.nst-search svg { color: var(--ink-3); flex: none; }
-.nst-search input { flex: 1 1 auto; min-inline-size: 0; border: 0; background: transparent; outline: none;
-  font: inherit; font-size: .85rem; color: var(--ink-1); min-block-size: 1.75rem; }
-.nst-res { position: absolute; inset-inline: 0; inset-block-start: calc(100% + .3rem); z-index: 20;
-  list-style: none; margin: 0; padding: .25rem; border-radius: .7rem;
-  background: var(--surface); border: 1px solid var(--hairline); box-shadow: var(--elev-3); }
-.nst-res button { inline-size: 100%; display: flex; align-items: center; gap: .5rem; padding: .4rem .5rem;
-  border: 0; border-radius: .5rem; background: transparent; cursor: pointer; font: inherit; text-align: start; color: inherit; }
-.nst-res button:hover { background: var(--surface-2); }
-.nst-res b { font-size: .8rem; unicode-bidi: isolate; }
-.nst-res span { font-size: .75rem; color: var(--ink-3); flex: 1 1 auto; }
-.nst-res em { font-style: normal; font-size: .7rem; color: var(--ink-3); flex: none; }
-.nst-res .nst-kg, .nst-rel .nst-kg, .nst-legend .nst-kg, .nst-kind .nst-kg { color: var(--ink-2); flex: none; }
-
-.nst-tools { display: flex; align-items: center; gap: .45rem; flex: none; flex-wrap: wrap; margin-inline-start: auto; max-inline-size: 100%; }
-/* Grouped, not one long row of identical buttons. */
-.nst-grp { display: inline-flex; align-items: center; gap: 1px; padding: 2px;
-  border-radius: .6rem; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--hairline); }
-.nst-grp button { inline-size: 32px; block-size: 30px; display: grid; place-items: center;
-  border: 0; border-radius: .45rem; background: transparent; color: var(--ink-2); cursor: pointer;
-  transition: background .15s ease, color .15s ease; }
-.nst-grp button:hover:not(:disabled) { background: var(--surface); color: var(--ink-1); }
-.nst-grp button:disabled { opacity: .38; cursor: default; }
-.nst-grp button:focus-visible { outline: 2px solid var(--ink-1); outline-offset: -2px; }
-.nst-k { min-inline-size: 3rem; text-align: center; font-size: .74rem; font-variant-numeric: tabular-nums; color: var(--ink-3); }
-.nst-x { border: 0; background: transparent; color: var(--ink-3); cursor: pointer; display: grid; place-items: center; }
-
-/* ------------------------------------------------------------------ body */
-
-.nst-body { flex: 1 1 auto; display: grid; grid-template-columns: var(--side) minmax(0, 1fr) auto; min-block-size: 0; }
-
-.nst-side { overflow-y: auto; padding: .8rem .7rem; border-inline-end: 1px solid var(--hairline);
-  background: var(--surface); display: flex; flex-direction: column; gap: .5rem; }
-.nst-side-h { display: flex; align-items: center; gap: .3rem; margin: .6rem 0 .1rem;
-  font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
-
-.nst-mods { display: flex; gap: .3rem; }
-.nst-mod { flex: 1 1 0; min-block-size: 32px; border-radius: .55rem; border: 1px solid var(--hairline);
-  background: var(--surface-2); color: var(--ink-2); font: inherit; font-size: .8rem; font-weight: 700; cursor: pointer;
-  transition: background .16s ease, color .16s ease, border-color .16s ease; }
-.nst-mod[data-on="1"] {
-  background: color-mix(in srgb, var(--m, var(--ink-3)) 12%, var(--surface));
-  border-color: var(--m, var(--ink-1)); color: var(--ink-1);
+.nst-zoom { display: inline-flex; align-items: center; flex: none; gap: 1px; padding: 2px; border-radius: .55rem; background: var(--surface); box-shadow: inset 0 0 0 1px var(--hairline); }
+.nst-zb, .nst-zk {
+  display: inline-flex; align-items: center; justify-content: center; gap: .35rem;
+  min-inline-size: 1.9rem; block-size: 1.75rem; padding: 0 .4rem;
+  border: 0; border-radius: .4rem; background: transparent; color: var(--ink-2); cursor: pointer; font: inherit; font-size: .78rem;
 }
-.nst-mod:focus-visible, .nst-mode:focus-visible, .nst-zone:focus-visible { outline: 2px solid var(--ink-1); outline-offset: -2px; }
+.nst-zk { min-inline-size: 3.4rem; font-family: var(--font-mono); font-variant-numeric: tabular-nums; color: var(--ink-1); }
+.nst-zb:hover, .nst-zk:hover { background: var(--surface-2); color: var(--ink-1); }
+.nst-fit { border-inline-start: 1px solid var(--hairline); border-radius: 0 .4rem .4rem 0; padding-inline: .55rem; }
+.nst-zb:focus-visible, .nst-zk:focus-visible, .nst-tab:focus-visible { outline: 2px solid var(--ink-1); outline-offset: -2px; }
 
-.nst-modes, .nst-zones { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
-.nst-mode, .nst-zone {
-  inline-size: 100%; display: flex; align-items: center; gap: .4rem;
-  min-block-size: 32px; padding: .3rem .5rem; border: 0; border-radius: .5rem;
-  background: transparent; color: var(--ink-2); font: inherit; font-size: .82rem; text-align: start; cursor: pointer;
-  transition: background .15s ease, color .15s ease;
-}
-.nst-mode:hover, .nst-zone:hover { background: var(--surface-2); color: var(--ink-1); }
-/* Selected: the catalogs' pressed look, a surface and an ink ring. */
-.nst-mode[data-on="1"], .nst-zone[data-on="1"] {
-  background: var(--surface-2); color: var(--ink-1); font-weight: 700;
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink-1) 55%, var(--hairline));
-}
-.nst-zone > span { flex: 1 1 auto; min-inline-size: 0; }
-.nst-zone > b { font-family: var(--font-mono); font-size: .72rem; font-weight: 700; color: var(--ink-3); font-variant-numeric: tabular-nums; }
-.nst-zone[data-on="1"] > b { color: var(--ink-1); }
-.nst-zone:disabled { cursor: default; color: var(--ink-3); background: transparent; }
+/* ----------------------------------------------------------------- stage */
 
-/* ---------------------------------------------------------------- canvas */
-
-.nst-canvas {
-  position: relative; overflow: hidden; cursor: grab;
+.nst-main {
+  grid-area: main;
+  position: relative; min-inline-size: 0; min-block-size: 0; overflow: hidden; overflow: clip;
   background:
-    radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--ink-3) 22%, transparent) 1px, transparent 0)
-    0 0 / 22px 22px,
-    var(--background);
-  touch-action: none;
+    radial-gradient(circle at 1px 1px, color-mix(in oklab, var(--hairline) 52%, var(--nst-stage)) 1px, transparent 1.2px) 0 0 / 24px 24px,
+    var(--nst-stage);
 }
-.nst-canvas:active { cursor: grabbing; }
-/* THE CANVAS IS A COORDINATE SPACE, NOT TEXT, SO IT MUST NOT MIRROR.
-   The stage was anchored with `inset-inline-start`, which flips to the right
-   edge under RTL, while nodes are placed with the physical `left` that
-   layoutZoned/layoutSubset compute. The two disagreed and the graph rendered
-   partly outside its own canvas — measured: the first node landed at x=1033
-   with the canvas ending at 956, so it was clipped away and unclickable.
-   `direction: ltr` pins the space; the Hebrew label inside a node gets its
-   direction back below. */
-.nst-stage { position: absolute; top: 0; left: 0; direction: ltr; transform-origin: 0 0; will-change: transform; }
+/* A hidden box is still a scroll container, which a browser may scroll behind
+   the camera's back (a focused card, find-in-page); the stage puts any such
+   scroll straight back to 0 (studio-stage.tsx), so the camera is the only
+   thing that ever moves the picture. */
+.nst-stage-host { position: absolute; inset: 0; overflow: hidden; cursor: grab; touch-action: none; outline: none; }
+.nst-stage-host:active { cursor: grabbing; }
+/* THE STAGE IS A COORDINATE SPACE, NOT TEXT: pinned left to right so the
+   layout's physical x is where it lands; the cards set Hebrew back to RTL. */
+.nst-stage { position: absolute; top: 0; left: 0; direction: ltr; transform-origin: 0 0; opacity: 0; }
+.nst-stage[data-ready] { opacity: 1; }
+.nst-wait { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; font-size: .88rem; color: var(--ink-3); }
+
+/* frames: a zone, a verdict, a master object, a step */
+.nst-frame {
+  position: absolute; direction: rtl;
+  border: 1px solid var(--hairline); border-radius: 14px;
+  background: color-mix(in oklab, var(--surface) 55%, var(--nst-stage));
+}
+.nst-frame-h {
+  display: flex; align-items: center; gap: .45rem;
+  block-size: 36px; padding-inline: 14px; margin-block-start: 4px;
+}
+.nst-frame-t { font-size: 13px; font-weight: 700; color: var(--ink-1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nst-frame-n { margin-inline-start: auto; font-family: var(--font-mono); font-size: 12px; color: var(--ink-3); }
+.nst-step-n {
+  display: inline-grid; place-items: center; flex: none;
+  inline-size: 22px; block-size: 22px; border-radius: 50%;
+  box-shadow: inset 0 0 0 1px var(--ink-3);
+  font-family: var(--font-mono); font-size: 11.5px; font-weight: 700; color: var(--ink-1);
+}
+.nst-gap {
+  position: absolute; inset-inline: 12px; top: 52px;
+  display: grid; gap: 2px; padding: 8px 10px;
+  border: 1px dashed var(--hairline); border-radius: 10px;
+  font-size: 12px; color: var(--ink-3);
+}
+.nst-gap b { font-size: 13px; color: var(--ink-1); unicode-bidi: isolate; text-align: end; }
+.nst-gap .nu-link { justify-self: start; min-block-size: 0; padding: 0; font-size: 12px; }
+.nst-block { position: absolute; border: 1px dashed var(--hairline); border-radius: 10px; }
+.nst-loose { position: absolute; direction: rtl; border: 1px dashed color-mix(in srgb, var(--ink-3) 55%, var(--hairline)); border-radius: 10px; }
+.nst-loose-t { position: absolute; inset-inline-start: 10px; top: 5px; font-size: 11.5px; font-weight: 650; color: var(--ink-3); white-space: nowrap; }
+.nst-seq { fill: none; stroke: var(--ink-3); stroke-width: 1.5; stroke-dasharray: 5 4; vector-effect: non-scaling-stroke; }
+.nst-seq-head { fill: var(--ink-3); }
+
+/* edges */
+.nst-edges { position: absolute; top: 0; left: 0; overflow: visible; pointer-events: none; }
+.nst-edge { fill: none; stroke: var(--nst-edge); stroke-width: 1.25; vector-effect: non-scaling-stroke; }
+.nst-edge[data-dim] { opacity: .1; }
+.nst-edge[data-on="hover"] { stroke: var(--ink-2); stroke-width: 1.75; }
+.nst-edge[data-on="sel"] { stroke: var(--ink-1); stroke-width: 2; }
+
+/* cards */
+.nst-node {
+  position: absolute; direction: rtl;
+  display: flex; flex-direction: column; justify-content: center; gap: 1px;
+  padding: 6px 10px; margin: 0;
+  border: 1px solid var(--hairline); border-radius: 10px;
+  background: var(--surface); color: var(--ink-1);
+  box-shadow: var(--elev-1);
+  font: inherit; text-align: start; cursor: pointer; overflow: hidden;
+}
+.nst-id { display: flex; align-items: center; gap: 6px; min-inline-size: 0; font-size: 14px; font-weight: 700; line-height: 1.2; unicode-bidi: isolate; white-space: nowrap; }
+/* one line on a graph card (the full name is its tooltip and the panel's);
+   two on the board, where a Hebrew name with an English gloss in brackets
+   reads whole instead of losing the gloss mid-word */
+.nst-he { font-size: 12px; line-height: 1.35; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; unicode-bidi: plaintext; }
+.nst-stage-host[data-view="eccs4"] .nst-he {
+  white-space: normal; line-height: 1.25; overflow-wrap: anywhere;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+}
+.nst-node[data-tier="core"] { border-color: color-mix(in srgb, var(--ink-1) 40%, var(--hairline)); box-shadow: var(--elev-2); }
+.nst-node[data-tier="core"] .nst-id { font-size: 15px; }
+.nst-node[data-tier="core"] .nst-he { font-size: 12.5px; }
+.nst-node[data-tier="leaf"] .nst-id { font-size: 13px; font-weight: 650; }
+.nst-node[data-tier="leaf"] .nst-he { color: var(--ink-3); }
+.nst-node:not([data-kind="table"]) { justify-content: center; padding-block: 0; border-radius: 8px; }
+.nst-node:not([data-kind="table"]) .nst-id { font-size: 12.5px; font-weight: 600; }
+.nst-node .nst-kg { flex: none; color: var(--ink-2); }
+.nst-ol { min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; }
+.nst-share { display: inline-flex; align-items: center; gap: 2px; margin-inline-start: auto; padding-inline-start: 4px; font-size: 11px; color: var(--ink-3); }
+.nst-node:hover { border-color: color-mix(in srgb, var(--ink-1) 45%, var(--hairline)); box-shadow: var(--elev-2); }
+.nst-node:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.nst-node[data-on] { border-color: var(--ink-1); box-shadow: 0 0 0 1px var(--ink-1), var(--elev-3); z-index: 3; }
+/* dimming: a hover dims gently, a selection more, isolation nearly away */
+.nst-stage-host[data-lit="hover"] .nst-node[data-dim] { opacity: .55; }
+.nst-stage-host[data-lit="sel"] .nst-node[data-dim] { opacity: .28; }
+.nst-stage-host[data-iso] .nst-node[data-dim] { opacity: .08; pointer-events: none; }
+.nst-node[data-dim]:is(:hover, :focus-visible) { opacity: 1 !important; }
+
+/* far zoom: the codes carry the picture */
+.nst-stage-host[data-far] .nst-he { display: none; }
+.nst-stage-host[data-far] .nst-id { font-size: 21px; }
+.nst-stage-host[data-far] .nst-node[data-tier="core"] .nst-id { font-size: 23px; }
+.nst-stage-host[data-far] .nst-node:not([data-kind="table"]) .nst-id { font-size: 17px; }
+.nst-stage-host[data-far] .nst-frame-t { font-size: 21px; }
+.nst-stage-host[data-far] .nst-loose-t { font-size: 17px; }
+
+/* the S/4 verdict glyph: the status colour deepened toward ink */
+.nst-s4g { flex: none; }
+.nst-s4g[data-k="0"] { color: color-mix(in srgb, var(--status-done) 62%, var(--ink-1)); }
+/* the same four status tokens lib/s4-class.ts assigns (S4_DOT) */
+.nst-s4g[data-k="1"] { color: color-mix(in srgb, var(--status-in-analysis) 62%, var(--ink-1)); }
+.nst-s4g[data-k="2"] { color: color-mix(in srgb, var(--status-in-conversion) 62%, var(--ink-1)); }
+.nst-s4g[data-k="3"] { color: color-mix(in srgb, var(--status-removed) 62%, var(--ink-1)); }
+.nst-s4g[data-k="none"] { color: var(--ink-3); }
+
+/* minimap: only when the picture does not fit, or is zoomed past it */
+.nst-mini {
+  position: absolute; inset-block-end: 12px; inset-inline-start: 12px; z-index: 4;
+  inline-size: 12rem; max-block-size: 9rem; block-size: auto; aspect-ratio: 4 / 3;
+  border: 1px solid var(--hairline); border-radius: 10px;
+  background: var(--surface); box-shadow: var(--elev-2);
+  cursor: crosshair; touch-action: none;
+  opacity: 0; visibility: hidden;
+}
+.nst-mini[data-show] { opacity: 1; visibility: visible; }
+.nst-mini-f { fill: none; stroke: var(--hairline); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.nst-mini-n { fill: var(--ink-3); opacity: .45; }
+.nst-mini-n[data-on] { fill: var(--ink-1); opacity: 1; }
+.nst-mini-v { fill: none; stroke: var(--brand); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+
+.nst-empty {
+  position: absolute; inset: 0; z-index: 5;
+  display: grid; place-content: center; justify-items: center; gap: .8rem; padding: 1rem;
+  text-align: center;
+}
+.nst-empty p { margin: 0; font-size: .9rem; color: var(--ink-2); max-inline-size: 36ch; }
+
+/* ----------------------------------------------------------------- panel */
+
+.nst-panel {
+  grid-area: panel;
+  min-inline-size: 0; min-block-size: 0;
+  display: flex; flex-direction: column;
+  background: var(--surface);
+  border-inline-start: 1px solid var(--hairline);
+}
+/* the panel scrolls above a bay the dock floats in (dock.css --nxk-h), so no
+   row of it ever sits under the dock's buttons */
+.nst-panel-in {
+  flex: 1 1 auto; min-block-size: 0; overflow-y: auto; overscroll-behavior: contain;
+  display: grid; align-content: start; gap: 1.1rem;
+  padding: 1rem 1.1rem 1.25rem;
+}
+.nst-panel::after { content: ""; flex: none; block-size: calc(var(--nxk-h, 3.25rem) + .75rem); border-block-start: 1px solid var(--hairline); }
+.nst[data-full] .nst-panel::after { display: none; }
+.nst-of { font-size: .74rem; color: var(--ink-3); }
+.nst-panel section { display: grid; gap: .5rem; }
+.nst-h2 { margin: 0; font-size: 1.08rem; font-weight: 750; line-height: 1.35; color: var(--ink-1); }
+.nst-p { margin: 0; font-size: .86rem; line-height: 1.75; color: var(--ink-2); }
+.nst-h3 { margin: 0; font-size: .78rem; font-weight: 700; color: var(--ink-3); }
+.nst-h4 { display: flex; align-items: center; gap: .35rem; margin: 0 0 .25rem; font-size: .76rem; font-weight: 700; color: var(--ink-2); }
+.nst-list { margin: 0; padding-inline-start: 1.1rem; display: grid; gap: .4rem; font-size: .82rem; line-height: 1.65; color: var(--ink-2); }
+.nst-muted { margin: 0; font-size: .8rem; line-height: 1.6; color: var(--ink-3); }
+
+.nst-legend { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: .45rem .9rem; font-size: .8rem; color: var(--ink-2); }
+.nst-legend li { display: inline-flex; align-items: center; gap: .35rem; }
+.nst-legend.is-verdicts { display: grid; gap: .35rem; }
+.nst-legend.is-verdicts b { margin-inline-start: auto; font-family: var(--font-mono); font-size: .76rem; color: var(--ink-1); }
+.nst-legend .nst-kg { color: var(--ink-2); }
+.nst-line { inline-size: 1.4rem; block-size: 0; border-block-start: 1.5px solid var(--nst-edge); }
+.nst-blockkey { inline-size: 1.4rem; block-size: .9rem; border: 1px dashed var(--ink-3); border-radius: 3px; }
+.nst-stepkey { display: inline-grid; place-items: center; inline-size: 1.15rem; block-size: 1.15rem; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--ink-3); font-family: var(--font-mono); font-size: .68rem; font-weight: 700; }
+
+.nst-counts { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: .4rem .9rem; font-size: .8rem; color: var(--ink-2); }
+.nst-counts li { display: inline-flex; align-items: baseline; gap: .3rem; }
+.nst-counts b { font-family: var(--font-mono); font-size: .92rem; color: var(--ink-1); }
+.nst-without ul { margin: .35rem 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: .3rem; }
+.nst-pill {
+  min-block-size: 1.75rem; padding: 0 .55rem; border: 1px solid var(--hairline); border-radius: .45rem;
+  background: var(--surface-2); color: var(--ink-1); font-size: .76rem; font-weight: 650; cursor: pointer;
+}
+.nst-pill:hover { border-color: color-mix(in srgb, var(--ink-1) 45%, var(--hairline)); }
+
+.nst-hubs, .nst-rel ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 2px; }
+.nst-hubs button, .nst-rel button {
+  inline-size: 100%; display: grid; grid-template-columns: auto auto minmax(0, 1fr) auto; align-items: center; gap: .5rem;
+  min-block-size: 2.25rem; padding: .25rem .45rem;
+  border: 0; border-radius: .5rem; background: transparent; color: inherit; font: inherit; text-align: start; cursor: pointer;
+}
+.nst-rel button { grid-template-columns: auto minmax(0, 1fr) auto; }
+.nst-hubs button:hover, .nst-rel button:hover { background: var(--surface-2); }
+.nst-hubs b, .nst-rel b { font-size: .8rem; unicode-bidi: isolate; }
+.nst-rel-he { font-size: .76rem; color: var(--ink-2); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.nst-hubs button { display: flex; }
+.nst-hubs .nst-rel-he { flex: 0 1 auto; min-inline-size: 0; }
+.nst-hubs em { flex: none; font-style: normal; font-size: .74rem; color: var(--ink-3); }
+.nst-hubs em::before { content: "· "; }
+.nst-off { font-style: normal; font-size: .7rem; color: var(--ink-3); white-space: nowrap; }
+.nst-rel { gap: .2rem !important; }
+
+/* the selected object's card */
+.nst-card-h { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+.nst-kind { display: inline-flex; align-items: center; gap: .35rem; padding: .2rem .55rem; border-radius: .45rem; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--hairline); font-size: .76rem; font-weight: 700; color: var(--ink-2); }
+.nst-clear { min-block-size: 2rem !important; padding-inline: .5rem !important; gap: .3rem; font-size: .76rem !important; }
+.nst-card-id { margin: -.4rem 0 0; font-family: var(--font-mono); font-size: 20px; font-weight: 750; letter-spacing: -.01em; unicode-bidi: isolate; text-align: end; overflow-wrap: anywhere; }
+.nst-card-he { margin: -.7rem 0 0; font-size: .9rem; line-height: 1.55; color: var(--ink-2); }
+.nst-facts { margin: 0; display: grid; gap: .55rem; }
+.nst-facts > div { display: grid; gap: .15rem; }
+.nst-facts dt { font-size: .72rem; font-weight: 700; color: var(--ink-3); }
+.nst-facts dd { margin: 0; font-size: .84rem; line-height: 1.6; color: var(--ink-1); }
+.nst-facts .is-quote dd { padding: .45rem .6rem; border-radius: .5rem; background: var(--surface-2); color: var(--ink-2); font-size: .8rem; }
+.nst-verdict { display: inline-flex; align-items: center; gap: .35rem; font-weight: 650; }
+.nst-chips { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: .3rem; }
+.nst-chip {
+  display: inline-flex; align-items: center; gap: .3rem; min-block-size: 1.9rem; padding: 0 .6rem;
+  border: 1px solid var(--hairline); border-radius: .5rem; background: var(--surface-2);
+  color: var(--ink-2); font: inherit; font-size: .76rem; font-weight: 650; cursor: pointer;
+}
+.nst-chip b { font-family: var(--font-mono); color: var(--ink-1); }
+.nst-chip:hover { color: var(--ink-1); border-color: color-mix(in srgb, var(--ink-1) 40%, var(--hairline)); }
+.nst-chip:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 1px; }
+.nst-acts { display: grid; gap: .5rem; }
+.nst-acts-row { display: flex; flex-wrap: wrap; gap: .4rem; }
+.nst-acts-row .nu-btn2, .nst-acts-row .nu-ghost { gap: .35rem; font-size: .8rem; }
+.nst-open { justify-self: start; gap: .35rem; }
+
+/* ---------------------------------------------------------------- credit */
+
+.nst-credit {
+  grid-area: credit;
+  margin: 0; padding-inline: .9rem; line-height: 24px;
+  font-size: 11.5px; color: var(--ink-3); text-align: start;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  background: var(--surface); border-block-start: 1px solid var(--hairline);
+}
+/* the studio carries its own credit; the shell's phone credit steps aside */
+.nx-app:has(.nst) .nx-mcredit { display: none; }
+
+/* -------------------------------------------------------------- keyboard */
+
+.nst-keys {
+  inline-size: min(30rem, calc(100vw - 2rem)); padding: 0;
+  border: 1px solid var(--hairline); border-radius: 14px;
+  background: var(--surface); color: var(--ink-1); box-shadow: var(--elev-3);
+}
+.nst-keys::backdrop { background: color-mix(in srgb, var(--ink-1) 28%, transparent); }
+.nst-keys header { display: flex; align-items: center; justify-content: space-between; padding: .8rem 1rem; border-block-end: 1px solid var(--hairline); }
+.nst-keys h2 { margin: 0; font-size: 1rem; font-weight: 750; }
+.nst-keys dl { margin: 0; padding: .6rem 1rem 1rem; display: grid; gap: .45rem; }
+.nst-keys dl > div { display: grid; grid-template-columns: 9rem minmax(0, 1fr); align-items: center; gap: .6rem; }
+.nst-keys dt { display: flex; gap: .25rem; font-size: .8rem; color: var(--ink-2); }
+.nst-keys dd { margin: 0; font-size: .84rem; color: var(--ink-1); }
+
+/* ------------------------------------------------------- narrower screens */
+
+.nst-tool-l { white-space: nowrap; }
+@media (max-width: 1200px) {
+  .nst-tools .nst-tool-l { display: none; }
+  .nst-tabs-l { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); }
+}
+/* a drawer, over the stage, closed until something is selected */
+.nst[data-mode="drawer"] { grid-template-columns: minmax(0, 1fr); grid-template-areas: "bar" "tabs" "cbar" "main" "credit"; }
+.nst[data-mode="drawer"] .nst-panel {
+  position: absolute; z-index: 9;
+  inset-block: 132px 24px; inset-inline-end: 0;
+  inline-size: min(22rem, 92%);
+  box-shadow: var(--elev-3);
+}
+/* the phone: the stage and the panel take turns in one area */
+.nst[data-mode="phone"] { grid-template-columns: minmax(0, 1fr); grid-template-areas: "bar" "tabs" "cbar" "main" "credit"; }
+.nst[data-mode="phone"] .nst-panel { grid-area: main; border: 0; }
+.nst[data-mode="phone"] .nst-bar { gap: .45rem; padding-inline: .6rem; }
+.nst[data-mode="phone"] .nst-search { flex-basis: 8rem; }
+.nst[data-mode="phone"] .nst-kbd, .nst[data-mode="phone"] .nst-keys-b, .nst[data-mode="phone"] .nst-full { display: none; }
+.nst[data-mode="phone"] .nst-tabs, .nst[data-mode="phone"] .nst-cbar { padding-inline: .6rem; }
+.nst[data-mode="phone"] .nst-fit .nst-tool-l { display: none; }
+.nst[data-mode="phone"] .nst-mini { inline-size: 6rem; }
+.nst-layer-select {
+  flex: 0 1 auto; min-inline-size: 0; /* a narrow phone shrinks it; the select truncates its own text */
+  min-block-size: 2rem; max-inline-size: 100%; padding: 0 .5rem;
+  border: 1px solid var(--hairline); border-radius: .55rem;
+  background: var(--surface); color: var(--ink-1); font: inherit; font-size: .8rem;
+}
+.nst-explain[aria-pressed="true"] { background: color-mix(in srgb, var(--ink-1) 8%, transparent); color: var(--ink-1); }
+/* one full-screen control per screen: while the studio offers its own, the
+   dock's (which expands the whole shell) steps aside; on a phone, where the
+   studio has none, the dock's stays */
+.nx-app[data-expanded-view="1"] .nst-full { display: none; }
+.nx-app:has(.nst[data-own-full]) .nx-screen-button { display: none; }
+
+@media (pointer: coarse) {
+  .nst { grid-template-rows: 56px 54px 54px minmax(0, 1fr) 24px; }
+  .nst[data-mode="drawer"] .nst-panel { inset-block-start: 164px; }
+  .nst-mod, .nst-zb, .nst-zk, .nst-x { min-block-size: var(--c-tap); }
+  .nst-zone, .nst-layer-act, .nst-pill { min-block-size: var(--c-tap) !important; }
+  .nst-hubs button, .nst-rel button, .nst-q > li[role="option"] { min-block-size: var(--c-tap); }
+}
+
+/* ------------------------------------------------------------------ motion
+   Only state changes move: a card dimming or lighting, the picture fading in
+   once it is placed. The camera's own tween is JS (studio-stage.tsx), which
+   checks reduced motion itself. */
 @media (prefers-reduced-motion: no-preference) {
-  .nst-stage { transition: transform .42s cubic-bezier(.16, 1, .3, 1); }
+  .nst-node { transition: opacity .16s linear, box-shadow .16s linear, border-color .16s linear; }
+  .nst-edge { transition: opacity .16s linear; }
+  .nst-stage { transition: opacity .16s linear; }
+  .nst-mini { transition: opacity .16s linear, visibility .16s linear; }
 }
 @media (min-width: 0px) {
-  :where(html[data-neo-motion="full"]) .nst-stage { transition: transform .42s cubic-bezier(.16, 1, .3, 1); }
-}
-.nst-edges { position: absolute; top: 0; left: 0; overflow: visible; pointer-events: none; }
-.nst-edge { fill: none; stroke: var(--ink-3); stroke-width: 1.4; stroke-opacity: .38; transition: stroke-opacity .22s ease, stroke .22s ease; }
-.nst-edge[data-lit="0"] { stroke-opacity: .08; }
-.nst-edge[data-lit="1"] { stroke: var(--ink-1); stroke-opacity: .8; stroke-width: 1.9; }
-
-.nst-node {
-  position: absolute; display: flex; flex-direction: column; justify-content: center; gap: 1px;
-  padding: .3rem .5rem; border-radius: .55rem; text-align: start; cursor: pointer;
-  background: var(--surface); color: var(--ink-1);
-  border: 1px solid var(--hairline);
-  box-shadow: var(--elev-1);
-  font: inherit; overflow: hidden;
-  transition: opacity .22s ease, box-shadow .18s ease, border-color .18s ease;
-}
-.nst-node b { display: flex; align-items: center; gap: .3rem; font-size: .74rem; font-weight: 700; unicode-bidi: isolate; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.nst-node b > .nst-kg { flex: none; color: var(--ink-3); }
-/* the S/4 view: the verdict, as a glyph and its word, is the node's second line */
-.nst-node .nst-node-s4 { display: flex; align-items: center; gap: .25rem; color: var(--ink-2); font-weight: 600; }
-.nst-node .nst-s4g { flex: none; }
-.nst-node .nst-node-s4.is-none { color: var(--ink-3); font-weight: 500; }
-.nst-node .nst-node-s4.is-none > svg { flex: none; }
-/* PRESENTATION MODE (design audit S6-3): the side panel's tokens step up one
-   size and the node labels grow; the fit floor of 90% (studio-view.tsx)
-   carries the rest. */
-.nst[data-present="1"] { --t-micro: .875rem; --t-xs: .95rem; --t-sm: 1.02rem; --t-body: 1.08rem; }
-.nst[data-present="1"] .nst-node b { font-size: .88rem; }
-.nst[data-present="1"] .nst-node[data-tier="core"] b { font-size: .95rem; }
-.nst[data-present="1"] .nst-node span { font-size: .78rem; }
-.nst[data-present="1"] .nst-rel span { font-size: .85rem; }
-.nst-node span { direction: rtl; font-size: .64rem; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.nst-node[data-tier="core"] b { font-size: .8rem; }
-.nst-node:hover { border-color: color-mix(in srgb, var(--ink-1) 45%, var(--hairline)); box-shadow: var(--elev-2); }
-.nst-node:focus-visible { outline: 2px solid var(--ink-1); outline-offset: 2px; }
-/* Selected: an ink ring. Neighbours stay full strength. */
-.nst-node[data-on="1"] {
-  border-color: var(--ink-1);
-  box-shadow: var(--elev-3), 0 0 0 1px var(--ink-1);
-  z-index: 3;
-}
-/* Unrelated DIM but remain visible — losing them destroys the reader's map. */
-.nst-node[data-dim="1"] { opacity: .26; }
-
-.nst-empty { position: absolute; inset: 0; display: grid; place-items: center; color: var(--ink-3); font-size: .88rem; }
-
-/* --------------------------------------------------------------- context */
-
-.nst-ctx { inline-size: var(--ctx); overflow-y: auto; padding: .8rem .8rem 1.4rem;
-  border-inline-start: 1px solid var(--hairline); background: var(--surface); }
-.nst-ctx header { display: flex; align-items: center; justify-content: space-between; margin-bottom: .5rem; }
-.nst-kind { display: inline-flex; align-items: center; gap: .3rem; font-size: .72rem; font-weight: 700; color: var(--ink-2); padding: .14rem .5rem; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--hairline); }
-.nst-ctx-id { margin: 0; font-size: 1.15rem; font-weight: 700; unicode-bidi: isolate; letter-spacing: -.01em; }
-.nst-ctx-he { margin: .1rem 0 .7rem; font-size: .84rem; color: var(--ink-2); line-height: 1.5; }
-.nst-ctx-s4 { display: flex; align-items: center; gap: .4rem; margin: 0 0 .8rem; padding: .4rem .55rem;
-  border-radius: .5rem; font-size: .78rem; color: var(--ink-2);
-  background: var(--surface-2); border: 1px solid var(--hairline); }
-.nst-ctx-s4 b { color: var(--ink-1); }
-.nst-ctx-none { margin: 0 0 .8rem; font-size: .76rem; color: var(--ink-3); font-style: italic; }
-.nst-ctx-h { margin: .6rem 0 .35rem; font-size: .7rem; font-weight: 700; letter-spacing: .07em;
-  text-transform: uppercase; color: var(--ink-3); }
-.nst-rel { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
-.nst-rel button { inline-size: 100%; display: flex; align-items: center; gap: .4rem; padding: .32rem .4rem;
-  border: 0; border-radius: .45rem; background: transparent; cursor: pointer; font: inherit; text-align: start; color: inherit; }
-.nst-rel button:hover { background: var(--surface-2); }
-
-.nst-rel b { font-size: .75rem; unicode-bidi: isolate; }
-.nst-rel span { font-size: .7rem; color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-/* ---------------------------------------------------------------- legend */
-
-.nst-legend { display: flex; flex-wrap: wrap; gap: .7rem; flex: none;
-  padding: .45rem clamp(.7rem, 2vw, 1.1rem); border-block-start: 1px solid var(--hairline);
-  background: var(--surface); font-size: .7rem; color: var(--ink-3); }
-.nst-legend span { display: inline-flex; align-items: center; gap: .3rem; }
-.nst-legend .nst-s4g { flex: none; }
-.nst-legend .nst-credit { margin-inline-start: auto; color: var(--ink-3); }
-
-/* ---------------------------------------------------------------- mobile */
-
-@media (max-width: 900px) {
-  .nst { --side: 100%; block-size: auto; }
-  /* The canvas keeps a real height instead of collapsing; the side rail
-     becomes a horizontal strip above it and the context panel goes full width
-     underneath, so nothing overlaps the graph on a phone. */
-  .nst-body { grid-template-columns: 1fr; grid-template-rows: auto 62dvh auto; }
-  .nst-side { flex-direction: row; flex-wrap: wrap; gap: .35rem; border-inline-end: 0;
-    border-block-end: 1px solid var(--hairline); padding: .55rem .6rem; }
-  .nst-side-h { inline-size: 100%; margin: .2rem 0 0; }
-  .nst-modes, .nst-zones {
-    display: flex; flex-wrap: nowrap; gap: .3rem; inline-size: 100%;
-    overflow-x: auto; overscroll-behavior-inline: contain; scrollbar-width: none;
-  }
-  .nst-modes::-webkit-scrollbar, .nst-zones::-webkit-scrollbar { block-size: 0; }
-  .nst-modes > li, .nst-zones > li { flex: none; }
-  .nst-mode, .nst-zone { inline-size: auto; padding-inline: .55rem; min-block-size: var(--c-tap); white-space: nowrap; border: 1px solid var(--hairline); }
-  .nst-zone > span { flex: none; }
-  .nst-mods { inline-size: 100%; }
-  .nst-ctx { inline-size: 100%; border-inline-start: 0; border-block-start: 1px solid var(--hairline); }
-  .nst-top { flex-wrap: wrap; }
-  .nst-search { flex-basis: 100%; order: 3; }
-  .nst-tools { order: 2; }
+  :where(html[data-neo-motion="full"]) .nst-node { transition: opacity .16s linear, box-shadow .16s linear, border-color .16s linear; }
+  :where(html[data-neo-motion="full"]) .nst-edge { transition: opacity .16s linear; }
+  :where(html[data-neo-motion="full"]) .nst-stage { transition: opacity .16s linear; }
+  :where(html[data-neo-motion="full"]) .nst-mini { transition: opacity .16s linear, visibility .16s linear; }
 }
