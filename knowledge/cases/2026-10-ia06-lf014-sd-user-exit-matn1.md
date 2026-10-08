@@ -8,6 +8,7 @@
 | **לקוח / מערכת** | CBC / **S4Q** (בדיקות S/4HANA) מול **ECC** (בדיקות) |
 | **מודול** | PM (Task Lists) · נגרם ע"י קוד SD · Cross |
 | **Intent** | Incident → Root Cause, מעבר ECC→S/4 |
+| **סטטוס** | **נפתר 08.10.2026**: ניקוי `sy-msg*` ב-`EXIT_SAPLOMCV_001` ע"י המפתח. IA06 עובד |
 | **Confidence** | **Verified** — הטריגר (Exit) והמנגנון ב-S/4 (Notes 3479804/3603616 ב-`LCMDIIPM`) הוכחו בדיבאגר בשתי המערכות ובהשוואת קוד מלא. פתוח: Cause/Resolution של KBA 3695113 ותוכן Note 3637601 |
 | **Runbook** | `../runbooks/material-input-blocked-user-exit-matn1.md` |
 
@@ -166,6 +167,13 @@
 - **חלק 2 (Meital 08/2021):** VA01 בלבד, סוג הזמנה ב-`AUART_MILK_STORE`: עובד יוצר (`PA0105`→לקוח→`KNVV-VWERK`) → איתור מק"ט יין לפי ברקוד (WINE_WORKERS_SPART, WERKS_WINE, MATKL_WINE/MATKL_WINE_EXC_0040). משמעות עסקית — לאשר מול SD.
 - **מחוץ ל-VA01/VA02** הקוד מבצע רק `ALPHA_OUTPUT` על `MATNR` ו-`GET_MATERIAL_ID` — בלי תועלת, ומשאיר `sy-msgty='E'`.
 - **תיקון מדויק:** בראש הקוד `IF sy-tcode <> 'VA01' AND sy-tcode <> 'VA02'. RETURN. ENDIF.` + הסרת `break nadiash`; המלצה: שמירה/שחזור `sy-msg*` סביב `GET_MATERIAL_ID` ב-VA01/VA02. לאשר מול SD שאין טרנזקציה/ממשק אחר שנשען על המרת ברקוד.
+
+## Resolution בפועל (08.10.2026, נבדק בפועל: הערת המפתח ב-ALM + בדיקת משתמש)
+- **מפתח: Gershon Osmolovski.** אבחנה בלשונו: "הודעת שגיאה שהתקבלה בבדיקה ב-exit שלנו נשמרה בזיכרון ונתפסה בקוד של SAP". **זהה להשערה שבדפקט.**
+- **התיקון שנבחר:** ניקוי זיכרון ההודעות (`sy-msg*`) ב-`EXIT_SAPLOMCV_001` (כלומר ב-include `ZXMG0U08`), אחרי בדיקת הברקוד. **לא** הועברה בדיקת `sy-tcode` לראש הקוד. בדיקת הברקוד ממשיכה לרוץ בכל שדה מק"ט, אבל לא משאירה `E` בזיכרון.
+- **תוצאה:** IA06 ב-S4Q עובד, הרכיב נקלט.
+- **פתוח:** האם `break nadiash` הוסר; רגרסיה ב-VA01/VA02 (סריקה + הקלדה ידנית, מסופון) מול SD.
+- **לקח:** שתי דרכי תיקון היו בהמלצה (יציאה מוקדמת / ניקוי זיכרון). המפתח בחר בניקוי, שמטפל בסיבה הישירה ומגן גם על מסכים עתידיים שבודקים `sy-msgty`.
 
 ## Resolution (מומלץ, בבעלות SD + פיתוח)
 1. ב-`ZXMG0U08`: להעביר את בדיקת `sy-tcode` (`VA01`/`VA02`) **לפני** `CONVERSION_EXIT_ALPHA_OUTPUT` ו-`GET_MATERIAL_ID`; מחוץ למכירות לצאת מיד בלי לגעת ב-`MATNR`.
